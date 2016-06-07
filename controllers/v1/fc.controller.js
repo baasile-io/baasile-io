@@ -4,7 +4,8 @@ const request = require('request'),
   StandardError = require('standard-error'),
   _ = require('lodash'),
   apirService = require('../../services/apir.service.js'),
-  idpToNirService = require('../../services/idpToNir.service.js');
+  idpToNirService = require('../../services/idpToNir.service.js'),
+  formationService = require('../../services/formation.service.js');
 
 module.exports = FcController;
 
@@ -13,7 +14,7 @@ function FcController(options) {
   const logger = options.logger;
   const ApirService = new apirService(options);
   const IdpToNirService = new idpToNirService(options);
-
+  const FormationService = new formationService(options);
   //this.getChomage = get("chomage", "CPA_chomage");
   //this.getRetraite = get("retraite", "CPA_retraite");
   //this.getPenibilite = get("penibilite", "CPA_penibilite");
@@ -73,12 +74,25 @@ function FcController(options) {
           }
         })
         .then(function(endOfNir) {
-          const nir = startOfNir + endOfNir;
+          var nir = startOfNir + endOfNir;
 
+        //logger()
+        //if (formation === "formation")
+        //{
+        nir = "2870702168123";
+        const nir_tmp = nir.substr(0, 1) + "%20" + nir.substr(1, 3) + "%20" + nir.substr(4, 3) + "%20" + nir.substr(7, 3) + "%20" + nir.substr(10, 3);
+
+        //return options.apicdcHost;
+        return FormationService.getTheFormation(nir_tmp);
+        //}
           // call the mocked FD here
           // URL is available in defaults.json -> options.apicdcHost
 
-          return res.json('data temporary unavailable');
+          //return res.json('data temporary unavailable');
+        })
+        .then(function(responseForm)
+        {
+          res.json(responseForm);
         })
         .catch(function(err) {
           return next(err);
