@@ -41,6 +41,7 @@ function Server (options) {
   })
 
   app.use(express.static(__dirname + '/public'));
+  app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
 
   routes.configure(app, options);
 
