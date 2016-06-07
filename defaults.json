@@ -1,0 +1,10 @@
+{
+  "appname": "cpa-api",
+  "port": 3004,
+  "log": {
+    "level": "debug",
+    "format": "simple"
+  },
+  "apirHost": "http://apir.herokuapp.com",
+  "apicdcHost": "http://api-cdc.herokuapp.com"
+}
