@@ -1,21 +1,21 @@
 'use strict';
 
-const request = require('request');
-const StandardError = require('standard-error');
+const request = require('request'),
+  StandardError = require('standard-error');
 
-module.exports = FormationService;
+module.exports = FdCdcService;
 
-function FormationService(options) {
+function FdCdcService(options) {
   options = options || {};
   const logger = options.logger;
 
-  this.getTheFormation = function(nir)
+  this.getFormation = function(nir)
   {
     return new Promise(function(resolve, reject) {
       request
         .get({
-          url: "http://api-cdc.herokuapp.com" + "/titulaires/" + nir
-        }, (err, response, body) => {
+          url: options.apicdcHost + "/titulaires/" + nir
+        }, function(err, response, body) {
           if(err) {
             return reject(err);
           }
