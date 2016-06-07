@@ -32,6 +32,8 @@ mhttp.on('stat', function (parsed, stats) {
 var server = new Server({
   port: nconf.get('port'),
   dataHost: nconf.get('dataHost'),
+  apirHost: nconf.get('apirHost'),
+  apicdcHost: nconf.get('apicdcHost'),
   logger: logger
 });
 
