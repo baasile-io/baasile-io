@@ -2,27 +2,27 @@
 
 const mongoose = require('mongoose');
 
-module.exports = UserModel;
+module.exports = ServiceModel;
 
-var userSchema = new mongoose.Schema({
-  email: {
+var serviceSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true,
     unique: true
   },
-  password: {
-    type: String,
-    required: true
-  },
+  users: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'UserModel'
+  }],
   created_at: Date,
   updated_at: Date
 });
 
-function UserModel(options) {
+function ServiceModel(options) {
   options = options || {};
   const db = mongoose.connect(options.dbHost);
 
   this.data = function() {
-    return db.model('User', userSchema);
+    return db.model('Service', serviceSchema);
   }
 }

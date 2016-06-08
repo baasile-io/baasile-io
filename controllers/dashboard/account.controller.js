@@ -48,7 +48,7 @@ function AccountController(options) {
 
     // check form fields here
 
-    UserModel.findOne({
+    UserModel.data().findOne({
       email: email
     }, function(err, user) {
       if (err) {
@@ -72,7 +72,7 @@ function AccountController(options) {
 
     // check form fields here
 
-    UserModel.create({
+    UserModel.data().create({
       email: email,
       password: hashedPassword
     }, function(err, user) {
