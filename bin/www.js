@@ -1,11 +1,11 @@
 'use strict';
 
-var bunyan = require('bunyan');
-var bunyanFormat = require('bunyan-format');
-var nconf = require('nconf');
-var Server = require('../server');
-var http = require('http');
-var url = require('url');
+const bunyan = require('bunyan'),
+  bunyanFormat = require('bunyan-format'),
+  nconf = require('nconf'),
+  Server = require('../server'),
+  http = require('http'),
+  url = require('url');
 
 nconf.env({
   separator: '_'
@@ -31,7 +31,7 @@ mhttp.on('stat', function (parsed, stats) {
 
 var server = new Server({
   port: nconf.get('port'),
-  dataHost: nconf.get('dataHost'),
+  dbHost: process.env.MONGODB_URI || nconf.get('MONGODB_URI'),
   logger: logger
 });
 

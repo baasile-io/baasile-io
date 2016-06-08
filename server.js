@@ -1,13 +1,16 @@
 'use strict';
 
-const http = require('http');
-const express = require('express');
-const StandardError = require('standard-error');
-const emptylogger = require('bunyan-blackhole');
-const expressBunyanLogger = require("express-bunyan-logger");
-const cors = require('cors');
-const S = require('string');
-const routes = require('./routes/routes.js');
+const http = require('http'),
+  express = require('express'),
+  session = require('express-session'),
+  StandardError = require('standard-error'),
+  emptylogger = require('bunyan-blackhole'),
+  expressBunyanLogger = require("express-bunyan-logger"),
+  cors = require('cors'),
+  S = require('string'),
+  routes = require('./routes/routes.js'),
+  MongoStore = require('connect-mongo')(session),
+  mongodb = require('mongodb');
 
 module.exports = Server;
 
@@ -16,6 +19,7 @@ function Server (options) {
   options = options || {};
   options.port = options.port || 0;
   options.logger = options.logger || emptylogger();
+  options.db = options.db || mongodb.MongoClient;
   var logger = options.logger
   var app = express();
   app.set("port", options.port);
@@ -35,11 +39,20 @@ function Server (options) {
     logger: logger
   }));
 
-  app.use((req, res, next) => {
-      req.logger = logger;
+  app.use(function(req, res, next) {
+    req.logger = logger;
     next();
-  })
+  });
 
+  app.use(session({
+    secret: '16e17272a924d78e65eee5121d19dd1ddefc0db1',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ url: options.dbHost, collection: 'sessions' })
+  }));
+
+  app.set('view engine', 'ejs');
   app.use(express.static(__dirname + '/public'));
   app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
 

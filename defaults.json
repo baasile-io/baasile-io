@@ -6,5 +6,6 @@
     "format": "simple"
   },
   "apirHost": "http://apir.herokuapp.com",
-  "apicdcHost": "http://api-cdc.herokuapp.com"
+  "apicdcHost": "http://api-cdc.herokuapp.com",
+  "MONGODB_URI": "mongodb://localhost:27017/api-cpa"
 }
