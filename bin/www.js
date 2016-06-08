@@ -30,7 +30,7 @@ mhttp.on('stat', function (parsed, stats) {
 });
 
 var server = new Server({
-  port: nconf.get('port'),
+  port: process.env.PORT || nconf.get('port'),
   dbHost: process.env.MONGODB_URI || nconf.get('MONGODB_URI'),
   logger: logger
 });
