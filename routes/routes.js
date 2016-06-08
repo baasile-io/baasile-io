@@ -1,7 +1,7 @@
 'use strict';
 
 const v1 = require('./v1/index.js'),
-  dashboard = require('./dashboard/index.js'),
+  dashboard = require('./dashboard/dashboard.router.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser');
 

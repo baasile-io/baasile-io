@@ -24,7 +24,7 @@ module.exports = function (options) {
     res.render('pages/index');
   });
 
-  /* login / subscribe */
+  /* login / logout / subscribe */
   const AccountController = new accountController(options);
 
   router
@@ -37,6 +37,9 @@ module.exports = function (options) {
       });
     })
     .post('/login', csrfProtection, AccountController.login);
+
+  router
+    .get('/logout', AccountController.logout);
 
   router
     .get('/subscribe', csrfProtection, function(req, res) {
