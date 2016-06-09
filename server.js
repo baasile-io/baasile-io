@@ -11,8 +11,7 @@ const http = require('http'),
   S = require('string'),
   routes = require('./routes/routes.js'),
   MongoStore = require('connect-mongo')(session),
-  mongodb = require('mongodb'),
-  i18n = require('i18n');
+  mongodb = require('mongodb');
 
 i18n.configure({
   locales: ['fr'],
