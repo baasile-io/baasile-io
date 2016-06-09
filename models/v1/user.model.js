@@ -1,18 +1,34 @@
 'use strict';
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+  validator = require('validator');
 
 module.exports = UserModel;
 
 var userSchema = new mongoose.Schema({
+  firstname: {
+    type: String,
+    required: [true, 'Prénom obligatoire']
+  },
+  lastname: {
+    type: String,
+    required: [true, 'Nom obligatoire']
+  },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, 'Adresse E-Mail obligatoire'],
+    unique: [true, 'Cette adresse E-Mail est déjà utilisée'],
+    validate: {
+      validator: function (email) {
+        return validator.isEmail(email);
+      },
+      message: 'Adresse E-Mail invalide'
+    }
   },
   password: {
     type: String,
-    required: true
+    required: [true, 'Mot de passe obligatoire'],
+    minlength: [10, 'Le mot de passe doit comporter au minimum 10 caractères']
   },
   created_at: Date,
   updated_at: Date
@@ -20,9 +36,7 @@ var userSchema = new mongoose.Schema({
 
 function UserModel(options) {
   options = options || {};
-  const db = mongoose.connect(options.dbHost);
+  const db = mongoose.createConnection(options.dbHost);
 
-  this.data = function() {
-    return db.model('User', userSchema);
-  }
+  this.io = db.model('User', userSchema);
 }

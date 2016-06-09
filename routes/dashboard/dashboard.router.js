@@ -2,7 +2,8 @@
 
 const express = require('express'),
   csrf = require('csurf'),
-  accountController = require('../../controllers/dashboard/account.controller.js');
+  accountController = require('../../controllers/dashboard/account.controller.js'),
+  dashboardController = require('../../controllers/dashboard/dashboard.controller.js');
 
 const router = express.Router();
 
@@ -16,12 +17,15 @@ module.exports = function (options) {
       logger.info("this area is restricted to members");
       return res.redirect('/login');
     }
+    
     next();
   }
 
   /* public pages */
   router.get('/', function(req, res) {
-    res.render('pages/index');
+    res.render('pages/index', {
+      layout: 'layouts/home'
+    });
   });
 
   /* login / logout / subscribe */
@@ -33,7 +37,12 @@ module.exports = function (options) {
         return res.redirect('/dashboard');
       }
       res.render('pages/login', {
-        csrfToken: req.csrfToken()
+        layout: 'layouts/login',
+        csrfToken: req.csrfToken(),
+        query: {
+          user: {}
+        },
+        flash: {}
       });
     })
     .post('/login', csrfProtection, AccountController.login);
@@ -47,17 +56,22 @@ module.exports = function (options) {
         return res.redirect('/dashboard');
       }
       res.render('pages/subscribe', {
-        csrfToken: req.csrfToken()
+        layout: 'layouts/home',
+        csrfToken: req.csrfToken(),
+        query: {
+          user: {}
+        },
+        flash: {}
       });
     })
     .post('/subscribe', csrfProtection, AccountController.subscribe);
 
-  /* member area */
+  /* dashboard / member area */
+  const DashboardController = new dashboardController(options);
+
   router
-    .get('/dashboard*', memberAreaRestriction)
-    .get('/dashboard', function(req, res) {
-      res.render('pages/dashboard');
-    });
+    .get('/dashboard*', memberAreaRestriction, AccountController.getUserData, csrfProtection)
+    .get('/dashboard', DashboardController.dashboard);
 
   return router;
 };

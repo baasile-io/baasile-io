@@ -7,8 +7,8 @@ module.exports = ServiceModel;
 var serviceSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, 'Nom du service obligatoire'],
+    unique: [true, 'Nom du service déjà utilisé']
   },
   users: [{
       type: mongoose.Schema.ObjectId,
@@ -20,9 +20,7 @@ var serviceSchema = new mongoose.Schema({
 
 function ServiceModel(options) {
   options = options || {};
-  const db = mongoose.connect(options.dbHost);
+  const db = mongoose.createConnection(options.dbHost);
 
-  this.data = function() {
-    return db.model('Service', serviceSchema);
-  }
+  this.io = db.model('Service', serviceSchema);
 }

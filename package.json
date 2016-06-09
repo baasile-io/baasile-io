@@ -31,6 +31,7 @@
     "ejs": "^2.4.2",
     "express": "4.13.4",
     "express-bunyan-logger": "1.2.0",
+    "express-ejs-layouts": "^2.1.0",
     "express-session": "^1.13.0",
     "extend": "^3.0.0",
     "gulp": "^3.9.1",
@@ -69,6 +70,7 @@
     "semantic-ui": "^2.1.8",
     "standard-error": "1.1.0",
     "string": "3.3.1",
+    "validator": "^5.4.0",
     "yamljs": "^0.2.7"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@
 const http = require('http'),
   express = require('express'),
   session = require('express-session'),
+  expressLayouts = require('express-ejs-layouts'),
   StandardError = require('standard-error'),
   emptylogger = require('bunyan-blackhole'),
   expressBunyanLogger = require("express-bunyan-logger"),
@@ -10,7 +11,13 @@ const http = require('http'),
   S = require('string'),
   routes = require('./routes/routes.js'),
   MongoStore = require('connect-mongo')(session),
-  mongodb = require('mongodb');
+  mongodb = require('mongodb'),
+  i18n = require('i18n');
+
+i18n.configure({
+  locales: ['fr'],
+  directory: './locales'
+});
 
 module.exports = Server;
 
@@ -52,7 +59,13 @@ function Server (options) {
     store: new MongoStore({ url: options.dbHost, collection: 'sessions' })
   }));
 
+  app.use(i18n.init);
+
   app.set('view engine', 'ejs');
+  app.set('layout', 'layouts/dashboard');
+  app.set("layout extractStyles", true);
+  app.set("layout extractScripts", true);
+  app.use(expressLayouts);
   app.use(express.static(__dirname + '/public'));
   app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
 

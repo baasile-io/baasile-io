@@ -1,0 +1,17 @@
+<% if (typeof flash != 'undefined' && typeof flash.errors == 'object' && flash.errors.length > 0) { %>
+<div class="ui flash container">
+  <div class="ui error icon message">
+    <i class="warning icon"></i>
+    <div class="content">
+      <div class="header">
+        L'opération n'a pas pu être effectué
+      </div>
+      <ul class="list">
+        <% flash.errors.forEach(function(err) { %>
+        <li><%= err %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+</div>
+<% } %>

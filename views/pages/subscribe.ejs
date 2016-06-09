@@ -1,97 +1,92 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <% include ../partials/head %>
-
-  <style type="text/css">
-    body {
-      background-color: #DADADA;
-    }
-    body > .grid {
-      height: 100%;
-    }
-    .image {
-      margin-top: -100px;
-    }
-    .column {
-      max-width: 450px;
-    }
-  </style>
-</head>
-<body>
-
-<div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <h2 class="ui teal image header">
-      <img src="/assets/logo/api-cpa-logo-transparent.png" class="image">
-      <div class="content">
-        Inscrivez-vous
-      </div>
-    </h2>
-    <form class="ui large form" method="post" action="/subscribe">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <div class="ui segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" name="email" placeholder="Adresse E-Mail">
+<div class="ui container">
+  <div class="ui grid stackable centered">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 class="ui center aligned header">
+          <div class="content">
+            Créez un compte développeur
+            <div class="sub header">et accédez au tableau de bord de vos services.</div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Mot de passe">
-          </div>
-        </div>
-        <div class="ui fluid large teal submit button">Inscription</div>
+        </h1>
       </div>
+    </div>
+  </div>
+  <div class="ui grid stackable stripe centered">
+      <div class="three column row">
+        <div class="four wide column center aligned">
+          <h3>Texte 1</h3>
+          Explication 1
+        </div>
+        <div class="four wide column center aligned">
+          <h3>Texte 2</h3>
+          Explication 2
+        </div>
+        <div class="four wide column center aligned">
+          <h3>Texte 3</h3>
+          Explication 3
+        </div>
+      </div>
+  </div>
+  <div class="ui grid stackable centered">
+    <div class="two column row">
+      <div class="nine wide column">
+        <div class="ui piled segment">
+          <h2>Formulaire d'inscription</h2>
 
-      <div class="ui error message"></div>
+          <form class="ui large form" method="post" action="/subscribe">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-    </form>
+            <div class="field">
+              <label>Nom et prénom</label>
+              <div class="two fields">
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" name="user_lastname" value="<% if (query.user.lastname) { %><%= query.user.lastname %><% } %>" placeholder="Nom">
+                  </div>
+                </div>
+                <div class="field">
+                  <input type="text" name="user_firstname" value="<% if (query.user.firstname) { %><%= query.user.firstname %><% } %>" placeholder="Prénom">
+                </div>
+              </div>
+            </div>
 
-    <div class="ui message">
-      <a href="/login">Connexion</a>
+            <div class="field">
+              <label>E-Mail</label>
+              <div class="ui left icon input">
+                <i class="mail icon"></i>
+                <input type="text" name="user_email" value="<% if (query.user.email) { %><%= query.user.email %><% } %>" placeholder="Adresse E-Mail">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Mot de passe</label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="user_password" placeholder="Mot de passe">
+              </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <div class="ui submit button" tabindex="0">Je m'inscris</div>
+
+          </form>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <img src="/assets/images/badge-api-cpa.jpg" class="ui fluid image centered">
+      </div>
     </div>
   </div>
 </div>
 
-<% include ../partials/foot %>
 <script>
   $(document)
     .ready(function() {
       $('.ui.form')
-        .form({
-          fields: {
-            email: {
-              identifier  : 'email',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your e-mail'
-                },
-                {
-                  type   : 'email',
-                  prompt : 'Please enter a valid e-mail'
-                }
-              ]
-            },
-            password: {
-              identifier  : 'password',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your password'
-                },
-                {
-                  type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters'
-                }
-              ]
-            }
-          }
-        });
+        .form();
     });
 </script>
-</body>
-</html>
+
+
+<%- contentFor('masthead') %>
