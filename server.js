@@ -13,11 +13,6 @@ const http = require('http'),
   MongoStore = require('connect-mongo')(session),
   mongodb = require('mongodb');
 
-i18n.configure({
-  locales: ['fr'],
-  directory: './locales'
-});
-
 module.exports = Server;
 
 function Server (options) {
@@ -57,8 +52,6 @@ function Server (options) {
     saveUninitialized: true,
     store: new MongoStore({ url: options.dbHost, collection: 'sessions' })
   }));
-
-  app.use(i18n.init);
 
   app.set('view engine', 'ejs');
   app.set('layout', 'layouts/dashboard');
