@@ -33,10 +33,10 @@
         <div class="ui piled segment">
           <h2>Formulaire d'inscription</h2>
 
-          <form class="ui large form" method="post" action="/subscribe">
+          <form class="ui large basic form" method="post" action="/subscribe">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-            <div class="field">
+            <div class="required field">
               <label>Nom et prénom</label>
               <div class="two fields">
                 <div class="field">
@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <div class="field">
+            <div class="required field">
               <label>E-Mail</label>
               <div class="ui left icon input">
                 <i class="mail icon"></i>
@@ -59,7 +59,7 @@
               </div>
             </div>
 
-            <div class="field">
+            <div class="required field">
               <label>Mot de passe</label>
               <div class="ui left icon input">
                 <i class="lock icon"></i>
@@ -83,7 +83,7 @@
 <script>
   $(document)
     .ready(function() {
-      $('.ui.form')
+      $('.ui.form.basic')
         .form();
     });
 </script>

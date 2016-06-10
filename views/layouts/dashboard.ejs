@@ -10,15 +10,30 @@
   <title>API-CPA</title>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-
+  <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
+  <style>
+    .dashboard {
+      margin-top: 100px;
+    }
+  </style>
   <%- style %>
 </head>
 <body>
 
+<div class="ui inverted sidebar vertical menu">
+  <a class="item">
+    <i class="home icon"></i>
+    Test
+  </a>
+  <a class="item">Test</a>
+</div>
 <div class="pusher">
-  <div class="ui fixed inverted menu">
+
+  <div class="ui inverted fixed menu">
     <div class="ui container">
+      <a class="toc item">
+        <i class="sidebar icon"></i>
+      </a>
       <a href="#" class="header item">
         <img class="logo" src="/assets/logo/api-cpa-logo-transparent.png">
         Tableau de bord
@@ -39,7 +54,6 @@
     </div>
   </div>
 
-
   <div class="dashboard">
     <% include ../partials/flash %>
 
@@ -48,9 +62,24 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="semantic/dist/semantic.min.js"></script>
+<script src="/assets/jquery/jquery.min.js"></script>
+<script src="/semantic/dist/semantic.min.js"></script>
 
+<script>
+  $(document)
+    .ready(function() {
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item');
+
+      $('.ui.form')
+        .form();
+
+      $('.ui.checkbox')
+        .checkbox();
+    });
+</script>
 <%- script %>
 </body>
 </html>

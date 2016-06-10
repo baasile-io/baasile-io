@@ -1,8 +1,7 @@
 'use strict';
 
 const request = require('request'),
-  userModel = require('../../models/v1/user.model.js'),
-  crypto = require('crypto');
+  userModel = require('../../models/v1/user.model.js');
 
 module.exports = AccountController;
 
@@ -10,34 +9,6 @@ function AccountController(options) {
   options = options || {};
   const logger = options.logger;
   const UserModel = new userModel(options);
-
-  function sha256(str) {
-    return crypto.createHash('sha256').update(str).digest('hex');
-  }
-
-  function generateSalt()
-  {
-    const set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
-    var salt = '';
-    for (var i = 0; i < 10; i++) {
-      let p = Math.floor(Math.random() * set.length);
-      salt += set[p];
-    }
-    return salt;
-  }
-
-  function saltAndHash(pass)
-  {
-    const salt = generateSalt();
-    return (salt + sha256(pass + salt));
-  }
-
-  function validatePassword(plainPass, hashedPass, callback)
-  {
-    const salt = hashedPass.substr(0, 10);
-    const validHash = salt + sha256(plainPass + salt);
-    return (hashedPass === validHash);
-  }
 
   this.login = function(req, res) {
     if (req.session.user != null) {
@@ -56,7 +27,7 @@ function AccountController(options) {
         errors.push(err);
       else if (!user)
         errors.push('Aucun compte ne correspond à cette adresse E-Mail');
-      else if (!validatePassword(password, user.password))
+      else if (!UserModel.validatePassword(password, user.password))
         errors.push('Mot de passe invalide');
       if (errors.length > 0) {
         return res.render('pages/login', {
@@ -85,7 +56,7 @@ function AccountController(options) {
     const user_firstname = req.body.user_firstname;
     const user_lastname = req.body.user_lastname;
     const user_email = req.body.user_email;
-    const hashedPassword = req.body.user_password.length >= 10 ? saltAndHash(req.body.user_password) : req.body.user_password;
+    const hashedPassword = req.body.user_password.length >= 10 ? UserModel.saltAndHash(req.body.user_password) : req.body.user_password;
 
     const userInfo = {
       firstname: user_firstname,

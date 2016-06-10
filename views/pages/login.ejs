@@ -1,6 +1,6 @@
 <div class="main ui middle aligned center aligned grid">
   <div class="column">
-    <form class="ui large form" method="post" action="/login">
+    <form class="ui large basic form" method="post" action="/login">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div class="ui segment left aligned">
         <h2 class="ui teal image header">
@@ -33,11 +33,3 @@
     </form>
   </div>
 </div>
-
-<script>
-  $(document)
-    .ready(function() {
-      $('.ui.form')
-        .form();
-    });
-</script>

@@ -3,7 +3,8 @@
 const express = require('express'),
   csrf = require('csurf'),
   accountController = require('../../controllers/dashboard/account.controller.js'),
-  dashboardController = require('../../controllers/dashboard/dashboard.controller.js');
+  dashboardController = require('../../controllers/dashboard/dashboard.controller.js'),
+  servicesController = require('../../controllers/dashboard/services.controller.js');
 
 const router = express.Router();
 
@@ -17,7 +18,6 @@ module.exports = function (options) {
       logger.info("this area is restricted to members");
       return res.redirect('/login');
     }
-    
     next();
   }
 
@@ -68,10 +68,12 @@ module.exports = function (options) {
 
   /* dashboard / member area */
   const DashboardController = new dashboardController(options);
+  const ServicesController = new servicesController(options);
 
   router
-    .get('/dashboard*', memberAreaRestriction, AccountController.getUserData, csrfProtection)
-    .get('/dashboard', DashboardController.dashboard);
+    .get('/dashboard', memberAreaRestriction, AccountController.getUserData, DashboardController.dashboard)
+    .get('/dashboard/services/new', memberAreaRestriction, AccountController.getUserData, csrfProtection, ServicesController.new)
+    .post('/dashboard/services', memberAreaRestriction, AccountController.getUserData, csrfProtection, ServicesController.create);
 
   return router;
 };

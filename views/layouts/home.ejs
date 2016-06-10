@@ -10,7 +10,7 @@
   <title>API-CPA</title>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
   <style type="text/css">
 
     .main {
@@ -148,8 +148,8 @@
   <% include ../partials/menu_bottom %>
 </div>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="semantic/dist/semantic.min.js"></script>
+<script src="/assets/jquery/jquery.min.js"></script>
+<script src="/semantic/dist/semantic.min.js"></script>
 
 <script>
   $(document)
@@ -171,6 +171,8 @@
       $('.ui.sidebar')
         .sidebar('attach events', '.toc.item');
 
+      $('.ui.form')
+        .form();
     });
 </script>
 <%- script %>

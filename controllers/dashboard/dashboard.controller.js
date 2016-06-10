@@ -2,9 +2,9 @@
 
 const request = require('request');
 
-module.exports = AccountController;
+module.exports = DashboardController;
 
-function AccountController(options) {
+function DashboardController(options) {
   options = options || {};
   const logger = options.logger;
 
