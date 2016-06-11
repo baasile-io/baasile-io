@@ -12,6 +12,9 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
   <style>
+    .flash {
+      margin-bottom: 20px;
+    }
     .dashboard {
       margin-top: 100px;
     }
@@ -34,16 +37,20 @@
       <a class="toc item">
         <i class="sidebar icon"></i>
       </a>
-      <a href="#" class="header item">
+      <a href="/" class="header item">
         <img class="logo" src="/assets/logo/api-cpa-logo-transparent.png">
-        Tableau de bord
       </a>
       <div class="ui simple dropdown item">
-        <i class="cubes icon"></i> Mes services <i class="dropdown icon"></i>
+        <a href="/dashboard/services">
+          <i class="cubes icon"></i> Mes services <i class="dropdown icon"></i>
+        </a>
         <div class="menu">
-          <a class="item" href="#"><i class="cube icon"></i>Service 1</a>
-          <a class="item" href="#"><i class="cube icon"></i>Service 2</a>
+          <% if (data.user.services.length > 0) { %>
+          <% data.user.services.forEach(function(service) { %>
+            <a class="item" href="/dashboard/services/<%= service.nameNormalized %>"><i class="cube icon"></i><%= service.name %></a>
+          <% }) %>
           <div class="divider"></div>
+          <% } %>
           <a class="item" href="/dashboard/services/new"><i class="add icon"></i>Ajouter un service</a>
         </div>
       </div>
@@ -56,9 +63,7 @@
 
   <div class="dashboard">
     <% include ../partials/flash %>
-
     <%- body %>
-
   </div>
 </div>
 

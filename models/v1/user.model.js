@@ -39,6 +39,11 @@ function UserModel(options) {
   options = options || {};
   const db = mongoose.createConnection(options.dbHost);
 
+  userSchema.pre('update', function(next) {
+    this.options.runValidators = true;
+    next();
+  });
+
   this.io = db.model('User', userSchema);
 
   function sha256(str) {

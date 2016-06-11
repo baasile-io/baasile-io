@@ -1,5 +1,5 @@
 
-<form class="ui large basic form" method="post" action="/dashboard/services">
+<form class="ui large basic form" method="post" action="/dashboard/services<% if (typeof data.service != 'undefined') { %>/<%= data.service.nameNormalized %><% } %>">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
   <div class="required field">
@@ -23,12 +23,20 @@
   <div class="field">
     <label>Visibilité</label>
     <div class="ui toggle checkbox">
-      <input type="checkbox" tabindex="0" class="hidden" <% if (query.service.public === true) { %>checked="checked"<% } %>>
+      <input type="checkbox" tabindex="0" value="true" name="service_public" class="hidden" <% if (query.service.public === true) { %>checked="checked"<% } %>>
       <label>Référencer le service sur l'API du CPA Store</label>
     </div>
   </div>
 
   <div class="ui error message"></div>
-  <div class="ui submit button" tabindex="0">Ajouter le service</div>
+
+
+  <div class="ui submit button" tabindex="0">
+    <% if (typeof query.service._id == 'undefined') { %>
+    Ajouter le service
+    <% } else { %>
+    Modifier le service
+    <% } %>
+  </div>
 
 </form>

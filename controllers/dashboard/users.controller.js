@@ -1,14 +1,16 @@
 'use strict';
 
 const request = require('request'),
-  userModel = require('../../models/v1/user.model.js');
+  userModel = require('../../models/v1/user.model.js'),
+  serviceModel = require('../../models/v1/service.model.js');
 
-module.exports = AccountController;
+module.exports = AccountsController;
 
-function AccountController(options) {
+function AccountsController(options) {
   options = options || {};
   const logger = options.logger;
   const UserModel = new userModel(options);
+  const ServiceModel = new serviceModel(options);
 
   this.login = function(req, res) {
     if (req.session.user != null) {
@@ -102,15 +104,25 @@ function AccountController(options) {
     }, function(err, user) {
       if (err || !user)
         return res.status(500).end();
-      req.data = {
-        user: {
-          firstname: user.firstname,
-          lastname: user.lastname,
-          email: user.email
-        },
-        services: []
-      };
-      next();
+      req.data = req.data || {};
+      req.data.user = user;
+      ServiceModel.io.find({
+        users: {
+          $in: [user._id]
+        }
+      }, {
+        name: true,
+        nameNormalized: true
+      }, {
+        sort: {
+          nameNormalized: 'asc'
+        }
+      }, function(err, services) {
+        if (err)
+          return res.status(500).end();
+        req.data.user.services = services;
+        next('route');
+      });
     });
   }
 

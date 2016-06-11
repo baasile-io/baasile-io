@@ -10,7 +10,6 @@ function DashboardController(options) {
 
   this.dashboard = function(req, res) {
     return res.render('pages/dashboard', {
-      csrfToken: req.csrfToken(),
       query: {},
       data: req.data,
       flash: {}
