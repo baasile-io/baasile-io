@@ -46,7 +46,10 @@ function Server (options) {
   });
 
   app.use(session({
-    secret: '16e17272a924d78e65eee5121d19dd1ddefc0db1',
+    secret: options.expressSessionSecret,
+    cookie: {
+      maxAge: options.expressSessionCookieMaxAge
+    },
     proxy: true,
     resave: true,
     saveUninitialized: true,
