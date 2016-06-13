@@ -48,12 +48,16 @@ function Server (options) {
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {
-      maxAge: options.expressSessionCookieMaxAge
+      expires: new Date(Date.now() + options.expressSessionCookieMaxAge)
     },
     proxy: true,
     resave: true,
+    rolling: true,
     saveUninitialized: true,
-    store: new MongoStore({ url: options.dbHost, collection: 'sessions' })
+    store: new MongoStore({
+      url: options.dbHost,
+      collection: 'sessions'
+    })
   }));
 
   app.set('view engine', 'ejs');

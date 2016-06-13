@@ -15,7 +15,7 @@ var serviceSchema = new mongoose.Schema({
       validator: function (name) {
         return validator.isWhitelisted(name.toLowerCase(), 'abcdefghijklmnopqrstuvwxyz0123456789- ');
       },
-      message: 'Le nom du service doit comporter uniquement des chiffres, des lettres, des espaces et des caractères `-`'
+      message: 'Le nom du service doit uniquement comporter des chiffres, des lettres, des espaces et des caractères `-`'
     }
   },
   nameNormalized: {

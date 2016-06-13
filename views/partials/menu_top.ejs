@@ -1,13 +1,14 @@
-<div class="ui large top fixed inverted hidden menu">
-  <div class="ui container">
-    <a class="active item" href="/">Accueil</a>
-    <a class="item">Documentation</a>
-    <a class="item">L'équipe</a>
-    <div class="right menu">
-      <div class="item">
-        <a class="ui inverted button" href="/login">Connexion</a>
-        <a class="ui inverted button" href="/subscribe">Inscription</a>
-      </div>
-    </div>
+
+<a class="item <% if (page === 'pages/index') { %>active<% } %>" href="/">Accueil</a>
+<a class="item">Documentation</a>
+<a class="item">L'équipe</a>
+<div class="right menu">
+  <div class="item">
+    <% if (data.user == null) { %>
+    <a class="ui inverted button <% if (page === 'pages/users/login') { %>primary<% } %>" href="/login">Connexion</a>
+    <a class="ui inverted button <% if (page === 'pages/users/new') { %>primary<% } %>" href="/subscribe">Inscription</a>
+    <% } else { %>
+    <a class="ui inverted button" href="/dashboard">Tableau de bord</a>
+    <% } %>
   </div>
 </div>

@@ -10,6 +10,7 @@ function DashboardController(options) {
 
   this.dashboard = function(req, res) {
     return res.render('pages/dashboard', {
+      page: 'pages/dashboard',
       query: {},
       data: req.data,
       flash: {}

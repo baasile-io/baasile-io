@@ -30,7 +30,7 @@
       background-size: cover;
     }
     .masthead.segment {
-      min-height: 100px;
+      min-height: 60px;
       padding: 1em 0em;
     }
     .masthead .logo.item img {
@@ -113,24 +113,20 @@
 </head>
 <body>
 
+<div class="ui large secondary top fixed inverted hidden menu">
+  <div class="ui container">
 <% include ../partials/menu_top %>
+  </div>
+</div>
 <% include ../partials/menu_sidebar %>
 
 <div class="pusher">
   <div class="ui inverted vertical masthead center aligned segment">
 
+
     <div class="ui container">
-      <div class="ui large secondary inverted pointing menu">
-        <a class="toc item">
-          <i class="sidebar icon"></i>
-        </a>
-        <a class="active item" href="/">Accueil</a>
-        <a class="item">Documentation</a>
-        <a class="item">L'équipe</a>
-        <div class="right item">
-          <a class="ui inverted button" href="/login">Connexion</a>
-          <a class="ui inverted button" href="/subscribe">Inscription</a>
-        </div>
+      <div class="ui large secondary inverted menu">
+        <% include ../partials/menu_top %>
       </div>
     </div>
 

@@ -12,6 +12,7 @@ function ServicesController(options) {
 
   this.index = function(req, res) {
     return res.render('pages/dashboard/services/index', {
+      page: 'pages/dashboard/services/index',
       query: {
         service: {
           name: '',
@@ -27,6 +28,7 @@ function ServicesController(options) {
 
   this.view = function(req, res) {
     return res.render('pages/dashboard/services/view', {
+      page: 'pages/dashboard/services/view',
       data: req.data,
       flash: {}
     });
@@ -34,6 +36,7 @@ function ServicesController(options) {
 
   this.edit = function(req, res) {
     return res.render('pages/dashboard/services/edit', {
+      page: 'pages/dashboard/services/edit',
       csrfToken: req.csrfToken(),
       query: {
         service: req.data.service
@@ -45,6 +48,7 @@ function ServicesController(options) {
 
   this.new = function(req, res) {
     return res.render('pages/dashboard/services/new', {
+      page: 'pages/dashboard/services/new',
       csrfToken: req.csrfToken(),
       query: {
         service: {
@@ -77,6 +81,7 @@ function ServicesController(options) {
           err = 'Ce nom de service est déjà utilisé';
         errors = [err];
         return res.render('pages/dashboard/services/new', {
+          page: 'pages/dashboard/services/new',
           csrfToken: req.csrfToken(),
           data: req.data,
           query: {
@@ -116,6 +121,7 @@ function ServicesController(options) {
           err = 'Ce nom de service est déjà utilisé';
         errors = [err];
         return res.render('pages/dashboard/services/edit', {
+          page: 'pages/dashboard/services/edit',
           csrfToken: req.csrfToken(),
           data: req.data,
           query: {

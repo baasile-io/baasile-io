@@ -23,22 +23,12 @@
 </head>
 <body>
 
-<div class="ui inverted sidebar vertical menu">
-  <a class="item">
-    <i class="home icon"></i>
-    Test
-  </a>
-  <a class="item">Test</a>
-</div>
 <div class="pusher">
 
   <div class="ui inverted fixed menu">
     <div class="ui container">
-      <a class="toc item">
-        <i class="sidebar icon"></i>
-      </a>
       <a href="/" class="header item">
-        <img class="logo" src="/assets/logo/api-cpa-logo-transparent.png">
+        <img class="logo" src="/assets/logo/api-cpa-logo.png">
       </a>
       <div class="ui simple dropdown item">
         <a href="/dashboard/services">
@@ -73,10 +63,6 @@
 <script>
   $(document)
     .ready(function() {
-
-      // create sidebar and attach to menu open
-      $('.ui.sidebar')
-        .sidebar('attach events', '.toc.item');
 
       $('.ui.form')
         .form();

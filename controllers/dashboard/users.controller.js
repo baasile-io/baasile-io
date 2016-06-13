@@ -12,7 +12,22 @@ function AccountsController(options) {
   const UserModel = new userModel(options);
   const ServiceModel = new serviceModel(options);
 
-  this.login = function(req, res) {
+  this.sessionNew = function(req, res) {
+    if (req.session.user != null) {
+      return res.redirect('/dashboard');
+    }
+    res.render('pages/users/login', {
+      layout: 'layouts/login',
+      page: 'pages/users/login',
+      csrfToken: req.csrfToken(),
+      query: {
+        user: {}
+      },
+      flash: {}
+    });
+  }
+
+  this.sessionCreate = function(req, res) {
     if (req.session.user != null) {
       return res.redirect('/dashboard');
     }
@@ -32,8 +47,9 @@ function AccountsController(options) {
       else if (!UserModel.validatePassword(password, user.password))
         errors.push('Mot de passe invalide');
       if (errors.length > 0) {
-        return res.render('pages/login', {
+        return res.render('pages/users/login', {
           layout: 'layouts/login',
+          page: 'pages/users/login',
           csrfToken: req.csrfToken(),
           query: {
             user: {
@@ -46,12 +62,40 @@ function AccountsController(options) {
         });
       }
       req.session.user = user;
+      req.session.save(function(err) {
+        if (err)
+          res.status(500).end();
+      });
       logger.info('user logged in: ' + user.email);
       res.redirect('/dashboard');
     });
   }
 
-  this.subscribe = function(req, res) {
+  this.account = function(req, res) {
+    return res.render('pages/users/account', {
+      page: 'pages/users/account',
+      query: {},
+      data: req.data,
+      flash: {}
+    });
+  }
+
+  this.new = function(req, res) {
+    if (req.session.user != null) {
+      return res.redirect('/dashboard');
+    }
+    res.render('pages/users/new', {
+      layout: 'layouts/home',
+      page: 'pages/users/new',
+      csrfToken: req.csrfToken(),
+      query: {
+        user: {}
+      },
+      flash: {}
+    });
+  }
+
+  this.create = function(req, res) {
     if (req.session.user != null) {
       return res.redirect('/dashboard');
     }
@@ -73,8 +117,9 @@ function AccountsController(options) {
         if (err.code == 11000)
           err = 'Cette adresse E-Mail est déjà utilisée';
         errors = [err];
-        return res.render('pages/subscribe', {
+        return res.render('pages/users/new', {
           layout: 'layouts/home',
+          page: 'pages/users/new',
           csrfToken: req.csrfToken(),
           query: {
             user: {
@@ -93,8 +138,8 @@ function AccountsController(options) {
     });
   }
 
-  this.logout = function(req, res) {
-    req.session.user = null;
+  this.sessionDestroy = function(req, res) {
+    req.session.destroy();
     res.redirect('/');
   }
 

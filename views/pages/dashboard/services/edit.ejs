@@ -1,19 +1,5 @@
 <div class="ui container">
-  <h1><%= data.service.name %></h1>
-  <div class="ui pointing menu">
-    <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>">
-      Statistiques
-    </a>
-    <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/edit">
-      Paramètres
-    </a>
-    <a class="item">
-      Tokens
-    </a>
-    <a class="item">
-      Données partagées
-    </a>
-  </div>
+  <% include ./header %>
 
   <h2>Paramètres</h2>
   <% include ./form %>

@@ -64,6 +64,7 @@
     "mongodb": "^2.1.18",
     "mongoose": "^4.4.20",
     "nconf": "0.8.4",
+    "oauth2-server": "^2.4.1",
     "request": "2.70.0",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.2.1",

@@ -27,50 +27,27 @@ module.exports = function (options) {
   /* public pages */
   router.get('/', function(req, res) {
     res.render('pages/index', {
-      layout: 'layouts/home'
+      layout: 'layouts/home',
+      page: 'pages/index',
+      data: {
+        user: req.session.user
+      }
     });
   });
 
   /* login / logout / subscribe */
   router
-    .get('/login', csrfProtection, function(req, res) {
-      if (req.session.user != null) {
-        return res.redirect('/dashboard');
-      }
-      res.render('pages/login', {
-        layout: 'layouts/login',
-        csrfToken: req.csrfToken(),
-        query: {
-          user: {}
-        },
-        flash: {}
-      });
-    })
-    .post('/login', csrfProtection, UsersController.login);
-
-  router
-    .get('/logout', UsersController.logout);
-
-  router
-    .get('/subscribe', csrfProtection, function(req, res) {
-      if (req.session.user != null) {
-        return res.redirect('/dashboard');
-      }
-      res.render('pages/subscribe', {
-        layout: 'layouts/home',
-        csrfToken: req.csrfToken(),
-        query: {
-          user: {}
-        },
-        flash: {}
-      });
-    })
-    .post('/subscribe', csrfProtection, UsersController.subscribe);
+    .get('/login', csrfProtection, UsersController.sessionNew)
+    .post('/login', csrfProtection, UsersController.sessionCreate)
+    .get('/logout', UsersController.sessionDestroy)
+    .get('/subscribe', csrfProtection, UsersController.new)
+    .post('/subscribe', csrfProtection, UsersController.create);
 
   /* dashboard / user area */
   router
     .all('/dashboard*', restrictedArea)
     .get('/dashboard', DashboardController.dashboard)
+    .get('/dashboard/account', UsersController.account)
     .get('/dashboard/services/new', csrfProtection, ServicesController.new)
     .get('/dashboard/services', ServicesController.index)
     .post('/dashboard/services', csrfProtection, ServicesController.create)
