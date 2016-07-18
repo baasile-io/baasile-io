@@ -32,6 +32,7 @@
     "express": "4.13.4",
     "express-bunyan-logger": "1.2.0",
     "express-ejs-layouts": "^2.1.0",
+    "express-oauth-server": "^1.0.0",
     "express-session": "^1.13.0",
     "extend": "^3.0.0",
     "gulp": "^3.9.1",

@@ -1,8 +1,8 @@
 'use strict';
 
 const request = require('request'),
-  userModel = require('../../models/v1/user.model.js'),
-  serviceModel = require('../../models/v1/service.model.js');
+  userModel = require('../../models/v1/User.model.js'),
+  serviceModel = require('../../models/v1/Service.model.js');
 
 module.exports = AccountsController;
 
@@ -88,6 +88,7 @@ function AccountsController(options) {
       layout: 'layouts/home',
       page: 'pages/users/new',
       csrfToken: req.csrfToken(),
+      data: {},
       query: {
         user: {}
       },
@@ -121,6 +122,7 @@ function AccountsController(options) {
           layout: 'layouts/home',
           page: 'pages/users/new',
           csrfToken: req.csrfToken(),
+          data: {},
           query: {
             user: {
               firstname: user_firstname,

@@ -49,6 +49,10 @@ function FcController(options) {
 
   function get(name, scope) {
     return function(req, res, next) {
+      logger.info('get (name:"' + name + '", scope:"' + scope + '")');
+      res.end();
+      return;
+
       var startOfNir;
       var identity;
       fcCheckToken(req.query.token, scope)

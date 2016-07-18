@@ -47,10 +47,6 @@ var serviceSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  tokens: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'TokenModel'
-  }],
   users: [{
       type: mongoose.Schema.ObjectId,
       ref: 'UserModel'

@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require('request'),
-  serviceModel = require('../../models/v1/service.model.js');
+  serviceModel = require('../../models/v1/Service.model.js');
 
 module.exports = ServicesController;
 

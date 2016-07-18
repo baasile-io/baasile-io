@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express'),
-  fcController = require('./../../controllers/v1/fc.controller.js');
+  fcController = require('./../../../controllers/v1/fc.controller.js');
 
 const router = express.Router();
 
