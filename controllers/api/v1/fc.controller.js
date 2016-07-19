@@ -3,8 +3,8 @@
 const request = require('request'),
   StandardError = require('standard-error'),
   _ = require('lodash'),
-  apirService = require('../../services/apir.service.js'),
-  idpToNirService = require('../../services/idpToNir.service.js');
+  apirService = require('../../../services/apir.service.js'),
+  idpToNirService = require('../../../services/idpToNir.service.js');
 
 module.exports = FcController;
 

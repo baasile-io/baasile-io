@@ -1,7 +1,5 @@
 'use strict';
 
-const request = require('request');
-
 module.exports = DashboardController;
 
 function DashboardController(options) {

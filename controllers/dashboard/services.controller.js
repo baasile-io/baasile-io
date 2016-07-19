@@ -71,7 +71,8 @@ function ServicesController(options) {
       website: req.body.service_website,
       public: req.body.service_public === 'true',
       users: [{_id: req.data.user._id}],
-      secret: ServiceModel.generateSecret()
+      clientSecret: ServiceModel.generateSecret(),
+      clientId: ServiceModel.generateId()
     };
 
     ServiceModel.io.create(serviceInfo, function(err, service) {

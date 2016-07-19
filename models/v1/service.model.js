@@ -42,7 +42,12 @@ var serviceSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
-  secret: {
+  clientSecret: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  clientId: {
     type: String,
     required: true,
     unique: true
@@ -69,6 +74,10 @@ function ServiceModel(options) {
   this.io = db.model('Service', serviceSchema);
 
   this.generateSecret = function() {
+    return crypto.randomBytes(48).toString('hex');
+  }
+
+  this.generateId = function() {
     return crypto.randomBytes(48).toString('hex');
   }
 
