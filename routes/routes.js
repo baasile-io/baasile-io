@@ -5,7 +5,8 @@ const v1 = require('./api/v1/index.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   StandardError = require('standard-error'),
-  S = require('string');
+  S = require('string'),
+  _ = require('lodash');
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
@@ -58,20 +59,45 @@ exports.configure = function (app, http, options) {
 
     return next();
   });
-  app.use('/api', bodyParser.urlencoded({ extended: false }));
-  app.use('/api', bodyParser.json());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use('/api', function (req, res, next) {
+    // set request
+    var request = {
+      params: {}
+    };
+    _.merge(request.params, req.body, req.query);
+    res._request = request;
+
+    return next();
+  });
+
   app.use('/api/v1', v1(options));
-  app.use('/api', function (err, req, res, next) {
-    const status = err.code || 400;
-    const messages = err.messages || ['Internal Server Error'];
-    res.status(status).json({
+
+  app.use('/api', function (responseParams, req, res, next) {
+    const status = responseParams.code || 400;
+    const response = {
+      jsonapi: res._jsonapi,
       links: {
         self: req.protocol + '://' + req.get('host') + req.originalUrl
-      },
-      errors: messages
-    }).end();
+      }
+    };
+    if (responseParams.links) {
+      _.merge(response.links, responseParams.links);
+    }
+    if (responseParams.data) {
+      response.data = responseParams.data;
+    }
+    if (responseParams.messages) {
+      response.errors = responseParams.messages;
+    }
+    else if (status >= 400) {
+      response.errors = ['Internal Server Error'];
+    }
+    return res.status(status).json(response).end();
   }, function(req, res) {
-    res.status(404).json({
+    return res.status(404).json({
       links: {
         self: req.protocol + '://' + req.get('host') + req.originalUrl
       },

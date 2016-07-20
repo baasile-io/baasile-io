@@ -31,7 +31,10 @@ var userSchema = new mongoose.Schema({
     required: [true, 'Mot de passe obligatoire'],
     minlength: [10, 'Le mot de passe doit comporter au minimum 10 caractères']
   },
-  created_at: Date,
+  createdAt: {
+    type: Date,
+    required: true
+  },
   updated_at: Date
 });
 

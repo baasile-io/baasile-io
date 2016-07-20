@@ -1,0 +1,73 @@
+<div class="ui container">
+  <% include ./header %>
+
+  <h2>Tokens</h2>
+
+  <% if (tokens.length > 0) { %>
+  <table class="ui celled table">
+    <thead>
+    <tr>
+      <th>État</th>
+      <th class="six wide">Token</th>
+      <th>Dernière utilisation</th>
+      <th>Expiration</th>
+      <th>Stats</th>
+      <th class="two wide"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% tokens.forEach(function(token) { %>
+      <tr class="<% if(token.accessTokenExpiresOn < now) { %><% } %>">
+        <td>
+          <% if(token.accessTokenExpiresOn >= now) { %>
+          <div class="ui ribbon label">Actif</div>
+          <% } else { %>
+          Expiré
+          <% } %>
+        </td>
+        <td>
+          <div class="ui fluid left icon input">
+            <input type="text" value="<%= token.accessToken %>">
+            <i class="file code outline icon"></i>
+          </div>
+        </td>
+        <td>
+          <% if (token.updatedAt || token.createdAt) { %>
+            <%= token.updatedAt ? token.updatedAt.toISOString() : token.createdAt.toISOString() %>
+          <% } %>
+        </td>
+        <td>
+          <% if (token.accessTokenExpiresOn) { %>
+            <%= token.accessTokenExpiresOn.toISOString() %>
+          <% } %>
+        </td>
+        <td>
+          <%= token.nbOfUse %> time(s)
+        </td>
+        <td>
+          <% if(token.accessTokenExpiresOn >= now) { %>
+            <button class="ui tiny labeled icon button">
+              <i class="pause icon"></i>
+              Révoquer
+            </button>
+          <% } else { %>
+            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/<%= token.accessToken %>/destroy">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="ui tiny labeled icon button">
+                <i class="trash icon"></i>
+                Supprimer
+              </button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+  <% } else { %>
+  Vous n'avez généré aucun token
+  <% } %>
+
+
+</div>

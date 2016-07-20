@@ -22,6 +22,8 @@ function FcController(options) {
 
   function fcCheckToken(token, scope) {
     return new Promise(function(resolve, reject) {
+      if (!token)
+        reject({code: 400, messages: ['missing fc_token']});
       request
         .post({
             url: 'https://fcp.integ01.dev-franceconnect.fr/api/v1/checktoken',
@@ -49,13 +51,9 @@ function FcController(options) {
 
   function get(name, scope) {
     return function(req, res, next) {
-      logger.info('get (name:"' + name + '", scope:"' + scope + '")');
-      res.end();
-      return;
-
       var startOfNir;
       var identity;
-      fcCheckToken(req.query.token, scope)
+      fcCheckToken(res._request.params.fc_token, scope)
         .then(function(identityChecked) {
           identity = identityChecked;
           startOfNir = IdpToNirService.process(identity);

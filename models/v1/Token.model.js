@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
 
 module.exports = TokenModel;
 
-var TokenSchema = new mongoose.Schema({
+var tokenSchema = new mongoose.Schema({
   accessToken: {
     type: String,
     required: true
@@ -15,16 +15,23 @@ var TokenSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  clientId: {
-    type: String,
-    required: true
-  },
   production: {
     type: Boolean,
     required: true
   },
-  created_at: Date,
-  updated_at: Date
+  nbOfUse: {
+    type: Number,
+    default: 0
+  },
+  service: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'ServiceModel'
+  }],
+  createdAt: {
+    type: Date,
+    required: true
+  },
+  updatedAt: Date
 });
 
 function TokenModel(options) {
@@ -33,13 +40,14 @@ function TokenModel(options) {
   const db = mongoose.createConnection(options.dbHost);
   const ServiceModel = new serviceModel(options);
 
-  this.io = db.model('Token', TokenSchema);
+  tokenSchema.pre('save', function(next) {
+    this.updatedAt = new Date();
+    next();
+  });
 
-  this.getAccessToken = function(bearerToken) {
-    logger.info('getAccessToken (bearerToken: ' + bearerToken + ')');
-
-    return this.io.findOne({
-      accessToken: bearerToken
-    });
+  this.io = db.model('Token', tokenSchema);
+  
+  this.generateToken = function() {
+    return ServiceModel.generateSecret();
   };
-}
+};

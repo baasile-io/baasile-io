@@ -2,7 +2,8 @@
 
 const request = require('request'),
   StandardError = require('standard-error'),
-  tokenModel = require('../../../models/v1/Token.model.js');
+  tokenModel = require('../../../models/v1/Token.model.js'),
+  serviceModel = require('../../../models/v1/Service.model.js');
 
 module.exports = AuthController;
 
@@ -10,21 +11,86 @@ function AuthController(options) {
   options = options || {};
   const logger = options.logger;
   const TokenModel = new tokenModel(options);
+  const ServiceModel = new serviceModel(options);
 
   this.authorize = function(req, res, next) {
-    const access_token = req.body.access_token || req.query.access_token;
+    const access_token = res._request.params.access_token;
     if (!access_token)
-      return next({messages: ["missing access_token"], code: 401});
+      return next({messages: ["missing access_token"], code: 400});
     TokenModel.io.findOne({
       accessToken: access_token
-    }, function(err, num) {
+    }, function(err, token) {
       if (err)
         return next({code: 500});
-      if (!num)
-        return next({messages: ['invalid token'], code: 401});
-      if (num.accessTokenExpiresOn  < new Date())
-        return next({messages: ['expired session'], code: 401});
-      next();
+      if (!token)
+        return next({messages: ['invalid_token'], code: 401});
+      if (token.accessTokenExpiresOn  < new Date())
+        return next({messages: ['expired_session'], code: 401});
+      const now = new Date();
+      token.accessTokenExpiresOn = new Date(now.getTime() + options.tokenExpiration * 60000);
+      token.nbOfUse++;
+      token.save(function(err) {
+        if (err)
+          logger.warn("failed to update token expiration date: " + err);
+        return next();
+      });
     });
-  }
-}
+  };
+
+  this.authenticate = function(req, res, next) {
+    const clientSecret = res._request.params.client_secret;
+    const clientId = res._request.params.client_id;
+    if (!clientId)
+      return next({messages: ["missing client_id"], code: 400});
+    if (!clientSecret)
+      return next({messages: ["missing client_secret"], code: 400});
+    ServiceModel.io.findOne({
+      clientId: clientId,
+      clientSecret: clientSecret
+    }, function(err, service) {
+      if (err)
+        return next({code: 500});
+      if (!service)
+        return next({messages: ['invalid client_id and/or client_secret'], code: 400});
+      createToken(service)
+        .then(function(accessToken) {
+          return next({code: 200, data: {
+            id: accessToken.createdAt,
+            type: "token",
+            attributes: {
+              access_token: accessToken.accessToken,
+              expires_on: accessToken.accessTokenExpiresOn
+            }
+          }});
+        })
+        .catch(function(errors) {
+          return next({code: 500, messages: errors});
+        });
+    });
+  };
+
+  function createToken(service) {
+    return new Promise(function(resolve, reject) {
+      const now = new Date();
+      const accessToken = TokenModel.generateToken();
+      const accessTokenExpiresOn = new Date(now.getTime() + options.tokenExpiration * 60000);
+      TokenModel.io.create({
+        production: false,
+        accessToken: accessToken,
+        accessTokenExpiresOn: accessTokenExpiresOn,
+        service: service,
+        createdAt: now
+      }, function (err, accessToken) {
+        if (err) {
+          let errors;
+          if (err.code == 11000)
+            err = 'non unique access_token';
+          errors = [err];
+          return reject(errors);
+        }
+        logger.info('accessToken created: ' + accessToken.accessToken);
+        return resolve(accessToken);
+      });
+    });
+  };
+};

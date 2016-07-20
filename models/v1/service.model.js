@@ -56,7 +56,10 @@ var serviceSchema = new mongoose.Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'UserModel'
   }],
-  created_at: Date,
+  createdAt: {
+    type: Date,
+    required: true
+  },
   updated_at: Date
 });
 
@@ -75,13 +78,13 @@ function ServiceModel(options) {
 
   this.generateSecret = function() {
     return crypto.randomBytes(48).toString('hex');
-  }
+  };
 
   this.generateId = function() {
     return crypto.randomBytes(48).toString('hex');
-  }
+  };
 
   this.getNormalizedName = function(name) {
     return name.toLowerCase().replace(/ /g, '-');
-  }
-}
+  };
+};

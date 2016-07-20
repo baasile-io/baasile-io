@@ -1,7 +1,8 @@
 'use strict';
 
 const request = require('request'),
-  serviceModel = require('../../models/v1/Service.model.js');
+  serviceModel = require('../../models/v1/Service.model.js'),
+  tokenModel = require('../../models/v1/Token.model.js');
 
 module.exports = ServicesController;
 
@@ -9,6 +10,7 @@ function ServicesController(options) {
   options = options || {};
   const logger = options.logger;
   const ServiceModel = new serviceModel(options);
+  const TokenModel = new tokenModel(options);
 
   this.index = function(req, res) {
     return res.render('pages/dashboard/services/index', {
@@ -24,7 +26,7 @@ function ServicesController(options) {
       data: req.data,
       flash: {}
     });
-  }
+  };
 
   this.view = function(req, res) {
     return res.render('pages/dashboard/services/view', {
@@ -32,7 +34,7 @@ function ServicesController(options) {
       data: req.data,
       flash: {}
     });
-  }
+  };
 
   this.edit = function(req, res) {
     return res.render('pages/dashboard/services/edit', {
@@ -44,7 +46,7 @@ function ServicesController(options) {
       data: req.data,
       flash: {}
     });
-  }
+  };
 
   this.new = function(req, res) {
     return res.render('pages/dashboard/services/new', {
@@ -61,7 +63,7 @@ function ServicesController(options) {
       data: req.data,
       flash: {}
     });
-  }
+  };
 
   this.create = function(req, res) {
     const serviceInfo = {
@@ -101,7 +103,7 @@ function ServicesController(options) {
       logger.info('service created: ' + service.name);
       res.redirect('/dashboard/services/' + service.nameNormalized);
     });
-  }
+  };
 
   this.update = function(req, res) {
     const serviceInfo = {
@@ -141,7 +143,7 @@ function ServicesController(options) {
       logger.info('service updated: ' + serviceInfo.name);
       res.redirect('/dashboard/services/' + serviceInfo.nameNormalized);
     });
-  }
+  };
 
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
@@ -150,11 +152,13 @@ function ServicesController(options) {
       },
       nameNormalized: req.params.serviceName
     }, function(err, service) {
-      if (err || !service)
+      if (err)
         return res.status(500).end();
+      if (!service)
+        return res.status(401).end();
       req.data = req.data || {};
       req.data.service = service;
-      next('route');
+      return next();
     });
-  }
-}
+  };
+};
