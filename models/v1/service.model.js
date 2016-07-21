@@ -74,6 +74,14 @@ function ServiceModel(options) {
     next();
   });
 
+  serviceSchema.methods.tokensCount = function() {
+    return this.model('Token').count({service: this}, function(err, total) {
+      if (err)
+        return -1;
+      return total;
+    });
+  };
+
   this.io = db.model('Service', serviceSchema);
 
   this.generateSecret = function() {

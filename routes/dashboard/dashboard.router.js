@@ -54,10 +54,12 @@ module.exports = function (options) {
     .get('/dashboard/services', ServicesController.index)
     .post('/dashboard/services', csrfProtection, ServicesController.create)
     .get('/dashboard/services/:serviceName', ServicesController.getServiceData, ServicesController.view)
-    .get('/dashboard/services/:serviceName/edit', ServicesController.getServiceData, csrfProtection, ServicesController.edit)
-    .post('/dashboard/services/:serviceName', ServicesController.getServiceData, csrfProtection, ServicesController.update)
-    .get('/dashboard/services/:serviceName/tokens', ServicesController.getServiceData, csrfProtection, TokensController.index)
-    .post('/dashboard/services/:serviceName/tokens/:accessToken/destroy', ServicesController.getServiceData, TokensController.getTokenData, csrfProtection, TokensController.destroy);
+    .get('/dashboard/services/:serviceName/edit', csrfProtection, ServicesController.getServiceData, ServicesController.edit)
+    .post('/dashboard/services/:serviceName', csrfProtection, ServicesController.getServiceData, ServicesController.update)
+    .get('/dashboard/services/:serviceName/users', csrfProtection, ServicesController.getServiceData, ServicesController.users)
+    .get('/dashboard/services/:serviceName/tokens', csrfProtection, ServicesController.getServiceData, TokensController.index)
+    .post('/dashboard/services/:serviceName/tokens/:accessToken/destroy', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.destroy)
+    .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke);
 
   return router;
 };

@@ -50,14 +50,18 @@ function Server (options) {
       maxAge: 360000
     },
     proxy: true,
-    resave: true,
-    rolling: true,
+    resave: false,
     saveUninitialized: true,
     store: new MongoStore({
       url: options.dbHost,
       collection: 'sessions'
     })
   }));
+
+  app.use(function(req, res, next){
+    req.session.touch();
+    next();
+  });
 
   app.set('view engine', 'ejs');
   app.set('layout', 'layouts/dashboard');

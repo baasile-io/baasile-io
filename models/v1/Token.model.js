@@ -34,6 +34,7 @@ var tokenSchema = new mongoose.Schema({
   updatedAt: Date
 });
 
+
 function TokenModel(options) {
   options = options || {};
   const logger = options.logger;

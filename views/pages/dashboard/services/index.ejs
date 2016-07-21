@@ -1,1 +1,11 @@
-index
+<div class="ui container">
+  <h1>Mes services</h1>
+
+  <div class="ui fluid vertical menu">
+    <% data.user.services.forEach(function(service) { %>
+    <a class="item" href="/dashboard/services/<%= service.nameNormalized %>">
+      <h4 class="ui header"><%= service.name %></h4>
+    </a>
+    <% }) %>
+  </div>
+</div>

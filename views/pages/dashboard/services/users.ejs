@@ -1,0 +1,53 @@
+<div class="ui container">
+  <% include ./header %>
+
+  <% if (users.length > 0) { %>
+  <table class="ui celled table">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>E-Mail</th>
+      <th>Dernière connexion</th>
+      <th class="two wide"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% users.forEach(function(user) { %>
+      <tr class="<% if(user._id == data.user._id) { %>warning<% } %>">
+        <td class="three wide">
+          <%= user.lastname %>
+        </td>
+        <td class="three wide">
+          <%= user.firstname %>
+        </td>
+        <td>
+          <%= user.email %>
+        </td>
+        <td>
+          ---
+        </td>
+        <td>
+          <% if(user._id == data.user._id) { %>
+            OK
+          <% } else { %>
+            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/users/<%= user.email %>/destroy">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="ui tiny labeled icon button">
+                <i class="trash icon"></i>
+                Supprimer
+              </button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+  <% } else { %>
+  Aucun utilisateur n'est associé à ce service
+  <% } %>
+
+
+</div>

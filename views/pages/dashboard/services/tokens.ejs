@@ -1,8 +1,6 @@
 <div class="ui container">
   <% include ./header %>
 
-  <h2>Tokens</h2>
-
   <% if (tokens.length > 0) { %>
   <table class="ui celled table">
     <thead>
@@ -17,7 +15,7 @@
     </thead>
     <tbody>
     <% tokens.forEach(function(token) { %>
-      <tr class="<% if(token.accessTokenExpiresOn < now) { %><% } %>">
+      <tr class="<% if(token.accessTokenExpiresOn < now) { %>warning<% } %>">
         <td>
           <% if(token.accessTokenExpiresOn >= now) { %>
           <div class="ui ribbon label">Actif</div>
@@ -46,10 +44,13 @@
         </td>
         <td>
           <% if(token.accessTokenExpiresOn >= now) { %>
-            <button class="ui tiny labeled icon button">
-              <i class="pause icon"></i>
-              Révoquer
-            </button>
+            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/<%= token.accessToken %>/revoke">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="ui tiny labeled icon button">
+                <i class="pause icon"></i>
+                Révoquer
+              </button>
+            </form>
           <% } else { %>
             <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/<%= token.accessToken %>/destroy">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">

@@ -1,13 +1,22 @@
-<h1><%= data.service.name %></h1>
+<h1 class="ui header">
+  <i class="cube icon"></i>
+  <div class="content">
+    <%= data.service.name %>
+    <div class="sub header">Mode: Développement</div>
+  </div>
+</h1>
 <div class="ui pointing menu">
   <a class="item <% if (page === 'pages/dashboard/services/view') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>">
-    Statistiques
+    État
   </a>
   <a class="item <% if (page === 'pages/dashboard/services/edit') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/edit">
-    Paramètres
+    Modifier
+  </a>
+  <a class="item <% if (page === 'pages/dashboard/services/users') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/users">
+    Utilisateurs
   </a>
   <a class="item <% if (page === 'pages/dashboard/services/tokens') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
-    Tokens
+    Jetons
   </a>
   <a class="item">
     Données partagées

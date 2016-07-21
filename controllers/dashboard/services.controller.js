@@ -2,7 +2,8 @@
 
 const request = require('request'),
   serviceModel = require('../../models/v1/Service.model.js'),
-  tokenModel = require('../../models/v1/Token.model.js');
+  tokenModel = require('../../models/v1/Token.model.js'),
+  userModel = require('../../models/v1/User.model.js');
 
 module.exports = ServicesController;
 
@@ -11,28 +12,28 @@ function ServicesController(options) {
   const logger = options.logger;
   const ServiceModel = new serviceModel(options);
   const TokenModel = new tokenModel(options);
+  const UserModel = new userModel(options);
 
   this.index = function(req, res) {
     return res.render('pages/dashboard/services/index', {
       page: 'pages/dashboard/services/index',
-      query: {
-        service: {
-          name: '',
-          description: '',
-          website: '',
-          public: false
-        }
-      },
       data: req.data,
       flash: {}
     });
   };
 
   this.view = function(req, res) {
-    return res.render('pages/dashboard/services/view', {
-      page: 'pages/dashboard/services/view',
-      data: req.data,
-      flash: {}
+    TokenModel.io.count({
+      service: req.data.service
+    }, function(err, result) {
+      if (err)
+        return res.status(500).end();
+      return res.render('pages/dashboard/services/view', {
+        page: 'pages/dashboard/services/view',
+        data: req.data,
+        tokensCount: result,
+        flash: {}
+      });
     });
   };
 
@@ -62,6 +63,22 @@ function ServicesController(options) {
       },
       data: req.data,
       flash: {}
+    });
+  };
+
+  this.users = function(req, res) {
+    UserModel.io.find({
+      _id: {$in: req.data.service.users}
+    }, function(err, users) {
+      if (err)
+        res.status(500).end();
+      return res.render('pages/dashboard/services/users', {
+        page: 'pages/dashboard/services/users',
+        data: req.data,
+        csrfToken: req.csrfToken(),
+        users: users,
+        flash: {}
+      });
     });
   };
 

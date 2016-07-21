@@ -35,6 +35,16 @@ function TokensController(options) {
     });
   };
 
+  this.revoke = function(req, res) {
+    req.data.token.update({
+      accessTokenExpiresOn: new Date()
+    }, function(err) {
+      if (err)
+        return res.status(500).end();
+      return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+    });
+  };
+
   this.getTokenData = function(req, res, next) {
     TokenModel.io.findOne({
       service: req.data.service,
