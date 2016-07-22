@@ -20,7 +20,7 @@ var serviceSchema = new mongoose.Schema({
   },
   nameNormalized: {
     type: String,
-    required: true,
+    required: [true, 'Nom du service obligatoire'],
     unique: [true, 'Nom du service déjà utilisé']
   },
   description: {
@@ -56,6 +56,11 @@ var serviceSchema = new mongoose.Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'UserModel'
   }],
+  creator: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'UserModel',
+    required: true
+  },
   createdAt: {
     type: Date,
     required: true

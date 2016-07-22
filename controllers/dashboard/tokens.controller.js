@@ -45,6 +45,19 @@ function TokensController(options) {
     });
   };
 
+  this.generateTokenFromDashboard = function(req, res) {
+    request
+      .post({
+          url: 'http://localhost:' + options.address.port + '/api/oauth/token',
+          body: {client_secret: req.data.service.clientSecret},
+          json: true
+        },
+        function (error, response, body) {
+          return res.json(response).end();
+        });
+    //return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+  };
+
   this.getTokenData = function(req, res, next) {
     TokenModel.io.findOne({
       service: req.data.service,

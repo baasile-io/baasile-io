@@ -1,11 +1,44 @@
 <div class="ui container">
-  <h1>Mes services</h1>
-
-  <div class="ui fluid vertical menu">
-    <% data.user.services.forEach(function(service) { %>
-    <a class="item" href="/dashboard/services/<%= service.nameNormalized %>">
-      <h4 class="ui header"><%= service.name %></h4>
+  <h1 class="ui header">
+    <i class="cubes bordered icon"></i>
+    <div class="content">
+      Mes services
+      <div class="sub header">Créez et configurez vos services, contribuez à la révolution de l'État !</div>
+    </div>
+  </h1>
+  <div class="ui pointing menu">
+    <a class="active item" href="/dashboard/services/">
+      Mes services
     </a>
-    <% }) %>
+    <a class="item" href="/dashboard/services/new">
+      Ajouter un service
+    </a>
   </div>
+  <% if (services.length > 0) { %>
+  <table class="ui <% if (services.length > 1) { %>sortable<% } %> celled table">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Mode</th>
+      <th class="two wide"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% services.forEach(function(service) { %>
+    <tr>
+      <td><%= service.name %></td>
+      <td><%= service.description %></td>
+      <td>Développement</td>
+      <td>
+        <a href="/dashboard/services/<%= service.nameNormalized %>" class="ui tiny labeled icon button">
+          <i class="cube icon"></i>
+          Dashboard
+        </a>
+      </td>
+    </tr>
+    <% }); %>
+    </tbody>
+  </table>
+  <% } %>
 </div>

@@ -20,7 +20,7 @@ function Server (options) {
   options.logger = options.logger || emptylogger();
   options.db = options.db || mongodb.MongoClient;
   options.tokenExpiration = 20; //minutes
-  var logger = options.logger
+  var logger = options.logger;
   var app = express();
   app.set("port", options.port);
   app.disable('x-powered-by');
@@ -84,6 +84,7 @@ function Server (options) {
         logger.error({error: error}, 'Got error while starting server');
         return onStarted(error);
       }
+      options.address = server.address();
       self.port = server.address().port;
       app.set('port', self.port);
       logger.info({

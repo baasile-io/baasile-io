@@ -1,5 +1,5 @@
 <h1 class="ui header">
-  <i class="cube icon"></i>
+  <i class="cube bordered icon"></i>
   <div class="content">
     <%= data.service.name %>
     <div class="sub header">Mode: Développement</div>
@@ -13,7 +13,7 @@
     Modifier
   </a>
   <a class="item <% if (page === 'pages/dashboard/services/users') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/users">
-    Utilisateurs
+    Développeurs
   </a>
   <a class="item <% if (page === 'pages/dashboard/services/tokens') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
     Jetons

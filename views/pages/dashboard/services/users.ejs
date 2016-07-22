@@ -2,14 +2,14 @@
   <% include ./header %>
 
   <% if (users.length > 0) { %>
-  <table class="ui celled table">
+  <table class="ui <% if (users.length > 1) { %>sortable<% } %> celled table">
     <thead>
     <tr>
       <th>Nom</th>
       <th>Prénom</th>
       <th>E-Mail</th>
-      <th>Dernière connexion</th>
-      <th class="two wide"></th>
+      <th class="sort-by-date">Dernière connexion</th>
+      <th class="three wide"></th>
     </tr>
     </thead>
     <tbody>
@@ -18,26 +18,27 @@
         <td class="three wide">
           <%= user.lastname %>
         </td>
-        <td class="three wide">
-          <%= user.firstname %>
-        </td>
+        <td class="three wide"><%= user.firstname %></td>
+        <td><%= user.email %></td>
+        <td><% if (user.lastLoginAt) { %><%= user.lastLoginAt.toISOString() %><% } %></td>
         <td>
-          <%= user.email %>
-        </td>
-        <td>
-          ---
-        </td>
-        <td>
-          <% if(user._id == data.user._id) { %>
-            OK
+          <% if(user._id.toString() == data.user._id) { %>
+            <a href="/dashboard/account" class="ui fluid icon tiny labeled button">
+              <i class="user icon"></i>
+              Mon compte
+            </a>
           <% } else { %>
-            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/users/<%= user.email %>/destroy">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="ui tiny labeled icon button">
-                <i class="trash icon"></i>
-                Supprimer
-              </button>
-            </form>
+            <% if(user.id == data.service.creator) { %>
+              <div class="ui right ribbon label">Créateur</div>
+            <% } else { %>
+              <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/users/<%= user.email %>/destroy">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="ui fluid tiny labeled icon button">
+                  <i class="trash icon"></i>
+                  Supprimer
+                </button>
+              </form>
+            <% } %>
           <% } %>
         </td>
       </tr>
@@ -45,9 +46,28 @@
     </tbody>
   </table>
   <div class="divider"></div>
-  <% } else { %>
-  Aucun utilisateur n'est associé à ce service
   <% } %>
+  <div class="ui segment">
+    <form class="ui tiny form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/users">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <h4 class="ui dividing header">Ajouter un développeur</h4>
+      <p>
+        Fournissez un accès au tableau de bord de ce service à un développeur supplémentaire.<br />
+        L'utilisateur doit au préalable posséder un compte développeur sur l'API du CPA Store.
+      </p>
+      <div class="inline fields">
+        <div class="required field">
+          <label>E-mail du développeur</label>
+          <div class="ui action input">
+            <input type="text" name="user_email" value="<%= query.user_email %>" placeholder="E-Mail">
+            <button type="submit" class="ui button">Ajouter</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
 
 
 </div>

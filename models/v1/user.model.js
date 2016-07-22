@@ -31,6 +31,7 @@ var userSchema = new mongoose.Schema({
     required: [true, 'Mot de passe obligatoire'],
     minlength: [10, 'Le mot de passe doit comporter au minimum 10 caractères']
   },
+  lastLoginAt: Date,
   createdAt: {
     type: Date,
     required: true
@@ -44,6 +45,11 @@ function UserModel(options) {
 
   userSchema.pre('update', function(next) {
     this.options.runValidators = true;
+    next();
+  });
+
+  userSchema.pre('save', function(next) {
+    this.updatedAt = new Date();
     next();
   });
 

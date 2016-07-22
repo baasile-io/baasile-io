@@ -8,6 +8,8 @@ const express = require('express'),
 const router = express.Router();
 
 module.exports = function (options) {
+  options = options || {};
+  const logger = options.logger;
   const FcController = new fcController(options);
   const AuthController = new authController(options);
   const ServicesController = new servicesController(options);

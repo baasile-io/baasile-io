@@ -59,6 +59,7 @@
 
 <script src="/assets/jquery/jquery.min.js"></script>
 <script src="/semantic/dist/semantic.min.js"></script>
+<script src="/assets/plugins/tablesort.js"></script>
 
 <script>
   $(document)
@@ -69,6 +70,13 @@
 
       $('.ui.checkbox')
         .checkbox();
+
+      $('table.sortable').tablesort();
+
+      $('table.sortable thead th.sort-by-date').data('sortBy', function(th, td, tablesort) {
+        return new Date(td.text());
+      });
+
     });
 </script>
 <%- script %>

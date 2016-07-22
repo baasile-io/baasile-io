@@ -1,16 +1,21 @@
 <div class="ui container">
   <% include ./header %>
 
+  <div class="ui segment">
+    <form class="ui basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="submit" class="ui button" value="Générer un jeton"/>
+  </div>
   <% if (tokens.length > 0) { %>
-  <table class="ui celled table">
+  <table class="ui <% if (tokens.length > 1) { %>sortable<% } %> celled table">
     <thead>
     <tr>
       <th>État</th>
-      <th class="six wide">Token</th>
-      <th>Dernière utilisation</th>
-      <th>Expiration</th>
+      <th class="six wide no-sort">Token</th>
+      <th class="sort-by-date">Dernière utilisation</th>
+      <th class="sort-by-date">Expiration</th>
       <th>Stats</th>
-      <th class="two wide"></th>
+      <th class="two wide no-sort"></th>
     </tr>
     </thead>
     <tbody>
@@ -29,16 +34,8 @@
             <i class="file code outline icon"></i>
           </div>
         </td>
-        <td>
-          <% if (token.updatedAt || token.createdAt) { %>
-            <%= token.updatedAt ? token.updatedAt.toISOString() : token.createdAt.toISOString() %>
-          <% } %>
-        </td>
-        <td>
-          <% if (token.accessTokenExpiresOn) { %>
-            <%= token.accessTokenExpiresOn.toISOString() %>
-          <% } %>
-        </td>
+        <td><% if (token.updatedAt || token.createdAt) { %><%= token.updatedAt ? token.updatedAt.toISOString() : token.createdAt.toISOString() %><% } %></td>
+        <td><% if (token.accessTokenExpiresOn) { %><%= token.accessTokenExpiresOn.toISOString() %><% } %></td>
         <td>
           <%= token.nbOfUse %> time(s)
         </td>
@@ -67,7 +64,9 @@
   </table>
   <div class="divider"></div>
   <% } else { %>
-  Vous n'avez généré aucun token
+  <div class="ui segment">
+    Vous n'avez généré aucun jeton de connexion
+  </div>
   <% } %>
 
 

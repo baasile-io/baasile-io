@@ -73,7 +73,7 @@ exports.configure = function (app, http, options) {
     return next();
   });
 
-  app.use('/api/v1', v1(options));
+  app.use(['/api', '/api/v1'], v1(options));
 
   app.use('/api', function (responseParams, req, res, next) {
     const status = responseParams.code || 400;

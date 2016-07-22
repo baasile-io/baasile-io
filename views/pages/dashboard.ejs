@@ -3,12 +3,22 @@
 
   <div class="ui fluid vertical menu">
     <a class="item" href="/dashboard/account">
-      <h4 class="ui header">Mon compte</h4>
-      <p>Visualiser et modifier les données de votre compte API-CPA Store</p>
+      <h4 class="ui header">
+        <i class="user bordered icon"></i>
+        <div class="content">
+          Mon compte développeur
+          <div class="sub header">Visualisez et modifiez les données de votre compte API-CPA Store (<%= data.user.firstname %> <%= data.user.lastname %> - <%= data.user.email %>)</div>
+        </div>
+      </h4>
     </a>
     <a class="item" href="/dashboard/services">
-      <h4 class="ui header">Mes services</h4>
-      <p>Créez et configurer vos services</p>
+      <h4 class="ui header">
+        <i class="cubes bordered icon"></i>
+        <div class="content">
+          Mes services<% if(data.user.services.length > 0) { %> (<%= data.user.services.length %>)<% } %>
+          <div class="sub header">Créez et configurez vos services, contribuez à la révolution de l'État !</div>
+        </div>
+      </h4>
     </a>
   </div>
 </div>

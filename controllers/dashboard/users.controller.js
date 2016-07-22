@@ -61,13 +61,18 @@ function AccountsController(options) {
           }
         });
       }
-      req.session.user = user;
-      req.session.save(function(err) {
+      user.lastLoginAt = new Date();
+      user.save(function(err) {
         if (err)
-          res.status(500).end();
+          return res.status(500).end();
+        req.session.user = user;
+        req.session.save(function(err) {
+          if (err)
+            return res.status(500).end();
+          logger.info('user logged in: ' + user.email);
+          return res.redirect('/dashboard');
+        });
       });
-      logger.info('user logged in: ' + user.email);
-      res.redirect('/dashboard');
     });
   }
 
@@ -109,7 +114,8 @@ function AccountsController(options) {
       firstname: user_firstname,
       lastname: user_lastname,
       email: user_email,
-      password: hashedPassword
+      password: hashedPassword,
+      createdAt: new Date()
     };
 
     UserModel.io.create(userInfo, function(err, user) {
