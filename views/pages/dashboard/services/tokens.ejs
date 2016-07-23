@@ -5,6 +5,7 @@
     <form class="ui basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <input type="submit" class="ui button" value="Générer un jeton"/>
+    </form>
   </div>
   <% if (tokens.length > 0) { %>
   <table class="ui <% if (tokens.length > 1) { %>sortable<% } %> celled table">
@@ -43,7 +44,7 @@
           <% if(token.accessTokenExpiresOn >= now) { %>
             <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/<%= token.accessToken %>/revoke">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="ui tiny labeled icon button">
+              <button type="submit" class="ui tiny fluid labeled icon button">
                 <i class="pause icon"></i>
                 Révoquer
               </button>
@@ -51,7 +52,7 @@
           <% } else { %>
             <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/<%= token.accessToken %>/destroy">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="ui tiny labeled icon button">
+              <button type="submit" class="ui tiny fluid labeled icon button">
                 <i class="trash icon"></i>
                 Supprimer
               </button>

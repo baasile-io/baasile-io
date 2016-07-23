@@ -4,11 +4,29 @@
     <i class="warning icon"></i>
     <div class="content">
       <div class="header">
-        L'opération n'a pas pu être effectué
+        L'opération n'a pas pu être effectuée
       </div>
       <ul class="list">
         <% flash.errors.forEach(function(err) { %>
         <li><%= err %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<% if (typeof flash != 'undefined' && typeof flash.success == 'object' && flash.success.length > 0) { %>
+<div class="ui flash container">
+  <div class="ui success icon message">
+    <i class="checkmark icon"></i>
+    <div class="content">
+      <div class="header">
+        L'opération a bien été effectuée
+      </div>
+      <ul class="list">
+        <% flash.success.forEach(function(msg) { %>
+        <li><%= msg %></li>
         <% }); %>
       </ul>
     </div>

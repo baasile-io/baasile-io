@@ -4,7 +4,8 @@ const request = require('request'),
   _ = require('lodash'),
   serviceModel = require('../../models/v1/Service.model.js'),
   tokenModel = require('../../models/v1/Token.model.js'),
-  userModel = require('../../models/v1/User.model.js');
+  userModel = require('../../models/v1/User.model.js'),
+  flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = ServicesController;
 
@@ -14,6 +15,7 @@ function ServicesController(options) {
   const ServiceModel = new serviceModel(options);
   const TokenModel = new tokenModel(options);
   const UserModel = new userModel(options);
+  const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
     ServiceModel.io.find({
@@ -27,7 +29,7 @@ function ServicesController(options) {
         page: 'pages/dashboard/services/index',
         data: req.data,
         services: services,
-        flash: {}
+        flash: res._flash
       });
     });
   };
@@ -42,7 +44,7 @@ function ServicesController(options) {
         page: 'pages/dashboard/services/view',
         data: req.data,
         tokensCount: result,
-        flash: {}
+        flash: res._flash
       });
     });
   };
@@ -55,7 +57,7 @@ function ServicesController(options) {
         service: req.data.service
       },
       data: req.data,
-      flash: {}
+      flash: res._flash
     });
   };
 
@@ -72,7 +74,7 @@ function ServicesController(options) {
         }
       },
       data: req.data,
-      flash: {}
+      flash: res._flash
     });
   };
 
@@ -90,7 +92,7 @@ function ServicesController(options) {
         query: {
           user_email: ""
         },
-        flash: {}
+        flash: res._flash
       });
     });
   };
@@ -108,7 +110,7 @@ function ServicesController(options) {
       else {
         if (user.email == req.data.user.email)
           errors.push('Vous ne pouvez pas vous inviter vous-même !');
-        if (_.indexOf(req.data.service.users, user.id) > 0)
+        if (_.find(req.data.service.users, function(o) { return o == user.id }))
           errors.push('Cet utilisateur est déjà associé à ce service');
       }
       UserModel.io.find({
@@ -117,11 +119,15 @@ function ServicesController(options) {
         if (err)
           res.status(500).end();
         if (errors.length == 0) {
-          req.data.service.users.push(user);
-          req.data.service.save(function(err) {
+          FlashHelper.addSuccess(req.session, 'L\'utilisateur a bien été ajouté', function(err) {
             if (err)
-              return res.status(500).json(err).end();
-            return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/users');
+              return res.status(500).end();
+            req.data.service.users.push(user);
+            req.data.service.save(function (err) {
+              if (err)
+                return res.status(500).json(err).end();
+              return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/users');
+            });
           });
         } else {
           return res.render('pages/dashboard/services/users', {
@@ -162,11 +168,12 @@ function ServicesController(options) {
   };
 
   this.create = function(req, res) {
+    const serviceName = _.trim(req.body.service_name);
     const serviceInfo = {
-      name: req.body.service_name,
-      nameNormalized: ServiceModel.getNormalizedName(req.body.service_name),
-      description: req.body.service_description,
-      website: req.body.service_website,
+      name: serviceName,
+      nameNormalized: ServiceModel.getNormalizedName(serviceName),
+      description: _.trim(req.body.service_description),
+      website: _.trim(req.body.service_website),
       public: req.body.service_public === 'true',
       users: [{_id: req.data.user._id}],
       clientSecret: ServiceModel.generateSecret(),
@@ -201,12 +208,13 @@ function ServicesController(options) {
     });
   };
 
-  this.update = function(req, res) {
+  this.update = function(req, res, next) {
+    const serviceName = _.trim(req.body.service_name);
     const serviceInfo = {
-      name: req.body.service_name,
-      nameNormalized: ServiceModel.getNormalizedName(req.body.service_name),
-      description: req.body.service_description,
-      website: req.body.service_website,
+      name: serviceName,
+      nameNormalized: ServiceModel.getNormalizedName(serviceName),
+      description: _.trim(req.body.service_description),
+      website: _.trim(req.body.service_website),
       public: req.body.service_public === 'true'
     };
     ServiceModel.io.update({
@@ -237,7 +245,11 @@ function ServicesController(options) {
         });
       }
       logger.info('service updated: ' + serviceInfo.name);
-      res.redirect('/dashboard/services/' + serviceInfo.nameNormalized);
+      FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
+        if (err)
+          return next({code: 500});
+        res.redirect('/dashboard/services/' + serviceInfo.nameNormalized);
+      });
     });
   };
 

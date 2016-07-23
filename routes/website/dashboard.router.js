@@ -5,7 +5,8 @@ const express = require('express'),
   usersController = require('../../controllers/dashboard/users.controller.js'),
   dashboardController = require('../../controllers/dashboard/dashboard.controller.js'),
   servicesController = require('../../controllers/dashboard/services.controller.js'),
-  tokensController = require('../../controllers/dashboard/tokens.controller.js');
+  tokensController = require('../../controllers/dashboard/tokens.controller.js'),
+  flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
 
@@ -17,14 +18,26 @@ module.exports = function (options) {
   const DashboardController = new dashboardController(options);
   const ServicesController = new servicesController(options);
   const TokensController = new tokensController(options);
+  const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
     if (req.session.user == null) {
-      logger.info("this area is restricted to members");
-      return res.redirect('/login');
+      return FlashHelper.addParam(req.session, 'redirect_uri', req.originalUrl, function(err) {
+        return res.redirect('/login');
+      });
     }
     UsersController.getUserData(req, res, next);
   }
+
+  /* flash messages */
+  router.all('/*', function(req, res, next) {
+    FlashHelper.get(req.session, function(err, flash) {
+      if (err)
+        next(err);
+      res._flash = flash;
+      next();
+    });
+  });
 
   /* public pages */
   router.get('/', function(req, res) {

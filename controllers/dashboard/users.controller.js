@@ -23,7 +23,7 @@ function AccountsController(options) {
       query: {
         user: {}
       },
-      flash: {}
+      flash: res._flash
     });
   }
 
@@ -33,6 +33,7 @@ function AccountsController(options) {
     }
     const user_email = req.body.user_email;
     const password = req.body.user_password;
+    var redirect_uri = req.body.redirect_uri;
 
     // check form fields here
 
@@ -54,7 +55,8 @@ function AccountsController(options) {
           query: {
             user: {
               email: user_email
-            }
+            },
+            redirect_uri: redirect_uri
           },
           flash: {
             errors: errors
@@ -70,7 +72,9 @@ function AccountsController(options) {
           if (err)
             return res.status(500).end();
           logger.info('user logged in: ' + user.email);
-          return res.redirect('/dashboard');
+          if (!redirect_uri || redirect_uri == '')
+            redirect_uri = '/dashboard';
+          return res.redirect(redirect_uri);
         });
       });
     });
@@ -81,7 +85,7 @@ function AccountsController(options) {
       page: 'pages/users/account',
       query: {},
       data: req.data,
-      flash: {}
+      flash: res._flash
     });
   }
 
@@ -97,7 +101,7 @@ function AccountsController(options) {
       query: {
         user: {}
       },
-      flash: {}
+      flash: res._flash
     });
   }
 

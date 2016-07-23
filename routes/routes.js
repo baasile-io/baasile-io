@@ -1,7 +1,8 @@
 'use strict';
 
 const v1 = require('./api/v1/index.js'),
-  dashboard = require('./dashboard/dashboard.router.js'),
+  dashboard = require('./website/dashboard.router.js'),
+  documentation = require('./website/documentation.router.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   StandardError = require('standard-error'),
@@ -112,4 +113,30 @@ exports.configure = function (app, http, options) {
   // rendering views
   app.use(cookieParser());
   app.use('/', dashboard(options));
+  app.use('/doc', documentation(options));
+
+  /* errors handler */
+  app
+    .use(function(err, req, res, next) {
+      const status = err.code || err.status || 404;
+      logger.warn('an error occured in dashboard (code: ' + status + ')');
+      return res.render('pages/errors/error500', {
+        page: 'pages/errors/error500',
+        layout: 'layouts/error',
+        data: req.data,
+        flash: res._flash
+      });
+    });
+
+  app
+    .use(function(req, res) {
+      const status = 404;
+      logger.warn('an error occured in dashboard (code: ' + status + ')');
+      return res.render('pages/errors/error404', {
+        page: 'pages/errors/error404',
+        layout: 'layouts/error',
+        data: req.data,
+        flash: res._flash
+      });
+    });
 };

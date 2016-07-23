@@ -11,7 +11,7 @@ function DashboardController(options) {
       page: 'pages/dashboard',
       query: {},
       data: req.data,
-      flash: {}
+      flash: res._flash
     });
   }
 }

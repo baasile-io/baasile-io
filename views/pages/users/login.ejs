@@ -2,6 +2,7 @@
   <div class="column">
     <form class="ui large basic form" method="post" action="/login">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="redirect_uri" value="<%= flash.params && flash.params.redirect_uri ? flash.params.redirect_uri : query.redirect_uri %>">
       <div class="ui segment left aligned">
         <h2 class="ui teal image header">
           <img src="/assets/logo/api-cpa-logo-transparent.png" class="image">

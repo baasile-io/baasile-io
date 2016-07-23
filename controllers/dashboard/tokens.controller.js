@@ -1,7 +1,8 @@
 'use strict';
 
 const request = require('request'),
-  tokenModel = require('../../models/v1/Token.model.js');
+  tokenModel = require('../../models/v1/Token.model.js'),
+  flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = TokensController;
 
@@ -9,6 +10,7 @@ function TokensController(options) {
   options = options || {};
   const logger = options.logger;
   const TokenModel = new tokenModel(options);
+  const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
     TokenModel.io.find({service: req.data.service})
@@ -22,7 +24,7 @@ function TokensController(options) {
           data: req.data,
           tokens: tokens,
           now: new Date(),
-          flash: {}
+          flash: res._flash
         });
       });
   };
@@ -49,13 +51,30 @@ function TokensController(options) {
     request
       .post({
           url: 'http://localhost:' + options.address.port + '/api/oauth/token',
-          body: {client_secret: req.data.service.clientSecret},
-          json: true
+          body: {
+            client_secret: req.data.service.clientSecret,
+            client_id: req.data.service.clientId
+          },
+          json: true,
+          headers: {
+            'Content-Type': 'application/vnd.api+json',
+            'Accept': 'application/vnd.api+json'
+          }
         },
         function (error, response, body) {
-          return res.json(response).end();
+          if (response.statusCode == 200) {
+            return FlashHelper.addSuccess(req.session, 'Le jeton a bien été créé', function (err) {
+              if (err)
+                return res.status(500).end();
+              return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+            });
+          }
+          FlashHelper.addError(req.session, body.errors, function(err) {
+            if (err)
+              return res.status(500).end();
+            return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+          });
         });
-    //return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
   };
 
   this.getTokenData = function(req, res, next) {
