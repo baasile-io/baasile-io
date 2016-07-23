@@ -1,11 +1,19 @@
 <div class="ui container">
-  <% include ./header %>
+  <% include ../services/header %>
 
   <div class="ui segment">
-    <form class="ui basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <input type="submit" class="ui button" value="Générer un jeton"/>
-    </form>
+    <button class="ui button" id="show_client_id_btn">
+      <i class="lock icon"></i>
+      Afficher la clef publique
+    </button>
+    <button class="ui button" id="show_client_secret_btn">
+      <i class="lock icon"></i>
+      Afficher la clef secrète
+    </button>
+    <button class="ui button" id="generate_token_btn">
+      <i class="add icon"></i>
+      Générer un jeton
+    </button>
   </div>
   <% if (tokens.length > 0) { %>
   <table class="ui <% if (tokens.length > 1) { %>sortable<% } %> celled table">
@@ -71,4 +79,29 @@
   <% } %>
 
 
+  <form id="generate_token_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  </form>
+  <form id="show_client_secret_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientSecret">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
+  </form>
+  <form id="show_client_id_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientId">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
+  </form>
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('#generate_token_btn').on('click', function(e) {
+      document.getElementById('generate_token_form').submit();
+    });
+    $('#show_client_secret_btn').on('click', function(e) {
+      document.getElementById('show_client_secret_form').submit();
+    });
+    $('#show_client_id_btn').on('click', function(e) {
+      document.getElementById('show_client_id_form').submit();
+    });
+  });
+</script>

@@ -6,6 +6,7 @@ const express = require('express'),
   dashboardController = require('../../controllers/dashboard/dashboard.controller.js'),
   servicesController = require('../../controllers/dashboard/services.controller.js'),
   tokensController = require('../../controllers/dashboard/tokens.controller.js'),
+  routesController = require('../../controllers/dashboard/routes.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -18,6 +19,7 @@ module.exports = function (options) {
   const DashboardController = new dashboardController(options);
   const ServicesController = new servicesController(options);
   const TokensController = new tokensController(options);
+  const RoutesController = new routesController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -73,7 +75,15 @@ module.exports = function (options) {
     .post('/dashboard/services/:serviceName/users', csrfProtection, ServicesController.getServiceData, ServicesController.inviteUser)
     .post('/dashboard/services/:serviceName/users/:userEmail/destroy', csrfProtection, ServicesController.getServiceData, ServicesController.revokeUser)
     .get('/dashboard/services/:serviceName/tokens', csrfProtection, ServicesController.getServiceData, TokensController.index)
+    .get('/dashboard/services/:serviceName/routes', csrfProtection, ServicesController.getServiceData, RoutesController.index)
+    .post('/dashboard/services/:serviceName/routes', csrfProtection, ServicesController.getServiceData, RoutesController.create)
+    .get('/dashboard/services/:serviceName/routes/new', csrfProtection, ServicesController.getServiceData, RoutesController.new)
+    .get('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.view)
+    .get('/dashboard/services/:serviceName/routes/:routeName/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.edit)
+    .post('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.update)
     .post('/dashboard/services/:serviceName/tokens/generate', csrfProtection, ServicesController.getServiceData, TokensController.generateTokenFromDashboard)
+    .post('/dashboard/services/:serviceName/clientSecret', csrfProtection, ServicesController.getServiceData, ServicesController.showClientSecretFromDashboard)
+    .post('/dashboard/services/:serviceName/clientId', csrfProtection, ServicesController.getServiceData, ServicesController.showClientIdFromDashboard)
     .post('/dashboard/services/:serviceName/tokens/:accessToken/destroy', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.destroy)
     .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke);
 

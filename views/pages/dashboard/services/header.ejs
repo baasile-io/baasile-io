@@ -12,13 +12,13 @@
   <a class="item <% if (page === 'pages/dashboard/services/edit') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/edit">
     Modifier
   </a>
-  <a class="item <% if (page === 'pages/dashboard/services/users') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/users">
+  <a class="item <% if (page.indexOf('pages/dashboard/users/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/users">
     Développeurs
   </a>
-  <a class="item <% if (page === 'pages/dashboard/services/tokens') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
+  <a class="item <% if (page.indexOf('pages/dashboard/tokens/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
     Jetons
   </a>
-  <a class="item">
+  <a class="item <% if (page.indexOf('pages/dashboard/routes/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">
     Données partagées
   </a>
 </div>

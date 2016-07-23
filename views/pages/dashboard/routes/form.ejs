@@ -1,0 +1,38 @@
+<form class="ui large basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes<% if (typeof data.route != 'undefined') { %>/<%= data.route.nameNormalized %><% } %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="required field">
+    <label>Nom de la donnée</label>
+    <div class="ui left icon input">
+      <i class="database icon"></i>
+      <input type="text" name="route_name" value="<%= query.route.name %>" placeholder="Nom de la donnée">
+    </div>
+  </div>
+  <div class="field">
+    <label>Donnée identifiée</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="route_fc_required" class="hidden" <% if (query.route.fcRequired === true) { %>checked="checked"<% } %>>
+      <label>Cette donnée nécessite un jeton FranceConnect valide</label>
+    </div>
+  </div>
+  <div class="required field">
+    <label>Description</label>
+    <textarea rows="5" name="route_description"><%= query.route.description %></textarea>
+  </div>
+  <div class="field">
+    <label>Visibilité</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="route_public" class="hidden" <% if (query.route.public === true) { %>checked="checked"<% } %>>
+      <label>Référencer la donnée sur l'API du CPA Store</label>
+    </div>
+  </div>
+
+  <div class="ui submit button" tabindex="0">
+    <% if (typeof query.route._id == 'undefined') { %>
+    Ajouter la donnée partagée
+    <% } else { %>
+    Enregistrer les modifications
+    <% } %>
+  </div>
+
+</form>

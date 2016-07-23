@@ -84,8 +84,8 @@ function ServicesController(options) {
     }, function(err, users) {
       if (err)
         res.status(500).end();
-      return res.render('pages/dashboard/services/users', {
-        page: 'pages/dashboard/services/users',
+      return res.render('pages/dashboard/users/index', {
+        page: 'pages/dashboard/users/index',
         data: req.data,
         csrfToken: req.csrfToken(),
         users: users,
@@ -130,8 +130,8 @@ function ServicesController(options) {
             });
           });
         } else {
-          return res.render('pages/dashboard/services/users', {
-            page: 'pages/dashboard/services/users',
+          return res.render('pages/dashboard/users/index', {
+            page: 'pages/dashboard/users/index',
             csrfToken: req.csrfToken(),
             data: req.data,
             users: users,
@@ -153,15 +153,15 @@ function ServicesController(options) {
       email: userEmail
     }, function(err, user) {
       if (err)
-        return res.status(500).end();
+        return next({code: 500});
       if (user.id == req.data.service.creator.toString())
         return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/users');
       req.data.service.users = _.filter(req.data.service.users, function(o) { return user.id != o });
       if (req.data.service.users.length == 0)
-        return res.status(500).end();
+        return next({code: 500});
       req.data.service.save(function (err) {
         if (err)
-          return res.status(500).end();
+          return next({code: 500});
         return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/users');
       });
     });
@@ -253,6 +253,40 @@ function ServicesController(options) {
     });
   };
 
+  this.showClientSecretFromDashboard = function(req, res, next) {
+    FlashHelper.addSuccess(req.session, {
+      title: 'Voici la clé secrète du service "' + req.data.service.name + '":',
+      icon: 'lock',
+      messages: [
+        req.data.service.clientSecret
+      ]
+    }, function (err) {
+      if (err)
+        return next({code: 500});
+      var redirect_url = req.body.redirect_url;
+      if (!redirect_url || redirect_url == '')
+        redirect_url = '/dashboard/services/' + req.data.service.nameNormalized;
+      return res.redirect(redirect_url);
+    });
+  };
+
+  this.showClientIdFromDashboard = function(req, res, next) {
+    FlashHelper.addSuccess(req.session, {
+      title: 'Voici la clé publique du service "' + req.data.service.name + '":',
+      icon: 'lock',
+      messages: [
+        req.data.service.clientId
+      ]
+    }, function (err) {
+      if (err)
+        return next({code: 500});
+      var redirect_url = req.body.redirect_url;
+      if (!redirect_url || redirect_url == '')
+        redirect_url = '/dashboard/services/' + req.data.service.nameNormalized;
+      return res.redirect(redirect_url);
+    });
+  };
+
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
       users: {
@@ -261,9 +295,9 @@ function ServicesController(options) {
       nameNormalized: req.params.serviceName
     }, function(err, service) {
       if (err)
-        return res.status(500).end();
+        return next({code: 500});
       if (!service)
-        return res.status(401).end();
+        return next({code: 404});
       req.data = req.data || {};
       req.data.service = service;
       return next();

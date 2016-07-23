@@ -1,35 +1,51 @@
 <% if (typeof flash != 'undefined' && typeof flash.errors == 'object' && flash.errors.length > 0) { %>
-<div class="ui flash container">
-  <div class="ui error icon message">
-    <i class="warning icon"></i>
-    <div class="content">
-      <div class="header">
-        L'opération n'a pas pu être effectuée
+  <div class="ui flash container">
+    <div class="ui error icon message">
+      <i class="warning icon"></i>
+      <div class="content">
+        <div class="header">
+          L'opération n'a pas pu être effectuée
+        </div>
+        <ul class="list">
+          <% flash.errors.forEach(function(err) { %>
+          <li><%= err %></li>
+          <% }); %>
+        </ul>
       </div>
-      <ul class="list">
-        <% flash.errors.forEach(function(err) { %>
-        <li><%= err %></li>
-        <% }); %>
-      </ul>
     </div>
   </div>
-</div>
 <% } %>
 
-<% if (typeof flash != 'undefined' && typeof flash.success == 'object' && flash.success.length > 0) { %>
-<div class="ui flash container">
-  <div class="ui success icon message">
-    <i class="checkmark icon"></i>
-    <div class="content">
-      <div class="header">
-        L'opération a bien été effectuée
-      </div>
-      <ul class="list">
-        <% flash.success.forEach(function(msg) { %>
-        <li><%= msg %></li>
-        <% }); %>
-      </ul>
+<% if (typeof flash != 'undefined' && typeof flash.success == 'object') { %>
+  <div class="ui flash container">
+    <div class="ui success icon message">
+      <% if (Array.isArray(flash.success)) { %>
+        <% if (flash.success.length > 0) { %>
+          <i class="checkmark icon"></i>
+          <div class="content">
+            <div class="header">
+              L'opération a bien été effectuée
+            </div>
+            <ul class="list">
+              <% flash.success.forEach(function(msg) { %>
+              <li><%= msg %></li>
+              <% }); %>
+            </ul>
+          </div>
+        <% } %>
+      <% } else if (typeof flash.success == 'object') { %>
+        <i class="<%= flash.success.icon || 'checkmark' %> icon"></i>
+        <div class="content">
+          <div class="header">
+            <%= flash.success.title %>
+          </div>
+          <ul class="list">
+            <% flash.success.messages.forEach(function(msg) { %>
+            <li><%= msg %></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% } %>
     </div>
   </div>
-</div>
 <% } %>

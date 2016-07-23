@@ -12,7 +12,6 @@ function FlashHelper(options) {
     const flash = session.flash || {};
     session.flash = null;
     session.save(function(err) {
-      logger.info(JSON.stringify(flash));
       callback(err, flash);
     });
   };
@@ -31,11 +30,15 @@ function FlashHelper(options) {
 
   this.addSuccess = function(session, msg, callback) {
     session.flash = session.flash || {};
-    session.flash.success = session.flash.success || [];
-    if (Array.isArray(msg))
-      _.merge(session.flash.success, msg);
-    else
-      session.flash.success.push(msg);
+    if (!Array.isArray(msg) && typeof msg == 'object')
+      session.flash.success = msg;
+    else {
+      session.flash.success = session.flash.success || [];
+      if (Array.isArray(msg))
+        _.merge(session.flash.success, msg);
+      else
+        session.flash.success.push(msg);
+    }
     session.save(function(err) {
       callback(err);
     });

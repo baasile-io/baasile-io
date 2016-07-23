@@ -118,7 +118,9 @@ exports.configure = function (app, http, options) {
   /* errors handler */
   app
     .use(function(err, req, res, next) {
-      const status = err.code || err.status || 404;
+      const status = err.code || err.status || err.statusCode || 500;
+      if (status == 404)
+        return next();
       logger.warn('an error occured in dashboard (code: ' + status + ')');
       return res.render('pages/errors/error500', {
         page: 'pages/errors/error500',

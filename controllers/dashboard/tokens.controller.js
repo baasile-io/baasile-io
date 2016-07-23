@@ -18,8 +18,8 @@ function TokensController(options) {
       .exec(function(err, tokens) {
         if (err)
           next(err);
-        return res.render('pages/dashboard/services/tokens', {
-          page: 'pages/dashboard/services/tokens',
+        return res.render('pages/dashboard/tokens/index', {
+          page: 'pages/dashboard/tokens/index',
           csrfToken: req.csrfToken(),
           data: req.data,
           tokens: tokens,
@@ -63,7 +63,7 @@ function TokensController(options) {
         },
         function (error, response, body) {
           if (response.statusCode == 200) {
-            return FlashHelper.addSuccess(req.session, 'Le jeton a bien été créé', function (err) {
+            return FlashHelper.addSuccess(req.session, {title: 'Le jeton a bien été créé', messages: [body.data.attributes.access_token, 'Date d\'expiration: ' + body.data.attributes.expires_on]}, function (err) {
               if (err)
                 return res.status(500).end();
               return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
