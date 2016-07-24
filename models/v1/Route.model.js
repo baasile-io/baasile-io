@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose'),
+  removeDiacritics = require('diacritics').remove,
   serviceModel = require('./Service.model.js'),
   crypto = require('crypto');
 
@@ -86,6 +87,6 @@ function RouteModel(options) {
   };
 
   this.getNormalizedName = function(name) {
-    return name.toLowerCase().replace(/ /g, '-');
+    return removeDiacritics(name.toLowerCase().replace(/ /g, '-'));
   };
 };

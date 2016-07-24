@@ -3,6 +3,7 @@
 const request = require('request'),
   _ = require('lodash'),
   routeModel = require('../../models/v1/Route.model.js'),
+  fieldModel = require('../../models/v1/Field.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = RoutesController;
@@ -11,6 +12,7 @@ function RoutesController(options) {
   options = options || {};
   const logger = options.logger;
   const RouteModel = new routeModel(options);
+  const FieldModel = new fieldModel(options);
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
@@ -62,7 +64,6 @@ function RoutesController(options) {
     };
 
     RouteModel.io.create(routeData, function(err, route) {
-      logger.info(JSON.stringify(err));
       if (err) {
 
         return res.render('pages/dashboard/routes/new', {
@@ -110,6 +111,7 @@ function RoutesController(options) {
 
   this.update = function(req, res, next) {
     const routeName = _.trim(req.body.route_name);
+    const routeNameNormalized = RouteModel.getNormalizedName(routeName);
     const routeDescription = _.trim(req.body.route_description);
     const routePublic = req.body.route_public === 'true';
     const routeFcRequired = req.body.route_fc_required === 'true';
@@ -117,7 +119,7 @@ function RoutesController(options) {
     const routeData = {
       description: routeDescription,
       name: routeName,
-      nameNormalized: RouteModel.getNormalizedName(routeName),
+      nameNormalized: routeNameNormalized,
       fcRequired: routeFcRequired,
       public: routePublic
     };
@@ -144,12 +146,11 @@ function RoutesController(options) {
       FlashHelper.addSuccess(req.session, 'La donnée a bien été mise à jour', function(err) {
         if (err)
           return next({code: 500});
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes');
+        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + routeNameNormalized);
       });
     });
   };
-
-
+  
   this.getRouteData = function(req, res, next) {
     RouteModel.io.findOne({
       service: req.data.service,
@@ -161,7 +162,14 @@ function RoutesController(options) {
         return next({code: 404});
       req.data = req.data || {};
       req.data.route = route;
-      return next();
+      FieldModel.io.find({route: route})
+        .sort({order: 1})
+        .exec(function(err, fields) {
+          if (err)
+            return next({code: 500});
+          req.data.route.fields = fields;
+          return next();
+        });
     });
   };
 };

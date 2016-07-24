@@ -7,6 +7,7 @@ const express = require('express'),
   servicesController = require('../../controllers/dashboard/services.controller.js'),
   tokensController = require('../../controllers/dashboard/tokens.controller.js'),
   routesController = require('../../controllers/dashboard/routes.controller.js'),
+  fieldsController = require('../../controllers/dashboard/fields.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -20,6 +21,7 @@ module.exports = function (options) {
   const ServicesController = new servicesController(options);
   const TokensController = new tokensController(options);
   const RoutesController = new routesController(options);
+  const FieldsController = new fieldsController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -81,6 +83,13 @@ module.exports = function (options) {
     .get('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.view)
     .get('/dashboard/services/:serviceName/routes/:routeName/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.edit)
     .post('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.update)
+    .get('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.index)
+    .get('/dashboard/services/:serviceName/routes/:routeName/fields/new', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.new)
+    .post('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.create)
+    .get('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.edit)
+    .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.update)
+    .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/up', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.up)
+    .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/down', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.down)
     .post('/dashboard/services/:serviceName/tokens/generate', csrfProtection, ServicesController.getServiceData, TokensController.generateTokenFromDashboard)
     .post('/dashboard/services/:serviceName/clientSecret', csrfProtection, ServicesController.getServiceData, ServicesController.showClientSecretFromDashboard)
     .post('/dashboard/services/:serviceName/clientId', csrfProtection, ServicesController.getServiceData, ServicesController.showClientIdFromDashboard)

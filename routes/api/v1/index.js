@@ -23,6 +23,7 @@ module.exports = function (options) {
   router.post('/oauth/token', AuthController.authenticate);
   router.get('/fc/formation', AuthController.authorize, FcController.getFormation);
   router.get('/services', AuthController.authorize, ServicesController.getServices);
+  router.get('/services/:serviceId/donnees_partagees', AuthController.authorize, ServicesController.getServiceData, ServicesController.getSharedRoutes);
 
   return router;
 };

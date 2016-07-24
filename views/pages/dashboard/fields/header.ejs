@@ -1,0 +1,15 @@
+<% if (data.field) { %>
+<h4 class="ui header">
+  <i class="<%= data.field.completeType.icon %> bordered icon"></i>
+  <div class="content">
+    <%= data.field.name %>
+  </div>
+</h4>
+<% } else { %>
+<h4 class="ui header">
+  <i class="add bordered icon"></i>
+  <div class="content">
+    Ajouter un champ
+  </div>
+</h4>
+<% } %>

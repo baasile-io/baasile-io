@@ -5,11 +5,6 @@
   <a class="<% if (page === 'pages/dashboard/routes/new') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/new">
     Créer une nouvelle donnée
   </a>
-  <% if (page === 'pages/dashboard/routes/edit') { %>
-  <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/edit">
-    Éditer
-  </a>
-  <% } %>
 </div>
 <% if (data.route) { %>
 <h4 class="ui header">
@@ -18,6 +13,17 @@
     <%= data.route.name %>
   </div>
 </h4>
+<div class="ui pointing menu">
+  <a class="<% if (page === 'pages/dashboard/routes/view') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>">
+    État
+  </a>
+  <a class="<% if (page === 'pages/dashboard/routes/edit') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/edit">
+    Modifier
+  </a>
+  <a class="<% if (page.indexOf('pages/dashboard/fields') == 0) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields">
+    Champs
+  </a>
+</div>
 <% } %>
 <% if (page === 'pages/dashboard/routes/new') { %>
 <h4 class="ui header">

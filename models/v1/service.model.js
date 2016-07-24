@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose'),
+  removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
   crypto = require('crypto');
 
@@ -13,7 +14,7 @@ var serviceSchema = new mongoose.Schema({
     unique: [true, 'Nom du service déjà utilisé'],
     validate: {
       validator: function (name) {
-        return validator.isWhitelisted(name.toLowerCase(), 'abcdefghijklmnopqrstuvwxyz0123456789- ');
+        return validator.isWhitelisted(name.toLowerCase(), 'abcdefghijklmnopqrstuvwxyz0123456789- ùûüÿàâçéèêëïîô');
       },
       message: 'Le nom du service doit uniquement comporter des chiffres, des lettres, des espaces et des caractères `-`'
     }
@@ -98,6 +99,6 @@ function ServiceModel(options) {
   };
 
   this.getNormalizedName = function(name) {
-    return name.toLowerCase().replace(/ /g, '-');
+    return removeDiacritics(name.toLowerCase().replace(/ /g, '-'));
   };
 };

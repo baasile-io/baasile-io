@@ -47,11 +47,12 @@ function Server (options) {
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {
-      maxAge: 360000
+      maxAge: 700000
     },
     proxy: true,
     resave: false,
     saveUninitialized: true,
+    rolling: true,
     store: new MongoStore({
       url: options.dbHost,
       collection: 'sessions'

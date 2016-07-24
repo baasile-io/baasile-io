@@ -1,0 +1,50 @@
+<form class="ui basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields<% if (typeof data.field != 'undefined') { %>/<%= data.field.fieldId %><% } %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="two fields">
+    <div class="required field">
+      <label>Type</label>
+      <div class="ui fluid search selection dropdown">
+        <input type="hidden" name="field_type" value="<%= query.field.type %>">
+        <i class="dropdown icon"></i>
+        <div class="default text">Sélectionnez un type</div>
+        <div class="menu">
+          <% fieldTypes.forEach(function(type) { %>
+          <div class="item" data-value="<%= type.key %>"><i class="<%= type.icon %> icon"></i><%= type.name %></div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    <div class="required field">
+      <label>Nom du champ</label>
+      <div class="ui left input">
+        <input type="text" name="field_name" value="<%= query.field.name %>" placeholder="Nom du champ">
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Obligatoire</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="field_required" class="hidden" <% if (query.field.required === true) { %>checked="checked"<% } %>>
+      <label>Ce champ est obligatoire</label>
+    </div>
+  </div>
+  <div class="required field">
+    <label>Description</label>
+    <textarea rows="5" name="field_description"><%= query.field.description %></textarea>
+  </div>
+
+  <div class="ui submit button" tabindex="0">
+    <% if (typeof query.field._id == 'undefined') { %>
+    Ajouter le champ
+    <% } else { %>
+    Enregistrer les modifications
+    <% } %>
+  </div>
+
+</form>
+
+<script>
+  $('.ui.dropdown')
+          .dropdown();
+</script>

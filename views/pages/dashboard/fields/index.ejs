@@ -1,0 +1,76 @@
+<div class="ui container">
+  <% include ../services/header %>
+  <% include ../routes/header %>
+
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="ui vertical pointing menu">
+        <a class="active item">
+          Liste des champs (<%= data.route.fields.length %>)
+        </a>
+        <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/new">
+          <i class="add icon"></i>
+          Ajouter un champ
+        </a>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <% if (data.route.fields.length > 0) { %>
+      <table class="ui celled table">
+        <thead>
+        <tr>
+          <th class="four wide">Type</th>
+          <th>Nom & description</th>
+          <th colspan="3" class="two wide no-sort"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% data.route.fields.forEach(function(field) { %>
+        <tr class="top aligned">
+          <td>
+            <strong><%= field.nameNormalized %></strong><br />
+            <i class="<%= field.completeType.icon %> icon"></i> <%= field.completeType.name %>
+          </td>
+          <td>
+            <strong><%= field.name %></strong><br />
+            <%= field.description %>
+          </td>
+          <td>
+            <% if (field.order > 0) { %>
+            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/<%= field.fieldId %>/up">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="ui mini icon button">
+                <i class="caret up icon"></i>
+              </button>
+            </form>
+            <% } %>
+          </td>
+          <td>
+            <% if (field.order != data.route.fields.length - 1) { %>
+            <form method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/<%= field.fieldId %>/down">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="ui mini icon button">
+                <i class="caret down icon"></i>
+              </button>
+            </form>
+            <% } %>
+          </td>
+          <td>
+            <a class="ui mini icon button" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/<%= field.fieldId %>/edit">
+              <i class="edit icon"></i>
+            </a>
+          </td>
+        </tr>
+        <% }) %>
+        </tbody>
+      </table>
+      <div class="divider"></div>
+      <% } else { %>
+      <div class="ui segment">
+        Vous n'avez créé aucun champ
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+</div>
