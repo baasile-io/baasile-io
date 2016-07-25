@@ -1,6 +1,6 @@
 <div class="ui pointing menu">
   <a class="<% if (page === 'pages/dashboard/routes/index') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">
-    Données partagées
+    Données
   </a>
   <a class="<% if (page === 'pages/dashboard/routes/new') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/new">
     Créer une nouvelle donnée
@@ -16,6 +16,7 @@
   <i class="database bordered icon"></i>
   <div class="content">
     <%= data.route.name %>
+    <div class="sub header">Donnée</div>
   </div>
 </h3>
 <div class="ui pointing menu">
@@ -34,7 +35,7 @@
 <h4 class="ui header">
   <i class="add bordered icon"></i>
   <div class="content">
-    Créer une nouvelle donnée partagée
+    Créer une nouvelle donnée
   </div>
 </h4>
 <% } %>

@@ -20,10 +20,10 @@
     <textarea rows="5" name="route_description"><%= query.route.description %></textarea>
   </div>
   <div class="field">
-    <label>Visibilité</label>
+    <label>Partage</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_public" class="hidden" <% if (query.route.public === true) { %>checked="checked"<% } %>>
-      <label>Référencer la donnée sur l'API du CPA Store</label>
+      <label>Activer le partage de la donnée sur l'API du CPA Store</label>
     </div>
   </div>
 

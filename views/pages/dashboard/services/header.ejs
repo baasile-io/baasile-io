@@ -2,7 +2,7 @@
   <i class="cube bordered icon"></i>
   <div class="content">
     <%= data.service.name %>
-    <div class="sub header">Mode: Développement</div>
+    <div class="sub header">Service</div>
   </div>
 </h1>
 <div class="ui pointing menu">
@@ -19,6 +19,6 @@
     Jetons de connexion
   </a>
   <a class="item <% if (page.indexOf('pages/dashboard/routes/') == 0 || page.indexOf('pages/dashboard/fields/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">
-    Données partagées
+    Base de données
   </a>
 </div>
