@@ -36,7 +36,8 @@ function ServicesController(options) {
             alias: element.nameNormalized,
             nom: element.name,
             description: element.description,
-            jeton_france_connect: element.fcRequired
+            jeton_france_connect_lecture_ectriture: element.fcRestricted,
+            jeton_france_connect_lecture: element.fcRequired
           }
         };
         FieldModel.io.aggregate([
