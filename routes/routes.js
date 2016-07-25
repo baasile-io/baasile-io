@@ -70,7 +70,7 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
-
+    res._originalUrl = req.protocol + '://' + req.get('host') + '/' + _.trim(req.path, '/')
     return next();
   });
 
@@ -82,7 +82,7 @@ exports.configure = function (app, http, options) {
     const response = {
       jsonapi: res._jsonapi,
       links: {
-        self: req.protocol + '://' + req.get('host') + req.originalUrl
+        self: res._originalUrl
       }
     };
     if (responseParams.links) {
@@ -101,7 +101,7 @@ exports.configure = function (app, http, options) {
   }, function(req, res) {
     return res.status(404).json({
       links: {
-        self: req.protocol + '://' + req.get('host') + req.originalUrl
+        self: res._originalUrl
       },
       errors: ["not found"]
     }).end();

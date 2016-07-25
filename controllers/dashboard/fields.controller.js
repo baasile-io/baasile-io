@@ -103,6 +103,7 @@ function FieldsController(options) {
   };
 
   this.update = function(req, res, next) {
+    var field = req.data.field;
     const fieldName = _.trim(req.body.field_name);
     const fieldNameNormalized = FieldModel.getNormalizedName(fieldName);
     const fieldDescription = _.trim(req.body.field_description);
@@ -117,11 +118,13 @@ function FieldsController(options) {
       type: fieldType
     };
 
-    FieldModel.io.update({
-      _id: req.data.field._id
-    }, {
-      $set: fieldData
-    }, function(err, num) {
+    field.name = fieldName;
+    field.nameNormalized = fieldNameNormalized;
+    field.description = fieldDescription;
+    field.required = fieldRequired;
+    field.type = fieldType;
+
+    field.save(function(err, num) {
       if (err || num == 0) {
         return res.render('pages/dashboard/fields/edit', {
           page: 'pages/dashboard/fields/edit',
@@ -242,7 +245,6 @@ function FieldsController(options) {
         callback(err);
       })
       .on('end', function() {
-        logger.info('I terminated: '+order);
         callback();
       });
   };

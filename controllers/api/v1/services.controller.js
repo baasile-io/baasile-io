@@ -12,50 +12,71 @@ function ServicesController(options) {
   const RouteModel = new routeModel(options);
 
   this.getServices = function(req, res, next) {
-    ServiceModel.io.aggregate([
-      /*{
-        $lookup: {
-          from: 'routes',
-          localField: '_id',
-          foreignField: 'service',
-          as: 'shared_routes'
-        }
-      },*/
-      {
-        $match: {public: true}
-      },
-      {
-        $project: {
-          _id: 0,
-          id: "$clientId",
-          type: {
-            $concat: ["service"]
-          },
-          attributes: {
-            nom: "$name",
-            description: "$description",
-            site_internet: "$website"
-          },
-          /*relationships: {
-            donnees_partagees: {
-              links: {
-                self: {
-                  $concat: ["/"]
-                },
-                related: {
-                  $concat: ["/"]
-                }
-              },
-              data: "$shared_routes.routeId"
+    var services = [];
+    ServiceModel.io.find({
+      public: true
+    }, {
+      name: 1,
+      nameNormalized: 1,
+      description: 1,
+      website: 1,
+      clientId: 1
+    })
+      .sort({name: 1})
+      .stream()
+      .on('data', function(service) {
+        var self = this;
+        self.pause();
+        RouteModel.io.aggregate([
+          {
+            $match: {
+              service: service._id,
+              public: true
             }
-          }*/
-        }
-      }
-    ], function(err, services) {
-      if (err)
-        return next({code: 500});
-      return next({code: 200, data: services});
-    });
+          },
+          {
+            $project: {
+              _id: 0,
+              id: "$routeId",
+              type: {
+                $concat: ["donnees_partagees"]
+              }
+            }
+          }
+        ], function(err, routes) {
+          if (err)
+            self.destroy(err);
+          var obj = {
+            id: service.clientId,
+            type: 'services',
+            attributes: {
+              alias: service.nameNormalized,
+              nom: service.name,
+              description: service.description,
+              site_internet: service.website
+            }
+          };
+          if (routes && routes.length > 0) {
+            obj.relationships = {
+              donnee_partagee: {
+                links: {
+                  self: res._apiuri + '/services/' + service.clientId + '/relationships/donnees_partagees',
+                  related: res._apiuri + '/services/' + service.clientId + '/donnees_partagees'
+                },
+                data: routes
+              }
+            };
+          }
+          services.push(obj);
+          self.resume();
+        });
+      })
+      .on('error', function(err) {
+        next({code: 500, messages: err});
+      })
+      .on('end', function() {
+        next({code: 200, data: services});
+      });
   };
 
   this.getSharedRoutes = function(req, res, next) {
@@ -83,7 +104,7 @@ function ServicesController(options) {
           _id: 0,
           id: "$routeId",
           type: {
-            $concat: ["donnee_partagee"]
+            $concat: ["donnees_partagees"]
           },
           attributes: {
             nom: "$name",
@@ -104,6 +125,7 @@ function ServicesController(options) {
 
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
+      public: true,
       $or: [
         {nameNormalized: req.params.serviceId},
         {clientId: req.params.serviceId}

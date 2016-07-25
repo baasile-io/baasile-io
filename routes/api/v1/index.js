@@ -18,6 +18,7 @@ module.exports = function (options) {
     res._jsonapi = {
       version: "1.0"
     };
+    res._apiuri = req.protocol + '://' + req.get('host') + '/api/v1';
     return next();
   });
   router.post('/oauth/token', AuthController.authenticate);

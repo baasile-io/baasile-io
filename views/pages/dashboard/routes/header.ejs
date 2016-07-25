@@ -5,14 +5,19 @@
   <a class="<% if (page === 'pages/dashboard/routes/new') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/new">
     Créer une nouvelle donnée
   </a>
+  <% if (data.route) { %>
+  <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>">
+    Modifier
+  </a>
+  <% } %>
 </div>
 <% if (data.route) { %>
-<h4 class="ui header">
+<h3 class="ui header">
   <i class="database bordered icon"></i>
   <div class="content">
     <%= data.route.name %>
   </div>
-</h4>
+</h3>
 <div class="ui pointing menu">
   <a class="<% if (page === 'pages/dashboard/routes/view') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>">
     État

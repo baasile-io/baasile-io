@@ -12,6 +12,7 @@ function RouteModel(options) {
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
   const ServiceModel = new serviceModel(options);
+  const self = this;
 
   const ROUTE_TYPES = [
     'API',
@@ -82,11 +83,32 @@ function RouteModel(options) {
 
   this.io = db.model('Route', routeSchema);
 
+  this.io.schema.pre('validate', function(next) {
+    var obj = this;
+    if (this.nameNormalized != normalizeName(this.name))
+      this.invalidate('nameNormalized', 'Le nom normalisé doit correspondre avec le nom');
+    self.io.find({
+      service: this.service,
+      routeId: {$ne: this.routeId},
+      nameNormalized: this.nameNormalized
+    }, function(err, others) {
+      if (err)
+        obj.invalidate('_id', 'Internal Server Error');
+      if (others && others.length > 0)
+        obj.invalidate('name', 'Le nom doit être unique');
+      next();
+    });
+  });
+
   this.generateId = function() {
-    return crypto.randomBytes(48).toString('hex');
+    return crypto.randomBytes(16).toString('hex');
+  };
+
+  function normalizeName(name) {
+    return removeDiacritics(name.toLowerCase().replace(/ /g, '-'));
   };
 
   this.getNormalizedName = function(name) {
-    return removeDiacritics(name.toLowerCase().replace(/ /g, '-'));
+    return normalizeName(name);
   };
 };

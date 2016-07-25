@@ -13,14 +13,15 @@ function FieldModel(options) {
   options = options || {};
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
+  const self = this;
 
   const FIELD_TYPES = [
+    {key: 'ID', name: 'Identifiant unique', icon: 'privacy'},
     {key: 'STRING', name: 'Texte', icon: 'font'},
     {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag'},
     {key: 'PERCENT', name: 'Pourcentage', icon: 'percent'},
     {key: 'AMOUNT', name: 'Montant', icon: 'euro'},
     {key: 'DATE', name: 'Date', icon: 'calendar'},
-    {key: 'ID', name: 'Identifiant unique', icon: 'privacy'},
     {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect'},
     {key: 'JSON', name: 'JSON', icon: 'sitemap'}
   ];
@@ -90,12 +91,6 @@ function FieldModel(options) {
     updatedAt: Date
   });
 
-  fieldSchema.pre('validate', function(next) {
-    if (this.nameNormalized != normalizeName(this.name))
-      next('Le nom normalisé doit correspondre avec le nom');
-    next();
-  });
-
   fieldSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
@@ -112,6 +107,27 @@ function FieldModel(options) {
     });
 
   this.io = db.model('Field', fieldSchema);
+
+  this.io.schema.pre('validate', function(next) {
+    var obj = this;
+    if (this.nameNormalized != normalizeName(this.name))
+      this.invalidate('nameNormalized', 'Le nom normalisé doit correspondre avec le nom');
+    if (this.type === 'ID' && this.nameNormalized != 'id')
+      this.invalidate('name', 'Un identifiant unique doit être nommé "id"');
+    if (this.type === 'ID' && !this.required)
+      this.invalidate('required', 'Un identifiant unique doit être un champ obligatoire');
+    self.io.find({
+      route: this.route,
+      fieldId: {$ne: this.fieldId},
+      nameNormalized: this.nameNormalized
+    }, function(err, others) {
+      if (err)
+        obj.invalidate('_id', 'Internal Server Error');
+      if (others.length > 0)
+        obj.invalidate('name', 'Le nom doit être unique');
+      next();
+    });
+  });
 
   this.generateId = function() {
     return crypto.randomBytes(16).toString('hex');

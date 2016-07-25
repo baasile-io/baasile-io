@@ -4,7 +4,7 @@
 
   <div class="ui grid">
     <div class="four wide column">
-      <div class="ui vertical pointing menu">
+      <div class="ui fluid vertical pointing menu">
         <a class="active item">
           Liste des champs (<%= data.route.fields.length %>)
         </a>
@@ -28,11 +28,10 @@
         <% data.route.fields.forEach(function(field) { %>
         <tr class="top aligned">
           <td>
-            <strong><%= field.nameNormalized %></strong><br />
-            <i class="<%= field.completeType.icon %> icon"></i> <%= field.completeType.name %>
+            <i class="<%= field.completeType.icon %> bordered icon"></i> <%= field.completeType.name %>
           </td>
           <td>
-            <strong><%= field.name %></strong><br />
+            <strong><%= field.nameNormalized %></strong><br />
             <%= field.description %>
           </td>
           <td>
