@@ -16,9 +16,6 @@ function DataModel(options) {
       type: String,
       required: [true, "L'identifiant est obligatoire"]
     },
-    fcIdentity: {
-      type: String
-    },
     data: {
       type: Object,
       required: [true, "Le champ 'data' est obligatoire"],

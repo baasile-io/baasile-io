@@ -47,7 +47,8 @@ function RoutesController(options) {
     const routeName = _.trim(req.body.route_name);
     const routeDescription = _.trim(req.body.route_description);
     const routePublic = req.body.route_public === 'true';
-    const routeFcRequired = req.body.route_fc_required === 'true';
+    const routeFcRestricted = req.body.route_fc_restricted === 'true';
+    const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
 
     const routeData = {
       routeId: RouteModel.generateId(),
@@ -55,6 +56,7 @@ function RoutesController(options) {
       name: routeName,
       nameNormalized: RouteModel.getNormalizedName(routeName),
       fcRequired: routeFcRequired,
+      fcRestricted: routeFcRestricted,
       public: routePublic,
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
@@ -75,7 +77,8 @@ function RoutesController(options) {
               name: routeName,
               description: routeDescription,
               public: routePublic,
-              fcRequired: routeFcRequired
+              fcRequired: routeFcRequired,
+              fcRestricted: routeFcRestricted
             }
           },
           flash: {
@@ -114,13 +117,15 @@ function RoutesController(options) {
     const routeNameNormalized = RouteModel.getNormalizedName(routeName);
     const routeDescription = _.trim(req.body.route_description);
     const routePublic = req.body.route_public === 'true';
-    const routeFcRequired = req.body.route_fc_required === 'true';
+    const routeFcRestricted = req.body.route_fc_restricted === 'true';
+    const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
 
     const routeData = {
       description: routeDescription,
       name: routeName,
       nameNormalized: routeNameNormalized,
       fcRequired: routeFcRequired,
+      fcRestricted: routeFcRestricted,
       public: routePublic
     };
 

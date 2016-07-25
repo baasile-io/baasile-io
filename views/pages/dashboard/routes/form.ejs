@@ -2,17 +2,24 @@
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
   <div class="required field">
-    <label>Nom de la donnée</label>
+    <label>Nom de la collection</label>
     <div class="ui left icon input">
       <i class="database icon"></i>
-      <input type="text" name="route_name" value="<%= query.route.name %>" placeholder="Nom de la donnée">
+      <input type="text" name="route_name" value="<%= query.route.name %>" placeholder="Nom de la collection">
     </div>
   </div>
   <div class="field">
-    <label>Donnée identifiée</label>
+    <label>Jeton FranceConnect en lecture et écriture</label>
     <div class="ui toggle checkbox">
-      <input type="checkbox" tabindex="0" value="true" name="route_fc_required" class="hidden" <% if (query.route.fcRequired === true) { %>checked="checked"<% } %>>
-      <label>Cette donnée nécessite un jeton de connexion FranceConnect</label>
+      <input type="checkbox" tabindex="0" value="true" name="route_fc_restricted" id="route_fc_restricted_input" class="hidden" <% if (query.route.fcRestricted === true) { %>checked="checked"<% } %>>
+      <label>Toute action sur cette collection nécessite un jeton de connexion FranceConnect valide</label>
+    </div>
+  </div>
+  <div class="<% if (query.route.fcRestricted === true) { %>disabled<% } %> field" id="route_fc_required_field">
+    <label>Jeton FranceConnect en lecture seulement</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="route_fc_required" id="route_fc_required_input" class="hidden" <% if (query.route.fcRequired === true) { %>checked="checked"<% } %> <% if (query.route.fcRestricted === true) { %>disabled="disabled"<% } %>>
+      <label>Accéder aux données de cette collection nécessite un jeton de connexion FranceConnect valide</label>
     </div>
   </div>
   <div class="required field">
@@ -23,16 +30,30 @@
     <label>Partage</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_public" class="hidden" <% if (query.route.public === true) { %>checked="checked"<% } %>>
-      <label>Activer le partage de la donnée sur l'API du CPA Store</label>
+      <label>Activer le partage de la collection sur l'API du CPA Store</label>
     </div>
   </div>
 
   <div class="ui submit button" tabindex="0">
     <% if (typeof query.route._id == 'undefined') { %>
-    Ajouter la donnée partagée
+    Ajouter la collection
     <% } else { %>
     Enregistrer les modifications
     <% } %>
   </div>
 
 </form>
+
+<script>
+  $(document).ready(function() {
+    $('#route_fc_restricted_input').on('change', function(e) {
+      if (this.checked) {
+        $('#route_fc_required_input').prop('checked', true).attr('disabled', 'disabled');
+        $('#route_fc_required_field').addClass('disabled');
+      } else {
+        $('#route_fc_required_input').prop('checked', false).removeAttr('disabled');
+        $('#route_fc_required_field').removeClass('disabled');
+      }
+    });
+  });
+</script>

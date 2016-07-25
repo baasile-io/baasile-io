@@ -50,6 +50,10 @@ function RouteModel(options) {
       type: Boolean,
       required: true
     },
+    fcRestricted: {
+      type: Boolean,
+      required: true
+    },
     public: {
       type: Boolean,
       required: true
@@ -85,6 +89,8 @@ function RouteModel(options) {
 
   this.io.schema.pre('validate', function(next) {
     var obj = this;
+    if (this.fcRestricted)
+      this.fcRequired = true;
     if (this.nameNormalized != normalizeName(this.name))
       this.invalidate('nameNormalized', 'Le nom normalisé doit correspondre avec le nom');
     self.io.find({
