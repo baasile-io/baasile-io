@@ -39,7 +39,7 @@ function ServicesController(options) {
               _id: 0,
               id: "$routeId",
               type: {
-                $concat: ["donnees_partagees"]
+                $concat: ["donnees"]
               }
             }
           }
@@ -58,10 +58,10 @@ function ServicesController(options) {
           };
           if (routes && routes.length > 0) {
             obj.relationships = {
-              donnee_partagee: {
+              donnees: {
                 links: {
-                  self: res._apiuri + '/services/' + service.clientId + '/relationships/donnees_partagees',
-                  related: res._apiuri + '/services/' + service.clientId + '/donnees_partagees'
+                  self: res._apiuri + '/services/' + service.clientId + '/relationships/donnees',
+                  related: res._apiuri + '/services/' + service.clientId + '/donnees'
                 },
                 data: routes
               }
@@ -77,18 +77,6 @@ function ServicesController(options) {
       .on('end', function() {
         next({code: 200, data: services});
       });
-  };
-
-  this.getSharedRoutes = function(req, res, next) {
-    RouteModel.io.find({
-      service: req.data.service._id,
-      public: true
-    }, function(err, routes) {
-      logger.warn(err);
-      if (err)
-        return next({code: 500});
-      return next({code: 200, data: routes});
-    });
   };
 
   this.getServiceData = function(req, res, next) {

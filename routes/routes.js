@@ -70,7 +70,7 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
-    res._originalUrl = req.protocol + '://' + req.get('host') + '/' + _.trim(req.path, '/')
+    res._originalUrl = req.protocol + '://' + req.get('host') + '/api/' + _.trim(req.path, '/');
     return next();
   });
 
@@ -100,6 +100,7 @@ exports.configure = function (app, http, options) {
     return res.status(status).json(response).end();
   }, function(req, res) {
     return res.status(404).json({
+      jsonapi: res._jsonapi,
       links: {
         self: res._originalUrl
       },
