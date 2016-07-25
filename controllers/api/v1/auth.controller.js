@@ -32,7 +32,14 @@ function AuthController(options) {
       token.save(function(err) {
         if (err)
           logger.warn("failed to update token expiration date: " + err);
-        return next();
+        ServiceModel.io.findOne({
+          _id: token.service
+        }, function(err, service) {
+          if (err)
+            return next({code: 500});
+          res._clientId = service.clientId;
+          return next();
+        });
       });
     });
   };

@@ -80,52 +80,23 @@ function ServicesController(options) {
   };
 
   this.getSharedRoutes = function(req, res, next) {
-    RouteModel.io.aggregate([
-      {
-        $lookup: {
-          from: 'services',
-          localField: 'service',
-          foreignField: '_id',
-          as: 'fournisseur'
-        }
-      },
-      {
-        $unwind: '$fournisseur'
-      },
-      {
-        $match: {
-          service: req.data.service._id,
-          'fournisseur.public': true,
-          public: true
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          id: "$routeId",
-          type: {
-            $concat: ["donnees_partagees"]
-          },
-          attributes: {
-            nom: "$name",
-            description: "$description",
-            identifiee: "$fcRequired"
-          }
-        }
-      }
-    ], function(err, routes) {
-      logger.info('------------');
+    RouteModel.io.find({
+      service: req.data.service._id,
+      public: true
+    }, function(err, routes) {
       logger.warn(err);
       if (err)
         return next({code: 500});
-      logger.info('------------');
       return next({code: 200, data: routes});
     });
   };
 
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
-      public: true,
+      $or: [
+        {public: true},
+        {clientId: res._clientId}
+      ],
       $or: [
         {nameNormalized: req.params.serviceId},
         {clientId: req.params.serviceId}

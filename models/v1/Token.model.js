@@ -23,10 +23,10 @@ var tokenSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  service: [{
+  service: {
     type: mongoose.Schema.ObjectId,
     ref: 'ServiceModel'
-  }],
+  },
   createdAt: {
     type: Date,
     required: true
