@@ -190,8 +190,6 @@ function ServicesController(options) {
             errors.push('invalid_paramater', '"type" must be equal to "donnees"', 'error on index: ' + i);
           if (!data.attributes)
             errors.push('missing_parameter', '"attributes" is required for each JSON object', 'error on index: ' + i);
-          if (typeof data.attributes != 'object')
-            errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && !req.data.fcIdentity && !data.id)
             errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required for each JSON object', 'error on index: ' + i);
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && req.data.fcIdentity && data.id)
@@ -199,28 +197,42 @@ function ServicesController(options) {
           if (!req.data.route.fcRestricted && !req.data.route.fcRequired && !data.id)
             errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required for each JSON object', 'error on index: ' + i);
 
-          fields.forEach(function(field) {
-            let value = data.attributes[field.nameNormalized];
-            if (field.required && !value) {
-              errors.push('missing_parameter');
-              errors.push('"' + field.nameNormalized + '" is required');
-            }
-            if (value && !FieldModel.isTypeValid(field.type, value)) {
-              errors.push('invalid_format');
-              errors.push('"' + field.nameNormalized + '" must be ' + field.type);
+          if (req.data.route.isCollection) {
+            if (!Array.isArray(data.attributes))
+              errors.push('invalid_format', '"attributes" must be an array for each JSON object', 'error on index: ' + i);
+          }
+          var attributesToCheck = data.attributes;
+          if (!Array.isArray(attributesToCheck))
+            attributesToCheck = [attributesToCheck];
+          attributesToCheck.forEach(function(attr) {
+            if (typeof attr != 'object')
+              errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
+
+            fields.forEach(function(field) {
+              let value = attr[field.nameNormalized];
+              if (field.required && !value) {
+                errors.push('missing_parameter');
+                errors.push('"' + field.nameNormalized + '" is required');
+              }
+              if (value && !FieldModel.isTypeValid(field.type, value)) {
+                errors.push('invalid_format');
+                errors.push('"' + field.nameNormalized + '" must be ' + field.type);
+              }
+            });
+
+            let unauthorizedFields = _.reduce(attr, function(result, val, key) {
+              if (_.indexOf(whitelistedFields, key) == -1)
+                result.push(key);
+              return result;
+            }, []);
+            if (unauthorizedFields.length > 0) {
+              unauthorizedFields.forEach(function (name) {
+                errors.push('unauthorized_paramater'),
+                  errors.push('"' + name + '" is not a valid parameter');
+              });
             }
           });
-          let unauthorizedFields = _.reduce(data.attributes, function(result, val, key) {
-            if (_.indexOf(whitelistedFields, key) == -1)
-              result.push(key);
-            return result;
-          }, []);
-          if (unauthorizedFields.length > 0) {
-            unauthorizedFields.forEach(function (name) {
-              errors.push('unauthorized_paramater'),
-                errors.push('"' + name + '" is not a valid parameter');
-            });
-          }
+
         });
         if (errors.length > 0) {
           return next({code: 400, messages: errors});
@@ -258,7 +270,7 @@ function ServicesController(options) {
               type: 'donnees',
               attributes: res._request.params.data[i].attributes,
               links: {
-                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + req.data.route.routeId + '/' + data.dataId
+                self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + req.data.route.routeId + '/' + data.dataId
               }
             });
             return requestPostElement(i + 1, fields);
@@ -279,7 +291,7 @@ function ServicesController(options) {
               type: 'donnees',
               attributes: res._request.params.data[i].attributes,
               links: {
-                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + data.dataId
+                self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + data.dataId
               }
             });
             createdCount++;

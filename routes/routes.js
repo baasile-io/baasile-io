@@ -92,6 +92,10 @@ exports.configure = function (app, http, options) {
       response.meta = responseParams.meta;
     }
     if (responseParams.data) {
+      if (Array.isArray(responseParams.data)) {
+        response.meta = response.meta || {};
+        response.meta.count = responseParams.data.length;
+      }
       response.data = responseParams.data;
     }
     if (responseParams.included) {

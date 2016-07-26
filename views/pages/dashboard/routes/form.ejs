@@ -9,6 +9,13 @@
     </div>
   </div>
   <div class="field">
+    <label>Tableau de données</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="route_collection" class="hidden" <% if (query.route.isCollection === true) { %>checked="checked"<% } %>>
+      <label>Les données de cette collection peuvent être fournies sous la forme d'un tableau</label>
+    </div>
+  </div>
+  <div class="field">
     <label>Jeton FranceConnect en lecture et écriture</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_fc_restricted" id="route_fc_restricted_input" class="hidden" <% if (query.route.fcRestricted === true) { %>checked="checked"<% } %>>

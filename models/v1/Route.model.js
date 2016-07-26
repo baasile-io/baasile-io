@@ -42,6 +42,10 @@ function RouteModel(options) {
       required: true,
       enum: {values: ROUTE_TYPES, message: "Le type renseigné n'est pas valide"}
     },
+    isCollection: {
+      type: Boolean,
+      required: true
+    },
     method: {
       type: String,
       required: true

@@ -49,6 +49,7 @@ function RoutesController(options) {
     const routePublic = req.body.route_public === 'true';
     const routeFcRestricted = req.body.route_fc_restricted === 'true';
     const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
+    const routeCollection = req.body.route_collection === 'true';
 
     const routeData = {
       routeId: RouteModel.generateId(),
@@ -57,6 +58,7 @@ function RoutesController(options) {
       nameNormalized: RouteModel.getNormalizedName(routeName),
       fcRequired: routeFcRequired,
       fcRestricted: routeFcRestricted,
+      isCollection: routeCollection,
       public: routePublic,
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
@@ -78,7 +80,8 @@ function RoutesController(options) {
               description: routeDescription,
               public: routePublic,
               fcRequired: routeFcRequired,
-              fcRestricted: routeFcRestricted
+              fcRestricted: routeFcRestricted,
+              isCollection: routeCollection
             }
           },
           flash: {
@@ -119,6 +122,7 @@ function RoutesController(options) {
     const routePublic = req.body.route_public === 'true';
     const routeFcRestricted = req.body.route_fc_restricted === 'true';
     const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
+    const routeCollection = req.body.route_collection === 'true';
 
     const routeData = {
       description: routeDescription,
@@ -126,7 +130,8 @@ function RoutesController(options) {
       nameNormalized: routeNameNormalized,
       fcRequired: routeFcRequired,
       fcRestricted: routeFcRestricted,
-      public: routePublic
+      public: routePublic,
+      isCollection: routeCollection
     };
 
     RouteModel.io.update({
