@@ -95,8 +95,10 @@ exports.configure = function (app, http, options) {
       response.errors = responseParams.messages;
     }
     else if (status >= 400) {
-      response.errors = ['Internal Server Error'];
+      response.errors = ['internal_server_error'];
     }
+    if (status >= 400)
+      response.errors.push('status_code:' + status);
     return res.status(status).json(response).end();
   }, function(req, res) {
     return res.status(404).json({
@@ -104,11 +106,11 @@ exports.configure = function (app, http, options) {
       links: {
         self: res._originalUrl
       },
-      errors: ["not found"]
+      errors: ['not_found', 'status_code:404']
     }).end();
   });
 
-  app.all('/api', function(req, res) {
+  app.use('/api', function(req, res) {
     res.end();
   });
 

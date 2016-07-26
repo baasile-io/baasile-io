@@ -27,25 +27,31 @@ function ServicesController(options) {
       .on('data', function(service) {
         var self = this;
         self.pause();
-        RouteModel.io.aggregate([
-          {
-            $match: {
-              service: service._id,
-              public: true
-            }
-          },
-          {
-            $project: {
-              _id: 0,
-              id: "$routeId",
-              type: {
-                $concat: ["donnees"]
-              }
-            }
-          }
-        ], function(err, routes) {
+        RouteModel.io.find({
+          service: service._id,
+          public: true
+        }, {
+          _id: 0,
+          routeId: 1,
+          name: 1
+        }, function(err, routes) {
           if (err)
             self.destroy(err);
+          var serviceRoutes = [];
+          if (routes) {
+            routes.forEach(function(route) {
+              serviceRoutes.push({
+                id: route.routeId,
+                type: 'collections',
+                attributes: {
+                  nom: route.name
+                },
+                links: {
+                  self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + route.routeId
+                }
+              });
+            });
+          }
           var obj = {
             id: service.clientId,
             type: 'services',
@@ -56,14 +62,14 @@ function ServicesController(options) {
               site_internet: service.website
             }
           };
-          if (routes && routes.length > 0) {
+          if (serviceRoutes.length > 0) {
             obj.relationships = {
-              donnees: {
+              collections: {
                 links: {
-                  self: res._apiuri + '/services/' + service.clientId + '/relationships/donnees',
-                  related: res._apiuri + '/services/' + service.clientId + '/donnees'
+                  self: res._apiuri + '/services/' + service.clientId + '/relationships/collections',
+                  related: res._apiuri + '/services/' + service.clientId + '/collections'
                 },
-                data: routes
+                data: serviceRoutes
               }
             };
           }

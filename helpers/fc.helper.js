@@ -1,7 +1,8 @@
 'use strict';
 
 const request = require('request'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  _ = require('lodash');
 
 module.exports = FranceConnectHelper;
 
@@ -37,7 +38,7 @@ function FranceConnectHelper(options) {
   };
 
   this.generateHash = function(fcIdentity) {
-    const str = fcIdentity.given_name + fcIdentity.family_name + fcIdentity.birthdate + fcIdentity.gender + fcIdentity.birthplace + fcIdentity.birthdepartment + fcIdentity.birthcountry;
+    const str = _.toLower(fcIdentity.given_name + fcIdentity.family_name + fcIdentity.birthdate + fcIdentity.gender + fcIdentity.birthplace + fcIdentity.birthdepartment + fcIdentity.birthcountry);
     return crypto
       .createHash('sha256')
       .update(str)

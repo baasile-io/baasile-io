@@ -16,7 +16,7 @@ function AuthController(options) {
   this.authorize = function(req, res, next) {
     const access_token = res._request.params.access_token;
     if (!access_token)
-      return next({messages: ["missing access_token"], code: 400});
+      return next({messages: ['missing_parameter', '"access_token" is required'], code: 400});
     TokenModel.io.findOne({
       accessToken: access_token
     }, function(err, token) {
@@ -31,7 +31,7 @@ function AuthController(options) {
       token.nbOfUse++;
       token.save(function(err) {
         if (err)
-          logger.warn("failed to update token expiration date: " + err);
+          logger.warn('failed to update token expiration date: ' + err);
         ServiceModel.io.findOne({
           _id: token.service
         }, function(err, service) {

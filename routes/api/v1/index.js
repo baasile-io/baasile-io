@@ -28,9 +28,9 @@ module.exports = function (options) {
   router.post('/oauth/token', AuthController.authenticate);
   router.get('/fc/formation', AuthController.authorize, FcController.getFormation);
   router.get('/services', AuthController.authorize, ServicesController.getServices);
-  router.get(['/services/:serviceId/donnees', '/services/:serviceId/relationships/donnees'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getSharedRoutes);
-  router.all(['/services/:serviceId/donnees/:routeId', '/services/:serviceId/relationships/donnees/:routeId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.processRequest);
-  router.get(['/services/:serviceId/donnees/:routeId/champs', '/services/:serviceId/relationships/donnees/:routeId/relationships/champs'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFields);
+  router.get(['/services/:serviceId/collections', '/services/:serviceId/relationships/collections'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getSharedRoutes);
+  router.all(['/services/:serviceId/collections/:routeId', '/services/:serviceId/relationships/collections/:routeId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.processRequest);
+  router.get(['/services/:serviceId/collections/:routeId/champs', '/services/:serviceId/relationships/collections/:routeId/relationships/champs'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFields);
 
   return router;
 };

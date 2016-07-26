@@ -38,39 +38,66 @@ function ServicesController(options) {
             description: element.description,
             jeton_france_connect_lecture_ectriture: element.fcRestricted,
             jeton_france_connect_lecture: element.fcRequired
+          },
+          links: {
+            self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + element.routeId
           }
         };
-        FieldModel.io.aggregate([
+        DataModel.io.aggregate([
           {
             $match: {
               route: element._id
             }
           },
           {
-            $project: {
-              _id: 0,
-              id: "$fieldId",
-              type: {
-                $concat: ["champs"]
-              }
+            $group: {
+              _id: null,
+              count: {$sum: 1}
             }
           }
-        ], function(err, fields) {
+        ], function(err, result) {
           if (err)
             return self.destroy(err);
-          if (fields && fields.length > 0) {
-            elementData.relationships = {
-              champs: {
-                links: {
-                  self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + element.routeId + '/relationships/champs',
-                  related: res._apiuri + '/services/' + req.data.service.clientId + '/collections/' + element.routeId + '/champs'
-                },
-                data: fields
+          elementData.meta = {
+            donnees: {
+              count: result.length > 0 ? result[0].count : 0
+            }
+          };
+          FieldModel.io.find({
+            route: element._id
+          }, {
+            _id: 0,
+            fieldId: 1,
+            nameNormalized: 1
+          }, function(err, fields) {
+            if (err)
+              return self.destroy(err);
+            var dataFields = [];
+            if (fields) {
+              fields.forEach(function(field) {
+                dataFields.push({
+                  id: field.fieldId,
+                  type: 'champs',
+                  attributes: {
+                    nom: field.nameNormalized
+                  }
+                });
+              });
+            }
+            if (fields && fields.length > 0) {
+              elementData.relationships = {
+                champs: {
+                  links: {
+                    self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + element.routeId + '/relationships/champs',
+                    related: res._apiuri + '/services/' + req.data.service.clientId + '/collections/' + element.routeId + '/champs'
+                  },
+                  data: dataFields
+                }
               }
             }
-          }
-          routes.push(elementData);
-          self.resume();
+            routes.push(elementData);
+            self.resume();
+          });
         });
       })
       .on('error', function(err) {
@@ -212,7 +239,10 @@ function ServicesController(options) {
             objects.push({
               id: data.dataId,
               type: 'donnees',
-              attributes: res._request.params.data[i].attributes
+              attributes: res._request.params.data[i].attributes,
+              links: {
+                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + data.dataId
+              }
             });
             return requestPostElement(i + 1, fields);
           });
@@ -230,7 +260,10 @@ function ServicesController(options) {
             objects.push({
               id: data.dataId,
               type: 'donnees',
-              attributes: res._request.params.data[i].attributes
+              attributes: res._request.params.data[i].attributes,
+              links: {
+                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + data.dataId
+              }
             });
             createdCount++;
             return requestPostElement(i + 1, fields);
