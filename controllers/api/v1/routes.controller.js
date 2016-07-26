@@ -185,53 +185,59 @@ function ServicesController(options) {
           if (typeof data != 'object')
             errors.push('invalid_format', '"data" must be a JSON object or a collection of JSON objects', 'error on index: ');
           if (!data.type)
-            errors.push('missing_parameter', '"type" is required for each JSON object', 'error on index: ' + i);
+            errors.push('missing_parameter', '"type" is required', 'error on index: ' + i);
           if (data.type != 'donnees')
             errors.push('invalid_paramater', '"type" must be equal to "donnees"', 'error on index: ' + i);
           if (!data.attributes)
-            errors.push('missing_parameter', '"attributes" is required for each JSON object', 'error on index: ' + i);
+            errors.push('missing_parameter', '"attributes" is required', 'error on index: ' + i);
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && !req.data.fcIdentity && !data.id)
-            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required for each JSON object', 'error on index: ' + i);
+            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required', 'error on index: ' + i);
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && req.data.fcIdentity && data.id)
             errors.push('unauthorized_parameter', 'context: "fc_token" specified', '"id" must be not specified', 'error on index: ' + i);
           if (!req.data.route.fcRestricted && !req.data.route.fcRequired && !data.id)
-            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required for each JSON object', 'error on index: ' + i);
+            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required', 'error on index: ' + i);
 
           if (req.data.route.isCollection) {
             if (!Array.isArray(data.attributes))
-              errors.push('invalid_format', '"attributes" must be an array for each JSON object', 'error on index: ' + i);
+              errors.push('invalid_format', '"attributes" must be an array', 'error on index: ' + i);
+          } else {
+            if (Array.isArray(data.attributes))
+              errors.push('invalid_format', '"attributes" cannot be an array', 'error on index: ' + i);
           }
-          var attributesToCheck = data.attributes;
-          if (!Array.isArray(attributesToCheck))
-            attributesToCheck = [attributesToCheck];
-          attributesToCheck.forEach(function(attr) {
-            if (typeof attr != 'object')
-              errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
 
-            fields.forEach(function(field) {
-              let value = attr[field.nameNormalized];
-              if (field.required && !value) {
-                errors.push('missing_parameter');
-                errors.push('"' + field.nameNormalized + '" is required');
-              }
-              if (value && !FieldModel.isTypeValid(field.type, value)) {
-                errors.push('invalid_format');
-                errors.push('"' + field.nameNormalized + '" must be ' + field.type);
+          if (errors.length == 0) {
+            var attributesToCheck = data.attributes;
+            if (!Array.isArray(attributesToCheck))
+              attributesToCheck = [attributesToCheck];
+            attributesToCheck.forEach(function (attr) {
+              if (typeof attr != 'object')
+                errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
+
+              fields.forEach(function (field) {
+                let value = attr[field.nameNormalized];
+                if (field.required && !value) {
+                  errors.push('missing_parameter');
+                  errors.push('"' + field.nameNormalized + '" is required');
+                }
+                if (value && !FieldModel.isTypeValid(field.type, value)) {
+                  errors.push('invalid_format');
+                  errors.push('"' + field.nameNormalized + '" must be ' + field.type);
+                }
+              });
+
+              let unauthorizedFields = _.reduce(attr, function (result, val, key) {
+                if (_.indexOf(whitelistedFields, key) == -1)
+                  result.push(key);
+                return result;
+              }, []);
+              if (unauthorizedFields.length > 0) {
+                unauthorizedFields.forEach(function (name) {
+                  errors.push('unauthorized_paramater'),
+                    errors.push('"' + name + '" is not a valid parameter');
+                });
               }
             });
-
-            let unauthorizedFields = _.reduce(attr, function(result, val, key) {
-              if (_.indexOf(whitelistedFields, key) == -1)
-                result.push(key);
-              return result;
-            }, []);
-            if (unauthorizedFields.length > 0) {
-              unauthorizedFields.forEach(function (name) {
-                errors.push('unauthorized_paramater'),
-                  errors.push('"' + name + '" is not a valid parameter');
-              });
-            }
-          });
+          }
 
         });
         if (errors.length > 0) {
