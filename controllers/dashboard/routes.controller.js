@@ -4,6 +4,7 @@ const request = require('request'),
   _ = require('lodash'),
   routeModel = require('../../models/v1/Route.model.js'),
   fieldModel = require('../../models/v1/Field.model.js'),
+  dataModel = require('../../models/v1/Data.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = RoutesController;
@@ -13,6 +14,7 @@ function RoutesController(options) {
   const logger = options.logger;
   const RouteModel = new routeModel(options);
   const FieldModel = new fieldModel(options);
+  const DataModel = new dataModel(options);
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
@@ -107,11 +109,28 @@ function RoutesController(options) {
   };
 
   this.view = function(req, res, next) {
-    return res.render('pages/dashboard/routes/view', {
-      page: 'pages/dashboard/routes/view',
-      csrfToken: req.csrfToken(),
-      data: req.data,
-      flash: res._flash
+    DataModel.io.aggregate([
+      {
+        $match: {
+          route: req.data.route._id
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: {$sum: 1}
+        }
+      }
+    ], function(err, result) {
+      if (err)
+        return self.destroy(err);
+      return res.render('pages/dashboard/routes/view', {
+        page: 'pages/dashboard/routes/view',
+        csrfToken: req.csrfToken(),
+        data: req.data,
+        dataCount: result.length > 0 ? result[0].count : 0,
+        flash: res._flash
+      });
     });
   };
 

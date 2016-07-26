@@ -216,12 +216,10 @@ function ServicesController(options) {
               fields.forEach(function (field) {
                 let value = attr[field.nameNormalized];
                 if (field.required && !value) {
-                  errors.push('missing_parameter');
-                  errors.push('"' + field.nameNormalized + '" is required');
+                  errors.push('missing_parameter', '"' + field.nameNormalized + '" is required', 'error on index: ' + i);
                 }
                 if (value && !FieldModel.isTypeValid(field.type, value)) {
-                  errors.push('invalid_format');
-                  errors.push('"' + field.nameNormalized + '" must be ' + field.type);
+                  errors.push('invalid_format', '"' + field.nameNormalized + '" must be ' + field.type, 'error on index: ' + i);
                 }
               });
 
