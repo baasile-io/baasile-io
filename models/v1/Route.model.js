@@ -85,6 +85,17 @@ function RouteModel(options) {
     next();
   });
 
+  routeSchema.virtual('attributes')
+    .get(function () {
+      return {
+        alias: this.nameNormalized,
+        nom: this.name,
+        description: this.description,
+        jeton_france_connect_lecture_ectriture: this.fcRestricted,
+        jeton_france_connect_lecture: this.fcRequired
+      };
+    });
+
   this.io = db.model('Route', routeSchema);
 
   this.io.schema.pre('validate', function(next) {

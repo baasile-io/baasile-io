@@ -13,6 +13,7 @@ function ServicesController(options) {
 
   this.getServices = function(req, res, next) {
     var services = [];
+    var included = [];
     ServiceModel.io.find({
       public: true
     }, {
@@ -20,7 +21,9 @@ function ServicesController(options) {
       nameNormalized: 1,
       description: 1,
       website: 1,
-      clientId: 1
+      clientId: 1,
+      updatedAt: 1,
+      createdAt: 1
     })
       .sort({name: 1})
       .stream()
@@ -30,10 +33,6 @@ function ServicesController(options) {
         RouteModel.io.find({
           service: service._id,
           public: true
-        }, {
-          _id: 0,
-          routeId: 1,
-          name: 1
         }, function(err, routes) {
           if (err)
             self.destroy(err);
@@ -42,12 +41,18 @@ function ServicesController(options) {
             routes.forEach(function(route) {
               serviceRoutes.push({
                 id: route.routeId,
+                type: 'collections'
+              });
+              included.push({
+                id: route.routeId,
                 type: 'collections',
-                attributes: {
-                  nom: route.name
-                },
+                attributes: route.get('attributes'),
                 links: {
                   self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + route.routeId
+                },
+                meta: {
+                  creation: route.createdAt,
+                  modification: route.updatedAt
                 }
               });
             });
@@ -60,6 +65,10 @@ function ServicesController(options) {
               nom: service.name,
               description: service.description,
               site_internet: service.website
+            },
+            meta: {
+              creation: service.createdAt,
+              modification: service.updatedAt
             }
           };
           if (serviceRoutes.length > 0) {
@@ -81,7 +90,7 @@ function ServicesController(options) {
         next({code: 500, messages: err});
       })
       .on('end', function() {
-        next({code: 200, data: services});
+        next({code: 200, data: services, included: included});
       });
   };
 

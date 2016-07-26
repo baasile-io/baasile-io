@@ -88,8 +88,14 @@ exports.configure = function (app, http, options) {
     if (responseParams.links) {
       _.merge(response.links, responseParams.links);
     }
+    if (responseParams.meta) {
+      response.meta = responseParams.meta;
+    }
     if (responseParams.data) {
       response.data = responseParams.data;
+    }
+    if (responseParams.included) {
+      response.included = responseParams.included;
     }
     if (responseParams.messages) {
       response.errors = responseParams.messages;

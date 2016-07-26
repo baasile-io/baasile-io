@@ -32,13 +32,7 @@ function ServicesController(options) {
         var elementData = {
           id: element.routeId,
           type: 'collections',
-          attributes: {
-            alias: element.nameNormalized,
-            nom: element.name,
-            description: element.description,
-            jeton_france_connect_lecture_ectriture: element.fcRestricted,
-            jeton_france_connect_lecture: element.fcRequired
-          },
+          attributes: element.get('attributes'),
           links: {
             self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + element.routeId
           }
@@ -135,7 +129,30 @@ function ServicesController(options) {
   };
 
   function requestGet(req, res, next) {
-    next({code: 500, messages: ['not_implemented']});
+    DataModel.io.find({
+      route: req.data.route._id
+    }, function(err, datum) {
+      if (err)
+        next({code: 500});
+      var result = [];
+      if (datum) {
+        datum.forEach(function(data) {
+          result.push({
+            id: data.dataId,
+            type: 'donnees',
+            attributes: data.data,
+            links: {
+              self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + req.data.route.routeId + '/' + data.dataId
+            },
+            meta: {
+              creation: data.createdAt,
+              modification: data.updatedAt,
+            }
+          });
+        });
+        next({code: 200, meta: {count: result.length}, data: result});
+      }
+    });
   };
 
   function requestPost(req, res, next) {
@@ -241,7 +258,7 @@ function ServicesController(options) {
               type: 'donnees',
               attributes: res._request.params.data[i].attributes,
               links: {
-                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + data.dataId
+                self: res._apiuri + '/services/' + service.clientId + '/relationships/collections/' + req.data.route.routeId + '/' + data.dataId
               }
             });
             return requestPostElement(i + 1, fields);
