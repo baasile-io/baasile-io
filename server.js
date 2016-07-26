@@ -19,7 +19,7 @@ function Server (options) {
   options.port = options.port || 0;
   options.logger = options.logger || emptylogger();
   options.db = options.db || mongodb.MongoClient;
-  options.tokenExpiration = 20; //minutes
+  options.tokenExpiration = options.tokenExpiration || 20; //minutes
   var logger = options.logger;
   var app = express();
   app.set("port", options.port);
