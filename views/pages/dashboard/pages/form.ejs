@@ -1,0 +1,61 @@
+<form class="ui large basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/pages<% if (typeof data.page != 'undefined') { %>/<%= data.page.nameNormalized %><% } %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="required field">
+    <label>Nom de la page</label>
+    <div class="ui left icon input">
+      <i class="file icon"></i>
+      <input type="text" name="page_name" value="<%= query.page.name %>" placeholder="Nom de la page">
+    </div>
+  </div>
+  <div class="required field">
+    <label>Nom normalisé de la page</label>
+    <div class="ui left input">
+      <input type="text" name="page_name_normalized" value="<%= query.page.nameNormalized %>" placeholder="Nom normalisé de la page">
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="required field">
+      <label>Type</label>
+      <div class="ui fluid search selection dropdown">
+        <input type="hidden" name="page_type" value="<%= query.page.type %>">
+        <i class="dropdown icon"></i>
+        <div class="default text">Sélectionnez un type</div>
+        <div class="menu">
+          <% pageTypes.forEach(function(type) { %>
+          <div class="item" data-value="<%= type.key %>"><i class="<%= type.icon %> icon"></i><%= type.name %></div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Type de relation</label>
+      <div class="ui fluid search selection dropdown">
+        <input type="hidden" name="page_relation_type" value="<%= query.page.relationType %>">
+        <i class="dropdown icon"></i>
+        <div class="default text">Sélectionnez un type</div>
+        <div class="menu">
+          <% relationTypes.forEach(function(type) { %>
+          <div class="item" data-value="<%= type.key %>"><i class="<%= type.icon %> icon"></i><%= type.name %></div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Description</label>
+    <textarea rows="5" name="page_description"><%= query.page.description %></textarea>
+  </div>
+
+  <div class="ui submit button" tabindex="0">
+    <% if (typeof query.page._id == 'undefined') { %>
+    Ajouter la page
+    <% } else { %>
+    Enregistrer les modifications
+    <% } %>
+  </div>
+</form>
+
+<script>
+  $('.ui.dropdown').dropdown();
+</script>

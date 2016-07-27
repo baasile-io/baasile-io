@@ -5,7 +5,6 @@ const mongoose = require('mongoose'),
   _ = require('lodash'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
-  serviceModel = require('./Service.model.js'),
   crypto = require('crypto');
 
 module.exports = FieldModel;

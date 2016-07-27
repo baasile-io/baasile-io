@@ -1,0 +1,30 @@
+<div class="ui pointing menu">
+  <a class="<% if (page === 'pages/dashboard/pages/index') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/pages">
+    Pages
+  </a>
+  <a class="<% if (page === 'pages/dashboard/pages/new') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/pages/new">
+    Créer une nouvelle page
+  </a>
+  <% if (data.page) { %>
+  <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/pages/<%= data.page.nameNormalized %>">
+    Modifier
+  </a>
+  <% } %>
+</div>
+<% if (data.page) { %>
+<h3 class="ui header">
+  <i class="file bordered icon"></i>
+  <div class="content">
+    <%= data.page.name %>
+    <div class="sub header">Page</div>
+  </div>
+</h3>
+<% } %>
+<% if (page === 'pages/dashboard/pages/new') { %>
+<h4 class="ui header">
+  <i class="add bordered icon"></i>
+  <div class="content">
+    Créer une nouvelle page
+  </div>
+</h4>
+<% } %>

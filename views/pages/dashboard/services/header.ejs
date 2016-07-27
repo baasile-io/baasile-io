@@ -21,4 +21,7 @@
   <a class="item <% if (page.indexOf('pages/dashboard/routes/') == 0 || page.indexOf('pages/dashboard/fields/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">
     Base de données
   </a>
+  <a class="item <% if (page.indexOf('pages/dashboard/pages/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/pages">
+    Documentation
+  </a>
 </div>

@@ -10,6 +10,9 @@ module.exports = {
         "Data": {
           type: "donnees"
         },
+        "Page": {
+          type: "pages"
+        },
         "Route": {
           type: "collections"
         },

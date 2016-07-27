@@ -1,0 +1,36 @@
+<div class="ui container">
+  <% include ../services/header %>
+  <% include ./header %>
+
+  <% if (pages.length > 0) { %>
+  <table class="ui celled table">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th class="sort-by-date">Modification</th>
+      <th class="three wide"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% pages.forEach(function(page) { %>
+      <tr>
+        <td>
+          <i class="<%= page.completeType.icon %> bordered icon"></i> <strong><%= page.name %></strong>
+        </td>
+        <td><%= page.updatedAt.toISOString() || page.createdAt.toISOString() %></td>
+        <td>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+  <% } else { %>
+  <div class="ui segment">
+    Vous n'avez pas encore documenté votre service
+  </div>
+  <p></p>
+  <% } %>
+
+
+</div>

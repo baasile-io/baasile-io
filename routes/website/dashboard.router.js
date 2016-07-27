@@ -8,6 +8,7 @@ const express = require('express'),
   tokensController = require('../../controllers/dashboard/tokens.controller.js'),
   routesController = require('../../controllers/dashboard/routes.controller.js'),
   fieldsController = require('../../controllers/dashboard/fields.controller.js'),
+  pagesController = require('../../controllers/dashboard/pages.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -22,6 +23,7 @@ module.exports = function (options) {
   const TokensController = new tokensController(options);
   const RoutesController = new routesController(options);
   const FieldsController = new fieldsController(options);
+  const PagesController = new pagesController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -73,6 +75,9 @@ module.exports = function (options) {
     .get('/dashboard/services/:serviceName', ServicesController.getServiceData, ServicesController.view)
     .get('/dashboard/services/:serviceName/edit', csrfProtection, ServicesController.getServiceData, ServicesController.edit)
     .post('/dashboard/services/:serviceName', csrfProtection, ServicesController.getServiceData, ServicesController.update)
+    .get('/dashboard/services/:serviceName/pages', csrfProtection, ServicesController.getServiceData, PagesController.index)
+    .get('/dashboard/services/:serviceName/pages/new', csrfProtection, ServicesController.getServiceData, PagesController.new)
+    .post('/dashboard/services/:serviceName/pages', csrfProtection, ServicesController.getServiceData, PagesController.create)
     .get('/dashboard/services/:serviceName/users', csrfProtection, ServicesController.getServiceData, ServicesController.users)
     .post('/dashboard/services/:serviceName/users', csrfProtection, ServicesController.getServiceData, ServicesController.inviteUser)
     .post('/dashboard/services/:serviceName/users/:userEmail/destroy', csrfProtection, ServicesController.getServiceData, ServicesController.revokeUser)
