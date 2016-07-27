@@ -180,6 +180,17 @@ function RoutesController(options) {
       });
     });
   };
+
+  this.drop = function(req, res, next) {
+    DataModel.io.remove({
+      service: req.data.service._id,
+      route: req.data.route._id
+    }, function(err) {
+      if (err)
+        return next({code: 500});
+      res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized);
+    });
+  };
   
   this.getRouteData = function(req, res, next) {
     RouteModel.io.findOne({

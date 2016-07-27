@@ -77,20 +77,20 @@
     Vous n'avez généré aucun jeton de connexion
   </div>
   <% } %>
-
-
-  <form id="generate_token_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  </form>
-  <form id="show_client_secret_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientSecret">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
-  </form>
-  <form id="show_client_id_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientId">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
-  </form>
 </div>
+
+
+<form id="generate_token_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/tokens/generate">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+<form id="show_client_secret_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientSecret">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
+</form>
+<form id="show_client_id_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/clientId">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="redirect_url" value="/dashboard/services/<%= data.service.nameNormalized %>/tokens">
+</form>
 
 <script>
   $(document).ready(function() {

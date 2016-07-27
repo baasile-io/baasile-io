@@ -166,8 +166,7 @@ function ServicesController(options) {
               }, []);
               if (unauthorizedFields.length > 0) {
                 unauthorizedFields.forEach(function (name) {
-                  errors.push('unauthorized_paramater'),
-                    errors.push('"' + name + '" is not a valid parameter');
+                  errors.push('unauthorized_paramater', '"' + name + '" is not a valid parameter');
                 });
               }
             });

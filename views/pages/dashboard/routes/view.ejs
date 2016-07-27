@@ -3,6 +3,12 @@
   <% include ./header %>
 
   <div class="ui segment">
+    <button class="ui button" id="drop_database_modal_btn">
+      <i class="trash icon"></i>
+      Supprimer les données
+    </button>
+  </div>
+  <div class="ui segment">
     <div class="ui statistic">
       <div class="value">
         <%= dataCount %>
@@ -13,3 +19,43 @@
     </div>
   </div>
 </div>
+
+<div class="ui basic modal" id="drop_database_modal">
+  <i class="close icon"></i>
+  <div class="ui inverted icon header">
+    <i class="trash icon"></i>
+    <div class="content">
+      Supprimer les données de la collection
+      <div class="sub header">
+        Êtes-vous certain de vouloir supprimer l'ensemble des données de cette collection ?
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui center aligned basic segment">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <div class="ui ok green basic inverted button" id="drop_database_btn">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="drop_database_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/drop">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+
+<script>
+  $(document).ready(function() {
+    $('#drop_database_btn').on('click', function(e) {
+      document.getElementById('drop_database_form').submit();
+    });
+    $('#drop_database_modal_btn').on('click', function(e) {
+      $('#drop_database_modal').modal('show');
+    });
+  });
+</script>

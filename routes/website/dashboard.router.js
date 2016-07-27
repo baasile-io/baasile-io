@@ -82,6 +82,7 @@ module.exports = function (options) {
     .get('/dashboard/services/:serviceName/routes/new', csrfProtection, ServicesController.getServiceData, RoutesController.new)
     .get('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.view)
     .get('/dashboard/services/:serviceName/routes/:routeName/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.edit)
+    .post('/dashboard/services/:serviceName/routes/:routeName/drop', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.drop)
     .post('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.update)
     .get('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.index)
     .get('/dashboard/services/:serviceName/routes/:routeName/fields/new', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.new)
