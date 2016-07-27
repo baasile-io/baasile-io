@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
+  CONFIG = require('../../config/app.js'),
   serviceModel = require('./Service.model.js'),
   crypto = require('crypto');
 
@@ -13,6 +14,7 @@ function RouteModel(options) {
   const db = mongoose.createConnection(options.dbHost);
   const ServiceModel = new serviceModel(options);
   const self = this;
+  const TYPE = CONFIG.api.v1.resources.Route.type;
 
   const ROUTE_TYPES = [
     'API',
@@ -67,6 +69,10 @@ function RouteModel(options) {
       ref: 'ServiceModel',
       required: true
     },
+    clientId: {
+      type: String,
+      required: true
+    },
     creator: {
       type: mongoose.Schema.ObjectId,
       ref: 'UserModel',
@@ -99,6 +105,18 @@ function RouteModel(options) {
         jeton_france_connect_lecture: this.fcRequired
       };
     });
+
+  routeSchema.methods.getResourceObject = function (apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.routeId,
+      type: TYPE,
+      data: this.get('attributes'),
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+      }
+    };
+  };
 
   this.io = db.model('Route', routeSchema);
 

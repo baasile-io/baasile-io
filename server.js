@@ -9,7 +9,8 @@ const http = require('http'),
   cors = require('cors'),
   routes = require('./routes/routes.js'),
   MongoStore = require('connect-mongo')(session),
-  mongodb = require('mongodb');
+  mongodb = require('mongodb'),
+  mongoose = require('mongoose');
 
 module.exports = Server;
 
@@ -20,6 +21,7 @@ function Server (options) {
   options.logger = options.logger || emptylogger();
   options.db = options.db || mongodb.MongoClient;
   options.tokenExpiration = options.tokenExpiration || 20; //minutes
+  options.sessionMaxAge = options.sessionMaxAge || 5; //minutes
   var logger = options.logger;
   var app = express();
   app.set("port", options.port);
@@ -47,7 +49,7 @@ function Server (options) {
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {
-      maxAge: 700000
+      maxAge: options.sessionMaxAge * 60 * 1000
     },
     proxy: true,
     resave: false,

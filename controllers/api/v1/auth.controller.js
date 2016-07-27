@@ -37,7 +37,7 @@ function AuthController(options) {
         }, function(err, service) {
           if (err)
             return next({code: 500});
-          res._clientId = service.clientId;
+          res._service = service;
           return next();
         });
       });
@@ -48,9 +48,9 @@ function AuthController(options) {
     const clientSecret = res._request.params.client_secret;
     const clientId = res._request.params.client_id;
     if (!clientId)
-      return next({messages: ["missing client_id"], code: 400});
+      return next({messages: ['missing_parameter', '"client_id" is required'], code: 400});
     if (!clientSecret)
-      return next({messages: ["missing client_secret"], code: 400});
+      return next({messages: ['missing_parameter', '"client_secret" is required'], code: 400});
     ServiceModel.io.findOne({
       clientId: clientId,
       clientSecret: clientSecret
@@ -58,12 +58,12 @@ function AuthController(options) {
       if (err)
         return next({code: 500});
       if (!service)
-        return next({messages: ['invalid client_id and/or client_secret'], code: 400});
+        return next({messages: ['invalid_parameter', '"client_id" and/or "client_secret" are/is invalid'], code: 400});
       createToken(service)
         .then(function(accessToken) {
           return next({code: 200, data: {
             id: accessToken.createdAt,
-            type: "token",
+            type: "tokens",
             attributes: {
               access_token: accessToken.accessToken,
               expires_on: accessToken.accessTokenExpiresOn

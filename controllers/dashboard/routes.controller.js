@@ -65,6 +65,7 @@ function RoutesController(options) {
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
       service: req.data.service,
+      clientId: req.data.service.clientId,
       method: 'POST',
       type: 'DONNEE_PARTAGEE'
     };

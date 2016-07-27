@@ -6,6 +6,7 @@
     "format": "simple"
   },
   "tokenExpiration": 1440,
+  "apiUri": "https://api-cpa.herokuapp.com/api",
   "apirHost": "http://apir.herokuapp.com",
   "apicdcHost": "http://api-cdc.herokuapp.com",
   "MONGODB_URI": "mongodb://localhost:27017/api-cpa",

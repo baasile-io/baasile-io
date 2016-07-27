@@ -98,7 +98,7 @@ function ServicesController(options) {
     ServiceModel.io.findOne({
       $or: [
         {public: true},
-        {clientId: res._clientId}
+        {clientId: res._service.clientId}
       ],
       $or: [
         {nameNormalized: req.params.serviceId},
