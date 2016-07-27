@@ -1,0 +1,27 @@
+<div class="ui container">
+  <% include ../services/header %>
+  <% include ../routes/header %>
+
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="ui fluid vertical pointing menu">
+        <% if (data.route.relations.length > 0) { %>
+        <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations">
+          Liste des relations (<%= data.route.relations.length %>)
+        </a>
+        <% } %>
+        <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations/new">
+          <i class="add icon"></i>
+          Ajouter une relation
+        </a>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <% include ./header %>
+
+      <div class="ui segment">
+        <% include ./form %>
+      </div>
+    </div>
+  </div>
+</div>

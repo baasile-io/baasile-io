@@ -4,6 +4,7 @@ const request = require('request'),
   _ = require('lodash'),
   routeModel = require('../../models/v1/Route.model.js'),
   fieldModel = require('../../models/v1/Field.model.js'),
+  relationModel = require('../../models/v1/Relation.model.js'),
   dataModel = require('../../models/v1/Data.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
@@ -15,6 +16,7 @@ function RoutesController(options) {
   const RouteModel = new routeModel(options);
   const FieldModel = new fieldModel(options);
   const DataModel = new dataModel(options);
+  const RelationModel = new relationModel(options);
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
@@ -191,6 +193,20 @@ function RoutesController(options) {
       res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized);
     });
   };
+
+  this.getServiceRoutes = function(req, res, next) {
+    RouteModel.io.find({
+      service: req.data.service
+    }, function(err, routes) {
+      if (err)
+        return next({code: 500});
+      if (!routes)
+        routes = [];
+      req.data = req.data || {};
+      req.data.serviceRoutes = routes;
+      return next();
+    });
+  };
   
   this.getRouteData = function(req, res, next) {
     RouteModel.io.findOne({
@@ -209,7 +225,36 @@ function RoutesController(options) {
           if (err)
             return next({code: 500});
           req.data.route.fields = fields;
-          return next();
+          req.data.route.relations = [];
+          RelationModel.io
+            .find({parentRouteId: route.routeId})
+            .stream()
+            .on('data', function(relation) {
+              var self = this;
+              self.pause();
+              RouteModel.io.findOne({_id: relation.childRoute}, function(err, childRouteObj) {
+                if (err)
+                  return self.destroy();
+                req.data.route.relations.push({
+                  _id: relation._id,
+                  childRoute: childRouteObj,
+                  childRouteId: childRouteObj.routeId,
+                  updatedAt: relation.updatedAt,
+                  createdAt: relation.createdAt,
+                  completeType: relation.completeType,
+                  relationId: relation.relationId
+                });
+                self.resume();
+              });
+            })
+            .on('error', function(err) {
+              return next({code: 500});
+            })
+            .on('end', function() {
+              logger.info('----------------');
+              logger.info(req.data.route.relations);
+              return next();
+            });
         });
     });
   };

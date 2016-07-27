@@ -1,0 +1,59 @@
+<% if (data.serviceRoutes.length <= 1) { %>
+  Vous devez avoir créé au moins 2 collections pour ajouter une relation
+<% } else { %>
+  <form class="ui  large basic form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations<% if (typeof data.relation != 'undefined') { %>/<%= data.relation.relationId %><% } %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="ui steps">
+      <div class="step">
+        <i class="database icon"></i>
+        <div class="content">
+          <div class="title"><%= data.route.name %></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="content">
+          <div class="fluid field">
+            <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="relation_child_route" value="<%= query.relation.childRouteId %>">
+              <i class="dropdown icon"></i>
+              <div class="default text">Sélectionnez une collection</div>
+              <div class="menu">
+                <% data.serviceRoutes.forEach(function(route) { %>
+                <% if (route._id.toString() != data.route._id.toString()) { %>
+                <div class="item" data-value="<%= route.routeId %>"><i class="database icon"></i><%= route.name %></div>
+                <% } %>
+                <% }) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="required field">
+      <label>Type de relation</label>
+      <div class="ui fluid search selection dropdown">
+        <input type="hidden" name="relation_type" value="<%= query.relation.type %>">
+        <i class="dropdown icon"></i>
+        <div class="default text">Sélectionnez un type</div>
+        <div class="menu">
+          <% relationTypes.forEach(function(type) { %>
+          <div class="item" data-value="<%= type.key %>"><i class="<%= type.icon %> icon"></i><%= type.name %></div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui submit button" tabindex="0">
+      <% if (typeof query.relation._id == 'undefined') { %>
+      Ajouter la relation
+      <% } else { %>
+      Enregistrer les modifications
+      <% } %>
+    </div>
+  </form>
+
+  <script>
+    $('.ui.dropdown').dropdown();
+  </script>
+<% } %>

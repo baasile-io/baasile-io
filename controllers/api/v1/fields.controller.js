@@ -13,30 +13,13 @@ function FieldsController(options) {
     var fields = [];
     FieldModel.io.find({
         route: req.data.route._id
-      },
-      {
-        _id: 0,
-        fieldId: 1,
-        order: 1,
-        nameNormalized: 1,
-        description: 1,
-        required: 1
       })
       .sort({order: 1})
       .stream()
       .on('data', function(element) {
         var self = this;
         self.pause();
-        var elementData = {
-          id: element.fieldId,
-          type: 'champs',
-          attributes: {
-            position: element.order,
-            nom: element.nameNormalized,
-            description: element.description,
-            obligatoire: element.required
-          }
-        };
+        var elementData = element.getResourceObject(res._apiuri);
         fields.push(elementData);
         self.resume();
       })

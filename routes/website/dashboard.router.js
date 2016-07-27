@@ -9,6 +9,7 @@ const express = require('express'),
   routesController = require('../../controllers/dashboard/routes.controller.js'),
   fieldsController = require('../../controllers/dashboard/fields.controller.js'),
   pagesController = require('../../controllers/dashboard/pages.controller.js'),
+  relationsController = require('../../controllers/dashboard/relations.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -24,6 +25,7 @@ module.exports = function (options) {
   const RoutesController = new routesController(options);
   const FieldsController = new fieldsController(options);
   const PagesController = new pagesController(options);
+  const RelationsController = new relationsController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -89,6 +91,12 @@ module.exports = function (options) {
     .get('/dashboard/services/:serviceName/routes/:routeName/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.edit)
     .post('/dashboard/services/:serviceName/routes/:routeName/drop', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.drop)
     .post('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.update)
+    .get('/dashboard/services/:serviceName/routes/:routeName/relations', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RelationsController.index)
+    .get('/dashboard/services/:serviceName/routes/:routeName/relations/new', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.new)
+    .get('/dashboard/services/:serviceName/routes/:routeName/relations/:relationId/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.getRelationData, RelationsController.edit)
+    .post('/dashboard/services/:serviceName/routes/:routeName/relations/:relationId', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.getRelationData, RelationsController.update)
+    .post('/dashboard/services/:serviceName/routes/:routeName/relations/:relationId/destroy', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.getRelationData, RelationsController.destroy)
+    .post('/dashboard/services/:serviceName/routes/:routeName/relations', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.create)
     .get('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.index)
     .get('/dashboard/services/:serviceName/routes/:routeName/fields/new', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.new)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.create)

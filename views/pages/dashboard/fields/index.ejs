@@ -27,7 +27,7 @@
         <% data.route.fields.forEach(function(field) { %>
         <tr>
           <td>
-            <i class="<%= field.completeType.icon %> bordered icon"></i> <strong><%= field.nameNormalized %></strong>
+            <i class="<%= field.completeType.icon %> bordered icon"></i> <strong><%= field.nameNormalized %><% if (field.required) { %> *<% } %></strong>
           </td>
           <td>
             <% if (field.order > 0) { %>

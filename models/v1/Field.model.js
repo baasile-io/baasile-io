@@ -22,6 +22,7 @@ function FieldModel(options) {
     {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag', default: 0},
     {key: 'PERCENT', name: 'Pourcentage', icon: 'percent', default: 0},
     {key: 'AMOUNT', name: 'Montant', icon: 'euro', default: 0},
+    {key: 'BOOLEAN', name: 'Booléen', icon: 'toggle on', default: false},
     {key: 'DATE', name: 'Date', icon: 'calendar', default: new Date()},
     {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect', default: ""},
     {key: 'JSON', name: 'JSON', icon: 'sitemap', default: {}}
@@ -38,12 +39,12 @@ function FieldModel(options) {
       required: [true, "Le nom est obligatoire"],
       validate: {
         validator: function(o) {
-          return validator.isWhitelisted(o.toLowerCase(), 'abcdefghijklmnopqrstuvwxyz0123456789- ùûüÿàâçéèêëïîô');
+          return validator.isWhitelisted(o.toLowerCase(), 'abcdefghijklmnopqrstuvwxyz0123456789-_ ùûüÿàâçéèêëïîô');
         },
         message: 'Le nom doit uniquement comporter des chiffres, des lettres, des espaces et des caractères `-`'
       },
-      minlength: [2, 'Le nom doit faire entre 2 et 25 caractères'],
-      maxlength: [25, 'Le nom doit faire entre 2 et 25 caractères']
+      minlength: [2, 'Le nom doit faire entre 2 et 30 caractères'],
+      maxlength: [30, 'Le nom doit faire entre 2 et 30 caractères']
     },
     nameNormalized: {
       type: String,
@@ -123,7 +124,8 @@ function FieldModel(options) {
       attributes: {
         nom: this.nameNormalized,
         description: this.description,
-        position: this.order
+        position: this.order,
+        type: this.type
       },
       links: {
         self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.fieldId
@@ -188,6 +190,8 @@ function FieldModel(options) {
       if (Array.isArray(value))
         return false;
     }
+    if (type == 'BOOLEAN' && typeof value != Boolean)
+      return false;
     return true;
   };
 

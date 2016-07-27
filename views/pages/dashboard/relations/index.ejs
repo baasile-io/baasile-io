@@ -1,0 +1,104 @@
+<div class="ui container">
+  <% include ../services/header %>
+  <% include ../routes/header %>
+
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="ui fluid vertical pointing menu">
+        <a class="active item">
+          Liste des relations (<%= data.route.relations.length %>)
+        </a>
+        <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations/new">
+          <i class="add icon"></i>
+          Ajouter une relation
+        </a>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <% if (data.route.relations.length > 0) { %>
+      <table class="ui celled table">
+        <thead>
+        <tr>
+          <th colspan="3">Relation</th>
+          <th class="sort-by-date">Modification</th>
+          <th colspan="2" class="one wide"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% data.route.relations.forEach(function(relation) { %>
+          <tr>
+            <td class="four wide">
+              <i class="database bordered icon"></i> <strong><%= data.route.name %></strong>
+            </td>
+            <td class="center aligned one wide">
+              <i class="large <%= relation.completeType.icon %> icon"></i>
+            </td>
+            <td class="four wide right aligned">
+              <strong><%= relation.childRoute.name %></strong> &nbsp;<i class="database bordered icon"></i>
+            </td>
+            <td><%= relation.updatedAt.toISOString() || relation.createdAt.toISOString() %></td>
+            <td>
+              <a class="ui mini icon button" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations/<%= relation.relationId %>/edit">
+                <i class="edit icon"></i>
+              </a>
+            </td>
+            <td>
+              <a class="ui mini icon button remove_relation_btn" data-relation-id="<%= relation.relationId %>" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations/<%= relation.relationId %>">
+                <i class="trash icon"></i>
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <div class="ui segment">
+        Vous n'avez pas créé de relations entre les collections
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+<div class="ui basic modal" id="remove_relation_modal">
+  <div class="ui inverted icon header">
+    <i class="trash icon"></i>
+    <div class="content">
+      Supprimer la relation
+      <div class="sub header">
+        Êtes-vous certain de vouloir supprimer la relation de cette collection ?
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui center aligned basic segment">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        Annuler
+      </div>
+      <div class="ui ok green basic inverted button" id="remove_relation_btn">
+        <i class="checkmark icon"></i>
+        Confirmer
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="remove_relation_form" method="post" action="">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+
+<script>
+  $(document).on('ready', function(e) {
+    $('.remove_relation_btn').on('click', function(e) {
+      e.preventDefault();
+      var relation_id = $(this).data('relation-id');
+      document.getElementById('remove_relation_form').action = '/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations/' + relation_id + '/destroy';
+      $('#remove_relation_modal').modal('show');
+    });
+    $('#remove_relation_btn').on('click', function(e) {
+      document.getElementById('remove_relation_form').submit();
+    });
+  });
+</script>

@@ -3,7 +3,7 @@
   <% include ./header %>
 
   <div class="ui segment">
-    <button class="ui button" id="drop_database_modal_btn">
+    <button class="<% if (dataCount == 0) { %>disabled<% } %> ui button" id="drop_database_modal_btn">
       <i class="trash icon"></i>
       Supprimer les données
     </button>
@@ -15,6 +15,22 @@
       </div>
       <div class="label">
         Donnée(s)
+      </div>
+    </div>
+    <div class="ui statistic">
+      <div class="value">
+        <%= data.route.fields.length %>
+      </div>
+      <div class="label">
+        Champ(s)
+      </div>
+    </div>
+    <div class="ui statistic">
+      <div class="value">
+        <%= data.route.relations.length %>
+      </div>
+      <div class="label">
+        Relation(s)
       </div>
     </div>
   </div>

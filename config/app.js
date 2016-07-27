@@ -13,6 +13,9 @@ module.exports = {
         "Page": {
           type: "pages"
         },
+        "Relation": {
+          type: "relations"
+        },
         "Route": {
           type: "collections"
         },

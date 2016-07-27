@@ -101,8 +101,8 @@ function RouteModel(options) {
         alias: this.nameNormalized,
         nom: this.name,
         description: this.description,
-        jeton_france_connect_lecture_ectriture: this.fcRestricted,
-        jeton_france_connect_lecture: this.fcRequired
+        jeton_fc_lecture_ectriture: this.fcRestricted,
+        jeton_fc_lecture_seulement: this.fcRequired
       };
     });
 
