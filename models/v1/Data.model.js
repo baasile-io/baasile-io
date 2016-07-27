@@ -57,17 +57,12 @@ function DataModel(options) {
     next();
   });
 
-  dataSchema.virtual('attributes')
-    .get(function () {
-      return this.data;
-    });
-
   dataSchema.methods.getResourceObject = function (apiUri) {
     apiUri = apiUri || options.apiUri;
     return {
       id: this.dataId,
       type: TYPE,
-      data: this.data,
+      attributes: this.data,
       links: {
         self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.dataId
       },
