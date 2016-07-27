@@ -214,7 +214,7 @@ function ServicesController(options) {
         else {
           DataModel.io.create({
             dataId: req.data.route.fcRestricted || (req.data.route.fcRequired && req.data.fcIdentity) ? FranceConnectHelper.generateHash(req.data.fcIdentity) : res._request.params.data[i].id || DataModel.generateId(),
-            data: res._request.params.data,
+            data: res._request.params.data[i].attributes,
             service: req.data.service._id,
             clientId: req.data.service.clientId,
             route: req.data.route._id,

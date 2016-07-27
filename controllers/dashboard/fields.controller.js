@@ -3,6 +3,7 @@
 const request = require('request'),
   _ = require('lodash'),
   fieldModel = require('../../models/v1/Field.model.js'),
+  dataModel = require('../../models/v1/Data.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = FieldsController;
@@ -11,6 +12,7 @@ function FieldsController(options) {
   options = options || {};
   const logger = options.logger;
   const FieldModel = new fieldModel(options);
+  const DataModel = new dataModel(options);
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {
@@ -191,7 +193,7 @@ function FieldsController(options) {
     FieldModel.io
       .findOne({
         route: req.data.route,
-        order: req.data.field.order + 1
+        fieldId: req.params.fieldId
       })
       .exec(function(err, prevField) {
         if (err)
@@ -221,6 +223,51 @@ function FieldsController(options) {
                 return next({code: 500});
               res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
             });
+          });
+        });
+      });
+  };
+
+  this.destroy = function(req, res, next) {
+    DataModel.io.find({
+      service: req.data.service._id,
+      route: req.data.route._id
+    })
+      .stream()
+      .on('data', function(data) {
+        var self = this;
+        self.pause();
+        if (Array.isArray(data.data)) {
+          data.data.forEach(function (value, i) {
+            delete data.data[i][req.data.field.nameNormalized];
+          });
+        }
+        else
+          delete data.data[req.data.field.nameNormalized];
+        DataModel.io.update({
+          dataId: data.dataId,
+          service: req.data.service._id,
+          route: req.data.route._id
+        }, {
+          $set: {data: data.data}
+        }, function(err, newData) {
+          if (err)
+            return self.destroy();
+          self.resume();
+        });
+      })
+      .on('error', function(err) {
+        next({code: 500});
+      })
+      .on('end', function() {
+        req.data.field.remove(function (err) {
+          if (err)
+            return next({code: 500});
+          delete req.data.field;
+          ensureFieldsOrder(req.data.route, function (err) {
+            if (err)
+              return next({code: 500});
+            res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
           });
         });
       });

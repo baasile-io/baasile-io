@@ -89,6 +89,7 @@ module.exports = function (options) {
     .post('/dashboard/services/:serviceName/routes/:routeName/fields', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.create)
     .get('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.edit)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.update)
+    .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/destroy', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.destroy)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/up', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.up)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/down', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.down)
     .post('/dashboard/services/:serviceName/tokens/generate', csrfProtection, ServicesController.getServiceData, TokensController.generateTokenFromDashboard)
