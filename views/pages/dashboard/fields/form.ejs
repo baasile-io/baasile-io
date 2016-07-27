@@ -2,7 +2,7 @@
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
   <div class="two fields">
-    <div class="required field">
+    <div class="<% if (typeof data.field != 'undefined') { %>disabled<% } %> required field">
       <label>Type</label>
       <div class="ui fluid search selection dropdown">
         <input type="hidden" name="field_type" value="<%= query.field.type %>">

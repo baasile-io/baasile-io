@@ -111,9 +111,14 @@ function RouteModel(options) {
     return {
       id: this.routeId,
       type: TYPE,
-      data: this.get('attributes'),
+      attributes: this.get('attributes'),
       links: {
         self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+      },
+      meta: {
+        creation: this.createdAt,
+        modification: this.updatedAt,
+        version: this.__v
       }
     };
   };

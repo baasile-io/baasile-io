@@ -76,6 +76,8 @@ function FieldsController(options) {
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
       route: req.data.route,
+      routeId: req.data.route.routeId,
+      clientId: req.data.service.clientId,
       order: req.data.route.fields.length
     };
 
@@ -105,7 +107,10 @@ function FieldsController(options) {
   };
 
   this.update = function(req, res, next) {
+    const fieldTypes = FieldModel.getFieldTypes();
     var field = req.data.field;
+    const oldNameNormalized = field.nameNormalized;
+    const oldRequired = field.required;
     const fieldName = _.trim(req.body.field_name);
     const fieldNameNormalized = FieldModel.getNormalizedName(fieldName);
     const fieldDescription = _.trim(req.body.field_description);
@@ -124,7 +129,8 @@ function FieldsController(options) {
     field.nameNormalized = fieldNameNormalized;
     field.description = fieldDescription;
     field.required = fieldRequired;
-    field.type = fieldType;
+    field.clientId = req.data.service.clientId; //TODO remove when migration done
+    field.routeId = req.data.route.routeId; //TODO remove when migration done
 
     field.save(function(err, num) {
       if (err || num == 0) {
@@ -141,12 +147,69 @@ function FieldsController(options) {
           }
         });
       }
-      logger.info('field updated: ' + fieldData.name);
-      FlashHelper.addSuccess(req.session, 'Le champ a bien été mis à jour', function(err) {
-        if (err)
-          return next({code: 500});
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
-      });
+      if (oldNameNormalized != fieldNameNormalized || oldRequired != fieldRequired) {
+        DataModel.io.find({
+            service: req.data.service._id,
+            route: req.data.route._id
+          })
+          .stream()
+          .on('data', function (data) {
+            var self = this;
+            self.pause();
+            if (Array.isArray(data.data)) {
+              data.data.forEach(function (value, i) {
+                if (oldNameNormalized != fieldNameNormalized) {
+                  data.data[i][fieldNameNormalized] = data.data[i][oldNameNormalized];
+                  delete data.data[i][oldNameNormalized];
+                }
+                if (oldRequired != fieldRequired && fieldRequired) {
+                  if (!data.data[i][fieldNameNormalized])
+                    data.data[i][fieldNameNormalized] = _.find(fieldTypes, {key: field.type}).default;
+                }
+              });
+            }
+            else {
+              if (oldNameNormalized != fieldNameNormalized) {
+                data.data[fieldNameNormalized] = data.data[oldNameNormalized];
+                delete data.data[oldNameNormalized];
+              }
+              if (oldRequired != fieldRequired && fieldRequired) {
+                if (!data.data[fieldNameNormalized])
+                  data.data[fieldNameNormalized] = _.find(fieldTypes, {key: field.type}).default;
+              }
+            }
+            DataModel.io.update({
+              dataId: data.dataId,
+              service: req.data.service._id,
+              route: req.data.route._id
+            }, {
+              $set: {data: data.data}
+            }, function (err, newData) {
+              if (err)
+                return self.destroy();
+              self.resume();
+            });
+          })
+          .on('error', function (err) {
+            next({code: 500});
+          })
+          .on('end', function () {
+            FlashHelper.addSuccess(req.session, 'Le champ a bien été mis à jour', function (err) {
+              if (err)
+                return next({code: 500});
+              logger.info('field updated: ' + fieldData.name);
+              res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
+            });
+          });
+      }
+      else {
+        FlashHelper.addSuccess(req.session, 'Le champ a bien été mis à jour', function (err) {
+          if (err)
+            return next({code: 500});
+          logger.info('field updated: ' + fieldData.name);
+          res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
+        });
+      }
     });
   };
 

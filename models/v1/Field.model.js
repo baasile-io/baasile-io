@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose'),
+  CONFIG = require('../../config/app.js'),
   _ = require('lodash'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
@@ -14,16 +15,17 @@ function FieldModel(options) {
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
   const self = this;
+  const TYPE = CONFIG.api.v1.resources.Field.type;
 
   const FIELD_TYPES = [
-    {key: 'ID', name: 'Identifiant unique', icon: 'privacy'},
-    {key: 'STRING', name: 'Texte', icon: 'font'},
-    {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag'},
-    {key: 'PERCENT', name: 'Pourcentage', icon: 'percent'},
-    {key: 'AMOUNT', name: 'Montant', icon: 'euro'},
-    {key: 'DATE', name: 'Date', icon: 'calendar'},
-    {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect'},
-    {key: 'JSON', name: 'JSON', icon: 'sitemap'}
+    {key: 'ID', name: 'Identifiant unique', icon: 'privacy', default: "ID"},
+    {key: 'STRING', name: 'Texte', icon: 'font', default: ""},
+    {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag', default: 0},
+    {key: 'PERCENT', name: 'Pourcentage', icon: 'percent', default: 0},
+    {key: 'AMOUNT', name: 'Montant', icon: 'euro', default: 0},
+    {key: 'DATE', name: 'Date', icon: 'calendar', default: new Date()},
+    {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect', default: ""},
+    {key: 'JSON', name: 'JSON', icon: 'sitemap', default: {}}
   ];
 
   const fieldSchema = new mongoose.Schema({
@@ -79,6 +81,14 @@ function FieldModel(options) {
       ref: 'RouteModel',
       required: true
     },
+    routeId: {
+      type: String,
+      required: true
+    },
+    clientId: {
+      type: String,
+      required: true
+    },
     creator: {
       type: mongoose.Schema.ObjectId,
       ref: 'UserModel',
@@ -105,6 +115,27 @@ function FieldModel(options) {
     .get(function () {
       return _.find(FIELD_TYPES, {key: this.type});
     });
+
+  fieldSchema.methods.getResourceObject = function (apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.fieldId,
+      type: TYPE,
+      attributes: {
+        nom: this.nameNormalized,
+        description: this.description,
+        position: this.order
+      },
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.fieldId
+      },
+      meta: {
+        creation: this.createdAt,
+        modification: this.updatedAt,
+        version: this.__v
+      }
+    };
+  };
 
   this.io = db.model('Field', fieldSchema);
 

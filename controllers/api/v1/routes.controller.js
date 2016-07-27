@@ -18,6 +18,7 @@ function ServicesController(options) {
 
   this.getSharedRoutes = function(req, res, next) {
     var routes = [];
+    var included = [];
     RouteModel.io.find({
       service: req.data.service._id,
       public: true
@@ -43,17 +44,11 @@ function ServicesController(options) {
         ], function(err, result) {
           if (err)
             return self.destroy(err);
-          elementData.meta = {
-            donnees: {
-              count: result.length > 0 ? result[0].count : 0
-            }
-          };
+          elementData.meta = elementData.meta || {};
+          elementData.meta.donnees = elementData.meta.donnees || {};
+          elementData.meta.donnees.count = result.length > 0 ? result[0].count : 0;
           FieldModel.io.find({
             route: element._id
-          }, {
-            _id: 0,
-            fieldId: 1,
-            nameNormalized: 1
           }, function(err, fields) {
             if (err)
               return self.destroy(err);
@@ -62,13 +57,13 @@ function ServicesController(options) {
               fields.forEach(function(field) {
                 dataFields.push({
                   id: field.fieldId,
-                  type: 'champs',
-                  attributes: {
-                    nom: field.nameNormalized
-                  }
+                  type: 'champs'
                 });
+                included.push(field.getResourceObject(res._apiuri));
               });
             }
+            elementData.meta.fields = elementData.meta.fields || {};
+            elementData.meta.fields.count = fields ? fields.length : 0;
             if (fields && fields.length > 0) {
               elementData.relationships = {
                 champs: {
@@ -89,7 +84,7 @@ function ServicesController(options) {
         next({code: 500});
       })
       .on('end', function() {
-        next({code: 200, data: routes});
+        next({code: 200, data: routes, included: included});
       });
   };
 

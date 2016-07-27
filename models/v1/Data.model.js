@@ -68,7 +68,8 @@ function DataModel(options) {
       },
       meta: {
         creation: this.createdAt,
-        modification: this.updatedAt
+        modification: this.updatedAt,
+        version: this.__v
       }
     };
   };
