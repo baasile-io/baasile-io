@@ -47,6 +47,7 @@
     <div class="ui horizontal blue label">GET</div> /api/v1/services
   </h4>
   <div class="ui attached segment">
+    <h5>Liste des services référencés sur l'API</h5>
     <p>Paramètres d'entrée</p>
     <ul class="ui list">
       <li><div class="ui horizontal label">access_token</div></li>
@@ -63,6 +64,32 @@
       "site_internet": STRING
     }
   }]
+}</pre>
+    </div>
+  </div>
+
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Paramètres d'un service</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <div class="ui segment">
+      <pre>{
+  "data": {
+    "id": ID_SERVICE,
+    "type": "services",
+    "attributes": {
+      "nom": STRING,
+      "description": STRING,
+      "site_internet": STRING
+    }
+  }
 }</pre>
     </div>
   </div>
@@ -93,8 +120,8 @@
       "nom": STRING,
       "description": STRING,
       "tableau_de_donnees": BOOLEAN, // Vrai si la donnée est un tableau de champs
-      "jeton_fc_lecture_ecriture": "Vrai si jeton FranceConnect requis en lecture et écriture",
-      "jeton_fc_lecture_seulement": "Vrai si jeton FranceConnect requis en lecture seuleumet"
+      "jeton_fc_lecture_ecriture": BOOLEAN, // Vrai si jeton FranceConnect requis en lecture et écriture
+      "jeton_fc_lecture_seulement": BOOLEAN // Vrai si jeton FranceConnect requis en lecture seulement
     }
   }]
 }</pre>
@@ -126,7 +153,7 @@
       "description": STRING,
       "tableau_de_donnees": BOOLEAN, // Vrai si la donnée est un tableau de champs
       "jeton_fc_lecture_ecriture": BOOLEAN, // Vrai si jeton FranceConnect requis en lecture et écriture
-      "jeton_fc_lecture_seulement": BOOLEAN, // Vrai si jeton FranceConnect requis en lecture seuleument
+      "jeton_fc_lecture_seulement": BOOLEAN // Vrai si jeton FranceConnect requis en lecture seulement
     }
   }
 }</pre>
@@ -259,7 +286,6 @@
   <div class="ui attached segment">
     <h5>Ajouter ou modifier une donnée</h5>
     <p>Entrée</p>
-    <p>Retour</p>
     <div class="ui segment">
       <div class="ui two column middle aligned very relaxed stackable grid">
         <div class="column">
