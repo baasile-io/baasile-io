@@ -11,5 +11,6 @@
   "apirHost": "http://apir.herokuapp.com",
   "apicdcHost": "http://api-cdc.herokuapp.com",
   "MONGODB_URI": "mongodb://localhost:27017/api-cpa",
-  "EXPRESS_SESSION_SECRET": "16e17272a924d78e65eee5121d19dd1ddefc0db1"
+  "EXPRESS_SESSION_SECRET": "16e17272a924d78e65eee5121d19dd1ddefc0db1",
+  "DOCUMENTATION_APP_ID": "8d7903876fc0d1f95538911aa8becdb9510447bb4de276779bd54d60c98754b3bf38dcb84e8ad29de9e08036a0771209"
 }

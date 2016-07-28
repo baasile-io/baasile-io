@@ -36,6 +36,7 @@ var server = new Server({
   dbHost: process.env.MONGODB_URI || nconf.get('MONGODB_URI'),
   expressSessionSecret: process.env.EXPRESS_SESSION_SECRET || nconf.get('EXPRESS_SESSION_SECRET'),
   expressSessionCookieMaxAge: Math.floor(process.env.EXPRESS_SESSION_COOKIE_MAX_AGE || nconf.get('EXPRESS_SESSION_COOKIE_MAX_AGE')),
+  documentationServiceId: process.env.DOCUMENTATION_APP_ID || nconf.get('DOCUMENTATION_APP_ID'),
   logger: logger
 });
 

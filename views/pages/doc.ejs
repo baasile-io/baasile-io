@@ -1,16 +1,275 @@
 <div class="ui container">
-  <div class="ui grid stackable centered">
-    <div class="row">
-      <div class="twelve wide column">
-        <h1 class="ui center aligned header">
-          <div class="content">
-            Documentation de l'API du CPA Store
-          </div>
-        </h1>
+
+  <h1 class="ui center aligned header">
+    <div class="content">
+      Documentation de l'API du CPA Store
+    </div>
+  </h1>
+
+  <h2 class="ui horizontal divider header">
+    <i class="privacy icon"></i>
+    <div class="content">
+      Authorisation d'accès
+    </div>
+  </h2>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal red label">POST</div> /api/v1/oauth/token
+  </h4>
+  <div class="ui attached segment">
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">client_id</div> (clef publique)</li>
+      <li><div class="ui horizontal label">client_secret</div> (clef secrète)</li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": {
+    "id": "ID_TOKEN",
+    "type": "tokens",
+    "attributes": {
+      "access_token": "VOTRE_JETON_DE_CONNEXION"
+    }
+  }
+}</pre>
+  </div>
+
+  <h2 class="ui horizontal divider header">
+    <i class="cubes icon"></i>
+    <div class="content">
+      Services référencés
+    </div>
+  </h2>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services
+  </h4>
+  <div class="ui attached segment">
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": [{
+    "id": "ID_SERVICE",
+    "type": "services",
+    "attributes": {
+      "nom": "Le nom du service",
+      "description": "La description du service",
+      "site_internet": "URI du service"
+    }
+  }]
+}</pre>
+  </div>
+
+  <h2 class="ui horizontal divider header">
+    <i class="database icon"></i>
+    <div class="content">
+      Collections de données par service
+    </div>
+  </h2>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections
+  </h4>
+  <div class="ui attached segment">
+    <h5>Toutes les collections du service</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": [{
+    "id": "ID_COLLECTION",
+    "type": "collections",
+    "attributes": {
+      "nom": "Le nom de la collection",
+      "description": "La description de la collection",
+      "jeton_fc_lecture_ecriture": "Vrai si jeton FranceConnect requis en lecture et écriture",
+      "jeton_fc_lecture_seulement": "Vrai si jeton FranceConnect requis en lecture seuleumet"
+    }
+  }]
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>200 - Collections trouvées</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+    </ul>
+  </div>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Lire les paramètres d'une collection particulière</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": {
+    "id": "ID_COLLECTION",
+    "type": "collections",
+    "attributes": {
+      "nom": "Le nom de la collection",
+      "description": "La description de la collection",
+      "jeton_fc_lecture_ecriture": "Vrai si jeton FranceConnect requis en lecture et écriture",
+      "jeton_fc_lecture_seulement": "Vrai si jeton FranceConnect requis en lecture seuleumet"
+    }
+  }
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>200 - Collection trouvée</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+      <li>404 - Collection introuvable</li>
+    </ul>
+  </div>
+
+  <h2 class="ui horizontal divider header">
+    <i class="asterisk icon"></i>
+    <div class="content">
+      Données partagées par collection
+    </div>
+  </h2>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees
+  </h4>
+  <div class="ui attached segment">
+    <h5>Toutes les données de la collection</h5>
+    <div class="ui icon message">
+      <i class="warning sign icon"></i>
+      <div class="content">
+        <div class="header">
+          Accès refusé si un jeton de connexion FranceConnect est requis pour cette collection
+        </div>
       </div>
     </div>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": [{
+    "id": "ID_DONNEE",
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }]
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>200 - Données trouvées</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+      <li>401 - Accès refusé</li>
+    </ul>
+  </div>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Lire une donnée particulière</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+      <li><div class="ui horizontal label">fc_token</div> (si jeton de connexion FranceConnect requis)</li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": {
+    "id": "ID_DONNEE",
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>200 - Donnée trouvée</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+      <li>404 - Donnée introuvable</li>
+    </ul>
+  </div>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal red label">POST</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Ajouter ou modifier une donnée</h5>
+    <p>Entrée</p>
+    <pre>{
+  "access_token": "JETON_DE_CONNEXION",
+  "fc_token": "JETON_DE_CONNEXION_FRANCECONNECT", (si jeton de connexion FranceConnect requis)
+  "data": {
+    "id": "ID_DONNEE",
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }
+}</pre>
+    <p>Retour</p>
+    <pre>{
+  "data": {
+    "id": "ID_DONNEE",
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>201 - Donnée créée</li>
+      <li>200 - Donnée modifiée</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+    </ul>
+  </div>
+
+
+  <h2 class="ui horizontal divider header">
+    <i class="options icon"></i>
+    <div class="content">
+      Champs des données d'une collection
+    </div>
+  </h2>
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/champs
+  </h4>
+  <div class="ui attached segment">
+    <h5>Tous les champs décrivant les données d'une collection</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+    </ul>
+    <p>Retour</p>
+    <pre>{
+  "data": [{
+    "id": "ID_CHAMP",
+    "type": "champs",
+    "attributes": {
+      "nom": "Nom du champ",
+      "description": "Description du champ",
+      "type": "Type de donnée (ex: STRING)",
+      "obligatoire": "Vrai si le champ est requis"
+    }
+  }]
+}</pre>
+    <p>Status</p>
+    <ul>
+      <li>200 - Champs trouvés</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+    </ul>
   </div>
 </div>
 
 <%- contentFor('masthead') %>
-

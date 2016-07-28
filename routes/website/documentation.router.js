@@ -2,6 +2,7 @@
 
 const express = require('express'),
   csrf = require('csurf'),
+  documentationsController = require('../../controllers/dashboard/documentations.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -10,10 +11,16 @@ module.exports = function (options) {
   options = options || {}
   const logger = options.logger;
   const csrfProtection = csrf({ cookie: true });
+  const DocumentationsController = new documentationsController(options);
   const FlashHelper = new flashHelper(options);
 
   /* flash messages */
   router.all('/*', function(req, res, next) {
+    req.data = req.data || {};
+    req.data.user = {
+      user: req.session.user
+    };
+    
     FlashHelper.get(req.session, function(err, flash) {
       if (err)
         next(err);
@@ -23,15 +30,8 @@ module.exports = function (options) {
   });
 
   /* public pages */
-  router.get('/', function(req, res) {
-    res.render('pages/doc', {
-      layout: 'layouts/home',
-      page: 'pages/doc',
-      data: {
-        user: req.session.user
-      }
-    });
-  });
+  router.get('/*', DocumentationsController.getDocServiceData);
+  router.get('/', DocumentationsController.index);
 
   return router;
 };
