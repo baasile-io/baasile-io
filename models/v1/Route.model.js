@@ -101,6 +101,7 @@ function RouteModel(options) {
         alias: this.nameNormalized,
         nom: this.name,
         description: this.description,
+        tableau_de_donnees: this.isCollection,
         jeton_fc_lecture_ectriture: this.fcRestricted,
         jeton_fc_lecture_seulement: this.fcRequired
       };

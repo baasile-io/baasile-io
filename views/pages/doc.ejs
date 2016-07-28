@@ -23,15 +23,17 @@
       <li><div class="ui horizontal label">client_secret</div> (clef secrète)</li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <pre>{
   "data": {
-    "id": "ID_TOKEN",
+    "id": ID_TOKEN,
     "type": "tokens",
     "attributes": {
-      "access_token": "VOTRE_JETON_DE_CONNEXION"
+      "access_token": STRING, // Le jeton de connexion
     }
   }
 }</pre>
+    </div>
   </div>
 
   <h2 class="ui horizontal divider header">
@@ -50,17 +52,19 @@
       <li><div class="ui horizontal label">access_token</div></li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <pre>{
   "data": [{
-    "id": "ID_SERVICE",
+    "id": ID_SERVICE,
     "type": "services",
     "attributes": {
-      "nom": "Le nom du service",
-      "description": "La description du service",
-      "site_internet": "URI du service"
+      "nom": STRING,
+      "description": STRING,
+      "site_internet": STRING
     }
   }]
 }</pre>
+    </div>
   </div>
 
   <h2 class="ui horizontal divider header">
@@ -80,18 +84,21 @@
       <li><div class="ui horizontal label">access_token</div></li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <pre>{
   "data": [{
-    "id": "ID_COLLECTION",
+    "id": ID_COLLECTION,
     "type": "collections",
     "attributes": {
-      "nom": "Le nom de la collection",
-      "description": "La description de la collection",
+      "nom": STRING,
+      "description": STRING,
+      "tableau_de_donnees": BOOLEAN, // Vrai si la donnée est un tableau de champs
       "jeton_fc_lecture_ecriture": "Vrai si jeton FranceConnect requis en lecture et écriture",
       "jeton_fc_lecture_seulement": "Vrai si jeton FranceConnect requis en lecture seuleumet"
     }
   }]
 }</pre>
+    </div>
     <p>Status</p>
     <ul>
       <li>200 - Collections trouvées</li>
@@ -109,18 +116,21 @@
       <li><div class="ui horizontal label">access_token</div></li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <pre>{
   "data": {
-    "id": "ID_COLLECTION",
+    "id": ID_COLLECTION,
     "type": "collections",
     "attributes": {
-      "nom": "Le nom de la collection",
-      "description": "La description de la collection",
-      "jeton_fc_lecture_ecriture": "Vrai si jeton FranceConnect requis en lecture et écriture",
-      "jeton_fc_lecture_seulement": "Vrai si jeton FranceConnect requis en lecture seuleumet"
+      "nom": STRING,
+      "description": STRING,
+      "tableau_de_donnees": BOOLEAN, // Vrai si la donnée est un tableau de champs
+      "jeton_fc_lecture_ecriture": BOOLEAN, // Vrai si jeton FranceConnect requis en lecture et écriture
+      "jeton_fc_lecture_seulement": BOOLEAN, // Vrai si jeton FranceConnect requis en lecture seuleument
     }
   }
 }</pre>
+    </div>
     <p>Status</p>
     <ul>
       <li>200 - Collection trouvée</li>
@@ -154,15 +164,37 @@
       <li><div class="ui horizontal label">access_token</div></li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
+          <pre>{
   "data": [{
-    "id": "ID_DONNEE",
+    "id": ID_DONNEE,
     "type": "donnees",
     "attributes": {
       CHAMPS_DEFINIS_PAR_LE_SERVICE
     }
   }]
 }</pre>
+        </div>
+      <div class="ui vertical divider">
+        OU
+      </div>
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
+          <pre>{
+  "data": [{
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": [{
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }]
+  }]
+}</pre>
+        </div>
+      </div>
+    </div>
     <p>Status</p>
     <ul>
       <li>200 - Données trouvées</li>
@@ -182,15 +214,37 @@
       <li><div class="ui horizontal label">fc_token</div> (si jeton de connexion FranceConnect requis)</li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
+          <pre>{
   "data": {
-    "id": "ID_DONNEE",
+    "id": ID_DONNEE,
     "type": "donnees",
     "attributes": {
       CHAMPS_DEFINIS_PAR_LE_SERVICE
     }
   }
 }</pre>
+        </div>
+        <div class="ui vertical divider">
+          OU
+        </div>
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
+          <pre>{
+  "data": {
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": [{
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }]
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
     <p>Status</p>
     <ul>
       <li>200 - Donnée trouvée</li>
@@ -205,27 +259,74 @@
   <div class="ui attached segment">
     <h5>Ajouter ou modifier une donnée</h5>
     <p>Entrée</p>
-    <pre>{
-  "access_token": "JETON_DE_CONNEXION",
-  "fc_token": "JETON_DE_CONNEXION_FRANCECONNECT", (si jeton de connexion FranceConnect requis)
-  "data": {
-    "id": "ID_DONNEE",
-    "type": "donnees",
-    "attributes": {
-      CHAMPS_DEFINIS_PAR_LE_SERVICE
-    }
-  }
-}</pre>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
+          <pre>{
+  "access_token": "JETON_DE_CONNEXION",
+  "fc_token": "JETON_DE_CONNEXION_FRANCECONNECT", (requis si jeton de connexion FranceConnect requis)
   "data": {
-    "id": "ID_DONNEE",
+    "id": ID_DONNEE, (omis si jeton de connexion FranceConnect requis)
     "type": "donnees",
     "attributes": {
       CHAMPS_DEFINIS_PAR_LE_SERVICE
     }
   }
 }</pre>
+        </div>
+        <div class="ui vertical divider">
+          OU
+        </div>
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
+            <pre>{
+  "access_token": "JETON_DE_CONNEXION",
+  "fc_token": "JETON_DE_CONNEXION_FRANCECONNECT", (requis si jeton de connexion FranceConnect requis)
+  "data": {
+    "id": ID_DONNEE, (omis si jeton de connexion FranceConnect requis)
+    "type": "donnees",
+    "attributes": [{
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }]
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+    <p>Retour</p>
+    <div class="ui segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
+            <pre>{
+  "data": {
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }
+}</pre>
+        </div>
+        <div class="ui vertical divider">
+          OU
+        </div>
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
+            <pre>{
+  "data": {
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": [{
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }]
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
     <p>Status</p>
     <ul>
       <li>201 - Donnée créée</li>
@@ -252,18 +353,20 @@
       <li><div class="ui horizontal label">access_token</div></li>
     </ul>
     <p>Retour</p>
-    <pre>{
+    <div class="ui segment">
+      <pre>{
   "data": [{
-    "id": "ID_CHAMP",
+    "id": ID_CHAMP,
     "type": "champs",
     "attributes": {
-      "nom": "Nom du champ",
-      "description": "Description du champ",
-      "type": "Type de donnée (ex: STRING)",
-      "obligatoire": "Vrai si le champ est requis"
+      "nom": STRING,
+      "description": STRING,
+      "type": STRING,
+      "obligatoire": BOOLEAN // Vrai si le champ est requis
     }
   }]
 }</pre>
+    </div>
     <p>Status</p>
     <ul>
       <li>200 - Champs trouvés</li>
