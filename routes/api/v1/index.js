@@ -34,7 +34,8 @@ module.exports = function (options) {
   router.get(['/services/:serviceId/collections/:routeId', '/services/:serviceId/relationships/collections/:routeId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.get);
   router.get(['/services/:serviceId/collections/:routeId/champs', '/services/:serviceId/relationships/collections/:routeId/relationships/champs'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFields);
   router.all(['/services/:serviceId/collections/:routeId/donnees', '/services/:serviceId/relationships/collections/:routeId/relationships/donnees'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.processRequest);
-  router.get(['/services/:serviceId/collections/:routeId/donnees/:dataId', '/services/:serviceId/relationships/collections/:routeId/relationships/donnees/:dataId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.get);
+  router.get(['/services/:serviceId/collections/:routeId/donnees/:dataId', '/services/:serviceId/relationships/collections/:routeId/relationships/donnees/:dataId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.getDataData, DatasController.get);
+  router.delete(['/services/:serviceId/collections/:routeId/donnees/:dataId', '/services/:serviceId/relationships/collections/:routeId/relationships/donnees/:dataId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.getDataData, DatasController.destroy);
 
   return router;
 };

@@ -62,8 +62,8 @@ function ServicesController(options) {
                 included.push(field.getResourceObject(res._apiuri));
               });
             }
-            elementData.meta.fields = elementData.meta.fields || {};
-            elementData.meta.fields.count = fields ? fields.length : 0;
+            elementData.meta.champs = elementData.meta.fields || {};
+            elementData.meta.champs.count = fields ? fields.length : 0;
             if (fields && fields.length > 0) {
               elementData.relationships = {
                 champs: {

@@ -19,18 +19,36 @@ function ServicesController(options) {
   const FranceConnectHelper = new franceConnectHelper(options);
 
   this.get = function(req, res, next) {
+    return next({code: 200, data: req.data.data.getResourceObject(res._apiuri)});
+  };
+
+  this.getDataData = function(req, res, next) {
+    let condition = {
+      service: req.data.service._id,
+      route: req.data.route._id
+    };
+    if (req.data.route.fcRestricted || (req.data.route.fcRequired && req.data.fcIdentity))
+      condition.dataId = FranceConnectHelper.generateHash(req.data.fcIdentity);
+    else
+      condition.dataId = req.params.dataId;
     DataModel.io
-      .findOne({
-        service: req.data.service._id,
-        route: req.data.route._id,
-        dataId: req.params.dataId
-      }, function(err, data) {
+      .findOne(condition, function(err, data) {
         if (err)
           return next({code: 500});
-        if (data)
-          return next({code: 200, data: data.getResourceObject(res._apiuri)});
-        return next({code: 404, messages: ['not_found', '"' + req.params.dataId + '" is invalid']});
+        if (!data)
+          return next({code: 404, messages: ['not_found', '"' + condition.dataId + '" is invalid']});
+        req.data = req.data || {};
+        req.data.data = data;
+        next();
       });
+  };
+
+  this.destroy = function(req, res, next) {
+    req.data.data.remove(function(err) {
+      if (err)
+        return next({code: 500});
+      return next({code: 200});
+    });
   };
 
   this.fcAuthorize = function(req, res, next) {

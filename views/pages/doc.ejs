@@ -230,58 +230,9 @@
     </ul>
   </div>
 
-  <h4 class="ui top attached block header">
-    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
-  </h4>
-  <div class="ui attached segment">
-    <h5>Lire une donnée particulière</h5>
-    <p>Paramètres d'entrée</p>
-    <ul class="ui list">
-      <li><div class="ui horizontal label">access_token</div></li>
-      <li><div class="ui horizontal label">fc_token</div> (si jeton de connexion FranceConnect requis)</li>
-    </ul>
-    <p>Retour</p>
-    <div class="ui secondary segment">
-      <div class="ui two column middle aligned very relaxed stackable grid">
-        <div class="column">
-          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
-          <pre>{
-  "data": {
-    "id": ID_DONNEE,
-    "type": "donnees",
-    "attributes": {
-      CHAMPS_DEFINIS_PAR_LE_SERVICE
-    }
-  }
-}</pre>
-        </div>
-        <div class="ui vertical divider">
-          OU
-        </div>
-        <div class="column">
-          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
-          <pre>{
-  "data": {
-    "id": ID_DONNEE,
-    "type": "donnees",
-    "attributes": [{
-      CHAMPS_DEFINIS_PAR_LE_SERVICE
-    }]
-  }
-}</pre>
-        </div>
-      </div>
-    </div>
-    <p>Status</p>
-    <ul>
-      <li>200 - Donnée trouvée</li>
-      <li>400 - Paramètres d'entrée incorrect</li>
-      <li>404 - Donnée introuvable</li>
-    </ul>
-  </div>
 
   <h4 class="ui top attached block header">
-    <div class="ui horizontal red label">POST</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
+    <div class="ui horizontal red label">POST</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees
   </h4>
   <div class="ui attached segment">
     <h5>Ajouter ou modifier une donnée</h5>
@@ -361,6 +312,79 @@
     </ul>
   </div>
 
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal blue label">GET</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Lire une donnée particulière</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+      <li><div class="ui horizontal label">fc_token</div> (si jeton de connexion FranceConnect requis)</li>
+    </ul>
+    <p>Retour</p>
+    <div class="ui secondary segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == false</div>
+          <pre>{
+  "data": {
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": {
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }
+  }
+}</pre>
+        </div>
+        <div class="ui vertical divider">
+          OU
+        </div>
+        <div class="column">
+          <div class="ui horizontal fluid teal label">tableau_de_donnees == true</div>
+          <pre>{
+  "data": {
+    "id": ID_DONNEE,
+    "type": "donnees",
+    "attributes": [{
+      CHAMPS_DEFINIS_PAR_LE_SERVICE
+    }]
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+    <p>Status</p>
+    <ul>
+      <li>200 - Donnée trouvée</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+      <li>404 - Donnée introuvable</li>
+    </ul>
+  </div>
+
+
+  <h4 class="ui top attached block header">
+    <div class="ui horizontal orange label">DELETE</div> /api/v1/services/<div class="ui horizontal label">ID_SERVICE</div>/relationships/collections/<div class="ui horizontal label">ID_COLLECTION</div>/relationships/donnees/<div class="ui horizontal label">ID_DONNEE</div>
+  </h4>
+  <div class="ui attached segment">
+    <h5>Supprimer une donnée particulière</h5>
+    <p>Paramètres d'entrée</p>
+    <ul class="ui list">
+      <li><div class="ui horizontal label">access_token</div></li>
+      <li><div class="ui horizontal label">fc_token</div> (si jeton de connexion FranceConnect requis)</li>
+    </ul>
+    <p>Retour</p>
+    <div class="ui segment">
+      <pre>{}</pre>
+    </div>
+    <p>Status</p>
+    <ul>
+      <li>200 - Donnée supprimée</li>
+      <li>400 - Paramètres d'entrée incorrect</li>
+      <li>404 - Donnée introuvable</li>
+    </ul>
+  </div>
 
   <h2 class="ui horizontal divider header">
     <i class="options icon"></i>
