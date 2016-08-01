@@ -1,0 +1,38 @@
+<div class="ui container">
+
+  <h1 class="ui center aligned header">
+    <div class="content">
+      Les services référencés sur l'API du CPA Store
+    </div>
+  </h1>
+  <div class="ui hidden divider"></div>
+  <% if (services.length == 0 ) { %>
+  Il n'y a actuellement aucun service référencé sur l'API.
+  <% } else { %>
+  <div class="ui two stackable cards">
+  <% services.forEach(function(service) { %>
+    <div class="ui card">
+      <div class="content">
+        <div class="ui header icon">
+          <i class="cube icon"></i>
+          <div class=content"><%= service.name %></div>
+        </div>
+        <div class="meta">
+          <span class="date">Créé le <%= service.createdAt.toLocaleString() %></span>
+        </div>
+        <div class="description">
+          <%= service.description %>
+        </div>
+      </div>
+      <div class="extra content">
+        <i class="database icon"></i>
+        <%= service.routes.length %> collection(s) partagée(s)
+      </div>
+    </div>
+  <% }) %>
+  </div>
+  <% } %>
+
+</div>
+
+<%- contentFor('masthead') %>

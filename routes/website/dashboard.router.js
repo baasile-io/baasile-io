@@ -10,6 +10,7 @@ const express = require('express'),
   fieldsController = require('../../controllers/dashboard/fields.controller.js'),
   pagesController = require('../../controllers/dashboard/pages.controller.js'),
   relationsController = require('../../controllers/dashboard/relations.controller.js'),
+  homesController = require('../../controllers/homes.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
@@ -26,6 +27,7 @@ module.exports = function (options) {
   const FieldsController = new fieldsController(options);
   const PagesController = new pagesController(options);
   const RelationsController = new relationsController(options);
+  const HomesController = new homesController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -39,6 +41,8 @@ module.exports = function (options) {
 
   /* flash messages */
   router.all('/*', function(req, res, next) {
+    req.data = req.data || {};
+    req.data.user = req.session.user;
     FlashHelper.get(req.session, function(err, flash) {
       if (err)
         next(err);
@@ -52,19 +56,18 @@ module.exports = function (options) {
     res.render('pages/index', {
       layout: 'layouts/home',
       page: 'pages/index',
-      data: {
-        user: req.session.user
-      }
+      data: req.data
     });
   });
 
-  /* login / logout / subscribe */
+  /* login / logout / subscribe / public pages */
   router
     .get('/login', csrfProtection, UsersController.sessionNew)
     .post('/login', csrfProtection, UsersController.sessionCreate)
     .get('/logout', UsersController.sessionDestroy)
     .get('/subscribe', csrfProtection, UsersController.new)
-    .post('/subscribe', csrfProtection, UsersController.create);
+    .post('/subscribe', csrfProtection, UsersController.create)
+    .get('/services', HomesController.services);
 
   /* dashboard / user area */
   router

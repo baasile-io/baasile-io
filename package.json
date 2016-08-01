@@ -64,7 +64,7 @@
     "map-stream": "0.0.6",
     "moment": "2.12.0",
     "mongodb": "^2.1.18",
-    "mongoose": "^4.4.20",
+    "mongoose": "^4.5.0",
     "nconf": "0.8.4",
     "request": "2.70.0",
     "require-dot-file": "^0.4.0",
