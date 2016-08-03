@@ -31,12 +31,16 @@ mhttp.on('stat', function (parsed, stats) {
 
 var server = new Server({
   tokenExpiration: nconf.get('tokenExpiration'),
+  emailTokenExpiration: nconf.get('emailTokenExpiration'),
   apiUri: nconf.get('apiUri'),
   port: process.env.PORT || nconf.get('port'),
   dbHost: process.env.MONGODB_URI || nconf.get('MONGODB_URI'),
   expressSessionSecret: process.env.EXPRESS_SESSION_SECRET || nconf.get('EXPRESS_SESSION_SECRET'),
   expressSessionCookieMaxAge: Math.floor(process.env.EXPRESS_SESSION_COOKIE_MAX_AGE || nconf.get('EXPRESS_SESSION_COOKIE_MAX_AGE')),
   documentationServiceId: process.env.DOCUMENTATION_APP_ID || nconf.get('DOCUMENTATION_APP_ID'),
+  sendgridPassword: process.env.SENDGRID_PASSWORD || nconf.get('sendgridPassword'),
+  sendgridUsername: process.env.SENDGRID_USERNAME || nconf.get('sendgridUsername'),
+  sendgridFrom: nconf.get('sendgridFrom'),
   logger: logger
 });
 

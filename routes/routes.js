@@ -135,9 +135,20 @@ exports.configure = function (app, http, options) {
       const status = err.code || err.status || err.statusCode || 500;
       if (status == 404)
         return next();
-      logger.warn('an error occured in dashboard (code: ' + status + ')');
-      return res.render('pages/errors/error500', {
-        page: 'pages/errors/error500',
+      logger.warn('an error occured (code: ' + status + ')');
+      var page;
+      switch(status) {
+        case 501:
+        case 410:
+        case 500:
+          page = 'pages/errors/error' + status;
+          break;
+        default:
+          page = 'pages/errors/error500';
+          break;
+      }
+      return res.render(page, {
+        page: page,
         layout: 'layouts/error',
         data: req.data,
         flash: res._flash
@@ -147,7 +158,7 @@ exports.configure = function (app, http, options) {
   app
     .use(function(req, res) {
       const status = 404;
-      logger.warn('an error occured in dashboard (code: ' + status + ')');
+      logger.warn('page not found (code: ' + status + ') (' + req.originalUrl + ')');
       return res.render('pages/errors/error404', {
         page: 'pages/errors/error404',
         layout: 'layouts/error',

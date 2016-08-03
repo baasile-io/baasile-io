@@ -31,6 +31,11 @@ var userSchema = new mongoose.Schema({
     required: [true, 'Mot de passe obligatoire'],
     minlength: [10, 'Le mot de passe doit comporter au minimum 10 caractères']
   },
+  emailConfirmation: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   lastLoginAt: Date,
   createdAt: {
     type: Date,
@@ -57,7 +62,7 @@ function UserModel(options) {
 
   function sha256(str) {
     return crypto.createHash('sha256').update(str).digest('hex');
-  }
+  };
 
   function generateSalt()
   {
@@ -68,19 +73,18 @@ function UserModel(options) {
       salt += set[p];
     }
     return salt;
-  }
+  };
 
   this.saltAndHash = function(pass)
   {
     const salt = generateSalt();
     return (salt + sha256(pass + salt));
-  }
+  };
 
   this.validatePassword = function(plainPass, hashedPass)
   {
     const salt = hashedPass.substr(0, 10);
     const validHash = salt + sha256(plainPass + salt);
     return (hashedPass === validHash);
-  }
-
+  };
 }

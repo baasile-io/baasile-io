@@ -16,13 +16,17 @@ function FlashHelper(options) {
     });
   };
 
-  this.addError = function(session, err, callback) {
+  this.addError = function(session, msg, callback) {
     session.flash = session.flash || {};
-    session.flash.errors = session.flash.errors || [];
-    if (Array.isArray(err))
-      _.merge(session.flash.errors, err);
-    else
-      session.flash.errors.push(err);
+    if (!Array.isArray(msg) && typeof msg == 'object')
+      session.flash.errors = msg;
+    else {
+      session.flash.errors = session.flash.errors || [];
+      if (Array.isArray(msg))
+        _.merge(session.flash.errors, msg);
+      else
+        session.flash.errors.push(msg);
+    }
     session.save(function(err) {
       callback(err);
     });

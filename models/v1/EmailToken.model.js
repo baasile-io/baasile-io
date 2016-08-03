@@ -3,9 +3,13 @@
 const mongoose = require('mongoose'),
   crypto = require('crypto');
 
-module.exports = TokenModel;
+module.exports = EmailTokenModel;
 
-var tokenSchema = new mongoose.Schema({
+var emailTokenSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true
+  },
   accessToken: {
     type: String,
     required: true
@@ -14,17 +18,17 @@ var tokenSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  production: {
-    type: Boolean,
-    required: true
-  },
   nbOfUse: {
     type: Number,
     default: 0
   },
-  service: {
+  user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'ServiceModel'
+    ref: 'UserModel'
+  },
+  email: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -34,27 +38,27 @@ var tokenSchema = new mongoose.Schema({
 });
 
 
-function TokenModel(options) {
+function EmailTokenModel(options) {
   options = options || {};
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
 
-  tokenSchema.pre('validate', function(next) {
+  emailTokenSchema.pre('validate', function(next) {
     this.updatedAt = new Date();
     next();
   });
 
-  tokenSchema.pre('update', function(next) {
+  emailTokenSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
   });
 
-  tokenSchema.pre('save', function(next) {
+  emailTokenSchema.pre('save', function(next) {
     this.updatedAt = new Date();
     next();
   });
 
-  this.io = db.model('Token', tokenSchema);
+  this.io = db.model('EmailToken', emailTokenSchema);
   
   this.generateToken = function() {
     return crypto.randomBytes(48).toString('hex');

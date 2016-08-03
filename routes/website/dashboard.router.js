@@ -11,12 +11,13 @@ const express = require('express'),
   pagesController = require('../../controllers/dashboard/pages.controller.js'),
   relationsController = require('../../controllers/dashboard/relations.controller.js'),
   homesController = require('../../controllers/homes.controller.js'),
+  emailsController = require('../../controllers/emails.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 const router = express.Router();
 
 module.exports = function (options) {
-  options = options || {}
+  options = options || {};
   const logger = options.logger;
   const csrfProtection = csrf({ cookie: true });
   const UsersController = new usersController(options);
@@ -28,6 +29,7 @@ module.exports = function (options) {
   const PagesController = new pagesController(options);
   const RelationsController = new relationsController(options);
   const HomesController = new homesController(options);
+  const EmailsController = new emailsController(options);
   const FlashHelper = new flashHelper(options);
 
   function restrictedArea(req, res, next) {
@@ -37,12 +39,16 @@ module.exports = function (options) {
       });
     }
     UsersController.getUserData(req, res, next);
-  }
+  };
 
-  /* flash messages */
+  /* tokenized email links */
+  router.get('/email/:accessToken', EmailsController.getEmailTokenData, EmailsController.get);
+
+  /* params + flash messages */
   router.all('/*', function(req, res, next) {
     req.data = req.data || {};
     req.data.user = req.session.user;
+    res._apiuri = req.protocol + '://' + req.get('host');
     FlashHelper.get(req.session, function(err, flash) {
       if (err)
         next(err);
