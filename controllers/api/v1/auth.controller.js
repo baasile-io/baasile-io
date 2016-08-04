@@ -37,6 +37,8 @@ function AuthController(options) {
         }, function(err, service) {
           if (err)
             return next({code: 500});
+          if (!service.validated)
+            return next({messages: ['not_validated', 'Votre service n\'a pas été validé par l\'Équipe API-CPA'], code: 401});
           res._service = service;
           return next();
         });
