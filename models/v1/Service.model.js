@@ -62,6 +62,11 @@ var serviceSchema = new mongoose.Schema({
     ref: 'UserModel',
     required: true
   },
+  validated: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   createdAt: {
     type: Date,
     required: true
@@ -76,6 +81,8 @@ function ServiceModel(options) {
   const db = mongoose.createConnection(options.dbHost);
 
   serviceSchema.pre('validate', function(next) {
+    if (!this.validated)
+      this.public = false;
     this.updatedAt = new Date();
     next();
   });

@@ -19,12 +19,17 @@
       <input type="text" name="service_website" value="<%= query.service.website %>" placeholder="Site Internet">
     </div>
   </div>
-  <div class="field">
-    <label>Visibilité</label>
+  <div class="<% if (query.service.validated === false) { %>disabled<% } %> field">
+    <label>Référencer sur l'API</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="service_public" class="hidden" <% if (query.service.public === true) { %>checked="checked"<% } %>>
       <label>Référencer le service sur l'API du CPA Store</label>
+      <% if (query.service.validated === false) { %>
+      <div class="ui pointing red basic label">
+        Votre service doit être validé par l'équipe API-CPA avant de prétendre être référencé.
+      </div>
     </div>
+    <% } %>
   </div>
 
   <div class="ui submit button" tabindex="0">

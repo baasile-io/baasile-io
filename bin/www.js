@@ -30,6 +30,7 @@ mhttp.on('stat', function (parsed, stats) {
 });
 
 var server = new Server({
+  adminNotificationEmail: nconf.get('adminNotificationEmail'),
   tokenExpiration: nconf.get('tokenExpiration'),
   emailTokenExpiration: nconf.get('emailTokenExpiration'),
   apiUri: nconf.get('apiUri'),

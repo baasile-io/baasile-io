@@ -5,7 +5,8 @@ const request = require('request'),
   serviceModel = require('../../models/v1/Service.model.js'),
   tokenModel = require('../../models/v1/Token.model.js'),
   userModel = require('../../models/v1/User.model.js'),
-  flashHelper = require('../../helpers/flash.helper.js');
+  flashHelper = require('../../helpers/flash.helper.js'),
+  emailService = require('../../services/email.service.js');
 
 module.exports = ServicesController;
 
@@ -16,6 +17,7 @@ function ServicesController(options) {
   const TokenModel = new tokenModel(options);
   const UserModel = new userModel(options);
   const FlashHelper = new flashHelper(options);
+  const EmailService = new emailService(options);
 
   this.index = function(req, res) {
     ServiceModel.io.find({
@@ -70,7 +72,8 @@ function ServicesController(options) {
           name: '',
           description: '',
           website: '',
-          public: false
+          public: false,
+          validated: false
         }
       },
       data: req.data,
@@ -185,6 +188,8 @@ function ServicesController(options) {
     ServiceModel.io.create(serviceInfo, function(err, service) {
       if (err) {
         let errors;
+        if (err.code == 11000)
+          err = 'Ce nom de service est déjà utilisé';
         errors = [err];
         return res.render('pages/dashboard/services/new', {
           page: 'pages/dashboard/services/new',
@@ -195,7 +200,8 @@ function ServicesController(options) {
               name: serviceInfo.name,
               description: serviceInfo.description,
               website: serviceInfo.website,
-              public: serviceInfo.public
+              public: serviceInfo.public,
+              validated: false
             }
           },
           flash: {
@@ -204,25 +210,31 @@ function ServicesController(options) {
         });
       }
       logger.info('service created: ' + service.name);
-      return res.redirect('/dashboard/services/' + service.nameNormalized);
+      EmailService
+        .sendAdminNotificationsNewService(req.session.user, service, res._apiuri)
+        .then(function(result) {
+          return res.redirect('/dashboard/services/' + service.nameNormalized);
+        })
+        .catch(function(result) {
+          logger.warn('failed to send admin notification: ' + JSON.stringify(result));
+          return res.redirect('/dashboard/services/' + service.nameNormalized);
+        });
     });
   };
 
   this.update = function(req, res, next) {
     const serviceName = _.trim(req.body.service_name);
-    const serviceInfo = {
-      name: serviceName,
-      nameNormalized: ServiceModel.getNormalizedName(serviceName),
-      description: _.trim(req.body.service_description),
-      website: _.trim(req.body.service_website),
-      public: req.body.service_public === 'true'
-    };
-    ServiceModel.io.update({
-      _id: req.data.service._id
-    }, {
-      $set: serviceInfo
-    }, function(err, num) {
-      if (err || num == 0) {
+    const serviceNameNormalized = ServiceModel.getNormalizedName(serviceName);
+    const serviceDescription = _.trim(req.body.service_description);
+    const serviceWebsite = _.trim(req.body.service_website);
+    const servicePublic = req.body.service_public === 'true';
+    req.data.service.name = serviceName;
+    req.data.service.nameNormalized = serviceNameNormalized;
+    req.data.service.description = serviceDescription;
+    req.data.service.website = serviceWebsite;
+    req.data.service.public = servicePublic;
+    req.data.service.save(function(err) {
+      if (err) {
         let errors;
         if (err.code == 11000)
           err = 'Ce nom de service est déjà utilisé';
@@ -233,10 +245,11 @@ function ServicesController(options) {
           data: req.data,
           query: {
             service: {
-              name: serviceInfo.name,
-              description: serviceInfo.description,
-              website: serviceInfo.website,
-              public: serviceInfo.public
+              name: serviceName,
+              description: serviceDescription,
+              website: serviceWebsite,
+              public: servicePublic,
+              validated: req.data.service.validated
             }
           },
           flash: {
@@ -244,11 +257,11 @@ function ServicesController(options) {
           }
         });
       }
-      logger.info('service updated: ' + serviceInfo.name);
+      logger.info('service updated: ' + serviceName);
       FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
         if (err)
           return next({code: 500});
-        res.redirect('/dashboard/services/' + serviceInfo.nameNormalized);
+        res.redirect('/dashboard/services/' + serviceNameNormalized);
       });
     });
   };

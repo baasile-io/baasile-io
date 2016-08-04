@@ -5,6 +5,7 @@
     "level": "debug",
     "format": "simple"
   },
+  "adminNotificationEmail": "apicpastore@gmail.com",
   "tokenExpiration": 1440,
   "emailTokenExpiration": 1440,
   "sessionMaxAge": 720,

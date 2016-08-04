@@ -21,6 +21,7 @@ function EmailsController(options) {
           if (err)
             return next({code: 500});
           if (!user) {
+            req.data.token.remove();
             return res.render('pages/errors/error410', {
               page: 'pages/errors/error410',
               layout: 'layouts/error',
@@ -58,6 +59,7 @@ function EmailsController(options) {
         return next({code: 404});
       const now = new Date();
       if (now > token.accessTokenExpiresOn) {
+        token.remove();
         return res.render('pages/errors/error410', {
           page: 'pages/errors/error410',
           layout: 'layouts/error',
