@@ -23,14 +23,15 @@ function EmailService(options) {
   function send(type, locals, to) {
     return new Promise(function(resolve, reject) {
       const template = new EmailTemplate(path.join(templatesDir, type));
-      template.render(locals, function (err, results) {
+      template.render(locals, function (err, result) {
         if (err)
           return reject({code: 500});
         transport.sendMail({
           from: options.sendgridFrom,
           to: to,
-          html: results.html,
-          text: results.text
+          subject: result.subject,
+          html: result.html,
+          text: result.text
         }, function (err, responseStatus) {
           if (err) {
             logger.warn(JSON.stringify(err));
