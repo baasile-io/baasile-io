@@ -3,8 +3,8 @@
 const request = require('request'),
   userModel = require('../../models/v1/User.model.js'),
   serviceModel = require('../../models/v1/Service.model.js'),
-  emailService = require('../../services/Email.service.js'),
-  flashHelper = require('../../helpers/Flash.helper.js');
+  emailService = require('../../services/email.service.js'),
+  flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = AccountsController;
 
