@@ -2,7 +2,9 @@
 
 const request = require('request'),
   userModel = require('../../models/v1/User.model.js'),
-  serviceModel = require('../../models/v1/Service.model.js');
+  serviceModel = require('../../models/v1/Service.model.js'),
+  emailService = require('../../services/Email.service.js'),
+  flashHelper = require('../../helpers/Flash.helper.js');
 
 module.exports = AccountsController;
 
@@ -11,6 +13,8 @@ function AccountsController(options) {
   const logger = options.logger;
   const UserModel = new userModel(options);
   const ServiceModel = new serviceModel(options);
+  const EmailService = new emailService(options);
+  const FlashHelper = new flashHelper(options);
 
   this.sessionNew = function(req, res) {
     if (req.session.user != null) {
@@ -25,9 +29,9 @@ function AccountsController(options) {
       },
       flash: res._flash
     });
-  }
+  };
 
-  this.sessionCreate = function(req, res) {
+  this.sessionCreate = function(req, res, next) {
     if (req.session.user != null) {
       return res.redirect('/dashboard');
     }
@@ -47,6 +51,47 @@ function AccountsController(options) {
         errors.push('Aucun compte ne correspond à cette adresse E-Mail');
       else if (!UserModel.validatePassword(password, user.password))
         errors.push('Mot de passe invalide');
+      else if (!user.emailConfirmation) {
+        return EmailService
+          .sendEmailConfirmation(user, res._apiuri)
+          .then(function(result) {
+            if (result.responseStatus.accepted.indexOf(user.email) == -1) {
+              return FlashHelper.addError(req.session, 'Votre adresse E-Mail a été rejetée par le serveur de messagerie lors de l\'envoi du courriel de confirmation', function (err) {
+                if (err)
+                  return next({code: 500});
+                return res.redirect('/login').end();
+              });
+            }
+            FlashHelper.addError(req.session, {
+              title: 'Votre adresse E-Mail n\'a pas été confirmée',
+              icon: 'send',
+              messages: [
+                'Un nouveau lien de confirmation vous a été envoyé',
+                'Date d\'expiration du lien : ' + result.emailToken.accessTokenExpiresOn.toLocaleString(),
+                'Les liens envoyés précédemment deviennent inactifs'
+              ]
+            }, function(err) {
+              if (err)
+                return next({code: 500});
+              logger.info(JSON.stringify(result));
+              return res.redirect('/login');
+            });
+          })
+          .catch(function(err) {
+            if (err.code === 503) {
+              return FlashHelper.addError(req.session, {
+                title: 'Votre adresse E-Mail n\'a pas été confirmée',
+                icon: 'mail',
+                messages: err.messages
+              }, function (err) {
+                if (err)
+                  return next({code: 500});
+                return res.redirect('/login');
+              });
+            }
+            return next({code: 500});
+          });
+      }
       if (errors.length > 0) {
         return res.render('pages/users/login', {
           layout: 'layouts/login',
@@ -66,11 +111,11 @@ function AccountsController(options) {
       user.lastLoginAt = new Date();
       user.save(function(err) {
         if (err)
-          return res.status(500).end();
+          return next({code: 500});
         req.session.user = user;
         req.session.save(function(err) {
           if (err)
-            return res.status(500).end();
+            return next({code: 500});
           logger.info('user logged in: ' + user.email);
           if (!redirect_uri || redirect_uri == '')
             redirect_uri = '/dashboard';
@@ -78,7 +123,7 @@ function AccountsController(options) {
         });
       });
     });
-  }
+  };
 
   this.account = function(req, res) {
     return res.render('pages/users/account', {
@@ -87,7 +132,7 @@ function AccountsController(options) {
       data: req.data,
       flash: res._flash
     });
-  }
+  };
 
   this.new = function(req, res) {
     if (req.session.user != null) {
@@ -103,7 +148,7 @@ function AccountsController(options) {
       },
       flash: res._flash
     });
-  }
+  };
 
   this.create = function(req, res) {
     if (req.session.user != null) {
@@ -148,12 +193,12 @@ function AccountsController(options) {
       logger.info('user created: ' + user.email);
       res.redirect('/login');
     });
-  }
+  };
 
   this.sessionDestroy = function(req, res) {
     req.session.destroy();
     res.redirect('/');
-  }
+  };
 
   this.getUserData = function(req, res, next) {
     UserModel.io.findOne({
@@ -181,6 +226,5 @@ function AccountsController(options) {
         next('route');
       });
     });
-  }
-
+  };
 }
