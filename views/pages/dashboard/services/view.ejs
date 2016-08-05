@@ -2,6 +2,34 @@
   <% include ./header %>
 
   <div class="ui segment">
+    <% if (!data.service.validated) { %>
+    <div class="ui red statistic">
+      <div class="value">
+        <i class="wait icon"></i>
+      </div>
+      <div class="label">
+        En attente de validation
+      </div>
+    </div>
+    <% } else if (data.service.public) { %>
+    <div class="ui green statistic">
+      <div class="value">
+        <i class="cloud icon"></i>
+      </div>
+      <div class="label">
+        Référencé sur l'API
+      </div>
+    </div>
+    <% } else { %>
+    <div class="ui statistic">
+      <div class="value">
+        <i class="lock icon"></i>
+      </div>
+      <div class="label">
+        Privé
+      </div>
+    </div>
+    <% } %>
     <div class="ui statistic">
       <div class="value">
         <%= tokensCount %>

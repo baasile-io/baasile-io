@@ -62,7 +62,8 @@ module.exports = function (options) {
     res.render('pages/index', {
       layout: 'layouts/home',
       page: 'pages/index',
-      data: req.data
+      data: req.data,
+      flash: res._flash
     });
   });
 

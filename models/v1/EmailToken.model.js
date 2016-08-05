@@ -30,6 +30,9 @@ var emailTokenSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  foreignId: {
+    type: String
+  },
   createdAt: {
     type: Date,
     required: true

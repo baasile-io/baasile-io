@@ -10,6 +10,7 @@ module.exports = EmailService;
 function EmailService(options) {
   options = options || {};
   const logger = options.logger;
+  const slack = options.slack;
   const EmailTokenModel = new emailTokenModel(options);
   const templatesDir = path.resolve(__dirname, '..', 'views', 'emails');
   const transport = nodemailer.createTransport({
@@ -40,17 +41,26 @@ function EmailService(options) {
               messages: ['Une erreur est survenue sur le serveur de messagerie lors de l\'envoi du courriel de confirmation', err.response]
             });
           }
+          slack.send({
+            channel: "#api_notifications",
+            text: 'EMAIL',
+            fields: {
+              'Subject': result.subject,
+              'Message': result.text
+            }
+          });
           return resolve({responseStatus: responseStatus});
         })
       });
     });
   };
 
-  function generateEmailToken(type, email, unique, user) {
+  function generateEmailToken(type, foreignId, email, unique, user) {
     return new Promise(function(resolve, reject) {
       const now = new Date();
       var newToken = {
         type: type,
+        foreignId: foreignId,
         email: email,
         user: user,
         accessToken: EmailTokenModel.generateToken(),
@@ -90,7 +100,7 @@ function EmailService(options) {
         firstname: user.firstname,
         lastname: user.lastname
       };
-      generateEmailToken(type, user.email, true, user)
+      generateEmailToken(type, user._id, user.email, true, user)
         .then(function(token) {
           locals.link = apiuri + '/email/' + token.accessToken;
           send(type, locals, user.email)
@@ -119,9 +129,9 @@ function EmailService(options) {
         website: service.website,
         description: service.description
       };
-      generateEmailToken(type, options.adminNotificationEmail, false)
+      generateEmailToken(type, service.clientId, options.adminNotificationEmail, false)
         .then(function(token) {
-          locals.link = apiuri + '/validate_service/' + token.accessToken;
+          locals.link = apiuri + '/email/' + token.accessToken;
           send(type, locals, options.adminNotificationEmail)
             .then(function(result) {
               return resolve(result);

@@ -12,13 +12,18 @@ nconf.env({
 }).argv();
 nconf.defaults(require('../defaults'));
 
-var logger = bunyan.createLogger({
+const logger = bunyan.createLogger({
   name: nconf.get('appname'),
   level: nconf.get('log:level'),
   stream: bunyanFormat({
     outputMode: nconf.get('log:format')
   })
 });
+
+const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL || nconf.get('slackWebhookUrl');
+var slack;
+if (slackWebhookUrl && slackWebhookUrl != '')
+  slack = require('slack-notify')(slackWebhookUrl);
 
 var mhttp = require('http-measuring-client').create();
 mhttp.mixin(http);
@@ -42,7 +47,8 @@ var server = new Server({
   sendgridPassword: process.env.SENDGRID_PASSWORD || nconf.get('sendgridPassword'),
   sendgridUsername: process.env.SENDGRID_USERNAME || nconf.get('sendgridUsername'),
   sendgridFrom: nconf.get('sendgridFrom'),
-  logger: logger
+  logger: logger,
+  slack: slack
 });
 
 server.start(function (err) {
