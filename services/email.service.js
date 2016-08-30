@@ -45,6 +45,7 @@ function EmailService(options) {
             channel: "#api_notifications",
             text: 'EMAIL',
             fields: {
+              'To': to,
               'Subject': result.subject,
               'Message': result.text
             }
@@ -116,6 +117,23 @@ function EmailService(options) {
         .catch(function(result) {
           reject(result);
         });
+    });
+  };
+
+  this.sendServiceValidation = function(user, service) {
+    return new Promise(function(resolve, reject) {
+      if (!user || !user.email)
+        return reject({code: 500});
+      const type = 'service_validation';
+      const locals = {
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        service: service.name
+      };
+      send(type, locals, user.email)
+        .then(resolve)
+        .catch(reject);
     });
   };
   

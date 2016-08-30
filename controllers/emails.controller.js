@@ -4,7 +4,8 @@ const request = require('request'),
   emailTokenModel = require('../models/v1/EmailToken.model.js'),
   userModel = require('../models/v1/User.model.js'),
   serviceModel = require('../models/v1/Service.model.js'),
-  flashHelper = require('../helpers/flash.helper.js');
+  flashHelper = require('../helpers/flash.helper.js'),
+  emailService = require('../services/email.service.js');
 
 module.exports = EmailsController;
 
@@ -15,6 +16,7 @@ function EmailsController(options) {
   const UserModel = new userModel(options);
   const ServiceModel = new serviceModel(options);
   const FlashHelper = new flashHelper(options);
+  const EmailService = new emailService(options);
 
   function doEmailConfirmation(req, res, next) {
     UserModel.io.findOne({email: req.data.token.email}, function(err, user) {
@@ -58,8 +60,16 @@ function EmailsController(options) {
         FlashHelper.addSuccess(req.session, ['Le service a été activé'], function(err) {
           if (err)
             return next({code: 500});
-          req.data.token.remove();
-          return res.redirect('/login');
+          //req.data.token.remove();
+          UserModel.io.findOne({_id: service.creator}, function(err, user) {
+            if (err)
+              return next({code: 500});
+            EmailService.sendServiceValidation(user, service)
+              .then(function (result) {
+                return res.redirect('/login');
+              })
+              .catch(next);
+          });
         });
       });
     });
