@@ -60,7 +60,7 @@ function EmailsController(options) {
         FlashHelper.addSuccess(req.session, ['Le service a été activé'], function(err) {
           if (err)
             return next({code: 500});
-          //req.data.token.remove();
+          req.data.token.remove();
           UserModel.io.findOne({_id: service.creator}, function(err, user) {
             if (err)
               return next({code: 500});
