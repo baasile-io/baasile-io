@@ -194,6 +194,36 @@ function RoutesController(options) {
     });
   };
 
+  this.remove = function(req, res, next) {
+    DataModel.io.remove({
+      service: req.data.service._id,
+      route: req.data.route._id
+    }, function (err) {
+      if (err)
+        return next({code: 500});
+      FieldModel.io.remove({
+        route: req.data.route._id
+      }, function (err) {
+        if (err)
+          return next({code: 500});
+        RelationModel.io.remove({
+          $or: [
+            {parentRouteId: req.data.route.routeId},
+            {childRouteId: req.data.route.routeId}
+          ]
+        }, function (err) {
+          if (err)
+            return next({code: 500});
+          req.data.route.remove(function(err) {
+            if (err)
+              return next({code: 500});
+            res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/');
+          });
+        })
+      });
+    });
+  };
+
   this.getServiceRoutes = function(req, res, next) {
     RouteModel.io.find({
       service: req.data.service

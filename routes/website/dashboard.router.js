@@ -100,6 +100,7 @@ module.exports = function (options) {
     .get('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.view)
     .get('/dashboard/services/:serviceName/routes/:routeName/edit', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.edit)
     .post('/dashboard/services/:serviceName/routes/:routeName/drop', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.drop)
+    .post('/dashboard/services/:serviceName/routes/:routeName/remove', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.remove)
     .post('/dashboard/services/:serviceName/routes/:routeName', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.update)
     .get('/dashboard/services/:serviceName/routes/:routeName/relations', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RelationsController.index)
     .get('/dashboard/services/:serviceName/routes/:routeName/relations/new', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.getServiceRoutes, RelationsController.new)
