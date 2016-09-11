@@ -14,7 +14,7 @@ const http = require('http'),
 
 module.exports = Server;
 
-function Server (options) {
+function Server(options) {
   var self = this;
   options = options || {};
   options.port = options.port || 0;
