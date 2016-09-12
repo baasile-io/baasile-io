@@ -48,6 +48,10 @@ function RouteModel(options) {
       type: Boolean,
       required: true
     },
+    isIdentified: {
+      type: Boolean,
+      required: true
+    },
     method: {
       type: String,
       required: true
@@ -128,6 +132,10 @@ function RouteModel(options) {
 
   this.io.schema.pre('validate', function(next) {
     var obj = this;
+    if (!this.isIdentified) {
+      this.fcRestricted = false;
+      this.fcRequired = false;
+    }
     if (this.fcRestricted)
       this.fcRequired = true;
     if (this.nameNormalized != normalizeName(this.name))

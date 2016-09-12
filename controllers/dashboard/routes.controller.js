@@ -54,6 +54,7 @@ function RoutesController(options) {
     const routeFcRestricted = req.body.route_fc_restricted === 'true';
     const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
     const routeCollection = req.body.route_collection === 'true';
+    const routeIsIdentified = req.body.route_is_identified === 'true';
 
     const routeData = {
       routeId: RouteModel.generateId(),
@@ -63,6 +64,7 @@ function RoutesController(options) {
       fcRequired: routeFcRequired,
       fcRestricted: routeFcRestricted,
       isCollection: routeCollection,
+      isIdentified: routeIsIdentified,
       public: routePublic,
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
@@ -86,7 +88,8 @@ function RoutesController(options) {
               public: routePublic,
               fcRequired: routeFcRequired,
               fcRestricted: routeFcRestricted,
-              isCollection: routeCollection
+              isCollection: routeCollection,
+              isIdentified: routeIsIdentified
             }
           },
           flash: {
@@ -138,47 +141,43 @@ function RoutesController(options) {
   };
 
   this.update = function(req, res, next) {
-    const routeName = _.trim(req.body.route_name);
-    const routeNameNormalized = RouteModel.getNormalizedName(routeName);
-    const routeDescription = _.trim(req.body.route_description);
-    const routePublic = req.body.route_public === 'true';
-    const routeFcRestricted = req.body.route_fc_restricted === 'true';
-    const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
-    const routeCollection = req.body.route_collection === 'true';
+    req.data.route.name = _.trim(req.body.route_name);
+    req.data.route.nameNormalized = RouteModel.getNormalizedName(req.data.route.name);
+    req.data.route.routeDescription = _.trim(req.body.route_description);
+    req.data.route.public = req.body.route_public === 'true';
+    req.data.route.fcRestricted = req.body.route_fc_restricted === 'true';
+    req.data.route.fcRequired = req.data.route.fcRestricted ? true : req.body.route_fc_required === 'true';
+    req.data.route.isCollection = req.body.route_collection === 'true';
+    req.data.route.isIdentified = req.body.route_is_identified === 'true';
 
-    const routeData = {
-      description: routeDescription,
-      name: routeName,
-      nameNormalized: routeNameNormalized,
-      fcRequired: routeFcRequired,
-      fcRestricted: routeFcRestricted,
-      public: routePublic,
-      isCollection: routeCollection
-    };
-
-    RouteModel.io.update({
-      _id: req.data.route._id
-    }, {
-      $set: routeData
-    }, function(err, num) {
-      if (err || num == 0) {
+    req.data.route.save(function(err) {
+      if (err) {
         return res.render('pages/dashboard/routes/edit', {
           page: 'pages/dashboard/routes/edit',
           csrfToken: req.csrfToken(),
           data: req.data,
           query: {
-            route: routeData
+            route: {
+              name: req.data.route.name,
+              nameNormalized: req.data.route.nameNormalized,
+              routeDescription: req.data.route.routeDescription,
+              public: req.data.route.public,
+              fcRequired: req.data.route.fcRequired,
+              fcRestricted: req.data.route.fcRestricted,
+              isCollection: req.data.route.isCollection,
+              isIdentified: req.data.route.isIdentified
+            }
           },
           flash: {
             errors: [err]
           }
         });
       }
-      logger.info('route updated: ' + routeData.name);
+      logger.info('route updated: ' + req.data.route.name);
       FlashHelper.addSuccess(req.session, 'La donnée a bien été mise à jour', function(err) {
         if (err)
           return next({code: 500});
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + routeNameNormalized);
+        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized);
       });
     });
   };
@@ -281,8 +280,6 @@ function RoutesController(options) {
               return next({code: 500});
             })
             .on('end', function() {
-              logger.info('----------------');
-              logger.info(req.data.route.relations);
               return next();
             });
         });

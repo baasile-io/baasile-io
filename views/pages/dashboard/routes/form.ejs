@@ -16,13 +16,20 @@
     </div>
   </div>
   <div class="field">
+    <label>Données identifiées</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" value="true" name="route_is_identified" id="route_is_identified_input" class="hidden" <% if (query.route.isIdentified === true) { %>checked="checked"<% } %>>
+      <label>Les données de cette collection sont identifiées</label>
+    </div>
+  </div>
+  <div class="<% if (!query.route.isIdentified) { %>disabled<% } %> field" id="route_fc_restricted_field">
     <label>Jeton FranceConnect en lecture et écriture</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_fc_restricted" id="route_fc_restricted_input" class="hidden" <% if (query.route.fcRestricted === true) { %>checked="checked"<% } %>>
       <label>Toute action sur cette collection nécessite un jeton de connexion FranceConnect valide</label>
     </div>
   </div>
-  <div class="<% if (query.route.fcRestricted === true) { %>disabled<% } %> field" id="route_fc_required_field">
+  <div class="<% if (!query.route.isIdentified || query.route.fcRestricted === true) { %>disabled<% } %> field" id="route_fc_required_field">
     <label>Jeton FranceConnect en lecture seulement</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_fc_required" id="route_fc_required_input" class="hidden" <% if (query.route.fcRequired === true) { %>checked="checked"<% } %> <% if (query.route.fcRestricted === true) { %>disabled="disabled"<% } %>>
@@ -53,6 +60,19 @@
 
 <script>
   $(document).ready(function() {
+    $('#route_is_identified_input').on('change', function(e) {
+      if (this.checked) {
+        $('#route_fc_required_input').removeAttr('disabled');
+        $('#route_fc_required_field').removeClass('disabled');
+        $('#route_fc_restricted_input').removeAttr('disabled');
+        $('#route_fc_restricted_field').removeClass('disabled');
+      } else {
+        $('#route_fc_required_input').prop('checked', false).attr('disabled', 'disabled');
+        $('#route_fc_required_field').addClass('disabled');
+        $('#route_fc_restricted_input').prop('checked', false).attr('disabled', 'disabled');
+        $('#route_fc_restricted_field').addClass('disabled');
+      }
+    });
     $('#route_fc_restricted_input').on('change', function(e) {
       if (this.checked) {
         $('#route_fc_required_input').prop('checked', true).attr('disabled', 'disabled');
