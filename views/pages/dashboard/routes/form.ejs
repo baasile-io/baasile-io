@@ -8,6 +8,10 @@
       <input type="text" name="route_name" value="<%= query.route.name %>" placeholder="Nom de la collection">
     </div>
   </div>
+  <div class="required field">
+    <label>Description</label>
+    <textarea rows="5" name="route_description"><%= query.route.description %></textarea>
+  </div>
   <div class="field">
     <label>Tableau de données</label>
     <div class="ui toggle checkbox">
@@ -36,9 +40,24 @@
       <label>Accéder aux données de cette collection nécessite un jeton de connexion FranceConnect valide</label>
     </div>
   </div>
-  <div class="required field">
-    <label>Description</label>
-    <textarea rows="5" name="route_description"><%= query.route.description %></textarea>
+  <div class="field">
+    <label>Durée de validité des données</label>
+    <div class="ui fluid search selection dropdown">
+      <input type="hidden" name="route_data_expiration" value="<%= query.route.dataExpiration || 0 %>">
+      <i class="dropdown icon"></i>
+      <div class="default text">Sélectionnez une durée de validité</div>
+      <div class="menu">
+        <div class="item" data-value="0">Aucune expiration</div>
+        <div class="item" data-value="60">1 heure</div>
+        <div class="item" data-value="120">2 heures</div>
+        <div class="item" data-value="1440">1 jour</div>
+        <div class="item" data-value="2880">2 jours</div>
+        <div class="item" data-value="10080">7 jours</div>
+        <div class="item" data-value="312480">1 mois</div>
+        <div class="item" data-value="624960">2 mois</div>
+        <div class="item" data-value="1874880">6 mois</div>
+      </div>
+    </div>
   </div>
   <div class="field">
     <label>Partage</label>
@@ -60,6 +79,7 @@
 
 <script>
   $(document).ready(function() {
+    $('.ui.dropdown').dropdown();
     $('#route_is_identified_input').on('change', function(e) {
       if (this.checked) {
         $('#route_fc_required_input').removeAttr('disabled');

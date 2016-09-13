@@ -55,6 +55,7 @@ function RoutesController(options) {
     const routeFcRequired = routeFcRestricted ? true : req.body.route_fc_required === 'true';
     const routeCollection = req.body.route_collection === 'true';
     const routeIsIdentified = req.body.route_is_identified === 'true';
+    const routeDataExpiration = _.toInteger(req.body.route_data_expiration);
 
     const routeData = {
       routeId: RouteModel.generateId(),
@@ -65,6 +66,7 @@ function RoutesController(options) {
       fcRestricted: routeFcRestricted,
       isCollection: routeCollection,
       isIdentified: routeIsIdentified,
+      dataExpiration: routeDataExpiration,
       public: routePublic,
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
@@ -76,7 +78,6 @@ function RoutesController(options) {
 
     RouteModel.io.create(routeData, function(err, route) {
       if (err) {
-
         return res.render('pages/dashboard/routes/new', {
           page: 'pages/dashboard/routes/new',
           csrfToken: req.csrfToken(),
@@ -89,7 +90,8 @@ function RoutesController(options) {
               fcRequired: routeFcRequired,
               fcRestricted: routeFcRestricted,
               isCollection: routeCollection,
-              isIdentified: routeIsIdentified
+              isIdentified: routeIsIdentified,
+              dataExpiration: routeDataExpiration
             }
           },
           flash: {
@@ -107,7 +109,17 @@ function RoutesController(options) {
       page: 'pages/dashboard/routes/edit',
       csrfToken: req.csrfToken(),
       query: {
-        route: req.data.route
+        route: {
+          name: req.data.route.name,
+          nameNormalized: req.data.route.nameNormalized,
+          routeDescription: req.data.route.routeDescription,
+          public: req.data.route.public || false,
+          fcRequired: req.data.route.fcRequired || false,
+          fcRestricted: req.data.route.fcRestricted || false,
+          isCollection: req.data.route.isCollection || false,
+          isIdentified: req.data.route.isIdentified || false,
+          dataExpiration: req.data.route.dataExpiration || 0
+        }
       },
       data: req.data,
       flash: res._flash
@@ -149,6 +161,7 @@ function RoutesController(options) {
     req.data.route.fcRequired = req.data.route.fcRestricted ? true : req.body.route_fc_required === 'true';
     req.data.route.isCollection = req.body.route_collection === 'true';
     req.data.route.isIdentified = req.body.route_is_identified === 'true';
+    req.data.route.dataExpiration = _.toInteger(req.body.route_data_expiration);
 
     req.data.route.save(function(err) {
       if (err) {
@@ -165,7 +178,8 @@ function RoutesController(options) {
               fcRequired: req.data.route.fcRequired,
               fcRestricted: req.data.route.fcRestricted,
               isCollection: req.data.route.isCollection,
-              isIdentified: req.data.route.isIdentified
+              isIdentified: req.data.route.isIdentified,
+              dataExpiration: req.data.route.dataExpiration
             }
           },
           flash: {

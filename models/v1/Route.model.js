@@ -68,6 +68,10 @@ function RouteModel(options) {
       type: Boolean,
       required: true
     },
+    dataExpiration: {
+      type: Number,
+      required: true
+    },
     service: {
       type: mongoose.Schema.ObjectId,
       ref: 'ServiceModel',
@@ -105,9 +109,10 @@ function RouteModel(options) {
         alias: this.nameNormalized,
         nom: this.name,
         description: this.description,
-        tableau_de_donnees: this.isCollection,
-        jeton_fc_lecture_ectriture: this.fcRestricted,
-        jeton_fc_lecture_seulement: this.fcRequired
+        tableau_de_donnees: this.isCollection || false,
+        jeton_fc_lecture_ectriture: this.fcRestricted || false,
+        jeton_fc_lecture_seulement: this.fcRequired || false,
+        data_expiration: this.dataExpiration || 0
       };
     });
 
@@ -140,6 +145,10 @@ function RouteModel(options) {
       this.fcRequired = true;
     if (this.nameNormalized != normalizeName(this.name))
       this.invalidate('nameNormalized', 'Le nom normalisé doit correspondre avec le nom');
+    if (!this.dataExpiration)
+      this.dataExpiration = 0;
+    if (this.dataExpiration < 0)
+      this.invalidate('dataExpiration', 'La durée de conservation des données doit être un nombre positif (en minutes)');
     self.io.find({
       service: this.service,
       routeId: {$ne: this.routeId},
