@@ -11,7 +11,7 @@ module.exports = ApiTester;
 
 function ApiTester(options) {
   options = options || {};
-  options.dbHost = options.dbHost || 'mongodb://localhost:27017/api-cpa-test';
+  options.dbHost = options.dbHost || process.env.MONGODB_URI || 'mongodb://localhost:27017/api-cpa-test';
   options.expressSessionSecret = options.expressSessionSecret || 'test';
   options.host = options.host || 'http://localhost:3010';
   options.port = options.port || 3010;

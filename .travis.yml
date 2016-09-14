@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+  - "6.1.x"
+
+services:
+  - mongodb
+
+env:
+  - MONGODB_URI="mongodb://localhost:27017/api-cpa-test"
+
+before_script:
+  - sleep 15
