@@ -1,7 +1,5 @@
 'use strict';
 
-process.env.NODE_ENV = 'test';
-
 const apiTester = require('../../api.tester.js'),
   ApiTester = new apiTester(),
   request = ApiTester.request;

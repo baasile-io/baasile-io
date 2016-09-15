@@ -25,8 +25,26 @@ function ApiTester(options) {
     UserModel = new userModel(options),
     TokenModel = new tokenModel(options);
 
-  const clientId = 'my_client_id',
-    clientSecret = 'my_client_secret';
+  const userInfo = {
+    firstname: 'Firstname',
+    lastname: 'Lastname',
+    email: 'apicpa@apicpa.apicpa',
+    password: 'password10',
+    createdAt: new Date()
+  };
+
+  const serviceInfo = {
+    name: 'Test',
+    nameNormalized: 'test',
+    description: 'Description',
+    public: true,
+    users: [],
+    clientSecret: 'my_client_secret',
+    clientId: 'my_client_id',
+    createdAt: new Date(),
+    creator: null,
+    validated: true
+  };
 
   var accessToken;
 
@@ -35,17 +53,17 @@ function ApiTester(options) {
   };
 
   this.getClientSecret = function() {
-    return clientSecret;
+    return serviceInfo.clientSecret;
   };
 
   this.getClientId = function() {
-    return clientId;
+    return serviceInfo.clientId;
   };
 
   this.authorize = function(done) {
     requestFn()
       .post('/api/v1/oauth/token')
-      .send({client_id: clientId, client_secret: clientSecret})
+      .send({client_id: serviceInfo.clientId, client_secret: serviceInfo.clientSecret})
       .end(function (err, res) {
         accessToken = res.body.data.attributes.access_token;
         done();
@@ -81,31 +99,12 @@ function ApiTester(options) {
           if (err)
             return done(err);
 
-          const userInfo = {
-            firstname: 'Firstname',
-            lastname: 'Lastname',
-            email: 'apicpa@apicpa.apicpa',
-            password: 'password10',
-            createdAt: new Date()
-          };
-
           UserModel.io.create(userInfo, function (err, user) {
             if (err)
               return done(err);
 
-            const serviceInfo = {
-              name: 'Test',
-              nameNormalized: 'test',
-              description: 'Description',
-              public: true,
-              users: [{_id: user._id}],
-              clientSecret: 'my_client_secret',
-              clientId: 'my_client_id',
-              createdAt: new Date(),
-              creator: {_id: user._id},
-              validated: true
-            };
-
+            serviceInfo.users.push({_id: user._id});
+            serviceInfo.creator = {_id: user._id};
             ServiceModel.io.create(serviceInfo, function (err, service) {
               if (err)
                 return done(err);
