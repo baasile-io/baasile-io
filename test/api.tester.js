@@ -6,7 +6,10 @@ const chai = require('chai'),
   Server = require('../server.js'),
   userModel = require('../models/v1/User.model.js'),
   serviceModel = require('../models/v1/Service.model.js'),
-  tokenModel = require('../models/v1/Token.model.js');
+  tokenModel = require('../models/v1/Token.model.js'),
+  routeModel = require('../models/v1/Route.model.js'),
+  dataModel = require('../models/v1/Data.model.js'),
+  fieldModel = require('../models/v1/Field.model.js');
 
 
 chai.use(chaiHttp);
@@ -23,7 +26,10 @@ function ApiTester(options) {
   const server = new Server(options),
     ServiceModel = new serviceModel(options),
     UserModel = new userModel(options),
-    TokenModel = new tokenModel(options);
+    TokenModel = new tokenModel(options),
+    RouteModel = new routeModel(options),
+    FieldModel = new fieldModel(options),
+    DataModel = new dataModel(options);
 
   const userInfo = {
     firstname: 'Firstname',
@@ -45,6 +51,36 @@ function ApiTester(options) {
     creator: null,
     validated: true
   };
+
+  const collectionsInfo = [{
+    name: 'Collection1',
+    nameNormalized: 'collection1',
+    description: 'description',
+    routeId: 'my_route_id1',
+    public: true,
+    isIdentified: false,
+    isCollection: false,
+    fields: [{
+      name: 'Field1',
+      nameNormalized: 'field1',
+      required: true,
+      fieldId: 'my_field_id1',
+      type: 'STRING'
+    }, {
+      name: 'Field2',
+      nameNormalized: 'field2',
+      required: true,
+      fieldId: 'my_field_id2',
+      type: 'STRING'
+    }],
+    data: [{
+      dataId: 'my_data_id1',
+      data: {
+        field1: 'first string',
+        field2: 'second string'
+      }
+    }]
+  }];
 
   var accessToken;
 
@@ -99,19 +135,77 @@ function ApiTester(options) {
           if (err)
             return done(err);
 
-          UserModel.io.create(userInfo, function (err, user) {
+          FieldModel.io.remove({}, function (err) {
             if (err)
               return done(err);
 
-            serviceInfo.users.push({_id: user._id});
-            serviceInfo.creator = {_id: user._id};
-            ServiceModel.io.create(serviceInfo, function (err, service) {
+            RouteModel.io.remove({}, function (err) {
               if (err)
                 return done(err);
-              server.start(function (err) {
+
+              DataModel.io.remove({}, function (err) {
                 if (err)
                   return done(err);
-                done();
+
+                UserModel.io.create(userInfo, function (err, user) {
+                  if (err)
+                    return done(err);
+
+                  serviceInfo.users.push({_id: user._id});
+                  serviceInfo.creator = {_id: user._id};
+                  ServiceModel.io.create(serviceInfo, function (err, service) {
+                    if (err)
+                      return done(err);
+
+                    collectionsInfo.forEach(function (el) {
+                      el.clientId = serviceInfo.clientId;
+                      el.creator = user;
+                      el.service = service;
+                      el.method = 'POST';
+                      el.type = 'DONNEE_PARTAGEE';
+                      el.createdAt = new Date();
+
+                      RouteModel.io.create(el, function (err, route) {
+                        if (err)
+                          return done(err);
+
+                        el.fields.forEach(function(el2) {
+                          el2.route = route;
+                          el2.creator = user;
+                          el2.service = service;
+                          el2.clientId = serviceInfo.clientId;
+                          el2.routeId = route.routeId;
+                          el2.createdAt = new Date();
+                          el2.description = 'description';
+
+                          FieldModel.io.create(el2, function(err, data) {
+                            if (err)
+                              throw new Error(JSON.stringify(err));
+                          });
+                        });
+
+                        el.data.forEach(function(el2) {
+                          el2.route = route;
+                          el2.service = service;
+                          el2.clientId = serviceInfo.clientId;
+                          el2.routeId = route.routeId;
+                          el2.createdAt = new Date();
+
+                          DataModel.io.create(el2, function(err, data) {
+                            if (err)
+                              throw new Error(JSON.stringify(err));
+                          });
+                        });
+                      });
+                    });
+
+                    server.start(function (err) {
+                      if (err)
+                        return done(err);
+                      done();
+                    });
+                  });
+                });
               });
             });
           });
