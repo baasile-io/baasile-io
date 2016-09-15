@@ -8,8 +8,6 @@ const chai = require('chai'),
   serviceModel = require('../models/v1/Service.model.js'),
   tokenModel = require('../models/v1/Token.model.js');
 
-const clientId = 'my_client_id',
-  clientSecret = 'my_client_secret';
 
 chai.use(chaiHttp);
 
@@ -22,15 +20,26 @@ function ApiTester(options) {
   options.host = options.host || 'http://localhost:3010';
   options.port = options.port || 3010;
 
-  const server = new Server(options);
-  const ServiceModel = new serviceModel(options);
-  const UserModel = new userModel(options);
-  const TokenModel = new tokenModel(options);
+  const server = new Server(options),
+    ServiceModel = new serviceModel(options),
+    UserModel = new userModel(options),
+    TokenModel = new tokenModel(options);
+
+  const clientId = 'my_client_id',
+    clientSecret = 'my_client_secret';
 
   var accessToken;
 
   this.getAccessToken = function() {
     return accessToken;
+  };
+
+  this.getClientSecret = function() {
+    return clientSecret;
+  };
+
+  this.getClientId = function() {
+    return clientId;
   };
 
   this.authorize = function(done) {
@@ -41,6 +50,19 @@ function ApiTester(options) {
         accessToken = res.body.data.attributes.access_token;
         done();
       });
+  };
+
+  this.expiredToken = function(done) {
+    TokenModel.io.findOne({accessToken: accessToken}, function(err, token) {
+      if (err)
+        return done(err);
+      token.accessTokenExpiresOn = new Date();
+      token.save(function(err) {
+        if (err)
+          return done(err);
+        done();
+      });
+    });
   };
 
   this.request = requestFn;
@@ -108,7 +130,7 @@ function ApiTester(options) {
     return chai.request(host);
   };
 
-  this.checkJsonapiStandard = function(res, opt) {
+  this.checkResponse = function(res, opt) {
     opt = opt || {};
     const isSuccess = opt.isSuccess === undefined || opt.isSuccess;
     const isCollection = opt.isCollection === undefined || opt.isCollection;
@@ -130,6 +152,10 @@ function ApiTester(options) {
       res.body.should.have.property('errors');
       res.body.errors.should.be.a('array');
     }
+  };
+
+  this.now = function() {
+    return new Date();
   };
 
 };
