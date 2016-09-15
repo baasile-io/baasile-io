@@ -1,6 +1,7 @@
 'use strict';
 
 const v1 = require('./api/v1/index.js'),
+  notificationService = require('../services/notification.service.js'),
   dashboard = require('./website/dashboard.router.js'),
   documentation = require('./website/documentation.router.js'),
   bodyParser = require('body-parser'),
@@ -11,6 +12,7 @@ const v1 = require('./api/v1/index.js'),
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
+  const NotificationService = new notificationService(options);
 
   // api
   app.use('/api', function(req, res, next) {
@@ -111,6 +113,12 @@ exports.configure = function (app, http, options) {
       response.errors.push('status_code:' + status);
     return res.status(status).json(response).end();
   }, function(req, res) {
+    var serviceName;
+    if (req.data && req.data.service)
+      serviceName = req.data.service.name;
+    NotificationService.send({
+      text: '404 ' + res._originalUrl + ' (' + serviceName + ')'
+    });
     return res.status(404).json({
       jsonapi: res._jsonapi,
       links: {
@@ -159,6 +167,12 @@ exports.configure = function (app, http, options) {
     .use(function(req, res) {
       const status = 404;
       logger.warn('page not found (code: ' + status + ') (' + req.originalUrl + ')');
+      var userName;
+      if (req.data && req.data.user)
+        userName = req.data.user.firstname + ' ' + req.data.user.lastname;
+      NotificationService.send({
+        text: '404 ' + req.originalUrl + ' (' + userName + ')'
+      });
       return res.render('pages/errors/error404', {
         page: 'pages/errors/error404',
         layout: 'layouts/error',

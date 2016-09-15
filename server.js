@@ -1,8 +1,10 @@
 'use strict';
 
 const http = require('http'),
+  path = require('path'),
   express = require('express'),
   session = require('express-session'),
+  favicon = require('serve-favicon'),
   expressLayouts = require('express-ejs-layouts'),
   emptylogger = require('bunyan-blackhole'),
   expressBunyanLogger = require("express-bunyan-logger"),
@@ -73,6 +75,7 @@ function Server(options) {
   app.use(expressLayouts);
   app.use(express.static(__dirname + '/public'));
   app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
+  app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
 
   var server = http.createServer(app);
   routes.configure(app, http, options);
