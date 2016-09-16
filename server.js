@@ -21,7 +21,7 @@ function Server(options) {
   options.logger = options.logger || emptylogger();
   options.db = options.db || mongodb.MongoClient;
   options.tokenExpiration = options.tokenExpiration || 20; //minutes
-  options.sessionMaxAge = options.sessionMaxAge || 5; //minutes
+  options.expressSessionCookieMaxAge = options.expressSessionCookieMaxAge || 5; //minutes
   var logger = options.logger;
   var app = express();
   app.set("port", options.port);
@@ -49,7 +49,7 @@ function Server(options) {
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {
-      maxAge: options.sessionMaxAge * 60 * 1000
+      maxAge: options.expressSessionCookieMaxAge * 60000
     },
     proxy: true,
     resave: false,
