@@ -28,7 +28,10 @@ mongod --dbpath /tmp
 ## install server
 
 installer node et npm
+<<<<<<< 7c67c9668b5ffd72c89c5c4f9156fefa764019b5
 mettre la derniere mise a jour de nodejs
+=======
+>>>>>>> start filters finders
 
 npm install
 
