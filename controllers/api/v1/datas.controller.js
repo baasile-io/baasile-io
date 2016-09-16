@@ -108,28 +108,10 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
     var dataResult = [];
-<<<<<<< aa9d223ac6ffff01ce1b82844cd3e1be2f6bb3fb
-	// var json_search = {route: req.data.route._id};
-	// var len = req.filters.length;
-	// if (len)
-	// 	json_search[$or] = [];
-	// for(var i = 1; i < len; i++)
-	// {
-	// 	var y = {};
-    //     var y[req.filters[i]] = ;
-    //     	json_search[y] =
-    //     }
-	// 	json_search[$or][i] =
-    // };
-	DataModel
-      .io
-      .find({route: req.data.route._id})
-=======
 	var jsonSearch = getConstructedJson(req);
 	DataModel
       .io
       .find(jsonSearch)
->>>>>>> use Query.prototype.cursor instead of Query.prototype.stream
       .cursor()
       .on('data', function(data) {
         dataResult.push(data.getResourceObject(res._apiuri));

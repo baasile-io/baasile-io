@@ -6,10 +6,10 @@
 
 befor using brew.
 
-export HOMEBREW_CACHE=~/goinfre/mycache
-export HOMEBREW_TEMP=~/goinfre/mytemp
-mkdir ~/goinfre/mycache ~/goinfre/mytemp
-export PATH=$PATH:~/.brew/bin/
+export HOMEBREW_CACHE=~/goinfre/mycache ;
+export HOMEBREW_TEMP=~/goinfre/mytemp ;
+mkdir ~/goinfre/mycache ~/goinfre/mytemp ;
+export PATH=$PATH:~/.brew/bin/ ;
 
 
 use brewup for update:
@@ -28,10 +28,8 @@ mongod --dbpath /tmp
 ## install server
 
 installer node et npm
-<<<<<<< 7c67c9668b5ffd72c89c5c4f9156fefa764019b5
+
 mettre la derniere mise a jour de nodejs
-=======
->>>>>>> start filters finders
 
 npm install
 
