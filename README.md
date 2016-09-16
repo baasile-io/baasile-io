@@ -28,6 +28,7 @@ mongod --dbpath /tmp
 ## install server
 
 installer node et npm
+mettre la derniere mise a jour de nodejs
 
 npm install
 

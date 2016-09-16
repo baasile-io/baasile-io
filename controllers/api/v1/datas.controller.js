@@ -95,18 +95,18 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
     var dataResult = [];
-	var json_search = {route: req.data.route._id};
-	var len = req.filters.length;
-	if (len)
-		json_search[$or] = [];
-	for(var i = 1; i < len; i++)
-	{
-		var y = {};
-        var y[req.filters[i]] = ;
-        	json_search[y] =
-        }
-		json_search[$or][i] =
-    };
+	// var json_search = {route: req.data.route._id};
+	// var len = req.filters.length;
+	// if (len)
+	// 	json_search[$or] = [];
+	// for(var i = 1; i < len; i++)
+	// {
+	// 	var y = {};
+    //     var y[req.filters[i]] = ;
+    //     	json_search[y] =
+    //     }
+	// 	json_search[$or][i] =
+    // };
 	DataModel
       .io
       .find({route: req.data.route._id})
