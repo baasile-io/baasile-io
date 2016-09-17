@@ -1,6 +1,6 @@
 'use strict';
 
-const apiTester = require('../../api.tester.js'),
+const apiTester = require('../../test.helper.js'),
   ApiTester = new apiTester(),
   request = ApiTester.request;
 
