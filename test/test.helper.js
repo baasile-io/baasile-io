@@ -33,6 +33,15 @@ function ApiTester(options) {
     return accessToken;
   };
 
+  this.getServiceByClientId = function(clientId) {
+    var el;
+    services.forEach(function(service) {
+      if (service.clientId === clientId)
+        el = service;
+    });
+    return el;
+  };
+
   this.getClientSecret = function(i) {
     i = i || 0;
     return services[i].clientSecret;

@@ -81,19 +81,25 @@ function ServicesController(options) {
 
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
-      $or: [
-        {public: true},
-        {clientId: res._service.clientId}
-      ],
-      $or: [
-        {nameNormalized: req.params.serviceId},
-        {clientId: req.params.serviceId}
+      $and: [
+        {
+          $or: [
+            {public: true},
+            {clientId: res._service.clientId}
+          ]
+        },
+        {
+          $or: [
+            {nameNormalized: req.params.serviceId},
+            {clientId: req.params.serviceId}
+          ]
+        }
       ]
     }, function(err, service) {
       if (err)
         return next({code: 500, messages: err});
       if (!service)
-        return next({code: 404, messages: 'Service non trouvé'});
+        return next({code: 404, messages: ['not_found', 'Service non trouvé']});
       req.data = req.data || {};
       req.data.service = service;
       return next();
