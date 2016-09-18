@@ -108,7 +108,8 @@ function ServiceModel(options) {
         alias: this.nameNormalized,
         nom: this.name,
         description: this.description,
-        site_internet: this.website
+        site_internet: this.website,
+        public: this.public
       };
     });
 

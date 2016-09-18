@@ -28,7 +28,8 @@ describe('Services', function () {
               alias: 'test',
               nom: 'Test',
               description: 'Description',
-              site_internet: ''
+              site_internet: 'http://mywebsite.com',
+              public: true
             });
             done();
           });
@@ -50,7 +51,8 @@ describe('Services', function () {
               alias: 'test',
               nom: 'Test',
               description: 'Description',
-              site_internet: ''
+              site_internet: 'http://mywebsite.com',
+              public: true
             });
             done();
           });
