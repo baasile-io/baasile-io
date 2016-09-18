@@ -16,6 +16,8 @@ function RouteModel(options) {
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Route.type;
 
+  mongoose.Promise = global.Promise;
+
   const ROUTE_TYPES = [
     'API',
     'DONNEE_PARTAGEE'

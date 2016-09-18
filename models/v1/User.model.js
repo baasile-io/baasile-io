@@ -48,6 +48,8 @@ function UserModel(options) {
   options = options || {};
   const db = mongoose.createConnection(options.dbHost);
 
+  mongoose.Promise = global.Promise;
+
   userSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();

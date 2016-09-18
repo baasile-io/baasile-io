@@ -80,6 +80,8 @@ function ServiceModel(options) {
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
 
+  mongoose.Promise = global.Promise;
+
   serviceSchema.pre('validate', function(next) {
     if (!this.validated)
       this.public = false;

@@ -13,6 +13,8 @@ function DataModel(options) {
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Data.type;
 
+  mongoose.Promise = global.Promise;
+
   const dataSchema = new mongoose.Schema({
     dataId: {
       type: String,
