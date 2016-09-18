@@ -93,8 +93,22 @@ function ServicesController(options) {
     return next({code: 500, messages: ['not_implemented']});
   };
 
+  function getConstructedJson(req)
+  {
+    var jsonRes = {};
+    jsonRes["route"] = req.data.route._id;
+	if (typeof req.params.filter !== 'undefined') {
+	  req.params.filter.keys.forEach(function(key) {
+		  var array = req.params.filter[key].split(',');
+		  jsonRes[key] = array[0];
+	  });
+	}
+	return jsonRes;
+  }
+
   function requestGet(req, res, next) {
     var dataResult = [];
+<<<<<<< aa9d223ac6ffff01ce1b82844cd3e1be2f6bb3fb
 	// var json_search = {route: req.data.route._id};
 	// var len = req.filters.length;
 	// if (len)
@@ -110,6 +124,12 @@ function ServicesController(options) {
 	DataModel
       .io
       .find({route: req.data.route._id})
+=======
+	var jsonSearch = getConstructedJson(req);
+	DataModel
+      .io
+      .find(jsonSearch)
+>>>>>>> use Query.prototype.cursor instead of Query.prototype.stream
       .cursor()
       .on('data', function(data) {
         dataResult.push(data.getResourceObject(res._apiuri));
