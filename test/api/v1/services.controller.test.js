@@ -25,7 +25,26 @@ describe('Services', function () {
           res.body.data[0].attributes.should.eql({
             alias: 'test',
             nom: 'Test',
-            description: 'Description'
+            description: 'Description',
+            site_internet: ''
+          });
+          done();
+        });
+    });
+
+    it('show public service by id', function (done) {
+      request()
+        .get('/api/v1/services/my_client_id')
+        .query({access_token: ApiTester.getAccessToken()})
+        .end(function (err, res) {
+          ApiTester.checkResponse(res, {isCollection: false});
+          res.body.data.id.should.eql('my_client_id');
+          res.body.data.type.should.eql('services');
+          res.body.data.attributes.should.eql({
+            alias: 'test',
+            nom: 'Test',
+            description: 'Description',
+            site_internet: ''
           });
           done();
         });

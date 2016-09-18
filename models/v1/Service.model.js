@@ -31,6 +31,7 @@ var serviceSchema = new mongoose.Schema({
   },
   website: {
     type: String,
+    default: '',
     validate: {
       validator: function (url) {
         if (url === '')
