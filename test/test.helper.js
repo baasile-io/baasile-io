@@ -8,7 +8,6 @@ const chai = require('chai'),
   usersDb = require('./db/users.db.js'),
   servicesDb = require('./db/services.db.js');
 
-
 chai.use(chaiHttp);
 
 module.exports = ApiTester;
@@ -42,12 +41,16 @@ function ApiTester(options) {
     return el;
   };
 
-  this.getClientSecret = function(i) {
+  this.getClientSecret = clientSecret;
+
+  function clientSecret(i) {
     i = i || 0;
     return services[i].clientSecret;
   };
 
-  this.getClientId = function(i) {
+  this.getClientId = clientId;
+
+  function clientId(i) {
     i = i || 0;
     return services[i].clientId;
   };
@@ -55,7 +58,7 @@ function ApiTester(options) {
   this.authorize = function(done) {
     requestFn()
       .post('/api/v1/oauth/token')
-      .send({client_id: services[0].clientId, client_secret: services[0].clientSecret})
+      .send({client_id: clientId(), client_secret: clientSecret()})
       .end(function (err, res) {
         accessToken = res.body.data.attributes.access_token;
         done();
