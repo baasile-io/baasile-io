@@ -46,6 +46,8 @@ function EmailTokenModel(options) {
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
 
+  mongoose.Promise = global.Promise;
+
   emailTokenSchema.pre('validate', function(next) {
     this.updatedAt = new Date();
     next();
