@@ -17,6 +17,7 @@ module.exports = {
     "USERS_INDEX": [0, 1],
     name: 'Test',
     description: 'Description',
+    website: 'http://mywebsite.com',
     public: true,
     users: [],
     clientSecret: 'my_client_secret',
