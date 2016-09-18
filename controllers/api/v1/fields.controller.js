@@ -11,11 +11,13 @@ function FieldsController(options) {
 
   this.getFields = function(req, res, next) {
     var fields = [];
-    FieldModel.io.find({
+    FieldModel
+      .io
+      .find({
         route: req.data.route._id
       })
       .sort({order: 1})
-      .stream()
+      .cursor()
       .on('data', function(element) {
         var self = this;
         self.pause();

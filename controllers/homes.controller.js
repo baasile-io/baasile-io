@@ -19,7 +19,7 @@ function HomesController(options) {
     ServiceModel
       .io
       .find({public: true})
-      .stream()
+      .cursor()
       .on('data', function (service) {
         var self = this;
         self.pause();

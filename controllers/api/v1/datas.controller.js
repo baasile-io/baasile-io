@@ -95,9 +95,10 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
     var dataResult = [];
-    DataModel.io
+    DataModel
+      .io
       .find({route: req.data.route._id})
-      .stream()
+      .cursor()
       .on('data', function(data) {
         dataResult.push(data.getResourceObject(res._apiuri));
       })

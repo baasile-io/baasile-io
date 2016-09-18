@@ -148,11 +148,13 @@ function FieldsController(options) {
         });
       }
       if (oldNameNormalized != fieldNameNormalized || oldRequired != fieldRequired) {
-        DataModel.io.find({
+        DataModel
+          .io
+          .find({
             service: req.data.service._id,
             route: req.data.route._id
           })
-          .stream()
+          .cursor()
           .on('data', function (data) {
             var self = this;
             self.pause();
@@ -292,11 +294,13 @@ function FieldsController(options) {
   };
 
   this.destroy = function(req, res, next) {
-    DataModel.io.find({
-      service: req.data.service._id,
-      route: req.data.route._id
-    })
-      .stream()
+    DataModel
+      .io
+      .find({
+        service: req.data.service._id,
+        route: req.data.route._id
+      })
+      .cursor()
       .on('data', function(data) {
         var self = this;
         self.pause();
@@ -338,9 +342,11 @@ function FieldsController(options) {
 
   function ensureFieldsOrder(route, callback) {
     var order = 0;
-    FieldModel.io.find({route: route})
+    FieldModel
+      .io
+      .find({route: route})
       .sort({order: 1})
-      .stream()
+      .cursor()
       .on('data', function(field) {
         var self = this;
         self.pause();
