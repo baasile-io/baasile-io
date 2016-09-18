@@ -19,9 +19,9 @@
   "homepage": "https://github.com/api-cpa/api-cpa#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
-    "bunyan": "1.8.0",
-    "bunyan-blackhole": "1.1.0",
-    "bunyan-format": "0.2.1",
+    "bunyan": "^1.8.1",
+    "bunyan-blackhole": "^1.1.1",
+    "bunyan-format": "^0.2.1",
     "connect-mongo": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "cors": "2.7.1",
