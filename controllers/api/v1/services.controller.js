@@ -14,19 +14,13 @@ function ServicesController(options) {
   this.getServices = function(req, res, next) {
     var services = [];
     var included = [];
-    ServiceModel.io.find({
-      public: true
-    }, {
-      name: 1,
-      nameNormalized: 1,
-      description: 1,
-      website: 1,
-      clientId: 1,
-      updatedAt: 1,
-      createdAt: 1
-    })
+    ServiceModel
+      .io
+      .find({
+        public: true
+      })
       .sort({name: 1})
-      .stream()
+      .cursor()
       .on('data', function(service) {
         var self = this;
         self.pause();

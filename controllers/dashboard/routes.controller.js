@@ -255,9 +255,10 @@ function RoutesController(options) {
             return next({code: 500});
           req.data.route.fields = fields;
           req.data.route.relations = [];
-          RelationModel.io
+          RelationModel
+            .io
             .find({parentRouteId: route.routeId})
-            .stream()
+            .cursor()
             .on('data', function(relation) {
               var self = this;
               self.pause();

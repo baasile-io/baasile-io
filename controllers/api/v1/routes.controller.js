@@ -19,12 +19,14 @@ function ServicesController(options) {
   this.getSharedRoutes = function(req, res, next) {
     var routes = [];
     var included = [];
-    RouteModel.io.find({
-      service: req.data.service._id,
-      public: true
-    })
+    RouteModel
+      .io
+      .find({
+        service: req.data.service._id,
+        public: true
+      })
       .sort({name: 1})
-      .stream()
+      .cursor()
       .on('data', function(element) {
         var self = this;
         self.pause();
