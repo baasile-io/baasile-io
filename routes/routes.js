@@ -102,6 +102,8 @@ exports.configure = function (app, http, options) {
       response.included = responseParams.included;
     }
     if (responseParams.messages) {
+      if (!Array.isArray(responseParams.messages))
+        responseParams.messages = [responseParams.messages];
       response.errors = responseParams.messages;
     }
     else if (status >= 400) {

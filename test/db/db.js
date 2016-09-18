@@ -48,5 +48,16 @@ module.exports = {
         }
       }]
     }]
+  },{
+    "CREATOR_INDEX": 1,
+    "USERS_INDEX": [1],
+    name: 'Private service',
+    description: 'Description',
+    public: false,
+    users: [],
+    clientSecret: 'my_client_secret_private',
+    clientId: 'my_client_id_private',
+    validated: true,
+    "ROUTES": []
   }]
-}
+};
