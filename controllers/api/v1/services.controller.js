@@ -51,20 +51,7 @@ function ServicesController(options) {
               });
             });
           }
-          var obj = {
-            id: service.clientId,
-            type: 'services',
-            attributes: {
-              alias: service.nameNormalized,
-              nom: service.name,
-              description: service.description,
-              site_internet: service.website
-            },
-            meta: {
-              creation: service.createdAt,
-              modification: service.updatedAt
-            }
-          };
+          var obj = service.getResourceObject(res._apiuri);
           if (serviceRoutes.length > 0) {
             obj.relationships = {
               collections: {
@@ -86,6 +73,10 @@ function ServicesController(options) {
       .on('end', function() {
         next({code: 200, data: services, included: included});
       });
+  };
+
+  this.get = function(req, res, next) {
+    return next({code: 200, data: req.data.service.getResourceObject(res._apiuri)});
   };
 
   this.getServiceData = function(req, res, next) {

@@ -3,6 +3,7 @@
 const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
+  CONFIG = require('../../config/app.js'),
   crypto = require('crypto');
 
 module.exports = ServiceModel;
@@ -79,6 +80,7 @@ function ServiceModel(options) {
   options = options || {};
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
+  const TYPE = CONFIG.api.v1.resources.Service.type;
 
   mongoose.Promise = global.Promise;
 
@@ -99,12 +101,44 @@ function ServiceModel(options) {
     next();
   });
 
+  serviceSchema.virtual('attributes')
+    .get(function () {
+      return {
+        alias: this.nameNormalized,
+        nom: this.name,
+        description: this.description,
+        site_internet: this.website
+      };
+    });
+
+  serviceSchema.virtual('meta')
+    .get(function () {
+      return {
+        creation: this.createdAt,
+        modification: this.updatedAt,
+        version: this.__v
+      };
+    });
+
   serviceSchema.methods.tokensCount = function() {
     return this.model('Token').count({service: this}, function(err, total) {
       if (err)
         return -1;
       return total;
     });
+  };
+
+  serviceSchema.methods.getResourceObject = function (apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.clientId,
+      type: TYPE,
+      attributes: this.get('attributes'),
+      links: {
+        self: apiUri + '/' + TYPE + '/' + this.clientId
+      },
+      meta: this.get('meta')
+    };
   };
 
   this.io = db.model('Service', serviceSchema);
