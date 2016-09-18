@@ -31,6 +31,7 @@ function ServicesDb(options) {
 
         // seed default values
         services[iService].createdAt = services[iService].createdAt || new Date();
+        services[iService].nameNormalized = ServiceModel.getNormalizedName(services[iService].name);
 
         // seed users id
         services[iService].creator = users[services[iService].CREATOR_INDEX];
@@ -52,6 +53,7 @@ function ServicesDb(options) {
             }
 
             // seed default values
+            services[iService].ROUTES[iRoute].nameNormalized = RouteModel.getNormalizedName(services[iService].ROUTES[iRoute].name);
             services[iService].ROUTES[iRoute].method = 'POST';
             services[iService].ROUTES[iRoute].type = 'DONNEE_PARTAGEE';
             services[iService].ROUTES[iRoute].createdAt = new Date();
@@ -75,6 +77,7 @@ function ServicesDb(options) {
 
                 // seed default values
                 services[iService].ROUTES[iRoute].FIELDS[iField].createdAt = new Date();
+                services[iService].ROUTES[iRoute].FIELDS[iField].nameNormalized = FieldModel.getNormalizedName(services[iService].ROUTES[iRoute].FIELDS[iField].name);
                 services[iService].ROUTES[iRoute].FIELDS[iField].description = 'description';
 
                 // seed ids
