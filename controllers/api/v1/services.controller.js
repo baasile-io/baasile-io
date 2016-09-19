@@ -17,7 +17,10 @@ function ServicesController(options) {
     ServiceModel
       .io
       .find({
-        public: true
+        $or: [
+          {public: true},
+          {clientId: res._service.clientId}
+        ]
       })
       .sort({name: 1})
       .cursor()
