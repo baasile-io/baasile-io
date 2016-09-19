@@ -10,9 +10,9 @@ const chai = require('chai'),
 
 chai.use(chaiHttp);
 
-module.exports = ApiTester;
+module.exports = TestHelper;
 
-function ApiTester(options) {
+function TestHelper(options) {
   options = options || {};
   options.dbHost = options.dbHost || process.env.MONGODB_URI || 'mongodb://localhost:27017/api-cpa-test';
   options.expressSessionSecret = options.expressSessionSecret || 'test';
@@ -80,35 +80,37 @@ function ApiTester(options) {
 
   this.request = requestFn;
 
-  this.before = function(done) {
-
-    TokenModel.io.remove({}, function(err) {
+  this.startServer = function(done) {
+    server.start(function (err) {
       if (err)
         return done(err);
-
-      UsersDb.drop()
-        .then(ServicesDb.drop)
-        .then(UsersDb.seed)
-        .then(function(db) {
-          users = db;
-          return ServicesDb.seed(users);
-        })
-        .then(function(db) {
-          services = db;
-          server.start(function (err) {
-            if (err)
-              return done(err);
-            done();
-          });
-        })
-        .catch(function(err) {
-          return done(err);
-        });
+      done();
     });
   };
 
-  this.after = function(done) {
+  this.stopServer = function(done) {
     server.stop(done);
+  };
+
+  this.seedDb = function(done) {
+    TokenModel.io.remove({}, function (err) {
+      if (err)
+        return done(err);
+      UsersDb.drop()
+        .then(ServicesDb.drop)
+        .then(UsersDb.seed)
+        .then(function (db) {
+          users = db;
+          return ServicesDb.seed(users);
+        })
+        .then(function (db) {
+          services = db;
+          done();
+        })
+        .catch(function (err) {
+          return done(err);
+        });
+    });
   };
 
   function requestFn(host) {
