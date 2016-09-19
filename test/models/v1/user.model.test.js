@@ -2,7 +2,7 @@
 
 const testHelper = require('../../test.helper.js'),
   TestHelper = new testHelper(),
-  userModel = require('../../../models/v1/user.model.js'),
+  userModel = require('../../../models/v1/User.model.js'),
   UserModel = new userModel(TestHelper.getOptions());
 
 describe('User model', function () {
