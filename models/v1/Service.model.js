@@ -86,7 +86,7 @@ function ServiceModel(options) {
   mongoose.Promise = global.Promise;
 
   serviceSchema.pre('validate', function(next) {
-    if (!this.validated)
+    if (this.validated != true && this.public === true)
       this.invalidate('public', 'Un service non validé par l\'Équipe administratrice de la Plate-forme ne peut être référencée sur l\'API');
     this.updatedAt = new Date();
     next();
