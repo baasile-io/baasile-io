@@ -93,22 +93,85 @@ function ServicesController(options) {
     return next({code: 500, messages: ['not_implemented']});
   };
 
-  function getConstructedJson(req)
+
+  function getDefaultOr(key, array, prefix)
+  {
+	  var jsonRes = [];
+	  jsonRes[$or] = [];
+	  array.forEach(function(value)
+	  {
+		  var jsonval = {};
+		  if (value[0] == '$')
+			jsonval[key] = getConditionConstruct(key, value, prefix);
+		  else
+			jsonval[prefix+"."+key] = value;
+		  jsonRes[$or].push(jsonval);
+	  });
+	  return jsonRes;
+  }
+
+  function getDefaultAnd(key, array, prefix)
+  {
+	  var jsonRes = [];
+	  jsonRes[$and] = [];
+	  var jsonval = {};
+	  if (array[0][0] == '$') {
+		jsonval[key] = getConditionConstruct(key, array[0], prefix);
+	  }
+	  else {
+		jsonval[prefix+"."+key] = array[0];
+	  }
+	  jsonRes[$and].push(jsonval);
+	  return jsonRes;
+  }
+
+  function getComasValueOrValue(key, val, prefix)
+  {
+	  var jsonRes = {};
+	  var array = val.split(',');
+	  if (array.length > 1)
+	  {
+		jsonRes getDefaultOr(key, array, prefix);
+	 }
+	 else if (array.length == 1)
+	 {
+		return getDefaultAnd(key, array, prefix);
+	 }
+	 return undefined;
+  }
+
+  function getConditionConstruct(key, value, prefix)
+  {
+	  var jsonObj = {};
+	  jsonObj = getComasValueOrValue(key, val, prefix);
+  }
+
+  function getConstructedJson(req, res, prefix)
   {
     var jsonRes = {};
     jsonRes["route"] = req.data.route._id;
-	if (typeof req.params.filter !== 'undefined') {
-	  req.params.filter.keys.forEach(function(key) {
-		  var array = req.params.filter[key].split(',');
-		  jsonRes[key] = array[0];
-	  });
+	if (typeof res._request.params.filter !== 'undefined')
+	{
+	 	logger.info("param filter ok");
+	    var tab = [];
+	    Object.keys(res._request.params.filter).forEach(function(key)
+		{
+		  if (key[0] == '$') {
+			 jsonRes[key] = tab.push.getConditionConstruct(key, res._request.params.filter[key], prefix);
+		  }
+		  else {
+		  	jsonRes = getComasValue(key, res._request.params.filter[key], prefix);
+		  }
+	    });
 	}
 	return jsonRes;
   }
 
   function requestGet(req, res, next) {
     var dataResult = [];
-	var jsonSearch = getConstructedJson(req);
+	var jsonSearch = getConstructedJson(req, res);
+	logger.info("test");
+	logger.info(JSON.stringify(jsonSearch));
 	DataModel
       .io
       .find(jsonSearch)
