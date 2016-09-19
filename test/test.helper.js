@@ -28,6 +28,10 @@ function TestHelper(options) {
     services = [],
     accessToken;
 
+  this.getOptions = function() {
+    return options;
+  };
+
   this.getAccessToken = function() {
     return accessToken;
   };

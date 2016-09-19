@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www.js",
-    "test": "mocha test/api/ --recursive --timeout 10000"
+    "test": "mocha test/api/ test/models/ --recursive --timeout 10000"
   },
   "repository": {
     "type": "git",
