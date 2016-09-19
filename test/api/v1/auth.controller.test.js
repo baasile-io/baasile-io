@@ -81,7 +81,7 @@ describe('Auth', function () {
           res.body.data.attributes.access_token.should.have.lengthOf(96);
           const expiresOn = new Date(res.body.data.attributes.expires_on);
           if (new Date(ApiTester.now().getTime() + 20 * 60000) - expiresOn > 60)
-            throw new Error('token expiration should around twenty minutes');
+            throw new Error('token validity should be around twenty minutes');
           done();
         });
     });
