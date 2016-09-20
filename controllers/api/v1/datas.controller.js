@@ -5,7 +5,8 @@ const _ = require('lodash'),
   routeModel = require('../../../models/v1/Route.model.js'),
   fieldModel = require('../../../models/v1/Field.model.js'),
   dataModel = require('../../../models/v1/Data.model.js'),
-  franceConnectHelper = require('../../../helpers/fc.helper.js');
+  franceConnectHelper = require('../../../helpers/fc.helper.js'),
+  filterservice = require('../../../services/filter.service.js');
 
 module.exports = ServicesController;
 
@@ -17,6 +18,7 @@ function ServicesController(options) {
   const FieldModel = new fieldModel(options);
   const DataModel = new dataModel(options);
   const FranceConnectHelper = new franceConnectHelper(options);
+  const FilterService = new filterservice(options);
 
   this.get = function(req, res, next) {
     return next({code: 200, data: req.data.data.getResourceObject(res._apiuri)});
@@ -94,86 +96,85 @@ function ServicesController(options) {
   };
 
 
-  function getDefaultOr(key, array, prefix)
-  {
-  	var jsonRes = new Array();
-  	array.forEach(function(value)
-  	{
-  		var jsonval = {};
-  		if (value[0] == '$')
-  		  jsonval[key] = getConditionConstruct(value, prefix);
-  		else
-  		  jsonval[prefix+"."+key] = value;
-		jsonRes.push(jsonval);
-  	});
-  	return jsonRes;
-  }
-
-  function getDefaultAnd(key, array, prefix)
-  {
-
-  	var jsonRes = new Array();
-  	var jsonval = {};
-  	if (array[0][0] == '$') {
-  	  jsonval[key] = getConditionConstruct(array[0], prefix);
-  	}
-  	else {
-  	  jsonval[prefix+"."+key] = array[0];
-  	}
-	jsonRes.push(jsonval);
-  	return jsonRes;
-  }
-
-
-  function getComasValueOrValue(key, val, prefix)
-  {
-	 var jsontab = [];
-  	var jsonRes = {};
-  	var array = val.split(',');
-  	if (array.length > 1)
-  	{
-  	  jsonRes['$or'] = getDefaultOr(key, array, prefix);
-  	}
-  	else if (array.length == 1)
-  	{
-  	  jsonRes['$or'] = getDefaultAnd(key, array, prefix);
-  	}
-	jsontab.push(jsonRes);
-  	return jsontab;
-  }
-
-  function getConditionConstruct(array, prefix)
-  {
-  	var jsontab = [];
-  	Object.keys(array).forEach(function(key)
-  	{
-	  var jsonRes = {};
-  	  if (key[0] == '$') {
-  		 jsonRes[key] = getConditionConstruct(array[key], prefix);
-  	  }
-  	  else {
-  		jsonRes["$and"] = getComasValueOrValue(key, array[key], prefix);
-  	  }
-	  jsontab.push(jsonRes);
-  	});
-  	return jsontab;
-  }
-
-  function getConstructedJson(req, res, prefix)
-  {
-    var jsonRes = {};
-    jsonRes["route"] = req.data.route._id;
-    if (typeof res._request.params.filter !== 'undefined')
-    {
-  	  jsonRes["$and"] = getConditionConstruct(res._request.params.filter, prefix);
-    }
-    return jsonRes;
-  }
+  // function getDefaultOr(key, array, prefix)
+  // {
+  // 	var jsonRes = new Array();
+  // 	array.forEach(function(value)
+  // 	{
+  // 		var jsonval = {};
+  // 		if (value[0] == '$')
+  // 		  jsonval[key] = getConditionConstruct(value, prefix);
+  // 		else
+  // 		  jsonval[prefix+"."+key] = value;
+  // jsonRes.push(jsonval);
+  // 	});
+  // 	return jsonRes;
+  // }
+  //
+  // function getDefaultAnd(key, array, prefix)
+  // {
+  //
+  // 	var jsonRes = new Array();
+  // 	var jsonval = {};
+  // 	if (array[0][0] == '$') {
+  // 	  jsonval[key] = getConditionConstruct(array[0], prefix);
+  // 	}
+  // 	else {
+  // 	  jsonval[prefix+"."+key] = array[0];
+  // 	}
+  // sonRes.push(jsonval);
+  // 	return jsonRes;
+  // }
+  //
+  //
+  // function getComasValueOrValue(key, val, prefix)
+  // {
+  // var jsontab = [];
+  // 	var jsonRes = {};
+  // 	var array = val.split(',');
+  // 	if (array.length > 1)
+  // 	{
+  // 	  jsonRes['$or'] = getDefaultOr(key, array, prefix);
+  // 	}
+  // 	else if (array.length == 1)
+  // 	{
+  // 	  jsonRes['$or'] = getDefaultAnd(key, array, prefix);
+  // 	}
+  // sontab.push(jsonRes);
+  // 	return jsontab;
+  // }
+  //
+  // function getConditionConstruct(array, prefix)
+  // {
+  // 	var jsontab = [];
+  // 	Object.keys(array).forEach(function(key)
+  // 	{
+  //  var jsonRes = {};
+  // 	  if (key[0] == '$') {
+  // 		 jsonRes[key] = getConditionConstruct(array[key], prefix);
+  // 	  }
+  // 	  else {
+  // 		jsonRes["$and"] = getComasValueOrValue(key, array[key], prefix);
+  // 	  }
+  //  jsontab.push(jsonRes);
+  // 	});
+  // 	return jsontab;
+  // }
+  //
+  // function getConstructedJson(req, res, prefix)
+  // {
+  //   var jsonRes = {};
+  //   jsonRes["route"] = req.data.route._id;
+  //   if (typeof res._request.params.filter !== 'undefined')
+  //   {
+  // 	  jsonRes["$and"] = getConditionConstruct(res._request.params.filter, prefix);
+  //   }
+  //   return jsonRes;
+  // }
 
   function requestGet(req, res, next) {
     var dataResult = [];
-	var jsonSearch = getConstructedJson(req, res, "data");
-
+	var jsonSearch = FilterService.getConstructedJson(req, res, "data");
 	logger.info("test");
 	logger.info(JSON.stringify(jsonSearch));
 	DataModel
