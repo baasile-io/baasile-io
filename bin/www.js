@@ -46,6 +46,7 @@ var server = new Server({
   sendgridPassword: process.env.SENDGRID_PASSWORD || nconf.get('sendgridPassword'),
   sendgridUsername: process.env.SENDGRID_USERNAME || nconf.get('sendgridUsername'),
   sendgridFrom: nconf.get('sendgridFrom'),
+  nodeEnv: process.env.NODE_ENV || nconf.get('NODE_ENV') || 'development',
   logger: logger,
   slack: slack
 });

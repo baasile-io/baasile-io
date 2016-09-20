@@ -21,10 +21,8 @@ module.exports = function (options) {
   const DatasController = new datasController(options);
  
   router.all('/*', function(req, res, next) {
-    res._jsonapi = {
-      version: "1.0"
-    };
-    res._apiuri = req.protocol + '://' + req.get('host') + '/api/v1';
+    res._jsonapi.version = '1.0';
+    res._apiuri = res._apiuri + '/v1';
     return next();
   });
   router.post('/oauth/token', AuthController.authenticate);

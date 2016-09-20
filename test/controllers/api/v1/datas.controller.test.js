@@ -1,6 +1,6 @@
 'use strict';
 
-const testHelper = require('../../test.helper.js'),
+const testHelper = require('../../../test.helper.js'),
   TestHelper = new testHelper(),
   request = TestHelper.request;
 

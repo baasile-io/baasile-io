@@ -13,6 +13,7 @@
   "apirHost": "http://apir.herokuapp.com",
   "apicdcHost": "http://api-cdc.herokuapp.com",
   "slackWebhookUrl": "",
+  "NODE_ENV": "development",
   "MONGODB_URI": "mongodb://localhost:27017/api-cpa",
   "EXPRESS_SESSION_SECRET": "16e17272a924d78e65eee5121d19dd1ddefc0db1",
   "EXPRESS_SESSION_COOKIE_MAX_AGE": "1440",

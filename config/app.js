@@ -2,6 +2,7 @@
 
 module.exports = {
   api: {
+    current_version: '1.0',
     v1: {
       resources: {
         "Field": {
