@@ -4,83 +4,24 @@ const v1 = require('./api/v1/index.js'),
   authController = require('../controllers/api/v1/auth.controller.js'),
   notificationService = require('../services/notification.service.js'),
   dashboard = require('./website/dashboard.router.js'),
-  documentation = require('./website/documentation.router.js'),
+  applicationController = require('../controllers/application.controller.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   StandardError = require('standard-error'),
-  S = require('string'),
-  _ = require('lodash');
+  S = require('string');
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
   const NotificationService = new notificationService(options);
   const AuthController = new authController(options);
+  const ApplicationController = new applicationController(options);
 
   // api
-  app.use('/api', function(req, res, next) {
-    res.set({
-      "Content-Type": "application/vnd.api+json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": req.headers["access-control-request-headers"] || "",
-      "Cache-Control": "private, must-revalidate, max-age=0",
-      "Expires": "Thu, 01 Jan 1970 00:00:00"
-    });
-
-    if (req.method === "OPTIONS") {
-      return next({messages: ["No Content"], code: 204});
-    }
-
-    return next();
-  });
-  app.use('/api', function(req, res, next) {
-    if (!req.headers["content-type"] && !req.headers.accept) return next();
-
-    if (req.headers["content-type"]) {
-      // 415 Unsupported Media Type
-      if (req.headers["content-type"].match(/^application\/vnd\.api\+json;.+$/)) {
-        return next({messages: ["Unsupported Media Type - [" + req.headers["content-type"] + "]"], code: 415});
-      }
-
-      // Convert "application/vnd.api+json" content type to "application/json".
-      // This enables the express body parser to correctly parse the JSON payload.
-      if (req.headers["content-type"].match(/^application\/vnd\.api\+json$/)) {
-        req.headers["content-type"] = "application/json";
-      }
-    }
-
-    if (req.headers.accept) {
-      // 406 Not Acceptable
-      var matchingTypes = req.headers.accept.split(/, ?/);
-      matchingTypes = matchingTypes.filter(function(mediaType) {
-        // Accept application/*, */vnd.api+json, */* and the correct JSON:API type.
-        return mediaType.match(/^(\*|application)\/(\*|vnd\.api\+json)$/) || mediaType.match(/\*\/\*/);
-      });
-
-      if (matchingTypes.length === 0) {
-        return next({messages: ["Not Acceptable Accept Header - [" + req.headers.accept + "]"], code: 406});
-      }
-    }
-
-    return next();
-  });
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-
-  app.use('/', function(req, res, next) {
-    res._originalUrl = req.protocol + '://' + req.get('host') + '/' + _.trim(req.path, '/');
-    return next();
-  });
-
-  app.use('/api', function (req, res, next) {
-    // set request
-    var request = {
-      params: {}
-    };
-    _.merge(request.params, req.body, req.query);
-    res._request = request;
-    return next();
-  });
+  app.use('/api', ApplicationController.apiInitialize);
+  app.use('/api', ApplicationController.restrictHttp);
+  app.use('/api', ApplicationController.apiCheckRequest);
 
   app.use('/api', v1(options));
   app.use('/api/v1', v1(options));
@@ -153,7 +94,6 @@ exports.configure = function (app, http, options) {
   // rendering views
   app.use(cookieParser());
   app.use('/', dashboard(options));
-  app.use('/doc', documentation(options));
 
   /* errors handler */
   app
@@ -167,6 +107,7 @@ exports.configure = function (app, http, options) {
         case 501:
         case 410:
         case 500:
+        case 403:
           page = 'pages/errors/error' + status;
           break;
         default:
@@ -180,7 +121,7 @@ exports.configure = function (app, http, options) {
         channel: '#api_errors',
         text: '[DASHBOARD] ' + status + ' ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
       });
-      return res.render(page, {
+      return res.status(status).render(page, {
         page: page,
         layout: 'layouts/error',
         data: req.data,
@@ -199,7 +140,7 @@ exports.configure = function (app, http, options) {
         channel: '#api_errors',
         text: '[DASHBOARD] 404 ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
       });
-      return res.render('pages/errors/error404', {
+      return res.status(status).render('pages/errors/error404', {
         page: 'pages/errors/error404',
         layout: 'layouts/error',
         data: req.data,
