@@ -1,6 +1,8 @@
 'use strict';
 
 const v1 = require('./api/v1/index.js'),
+  authController = require('../controllers/api/v1/auth.controller.js'),
+  notificationService = require('../services/notification.service.js'),
   dashboard = require('./website/dashboard.router.js'),
   documentation = require('./website/documentation.router.js'),
   bodyParser = require('body-parser'),
@@ -11,6 +13,8 @@ const v1 = require('./api/v1/index.js'),
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
+  const NotificationService = new notificationService(options);
+  const AuthController = new authController(options);
 
   // api
   app.use('/api', function(req, res, next) {
@@ -63,6 +67,11 @@ exports.configure = function (app, http, options) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
+  app.use('/', function(req, res, next) {
+    res._originalUrl = req.protocol + '://' + req.get('host') + '/' + _.trim(req.path, '/');
+    return next();
+  });
+
   app.use('/api', function (req, res, next) {
     // set request
     var request = {
@@ -70,14 +79,13 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
-    res._originalUrl = req.protocol + '://' + req.get('host') + '/api/' + _.trim(req.path, '/');
     return next();
   });
 
   app.use('/api', v1(options));
   app.use('/api/v1', v1(options));
 
-  app.use('/api', function (responseParams, req, res, next) {
+  app.use('/api', AuthController.authorize, function (responseParams, req, res, next) {
     const status = responseParams.code || 400;
     const response = {
       jsonapi: res._jsonapi,
@@ -109,8 +117,24 @@ exports.configure = function (app, http, options) {
     }
     if (status >= 400)
       response.errors.push('status_code:' + status);
+    if (status >= 300) {
+      var serviceName = 'unknown service';
+      if (res._service)
+        serviceName = res._service.name;
+      NotificationService.send({
+        channel: '#api_errors',
+        text: '[API] ' + status + ' ' + req.method + ' ' + res._originalUrl + ' (' + serviceName + ')'
+      });
+    }
     return res.status(status).json(response).end();
   }, function(req, res) {
+    var serviceName = 'unknown service';
+    if (res._service)
+      serviceName = res._service.name;
+    NotificationService.send({
+      channel: '#api_errors',
+      text: '[API] 404 ' + req.method + ' ' + res._originalUrl + ' (' + serviceName + ')'
+    });
     return res.status(404).json({
       jsonapi: res._jsonapi,
       links: {
@@ -147,6 +171,13 @@ exports.configure = function (app, http, options) {
           page = 'pages/errors/error500';
           break;
       }
+      var userName = 'unknown user';
+      if (req.data && req.data.user)
+        userName = req.data.user.firstname + ' ' + req.data.user.lastname + ' / ' + req.data.user.email;
+      NotificationService.send({
+        channel: '#api_errors',
+        text: '[DASHBOARD] ' + status + ' ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
+      });
       return res.render(page, {
         page: page,
         layout: 'layouts/error',
@@ -158,7 +189,14 @@ exports.configure = function (app, http, options) {
   app
     .use(function(req, res) {
       const status = 404;
-      logger.warn('page not found (code: ' + status + ') (' + req.originalUrl + ')');
+      logger.warn('page not found (code: ' + status + ') (' + res._originalUrl + ')');
+      var userName = 'unknown user';
+      if (req.data && req.data.user)
+        userName = req.data.user.firstname + ' ' + req.data.user.lastname + ' / ' + req.data.user.email;
+      NotificationService.send({
+        channel: '#api_errors',
+        text: '[DASHBOARD] 404 ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
+      });
       return res.render('pages/errors/error404', {
         page: 'pages/errors/error404',
         layout: 'layouts/error',

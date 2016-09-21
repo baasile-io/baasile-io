@@ -3,15 +3,16 @@
 const path = require('path'),
   EmailTemplate = require('email-templates').EmailTemplate,
   nodemailer = require('nodemailer'),
-  emailTokenModel = require('../models/v1/EmailToken.model.js');
+  emailTokenModel = require('../models/v1/EmailToken.model.js'),
+  notificationService = require('./notification.service.js');
 
 module.exports = EmailService;
 
 function EmailService(options) {
   options = options || {};
   const logger = options.logger;
-  const slack = options.slack;
   const EmailTokenModel = new emailTokenModel(options);
+  const NotificationService = new notificationService(options);
   const templatesDir = path.resolve(__dirname, '..', 'views', 'emails');
   const transport = nodemailer.createTransport({
     service: 'sendgrid',
@@ -34,22 +35,21 @@ function EmailService(options) {
           html: result.html,
           text: result.text
         }, function (err, responseStatus) {
-          if (err) {
-            logger.warn(JSON.stringify(err));
-            return reject({
-              code: 503,
-              messages: ['Une erreur est survenue sur le serveur de messagerie lors de l\'envoi du courriel de confirmation', err.response]
-            });
-          }
-          slack.send({
-            channel: "#api_notifications",
+          NotificationService.send({
             text: 'EMAIL',
             fields: {
+              'Status': JSON.stringify(err),
               'To': to,
               'Subject': result.subject,
               'Message': result.text
             }
           });
+          if (err) {
+            return reject({
+              code: 503,
+              messages: ['Une erreur est survenue sur le serveur de messagerie lors de l\'envoi du courriel de confirmation', err.response]
+            });
+          }
           return resolve({responseStatus: responseStatus});
         })
       });

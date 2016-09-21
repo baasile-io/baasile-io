@@ -14,6 +14,8 @@ function AuthController(options) {
   const ServiceModel = new serviceModel(options);
 
   this.authorize = function(req, res, next) {
+    if (res._service)
+      return next();
     const access_token = res._request.params.access_token;
     if (!access_token)
       return next({messages: ['missing_parameter', '"access_token" is required'], code: 400});
