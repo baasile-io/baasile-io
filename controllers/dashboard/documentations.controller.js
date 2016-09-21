@@ -20,18 +20,4 @@ function DocumentationsController(options) {
       flash: res._flash
     });
   };
-
-  this.getDocServiceData = function(req, res, next) {
-    ServiceModel.io.findOne({
-      clientId: options.documentationServiceId
-    }, function(err, service) {
-      if (err)
-        return next({code: 500});
-      if (!service)
-        return next({code: 404});
-      req.data = req.data || {};
-      req.data.service = service;
-      return next();
-    });
-  };
 }
