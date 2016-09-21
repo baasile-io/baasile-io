@@ -36,6 +36,7 @@ function ApplicationController(options) {
   };
 
   this.restrictHttp = function(req, res, next) {
+    console.log(options.nodeEnv);
     // allow https only (heroku or production environment)
     if ((options.nodeEnv === 'heroku' && req.headers['x-forwarded-proto'] !== 'https')
       || (options.nodeEnv === 'production' && req.secure === false)) {
