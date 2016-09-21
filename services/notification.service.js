@@ -18,6 +18,7 @@ function NotificationService(options) {
         if (err)
           logger.warn('slack error: ' + JSON.stringify(err));
       });
-    }
+    } else
+      logger.warn('no configuration available for slack notifications');
   };
 };
