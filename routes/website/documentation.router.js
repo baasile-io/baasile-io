@@ -30,7 +30,6 @@ module.exports = function (options) {
   });
 
   /* public pages */
-  router.get('/*', DocumentationsController.getDocServiceData);
   router.get('/', DocumentationsController.index);
 
   return router;
