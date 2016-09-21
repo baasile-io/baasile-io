@@ -14,19 +14,16 @@ function ServicesController(options) {
   this.getServices = function(req, res, next) {
     var services = [];
     var included = [];
-    ServiceModel.io.find({
-      public: true
-    }, {
-      name: 1,
-      nameNormalized: 1,
-      description: 1,
-      website: 1,
-      clientId: 1,
-      updatedAt: 1,
-      createdAt: 1
-    })
+    ServiceModel
+      .io
+      .find({
+        $or: [
+          {public: true},
+          {clientId: res._service.clientId}
+        ]
+      })
       .sort({name: 1})
-      .stream()
+      .cursor()
       .on('data', function(service) {
         var self = this;
         self.pause();
@@ -57,20 +54,7 @@ function ServicesController(options) {
               });
             });
           }
-          var obj = {
-            id: service.clientId,
-            type: 'services',
-            attributes: {
-              alias: service.nameNormalized,
-              nom: service.name,
-              description: service.description,
-              site_internet: service.website
-            },
-            meta: {
-              creation: service.createdAt,
-              modification: service.updatedAt
-            }
-          };
+          var obj = service.getResourceObject(res._apiuri);
           if (serviceRoutes.length > 0) {
             obj.relationships = {
               collections: {
@@ -94,21 +78,31 @@ function ServicesController(options) {
       });
   };
 
+  this.get = function(req, res, next) {
+    return next({code: 200, data: req.data.service.getResourceObject(res._apiuri)});
+  };
+
   this.getServiceData = function(req, res, next) {
     ServiceModel.io.findOne({
-      $or: [
-        {public: true},
-        {clientId: res._service.clientId}
-      ],
-      $or: [
-        {nameNormalized: req.params.serviceId},
-        {clientId: req.params.serviceId}
+      $and: [
+        {
+          $or: [
+            {public: true},
+            {clientId: res._service.clientId}
+          ]
+        },
+        {
+          $or: [
+            {nameNormalized: req.params.serviceId},
+            {clientId: req.params.serviceId}
+          ]
+        }
       ]
     }, function(err, service) {
       if (err)
         return next({code: 500, messages: err});
       if (!service)
-        return next({code: 404, messages: 'Service non trouvé'});
+        return next({code: 404, messages: ['not_found', 'Service non trouvé']});
       req.data = req.data || {};
       req.data.service = service;
       return next();

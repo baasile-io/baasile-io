@@ -1,19 +1,20 @@
 'use strict';
 
-const apiTester = require('../../api.tester.js'),
-  ApiTester = new apiTester(),
-  request = ApiTester.request;
+const testHelper = require('../../test.helper.js'),
+  TestHelper = new testHelper(),
+  request = TestHelper.request;
 
 describe('Auth', function () {
 
-  before(ApiTester.before);
-  after(ApiTester.after);
+  before(TestHelper.startServer);
+  before(TestHelper.seedDb);
+  after(TestHelper.stopServer);
 
   it('access denied', function (done) {
     request()
       .get('/api/v1/services')
       .end(function (err, res) {
-        ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+        TestHelper.checkResponse(res, {isSuccess: false, status: 400});
         res.body.errors.should.include('missing_parameter');
         res.body.errors.should.include('"access_token" is required');
         done();
@@ -26,7 +27,7 @@ describe('Auth', function () {
       request()
         .post('/api/v1/oauth/token')
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+          TestHelper.checkResponse(res, {isSuccess: false, status: 400});
           res.body.errors.should.include('missing_parameter');
           res.body.errors.should.include('"client_id" is required');
           done();
@@ -38,7 +39,7 @@ describe('Auth', function () {
         .post('/api/v1/oauth/token')
         .send({client_id: 'id'})
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+          TestHelper.checkResponse(res, {isSuccess: false, status: 400});
           res.body.errors.should.include('missing_parameter');
           res.body.errors.should.include('"client_secret" is required');
           done();
@@ -48,9 +49,9 @@ describe('Auth', function () {
     it('invalid client_secret', function (done) {
       request()
         .post('/api/v1/oauth/token')
-        .send({client_id: ApiTester.getClientId(), client_secret: 'invalid'})
+        .send({client_id: TestHelper.getClientId(), client_secret: 'invalid'})
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+          TestHelper.checkResponse(res, {isSuccess: false, status: 400});
           res.body.errors.should.include('invalid_parameter');
           res.body.errors.should.include('"client_id" and/or "client_secret" are/is invalid');
           done();
@@ -60,9 +61,9 @@ describe('Auth', function () {
     it('invalid client_id', function (done) {
       request()
         .post('/api/v1/oauth/token')
-        .send({client_id: 'invalid', client_secret: ApiTester.getClientSecret()})
+        .send({client_id: 'invalid', client_secret: TestHelper.getClientSecret()})
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+          TestHelper.checkResponse(res, {isSuccess: false, status: 400});
           res.body.errors.should.include('invalid_parameter');
           res.body.errors.should.include('"client_id" and/or "client_secret" are/is invalid');
           done();
@@ -72,16 +73,16 @@ describe('Auth', function () {
     it('get access_token', function (done) {
       request()
         .post('/api/v1/oauth/token')
-        .send({client_id: ApiTester.getClientId(), client_secret: ApiTester.getClientSecret()})
+        .send({client_id: TestHelper.getClientId(), client_secret: TestHelper.getClientSecret()})
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isCollection: false});
+          TestHelper.checkResponse(res, {isCollection: false});
           res.body.data.attributes.should.have.property('access_token');
           res.body.data.attributes.should.have.property('expires_on');
           res.body.data.attributes.access_token.should.be.a('String');
           res.body.data.attributes.access_token.should.have.lengthOf(96);
           const expiresOn = new Date(res.body.data.attributes.expires_on);
-          if (new Date(ApiTester.now().getTime() + 20 * 60000) - expiresOn > 60)
-            throw new Error('token expiration should around twenty minutes');
+          if (new Date(TestHelper.now().getTime() + 20 * 60000) - expiresOn > 60)
+            throw new Error('token validity should be around twenty minutes');
           done();
         });
     });
@@ -90,7 +91,7 @@ describe('Auth', function () {
       request()
         .get('/api/v1/services')
         .end(function (err, res) {
-          ApiTester.checkResponse(res, {isSuccess: false, status: 400});
+          TestHelper.checkResponse(res, {isSuccess: false, status: 400});
           res.body.errors.should.include('missing_parameter');
           res.body.errors.should.include('"access_token" is required');
           done();
@@ -101,14 +102,14 @@ describe('Auth', function () {
 
   describe('Authenticated service', function () {
 
-    before(ApiTester.authorize);
+    before(TestHelper.authorize);
 
     it('allowed access', function (done) {
       request()
         .get('/api/v1/services')
-        .query({access_token: ApiTester.getAccessToken()})
+        .query({access_token: TestHelper.getAccessToken()})
         .end(function (err, res) {
-          ApiTester.checkResponse(res);
+          TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(1);
           done();
         });
@@ -116,14 +117,14 @@ describe('Auth', function () {
 
     describe('Token expiration', function() {
 
-      before(ApiTester.expiredToken);
+      before(TestHelper.expiredToken);
 
       it('expired token', function (done) {
         request()
           .get('/api/v1/services')
-          .query({access_token: ApiTester.getAccessToken()})
+          .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
-            ApiTester.checkResponse(res, {isSuccess: false, status: 401});
+            TestHelper.checkResponse(res, {isSuccess: false, status: 401});
             res.body.errors.should.include('expired_session');
             done();
           });

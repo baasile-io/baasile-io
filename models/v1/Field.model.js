@@ -16,6 +16,8 @@ function FieldModel(options) {
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Field.type;
 
+  mongoose.Promise = global.Promise;
+
   const FIELD_TYPES = [
     {key: 'ID', name: 'Identifiant unique', icon: 'privacy', default: "ID"},
     {key: 'STRING', name: 'Texte', icon: 'font', default: ""},

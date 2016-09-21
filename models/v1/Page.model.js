@@ -16,6 +16,8 @@ function PageModel(options) {
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Page.type;
 
+  mongoose.Promise = global.Promise;
+
   const PAGE_TYPES = [
     {key: 'CATEGORY', name: 'Page ou catégorie', icon: 'file text'},
     {key: 'ROUTE', name: 'Collection', icon: 'database'},

@@ -3,6 +3,7 @@
 const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
+  CONFIG = require('../../config/app.js'),
   crypto = require('crypto');
 
 module.exports = ServiceModel;
@@ -30,6 +31,7 @@ var serviceSchema = new mongoose.Schema({
   },
   website: {
     type: String,
+    default: '',
     validate: {
       validator: function (url) {
         if (url === '')
@@ -79,10 +81,13 @@ function ServiceModel(options) {
   options = options || {};
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
+  const TYPE = CONFIG.api.v1.resources.Service.type;
+
+  mongoose.Promise = global.Promise;
 
   serviceSchema.pre('validate', function(next) {
-    if (!this.validated)
-      this.public = false;
+    if (this.validated != true && this.public === true)
+      this.invalidate('public', 'Un service non validé par l\'Équipe administratrice de la Plate-forme ne peut être référencée sur l\'API');
     this.updatedAt = new Date();
     next();
   });
@@ -97,12 +102,45 @@ function ServiceModel(options) {
     next();
   });
 
+  serviceSchema.virtual('attributes')
+    .get(function () {
+      return {
+        alias: this.nameNormalized,
+        nom: this.name,
+        description: this.description,
+        site_internet: this.website,
+        public: this.public
+      };
+    });
+
+  serviceSchema.virtual('meta')
+    .get(function () {
+      return {
+        creation: this.createdAt,
+        modification: this.updatedAt,
+        version: this.__v
+      };
+    });
+
   serviceSchema.methods.tokensCount = function() {
     return this.model('Token').count({service: this}, function(err, total) {
       if (err)
         return -1;
       return total;
     });
+  };
+
+  serviceSchema.methods.getResourceObject = function (apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.clientId,
+      type: TYPE,
+      attributes: this.get('attributes'),
+      links: {
+        self: apiUri + '/' + TYPE + '/' + this.clientId
+      },
+      meta: this.get('meta')
+    };
   };
 
   this.io = db.model('Service', serviceSchema);

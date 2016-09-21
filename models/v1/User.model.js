@@ -41,12 +41,20 @@ var userSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  updated_at: Date
+  updatedAt: Date
 });
 
 function UserModel(options) {
   options = options || {};
   const db = mongoose.createConnection(options.dbHost);
+
+  mongoose.Promise = global.Promise;
+
+  userSchema.pre('validate', function(next) {
+    if (!this.createdAt)
+      this.createdAt = new Date();
+    next();
+  });
 
   userSchema.pre('update', function(next) {
     this.options.runValidators = true;

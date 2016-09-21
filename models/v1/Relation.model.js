@@ -15,6 +15,8 @@ function RelationModel(options) {
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Relation.type;
 
+  mongoose.Promise = global.Promise;
+
   const RELATION_TYPES = [
     {key: 'ONETOONE', name: 'Un pour un', icon: 'minus'},
     {key: 'ONETOMANY', name: 'Un pour plusieurs', icon: 'share alternate'}
