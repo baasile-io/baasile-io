@@ -122,6 +122,28 @@ function ServiceModel(options) {
       };
     });
 
+  serviceSchema.methods.getApiUri = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return apiUri + '/' + TYPE + '/' + this.clientId;
+  };
+
+  serviceSchema.methods.getApiUriList = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return [
+      {
+        title: 'Ressource',
+        method: 'GET',
+        uri: this.getApiUri(apiUri)
+      },
+      {
+        title: 'Liste des collections',
+        method: 'GET',
+        icon: CONFIG.api.v1.resources.Route.icon,
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Route.type
+      }
+    ]
+  };
+
   serviceSchema.methods.tokensCount = function() {
     return this.model('Token').count({service: this}, function(err, total) {
       if (err)
@@ -137,7 +159,7 @@ function ServiceModel(options) {
       type: TYPE,
       attributes: this.get('attributes'),
       links: {
-        self: apiUri + '/' + TYPE + '/' + this.clientId
+        self: this.getApiUri(apiUri)
       },
       meta: this.get('meta')
     };

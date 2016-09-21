@@ -46,7 +46,8 @@ function ServicesController(options) {
         page: 'pages/dashboard/services/view',
         data: req.data,
         tokensCount: result,
-        flash: res._flash
+        flash: res._flash,
+        apiUriList: req.data.service.getApiUriList(res._apiuri)
       });
     });
   };

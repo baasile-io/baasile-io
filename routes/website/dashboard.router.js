@@ -50,17 +50,7 @@ module.exports = function (options) {
   router.get('/email/:accessToken', EmailsController.getEmailTokenData, EmailsController.get);
 
   /* params + flash messages */
-  router.all('/*', function(req, res, next) {
-    req.data = req.data || {};
-    req.data.user = req.session.user;
-    res._apiuri = req.protocol + '://' + req.get('host');
-    FlashHelper.get(req.session, function(err, flash) {
-      if (err)
-        next(err);
-      res._flash = flash;
-      next();
-    });
-  });
+  router.all('/*', ApplicationController.dashboardInitialize);
 
   /* public pages */
   router.get('/', function(req, res) {

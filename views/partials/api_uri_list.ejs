@@ -1,0 +1,20 @@
+<% if (typeof apiUriList != 'undefined') { %>
+<div class="ui top attached tabular menu">
+  <div class="active item">Requêtes API</div>
+</div>
+<div class="ui bottom attached active tab segment">
+  <div class="ui divided list">
+<% apiUriList.forEach(function(uri) { %>
+    <div class="item">
+      <%= uri.title %><br />
+      <div class="ui fluid mini labeled input">
+        <div class="ui <% if (uri.method === 'GET') { %>blue<% } %> <% if (uri.method === 'POST') { %>red<% } %> label">
+          <%= uri.method %>
+        </div>
+        <input type="text" value="<%= uri.uri %>">
+      </div>
+    </div>
+<% }) %>
+  </div>
+</div>
+<% } %>
