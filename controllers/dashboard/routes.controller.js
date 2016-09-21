@@ -6,7 +6,8 @@ const request = require('request'),
   fieldModel = require('../../models/v1/Field.model.js'),
   relationModel = require('../../models/v1/Relation.model.js'),
   dataModel = require('../../models/v1/Data.model.js'),
-  flashHelper = require('../../helpers/flash.helper.js');
+  flashHelper = require('../../helpers/flash.helper.js'),
+  CONFIG = require('../../config/app.js');
 
 module.exports = RoutesController;
 
@@ -30,7 +31,14 @@ function RoutesController(options) {
           csrfToken: req.csrfToken(),
           data: req.data,
           routes: routes,
-          flash: res._flash
+          flash: res._flash,
+          apiUriList: [
+            {
+              title: 'Liste des collections',
+              method: 'GET',
+              uri: res._apiuri + '/' + CONFIG.api[CONFIG.api.current_version_url].resources.Service.type + '/' + req.data.service.clientId + '/relationships/' + CONFIG.api[CONFIG.api.current_version_url].resources.Route.type
+            }
+          ]
         });
       });
   };
@@ -136,7 +144,8 @@ function RoutesController(options) {
         csrfToken: req.csrfToken(),
         data: req.data,
         dataCount: result.length > 0 ? result[0].count : 0,
-        flash: res._flash
+        flash: res._flash,
+        apiUriList: req.data.route.getApiUriList(res._apiuri)
       });
     });
   };
