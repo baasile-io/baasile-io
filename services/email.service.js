@@ -120,6 +120,35 @@ function EmailService(options) {
     });
   };
 
+  this.sendPasswordReset = function(user, apiuri) {
+    return new Promise(function(resolve, reject) {
+      if (!user || !user.email)
+        return reject({code: 500});
+      const type = 'password_reset';
+      const locals = {
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname
+      };
+      generateEmailToken(type, user._id, user.email, true, user)
+        .then(function(token) {
+          locals.link = apiuri + '/email/' + token.accessToken;
+          send(type, locals, user.email)
+            .then(function(result) {
+              result.emailToken = token;
+              return resolve(result);
+            })
+            .catch(function(result) {
+              result.emailToken = token;
+              return reject(result);
+            });
+        })
+        .catch(function(result) {
+          reject(result);
+        });
+    });
+  };
+
   this.sendServiceValidation = function(user, service) {
     return new Promise(function(resolve, reject) {
       if (!user || !user.email)

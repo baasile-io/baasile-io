@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 2016-09-22
+
+- Reset password (56b7f8bc5c59a2356eed2071844cfb862417eea4)
+- Edit user account (name and email) (bf180ac3028cf8f6db5ba415eac7340eba59d6f9)
+
 ### 2016-09-18
 
 - Show the attribute 'public' on resource 'services' (b4f13ebe01027a352de6b2568fb64dbaeaf54ced)

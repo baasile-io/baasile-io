@@ -75,6 +75,47 @@ function EmailsController(options) {
     });
   };
 
+  function doPasswordReset(req, res, next) {
+    var errors;
+
+    function redirect(doRedirect) {
+      if (doRedirect)
+        return res.redirect(!req.session.user ? '/login' : '/dashboard/account');
+      return res.render('pages/users/process_password_reset', {
+        page: 'pages/users/process_password_reset',
+        layout: 'layouts/login',
+        csrfToken: req.csrfToken(),
+        data: req.data,
+        postUrl: '/email/' + req.data.token.accessToken,
+        flash: {
+          errors: errors
+        }
+      });
+    }
+
+    if (req.method === 'POST') {
+      return UserModel.io.findOne({email: req.data.token.email}, function(err, user) {
+        if (err)
+          return next({code: 500});
+        user.password = req.body.user_password.length >= 10 ? UserModel.saltAndHash(req.body.user_password) : req.body.user_password;
+        user.save(function(err) {
+          if (err) {
+            errors = [err];
+            return redirect(false);
+          }
+          req.data.token.remove();
+          FlashHelper.addSuccess(req.session, 'Votre mot de passe a bien été modifié', function(err) {
+            if (err)
+              return next({code: 500});
+            redirect(true);
+          });
+        });
+      });
+    } else {
+      redirect(false);
+    }
+  };
+
   this.get = function(req, res, next) {
     switch(req.data.token.type) {
       case 'email_confirmation':
@@ -82,6 +123,9 @@ function EmailsController(options) {
         break;
       case 'admin_notification_new_service':
         return doAdminNotificationNewService(req, res, next);
+        break;
+      case 'password_reset':
+        return doPasswordReset(req, res, next);
         break;
       default:
         return next({code: 501});

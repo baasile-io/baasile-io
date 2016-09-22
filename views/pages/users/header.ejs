@@ -1,0 +1,18 @@
+<h1 class="ui header">
+  <i class="user bordered icon"></i>
+  <div class="content">
+    <%= data.user.fullName %>
+    <div class="sub header">Compte développeur</div>
+  </div>
+</h1>
+<div class="ui pointing menu">
+  <a class="item <% if (page === 'pages/users/view') { %>active<% } %>" href="/dashboard/account">
+    État
+  </a>
+  <a class="item <% if (page === 'pages/users/edit') { %>active<% } %>" href="/dashboard/account/edit">
+    Modifier
+  </a>
+  <a class="item <% if (page === 'pages/users/password_reset') { %>active<% } %>" href="/dashboard/account/password_reset">
+    Changer de mot de passe
+  </a>
+</div>
