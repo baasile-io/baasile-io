@@ -1,6 +1,7 @@
 'use strict';
 
-const request = require('request'),
+const _ = require('lodash'),
+  request = require('request'),
   userModel = require('../../models/v1/User.model.js'),
   serviceModel = require('../../models/v1/Service.model.js'),
   emailService = require('../../services/email.service.js'),
@@ -80,7 +81,7 @@ function AccountsController(options) {
           .catch(function(err) {
             if (err.code === 503) {
               return FlashHelper.addError(req.session, {
-                title: 'Votre adresse E-Mail n\'a pas été confirmée',
+                title: 'Une erreur est survenue',
                 icon: 'mail',
                 messages: err.messages
               }, function (err) {
@@ -125,13 +126,102 @@ function AccountsController(options) {
     });
   };
 
-  this.account = function(req, res) {
-    return res.render('pages/users/account', {
-      page: 'pages/users/account',
+  this.view = function(req, res) {
+    return res.render('pages/users/view', {
+      page: 'pages/users/view',
       query: {},
       data: req.data,
       flash: res._flash
     });
+  };
+
+  this.edit = function(req, res) {
+    return res.render('pages/users/edit', {
+      page: 'pages/users/edit',
+      csrfToken: req.csrfToken(),
+      query: {
+        user: req.data.user
+      },
+      data: req.data,
+      flash: res._flash
+    });
+  };
+
+  this.passwordReset = function(req, res) {
+    return res.render('pages/users/password_reset', {
+      page: 'pages/users/password_reset',
+      csrfToken: req.csrfToken(),
+      data: req.data,
+      flash: res._flash
+    });
+  };
+
+  this.processPasswordReset = function(req, res, next) {
+    const redirectUrl = !req.session.user ? '/login' : '/dashboard/account';
+
+    function process(user) {
+      EmailService
+        .sendPasswordReset(user, res._apiuri)
+        .then(function(result) {
+          console.log('then');
+          if (result.responseStatus.accepted.indexOf(user.email) == -1) {
+            return FlashHelper.addError(req.session, 'Votre adresse E-Mail a été rejetée par le serveur de messagerie lors de l\'envoi du courriel de confirmation', function (err) {
+              if (err)
+                return next({code: 500});
+              return res.redirect(redirectUrl).end();
+            });
+          }
+          FlashHelper.addSuccess(req.session, {
+            title: 'Réinitialisation du mot de passe',
+            icon: 'send',
+            messages: [
+              'Un lien de réinitialisation de votre mot de passe vous a été envoyé sur votre adresse E-Mail',
+              'Date d\'expiration du lien : ' + result.emailToken.accessTokenExpiresOn.toLocaleString(),
+              'Les liens envoyés précédemment deviennent inactifs'
+            ]
+          }, function(err) {
+            if (err)
+              return next({code: 500});
+            logger.info(JSON.stringify(result));
+            return res.redirect(redirectUrl);
+          });
+        })
+        .catch(function(err) {
+          if (err.code === 503) {
+            return FlashHelper.addError(req.session, {
+              title: 'Une erreur est survenue',
+              icon: 'mail',
+              messages: err.messages
+            }, function (err) {
+              if (err)
+                return next({code: 500});
+              return res.redirect(redirectUrl);
+            });
+          }
+          return next({code: 500});
+        });
+    }
+
+    if (typeof req.body.email != 'undefined') {
+      UserModel.io.findOne({email: req.body.email}, function(err, user) {
+        if (err)
+          return next({code: 500});
+        if (!user) {
+          return FlashHelper.addError(req.session, 'Aucun compte ne correspond à cet E-Mail', function (err) {
+            if (err)
+              return next({code: 500});
+            FlashHelper.addParam(req.session, 'email', req.body.email, function(err) {
+              if (err)
+                return next({code: 500});
+              res.redirect(redirectUrl);
+            });
+          });
+        }
+        return process(user);
+      });
+    } else {
+      return process(req.data.user);
+    }
   };
 
   this.new = function(req, res) {
@@ -147,6 +237,71 @@ function AccountsController(options) {
         user: {}
       },
       flash: res._flash
+    });
+  };
+
+  this.update = function(req, res, next) {
+    const userFirstname = _.trim(req.body.user_firstname);
+    const userLastname = _.trim(req.body.user_lastname);
+    const userEmail = _.trim(req.body.user_email);
+    const oldEmail = req.data.user.email;
+    req.data.user.firstname = userFirstname;
+    req.data.user.lastname = userLastname;
+    req.data.user.email = userEmail;
+    req.data.user.save(function(err) {
+      if (err) {
+        let errors;
+        errors = [err];
+        return res.render('pages/users/edit', {
+          page: 'pages/users/edit',
+          csrfToken: req.csrfToken(),
+          data: req.data,
+          query: {
+            user: {
+              firstname: userFirstname,
+              lastname: userLastname,
+              email: userEmail
+            }
+          },
+          flash: {
+            errors: errors
+          }
+        });
+      }
+
+      logger.info('user updated: ' + userFirstname + ' ' + userLastname);
+      var flashMessages = ['Votre compte a bien été mis à jour'];
+
+      function redirect() {
+        FlashHelper.addSuccess(req.session, flashMessages, function(err) {
+          if (err)
+            return next({code: 500});
+          res.redirect('/dashboard/account');
+        });
+      };
+
+      if (userEmail != oldEmail) {
+        req.session.user.email = userEmail;
+        req.session.save(function(err) {
+          if (err) {
+            logger.warn('changing user session email failed');
+            return next({code: 500});
+          }
+          req.data.user.emailConfirmation = false;
+          req.data.user.save(function(err) {
+            if (err) {
+              logger.warn('changing user emailConfirmation to false failed');
+              return next({code: 500});
+            }
+            EmailService.sendEmailConfirmation(req.data.user, res._apiuri);
+            flashMessages.push('Vous avez modifié votre adresse E-Mail, un lien de validation vous a été envoyé');
+            flashMessages.push('Vous ne pourrez plus vous reconnecter au tableau de bord tant que vous n\'aurez pas validé votre nouvelle adresse E-Mail');
+            return redirect();
+          });
+        });
+      } else {
+        redirect();
+      }
     });
   };
 
@@ -205,7 +360,7 @@ function AccountsController(options) {
       email: req.session.user.email
     }, function(err, user) {
       if (err || !user)
-        return res.status(500).end();
+        return next({code: 500});
       req.data = req.data || {};
       req.data.user = user;
       ServiceModel.io.find({
@@ -221,7 +376,7 @@ function AccountsController(options) {
         }
       }, function(err, services) {
         if (err)
-          return res.status(500).end();
+          return next({code: 500});
         req.data.user.services = services;
         next('route');
       });

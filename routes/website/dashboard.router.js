@@ -47,7 +47,7 @@ module.exports = function (options) {
   };
 
   /* tokenized email links */
-  router.get('/email/:accessToken', EmailsController.getEmailTokenData, EmailsController.get);
+  router.all('/email/:accessToken', csrfProtection, EmailsController.getEmailTokenData, EmailsController.get);
 
   /* params + flash messages */
   router.all('/*', ApplicationController.dashboardInitialize);
@@ -75,13 +75,18 @@ module.exports = function (options) {
     .post('/login', csrfProtection, UsersController.sessionCreate)
     .get('/logout', UsersController.sessionDestroy)
     .get('/subscribe', csrfProtection, UsersController.new)
-    .post('/subscribe', csrfProtection, UsersController.create);
+    .post('/subscribe', csrfProtection, UsersController.create)
+    .get('/services', HomesController.services)
+    .post('/actions/password_reset', csrfProtection, UsersController.processPasswordReset);
 
   /* dashboard / user area */
   router
     .all('/dashboard*', restrictedArea)
     .get('/dashboard', DashboardController.dashboard)
-    .get('/dashboard/account', UsersController.account)
+    .get('/dashboard/account', UsersController.view)
+    .post('/dashboard/account', csrfProtection, UsersController.update)
+    .get('/dashboard/account/edit', csrfProtection, UsersController.edit)
+    .get('/dashboard/account/password_reset', csrfProtection, UsersController.passwordReset)
     .get('/dashboard/services/new', csrfProtection, ServicesController.new)
     .get('/dashboard/services', ServicesController.index)
     .post('/dashboard/services', csrfProtection, ServicesController.create)
