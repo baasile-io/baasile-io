@@ -23,7 +23,7 @@ module.exports = function (options) {
     
     FlashHelper.get(req.session, function(err, flash) {
       if (err)
-        next(err);
+        return next(err);
       res._flash = flash;
       next();
     });
