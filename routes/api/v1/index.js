@@ -19,7 +19,7 @@ module.exports = function (options) {
   const RoutesController = new routesController(options);
   const FieldsController = new fieldsController(options);
   const DatasController = new datasController(options);
- 
+
   router.all('/*', function(req, res, next) {
     res._jsonapi = {
       version: "1.0"

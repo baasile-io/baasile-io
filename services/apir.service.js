@@ -21,7 +21,7 @@ function ApirService(options) {
 
   this.getEndOfNir = function(idp)
   {
-    const idpHash = idpToHash(idp);
+    const idpHash = this.idpToHash(idp);
 
     return new Promise(function(resolve, reject) {
       request
@@ -50,7 +50,7 @@ function ApirService(options) {
 
   this.putEndOfNir =  function(idp, endOfNir)
   {
-    const idpHash = idpToHash(idp);
+    const idpHash = this.idpToHash(idp);
 
     return new Promise(function(resolve, reject) {
       request

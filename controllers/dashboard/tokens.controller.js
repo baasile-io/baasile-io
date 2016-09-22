@@ -12,12 +12,12 @@ function TokensController(options) {
   const TokenModel = new tokenModel(options);
   const FlashHelper = new flashHelper(options);
 
-  this.index = function(req, res) {
+  this.index = function(req, res, next) {
     TokenModel.io.find({service: req.data.service})
       .sort({createdAt: -1})
       .exec(function(err, tokens) {
         if (err)
-          next(err);
+          return next(err);
         return res.render('pages/dashboard/tokens/index', {
           page: 'pages/dashboard/tokens/index',
           csrfToken: req.csrfToken(),
