@@ -15,14 +15,14 @@ function FieldsController(options) {
   const DataModel = new dataModel(options);
   const FlashHelper = new flashHelper(options);
 
-  this.index = function(req, res) {
+  this.index = function(req, res, next) {
     if (req.data.route.fields.length == 0)
       return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields/new');
     FieldModel.io.find({route: req.data.route})
       .sort({createdAt: -1})
       .exec(function(err, fields) {
         if (err)
-          next(err);
+          return next(err);
         return res.render('pages/dashboard/fields/index', {
           page: 'pages/dashboard/fields/index',
           csrfToken: req.csrfToken(),
