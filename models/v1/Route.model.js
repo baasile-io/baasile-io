@@ -113,6 +113,38 @@ function RouteModel(options) {
       };
     });
 
+  routeSchema.methods.getApiUri = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+  };
+
+  routeSchema.methods.getApiUriList = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return [
+      {
+        title: 'Ressource',
+        method: 'GET',
+        uri: this.getApiUri(apiUri)
+      },
+      {
+        title: 'Liste des champs',
+        method: 'GET',
+        icon: CONFIG.api.v1.resources.Field.icon,
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Field.type
+      },
+      {
+        title: 'Liste des données',
+        method: 'GET',
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Data.type
+      },
+      {
+        title: 'Ajout et modification de données',
+        method: 'POST',
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Data.type
+      }
+    ]
+  };
+
   routeSchema.methods.getResourceObject = function (apiUri) {
     apiUri = apiUri || options.apiUri;
     return {
@@ -120,7 +152,7 @@ function RouteModel(options) {
       type: TYPE,
       attributes: this.get('attributes'),
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+        self: this.getApiUri(apiUri)
       },
       meta: {
         creation: this.createdAt,

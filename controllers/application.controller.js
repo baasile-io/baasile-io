@@ -1,13 +1,27 @@
 'use strict';
 
 const _ = require('lodash'),
-  CONFIG = require('../config/app.js');
+  CONFIG = require('../config/app.js'),
+  flashHelper = require('../helpers/flash.helper.js');
 
 module.exports = ApplicationController;
 
 function ApplicationController(options) {
   options = options || {};
   const logger = options.logger;
+  const FlashHelper = new flashHelper(options);
+
+  this.dashboardInitialize = function(req, res, next) {
+    req.data = req.data || {};
+    req.data.user = req.session.user;
+    res._apiuri = req.protocol + '://' + req.get('host') + '/api/' + CONFIG.api.current_version_url;
+    FlashHelper.get(req.session, function(err, flash) {
+      if (err)
+        return next(err);
+      res._flash = flash;
+      next();
+    });
+  };
 
   this.apiInitialize = function (req, res, next) {
     // set request

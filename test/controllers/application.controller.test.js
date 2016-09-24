@@ -15,7 +15,6 @@ describe('ApplicationController', function () {
   after(TestHelper.stopServer);
 
   describe('heroku environment', function() {
-
     describe('API', function() {
 
       describe('restrict HTTP', function() {
