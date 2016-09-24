@@ -173,9 +173,19 @@ function ServicesController(options) {
   // }
 
   function requestGet(req, res, next) {
-    var dataResult = [];
-	var jsonSearch = FilterService.getConstructedJson(req, res, "data");
-	logger.info("test");
+	  const FIELD_TYPES = [
+        {key: 'STRING', name: 'prenom'},
+  	  {key: 'STRING', name: 'name'},
+        {key: 'NUMERIC', name: 'age'}
+      ];
+	var dataResult = [];
+	var jsonRes = {};
+    jsonRes["route"] = req.data.route._id;
+	logger.info("start FilterService");
+	var jsonSearch = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, FIELD_TYPES);
+	if (jsonSearch === undefined)
+		logger.info("ERROR");
+	logger.info("end FilterService");
 	logger.info(JSON.stringify(jsonSearch));
 	DataModel
       .io
