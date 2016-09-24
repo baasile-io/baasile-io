@@ -20,12 +20,12 @@ function RoutesController(options) {
   const RelationModel = new relationModel(options);
   const FlashHelper = new flashHelper(options);
 
-  this.index = function(req, res) {
+  this.index = function(req, res, next) {
     RouteModel.io.find({service: req.data.service})
       .sort({createdAt: -1})
       .exec(function(err, routes) {
         if (err)
-          next(err);
+          return next(err);
         return res.render('pages/dashboard/routes/index', {
           page: 'pages/dashboard/routes/index',
           csrfToken: req.csrfToken(),
@@ -137,7 +137,7 @@ function RoutesController(options) {
       }
     ], function(err, result) {
       if (err)
-        return self.destroy(err);
+        return next({code: 500});
       return res.render('pages/dashboard/routes/view', {
         page: 'pages/dashboard/routes/view',
         csrfToken: req.csrfToken(),
@@ -245,7 +245,7 @@ function RoutesController(options) {
       return next();
     });
   };
-  
+
   this.getRouteData = function(req, res, next) {
     RouteModel.io.findOne({
       service: req.data.service,

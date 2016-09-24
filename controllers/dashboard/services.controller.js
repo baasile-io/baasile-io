@@ -151,7 +151,7 @@ function ServicesController(options) {
     });
   };
 
-  this.revokeUser = function(req, res) {
+  this.revokeUser = function(req, res, next) {
     const userEmail = req.params.userEmail;
     UserModel.io.findOne({
       email: userEmail
