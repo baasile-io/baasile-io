@@ -6,17 +6,19 @@ module.exports = FilterService;
 
 function FilterService(options)
 {
+  const CONDITIONAL_OPERATORS = ['$and', '$or'];
+
   const COND_TYPES = [
-    {'ALL': ["$and", "$or"]},
-    {'ID': ["$and", "$or", "$gte", "$lte"]},
-    {'STRING': ["$and", "$or"]},
-    {'NUMERIC': ["$and", "$or", "$gte", "$lte"]},
-    {'PERCENT': ["$and", "$or", "$gte", "$lte"]},
-    {'AMOUNT': ["$and", "$or", "$gte", "$lte"]},
-    {'BOOLEAN': ["$and", "$or"]},
-    {'DATE': ["$and", "$or", "$gte", "$lte"]},
-    {'ENCODED': ["$and", "$or"]},
-    {'JSON': ["$and", "$or"]}
+    {'ALL': []},
+    {'ID': []},
+    {'STRING': []},
+    {'NUMERIC': ["$gt", "$lt", "$gte", "$lte"]},
+    {'PERCENT': ["$gt", "$lt", "$gte", "$lte"]},
+    {'AMOUNT': ["$gt", "$lt", "$gte", "$lte"]},
+    {'BOOLEAN': []},
+    {'DATE': ["$gt", "$lt", "$gte", "$lte"]},
+    {'ENCODED': []},
+    {'JSON': []}
     ];
   options = options || {};
   const logger = options.logger;
@@ -71,7 +73,7 @@ function FilterService(options)
 
   function tryKeyByType(key, value, listfields)
   {
-    var type = getTypeOf(value);
+    var type = getTypeOf(value, listfields);
     logger.info(JSON.stringify(COND_TYPES));
     var tabKey = searchBykey(type, COND_TYPES);
     if (tabKey !== undefined) {
@@ -124,15 +126,13 @@ function FilterService(options)
   {
     var jsontab = [];
     var jsonRes = {};
-    var array = val.split(',');
-    if (array.length > 1) {
-      if ((jsonRes['$or'] = getDefaultOr(key, array, listfields)) === undefined)
-        return undefined;
-    }
-    else if (array.length == 1) {
-      if ((jsonRes['$and'] = getDefaultAnd(key, array, listfields)) === undefined)
-        return undefined;
-    }
+
+    // TODO: try something like this
+    //if (typeof val === 'Object')
+    //  return getConditionConstruct(val, listfields);
+
+    if ((jsonRes['$and'] = getDefaultAnd(key, array, listfields)) === undefined)
+      return undefined;
     jsontab.push(jsonRes);
     return jsontab;
   }
