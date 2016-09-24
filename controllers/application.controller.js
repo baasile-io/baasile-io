@@ -14,6 +14,7 @@ function ApplicationController(options) {
   this.dashboardInitialize = function(req, res, next) {
     req.data = req.data || {};
     req.data.user = req.session.user;
+    res._dashboarduri = req.protocol + '://' + req.get('host');
     res._apiuri = req.protocol + '://' + req.get('host') + '/api/' + CONFIG.api.current_version_url;
     FlashHelper.get(req.session, function(err, flash) {
       if (err)

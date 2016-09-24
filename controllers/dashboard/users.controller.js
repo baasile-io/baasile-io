@@ -54,7 +54,7 @@ function AccountsController(options) {
         errors.push('Mot de passe invalide');
       else if (!user.emailConfirmation) {
         return EmailService
-          .sendEmailConfirmation(user, res._apiuri)
+          .sendEmailConfirmation(user, res._dashboarduri)
           .then(function(result) {
             if (result.responseStatus.accepted.indexOf(user.email) == -1) {
               return FlashHelper.addError(req.session, 'Votre adresse E-Mail a été rejetée par le serveur de messagerie lors de l\'envoi du courriel de confirmation', function (err) {
@@ -161,7 +161,7 @@ function AccountsController(options) {
 
     function process(user) {
       EmailService
-        .sendPasswordReset(user, res._apiuri)
+        .sendPasswordReset(user, res._dashboarduri)
         .then(function(result) {
           console.log('then');
           if (result.responseStatus.accepted.indexOf(user.email) == -1) {
@@ -293,7 +293,7 @@ function AccountsController(options) {
               logger.warn('changing user emailConfirmation to false failed');
               return next({code: 500});
             }
-            EmailService.sendEmailConfirmation(req.data.user, res._apiuri);
+            EmailService.sendEmailConfirmation(req.data.user, res._dashboarduri);
             flashMessages.push('Vous avez modifié votre adresse E-Mail, un lien de validation vous a été envoyé');
             flashMessages.push('Vous ne pourrez plus vous reconnecter au tableau de bord tant que vous n\'aurez pas validé votre nouvelle adresse E-Mail');
             return redirect();
