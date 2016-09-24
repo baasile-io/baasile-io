@@ -18,6 +18,7 @@ function TestHelper(options) {
   options.expressSessionSecret = options.expressSessionSecret || 'test';
   options.host = options.host || 'http://localhost:3010';
   options.port = options.port || 3010;
+  options.nodeEnv = options.nodeEnv || 'test';
 
   const server = new Server(options),
     TokenModel = new tokenModel(options),
