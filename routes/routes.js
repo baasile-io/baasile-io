@@ -16,9 +16,12 @@ exports.configure = function (app, http, options) {
   const AuthController = new authController(options);
   const ApplicationController = new applicationController(options);
 
-  // api
+  // application
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.enable('trust proxy'); // heroku proxy
+
+  // api
   app.use('/api', ApplicationController.apiInitialize);
   app.use('/api', ApplicationController.restrictHttp);
   app.use('/api', ApplicationController.apiCheckRequest);
