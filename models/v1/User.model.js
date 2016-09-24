@@ -66,6 +66,11 @@ function UserModel(options) {
     next();
   });
 
+  userSchema.virtual('fullName')
+    .get(function() {
+      return this.firstname + ' ' + this.lastname;
+    });
+
   this.io = db.model('User', userSchema);
 
   function sha256(str) {
