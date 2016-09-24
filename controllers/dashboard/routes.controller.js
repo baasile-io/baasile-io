@@ -129,8 +129,7 @@ function RoutesController(options) {
       }
     ], function(err, result) {
       if (err)
-        // TODO: this wont work, self is not defined
-        return self.destroy(err);
+        return next({code: 500});
       return res.render('pages/dashboard/routes/view', {
         page: 'pages/dashboard/routes/view',
         csrfToken: req.csrfToken(),
