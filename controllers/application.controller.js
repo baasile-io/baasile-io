@@ -16,6 +16,7 @@ function ApplicationController(options) {
     req.data.user = req.session.user;
     res._dashboarduri = req.protocol + '://' + req.get('host');
     res._apiuri = req.protocol + '://' + req.get('host') + '/api/' + CONFIG.api.current_version_url;
+    res._originalUrl = req.protocol + '://' + req.get('host') + '/' + _.trim(req.path, '/');
     FlashHelper.get(req.session, function(err, flash) {
       if (err)
         return next(err);
