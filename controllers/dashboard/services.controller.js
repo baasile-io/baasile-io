@@ -212,7 +212,7 @@ function ServicesController(options) {
       }
       logger.info('service created: ' + service.name);
       EmailService
-        .sendAdminNotificationsNewService(req.session.user, service, res._apiuri)
+        .sendAdminNotificationsNewService(req.session.user, service, res._dashboarduri)
         .then(function(result) {
           return res.redirect('/dashboard/services/' + service.nameNormalized);
         })
