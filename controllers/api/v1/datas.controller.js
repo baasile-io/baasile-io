@@ -97,9 +97,9 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
 	  const FIELD_TYPES = [
-        {key: 'STRING', name: 'prenom'},
-  	  {key: 'STRING', name: 'name'},
-        {key: 'NUMERIC', name: 'age'}
+        {key: 'STRING', name: 'data.prenom'},
+  	  {key: 'STRING', name: 'data.name'},
+        {key: 'NUMERIC', name: 'data.age'}
       ];
 	var dataResult = [];
 	var jsonRes = {};
