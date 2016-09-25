@@ -165,7 +165,7 @@ function ServicesController(options) {
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && req.data.fcIdentity && data.id)
             errors.push('unauthorized_parameter', 'context: "fc_token" specified', '"id" must be not specified', 'error on index: ' + i);
           if (!req.data.route.fcRestricted && !req.data.route.fcRequired && !data.id)
-            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required', 'error on index: ' + i);
+            errors.push('missing_parameter', '"id" is required', 'error on index: ' + i);
 
           if (req.data.route.isCollection) {
             if (!Array.isArray(data.attributes))
