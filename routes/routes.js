@@ -8,6 +8,7 @@ const v1 = require('./api/v1/index.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   StandardError = require('standard-error'),
+  _ = require('lodash'),
   S = require('string');
 
 exports.configure = function (app, http, options) {
@@ -16,15 +17,27 @@ exports.configure = function (app, http, options) {
   const AuthController = new authController(options);
   const ApplicationController = new applicationController(options);
 
-  // application
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  // proxy
   app.enable('trust proxy'); // heroku proxy
 
   // api
   app.use('/api', ApplicationController.apiInitialize);
   app.use('/api', ApplicationController.restrictHttp);
   app.use('/api', ApplicationController.apiCheckRequest);
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use('/api', function (req, res, next) {
+    // set request
+    var request = {
+      params: {}
+    };
+    _.merge(request.params, req.body, req.query);
+    res._request = request;
+    console.log(res._request);
+    next();
+  });
 
   app.use('/api', v1(options));
   app.use('/api/v1', v1(options));

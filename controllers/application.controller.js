@@ -26,12 +26,6 @@ function ApplicationController(options) {
   };
 
   this.apiInitialize = function (req, res, next) {
-    // set request
-    var request = {
-      params: {}
-    };
-    _.merge(request.params, req.body, req.query);
-    res._request = request;
     res._originalUrl = req.protocol + '://' + req.get('host') + '/api/' + _.trim(req.path, '/');
 
     // set response
