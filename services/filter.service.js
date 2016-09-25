@@ -131,7 +131,7 @@ function FilterService(options)
     //if (typeof val === 'Object')
     //  return getConditionConstruct(val, listfields);
 
-    if ((jsonRes['$and'] = getDefaultAnd(key, array, listfields)) === undefined)
+    if ((jsonRes['$and'] = getDefaultAnd(key, val, listfields)) === undefined)
       return undefined;
     jsontab.push(jsonRes);
     return jsontab;
