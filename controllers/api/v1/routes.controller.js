@@ -22,8 +22,15 @@ function ServicesController(options) {
     RouteModel
       .io
       .find({
-        service: req.data.service._id,
-        public: true
+        '$and': [
+          {
+            '$or': [
+              {public: true},
+              {clientId: res._service.clientId}
+            ]
+          },
+          {service: req.data.service._id}
+        ]
       })
       .sort({name: 1})
       .cursor()
