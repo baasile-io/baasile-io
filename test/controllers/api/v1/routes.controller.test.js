@@ -57,7 +57,6 @@ describe('Routes', function () {
               res.body.data.should.have.lengthOf(1);
               res.body.data[0].id.should.eql('my_route_id1');
               res.body.data[0].type.should.eql('collections');
-              console.log(res.body.data[0].attributes);
               res.body.data[0].attributes.should.eql({
                 alias: 'collection1',
                 nom: 'Collection1',
