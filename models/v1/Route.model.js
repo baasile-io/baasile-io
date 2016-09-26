@@ -109,7 +109,8 @@ function RouteModel(options) {
         description: this.description,
         tableau_de_donnees: this.isCollection,
         jeton_fc_lecture_ectriture: this.fcRestricted,
-        jeton_fc_lecture_seulement: this.fcRequired
+        jeton_fc_lecture_seulement: this.fcRequired,
+        public: this.public
       };
     });
 
