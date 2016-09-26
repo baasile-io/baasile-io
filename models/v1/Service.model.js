@@ -132,7 +132,7 @@ function ServiceModel(options) {
       };
     });
 
-  serviceSchema.methods.getRelationshipsObjects = function(apiUri, opt) {
+  serviceSchema.methods.getRelationshipsObject = function(apiUri, opt) {
     opt = opt || {};
     var relationships = {};
     relationships[CONFIG.api.v1.resources.Route.type] = {
@@ -203,7 +203,7 @@ function ServiceModel(options) {
         self: this.getApiUri(apiUri)
       },
       meta: this.get('meta'),
-      relationships: this.getRelationshipsObjects(apiUri, opt)
+      relationships: this.getRelationshipsObject(apiUri, opt)
     };
   };
 
