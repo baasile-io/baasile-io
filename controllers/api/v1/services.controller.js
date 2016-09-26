@@ -19,13 +19,13 @@ function ServicesController(options) {
         {clientId: res._service.clientId}
       ]
     };
-    const options = {
+    const queryOptions = {
       sort: {name: 1},
       populate: {path: 'routes', model: RouteModel.io}
     };
     ServiceModel
       .io
-      .paginate(query, options)
+      .paginate(query, queryOptions)
       .then(function(result) {
         result.docs.forEach(function(service) {
           services.push(service.getResourceObject(res._apiuri, {include: res._include}));
