@@ -259,4 +259,91 @@ describe('Filter service', function () {
 
   });
 
+  describe('Advanced', function () {
+
+    it('array containing 2 conditional structures', function (done) {
+      var filters = [
+        {
+          '$or': {
+            'key': ['value1', 'value2']
+          }
+        },
+        {
+          '$and': {
+            'key1': 'value10',
+            'key2': 'value20'
+          }
+        }
+      ];
+      var expected = {
+        '$and': [
+          {
+            '$or': [
+              {'key': {'$eq': 'value1'}},
+              {'key': {'$eq': 'value2'}}
+            ]
+          },
+          {
+            '$and': [
+              {'key1': {'$eq': 'value10'}},
+              {'key2': {'$eq': 'value20'}}
+            ]
+          }
+        ]
+      };
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
+      done();
+    });
+
+    it('multiple dimensions', function (done) {
+      var filters = {
+        '$or': {
+          '$and': [
+            {
+              '$or': {
+                'keyA': ['valueA1', 'valueA2']
+              },
+              '$or': {
+                'keyB': ['valueB1', 'valueB2']
+              }
+            }
+          ],
+          'keyC': 'valueC',
+          'keyD': ['valueD1', 'valueD2', 'valueD3']
+        }
+      };
+      var expected = {
+        '$and': [
+          {
+            '$or': [
+              {
+                '$and': [
+                  {
+                    '$or': [
+                      {'keyA': {'$eq': 'valueA1'}},
+                      {'keyA': {'$eq': 'valueA2'}}
+                    ]
+                  },
+                  {
+                    '$or': [
+                      {'keyB': {'$eq': 'valueB1'}},
+                      {'keyB': {'$eq': 'valueB2'}}
+                    ]
+                  }
+                ]
+              },
+              {'keyC': {'$eq': 'valueC'}},
+              {'keyD': {'$eq': 'valueD1'}},
+              {'keyD': {'$eq': 'valueD2'}},
+              {'keyD': {'$eq': 'valueD3'}}
+            ]
+          }
+        ]
+      };
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
+      done();
+    });
+
+  });
+
 });
