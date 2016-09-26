@@ -31,8 +31,8 @@ describe('Filter service', function () {
     it('add one filter with default json', function (done) {
       var filter = {'key': 'value'};
       var expected = {
-        'defaultKey': 'defaultValue',
         '$and': [
+          {'defaultKey': 'defaultValue'},
           {'key': {'$eq': 'value'}}
         ]
       };
@@ -61,8 +61,8 @@ describe('Filter service', function () {
         'key2': 'value2'
       };
       var expected = {
-        'defaultKey': 'defaultValue',
         '$and': [
+          {'defaultKey': 'defaultValue'},
           {'key1': {'$eq': 'value1'}},
           {'key2': {'$eq': 'value2'}}
         ]
@@ -110,6 +110,28 @@ describe('Filter service', function () {
         ]
       };
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
+      done();
+    });
+
+    it('add two filters with OR operator and default filters', function (done) {
+      var filters = {
+        '$or': {
+          'key1': 'value1',
+          'key2': 'value2'
+        }
+      };
+      var expected = {
+        '$and': [
+          {'defaultKey': 'defaultValue'},
+          {
+            '$or': [
+              {'key1': {'$eq': 'value1'}},
+              {'key2': {'$eq': 'value2'}}
+            ]
+          }
+        ]
+      };
+      FilterService.buildMongoQuery(defaultFilter, filters).should.eql(expected);
       done();
     });
 
