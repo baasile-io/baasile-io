@@ -14,6 +14,10 @@ const http = require('http'),
   mongodb = require('mongodb'),
   mongoose = require('mongoose');
 
+const userModel = require('./models/v1/User.model.js'),
+  serviceModel = require('./models/v1/Service.model.js'),
+  routeModel = require('./models/v1/Route.model.js');
+
 module.exports = Server;
 
 function Server(options) {
@@ -24,6 +28,13 @@ function Server(options) {
   options.db = options.db || mongodb.MongoClient;
   options.tokenExpiration = options.tokenExpiration || 20; //minutes
   options.expressSessionCookieMaxAge = options.expressSessionCookieMaxAge || 5; //minutes
+
+  options.models = {
+    UserModel: new userModel(options),
+    ServiceModel: new serviceModel(options),
+    RouteModel: new routeModel(options)
+  };
+
   var logger = options.logger;
   var app = express();
   app.set("port", options.port);

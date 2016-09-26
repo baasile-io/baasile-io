@@ -4,7 +4,8 @@ const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
   CONFIG = require('../../config/app.js'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  mongoosePaginate = require('mongoose-paginate');
 
 module.exports = ServiceModel;
 
@@ -85,6 +86,8 @@ function ServiceModel(options) {
 
   mongoose.Promise = global.Promise;
 
+  serviceSchema.plugin(mongoosePaginate);
+
   serviceSchema.pre('validate', function(next) {
     if (this.validated != true && this.public === true)
       this.invalidate('public', 'Un service non validé par l\'Équipe administratrice de la Plate-forme ne peut être référencée sur l\'API');
@@ -100,6 +103,12 @@ function ServiceModel(options) {
   serviceSchema.pre('save', function(next) {
     this.updatedAt = new Date();
     next();
+  });
+
+  serviceSchema.virtual('routes', {
+    ref: 'RouteModel',
+    localField: '_id',
+    foreignField: 'service'
   });
 
   serviceSchema.virtual('attributes')
@@ -121,6 +130,25 @@ function ServiceModel(options) {
         version: this.__v
       };
     });
+
+  serviceSchema.methods.getRelationshipsObjects = function(apiUri) {
+    var relationships = {};
+    var included = [];
+    if (this.routes && this.routes.length > 0) {
+      relationships[CONFIG.api.v1.resources.Route.type] = {
+        links: {
+          self: apiUri + '/' + TYPE + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type,
+          related: apiUri + '/' + TYPE + '/' + this.clientId + '/' + CONFIG.api.v1.resources.Route.type
+        },
+        data: []
+      };
+      this.routes.forEach(function (route) {
+        relationships[CONFIG.api.v1.resources.Route.type].data.push(route.getRelationshipReference(apiUri));
+        included.push(route.getResourceObject(apiUri));
+      });
+    }
+    return {relationships: relationships, included: included};
+  };
 
   serviceSchema.methods.getApiUri = function(apiUri) {
     apiUri = apiUri || options.apiUri;
@@ -161,7 +189,8 @@ function ServiceModel(options) {
       links: {
         self: this.getApiUri(apiUri)
       },
-      meta: this.get('meta')
+      meta: this.get('meta'),
+      relationships: this.get('relationships')
     };
   };
 

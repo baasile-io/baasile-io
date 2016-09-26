@@ -163,6 +163,14 @@ function RouteModel(options) {
     };
   };
 
+  routeSchema.methods.getRelationshipReference = function (apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.routeId,
+      type: TYPE
+    };
+  };
+
   this.io = db.model('Route', routeSchema);
 
   this.io.schema.pre('validate', function(next) {
