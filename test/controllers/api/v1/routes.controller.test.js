@@ -29,6 +29,7 @@ describe('Routes', function () {
             "jeton_fc_lecture_ectriture": false,
             "jeton_fc_lecture_seulement": false,
             "nom": "Collection1",
+            "public": true,
             "tableau_de_donnees": false
           });
           done();
