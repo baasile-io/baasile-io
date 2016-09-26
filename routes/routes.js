@@ -35,6 +35,7 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
+    res._include = typeof request.params.include === 'string' ? request.params.include.split(',') : [];
     next();
   });
 
@@ -62,7 +63,7 @@ exports.configure = function (app, http, options) {
       }
       response.data = responseParams.data;
     }
-    if (responseParams.included) {
+    if (Array.isArray(responseParams.included) === true && responseParams.included.length > 0) {
       response.included = responseParams.included;
     }
     if (responseParams.messages) {

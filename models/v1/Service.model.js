@@ -5,7 +5,8 @@ const mongoose = require('mongoose'),
   validator = require('validator'),
   CONFIG = require('../../config/app.js'),
   crypto = require('crypto'),
-  mongoosePaginate = require('mongoose-paginate');
+  mongoosePaginate = require('mongoose-paginate'),
+  _ = require('lodash');
 
 module.exports = ServiceModel;
 
@@ -131,23 +132,34 @@ function ServiceModel(options) {
       };
     });
 
-  serviceSchema.methods.getRelationshipsObjects = function(apiUri) {
+  serviceSchema.methods.getRelationshipsObjects = function(apiUri, opt) {
+    opt = opt || {};
     var relationships = {};
-    var included = [];
-    if (this.routes && this.routes.length > 0) {
-      relationships[CONFIG.api.v1.resources.Route.type] = {
-        links: {
-          self: apiUri + '/' + TYPE + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type,
-          related: apiUri + '/' + TYPE + '/' + this.clientId + '/' + CONFIG.api.v1.resources.Route.type
-        },
-        data: []
-      };
+    relationships[CONFIG.api.v1.resources.Route.type] = {
+      links: {
+        self: apiUri + '/' + TYPE + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type,
+        related: apiUri + '/' + TYPE + '/' + this.clientId + '/' + CONFIG.api.v1.resources.Route.type
+      }
+    };
+    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+      relationships[CONFIG.api.v1.resources.Route.type].meta = {count: this.routes.length};
+      relationships[CONFIG.api.v1.resources.Route.type].data = [];
       this.routes.forEach(function (route) {
         relationships[CONFIG.api.v1.resources.Route.type].data.push(route.getRelationshipReference(apiUri));
+      });
+    }
+    return relationships;
+  };
+
+  serviceSchema.methods.getIncludedObjects = function(apiUri, opt) {
+    opt = opt || {};
+    var included = [];
+    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+      this.routes.forEach(function (route) {
         included.push(route.getResourceObject(apiUri));
       });
     }
-    return {relationships: relationships, included: included};
+    return included;
   };
 
   serviceSchema.methods.getApiUri = function(apiUri) {
@@ -180,7 +192,8 @@ function ServiceModel(options) {
     });
   };
 
-  serviceSchema.methods.getResourceObject = function (apiUri) {
+  serviceSchema.methods.getResourceObject = function (apiUri, opt) {
+    opt = opt || {};
     apiUri = apiUri || options.apiUri;
     return {
       id: this.clientId,
@@ -190,7 +203,7 @@ function ServiceModel(options) {
         self: this.getApiUri(apiUri)
       },
       meta: this.get('meta'),
-      relationships: this.get('relationships')
+      relationships: this.getRelationshipsObjects(apiUri, opt)
     };
   };
 

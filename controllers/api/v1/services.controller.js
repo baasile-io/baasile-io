@@ -28,11 +28,8 @@ function ServicesController(options) {
       .paginate(query, options)
       .then(function(result) {
         result.docs.forEach(function(service) {
-          var obj = service.getResourceObject(res._apiuri);
-          var relationships = service.getRelationshipsObjects(res._apiuri);
-          included = _.union(included, relationships.included);
-          obj.relationships = relationships.relationships;
-          services.push(obj);
+          services.push(service.getResourceObject(res._apiuri, {include: res._include}));
+          included = _.union(included, service.getIncludedObjects(res._apiuri, {include: res._include}));
         });
         return next({code: 200, data: services, included: included});
       })
