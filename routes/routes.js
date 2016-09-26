@@ -35,7 +35,6 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
-    console.log(res._request);
     next();
   });
 

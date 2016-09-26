@@ -96,13 +96,19 @@ function ServicesController(options) {
 
   this.getRouteData = function(req, res, next) {
     RouteModel.io.findOne({
-      $or: [
-        {public: true},
-        {clientId: res._service.clientId}
-      ],
-      $or: [
-        {nameNormalized: req.params.routeId},
-        {routeId: req.params.routeId}
+      '$and': [
+        {
+          '$or': [
+            {public: true},
+            {clientId: res._service.clientId}
+          ]
+        },
+        {
+          '$or': [
+            {nameNormalized: req.params.routeId},
+            {routeId: req.params.routeId}
+          ]
+        }
       ]
     }, function(err, route) {
       if (err)
