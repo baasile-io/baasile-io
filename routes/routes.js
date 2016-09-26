@@ -9,7 +9,8 @@ const v1 = require('./api/v1/index.js'),
   cookieParser = require('cookie-parser'),
   StandardError = require('standard-error'),
   _ = require('lodash'),
-  S = require('string');
+  S = require('string'),
+  CONFIG = require('../config/app.js');
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
@@ -35,7 +36,28 @@ exports.configure = function (app, http, options) {
     };
     _.merge(request.params, req.body, req.query);
     res._request = request;
+
+    // inclusion
     res._include = typeof request.params.include === 'string' ? request.params.include.split(',') : [];
+
+    // pagination
+    res._paginate = {};
+    const isPaginated = typeof request.params.page !== 'undefined';
+    if (isPaginated && typeof request.params.page.offset !== 'undefined') {
+      res._paginate.offset = Number(request.params.page.offset);
+    } else if (isPaginated && typeof request.params.page.number !== 'undefined') {
+      res._paginate.offset = Number(request.params.page.number);
+    } else {
+      res._paginate.offset = CONFIG.api.pagination.offset;
+    }
+    if (isPaginated && typeof request.params.page.limit !== 'undefined') {
+      res._paginate.limit = Number(request.params.page.limit);
+    } else if (isPaginated && typeof request.params.page.size !== 'undefined') {
+      res._paginate.limit = Number(request.params.page.size);
+    } else {
+      res._paginate.limit = CONFIG.api.pagination.limit;
+    }
+
     next();
   });
 
@@ -56,15 +78,43 @@ exports.configure = function (app, http, options) {
     if (responseParams.meta) {
       response.meta = responseParams.meta;
     }
-    if (responseParams.data) {
-      if (Array.isArray(responseParams.data)) {
-        response.meta = response.meta || {};
+    if (typeof responseParams.results !== 'undefined' || Array.isArray(response.data)) {
+      response.meta = response.meta || {};
+      if (typeof responseParams.results !== 'undefined') {
+        response.meta.count = responseParams.results.docs.length;
+        response.meta.total = responseParams.results.total;
+        response.meta.total_pages = res._paginate.limit != 0 ? Math.ceil(responseParams.results.total / res._paginate.limit) : 1;
+        response.links.first = response.links.self + '/?page[offset]=0&page[limit]=' + res._paginate.limit;
+        if (res._paginate.offset > 0) {
+          const offsetPrev = res._paginate.offset - res._paginate.limit;
+          response.links.prev = response.links.self + '/?page[offset]=' + (offsetPrev > 0 ? offsetPrev : 0) + '&page[limit]=' + res._paginate.limit;
+        }
+        if (res._paginate.offset + res._paginate.limit < responseParams.results.total) {
+          response.links.next = response.links.self + '/?page[offset]=' + (res._paginate.offset + res._paginate.limit) + '&page[limit]=' + res._paginate.limit;
+        }
+        //if (res._paginate.limit < responseParams.results.total) {
+        //  response.links.last = response.links.self + '/?page[offset]=' + (Math.ceil(responseParams.results.total / res._paginate.limit) + (responseParams.results.total % res._paginate.limit)) + '&page[limit]=' + res._paginate.limit;
+        //}
+      } else {
         response.meta.count = responseParams.data.length;
       }
+      response.meta.offset = res._paginate.offset;
+      response.meta.limit = res._paginate.limit;
+    }
+    if (typeof responseParams.results !== 'undefined') {
+      response.data = [];
+      var included = [];
+      responseParams.results.docs.forEach(function(doc) {
+        response.data.push(doc.getResourceObject(res._apiuri, {include: res._include}));
+        included = _.union(included, doc.getIncludedObjects(res._apiuri, {include: res._include}));
+      });
+      if (included.length > 0)
+        response.included = included;
+    } else if (responseParams.data) {
       response.data = responseParams.data;
     }
     if (Array.isArray(responseParams.included) === true && responseParams.included.length > 0) {
-      response.included = responseParams.included;
+      _.union(response.included, responseParams.included);
     }
     if (responseParams.messages) {
       if (!Array.isArray(responseParams.messages))
