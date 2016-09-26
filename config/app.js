@@ -28,6 +28,13 @@ module.exports = {
           type: "tokens"
         }
       }
+    },
+    pagination: {
+      offset: 0,
+      limit: 25,
+      max: {
+        limit: 200
+      }
     }
   }
 };

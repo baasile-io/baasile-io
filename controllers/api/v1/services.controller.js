@@ -23,18 +23,16 @@ function ServicesController(options) {
       sort: {name: 1},
       populate: {path: 'routes', model: RouteModel.io}
     };
+    _.merge(queryOptions, res._paginate);
     ServiceModel
       .io
       .paginate(query, queryOptions)
-      .then(function(result) {
-        result.docs.forEach(function(service) {
-          services.push(service.getResourceObject(res._apiuri, {include: res._include}));
-          included = _.union(included, service.getIncludedObjects(res._apiuri, {include: res._include}));
-        });
-        return next({code: 200, data: services, included: included});
+      .then(function(results) {
+        return next({code: 200, results: results, data: services, included: included});
       })
       .catch(function(err) {
-        return next({code: 500, messages: [err]});
+        logger.warn(JSON.stringify(err));
+        return next({code: 500});
       });
   };
 
