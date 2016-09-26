@@ -296,6 +296,14 @@ describe('Filter service', function () {
     });
 
     it('multiple dimensions', function (done) {
+      // ?filter[$or][$and][0][$or][keyA]=valueA1
+      // &filter[$or][$and][0][$or][keyA]=valueA2
+      // &filter[$or][$and][1][$or][keyB]=valueB1
+      // &filter[$or][$and][1][$or][keyB]=valueB2
+      // &filter[$or][keyC]=valueC
+      // &filter[$or][keyD]=valueD1
+      // &filter[$or][keyD]=valueD2
+      // &filter[$or][keyD]=valueD3
       var filters = {
         '$or': {
           '$and': [
