@@ -7,17 +7,18 @@ module.exports = FilterService;
 function FilterService(options) {
   const CONDITIONAL_OPERATORS = ['$and', '$or'];
 
+  const DEFAULT_TYPE = 'STRING';
+
   const COND_TYPES = {
-    'ALL': [],
-    'ID': [],
-    'STRING': [],
-    'NUMERIC': ["$gt", "$lt", "$gte", "$lte"],
-    'PERCENT': ["$gt", "$lt", "$gte", "$lte"],
-    'AMOUNT': ["$gt", "$lt", "$gte", "$lte"],
-    'BOOLEAN': [],
-    'DATE': ["$gt", "$lt", "$gte", "$lte"],
-    'ENCODED': [],
-    'JSON': []
+    'ID': ["$eq"],
+    'STRING': ["$eq", "$ne", "$regex", "$in", "$nin"],
+    'NUMERIC': ["$eq", "$gt", "$lt", "$gte", "$lte"],
+    'PERCENT': ["$eq", "$gt", "$lt", "$gte", "$lte"],
+    'AMOUNT': ["$eq", "$gt", "$lt", "$gte", "$lte"],
+    'BOOLEAN': ["$eq"],
+    'DATE': ["$eq", "$gt", "$lt", "$gte", "$lte"],
+    'ENCODED': ["$eq"],
+    'JSON': ["$eq"]
   };
   options = options || {};
   const logger = options.logger;
@@ -52,14 +53,13 @@ function FilterService(options) {
   }
 
   function getValIfValExist(value, listfields) {
-    logger.info("try\"" + value + "\" in base model");
+    if (typeof listfields === 'undefined')
+      return value;
     var typeTab = searchByVal("name", value, listfields);
-    logger.info("type tabe\"" + JSON.stringify(typeTab) + "\"");
     if (typeTab !== undefined) {
       return value;
     }
     else {
-      logger.info("field \"" + value + "\" is not in base model");
       return (undefined);
     }
   }
@@ -68,6 +68,8 @@ function FilterService(options) {
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return CONDITIONAL_OPERATORS;
     else {
+      if (typeof listfields === 'undefined')
+        return COND_TYPES[DEFAULT_TYPE];
       var objson = searchByVal("name", getValIfValExist(value, listfields), listfields);
       if (objson === undefined)
         return undefined;
@@ -76,6 +78,8 @@ function FilterService(options) {
   }
 
   function getTypeOf(value, listfields) {
+    if (typeof listfields === 'undefined')
+      return DEFAULT_TYPE;
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return undefined;
     else {
@@ -88,11 +92,9 @@ function FilterService(options) {
 
   function tryKeyByType(key, value, listfields) {
     var type = getTableTypeOf(value, listfields);
-    logger.info("type : => " + JSON.stringify(type));
     if (type !== undefined && (type.indexOf(key) != -1)) {
       return true;
     }
-    logger.info("condition \"" + key + "\" of value \"" + value + "\" of type \"" + type + "\" is not allowed in this case");
     return false;
   }
 
@@ -106,10 +108,15 @@ function FilterService(options) {
   }
 
   function getConditionAfter(val, obj, listfields) {
+
     var jsonRes = {};
     Object.keys(obj).forEach(function (key) {
-      if (key[0] === '$' && tryKeyByType(key, val, listfields)) {
-        jsonRes[key] = getValueByFieldType(obj[key], val, listfields);
+      if (key[0] === '$') {
+        if (CONDITIONAL_OPERATORS.indexOf(key) != -1) {
+          jsonRes = getConditionBefore(val, obj, listfields);
+        } else if (tryKeyByType(key, val, listfields)) {
+          jsonRes[key] = getValueByFieldType(obj[key], val, listfields);
+        }
       }
       else {
         return undefined;
@@ -118,37 +125,66 @@ function FilterService(options) {
     return (jsonRes);
   }
 
-  function getConditionBefore(array, listfields) {
+  function getConditionBefore(currentKey, array, listfields) {
     var jsontab = [];
-    Object.keys(array).forEach(function (key) {
-      var jsonRes = {};
-      if (key === "$or" || key === "$and") {
-        if ((jsonRes[key] = getConditionConstruct(array[key], listfields)) === undefined || !tryKeyByType(key, jsonRes[key], listfields))
-          return undefined;
+    if (Array.isArray(array) === true) {
+      for(var i = 0; i < array.length; i++) {
+        var value = array[i];
+        if (typeof value !== 'object') {
+          value = {'$eq': value};
+        }
+        jsontab.push(getConditionAfter(currentKey, value, listfields));
       }
-      else if (key[0] !== '$') {
-        var kval = getValIfValExist(key, listfields);
-        if (kval === undefined)
-          return (undefined);
-        if (Array.isArray(array[kval]))
-          logger.info("it s an array");
-        if (typeof array[kval] === 'object')
-          logger.info("it s an object");
-        jsonRes[kval] = (typeof array[kval] === 'object' || Array.isArray(array[kval])) ? getConditionAfter(kval, array[kval], listfields) : getValueByFieldType(array[kval], kval, listfields);
-        ;
-      }
-      else {
-        return (undefined);
-      }
-      jsontab.push(jsonRes);
-    });
+    } else {
+      Object.keys(array).forEach(function (key) {
+        var jsonRes = {};
+        if (CONDITIONAL_OPERATORS.indexOf(key) != -1) {
+          jsonRes[key] = getConditionBefore(currentKey, array[key], listfields);
+          if (jsonRes[key] === undefined || !tryKeyByType(key, jsonRes[key], listfields)) {
+            return undefined;
+          }
+          if (currentKey !== null) {
+            jsontab = jsonRes;
+          }
+          else
+            jsontab.push(jsonRes);
+        }
+        else if (key[0] !== '$') {
+          var kval = getValIfValExist(key, listfields);
+          if (kval === undefined)
+            return (undefined);
+          if (typeof array[kval] !== 'object') {
+            array[kval] = {'$eq': array[kval]};
+          }
+          if (Array.isArray(array[kval]) === true) {
+            for (var i = 0; i < array[kval].length; i++) {
+              var value = array[kval][i];
+              if (typeof value !== 'object') {
+                value = {'$eq': value};
+              }
+              var jsonRes = {};
+              jsonRes[kval] = getConditionAfter(kval, value, listfields);
+              jsontab.push(jsonRes);
+            }
+          } else {
+            jsonRes[kval] = getConditionAfter(kval, array[kval], listfields);
+            jsontab.push(jsonRes);
+          }
+        }
+        else {
+          var jsonRes2 = {};
+          jsonRes2[key] = array[key];
+          jsontab.push(getConditionAfter(currentKey, jsonRes2, listfields));
+        }
+      });
+    }
     return jsontab;
   }
 
   this.buildMongoQuery = function (jsonRes, filters, listfields) {
     if (typeof filters !== 'undefined') {
       //var jsonVal = {};
-      if ((jsonRes["$and"] = getConditionBefore(filters, listfields)) === undefined)
+      if ((jsonRes["$and"] = getConditionBefore(null, filters, listfields)) === undefined)
         return undefined;
     }
     return jsonRes;
