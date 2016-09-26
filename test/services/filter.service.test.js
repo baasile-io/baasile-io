@@ -13,7 +13,7 @@ describe('Filter service', function () {
 
     it('returns default json', function (done) {
       FilterService.buildMongoQuery(defaultFilter)
-        .should.eq(defaultFilter);
+        .should.eql(defaultFilter);
       done();
     });
 
@@ -24,19 +24,19 @@ describe('Filter service', function () {
           {'key': {'$eq': 'value'}}
         ]
       };
-      FilterService.buildMongoQuery({}, filter).should.eq(expected);
+      FilterService.buildMongoQuery({}, filter).should.eql(expected);
       done();
     });
 
     it('add one filter with default json', function (done) {
       var filter = {'key': 'value'};
       var expected = {
+        'defaultKey': 'defaultValue',
         '$and': [
-          defaultFilter,
           {'key': {'$eq': 'value'}}
         ]
       };
-      FilterService.buildMongoQuery(defaultFilter, filter).should.eq(expected);
+      FilterService.buildMongoQuery(defaultFilter, filter).should.eql(expected);
       done();
     });
 
@@ -51,7 +51,7 @@ describe('Filter service', function () {
           {'key2': {'$eq': 'value2'}}
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -61,13 +61,13 @@ describe('Filter service', function () {
         'key2': 'value2'
       };
       var expected = {
+        'defaultKey': 'defaultValue',
         '$and': [
-          defaultFilter,
           {'key1': {'$eq': 'value1'}},
           {'key2': {'$eq': 'value2'}}
         ]
       };
-      FilterService.buildMongoQuery(defaultFilter, filters).should.eq(expected);
+      FilterService.buildMongoQuery(defaultFilter, filters).should.eql(expected);
       done();
     });
 
@@ -88,7 +88,7 @@ describe('Filter service', function () {
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -109,7 +109,7 @@ describe('Filter service', function () {
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -119,17 +119,11 @@ describe('Filter service', function () {
       };
       var expected = {
         '$and': [
-          {
-            'key': {
-              '$and': [
-                {'$eq': 'value1'},
-                {'$eq': 'value2'}
-              ]
-            }
-          }
+          {'key': {'$eq': 'value1'}},
+          {'key': {'$eq': 'value2'}}
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -151,30 +145,28 @@ describe('Filter service', function () {
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
     it('add one filter with two advanced values', function (done) {
       var filters = {
         'key': {
-          '$lt': 'value1',
-          '$gt': 'value2'
+          '$ne': 'value1',
+          '$regex': 'value2'
         }
       };
       var expected = {
         '$and': [
           {
             'key': {
-              '$and': [
-                {'$lt': 'value1'},
-                {'$gt': 'value2'}
-              ]
+              '$ne': 'value1',
+              '$regex': 'value2'
             }
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -182,8 +174,8 @@ describe('Filter service', function () {
       var filters = {
         'key': {
           '$or': {
-            '$lt': 'value1',
-            '$gt': 'value2'
+            '$ne': 'value1',
+            '$regex': 'value2'
           }
         }
       };
@@ -192,14 +184,14 @@ describe('Filter service', function () {
           {
             'key': {
               '$or': [
-                {'$lt': 'value1'},
-                {'$gt': 'value2'}
+                {'$ne': 'value1'},
+                {'$regex': 'value2'}
               ]
             }
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -213,19 +205,13 @@ describe('Filter service', function () {
         '$and': [
           {
             '$and': [
-              {
-                'key': {
-                  '$and': [
-                    {'$eq': 'value1'},
-                    {'$eq': 'value2'}
-                  ]
-                }
-              }
+              {'key': {'$eq': 'value1'}},
+              {'key': {'$eq': 'value2'}}
             ]
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
@@ -239,19 +225,13 @@ describe('Filter service', function () {
         '$and': [
           {
             '$or': [
-              {
-                'key': {
-                  '$and': [
-                    {'$eq': 'value1'},
-                    {'$eq': 'value2'}
-                  ]
-                }
-              }
+              {'key': {'$eq': 'value1'}},
+              {'key': {'$eq': 'value2'}}
             ]
           }
         ]
       };
-      FilterService.buildMongoQuery({}, filters).should.eq(expected);
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
 
