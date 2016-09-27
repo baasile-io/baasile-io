@@ -93,7 +93,7 @@ exports.configure = function (app, http, options) {
           response.links.next = response.links.self + '/?page[offset]=' + (res._paginate.offset + res._paginate.limit) + '&page[limit]=' + res._paginate.limit;
         }
         //if (res._paginate.limit < responseParams.results.total) {
-        //  response.links.last = response.links.self + '/?page[offset]=' + (Math.ceil(responseParams.results.total / res._paginate.limit) + (responseParams.results.total % res._paginate.limit)) + '&page[limit]=' + res._paginate.limit;
+        //  response.links.last = response.links.self + '/?page[offset]=' + (Math.round(responseParams.results.total / res._paginate.limit) + (res._paginate.limit) + (res._paginate.offset % res._paginate.limit)) + '&page[limit]=' + res._paginate.limit;
         //}
       } else {
         response.meta.count = responseParams.data.length;
