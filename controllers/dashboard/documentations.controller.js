@@ -28,7 +28,7 @@ function DocumentationsController(options) {
 
     fs.readFile("./public/documentation/dashboard-" + pageId + ".md", function (err, data) {
       if (err)
-        return next({code: 500});
+        return next({code: 404});
 
       res.render('pages/documentation/get_page', {
         layout: 'layouts/home',
