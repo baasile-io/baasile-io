@@ -2,7 +2,8 @@
 
 const _ = require('lodash'),
   CONFIG = require('../config/app.js'),
-  flashHelper = require('../helpers/flash.helper.js');
+  flashHelper = require('../helpers/flash.helper.js'),
+  domurl = require('domurl');
 
 module.exports = ApplicationController;
 
@@ -26,7 +27,8 @@ function ApplicationController(options) {
   };
 
   this.apiInitialize = function (req, res, next) {
-    res._originalUrl = req.protocol + '://' + req.get('host') + '/api/' + _.trim(req.path, '/');
+    res._originalUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    res._originalUrlObject = new domurl(res._originalUrl, true);
 
     // set response
     res.set({

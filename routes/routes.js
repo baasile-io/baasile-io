@@ -10,6 +10,7 @@ const v1 = require('./api/v1/index.js'),
   StandardError = require('standard-error'),
   _ = require('lodash'),
   S = require('string'),
+  domurl = require('domurl'),
   CONFIG = require('../config/app.js');
 
 exports.configure = function (app, http, options) {
@@ -43,13 +44,6 @@ exports.configure = function (app, http, options) {
     // pagination
     res._paginate = {};
     const isPaginated = typeof request.params.page !== 'undefined';
-    if (isPaginated && typeof request.params.page.offset !== 'undefined') {
-      res._paginate.offset = Number(request.params.page.offset);
-    } else if (isPaginated && typeof request.params.page.number !== 'undefined') {
-      res._paginate.offset = Number(request.params.page.number);
-    } else {
-      res._paginate.offset = CONFIG.api.pagination.offset;
-    }
     if (isPaginated && typeof request.params.page.limit !== 'undefined') {
       res._paginate.limit = Number(request.params.page.limit);
     } else if (isPaginated && typeof request.params.page.size !== 'undefined') {
@@ -57,7 +51,17 @@ exports.configure = function (app, http, options) {
     } else {
       res._paginate.limit = CONFIG.api.pagination.limit;
     }
-
+    if (isPaginated && typeof request.params.page.offset !== 'undefined') {
+      res._paginate.offset = Number(request.params.page.offset);
+    } else if (isPaginated && typeof request.params.page.number !== 'undefined') {
+      res._paginate.offset = (Number(request.params.page.number) - 1) * res._paginate.limit;
+    } else {
+      res._paginate.offset = CONFIG.api.pagination.offset;
+    }
+    if (typeof res._paginate.offset !== 'number' || res._paginate.offset < 0)
+      return next({code: 400, messages: ['invalid_pagination', '"offset" must be a non-negative number']});
+    if (typeof res._paginate.limit !== 'number' || res._paginate.limit < 1)
+      return next({code: 400, messages: ['invalid_pagination', '"limit" must strictly be a positive number']});
     next();
   });
 
@@ -65,7 +69,7 @@ exports.configure = function (app, http, options) {
   app.use('/api/v1', v1(options));
 
   app.use('/api', AuthController.authorize, function (responseParams, req, res, next) {
-    const status = responseParams.code || 400;
+    var status = responseParams.code || 500;
     const response = {
       jsonapi: res._jsonapi,
       links: {
@@ -84,17 +88,36 @@ exports.configure = function (app, http, options) {
         response.meta.count = responseParams.results.docs.length;
         response.meta.total = responseParams.results.total;
         response.meta.total_pages = res._paginate.limit != 0 ? Math.ceil(responseParams.results.total / res._paginate.limit) : 1;
-        response.links.first = response.links.self + '/?page[offset]=0&page[limit]=' + res._paginate.limit;
-        if (res._paginate.offset > 0) {
+        var linkFirst = res._originalUrlObject;
+        linkFirst.query['page[offset]'] = 0;
+        linkFirst.query['page[limit]'] = res._paginate.limit;
+        response.links.first = linkFirst.toString();
+        if (res._paginate.offset > 0 && res._paginate.offset < responseParams.results.total) {
           const offsetPrev = res._paginate.offset - res._paginate.limit;
-          response.links.prev = response.links.self + '/?page[offset]=' + (offsetPrev > 0 ? offsetPrev : 0) + '&page[limit]=' + res._paginate.limit;
+          var linkPrev = res._originalUrlObject;
+          linkPrev.query['page[offset]'] = (offsetPrev > 0 ? offsetPrev : 0);
+          linkPrev.query['page[limit]'] = res._paginate.limit;
+          response.links.prev = linkPrev.toString();
         }
         if (res._paginate.offset + res._paginate.limit < responseParams.results.total) {
-          response.links.next = response.links.self + '/?page[offset]=' + (res._paginate.offset + res._paginate.limit) + '&page[limit]=' + res._paginate.limit;
+          var linkNext = res._originalUrlObject;
+          linkNext.query['page[offset]'] = (res._paginate.offset + res._paginate.limit);
+          linkNext.query['page[limit]'] = res._paginate.limit;
+          response.links.next = linkNext.toString();
         }
-        //if (res._paginate.limit < responseParams.results.total) {
-        //  response.links.last = response.links.self + '/?page[offset]=' + (Math.round(responseParams.results.total / res._paginate.limit) + (res._paginate.limit) + (res._paginate.offset % res._paginate.limit)) + '&page[limit]=' + res._paginate.limit;
-        //}
+        if (res._paginate.limit < responseParams.results.total) {
+          var offsetLast = res._paginate.limit * (Math.ceil(responseParams.results.total / res._paginate.limit) - 1) + (res._paginate.offset % res._paginate.limit);
+          if (offsetLast >= responseParams.results.total)
+            offsetLast -= res._paginate.limit;
+          var linkLast = res._originalUrlObject;
+          linkLast.query['page[offset]'] = offsetLast;
+          linkLast.query['page[limit]'] = res._paginate.limit;
+          response.links.last = linkLast.toString();
+        }
+        var linkSelf = res._originalUrlObject;
+        linkSelf.query['page[offset]'] = res._paginate.offset;
+        linkSelf.query['page[limit]'] = res._paginate.limit;
+        response.links.self = linkSelf.toString();
       } else {
         response.meta.count = responseParams.data.length;
       }
@@ -110,6 +133,8 @@ exports.configure = function (app, http, options) {
       });
       if (included.length > 0)
         response.included = included;
+      if (responseParams.results.total > responseParams.results.docs.length)
+        status = 206;
     } else if (responseParams.data) {
       response.data = responseParams.data;
     }

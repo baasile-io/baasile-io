@@ -4,7 +4,8 @@ const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
   CONFIG = require('../../config/app.js'),
   serviceModel = require('./Service.model.js'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  mongoosePaginate = require('mongoose-paginate');
 
 module.exports = RouteModel;
 
@@ -91,6 +92,8 @@ function RouteModel(options) {
     updatedAt: Date
   });
 
+  routeSchema.plugin(mongoosePaginate);
+
   routeSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
@@ -99,6 +102,12 @@ function RouteModel(options) {
   routeSchema.pre('save', function(next) {
     this.updatedAt = new Date();
     next();
+  });
+
+  routeSchema.virtual('fields', {
+    ref: 'FieldModel',
+    localField: '_id',
+    foreignField: 'route'
   });
 
   routeSchema.virtual('attributes')
@@ -146,7 +155,38 @@ function RouteModel(options) {
     ]
   };
 
-  routeSchema.methods.getResourceObject = function (apiUri) {
+  routeSchema.methods.getIncludedObjects = function(apiUri, opt) {
+    opt = opt || {};
+    var included = [];
+    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+      this.fields.forEach(function (field) {
+        included.push(field.getResourceObject(apiUri));
+      });
+    }
+    return included;
+  };
+
+  routeSchema.methods.getRelationshipsObject = function(apiUri, opt) {
+    opt = opt || {};
+    var relationships = {};
+    relationships[CONFIG.api.v1.resources.Field.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId + '/relationships/' + CONFIG.api.v1.resources.Field.type,
+        related: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/' + TYPE + '/' + this.routeId + '/' + CONFIG.api.v1.resources.Field.type
+      }
+    };
+    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+      relationships[CONFIG.api.v1.resources.Field.type].meta = {count: this.fields.length};
+      relationships[CONFIG.api.v1.resources.Field.type].data = [];
+      this.fields.forEach(function (field) {
+        relationships[CONFIG.api.v1.resources.Field.type].data.push(field.getRelationshipReference());
+      });
+    }
+    return relationships;
+  };
+
+  routeSchema.methods.getResourceObject = function (apiUri, opt) {
+    opt = opt || {};
     apiUri = apiUri || options.apiUri;
     return {
       id: this.routeId,
@@ -159,12 +199,12 @@ function RouteModel(options) {
         creation: this.createdAt,
         modification: this.updatedAt,
         version: this.__v
-      }
+      },
+      relationships: this.getRelationshipsObject(apiUri, opt)
     };
   };
 
-  routeSchema.methods.getRelationshipReference = function (apiUri) {
-    apiUri = apiUri || options.apiUri;
+  routeSchema.methods.getRelationshipReference = function () {
     return {
       id: this.routeId,
       type: TYPE

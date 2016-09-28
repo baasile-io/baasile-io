@@ -4,7 +4,8 @@ const _ = require('lodash'),
   serviceModel = require('../../../models/v1/Service.model.js'),
   routeModel = require('../../../models/v1/Route.model.js'),
   fieldModel = require('../../../models/v1/Field.model.js'),
-  dataModel = require('../../../models/v1/Data.model.js');
+  dataModel = require('../../../models/v1/Data.model.js'),
+  CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
 
@@ -16,84 +17,35 @@ function ServicesController(options) {
   const FieldModel = new fieldModel(options);
   const DataModel = new dataModel(options);
 
-  this.getSharedRoutes = function(req, res, next) {
-    var routes = [];
-    var included = [];
+  this.getRoutes = function(req, res, next) {
+    const query = {
+      '$and': [
+        {
+          '$or': [
+            {public: true},
+            {clientId: res._service.clientId}
+          ]
+        },
+        {service: req.data.service._id}
+      ]
+    };
+    const queryOptions = {
+      sort: {name: 1},
+      populate: []
+    };
+    if (Array.isArray(res._include) === true && res._include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+      queryOptions.populate.push({path: 'fields', model: FieldModel.io, options: {limit: CONFIG.api.pagination.limit}});
+    }
+    _.merge(queryOptions, res._paginate);
     RouteModel
       .io
-      .find({
-        '$and': [
-          {
-            '$or': [
-              {public: true},
-              {clientId: res._service.clientId}
-            ]
-          },
-          {service: req.data.service._id}
-        ]
+      .paginate(query, queryOptions)
+      .then(function(results) {
+        return next({code: 200, results: results});
       })
-      .sort({name: 1})
-      .cursor()
-      .on('data', function(element) {
-        var self = this;
-        self.pause();
-        var elementData = element.getResourceObject(res._apiuri);
-        DataModel.io.aggregate([
-          {
-            $match: {
-              route: element._id
-            }
-          },
-          {
-            $group: {
-              _id: null,
-              count: {$sum: 1}
-            }
-          }
-        ], function(err, result) {
-          if (err)
-            return self.destroy(err);
-          elementData.meta = elementData.meta || {};
-          elementData.meta.donnees = elementData.meta.donnees || {};
-          elementData.meta.donnees.count = result.length > 0 ? result[0].count : 0;
-          FieldModel.io.find({
-            route: element._id
-          }, function(err, fields) {
-            if (err)
-              return self.destroy(err);
-            var dataFields = [];
-            if (fields) {
-              fields.forEach(function(field) {
-                dataFields.push({
-                  id: field.fieldId,
-                  type: 'champs'
-                });
-                included.push(field.getResourceObject(res._apiuri));
-              });
-            }
-            elementData.meta.champs = elementData.meta.fields || {};
-            elementData.meta.champs.count = fields ? fields.length : 0;
-            if (fields && fields.length > 0) {
-              elementData.relationships = {
-                champs: {
-                  links: {
-                    self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + element.routeId + '/relationships/champs',
-                    related: res._apiuri + '/services/' + req.data.service.clientId + '/collections/' + element.routeId + '/champs'
-                  },
-                  data: dataFields
-                }
-              }
-            }
-            routes.push(elementData);
-            self.resume();
-          });
-        });
-      })
-      .on('error', function(err) {
-        next({code: 500});
-      })
-      .on('end', function() {
-        next({code: 200, data: routes, included: included});
+      .catch(function(err) {
+        logger.warn(JSON.stringify(err));
+        return next({code: 500});
       });
   };
 
