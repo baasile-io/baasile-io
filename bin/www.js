@@ -1,5 +1,10 @@
 'use strict';
 
+// enable live performance monitoring
+if (typeof process.env.NEW_RELIC_LICENSE_KEY !== 'undefined') {
+  require('newrelic');
+}
+
 const bunyan = require('bunyan'),
   bunyanFormat = require('bunyan-format'),
   nconf = require('nconf'),
