@@ -27,7 +27,7 @@ function DocumentationsController(options) {
     const pageId = req.params.pageId;
     const folderId = req.params.folderId;
 
-    fs.readFile("./public/documentation" + folderId + pageId + ".md", function (err, data) {
+    fs.readFile("./public/documentation" + folderId + "/" + pageId + ".md", function (err, data) {
       if (err)
         return next({code: 404});
 
