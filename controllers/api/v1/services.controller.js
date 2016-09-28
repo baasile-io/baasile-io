@@ -1,6 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
+const _ = require('lodash'),
+  CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
 
@@ -11,8 +12,6 @@ function ServicesController(options) {
   const RouteModel = options.models.RouteModel;
 
   this.getServices = function(req, res, next) {
-    var services = [];
-    var included = [];
     const query = {
       '$or': [
         {public: true},
@@ -21,14 +20,14 @@ function ServicesController(options) {
     };
     const queryOptions = {
       sort: {name: 1},
-      populate: {path: 'routes', model: RouteModel.io}
+      populate: {path: 'routes', model: RouteModel.io, options: {limit: CONFIG.api.pagination.limit}}
     };
     _.merge(queryOptions, res._paginate);
     ServiceModel
       .io
       .paginate(query, queryOptions)
       .then(function(results) {
-        return next({code: 200, results: results, data: services, included: included});
+        return next({code: 200, results: results});
       })
       .catch(function(err) {
         logger.warn(JSON.stringify(err));

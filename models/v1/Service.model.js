@@ -123,14 +123,13 @@ function ServiceModel(options) {
       };
     });
 
-  serviceSchema.virtual('meta')
-    .get(function () {
-      return {
-        creation: this.createdAt,
-        modification: this.updatedAt,
-        version: this.__v
-      };
-    });
+  serviceSchema.methods.getMetaObject = function() {
+    return {
+      creation: this.createdAt,
+      modification: this.updatedAt,
+      version: this.__v
+    }
+  };
 
   serviceSchema.methods.getRelationshipsObject = function(apiUri, opt) {
     opt = opt || {};
@@ -145,7 +144,7 @@ function ServiceModel(options) {
       relationships[CONFIG.api.v1.resources.Route.type].meta = {count: this.routes.length};
       relationships[CONFIG.api.v1.resources.Route.type].data = [];
       this.routes.forEach(function (route) {
-        relationships[CONFIG.api.v1.resources.Route.type].data.push(route.getRelationshipReference(apiUri));
+        relationships[CONFIG.api.v1.resources.Route.type].data.push(route.getRelationshipReference());
       });
     }
     return relationships;
@@ -202,7 +201,7 @@ function ServiceModel(options) {
       links: {
         self: this.getApiUri(apiUri)
       },
-      meta: this.get('meta'),
+      meta: this.getMetaObject(),
       relationships: this.getRelationshipsObject(apiUri, opt)
     };
   };

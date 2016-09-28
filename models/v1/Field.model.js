@@ -140,6 +140,13 @@ function FieldModel(options) {
     };
   };
 
+  fieldSchema.methods.getRelationshipReference = function () {
+    return {
+      id: this.fieldId,
+      type: TYPE
+    };
+  };
+
   this.io = db.model('Field', fieldSchema);
 
   this.io.schema.pre('validate', function(next) {
