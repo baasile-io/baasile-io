@@ -65,7 +65,7 @@ module.exports = function (options) {
   router
     .get('/services', HomesController.services)
     .get('/doc', DocumentationsController.index)
-    .get('/doc/:pageId', DocumentationsController.getPage);
+    .get('/doc/:folderId/:pageId', DocumentationsController.getPage);
 
   /* https only */
   router
