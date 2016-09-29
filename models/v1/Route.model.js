@@ -125,7 +125,7 @@ function RouteModel(options) {
 
   routeSchema.methods.getApiUri = function(apiUri) {
     apiUri = apiUri || options.apiUri;
-    return apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+    return apiUri + '/' + TYPE + '/' + this.routeId
   };
 
   routeSchema.methods.getApiUriList = function(apiUri) {
@@ -171,8 +171,8 @@ function RouteModel(options) {
     var relationships = {};
     relationships[CONFIG.api.v1.resources.Field.type] = {
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId + '/relationships/' + CONFIG.api.v1.resources.Field.type,
-        related: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/' + TYPE + '/' + this.routeId + '/' + CONFIG.api.v1.resources.Field.type
+        self: apiUri + '/' + TYPE + '/' + this.routeId + '/relationships/' + CONFIG.api.v1.resources.Field.type,
+        related: apiUri + '/' + TYPE + '/' + this.routeId + '/' + CONFIG.api.v1.resources.Field.type
       }
     };
     if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
