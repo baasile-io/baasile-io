@@ -1,9 +1,9 @@
 'use strict';
 
 const testHelper = require('../test.helper.js'),
-  TestHelper = new testHelper(),
-  filterService = require('../../services/filter.service.js'),
-  FilterService = new filterService(TestHelper.getOptions());
+    TestHelper = new testHelper(),
+    filterService = require('../../services/filter.service.js'),
+    FilterService = new filterService(TestHelper.getOptions());
 
 var defaultFilter = {'defaultKey': 'defaultValue'};
 
@@ -295,6 +295,44 @@ describe('Filter service', function () {
       done();
     });
 
+    it('add one filter with multiple dimension after value', function (done) {
+      var filters = {
+        'key': {
+          '$and': [
+            {
+              '$or': {
+                '$ne': ['valueA1', 'valueA2']
+              }
+            },
+            {
+              '$or': {
+                '$ne': ['valueB1', 'valueB2']
+              }
+            }
+          ]
+        }
+      };
+      var expected = {
+        '$and': [
+          {
+            'key': {
+              '$and': [
+                {
+                  '$or': [
+                    {'$nin': ['valueA1', 'valueA2']}
+                  ]},
+                {
+                  '$or': [
+                    {'$nin': ['valueB1', 'valueB2']}
+                  ]}
+              ]
+            }
+          }]
+      };
+      FilterService.buildMongoQuery({}, filters).should.eql(expected);
+      done();
+    });
+
     it('multiple dimensions', function (done) {
       // ?filter[$or][$and][0][$or][keyA]=valueA1
       // &filter[$or][$and][0][$or][keyA]=valueA2
@@ -310,7 +348,9 @@ describe('Filter service', function () {
             {
               '$or': {
                 'keyA': ['valueA1', 'valueA2']
-              },
+              }
+            },
+            {
               '$or': {
                 'keyB': ['valueB1', 'valueB2']
               }
