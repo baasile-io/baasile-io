@@ -59,7 +59,7 @@ function ServicesController(options) {
         return next({code: 200, results: results});
       })
       .catch(function(err) {
-        logger.warn(JSON.stringify(err));
+        logger.warn(err);
         return next({code: 500});
       });
   };
