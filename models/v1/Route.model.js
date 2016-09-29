@@ -158,10 +158,15 @@ function RouteModel(options) {
   routeSchema.methods.getIncludedObjects = function(apiUri, opt) {
     opt = opt || {};
     var included = [];
-    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
-      this.fields.forEach(function (field) {
-        included.push(field.getResourceObject(apiUri));
-      });
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        included.push(this.service.getResourceObject(apiUri));
+      }
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+        this.fields.forEach(function (field) {
+          included.push(field.getResourceObject(apiUri));
+        });
+      }
     }
     return included;
   };
@@ -169,18 +174,28 @@ function RouteModel(options) {
   routeSchema.methods.getRelationshipsObject = function(apiUri, opt) {
     opt = opt || {};
     var relationships = {};
+    relationships[CONFIG.api.v1.resources.Service.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.service.clientId
+      }
+    };
     relationships[CONFIG.api.v1.resources.Field.type] = {
       links: {
         self: apiUri + '/' + TYPE + '/' + this.routeId + '/relationships/' + CONFIG.api.v1.resources.Field.type,
         related: apiUri + '/' + TYPE + '/' + this.routeId + '/' + CONFIG.api.v1.resources.Field.type
       }
     };
-    if (Array.isArray(opt.include) === true && opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
-      relationships[CONFIG.api.v1.resources.Field.type].meta = {count: this.fields.length};
-      relationships[CONFIG.api.v1.resources.Field.type].data = [];
-      this.fields.forEach(function (field) {
-        relationships[CONFIG.api.v1.resources.Field.type].data.push(field.getRelationshipReference());
-      });
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Service.type].data = this.service.getRelationshipReference();
+      }
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Field.type].meta = {count: this.fields.length};
+        relationships[CONFIG.api.v1.resources.Field.type].data = [];
+        this.fields.forEach(function (field) {
+          relationships[CONFIG.api.v1.resources.Field.type].data.push(field.getRelationshipReference());
+        });
+      }
     }
     return relationships;
   };

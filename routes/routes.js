@@ -5,19 +5,17 @@ const v1 = require('./api/v1/index.js'),
   notificationService = require('../services/notification.service.js'),
   dashboard = require('./website/dashboard.router.js'),
   applicationController = require('../controllers/application.controller.js'),
+  paginationService = require('../services/pagination.service.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
-  StandardError = require('standard-error'),
-  _ = require('lodash'),
-  S = require('string'),
-  domurl = require('domurl'),
-  CONFIG = require('../config/app.js');
+  _ = require('lodash');
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
   const NotificationService = new notificationService(options);
   const AuthController = new authController(options);
   const ApplicationController = new applicationController(options);
+  const PaginationService = new paginationService(options);
 
   // proxy
   app.enable('trust proxy'); // heroku proxy
@@ -35,114 +33,60 @@ exports.configure = function (app, http, options) {
     req.data = req.data || {};
 
     // set request
-    var request = {
+    res._request = {
       params: {}
     };
-    _.merge(request.params, req.body, req.query);
-    res._request = request;
+    _.merge(res._request.params, req.body, req.query);
 
     // inclusion
-    res._include = typeof request.params.include === 'string' ? request.params.include.split(',') : [];
+    res._request.params.include = typeof res._request.params.include === 'string' ? res._request.params.include.split(',') : [];
 
-    // pagination
-    res._paginate = {};
-    const isPaginated = typeof request.params.page !== 'undefined';
-    if (isPaginated && typeof request.params.page.limit !== 'undefined') {
-      res._paginate.limit = Number(request.params.page.limit);
-    } else if (isPaginated && typeof request.params.page.size !== 'undefined') {
-      res._paginate.limit = Number(request.params.page.size);
-    } else {
-      res._paginate.limit = CONFIG.api.pagination.limit;
-    }
-    if (isPaginated && typeof request.params.page.offset !== 'undefined') {
-      res._paginate.offset = Number(request.params.page.offset);
-    } else if (isPaginated && typeof request.params.page.number !== 'undefined') {
-      res._paginate.offset = (Number(request.params.page.number) - 1) * res._paginate.limit;
-    } else {
-      res._paginate.offset = CONFIG.api.pagination.offset;
-    }
-    if (typeof res._paginate.offset !== 'number' || res._paginate.offset < 0)
-      return next({code: 400, messages: ['invalid_pagination', '"offset" must be a non-negative number']});
-    if (typeof res._paginate.limit !== 'number' || res._paginate.limit < 1)
-      return next({code: 400, messages: ['invalid_pagination', '"limit" must strictly be a positive number']});
     next();
   });
+
+  app.use('/api', PaginationService.init);
 
   app.use('/api', v1(options));
   app.use('/api/v1', v1(options));
 
-  app.use('/api', AuthController.authorize, function (responseParams, req, res, next) {
+  app.use('/api', AuthController.authorize, PaginationService.setResponse, function (responseParams, req, res, next) {
     var status = responseParams.code || 500;
-    const response = {
-      jsonapi: res._jsonapi,
-      links: {
-        self: res._originalUrl
-      }
-    };
+    var response = {};
+
     if (responseParams.links) {
-      _.merge(response.links, responseParams.links);
+      _.merge(res._links, responseParams.links);
     }
     if (responseParams.meta) {
-      response.meta = responseParams.meta;
-    }
-    if (typeof responseParams.results !== 'undefined' || Array.isArray(response.data)) {
-      response.meta = response.meta || {};
-      if (typeof responseParams.results !== 'undefined') {
-        response.meta.count = responseParams.results.docs.length;
-        response.meta.total = responseParams.results.total;
-        response.meta.total_pages = res._paginate.limit != 0 ? Math.ceil(responseParams.results.total / res._paginate.limit) : 1;
-        var linkFirst = res._originalUrlObject;
-        linkFirst.query['page[offset]'] = 0;
-        linkFirst.query['page[limit]'] = res._paginate.limit;
-        response.links.first = linkFirst.toString();
-        if (res._paginate.offset > 0 && res._paginate.offset < responseParams.results.total) {
-          const offsetPrev = res._paginate.offset - res._paginate.limit;
-          var linkPrev = res._originalUrlObject;
-          linkPrev.query['page[offset]'] = (offsetPrev > 0 ? offsetPrev : 0);
-          linkPrev.query['page[limit]'] = res._paginate.limit;
-          response.links.prev = linkPrev.toString();
-        }
-        if (res._paginate.offset + res._paginate.limit < responseParams.results.total) {
-          var linkNext = res._originalUrlObject;
-          linkNext.query['page[offset]'] = (res._paginate.offset + res._paginate.limit);
-          linkNext.query['page[limit]'] = res._paginate.limit;
-          response.links.next = linkNext.toString();
-        }
-        if (res._paginate.limit < responseParams.results.total) {
-          var offsetLast = res._paginate.limit * (Math.ceil(responseParams.results.total / res._paginate.limit) - 1) + (res._paginate.offset % res._paginate.limit);
-          if (offsetLast >= responseParams.results.total)
-            offsetLast -= res._paginate.limit;
-          var linkLast = res._originalUrlObject;
-          linkLast.query['page[offset]'] = offsetLast;
-          linkLast.query['page[limit]'] = res._paginate.limit;
-          response.links.last = linkLast.toString();
-        }
-        var linkSelf = res._originalUrlObject;
-        linkSelf.query['page[offset]'] = res._paginate.offset;
-        linkSelf.query['page[limit]'] = res._paginate.limit;
-        response.links.self = linkSelf.toString();
-      } else {
-        response.meta.count = responseParams.data.length;
-      }
-      response.meta.offset = res._paginate.offset;
-      response.meta.limit = res._paginate.limit;
+      _.merge(res._meta, responseParams.meta);
     }
     if (typeof responseParams.results !== 'undefined') {
-      response.data = [];
-      var included = [];
-      responseParams.results.docs.forEach(function(doc) {
-        response.data.push(doc.getResourceObject(res._apiuri, {include: res._include}));
-        included = _.union(included, doc.getIncludedObjects(res._apiuri, {include: res._include}));
+      res._data = [];
+      responseParams.results.docs.forEach(function (doc) {
+        res._data.push(doc.getResourceObject(res._apiuri, {include: res._request.params.include}));
+        res._included = _.union(res._included, doc.getIncludedObjects(res._apiuri, {include: res._request.params.include}));
       });
-      if (included.length > 0)
-        response.included = included;
-      if (responseParams.results.total > responseParams.results.docs.length)
+      if (responseParams.results.total > responseParams.results.docs.length) {
         status = 206;
+      }
     } else if (responseParams.data) {
-      response.data = responseParams.data;
+      res._data = responseParams.data;
     }
-    if (Array.isArray(responseParams.included) === true && responseParams.included.length > 0) {
-      _.union(response.included, responseParams.included);
+    if (Array.isArray(responseParams.included) === true) {
+      _.union(res._included, responseParams.included);
+    }
+    if (Array.isArray(res._data) === true) {
+      res._meta.count = res._data.length;
+    }
+    if (Object.keys(res._jsonapi).length > 0)
+      response.jsonapi = res._jsonapi;
+    if (Object.keys(res._links).length > 0)
+      response.links = res._links;
+    if (Object.keys(res._meta).length > 0)
+      response.meta = res._meta;
+    if (typeof res._data !== 'undefined')
+      response.data = res._data;
+    if (res._included.length > 0) {
+      response.included = res._included;
     }
     if (responseParams.messages) {
       if (!Array.isArray(responseParams.messages))
