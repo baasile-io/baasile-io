@@ -29,6 +29,8 @@ module.exports = function (options) {
   router.get('/fc/formation', AuthController.authorize, FcController.getFormation);
   router.get('/services', AuthController.authorize, ServicesController.getServices);
   router.get('/services/:serviceId', AuthController.authorize, ServicesController.getServiceData, ServicesController.get);
+  router.get('/collections', AuthController.authorize, RoutesController.getRoutes);
+  router.get('/collections/:routeId', AuthController.authorize, RoutesController.getRouteData, RoutesController.get);
   router.get(['/services/:serviceId/collections', '/services/:serviceId/relationships/collections'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRoutes);
   router.get(['/services/:serviceId/collections/:routeId', '/services/:serviceId/relationships/collections/:routeId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.get);
   router.get(['/services/:serviceId/collections/:routeId/champs', '/services/:serviceId/relationships/collections/:routeId/relationships/champs'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFields);

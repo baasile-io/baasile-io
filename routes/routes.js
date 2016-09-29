@@ -31,6 +31,9 @@ exports.configure = function (app, http, options) {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   app.use('/api', function (req, res, next) {
+    // set data container
+    req.data = req.data || {};
+
     // set request
     var request = {
       params: {}
