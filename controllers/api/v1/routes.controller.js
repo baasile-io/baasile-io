@@ -25,10 +25,12 @@ function ServicesController(options) {
             {public: true},
             {clientId: res._service.clientId}
           ]
-        },
-        {service: req.data.service._id}
+        }
       ]
     };
+    if (req.data.service) {
+      query['$and'].push({service: req.data.service._id});
+    }
     const queryOptions = {
       sort: {name: 1},
       populate: []
