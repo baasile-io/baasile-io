@@ -35,8 +35,21 @@ function ServicesController(options) {
       sort: {name: 1},
       populate: []
     };
-    if (Array.isArray(res._include) === true && res._include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
-      queryOptions.populate.push({path: 'fields', model: FieldModel.io, options: {limit: CONFIG.api.pagination.limit}});
+    if (Array.isArray(res._request.params.include) === true) {
+      if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        queryOptions.populate.push({
+          path: 'service',
+          model: ServiceModel.io,
+          options: {limit: CONFIG.api.pagination.limit}
+        });
+      }
+      if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+        queryOptions.populate.push({
+          path: 'fields',
+          model: FieldModel.io,
+          options: {limit: CONFIG.api.pagination.limit}
+        });
+      }
     }
     _.merge(queryOptions, res._paginate);
     RouteModel

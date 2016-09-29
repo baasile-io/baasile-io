@@ -206,6 +206,13 @@ function ServiceModel(options) {
     };
   };
 
+  serviceSchema.methods.getRelationshipReference = function () {
+    return {
+      id: this.clientId,
+      type: TYPE
+    };
+  };
+
   this.io = db.model('Service', serviceSchema);
 
   this.generateSecret = function() {

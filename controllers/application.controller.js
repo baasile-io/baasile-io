@@ -44,6 +44,12 @@ function ApplicationController(options) {
       version: CONFIG.api.current_version
     };
     res._apiuri = req.protocol + '://' + req.get('host') + '/api';
+
+    res._links = {self: res._originalUrl}
+
+    res._meta = {};
+    res._data;
+    res._included = [];
     next();
   };
 

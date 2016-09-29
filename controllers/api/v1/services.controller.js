@@ -18,18 +18,27 @@ function ServicesController(options) {
         {clientId: res._service.clientId}
       ]
     };
-    const queryOptions = {
+    var queryOptions = {
       sort: {name: 1},
-      populate: {path: 'routes', model: RouteModel.io, options: {limit: CONFIG.api.pagination.limit}}
+      populate: []
     };
+    if (Array.isArray(res._request.params.include) === true) {
+      if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+        queryOptions.populate.push({
+          path: 'routes',
+          model: RouteModel.io,
+          options: {limit: CONFIG.api.pagination.limit}
+        });
+      }
+    }
     _.merge(queryOptions, res._paginate);
     ServiceModel
       .io
       .paginate(query, queryOptions)
-      .then(function(results) {
+      .then(function (results) {
         return next({code: 200, results: results});
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.warn(JSON.stringify(err));
         return next({code: 500});
       });
