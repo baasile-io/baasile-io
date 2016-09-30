@@ -12,13 +12,13 @@ function FilterService(options) {
   const COND_TYPES = {
     'ID': ["$eq"],
     'STRING': ["$eq", "$ne", "$regex", "$in", "$nin"],
-    'NUMERIC': ["$eq", "$gt", "$lt", "$gte", "$lte"],
-    'PERCENT': ["$eq", "$gt", "$lt", "$gte", "$lte"],
-    'AMOUNT': ["$eq", "$gt", "$lt", "$gte", "$lte"],
-    'BOOLEAN': ["$eq"],
-    'DATE': ["$eq", "$gt", "$lt", "$gte", "$lte"],
-    'ENCODED': ["$eq"],
-    'JSON': ["$eq"]
+    'NUMERIC': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
+    'PERCENT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
+    'AMOUNT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
+    'BOOLEAN': ["$eq", "$ne"],
+    'DATE': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
+    'ENCODED': ["$eq", "$ne"],
+    'JSON': ["$eq", "$ne"]
   };
   options = options || {};
   const logger = options.logger;
