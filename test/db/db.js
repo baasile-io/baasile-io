@@ -123,5 +123,49 @@ module.exports = {
     clientId: 'my_client_id_private',
     validated: true,
     "ROUTES": []
+  },{
+    "CREATOR_INDEX": 1,
+    "USERS_INDEX": [1],
+    name: 'service 1',
+    description: 'Description',
+    public: true,
+    users: [],
+    clientSecret: 'client_secret_number_1',
+    clientId: 'client_id_number_1',
+    validated: true,
+    "ROUTES": []
+  },{
+    "CREATOR_INDEX": 1,
+    "USERS_INDEX": [1],
+    name: 'service 2',
+    description: 'Description',
+    public: true,
+    users: [],
+    clientSecret: 'client_secret_number_2',
+    clientId: 'client_id_number_2',
+    validated: true,
+    "ROUTES": []
+  },{
+    "CREATOR_INDEX": 1,
+    "USERS_INDEX": [1],
+    name: 'service 3',
+    description: 'Description',
+    public: true,
+    users: [],
+    clientSecret: 'client_secret_number_3',
+    clientId: 'client_id_number_3',
+    validated: true,
+    "ROUTES": []
+  },{
+    "CREATOR_INDEX": 1,
+    "USERS_INDEX": [1],
+    name: 'service 4',
+    description: 'Description',
+    public: true,
+    users: [],
+    clientSecret: 'client_secret_number_4',
+    clientId: 'client_id_number_4',
+    validated: true,
+    "ROUTES": []
   }]
 };
