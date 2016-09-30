@@ -14,9 +14,9 @@ function DocumentationsController(options) {
   const RouteModel = new routeModel(options);
 
   this.index = function(req, res, next) {
-    res.render('pages/doc', {
+    res.render('pages/documentation/index', {
       layout: 'layouts/home',
-      page: 'pages/doc',
+      page: 'pages/documentation/index',
       query: {},
       data: req.data,
       flash: res._flash
@@ -27,17 +27,25 @@ function DocumentationsController(options) {
     const pageId = req.params.pageId;
     const folderId = req.params.folderId;
 
-    fs.readFile("./public/documentation" + folderId + "/" + pageId + ".md", function (err, data) {
-      if (err)
-        return next({code: 404});
-
+    function render(data) {
       res.render('pages/documentation/get_page', {
         layout: 'layouts/home',
-        page: 'pages/documentation/get_page',
+        page: folderId + "/" + pageId,
         data: req.data,
         flash: res._flash,
-        pageContent: markdown(data.toString())
+        pageContent: data
       });
+    }
+
+    fs.readFile("./public/documentation/" + folderId + "/" + pageId + ".md", function (err, data) {
+      if (err) {
+        return fs.readFile("./public/documentation/" + folderId + "/" + pageId + ".html", function (err, data) {
+          if (err)
+            return next({code: 404});
+          render(data);
+        });
+      }
+      render(markdown(data.toString()));
     });
   };
 }
