@@ -30,7 +30,7 @@ function DocumentationsController(options) {
     function render(data) {
       res.render('pages/documentation/get_page', {
         layout: 'layouts/home',
-        page: folderId + "/" + pageId,
+        page: 'pages/documentation/' + folderId + "/" + pageId,
         data: req.data,
         flash: res._flash,
         pageContent: data
