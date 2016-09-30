@@ -39,7 +39,7 @@
     "moment": "2.12.0",
     "mongodb": "^2.1.18",
     "mongoose": "^4.5.0",
-    "mongoose-paginate": "^5.0.0",
+    "mongoose-paginate": "github:fiznool/mongoose-paginate",
     "nconf": "0.8.4",
     "newrelic": "^1.30.4",
     "node-markdown": "^0.1.1",
