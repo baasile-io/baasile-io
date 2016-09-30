@@ -22,7 +22,7 @@ describe('Services', function () {
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
-            res.body.data.should.have.lengthOf(1);
+            res.body.data.should.have.lengthOf(5);
             res.body.data[0].id.should.eql('my_client_id');
             res.body.data[0].type.should.eql('services');
             res.body.data[0].attributes.should.eql({
@@ -51,7 +51,7 @@ describe('Services', function () {
             .query({access_token: TestHelper.getAccessToken()})
             .end(function (err, res) {
               TestHelper.checkResponse(res);
-              res.body.data.should.have.lengthOf(1);
+              res.body.data.should.have.lengthOf(5);
               res.body.data[0].id.should.eql('my_client_id');
               res.body.data[0].type.should.eql('services');
               res.body.data[0].attributes.should.eql({

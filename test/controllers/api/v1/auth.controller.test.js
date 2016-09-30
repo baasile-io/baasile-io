@@ -110,7 +110,7 @@ describe('Auth', function () {
         .query({access_token: TestHelper.getAccessToken()})
         .end(function (err, res) {
           TestHelper.checkResponse(res);
-          res.body.data.should.have.lengthOf(1);
+          res.body.data.length.should.gt(0);
           done();
         });
     });
