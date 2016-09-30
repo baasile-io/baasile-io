@@ -12,15 +12,8 @@ chai.use(chaiHttp);
 
 module.exports = TestHelper;
 
-function logger() {
-  this.info = function() {};
-  this.log = function() {};
-  this.warn = console.log;
-};
-
 function TestHelper(options) {
   options = options || {};
-  options.logger = new logger();
   options.dbHost = options.dbHost || process.env.MONGODB_URI || 'mongodb://localhost:27017/api-cpa-test';
   options.expressSessionSecret = options.expressSessionSecret || 'test';
   options.host = options.host || 'http://localhost:3010';
@@ -72,6 +65,8 @@ function TestHelper(options) {
       .post('/api/v1/oauth/token')
       .send({client_id: clientId(), client_secret: clientSecret()})
       .end(function (err, res) {
+        if (err)
+          return done(err);
         accessToken = res.body.data.attributes.access_token;
         done();
       });
