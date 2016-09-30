@@ -99,27 +99,38 @@ function ServicesController(options) {
     var dataResult = [];
     var jsonRes = {};
     jsonRes["route"] = req.data.route._id;
-    logger.info("start FilterService");
-    var jsonSearch = FilterService.buildMongoQuery(jsonRes, res._request.params.filter);
-    if (jsonSearch === undefined)
-      logger.info("ERROR");
-    logger.info("end FilterService");
-    logger.info(JSON.stringify(jsonSearch));
-    if (jsonVal["ERRORS"].length > 0)
-      next({code: 400, messages: jsonVal["ERRORS"]});
-    DataModel
-      .io
-      .find(jsonSearch)
-      .cursor()
-      .on('data', function(data) {
-        dataResult.push(data.getResourceObject(res._apiuri));
+    //console.log("start FilterService");
+    var whitelistedFields = [];
+    FieldModel.io
+      .find({
+        route: req.data.route._id
       })
-      .on('error', function(err) {
-        next({code: 500});
-      })
-      .on('end', function() {
-        next({code: 200, data: dataResult});
+      .exec(function (err, fields) {
+        if (err)
+          return next({code: 500});
+
+        fields.forEach(function (field) {
+          whitelistedFields.push({"name": "data."+field.nameNormalized, "key": field.type});
+        });
+        var jsonSearch = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields);
+        console.log(JSON.stringify(jsonSearch));
+        if (jsonSearch["ERRORS"] !== undefined && jsonSearch["ERRORS"].length > 0)
+          return next({code: 400, messages: jsonSearch["ERRORS"]});
+        DataModel
+          .io
+          .find(jsonSearch)
+          .cursor()
+          .on('data', function(data) {
+            dataResult.push(data.getResourceObject(res._apiuri));
+          })
+          .on('error', function(err) {
+            next({code: 500});
+          })
+          .on('end', function() {
+            next({code: 200, data: dataResult});
+          });
       });
+    
   };
   
   function requestPost(req, res, next) {
