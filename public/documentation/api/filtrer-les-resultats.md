@@ -14,8 +14,8 @@ La stratégie de filtrage de la Plate-forme est régie par les règles suivantes
 
 - L’opérateur de comparaison par défaut est l’*ÉGALITÉ STRICTE* ;
 - L’opérateur logique par défaut est un *ET* ;
-- Filtrer en fonction d’un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter_value`** ;
-- Filtrer avec des valeurs dont le type ne correspond pas au champ génère une erreur 400 Bad Request accompagné du message **`invalid_filter_value`**.
+- Filtrer en fonction d’un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`** ;
+- Filtrer avec des valeurs dont le type ne correspond pas au champ génère une erreur 400 Bad Request accompagné du message **`invalid_filter`**.
 
 ## Ajouter des filtres
 
@@ -153,7 +153,7 @@ Exemple : `?filter[score][$nor][$lte]=75&filter[score][$nor][$gt]=100`
 
 “Je requête les résultats dont le champ ‘score’ n’est pas inférieur ou égal à 75 et n’est pas strictement plus grand que 100”
 
-## Filtrer en fonction des champs personnalisés d’une collection
+## Filtrer une collection en fonction des champs personnalisés
 
 Les champs personnalisés d’une collection sont définis par un service. Ils doivent être préfixés par la chaîne de caractères “data.”.
 
@@ -163,7 +163,7 @@ Par exemple, si vous souhaitez filtrer les résultats en fonction d’un champ p
 
         ?filter[data.county]=34000
 
-## Filtrer par mot sur tous les champs en même temps
+## Filtrer une collection sur tous les champs en même temps
 
 #### $text - RECHERCHE PAR MOT
 
@@ -175,11 +175,9 @@ Cet opérateur “$text” a la particularité de permettre
 
 ## Exemples de filtres avancés
 
-#### Un formulaire de recherche de formations
+### Un formulaire de recherche de formations
 
 Supposons que votre service mette à disposition de ses utilisateurs un formulaire de recherche de formations.
-
-
 
 Les critères de ce formulaire sont les suivants :
 
@@ -187,7 +185,6 @@ Les critères de ce formulaire sont les suivants :
 - Ville ou code postal (champ libre)
 - Fourchette de durée (deux champs avec un nombre d’heures)
 - Note minimum (un chiffre de 1 à 5)
-
 
 La collection de données comporte les champs suivants :
 
@@ -199,14 +196,12 @@ La collection de données comporte les champs suivants :
 - nb_heures
 - note
 
-
 Admettons maintenant que tous les champs du formulaire sont renseignés avec les valeurs suivantes :
 
 - Code NAF ou mots-clés : “informatique développement expert”
 - Ville ou code postal : “Montpellier”
 - Fourchette de durée : “Entre 35 et 70 heures”
 - Note minimum : “3”
-
 
 On souhaite alors construire la structure conditionnelle suivante :
 
@@ -232,7 +227,6 @@ On souhaite alors construire la structure conditionnelle suivante :
         ET (note)
             PLUS GRAND QUE OU ÉGAL À “3”
 
-
 Appliquons maintenant cette structure conditionnelle à la stratégie de filtrage de la Plate-forme :
 
         ?filter[0][$or][data.code_naf][$in]=informatique
@@ -249,7 +243,5 @@ Appliquons maintenant cette structure conditionnelle à la stratégie de filtrag
         &filter[2][data.nb_heures][$gte]=35
         &filter[2][data.nb_heures][$lte]=70
         &filter[3][data.note][$gte]=3
-
-
 
 Remarquez la construction du tableau de base à 4 éléments. Cela permet de parenthéser les filtres pour former plusieurs blocs de conditions.
