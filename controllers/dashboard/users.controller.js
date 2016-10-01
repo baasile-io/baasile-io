@@ -101,7 +101,7 @@ function AccountsController(options) {
 
         sendEmailConfirmation(user, req, res, function(err) {
           if (err) {
-            // dont handle error, there will be a warning anyway on the login page
+            return next(err);
           }
 
           logger.info('user created: ' + user.email);
