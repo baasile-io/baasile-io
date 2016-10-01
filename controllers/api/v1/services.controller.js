@@ -12,7 +12,7 @@ function ServicesController(options) {
   const RouteModel = options.models.RouteModel;
 
   this.getServices = function(req, res, next) {
-    const query = {
+    var query = {
       '$or': [
         {public: true},
         {clientId: res._service.clientId}
