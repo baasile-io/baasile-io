@@ -176,7 +176,7 @@ function RouteModel(options) {
     var relationships = {};
     relationships[CONFIG.api.v1.resources.Service.type] = {
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.service.clientId
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId
       }
     };
     relationships[CONFIG.api.v1.resources.Field.type] = {

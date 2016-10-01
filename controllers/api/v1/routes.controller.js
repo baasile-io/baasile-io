@@ -18,7 +18,7 @@ function ServicesController(options) {
   const DataModel = new dataModel(options);
 
   this.getRoutes = function(req, res, next) {
-    const query = {
+    var query = {
       '$and': [
         {
           '$or': [
@@ -31,7 +31,7 @@ function ServicesController(options) {
     if (req.data.service) {
       query['$and'].push({service: req.data.service._id});
     }
-    const queryOptions = {
+    var queryOptions = {
       sort: {name: 1},
       populate: []
     };

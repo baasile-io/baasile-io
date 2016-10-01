@@ -5,7 +5,8 @@ const mongoose = require('mongoose'),
   _ = require('lodash'),
   removeDiacritics = require('diacritics').remove,
   validator = require('validator'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  mongoosePaginate = require('mongoose-paginate');
 
 module.exports = FieldModel;
 
@@ -103,6 +104,8 @@ function FieldModel(options) {
     updatedAt: Date
   });
 
+  fieldSchema.plugin(mongoosePaginate);
+
   fieldSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
@@ -118,25 +121,91 @@ function FieldModel(options) {
       return _.find(FIELD_TYPES, {key: this.type});
     });
 
-  fieldSchema.methods.getResourceObject = function (apiUri) {
-    apiUri = apiUri || options.apiUri;
-    return {
-      id: this.fieldId,
-      type: TYPE,
-      attributes: {
+  fieldSchema.virtual('service', {
+    ref: 'ServiceModel',
+    localField: 'clientId',
+    foreignField: 'clientId'
+  });
+
+  fieldSchema.virtual('attributes')
+    .get(function () {
+      return {
         nom: this.nameNormalized,
         description: this.description,
         position: this.order,
         type: this.type
-      },
+      };
+    });
+
+  fieldSchema.methods.getApiUri = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return apiUri + '/' + TYPE + '/' + this.fieldId
+  };
+
+  fieldSchema.methods.getApiUriList = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return [
+      {
+        title: 'Ressource',
+        method: 'GET',
+        uri: this.getApiUri(apiUri)
+      }
+    ]
+  };
+
+  fieldSchema.methods.getIncludedObjects = function(apiUri, opt) {
+    opt = opt || {};
+    var included = [];
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+        included.push(this.route.getResourceObject(apiUri));
+      }
+    }
+    return included;
+  };
+
+  fieldSchema.methods.getRelationshipsObject = function(apiUri, opt) {
+    opt = opt || {};
+    var relationships = {};
+    relationships[CONFIG.api.v1.resources.Route.type] = {
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.fieldId
+        self: apiUri + '/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId
+      }
+    };
+    relationships[CONFIG.api.v1.resources.Service.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId
+      }
+    };
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Route.type].data = this.route.getRelationshipReference();
+      }
+    }
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Service.type].data = this.service[0].getRelationshipReference();
+      }
+    }
+    return relationships;
+  };
+
+  fieldSchema.methods.getResourceObject = function (apiUri, opt) {
+    opt = opt || {};
+    apiUri = apiUri || options.apiUri;
+    return {
+      id: this.fieldId,
+      type: TYPE,
+      attributes: this.get('attributes'),
+      links: {
+        self: this.getApiUri(apiUri)
       },
       meta: {
         creation: this.createdAt,
         modification: this.updatedAt,
         version: this.__v
-      }
+      },
+      relationships: this.getRelationshipsObject(apiUri, opt)
     };
   };
 
