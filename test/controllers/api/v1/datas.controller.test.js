@@ -13,7 +13,40 @@ describe('Datas', function () {
   describe('Authenticated service', function () {
 
     before(TestHelper.authorize);
-
+  
+    // const filter1 = "filter[data.field1]=third";
+    // const filter2 = "filter[data.field3][$gt]=50";
+    // const filter3 = "filter[data.field3][$lt]=50";
+    // const filter4 = "filter[data.field3][$gte]=30&filter[data.field3][$lte]=80";
+    // const filter5 = "filter[$or][$and][0][$or][field1]=third&filter[$or][$and][0][$or][field1]=fours&filter[$or][$and][1][$or][field2]=test3&filter[$or][$and][1][$or][field2]=test2&filter[$or][$and][field3][$gte]=43&filter[$or][$and][field3][$lte]=80";
+  
+  
+    const filter = [
+      "",
+      "filter[data.field1]=third",
+      "filter[data.field3][$gt]=50",
+      "filter[data.field3][$lt]=50",
+      "filter[data.field3][$gte]=30&filter[data.field3][$lte]=80",
+      "filter[$or][$and][0][$or][field1]=third&filter[$or][$and][0][$or][field2]=test3&filter[$or][$and][1][$or][field2]=test2&filter[$or][$and][field3][$gte]=43&filter[$or][$and][field3][$lte]=80"
+    ];
+    
+    
+    it('test transformation', function (done) {
+      for (var i = 0; i < filter.length; ++i) {
+        console.log(" ---- filter "+i+ " ----");
+        console.log(JSON.stringify(filter[i]));
+        console.log(" -----------------------");
+        request()
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[i])
+          .query({access_token: TestHelper.getAccessToken()})
+          .end(function (err, res) {
+            TestHelper.checkResponse(res);
+            done();
+          });
+      }
+    });
+  
+  
     it('show list of public data', function (done) {
       request()
         .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees')
@@ -38,7 +71,7 @@ describe('Datas', function () {
     
       it('simple filter one field value', function (done) {
         request()
-          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?filter[data.field1]=third')
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[0])
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
@@ -58,7 +91,7 @@ describe('Datas', function () {
   
       it('simple filter one field $gt NUMERIC', function (done) {
         request()
-          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?filter[data.field3][$gt]=50')
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[1])
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
@@ -96,7 +129,7 @@ describe('Datas', function () {
   
       it('simple filter one field $lt NUMERIC', function (done) {
         request()
-          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?filter[data.field3][$lt]=50')
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[2])
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
@@ -134,7 +167,7 @@ describe('Datas', function () {
   
       it('simple filter $gte $lte NUMERIC', function (done) {
         request()
-          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?filter[data.field3][$gte]=30&filter[data.field3][$lte]=80')
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[3])
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
@@ -210,7 +243,7 @@ describe('Datas', function () {
       
       it('advanced filter $gte $lte NUMERIC', function (done) {
         request()
-          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?filter[$or][$and][0][$or][field1]=third&filter[$or][$and][0][$or][field1]=fours&filter[$or][$and][1][$or][field2]=test3&filter[$or][$and][1][$or][field2]=test2&filter[$or][$and][field3][$gte]=43&filter[$or][$and][field3][$lte]=80')
+          .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+filter[4])
           .query({access_token: TestHelper.getAccessToken()})
           .end(function (err, res) {
             TestHelper.checkResponse(res);
