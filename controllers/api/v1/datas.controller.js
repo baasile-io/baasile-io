@@ -112,8 +112,13 @@ function ServicesController(options) {
         fields.forEach(function (field) {
           whitelistedFields.push({"name": "data."+field.nameNormalized, "key": field.type});
         });
+        console.log("----- in ----");
+        console.log(JSON.stringify(res._request.params.filter));
+        console.log("-------------");
         var jsonSearch = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields);
+        console.log("----- out ---");
         console.log(JSON.stringify(jsonSearch));
+        console.log("-------------");
         if (jsonSearch["ERRORS"] !== undefined && jsonSearch["ERRORS"].length > 0)
           return next({code: 400, messages: jsonSearch["ERRORS"]});
         DataModel
