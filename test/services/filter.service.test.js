@@ -260,7 +260,16 @@ describe('Filter service', function () {
   });
 
   describe('Advanced', function () {
-
+  
+    var alradyin = {"route":"57f1fa52f0a9620f445bba67"};
+    var whiteFields = [
+      {"name":"data.field1","key":"STRING"},
+      {"name":"data.field2","key":"STRING"},
+      {"name":"data.field3","key":"NUMERIC"},
+      {"name":"data.field4","key":"JSON"},
+      {"name":"data.field5","key":"AMOUNT"}
+      ];
+    
     it('array containing 2 conditional structures', function (done) {
       var filters = [
         {
@@ -392,6 +401,289 @@ describe('Filter service', function () {
       done();
     });
 
+
+    it('try functional test 1', function (done) {
+      // filter[data.field1]=third
+      var filters = {"data.field1":"third"};
+      var expected = {"$and": [
+        {
+          "route":"57f1fa52f0a9620f445bba67"
+        },
+        {
+          "data.field1": {
+            "$eq":"third"
+          }
+        }
+        ]};
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 2', function (done) {
+      // filter[data.field3][$gt]=50
+      var filters = {"data.field3":{"$gt":"50"}};
+      var expected = {"$and":[
+        {
+          "route":"57f1fa52f0a9620f445bba67"
+        },{
+          "data.field3": {
+            "$gt":50
+          }
+        }
+        ]};
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 3', function (done) {
+      // filter[data.field3][$lt]=50
+      var filters = {"data.field3":{"$lt":"50"}};
+      var expected = {"$and":[
+        {
+          "route":"57f1fa52f0a9620f445bba67"
+        },{
+          "data.field3": {
+            "$lt":50
+          }
+        }
+      ]};
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 4', function (done) {
+      // filter[data.field3][$gte]=30&filter[data.field3][$lte]=80
+      var filters = {"data.field3":{"$gte":"30","$lte":"80"}};
+      var expected = {"$and":[{"route":"57f1fa52f0a9620f445bba67"},{"data.field3":{"$gte":30,"$lte":80}}]};
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 5', function (done) {
+      // filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=43&filter[$or][$and][2][data.field3][$lte]=80
+      var filters = {
+        "$or": {
+          "$and":[{
+            "$or": {
+              "data.field1":"third",
+              "data.field2":"test3"
+            }
+          },{
+            "$or":{
+              "data.field2":"test2"
+            }
+          },{
+            "data.field3":{
+              "$gte":"43",
+              "$lte":"80"
+            }
+          }]
+        }
+      };
+      var expected = {
+        "$and":[{
+          "route":"57f1fa52f0a9620f445bba67"}, {
+          "$or": [{
+            "$and": [{
+              "$or": [{
+                "data.field1": {
+                  "$eq": "third"
+                }
+              }, {
+                "data.field2": {
+                  "$eq": "test3"
+                }
+              }]
+            }, {
+              "$or": [{
+                "data.field2": {
+                  "$eq": "test2"
+                }
+              }]
+            }, {
+              "data.field3": {
+                "$gte": 43, "$lte": 80
+              }
+            }]
+          }]
+        }]
+      };
+      //console.log("----test 5----");
+      //console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      //console.log("----test 5----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+  
+    it('try functional test 6', function (done) {
+      // filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field3]=90
+      var filters = {"$or":{"data.field1":"third","data.field2":"test3","data.field3":90}};
+      var expected = {"$and":[
+          {"route":"57f1fa52f0a9620f445bba67"},
+          {"$or":[
+            {"data.field1":{"$eq":"third"}},
+            {"data.field2":{"$eq":"test3"}},
+            {"data.field3":{"$eq": 90}}
+          ]}
+        ]}
+      // console.log("---test 6-----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("----test 6----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 7', function (done) {
+      // filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field2]=test2
+      var filters = {"$or":{"data.field1":"third","data.field2":["test3","test2"]}};
+      var expected = {"$and":[{
+        "route":"57f1fa52f0a9620f445bba67"}, {
+          "$or":[{
+            "data.field1": {
+              "$eq":"third"
+            }
+          }, {
+            "data.field2":{
+              "$eq":"test3"
+            }
+          },{
+            "data.field2": {
+              "$eq":"test2"
+            }
+          }]
+        }]};
+      // console.log("----test 7----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("----test 7----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 8', function (done) {
+      // filter[$and][data.field1]=third&filter[$and][data.field2]=test3&filter[$and][data.field3]=90
+      var filters = {"$and":{"data.field1":"third","data.field2":"test3","data.field3":90}};
+      var expected = {"$and":[{
+        "route":"57f1fa52f0a9620f445bba67"
+      },{
+        "$and":[{
+          "data.field1":{
+            "$eq":"third"
+          }
+        },{
+          "data.field2":{
+            "$eq":"test3"
+          }
+        },{
+          "data.field3":{
+            "$eq":90
+          }
+        }]
+      }]};
+      // console.log("---test 8-----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("---test 8-----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+
+    it('try functional test 9', function (done) {
+      // filter[$and][$or][data.field1]=third&filter[$and][$or][data.field2]=test3&filter[$and][data.field3]=90
+      var filters = {"$and":{"$or":{"data.field1":"third","data.field2":"test3"},"data.field3":90}};
+      var expected = {"$and":[
+        {"route":"57f1fa52f0a9620f445bba67"},
+        {"$and":[
+          {
+            "$or":[{
+              "data.field1":{
+                "$eq":"third"
+              }
+            },{
+              "data.field2":{
+                "$eq":"test3"
+              }
+            }]
+          },
+          {
+            "data.field3":{
+              "$eq":90
+            }
+          }]
+        }]};
+      // console.log("----test 9----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("----test 9----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+  
+    it('try functional test 10', function (done) {
+      //"filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=23&filter[$or][$and][2][data.field3][$lte]=69"
+      var filters = {"$or":{"$and":[{"$or":{"data.field1":"third","data.field2":"test3"}},{"$or":{"data.field2":"test2"}},{"data.field3":{"$gte":"43","$lte":"80"}}]}};
+      var expected = {"$and":[{
+        "route":"57f1fa52f0a9620f445bba67"},{
+          "$or":[{
+            "$and":[{
+              "$or":[{
+                "data.field1":{
+                  "$eq":"third"
+                }
+              },{
+                "data.field2":{
+                  "$eq":"test3"
+                }
+              }]
+            },{
+              "$or":[{
+                "data.field2":{
+                  "$eq":"test2"
+                }
+              }]
+            },{
+              "data.field3":{
+                "$gte":43,"$lte":80
+              }
+            }]
+          }]
+        }]
+      };
+      // console.log("----test 9----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("----test 9----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+  
+    it('try functional test 11', function (done) {
+      //"filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=56&filter[$or][$and][2][data.field3][$lte]=71"
+      var filters = {"$or":{"$and":[{"$or":{"data.field1":"third","data.field2":"test3"}},{"$or":{"data.field2":"test2"}},{"data.field3":{"$gte":"56","$lte":"71"}}]}};
+      var expected = {"$and":[{"route":"57f1fa52f0a9620f445bba67"},{"$or":[{"$and":[{"$or":[{"data.field1":{"$eq":"third"}},{"data.field2":{"$eq":"test3"}}]},{"$or":[{"data.field2":{"$eq":"test2"}}]},{"data.field3":{"$gte":56,"$lte":71}}]}]}]};
+      // console.log("----test 9----");
+      // console.log("alradyin:"+JSON.stringify(alradyin));
+      // console.log("filters:"+JSON.stringify(filters));
+      // console.log("whiteFields:"+JSON.stringify(whiteFields));
+      // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
+      // console.log("----test 9----");
+      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      done();
+    });
+    
+    
+    
   });
 
 });
