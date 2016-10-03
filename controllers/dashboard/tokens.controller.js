@@ -2,7 +2,9 @@
 
 const request = require('request'),
   tokenModel = require('../../models/v1/Token.model.js'),
-  flashHelper = require('../../helpers/flash.helper.js');
+  flashHelper = require('../../helpers/flash.helper.js'),
+  paginationService = require('../../services/pagination.service.js'),
+  _ = require('lodash');
 
 module.exports = TokensController;
 
@@ -11,21 +13,31 @@ function TokensController(options) {
   const logger = options.logger;
   const TokenModel = new tokenModel(options);
   const FlashHelper = new flashHelper(options);
+  const PaginationService = new paginationService(options);
 
   this.index = function(req, res, next) {
-    TokenModel.io.find({service: req.data.service})
-      .sort({createdAt: -1})
-      .exec(function(err, tokens) {
-        if (err)
-          return next(err);
+    var query = {service: req.data.service};
+    var queryOptions = {
+      sort: {createdAt: -1}
+    };
+    _.merge(queryOptions, res._paginate);
+    TokenModel
+      .io
+      .paginate(query, queryOptions)
+      .then(function(results) {
         return res.render('pages/dashboard/tokens/index', {
           page: 'pages/dashboard/tokens/index',
           csrfToken: req.csrfToken(),
           data: req.data,
-          tokens: tokens,
+          tokens: results.docs,
           now: new Date(),
-          flash: res._flash
+          flash: res._flash,
+          pagination: PaginationService.getDashboardPagination(res, results)
         });
+      })
+      .catch(function(err) {
+        logger.warn(JSON.stringify(err));
+        return next({code: 500});
       });
   };
 

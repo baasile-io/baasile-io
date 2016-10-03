@@ -1,0 +1,9 @@
+<% if (typeof pagination !== 'undefined' && pagination.links.length > 0) { %>
+<div class="ui pagination menu">
+  <% pagination.links.forEach(function(link) { %>
+  <a class="<% if (link.active === true) { %>active<% } %> item" href="<%= link.url %>">
+    <%= link.name %>
+  </a>
+  <% }) %>
+</div>
+<% } %>
