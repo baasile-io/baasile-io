@@ -25,6 +25,8 @@ function PaginationService(options) {
     } else {
       res._paginate.offset = CONFIG.api.pagination.offset;
     }
+    if (res._paginate.limit > CONFIG.api.pagination.max.limit)
+      return next({code: 400, messages: ['invalid_pagination', '"limit" has reached the maximum ' + CONFIG.api.pagination.max.limit]});
     if (typeof res._paginate.offset !== 'number' || isNaN(res._paginate.offset) || res._paginate.offset < 0)
       return next({code: 400, messages: ['invalid_pagination', '"offset" must be a non-negative number']});
     if (typeof res._paginate.limit !== 'number' || isNaN(res._paginate.limit) || res._paginate.limit < 1)
