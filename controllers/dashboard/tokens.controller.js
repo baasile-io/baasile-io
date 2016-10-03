@@ -45,7 +45,7 @@ function TokensController(options) {
     req.data.token.remove(function(err) {
       if (err)
         return res.status(500).end();
-      return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+      return res.redirect('back');
     });
   };
 
@@ -55,7 +55,7 @@ function TokensController(options) {
     }, function(err) {
       if (err)
         return res.status(500).end();
-      return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+      return res.redirect('back');
     });
   };
 

@@ -76,6 +76,7 @@ function PaginationService(options) {
     var pagination = {
       total: results.total,
       total_pages: res._paginate.limit != 0 ? Math.ceil(results.total / res._paginate.limit) : 1,
+      current_page: Math.ceil(res._paginate.offset / res._paginate.limit),
       links: []
     };
 
@@ -83,21 +84,34 @@ function PaginationService(options) {
       var link = res._originalUrlObject;
       link.query['page[limit]'] = res._paginate.limit;
 
-      /*link.query['page[offset]'] = 0;
-      pagination.links.push({
-        url: link.toString(),
-        name: 'Début',
-        active: (res._paginate.offset >= 0 && res._paginate.offset < res._paginate.limit)
-      });*/
-
       var pageNumber = 1;
+      var numberOfBeforePages = 4;
+      var numberOfAfterPages = 6;
+      if (pagination.current_page - 1 < numberOfBeforePages) {
+        numberOfAfterPages += numberOfBeforePages - pagination.current_page + 1;
+      } else if(pagination.total_pages - pagination.current_page - 1 < numberOfAfterPages) {
+        numberOfBeforePages += numberOfAfterPages - (pagination.total_pages - pagination.current_page);
+
+      }
+
       while (pageNumber <= pagination.total_pages) {
-        link.query['page[offset]'] = (pageNumber - 1) * res._paginate.limit;
-        pagination.links.push({
-          url: link.toString(),
-          name: pageNumber.toString(),
-          active: (res._paginate.offset >= link.query['page[offset]'] && res._paginate.offset < link.query['page[offset]'] + res._paginate.limit)
-        });
+        if (pagination.total_pages < 12 || pageNumber == 1 || pageNumber == pagination.total_pages || (pageNumber > pagination.current_page - numberOfBeforePages && pageNumber < pagination.current_page + numberOfAfterPages)) {
+          link.query['page[offset]'] = (pageNumber - 1) * res._paginate.limit;
+          let obj = {
+            url: link.toString(),
+            name: (pageNumber < 10) ? '0' + pageNumber.toString() : pageNumber.toString(),
+            active: (res._paginate.offset >= link.query['page[offset]'] && res._paginate.offset < link.query['page[offset]'] + res._paginate.limit)
+          };
+          pagination.links.push(obj);
+          if (pageNumber == pagination.current_page) {
+            obj.active = false;
+            pagination.prev = obj;
+          }
+          if (pageNumber == pagination.current_page + 2) {
+            obj.active = false;
+            pagination.next = obj;
+          }
+        }
         pageNumber++;
       }
 
