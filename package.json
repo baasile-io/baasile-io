@@ -40,6 +40,7 @@
     "mongoose": "^4.5.0",
     "nconf": "0.8.4",
     "newrelic": "^1.30.4",
+    "node-markdown": "^0.1.1",
     "node-sass": "^3.10.0",
     "nodemailer": "^2.5.0",
     "request": "2.70.0",
