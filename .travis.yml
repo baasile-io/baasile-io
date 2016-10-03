@@ -10,3 +10,11 @@ before_script:
 notifications:
   slack:
     secure: fZfgEh8EfYkj3eDHNgc23mmCr7gRpJf12SIEhcXK5ugi0xfUXozsb4VvFw+EyhzjPhwLS6oPkyffdKCPF0j29oYgLFMO0Hx33uQCt5KKa99Y5UpOaRiydBtkaYpuSTjDFvT9d7stUoh/BvL8vcveyplduPdN8Pkg2rMbLywk5YTkvEMcRaqKxGTp6cobNdYchfp1MRmiOjuzxwdJxJ5l+Rqdn7DFOxOl92rIM/FUdU1jvjDXrGPqR37tgcj/y2izOgo5tGJ4b3CTQ4qDDVTrEJuqwL2v8cdtmjkPzlGpFMDj7Eehu0cUOs05yx7Z9FtvUpMdlPLHGdpir4xn9s45gSNmKQep/f89pdBDvINxI9GvPnsIHYQ9n+/bajr8Q7Rc4j4VZsK+99a+ihs2aK7uptNdVQl09RtEu5Iz9vpbPF95kjBuYm+Ee9vKoyAXbJXJhG+hxNJMHEiYBRAT5ZaYaZ9sIcyVs4t7lQJ/yoxNdK95Vf9CKphfvEKHrUsERQB2R6FLqUpMudBWUU4nVU5PwlhC9qdG0BvVP3uyrmHLRO4S8wbnvI8Jt290HeWlbT288aHZfG26S8KeOXg+kGkiFqFCkQZR6P0mhfzty36RPVEvJjkftoJmfaEnk+82PSEmHdQwhLS7IP4nW/qTR3kRg/YodT3g6AxciLRV+rrpiLA=
+addons:
+  apt:
+    sources:
+      - mongodb-upstart
+      - mongodb-3.2.9-precise
+    packages:
+      - mongodb-org-server
+      - mongodb-org-shell
