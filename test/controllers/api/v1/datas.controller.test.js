@@ -4,6 +4,41 @@ const testHelper = require('../../../test.helper.js'),
   TestHelper = new testHelper(),
   request = TestHelper.request;
 
+const datadb = {
+  my_data_id1: {field1: 'first string', field2: 'second string', field3: 12, field4: {'key': 'value'}, field5: 75},
+  my_data_id2: {field1: 'second', field2: 'test1', field3: 1, field4: {'key': 'value'}, field5: 2},
+  my_data_id3: {field1: 'third', field2: 'test2', field3: 70, field4: {'key': 'value'}, field5: 85},
+  my_data_id4: {field1: 'fours', field2: 'test3', field3: 43, field4: {'key': 'value'}, field5: 35},
+  my_data_id5: {field1: 'fives', field2: 'test4', field3: 80, field4: {'key': 'value'}, field5: 2},
+  my_data_id6: {field1: 'sixs', field2: 'test5', field3: 125, field4: {'key': 'value'}, field5: 185}
+};
+
+const filterClassic = [
+  { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"}, //my_data_id1
+  { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"}, //my_data_id1 //my_data_id2 //my_data_id3 //my_data_id5 //my_data_id6
+  { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"}, //my_data_id2
+  { testname: "test multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][1][$or][data.field3]=12&filter[$and][1][$or][data.field3]=1&filter[$and][1][$or][data.field3]=70&filter[$and][1][$or][data.field3]=125&filter[$and][2][$or][data.field5]=35&filter[$and][2][$or][data.field5]=2&filter[$and][2][$or][data.field5]=75"}, //my_data_id2
+  { testname: "test $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field3][$gt]=42&filter[data.field3][$lt]=71&filter[data.field5][$gte]=35&filter[data.field5][$lte]=85"}, //my_data_id3 //my_data_id4
+  { testname: "test $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[data.field3][$eq]=12&filter[data.field3][$eq]=1&filter[data.field3][$eq]=70"},//my_data_id1 //my_data_id2 //my_data_id3
+  { testname: "test $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},//my_data_id4 //my_data_id5 //my_data_id6
+  { testname: "test $in", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[data.field3][$in]=12&filter[data.field3][$in]=1&filter[data.field3][$in]=70"},//my_data_id1 //my_data_id2 //my_data_id3
+  { testname: "test $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$nin]=12&filter[data.field3][$nin]=1&filter[data.field3][$nin]=70"} //my_data_id4 //my_data_id5 //my_data_id6
+]
+
+const filter = [
+  "",
+  "filter[data.field1]=third",
+  "filter[data.field3][$gt]=50",
+  "filter[data.field3][$lt]=50",
+  "filter[data.field3][$gte]=30&filter[data.field3][$lte]=80",
+  "filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=56&filter[$or][$and][2][data.field3][$lte]=71",
+  "filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field3]=90",
+  "filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field2]=test2",
+  "filter[$and][data.field1]=third&filter[$and][data.field2]=test2&filter[$and][data.field3]=70",
+  "filter[$and][$or][data.field1]=third&filter[$and][$or][data.field2]=test3&filter[$and][data.field3]=90",
+  "filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=23&filter[$or][$and][2][data.field3][$lte]=69"
+]
+
 describe('Datas', function () {
 
   before(TestHelper.startServer);
@@ -35,44 +70,7 @@ describe('Datas', function () {
      });
   
     describe('Filter service', function () {
-  
-      const datadb = {
-        my_data_id1: {field1: 'first string', field2: 'second string', field3: 12, field4: {'key': 'value'}, field5: 75},
-        my_data_id2: {field1: 'second', field2: 'test1', field3: 1, field4: {'key': 'value'}, field5: 2},
-        my_data_id3: {field1: 'third', field2: 'test2', field3: 70, field4: {'key': 'value'}, field5: 85},
-        my_data_id4: {field1: 'fours', field2: 'test3', field3: 43, field4: {'key': 'value'}, field5: 35},
-        my_data_id5: {field1: 'fives', field2: 'test4', field3: 80, field4: {'key': 'value'}, field5: 2},
-        my_data_id6: {field1: 'sixs', field2: 'test5', field3: 125, field4: {'key': 'value'}, field5: 185}
-      };
-  
-      const filterClassic = [
-        { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"}, //my_data_id1
-        { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"}, //my_data_id1 //my_data_id2 //my_data_id3 //my_data_id5 //my_data_id6
-        { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"}, //my_data_id2
-        { testname: "test multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][1][$or][data.field3]=12&filter[$and][1][$or][data.field3]=1&filter[$and][1][$or][data.field3]=70&filter[$and][1][$or][data.field3]=125&filter[$and][2][$or][data.field5]=35&filter[$and][2][$or][data.field5]=2&filter[$and][2][$or][data.field5]=75"}, //my_data_id2
-        { testname: "test $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field3][$gt]=42&filter[data.field3][$lt]=71&filter[data.field5][$gte]=35&filter[data.field5][$lte]=85"}, //my_data_id3 //my_data_id4
-        { testname: "test $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[data.field3][$eq]=12&filter[data.field3][$eq]=1&filter[data.field3][$eq]=70"},//my_data_id1 //my_data_id2 //my_data_id3
-        { testname: "test $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},//my_data_id4 //my_data_id5 //my_data_id6
-        { testname: "test $in", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[data.field3][$in]=12&filter[data.field3][$in]=1&filter[data.field3][$in]=70"},//my_data_id1 //my_data_id2 //my_data_id3
-        { testname: "test $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$nin]=12&filter[data.field3][$nin]=1&filter[data.field3][$nin]=70"} //my_data_id4 //my_data_id5 //my_data_id6
-      ]
-  
-      const filter = [
-        "",
-        "filter[data.field1]=third",
-        "filter[data.field3][$gt]=50",
-        "filter[data.field3][$lt]=50",
-        "filter[data.field3][$gte]=30&filter[data.field3][$lte]=80",
-        "filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=56&filter[$or][$and][2][data.field3][$lte]=71",
-        "filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field3]=90",
-        "filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field2]=test2",
-        "filter[$and][data.field1]=third&filter[$and][data.field2]=test2&filter[$and][data.field3]=70",
-        "filter[$and][$or][data.field1]=third&filter[$and][$or][data.field2]=test3&filter[$and][data.field3]=90",
-        "filter[$or][$and][0][$or][data.field1]=third&filter[$or][$and][0][$or][data.field2]=test3&filter[$or][$and][1][$or][data.field2]=test2&filter[$or][$and][2][data.field3][$gte]=23&filter[$or][$and][2][data.field3][$lte]=69"
-      ]
-  
-  
-  
+
       filterClassic.forEach(function(objfilterclassic) {
         it(objfilterclassic.testname, function (done) {
           request()
