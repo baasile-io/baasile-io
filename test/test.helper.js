@@ -147,6 +147,14 @@ function TestHelper(options) {
       res.body.should.have.property('errors');
       res.body.errors.should.be.a('array');
     }
+    if (isCollection) {
+      //res.body.links.should.have.property('first');
+      //res.body.meta.should.have.porperty('offset');
+      //res.body.meta.should.have.porperty('limit');
+      //res.body.meta.should.have.porperty('total');
+      //res.body.meta.should.have.porperty('total_pages');
+      //res.body.meta.should.have.porperty('count');
+    }
   };
 
   this.now = function() {
