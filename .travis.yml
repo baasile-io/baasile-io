@@ -14,7 +14,7 @@ addons:
   apt:
     sources:
       - mongodb-upstart
-      - mongodb-3.2.9-precise
+      - mongodb-3.0-precise
     packages:
       - mongodb-org-server
       - mongodb-org-shell
