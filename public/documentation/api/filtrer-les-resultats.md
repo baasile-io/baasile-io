@@ -51,37 +51,47 @@ Vous pouvez utiliser plusieurs opérateurs pour un même champ, ou les inclure d
 
 #### $eq - ÉGALITÉ STRICTE (défaut)
 
-Exemple : `?filter[score][$eq]=100`
+        ?filter[score][$eq]=100
 
 "Je requête les résultats dont le champ `score` est strictement égal à 100"
 
+Si vous spécifiez un tableau en tant que valeur de l'opérateur d'*ÉGALITÉ STRICTE* (`$eq`), ce dernier sera substitué par l'opérateur d'*INCLUSION* (`$in`). Ainsi, les deux exemples suivants ont le même effet :
+
+        ?filter[score][$eq]=21&filter[score][$eq]=42
+        ?filter[score][$in]=21&filter[score][$in]=42
+
 #### $ne - INÉGALITÉ STRICTE
 
-Exemple : `?filter[score][$ne]=0`
+        ?filter[score][$ne]=0
 
 "Je requête les résultats dont le champ `score` n'est strictement pas égal à 0"
 
+Si vous spécifiez un tableau en tant que valeur de l'opérateur d'*INÉGALITÉ STRICTE* (`$ne`), ce dernier sera substitué par l'opérateur d'*EXCLUSION* (`$nin`). Ainsi, les deux exemples suivants ont le même effet :
+
+        ?filter[score][$ne]=21&filter[score][$ne]=42
+        ?filter[score][$nin]=21&filter[score][$nin]=42
+
 #### $gt - SUPÉRIORITÉ STRICTE
 
-Exemple : `?filter[score][$gt]=50
+        ?filter[score][$gt]=50
 
 "Je requête les résultats dont le champ `score` est strictement plus grand que 50"
 
 #### $gte - SUPÉRIORITÉ LARGE
 
-Exemple : `?filter[score][$gte]=50`
+        ?filter[score][$gte]=50
 
 "Je requête les résultats dont le champ `score` est plus grand que ou égal à 50"
 
 #### $lt - INFÉRIORITÉ STRICTE
 
-Exemple : `?filter[score][$lt]=70`
+        ?filter[score][$lt]=70
 
 "Je requête les résultats dont le champ `score` est strictement plus petit que 70"
 
 #### $lte - INFÉRIORITÉ LARGE
 
-Exemple : `?filter[score][$lte]=70`
+        ?filter[score][$lte]=70
 
 "Je requête les résultats dont le champ `score` est plus petit que ou égal à 70"
 
@@ -89,33 +99,33 @@ Exemple : `?filter[score][$lte]=70`
 
 L'opérateur d'*INCLUSION* requiert un tableau de valeurs. Il permet de réaliser une opération logique *OR* avec une comparaison d'*ÉGALITÉ STRICTE*.
 
-Exemple : `?filter[county][$in]=750017&filter[county][$in]=750018`
+        ?filter[county][$in]=750017&filter[county][$in]=750018
 
 "Je requête les résultats dont le champ `county` est strictement égal au 17ème ou au 18ème arrondissement de Paris"
 
 #### $nin - EXCLUSION
 
-L'opérateur d'EXCLUSION requiert un tableau de valeurs. Il permet de réaliser une opération logique *NON-OU* avec une comparaison d'*ÉGALITÉ STRICTE*.
+L'opérateur d'*EXCLUSION* requiert un tableau de valeurs. Il permet de réaliser une opération logique *NON-OU* avec une comparaison d'*ÉGALITÉ STRICTE*.
 
-Exemple : `?filter[county][$nin]=750017&filter[county][$nin]=750018`
+        ?filter[county][$nin]=750017&filter[county][$nin]=750018
 
 "Je requête les résultats dont le champ `county` n'est strictement égal ni au 17ème, ni au 18ème arrondissement"
 
 #### $regex - EXPRESSION RÉGULIÈRE
 
-L'opérateur d'EXPRESSION RÉGULIÈRE requiert une chaîne de caractères compatible avec la norme des expressions régulière de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).
+L'opérateur d'*EXPRESSION RÉGULIÈRE* requiert une chaîne de caractères compatible avec la norme des expressions régulière de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).
 
 Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant une seconde clé `$options` (valeurs possible : `i`, `m`, `x`, `s`).
 
-Exemple : `?filter[firstname][$regex]=^Jean`
+        ?filter[firstname][$regex]=^Jean
 
 "Je requête les résultats dont le champ `firstname` est strictement égal ou commence par `Jean`."
 
-Exemple : `?filter[firstname][$regex]=^Jean&filter[firstname][$options]=i`
+        ?filter[firstname][$regex]=^Jean&filter[firstname][$options]=i
 
 "Je requête les résultats dont le champ `firstname` est égal ou commence par `Jean`, peu importe la casse (`Jean`, `JEAN`, `jean`, `jEAN`, etc).
 
-Exemple : `?filter[county][$regex]=^3[04][0-9]{3}$`
+        ?filter[county][$regex]=^3[04][0-9]{3}$
 
 "Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"
 
@@ -125,7 +135,7 @@ Exemple : `?filter[county][$regex]=^3[04][0-9]{3}$`
 
 L'opérateur logique *ET* permet de filtrer les résultats en fonction d'une liste de filtres dont l'intégralité doit être positif.
 
-Exemple : `?filter[score][$and][$gt]=75&filter[score][$and][$lte]=100`
+        ?filter[score][$and][$gt]=75&filter[score][$and][$lte]=100
 
 "Je requête les résultats dont le champ `score` est strictement supérieur à 75 et inférieur ou égal à 100"
 
@@ -133,7 +143,7 @@ Exemple : `?filter[score][$and][$gt]=75&filter[score][$and][$lte]=100`
 
 L'opérateur logique *OU* permet de filtrer les résultats en fonction d'une liste de filtres dont l'un au moins doit être positif.
 
-Exemple : `?filter[score][$or][$eq]=0&filter[score][$or][$eq]=100`
+        ?filter[score][$or][$eq]=0&filter[score][$or][$eq]=100
 
 "Je requête les résultats dont le champ `score` est strictement égal à 0 ou strictement égal à 100"
 
@@ -141,7 +151,7 @@ Exemple : `?filter[score][$or][$eq]=0&filter[score][$or][$eq]=100`
 
 L'opérateur logique *NON* permet d'inverser le résultat d'un seul et unique filtre.
 
-Exemple : `?filter[$not][lastname]=Mercier`
+        ?filter[$not][lastname]=Mercier
 
 "Je requête les résultats dont les champs 'lastname' n'est pas strictement égal à 'Mercier'"
 
@@ -149,7 +159,7 @@ Exemple : `?filter[$not][lastname]=Mercier`
 
 L'opérateur logique *NON-OU* est l'équivalent d'un opérateur *ET* inversé. L'exemple présenté ci-dessous a le même effet que celui présenté pour l'opérateur *ET*.
 
-Exemple : `?filter[score][$nor][$lte]=75&filter[score][$nor][$gt]=100`
+        ?filter[score][$nor][$lte]=75&filter[score][$nor][$gt]=100
 
 "Je requête les résultats dont le champ `score` n'est pas inférieur ou égal à 75 et n'est pas strictement plus grand que 100"
 
@@ -167,7 +177,7 @@ Par exemple, si vous souhaitez filtrer les résultats en fonction d'un champ per
 
 #### $text - RECHERCHE PAR MOT
 
-TODO
+[NOT_IMPLEMENTED]
 
 ## Exemples de filtrage avancé
 
