@@ -71,4 +71,79 @@ function PaginationService(options) {
     }
     next(responseParams);
   };
+
+  this.getDashboardPagination = function(res, results) {
+    var pagination = {
+      total: results.total,
+      total_pages: res._paginate.limit != 0 ? Math.ceil(results.total / res._paginate.limit) : 1,
+      links: []
+    };
+
+    if (results.total > res._paginate.limit) {
+      var link = res._originalUrlObject;
+      link.query['page[limit]'] = res._paginate.limit;
+
+      /*link.query['page[offset]'] = 0;
+      pagination.links.push({
+        url: link.toString(),
+        name: 'Début',
+        active: (res._paginate.offset >= 0 && res._paginate.offset < res._paginate.limit)
+      });*/
+
+      var pageNumber = 1;
+      while (pageNumber <= pagination.total_pages) {
+        link.query['page[offset]'] = (pageNumber - 1) * res._paginate.limit;
+        pagination.links.push({
+          url: link.toString(),
+          name: pageNumber.toString(),
+          active: (res._paginate.offset >= link.query['page[offset]'] && res._paginate.offset < link.query['page[offset]'] + res._paginate.limit)
+        });
+        pageNumber++;
+      }
+
+      /*if (res._paginate.limit < results.total) {
+        var offsetLast = res._paginate.limit * (Math.ceil(results.total / res._paginate.limit) - 1) + (res._paginate.offset % res._paginate.limit);
+        if (offsetLast >= results.total)
+          offsetLast -= res._paginate.limit;
+        link.query['page[offset]'] = offsetLast;
+        pagination.links.push({
+          url: link.toString(),
+          name: 'Fin',
+          active: (res._paginate.offset >= offsetLast && res._paginate.offset < offsetLast + res._paginate.limit)
+        });
+      }*/
+    }
+
+    /*
+    if (res._paginate.offset > 0 && res._paginate.offset < results.total) {
+      const offsetPrev = res._paginate.offset - res._paginate.limit;
+      var linkPrev = res._originalUrlObject;
+      linkPrev.query['page[offset]'] = (offsetPrev > 0 ? offsetPrev : 0);
+      linkPrev.query['page[limit]'] = res._paginate.limit;
+      res._links.prev = linkPrev.toString();
+    }
+    if (res._paginate.offset + res._paginate.limit < results.total) {
+      var linkNext = res._originalUrlObject;
+      linkNext.query['page[offset]'] = (res._paginate.offset + res._paginate.limit);
+      linkNext.query['page[limit]'] = res._paginate.limit;
+      res._links.next = linkNext.toString();
+    }
+    if (res._paginate.limit < results.total) {
+      var offsetLast = res._paginate.limit * (Math.ceil(results.total / res._paginate.limit) - 1) + (res._paginate.offset % res._paginate.limit);
+      if (offsetLast >= results.total)
+        offsetLast -= res._paginate.limit;
+      var linkLast = res._originalUrlObject;
+      linkLast.query['page[offset]'] = offsetLast;
+      linkLast.query['page[limit]'] = res._paginate.limit;
+      res._links.last = linkLast.toString();
+    }
+    var linkSelf = res._originalUrlObject;
+    linkSelf.query['page[offset]'] = res._paginate.offset;
+    linkSelf.query['page[limit]'] = res._paginate.limit;
+    res._links.self = linkSelf.toString();
+    res._meta.offset = res._paginate.offset;
+    res._meta.limit = res._paginate.limit;
+    */
+    return pagination;
+  };
 };

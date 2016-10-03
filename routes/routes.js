@@ -28,7 +28,7 @@ exports.configure = function (app, http, options) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use('/api', function (req, res, next) {
+  app.use('/', function (req, res, next) {
     // set data container
     req.data = req.data || {};
 
@@ -44,7 +44,7 @@ exports.configure = function (app, http, options) {
     next();
   });
 
-  app.use('/api', PaginationService.init);
+  app.use('/', PaginationService.init);
 
   app.use('/api', v1(options));
   app.use('/api/v1', v1(options));
