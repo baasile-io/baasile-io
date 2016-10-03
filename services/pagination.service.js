@@ -36,38 +36,31 @@ function PaginationService(options) {
 
   this.setResponse = function(responseParams, req, res, next) {
     if (typeof responseParams.results !== 'undefined') {
+      var link = res._originalUrlObject;
+      link.query['page[limit]'] = res._paginate.limit;
+
       res._meta.total = responseParams.results.total;
       res._meta.total_pages = res._paginate.limit != 0 ? Math.ceil(responseParams.results.total / res._paginate.limit) : 1;
-      var linkFirst = res._originalUrlObject;
-      linkFirst.query['page[offset]'] = 0;
-      linkFirst.query['page[limit]'] = res._paginate.limit;
-      res._links.first = linkFirst.toString();
+      link.query['page[offset]'] = 0;
+      res._links.first = link.toString();
       if (res._paginate.offset > 0 && res._paginate.offset < responseParams.results.total) {
         const offsetPrev = res._paginate.offset - res._paginate.limit;
-        var linkPrev = res._originalUrlObject;
-        linkPrev.query['page[offset]'] = (offsetPrev > 0 ? offsetPrev : 0);
-        linkPrev.query['page[limit]'] = res._paginate.limit;
-        res._links.prev = linkPrev.toString();
+        link.query['page[offset]'] = (offsetPrev > 0 ? offsetPrev : 0);
+        res._links.prev = link.toString();
       }
       if (res._paginate.offset + res._paginate.limit < responseParams.results.total) {
-        var linkNext = res._originalUrlObject;
-        linkNext.query['page[offset]'] = (res._paginate.offset + res._paginate.limit);
-        linkNext.query['page[limit]'] = res._paginate.limit;
-        res._links.next = linkNext.toString();
+        link.query['page[offset]'] = (res._paginate.offset + res._paginate.limit);
+        res._links.next = link.toString();
       }
       if (res._paginate.limit < responseParams.results.total) {
         var offsetLast = res._paginate.limit * (Math.ceil(responseParams.results.total / res._paginate.limit) - 1) + (res._paginate.offset % res._paginate.limit);
         if (offsetLast >= responseParams.results.total)
           offsetLast -= res._paginate.limit;
-        var linkLast = res._originalUrlObject;
-        linkLast.query['page[offset]'] = offsetLast;
-        linkLast.query['page[limit]'] = res._paginate.limit;
-        res._links.last = linkLast.toString();
+        link.query['page[offset]'] = offsetLast;
+        res._links.last = link.toString();
       }
-      var linkSelf = res._originalUrlObject;
-      linkSelf.query['page[offset]'] = res._paginate.offset;
-      linkSelf.query['page[limit]'] = res._paginate.limit;
-      res._links.self = linkSelf.toString();
+      link.query['page[offset]'] = res._paginate.offset;
+      res._links.self = link.toString();
       res._meta.offset = res._paginate.offset;
       res._meta.limit = res._paginate.limit;
     }
@@ -93,7 +86,6 @@ function PaginationService(options) {
         numberOfAfterPages += numberOfBeforePages - pagination.current_page + 1;
       } else if(pagination.total_pages - pagination.current_page - 1 < numberOfAfterPages) {
         numberOfBeforePages += numberOfAfterPages - (pagination.total_pages - pagination.current_page);
-
       }
 
       while (pageNumber <= pagination.total_pages) {

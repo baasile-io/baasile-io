@@ -282,9 +282,12 @@ describe('Pagination service', function () {
             if (err)
               throw new Error('init has failed');
             PaginationService.setResponse(params, req, res, function (outParams) {
-              res._links.should.eql({
-                self: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                first: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit
+              checkPaginationLinks(res._links, {
+                self: {offset: 0, limit: defaultLimit},
+                first: {offset: 0, limit: defaultLimit},
+                next: null,
+                prev: null,
+                last: null
               });
               done();
             });
@@ -322,11 +325,12 @@ describe('Pagination service', function () {
             if (err)
               throw new Error('init has failed');
             PaginationService.setResponse(params, req, res, function (outParams) {
-              res._links.should.eql({
-                self: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                first: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                next: originalUrl + '?page%5Boffset%5D=' + defaultLimit + '&page%5Blimit%5D=' + defaultLimit,
-                last: originalUrl + '?page%5Boffset%5D=' + (defaultLimit * 2) + '&page%5Blimit%5D=' + defaultLimit
+              checkPaginationLinks(res._links, {
+                self: {offset: 0, limit: defaultLimit},
+                first: {offset: 0, limit: defaultLimit},
+                next: {offset: defaultLimit, limit: defaultLimit},
+                prev: null,
+                last: {offset: (defaultLimit * 2), limit: defaultLimit}
               });
               done();
             });
@@ -345,12 +349,12 @@ describe('Pagination service', function () {
                 total: 60,
                 total_pages: 3
               });
-              res._links.should.eql({
-                self: originalUrl + '?page%5Boffset%5D=' + 2 + '&page%5Blimit%5D=' + defaultLimit,
-                first: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                next: originalUrl + '?page%5Boffset%5D=' + (defaultLimit + 2) + '&page%5Blimit%5D=' + defaultLimit,
-                prev: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                last: originalUrl + '?page%5Boffset%5D=' + (defaultLimit * 2 + 2) + '&page%5Blimit%5D=' + defaultLimit
+              checkPaginationLinks(res._links, {
+                self: {offset: 2, limit: defaultLimit},
+                first: {offset: 0, limit: defaultLimit},
+                next: {offset: (defaultLimit + 2), limit: defaultLimit},
+                prev: {offset: 0, limit: defaultLimit},
+                last: {offset: (defaultLimit * 2 + 2), limit: defaultLimit}
               });
               done();
             });
@@ -369,11 +373,12 @@ describe('Pagination service', function () {
                 total: 60,
                 total_pages: 3
               });
-              res._links.should.eql({
-                self: originalUrl + '?page%5Boffset%5D=' + 50 + '&page%5Blimit%5D=' + defaultLimit,
-                first: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + defaultLimit,
-                prev: originalUrl + '?page%5Boffset%5D=' + 25 + '&page%5Blimit%5D=' + defaultLimit,
-                last: originalUrl + '?page%5Boffset%5D=' + (defaultLimit * 2) + '&page%5Blimit%5D=' + defaultLimit
+              checkPaginationLinks(res._links, {
+                self: {offset: 50, limit: defaultLimit},
+                first: {offset: 0, limit: defaultLimit},
+                next: null,
+                prev: {offset: 25, limit: defaultLimit},
+                last: {offset: (defaultLimit * 2), limit: defaultLimit}
               });
               done();
             });
@@ -392,12 +397,12 @@ describe('Pagination service', function () {
                 total: 60,
                 total_pages: 30
               });
-              res._links.should.eql({
-                self: originalUrl + '?page%5Boffset%5D=' + 51 + '&page%5Blimit%5D=' + 2,
-                first: originalUrl + '?page%5Boffset%5D=' + 0 + '&page%5Blimit%5D=' + 2,
-                next: originalUrl + '?page%5Boffset%5D=' + 53 + '&page%5Blimit%5D=' + 2,
-                prev: originalUrl + '?page%5Boffset%5D=' + 49 + '&page%5Blimit%5D=' + 2,
-                last: originalUrl + '?page%5Boffset%5D=' + 59 + '&page%5Blimit%5D=' + 2
+              checkPaginationLinks(res._links, {
+                self: {offset: 51, limit: 2},
+                first: {offset: 0, limit: 2},
+                next: {offset: 53, limit: 2},
+                prev: {offset: 49, limit: 2},
+                last: {offset: 59, limit: 2}
               });
               done();
             });
@@ -597,6 +602,17 @@ describe('Pagination service', function () {
         request()
           .get('/api/v1/services')
           .query({access_token: TestHelper.getAccessToken(), page: {limit: 0}})
+          .end(function (err, res) {
+            TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+            res.body.errors.should.include('invalid_pagination');
+            done();
+          });
+      });
+
+      it('max limit', function(done) {
+        request()
+          .get('/api/v1/services')
+          .query({access_token: TestHelper.getAccessToken(), page: {limit: 999999}})
           .end(function (err, res) {
             TestHelper.checkResponse(res, {isSuccess: false, status: 400});
             res.body.errors.should.include('invalid_pagination');
