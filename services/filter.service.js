@@ -5,7 +5,7 @@ const StandardError = require('standard-error');
 module.exports = FilterService;
 
 function FilterService(options) {
-  const CONDITIONAL_OPERATORS = ['$and', '$or'];
+  const CONDITIONAL_OPERATORS = ['$and', '$or', '$nor'];
   
   const DEFAULT_TYPE = 'STRING';
   
