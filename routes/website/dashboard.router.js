@@ -124,10 +124,13 @@ module.exports = function (options) {
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/up', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.up)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/down', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.down)
     .post('/dashboard/services/:serviceName/tokens/generate', csrfProtection, ServicesController.getServiceData, TokensController.generateTokenFromDashboard)
+    .get('/dashboard/services/:serviceName/tokens/generate', ServicesController.getServiceData, TokensController.gotoIndex)
     .post('/dashboard/services/:serviceName/clientSecret', csrfProtection, ServicesController.getServiceData, ServicesController.showClientSecretFromDashboard)
     .post('/dashboard/services/:serviceName/clientId', csrfProtection, ServicesController.getServiceData, ServicesController.showClientIdFromDashboard)
     .post('/dashboard/services/:serviceName/tokens/:accessToken/destroy', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.destroy)
-    .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke);
+    .get('/dashboard/services/:serviceName/tokens/:accessToken/destroy', ServicesController.getServiceData, TokensController.gotoIndex)
+    .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke)
+    .get('/dashboard/services/:serviceName/tokens/:accessToken/revoke', ServicesController.getServiceData, TokensController.gotoIndex);
 
   return router;
 };

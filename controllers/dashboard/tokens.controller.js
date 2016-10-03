@@ -77,6 +77,10 @@ function TokensController(options) {
         });
   };
 
+  this.gotoIndex = function(req, res, next) {
+    return res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/tokens');
+  };
+
   this.getTokenData = function(req, res, next) {
     TokenModel.io.findOne({
       service: req.data.service,
