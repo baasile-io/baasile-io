@@ -105,6 +105,7 @@ function ServicesController(options) {
         route: req.data.route._id
       })
       .exec(function (err, fields) {
+        console.log('1' + err);
         if (err)
           return next({code: 500});
 
@@ -122,6 +123,7 @@ function ServicesController(options) {
             dataResult.push(data.getResourceObject(res._apiuri));
           })
           .on('error', function(err) {
+            console.log('2' + err);
             next({code: 500});
           })
           .on('end', function() {
