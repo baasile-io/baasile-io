@@ -36,7 +36,7 @@ describe('Fields', function () {
         .query({access_token: TestHelper.getAccessToken()})
         .end(function (err, res) {
           TestHelper.checkResponse(res);
-          res.body.data.should.have.lengthOf(2);
+          res.body.data.should.have.lengthOf(5);
           res.body.data[0].id.should.eql('my_field_id1');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
@@ -81,7 +81,7 @@ describe('Fields', function () {
         .query({access_token: TestHelper.getAccessToken()})
         .end(function (err, res) {
           TestHelper.checkResponse(res);
-          res.body.data.should.have.lengthOf(2);
+          res.body.data.should.have.lengthOf(5);
           res.body.data[0].id.should.eql('my_field_id1');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
