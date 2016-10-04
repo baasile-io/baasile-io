@@ -1,39 +1,17 @@
-# api-cpa
+# Baasile Platform
 
 [![Build Status](https://travis-ci.org/api-cpa/api-cpa.svg?branch=master)](https://travis-ci.org/api-cpa/api-cpa) [![Dependency Status](https://dependencyci.com/github/api-cpa/api-cpa/badge)](https://dependencyci.com/github/api-cpa/api-cpa)
 
-## BREW INIT
+Baasile is a **Backend as a Service** platform that allows you to quickly store and share data collections for your client applications.
 
-befor using brew.
+## Quick start
 
-export HOMEBREW_CACHE=~/goinfre/mycache ;
-export HOMEBREW_TEMP=~/goinfre/mytemp ;
-mkdir ~/goinfre/mycache ~/goinfre/mytemp ;
-export PATH=$PATH:~/.brew/bin/ ;
+Start MongoDB and the then run:
 
-
-use brewup for update:
-
-alias brewup="mkdir -p ~/.brew/Library/Formula/; brew update; cd /tmp; git clone https://github.com/Homebrew/homebrew-core.git; cd -; cp -r /tmp/homebrew-core/Formula/* ~/.brew/Library/Formula/; rm -rf /tmp/homebrew-core;"
-
-install brew
-
-## mongo install
-
-brew install mongodb
-
-## mongo start
-
-mongod --dbpath /tmp
-
-## install server
-
-installer node et npm
-
-mettre la derniere mise a jour de nodejs
-
-npm install
-
-## lanch server
-
+```
 npm start
+```
+
+## Development
+
+Please refer to the [Wiki](https://github.com/api-cpa/api-cpa/wiki).
