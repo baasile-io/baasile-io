@@ -13,16 +13,40 @@ const datadb = {
   my_data_id6: {field1: 'sixs', field2: 'test5', field3: 125, field4: {'key': 'value'}, field5: 185}
 };
 
+const filterError = [
+  { testname: "test Error AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
+  { testname: "test Error OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
+  { testname: "test Error inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"},
+  { testname: "test Error multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][0][$or][data.field3]=12&filter[$and][0][$or][data.field3]=1&filter[$and][0][$or][data.field3]=70&filter[$and][0][$or][data.field3]=125&filter[$and][0][$or][data.field5]=35&filter[$and][0][$or][data.field5]=2&filter[$and][0][$or][data.field5]=75"},
+  { testname: "test Error $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field2][$gt]=42&filter[data.field1][$lt]=71&filter[data.field4][$gte]=35&filter[data.field1][$lte]=85"},
+  { testname: "test Error $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[$eq]=12&filter[data.field4][$eq]=1&filter[data.field1][$eq]=70"},
+  { testname: "test Error $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},
+  { testname: "test Error $in", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$in]=12&filter[data.field3][$in]=1&filter[data.field3][$in]=70"},
+  { testname: "test Error $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$nin]=12&filter[data.field3][$nin]=1&filter[data.field3][$nin]=70"},
+  { testname: "test Error simple $regex", res:["my_data_id1", "my_data_id3"], filter : "filter[$regex]=ir"},
+  { testname: "test Error multi whith $regex", res:["my_data_id1"], filter : "filter[0][data.field1][$regex]=ir&filter[1][$regex]=st"},
+  { testname: "test Error $and whith $regex", res:["my_data_id1"], filter : "filter[$and][0][data.field1][$regex]=ir&filter[$and][1][$regex]=st"},
+  { testname: "test Error $or whith $regex", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=ir&filter[$or][1][$regex]=se"}
+]
+
 const filterClassic = [
-  { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"}, //my_data_id1
-  { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"}, //my_data_id1 //my_data_id2 //my_data_id3 //my_data_id5 //my_data_id6
-  { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"}, //my_data_id2
-  { testname: "test multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][1][$or][data.field3]=12&filter[$and][1][$or][data.field3]=1&filter[$and][1][$or][data.field3]=70&filter[$and][1][$or][data.field3]=125&filter[$and][2][$or][data.field5]=35&filter[$and][2][$or][data.field5]=2&filter[$and][2][$or][data.field5]=75"}, //my_data_id2
-  { testname: "test $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field3][$gt]=42&filter[data.field3][$lt]=71&filter[data.field5][$gte]=35&filter[data.field5][$lte]=85"}, //my_data_id3 //my_data_id4
-  { testname: "test $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[data.field3][$eq]=12&filter[data.field3][$eq]=1&filter[data.field3][$eq]=70"},//my_data_id1 //my_data_id2 //my_data_id3
-  { testname: "test $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},//my_data_id4 //my_data_id5 //my_data_id6
-  { testname: "test $in", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[data.field3][$in]=12&filter[data.field3][$in]=1&filter[data.field3][$in]=70"},//my_data_id1 //my_data_id2 //my_data_id3
-  { testname: "test $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$nin]=12&filter[data.field3][$nin]=1&filter[data.field3][$nin]=70"} //my_data_id4 //my_data_id5 //my_data_id6
+  { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
+  { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
+  { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"},
+  { testname: "test multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][1][$or][data.field3]=12&filter[$and][1][$or][data.field3]=1&filter[$and][1][$or][data.field3]=70&filter[$and][1][$or][data.field3]=125&filter[$and][2][$or][data.field5]=35&filter[$and][2][$or][data.field5]=2&filter[$and][2][$or][data.field5]=75"},
+  { testname: "test $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field3][$gt]=42&filter[data.field3][$lt]=71&filter[data.field5][$gte]=35&filter[data.field5][$lte]=85"},
+  { testname: "test $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[data.field3][$eq]=12&filter[data.field3][$eq]=1&filter[data.field3][$eq]=70"},
+  { testname: "test $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},
+  { testname: "test $in", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[data.field3][$in]=12&filter[data.field3][$in]=1&filter[data.field3][$in]=70"},
+  { testname: "test $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field3][$nin]=12&filter[data.field3][$nin]=1&filter[data.field3][$nin]=70"},
+  { testname: "test simple $regex", res:["my_data_id1", "my_data_id3"], filter : "filter[data.field1][$regex]=ir"},
+  { testname: "test multi whith $regex", res:["my_data_id1"], filter : "filter[0][data.field1][$regex]=ir&filter[1][data.field1][$regex]=st"},
+  { testname: "test $and whith $regex", res:["my_data_id1"], filter : "filter[$and][0][data.field1][$regex]=ir&filter[$and][1][data.field1][$regex]=st"},
+  { testname: "test $or whith $regex", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=ir&filter[$or][1][data.field1][$regex]=se"},
+  { testname: "test simple $regex with option", res:["my_data_id1", "my_data_id3"], filter : "filter[data.field1][$regex]=IR&filter[data.field1][$options]=i"},
+  { testname: "test $or $regex with one option", res:["my_data_id1", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE"},
+  { testname: "test $or $regex with two option", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE&filter[$or][1][data.field1][$options]=i"},
+  { testname: "test complex inseption $or $and $regex with options", res:["my_data_id1"], filter : "filter[$and][0][$or][0][data.field1][$regex]=IR&filter[$and][0][$or][0][data.field1][$options]=i&filter[$and][0][$or][1][data.field1][$regex]=SE&filter[$and][0][$or][1][data.field1][$options]=i&filter[$and][1][data.field1][$regex]=STR&filter[$and][1][data.field1][$options]=i"}
 ]
 
 const filter = [
