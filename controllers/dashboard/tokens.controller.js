@@ -60,9 +60,10 @@ function TokensController(options) {
   };
 
   this.generateTokenFromDashboard = function(req, res) {
+    console.log(res._originalUrlObject);
     request
       .post({
-          url: 'http://localhost:' + options.address.port + '/api/oauth/token',
+          url: res._originalUrlObject.protocol + '://' + res._originalUrlObject.host + ':' + res._originalUrlObject.port + '/api/oauth/token',
           body: {
             client_secret: req.data.service.clientSecret,
             client_id: req.data.service.clientId
