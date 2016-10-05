@@ -271,14 +271,7 @@ function ServicesController(options) {
           }, function (err, data) {
             if (err)
               return next({code: 500, messages: err});
-            objects.push({
-              id: data.dataId,
-              type: 'donnees',
-              attributes: res._request.params.data[i].attributes,
-              links: {
-                self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + data.dataId
-              }
-            });
+            objects.push(data.getResourceObject(res._apiuri));
             createdCount++;
             return requestPostElement(i + 1, fields);
           });
