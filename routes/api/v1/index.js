@@ -32,6 +32,7 @@ module.exports = function (options) {
   router.get('/collections', AuthController.authorize, RoutesController.getRoutes);
   router.get('/collections/:routeId', AuthController.authorize, RoutesController.getRouteData, RoutesController.get);
   router.get(['/collections/:routeId/champs', '/collections/:routeId/relationships/champs'], AuthController.authorize, RoutesController.getRouteData, FieldsController.getFields);
+  router.all(['/collections/:routeId/donnees', '/collections/:routeId/relationships/donnees'], AuthController.authorize, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.processRequest);
   router.get('/champs', AuthController.authorize, FieldsController.getFields);
   router.get('/champs/:fieldId', AuthController.authorize, FieldsController.getFieldData, FieldsController.get);
   router.get(['/services/:serviceId/collections', '/services/:serviceId/relationships/collections'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRoutes);
