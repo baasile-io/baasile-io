@@ -69,29 +69,38 @@ function ServicesController(options) {
   };
 
   this.getRouteData = function(req, res, next) {
-    RouteModel.io.findOne({
-      '$and': [
-        {
-          '$or': [
-            {public: true},
-            {clientId: res._service.clientId}
-          ]
-        },
-        {
-          '$or': [
-            {nameNormalized: req.params.routeId},
-            {routeId: req.params.routeId}
-          ]
-        }
-      ]
-    }, function(err, route) {
-      if (err)
-        return next({code: 500});
-      if (!route)
-        return next({code: 404, messages: ['not_found', '"' + req.params.routeId + '" is invalid']});
-      req.data = req.data || {};
-      req.data.route = route;
-      return next();
-    });
+    RouteModel
+      .io
+      .findOne({
+        '$and': [
+          {
+            '$or': [
+              {public: true},
+              {clientId: res._service.clientId}
+            ]
+          },
+          {
+            '$or': [
+              {nameNormalized: req.params.routeId},
+              {routeId: req.params.routeId}
+            ]
+          }
+        ]
+      })
+      .populate({
+        path: 'service',
+        model: ServiceModel.io,
+        options: {limit: CONFIG.api.pagination.limit}
+      })
+      .exec(function(err, route) {
+        if (err)
+          return next({code: 500});
+        if (!route)
+          return next({code: 404, messages: ['not_found', '"' + req.params.routeId + '" is invalid']});
+        req.data = req.data || {};
+        req.data.route = route;
+        req.data.service = route.service;
+        return next();
+      });
   };
 };
