@@ -1,6 +1,7 @@
 # Filtrer les résultats
 
-Note : Cette fonctionnalité n'est actuellement implémentée que sur les requêtes de données d'une collection.
+Note 1 : Cette fonctionnalité n'est actuellement implémentée que sur les champs des dollections de données.  
+Note 2 : Les parties barrées (~~barrées~~) ne sont pas encore fonctionnelles. 
 
 ## Le paramètre "filter"
 
@@ -14,7 +15,7 @@ La stratégie de filtrage de la Plate-forme est régie par les règles suivantes
 
 - L'opérateur de comparaison par défaut est l'*ÉGALITÉ STRICTE* ;
 - L'opérateur logique par défaut est un *ET* ;
-- Filtrer en fonction d'un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`** ;
+- ~~Filtrer en fonction d'un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`** ;~~
 - Filtrer avec des valeurs dont le type ne correspond pas au champ génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`**.
 
 ## Ajouter des filtres
@@ -111,23 +112,23 @@ L'opérateur d'*EXCLUSION* requiert un tableau de valeurs. Il permet de réalise
 
 "Je requête les résultats dont le champ `county` n'est strictement égal ni au 17ème, ni au 18ème arrondissement"
 
-#### $regex - EXPRESSION RÉGULIÈRE
+#### ~~$regex - EXPRESSION RÉGULIÈRE~~
 
-L'opérateur d'*EXPRESSION RÉGULIÈRE* requiert une chaîne de caractères compatible avec la norme des expressions régulière de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).
+~~L'opérateur d'*EXPRESSION RÉGULIÈRE* requiert une chaîne de caractères compatible avec la norme des expressions régulière de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).~~
 
-Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant une seconde clé `$options` (valeurs possible : `i`, `m`, `x`, `s`).
+~~Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant une seconde clé `$options` (valeurs possible : `i`, `m`, `x`, `s`).~~
 
         ?filter[firstname][$regex]=^Jean
 
-"Je requête les résultats dont le champ `firstname` est strictement égal ou commence par `Jean`."
+~~"Je requête les résultats dont le champ `firstname` est strictement égal ou commence par `Jean`."~~
 
         ?filter[firstname][$regex]=^Jean&filter[firstname][$options]=i
 
-"Je requête les résultats dont le champ `firstname` est égal ou commence par `Jean`, peu importe la casse (`Jean`, `JEAN`, `jean`, `jEAN`, etc).
+~~"Je requête les résultats dont le champ `firstname` est égal ou commence par `Jean`, peu importe la casse (`Jean`, `JEAN`, `jean`, `jEAN`, etc).~~
 
         ?filter[county][$regex]=^3[04][0-9]{3}$
 
-"Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"
+~~"Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"~~
 
 ## Les opérateurs logiques
 
@@ -147,21 +148,21 @@ L'opérateur logique *OU* permet de filtrer les résultats en fonction d'une lis
 
 "Je requête les résultats dont le champ `score` est strictement égal à 0 ou strictement égal à 100"
 
-#### $not - NON
+#### ~~$not - NON~~
 
-L'opérateur logique *NON* permet d'inverser le résultat d'un seul et unique filtre.
+~~L'opérateur logique *NON* permet d'inverser le résultat d'un seul et unique filtre.~~
 
         ?filter[$not][lastname]=Mercier
 
-"Je requête les résultats dont les champs 'lastname' n'est pas strictement égal à 'Mercier'"
+~~"Je requête les résultats dont les champs 'lastname' n'est pas strictement égal à 'Mercier'"~~
 
-#### $nor - NON-OU
+#### ~~$nor - NON-OU~~
 
-L'opérateur logique *NON-OU* est l'équivalent d'un opérateur *ET* inversé. L'exemple présenté ci-dessous a le même effet que celui présenté pour l'opérateur *ET*.
+~~L'opérateur logique *NON-OU* est l'équivalent d'un opérateur *ET* inversé. L'exemple présenté ci-dessous a le même effet que celui présenté pour l'opérateur *ET*.~~
 
         ?filter[score][$nor][$lte]=75&filter[score][$nor][$gt]=100
 
-"Je requête les résultats dont le champ `score` n'est pas inférieur ou égal à 75 et n'est pas strictement plus grand que 100"
+~~"Je requête les résultats dont le champ `score` n'est pas inférieur ou égal à 75 et n'est pas strictement plus grand que 100"~~
 
 ## Filtrer une collection en fonction des champs personnalisés
 
@@ -173,11 +174,11 @@ Par exemple, si vous souhaitez filtrer les résultats en fonction d'un champ per
 
         ?filter[data.county]=34000
 
-## Filtrer une collection sur tous les champs en même temps
+## ~~Filtrer une collection sur tous les champs en même temps~~
 
-#### $text - RECHERCHE PAR MOT
+#### ~~$text - RECHERCHE PAR MOT~~
 
-[NOT_IMPLEMENTED]
+~~[TODO]~~
 
 ## Exemples de filtrage avancé
 
