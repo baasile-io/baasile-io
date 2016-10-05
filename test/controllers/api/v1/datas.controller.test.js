@@ -49,16 +49,16 @@ describe('Datas', function () {
 
     before(TestHelper.authorize);
   
-    it('show list of public data', function (done) {
+    it('show list of public data (through services route)', function (done) {
       request()
         .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees')
         .query({access_token: TestHelper.getAccessToken()})
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(6);
-          res.body.data[0].id.should.eql('my_data_id1');
-          res.body.data[0].type.should.eql('donnees');
-          res.body.data[0].attributes.should.eql({
+          res.body.data[5].id.should.eql('my_data_id1');
+          res.body.data[5].type.should.eql('donnees');
+          res.body.data[5].attributes.should.eql({
             field1: 'first string',
             field2: 'second string',
             field3: 12,
@@ -68,6 +68,26 @@ describe('Datas', function () {
           done();
         });
      });
+
+    it('show list of public data (though collections route)', function (done) {
+      request()
+        .get('/api/v1/collections/my_route_id1/relationships/donnees')
+        .query({access_token: TestHelper.getAccessToken()})
+        .end(function (err, res) {
+          TestHelper.checkResponse(res);
+          res.body.data.should.have.lengthOf(6);
+          res.body.data[5].id.should.eql('my_data_id1');
+          res.body.data[5].type.should.eql('donnees');
+          res.body.data[5].attributes.should.eql({
+            field1: 'first string',
+            field2: 'second string',
+            field3: 12,
+            field4: {'key' : 'value'},
+            field5: 75
+          });
+          done();
+        });
+    });
   
     describe('Filter service', function () {
 
@@ -80,15 +100,22 @@ describe('Datas', function () {
               TestHelper.checkResponse(res);
               res.body.data.should.have.lengthOf(objfilterclassic.res.length);
               for (var j = 0; j < objfilterclassic.res.length; ++j) {
-                res.body.data[j].id.should.eql(objfilterclassic.res[j]);
-                res.body.data[j].type.should.eql('donnees');
-                res.body.data[j].attributes.should.eql({
-                  field1: datadb[objfilterclassic.res[j]].field1,
-                  field2: datadb[objfilterclassic.res[j]].field2,
-                  field3: datadb[objfilterclassic.res[j]].field3,
-                  field4: datadb[objfilterclassic.res[j]].field4,
-                  field5: datadb[objfilterclassic.res[j]].field5
+                let exists = false;
+                res.body.data.forEach(function(data) {
+                  if (data.id === objfilterclassic.res[j]) {
+                    exists = true;
+                    data.type.should.eql('donnees');
+                    data.attributes.should.eql({
+                      field1: datadb[objfilterclassic.res[j]].field1,
+                      field2: datadb[objfilterclassic.res[j]].field2,
+                      field3: datadb[objfilterclassic.res[j]].field3,
+                      field4: datadb[objfilterclassic.res[j]].field4,
+                      field5: datadb[objfilterclassic.res[j]].field5
+                    });
+                  }
                 });
+                if (!exists)
+                  throw new Error('data not found');
               }
               done();
             });
@@ -122,9 +149,9 @@ describe('Datas', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(3);
-            res.body.data[0].id.should.eql('my_data_id3');
-            res.body.data[0].type.should.eql('donnees');
-            res.body.data[0].attributes.should.eql({
+            res.body.data[2].id.should.eql('my_data_id3');
+            res.body.data[2].type.should.eql('donnees');
+            res.body.data[2].attributes.should.eql({
               field1: "third",
               field2: "test2",
               field3: 70,
@@ -140,9 +167,9 @@ describe('Datas', function () {
               field4: {'key' : 'value'},
               field5: 2
             });
-            res.body.data[2].id.should.eql('my_data_id6');
-            res.body.data[2].type.should.eql('donnees');
-            res.body.data[2].attributes.should.eql({
+            res.body.data[0].id.should.eql('my_data_id6');
+            res.body.data[0].type.should.eql('donnees');
+            res.body.data[0].attributes.should.eql({
               field1: "sixs",
               field2: "test5",
               field3: 125,
@@ -160,9 +187,9 @@ describe('Datas', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(3);
-            res.body.data[0].id.should.eql('my_data_id1');
-            res.body.data[0].type.should.eql('donnees');
-            res.body.data[0].attributes.should.eql({
+            res.body.data[2].id.should.eql('my_data_id1');
+            res.body.data[2].type.should.eql('donnees');
+            res.body.data[2].attributes.should.eql({
               field1: 'first string',
               field2: 'second string',
               field3: 12,
@@ -178,9 +205,9 @@ describe('Datas', function () {
               field4: {'key' : 'value'},
               field5: 2
             });
-            res.body.data[2].id.should.eql('my_data_id4');
-            res.body.data[2].type.should.eql('donnees');
-            res.body.data[2].attributes.should.eql({
+            res.body.data[0].id.should.eql('my_data_id4');
+            res.body.data[0].type.should.eql('donnees');
+            res.body.data[0].attributes.should.eql({
               field1: 'fours',
               field2: 'test3',
               field3: 43,
@@ -198,9 +225,9 @@ describe('Datas', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(3);
-            res.body.data[0].id.should.eql('my_data_id3');
-            res.body.data[0].type.should.eql('donnees');
-            res.body.data[0].attributes.should.eql({
+            res.body.data[2].id.should.eql('my_data_id3');
+            res.body.data[2].type.should.eql('donnees');
+            res.body.data[2].attributes.should.eql({
               field1: 'third',
               field2: 'test2',
               field3: 70,
@@ -216,9 +243,9 @@ describe('Datas', function () {
               field4: {'key' : 'value'},
               field5: 35
             });
-            res.body.data[2].id.should.eql('my_data_id5');
-            res.body.data[2].type.should.eql('donnees');
-            res.body.data[2].attributes.should.eql({
+            res.body.data[0].id.should.eql('my_data_id5');
+            res.body.data[0].type.should.eql('donnees');
+            res.body.data[0].attributes.should.eql({
               field1: 'fives',
               field2: 'test4',
               field3: 80,
@@ -256,18 +283,18 @@ describe('Datas', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(2);
-            res.body.data[0].id.should.eql('my_data_id3');
-            res.body.data[0].type.should.eql('donnees');
-            res.body.data[0].attributes.should.eql({
+            res.body.data[1].id.should.eql('my_data_id3');
+            res.body.data[1].type.should.eql('donnees');
+            res.body.data[1].attributes.should.eql({
               field1: 'third',
               field2: 'test2',
               field3: 70,
               field4: {'key' : 'value'},
               field5: 85
             });
-            res.body.data[1].id.should.eql('my_data_id4');
-            res.body.data[1].type.should.eql('donnees');
-            res.body.data[1].attributes.should.eql({
+            res.body.data[0].id.should.eql('my_data_id4');
+            res.body.data[0].type.should.eql('donnees');
+            res.body.data[0].attributes.should.eql({
               field1: 'fours',
               field2: 'test3',
               field3: 43,
@@ -285,18 +312,18 @@ describe('Datas', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(2);
-            res.body.data[0].id.should.eql('my_data_id3');
-            res.body.data[0].type.should.eql('donnees');
-            res.body.data[0].attributes.should.eql({
+            res.body.data[1].id.should.eql('my_data_id3');
+            res.body.data[1].type.should.eql('donnees');
+            res.body.data[1].attributes.should.eql({
               field1: 'third',
               field2: 'test2',
               field3: 70,
               field4: {'key' : 'value'},
               field5: 85
             });
-            res.body.data[1].id.should.eql('my_data_id4');
-            res.body.data[1].type.should.eql('donnees');
-            res.body.data[1].attributes.should.eql({
+            res.body.data[0].id.should.eql('my_data_id4');
+            res.body.data[0].type.should.eql('donnees');
+            res.body.data[0].attributes.should.eql({
               field1: 'fours',
               field2: 'test3',
               field3: 43,

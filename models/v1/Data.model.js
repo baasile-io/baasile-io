@@ -2,7 +2,8 @@
 
 const mongoose = require('mongoose'),
   CONFIG = require('../../config/app.js'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  mongoosePaginate = require('mongoose-paginate');
 
 module.exports = DataModel;
 
@@ -49,6 +50,8 @@ function DataModel(options) {
     updatedAt: Date
   });
 
+  dataSchema.plugin(mongoosePaginate);
+
   dataSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
@@ -59,20 +62,41 @@ function DataModel(options) {
     next();
   });
 
-  dataSchema.methods.getResourceObject = function (apiUri) {
+  dataSchema.methods.getIncludedObjects = function(apiUri, opt) {
+    opt = opt || {};
+    var included = [];
+    return included;
+  };
+
+  dataSchema.methods.getRelationshipsObject = function(apiUri, opt) {
+    opt = opt || {};
+    var relationships = {};
+    return relationships;
+  };
+
+  dataSchema.methods.getRelationshipReference = function () {
+    return {
+      id: this.dataId,
+      type: TYPE
+    };
+  };
+
+  dataSchema.methods.getResourceObject = function (apiUri, opt) {
+    opt = opt || {};
     apiUri = apiUri || options.apiUri;
     return {
       id: this.dataId,
       type: TYPE,
       attributes: this.data,
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.dataId
+        self: apiUri + '/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId + '/relationships/' + TYPE + '/' + this.dataId
       },
       meta: {
         creation: this.createdAt,
         modification: this.updatedAt,
         version: this.__v
-      }
+      },
+      relationships: this.getRelationshipsObject(apiUri, opt)
     };
   };
 
