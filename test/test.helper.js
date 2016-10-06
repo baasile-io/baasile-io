@@ -4,67 +4,69 @@ const chai = require('chai'),
   should = require('chai').should(),
   chaiHttp = require('chai-http'),
   Server = require('../server.js'),
-  userModel = require('../models/v1/User.model.js'),
-  serviceModel = require('../models/v1/Service.model.js'),
-  tokenModel = require('../models/v1/Token.model.js');
-
+  tokenModel = require('../models/v1/Token.model.js'),
+  usersDb = require('./db/users.db.js'),
+  servicesDb = require('./db/services.db.js');
 
 chai.use(chaiHttp);
 
-module.exports = ApiTester;
+module.exports = TestHelper;
 
-function ApiTester(options) {
+function TestHelper(options) {
   options = options || {};
   options.dbHost = options.dbHost || process.env.MONGODB_URI || 'mongodb://localhost:27017/api-cpa-test';
   options.expressSessionSecret = options.expressSessionSecret || 'test';
   options.host = options.host || 'http://localhost:3010';
   options.port = options.port || 3010;
+  options.nodeEnv = options.nodeEnv || 'test';
 
   const server = new Server(options),
-    ServiceModel = new serviceModel(options),
-    UserModel = new userModel(options),
-    TokenModel = new tokenModel(options);
+    TokenModel = new tokenModel(options),
+    UsersDb = new usersDb(options),
+    ServicesDb = new servicesDb(options);
 
-  const userInfo = {
-    firstname: 'Firstname',
-    lastname: 'Lastname',
-    email: 'apicpa@apicpa.apicpa',
-    password: 'password10',
-    createdAt: new Date()
+  var users = [],
+    services = [],
+    accessToken;
+
+  this.getOptions = function() {
+    return options;
   };
-
-  const serviceInfo = {
-    name: 'Test',
-    nameNormalized: 'test',
-    description: 'Description',
-    public: true,
-    users: [],
-    clientSecret: 'my_client_secret',
-    clientId: 'my_client_id',
-    createdAt: new Date(),
-    creator: null,
-    validated: true
-  };
-
-  var accessToken;
 
   this.getAccessToken = function() {
     return accessToken;
   };
 
-  this.getClientSecret = function() {
-    return serviceInfo.clientSecret;
+  this.getServiceByClientId = function(clientId) {
+    var el;
+    services.forEach(function(service) {
+      if (service.clientId === clientId)
+        el = service;
+    });
+    return el;
   };
 
-  this.getClientId = function() {
-    return serviceInfo.clientId;
+  this.getClientSecret = clientSecret;
+
+  function clientSecret(i) {
+    i = i || 0;
+    return services[i].clientSecret;
+  };
+
+  this.getClientId = clientId;
+
+  function clientId(i) {
+    i = i || 0;
+    return services[i].clientId;
   };
 
   this.authorize = function(done) {
     requestFn()
       .post('/api/v1/oauth/token')
-      .send({client_id: serviceInfo.clientId, client_secret: serviceInfo.clientSecret})
+      .send({client_id: clientId(), client_secret: clientSecret()})
       .end(function (err, res) {
+        if (err)
+          return done(err);
         accessToken = res.body.data.attributes.access_token;
         done();
       });
@@ -85,43 +87,37 @@ function ApiTester(options) {
 
   this.request = requestFn;
 
-  this.before = function(done) {
-
-    TokenModel.io.remove({}, function(err) {
+  this.startServer = function(done) {
+    server.start(function (err) {
       if (err)
         return done(err);
-
-      UserModel.io.remove({}, function (err) {
-        if (err)
-          return done(err);
-
-        ServiceModel.io.remove({}, function (err) {
-          if (err)
-            return done(err);
-
-          UserModel.io.create(userInfo, function (err, user) {
-            if (err)
-              return done(err);
-
-            serviceInfo.users.push({_id: user._id});
-            serviceInfo.creator = {_id: user._id};
-            ServiceModel.io.create(serviceInfo, function (err, service) {
-              if (err)
-                return done(err);
-              server.start(function (err) {
-                if (err)
-                  return done(err);
-                done();
-              });
-            });
-          });
-        });
-      });
+      done();
     });
   };
 
-  this.after = function(done) {
+  this.stopServer = function(done) {
     server.stop(done);
+  };
+
+  this.seedDb = function(done) {
+    TokenModel.io.remove({}, function (err) {
+      if (err)
+        return done(err);
+      UsersDb.drop()
+        .then(ServicesDb.drop)
+        .then(UsersDb.seed)
+        .then(function (db) {
+          users = db;
+          return ServicesDb.seed(users);
+        })
+        .then(function (db) {
+          services = db;
+          done();
+        })
+        .catch(function (err) {
+          return done(err);
+        });
+    });
   };
 
   function requestFn(host) {
@@ -150,6 +146,14 @@ function ApiTester(options) {
       res.should.not.have.status(201);
       res.body.should.have.property('errors');
       res.body.errors.should.be.a('array');
+    }
+    if (isCollection) {
+      //res.body.links.should.have.property('first');
+      //res.body.meta.should.have.porperty('offset');
+      //res.body.meta.should.have.porperty('limit');
+      //res.body.meta.should.have.porperty('total');
+      //res.body.meta.should.have.porperty('total_pages');
+      //res.body.meta.should.have.porperty('count');
     }
   };
 

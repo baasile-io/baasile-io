@@ -4,7 +4,8 @@ const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
   CONFIG = require('../../config/app.js'),
   serviceModel = require('./Service.model.js'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  mongoosePaginate = require('mongoose-paginate');
 
 module.exports = RouteModel;
 
@@ -15,6 +16,8 @@ function RouteModel(options) {
   const ServiceModel = new serviceModel(options);
   const self = this;
   const TYPE = CONFIG.api.v1.resources.Route.type;
+
+  mongoose.Promise = global.Promise;
 
   const ROUTE_TYPES = [
     'API',
@@ -89,6 +92,8 @@ function RouteModel(options) {
     updatedAt: Date
   });
 
+  routeSchema.plugin(mongoosePaginate);
+
   routeSchema.pre('update', function(next) {
     this.options.runValidators = true;
     next();
@@ -99,6 +104,12 @@ function RouteModel(options) {
     next();
   });
 
+  routeSchema.virtual('fields', {
+    ref: 'FieldModel',
+    localField: '_id',
+    foreignField: 'route'
+  });
+
   routeSchema.virtual('attributes')
     .get(function () {
       return {
@@ -107,24 +118,111 @@ function RouteModel(options) {
         description: this.description,
         tableau_de_donnees: this.isCollection,
         jeton_fc_lecture_ectriture: this.fcRestricted,
-        jeton_fc_lecture_seulement: this.fcRequired
+        jeton_fc_lecture_seulement: this.fcRequired,
+        public: this.public
       };
     });
 
-  routeSchema.methods.getResourceObject = function (apiUri) {
+  routeSchema.methods.getApiUri = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return apiUri + '/' + TYPE + '/' + this.routeId
+  };
+
+  routeSchema.methods.getApiUriList = function(apiUri) {
+    apiUri = apiUri || options.apiUri;
+    return [
+      {
+        title: 'Ressource',
+        method: 'GET',
+        uri: this.getApiUri(apiUri)
+      },
+      {
+        title: 'Liste des champs',
+        method: 'GET',
+        icon: CONFIG.api.v1.resources.Field.icon,
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Field.type
+      },
+      {
+        title: 'Liste des données',
+        method: 'GET',
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Data.type
+      },
+      {
+        title: 'Ajout et modification de données',
+        method: 'POST',
+        uri: this.getApiUri(apiUri) + '/relationships/' + CONFIG.api.v1.resources.Data.type
+      }
+    ]
+  };
+
+  routeSchema.methods.getIncludedObjects = function(apiUri, opt) {
+    opt = opt || {};
+    var included = [];
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        included.push(this.service.getResourceObject(apiUri));
+      }
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+        this.fields.forEach(function (field) {
+          included.push(field.getResourceObject(apiUri));
+        });
+      }
+    }
+    return included;
+  };
+
+  routeSchema.methods.getRelationshipsObject = function(apiUri, opt) {
+    opt = opt || {};
+    var relationships = {};
+    relationships[CONFIG.api.v1.resources.Service.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId
+      }
+    };
+    relationships[CONFIG.api.v1.resources.Field.type] = {
+      links: {
+        self: apiUri + '/' + TYPE + '/' + this.routeId + '/relationships/' + CONFIG.api.v1.resources.Field.type,
+        related: apiUri + '/' + TYPE + '/' + this.routeId + '/' + CONFIG.api.v1.resources.Field.type
+      }
+    };
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Service.type].data = this.service.getRelationshipReference();
+      }
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Field.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Field.type].meta = {count: this.fields.length};
+        relationships[CONFIG.api.v1.resources.Field.type].data = [];
+        this.fields.forEach(function (field) {
+          relationships[CONFIG.api.v1.resources.Field.type].data.push(field.getRelationshipReference());
+        });
+      }
+    }
+    return relationships;
+  };
+
+  routeSchema.methods.getResourceObject = function (apiUri, opt) {
+    opt = opt || {};
     apiUri = apiUri || options.apiUri;
     return {
       id: this.routeId,
       type: TYPE,
       attributes: this.get('attributes'),
       links: {
-        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId + '/relationships/' + TYPE + '/' + this.routeId
+        self: this.getApiUri(apiUri)
       },
       meta: {
         creation: this.createdAt,
         modification: this.updatedAt,
         version: this.__v
-      }
+      },
+      relationships: this.getRelationshipsObject(apiUri, opt)
+    };
+  };
+
+  routeSchema.methods.getRelationshipReference = function () {
+    return {
+      id: this.routeId,
+      type: TYPE
     };
   };
 

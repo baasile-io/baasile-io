@@ -1,0 +1,23 @@
+<% if (typeof pagination !== 'undefined' && pagination.links.length > 0) { %>
+<div class="ui right floated secondary pagination menu">
+  <a class="<% if (pagination.links[0].active === true) { %>disabled<% } %> item" href="<%= pagination.links[0].url %>">
+    |&lt;
+  </a>
+  <a class="<% if (!pagination.prev) { %>disabled<% } %> item" <% if (pagination.prev) { %>href="<%= pagination.prev.url %>"<% } %>>
+    &lt;&lt;
+  </a>
+  <a class="<% if (!pagination.next) { %>disabled<% } %> item" <% if (pagination.next) { %>href="<%= pagination.next.url %>"<% } %>>
+    &gt;&gt;
+  </a>
+  <a class="<% if (pagination.links[pagination.links.length - 1].active === true) { %>disabled<% } %> item" href="<%= pagination.links[pagination.links.length - 1].url %>">
+    &gt;|
+  </a>
+</div>
+<div class="ui secondary pagination menu">
+  <% pagination.links.forEach(function(link) { %>
+  <a class="<% if (link.active === true) { %>active<% } %> item" href="<%= link.url %>">
+    <%= link.name %>
+  </a>
+  <% }) %>
+</div>
+<% } %>

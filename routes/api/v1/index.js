@@ -19,18 +19,23 @@ module.exports = function (options) {
   const RoutesController = new routesController(options);
   const FieldsController = new fieldsController(options);
   const DatasController = new datasController(options);
- 
+
   router.all('/*', function(req, res, next) {
-    res._jsonapi = {
-      version: "1.0"
-    };
+    res._jsonapi.version = '1.0';
     res._apiuri = req.protocol + '://' + req.get('host') + '/api/v1';
     return next();
   });
   router.post('/oauth/token', AuthController.authenticate);
   router.get('/fc/formation', AuthController.authorize, FcController.getFormation);
   router.get('/services', AuthController.authorize, ServicesController.getServices);
-  router.get(['/services/:serviceId/collections', '/services/:serviceId/relationships/collections'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getSharedRoutes);
+  router.get('/services/:serviceId', AuthController.authorize, ServicesController.getServiceData, ServicesController.get);
+  router.get('/collections', AuthController.authorize, RoutesController.getRoutes);
+  router.get('/collections/:routeId', AuthController.authorize, RoutesController.getRouteData, RoutesController.get);
+  router.get(['/collections/:routeId/champs', '/collections/:routeId/relationships/champs'], AuthController.authorize, RoutesController.getRouteData, FieldsController.getFields);
+  router.all(['/collections/:routeId/donnees', '/collections/:routeId/relationships/donnees'], AuthController.authorize, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.processRequest);
+  router.get('/champs', AuthController.authorize, FieldsController.getFields);
+  router.get('/champs/:fieldId', AuthController.authorize, FieldsController.getFieldData, FieldsController.get);
+  router.get(['/services/:serviceId/collections', '/services/:serviceId/relationships/collections'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRoutes);
   router.get(['/services/:serviceId/collections/:routeId', '/services/:serviceId/relationships/collections/:routeId'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, RoutesController.get);
   router.get(['/services/:serviceId/collections/:routeId/champs', '/services/:serviceId/relationships/collections/:routeId/relationships/champs'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFields);
   router.all(['/services/:serviceId/collections/:routeId/donnees', '/services/:serviceId/relationships/collections/:routeId/relationships/donnees'], AuthController.authorize, ServicesController.getServiceData, RoutesController.getRouteData, DatasController.fcAuthorize, DatasController.processRequest);

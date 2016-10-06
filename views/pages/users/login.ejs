@@ -1,6 +1,6 @@
 <div class="main ui middle aligned center aligned grid">
   <div class="column">
-    <form class="ui large basic form" method="post" action="/login">
+    <form class="ui large basic form" method="post" action="/login" name="login_form">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <input type="hidden" name="redirect_uri" value="<%= flash.params && flash.params.redirect_uri ? flash.params.redirect_uri : query.redirect_uri %>">
       <div class="ui segment left aligned">
@@ -13,7 +13,7 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="user_email" value="<% if (query.user.email) { %><%= query.user.email %><% } %>" placeholder="Adresse E-Mail">
+            <input type="text" name="user_email" value="<% if (query.user.email || (flash.params && flash.params.email)) { %><%= query.user.email || flash.params.email %><% } %>" placeholder="Adresse E-Mail">
           </div>
         </div>
         <div class="field">
@@ -23,9 +23,10 @@
           </div>
         </div>
         <div class="ui fluid large teal submit button">Connexion</div>
-        <div class="ui two item menu">
+        <div class="ui three item menu">
           <a class="item" href="/">Retourner à l'accueil</a>
-          <a class="item disabled" href="#">Mot de passe oublié</a>
+          <a class="item" href="/subscribe">Inscription</a>
+          <a class="item" href="#" id="reset_password_modal_btn">Mot de passe oublié</a>
         </div>
       </div>
 
@@ -34,3 +35,48 @@
     </form>
   </div>
 </div>
+
+<div class="ui basic modal" id="reset_password_modal">
+  <div class="ui inverted icon header">
+    <i class="unlock alternate icon"></i>
+    <div class="content">
+      Procédure de réinitialisation de votre mot de passe
+      <div class="sub header">
+        <p>1. Renseignez votre adresse E-Mail dans le champs ci-dessous<br />
+        2. Un courriel automatique contenant un lien sécurisé est envoyé sur votre adresse E-Mail<br />
+        3. Cliquez sur le lien ou copiez-coller l'adresse dans votre navigateur<br />
+        4. Choisissez votre nouveau mot de passe</p>
+      </div>
+      <div class="ui hidden divider"></div>
+      <form class="ui large basic form" name="reset_password_form" id="reset_password_form" method="post" action="/actions/password_reset">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="text" name="email" value="" placeholder="Votre adresse E-Mail">
+      </form>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui center aligned basic segment">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        Annuler
+      </div>
+      <div class="ui ok green basic inverted button" id="reset_password_btn">
+        <i class="checkmark icon"></i>
+        Confirmer
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#reset_password_btn').on('click', function(e) {
+      document.getElementById('reset_password_form').submit();
+    });
+    $('#reset_password_modal_btn').on('click', function(e) {
+      document.forms['reset_password_form'].email.value = document.forms['login_form'].user_email.value;
+      $('#reset_password_modal').modal('show');
+    });
+  });
+</script>

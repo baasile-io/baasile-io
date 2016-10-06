@@ -62,10 +62,10 @@ function FcController(options) {
           }
           if (req.query.devMode === "WITH_ENDOFNIR") {
             if (req.query.endOfNir) {
-              return ApirServiceInstance.putEndOfNir(identity, req.query.endOfNir);
+              return ApirService.putEndOfNir(identity, req.query.endOfNir);
             }
             else {
-              return ApirServiceInstance.getEndOfNir(identity);
+              return ApirService.getEndOfNir(identity);
             }
           }
           else {

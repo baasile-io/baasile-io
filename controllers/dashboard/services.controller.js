@@ -46,7 +46,8 @@ function ServicesController(options) {
         page: 'pages/dashboard/services/view',
         data: req.data,
         tokensCount: result,
-        flash: res._flash
+        flash: res._flash,
+        apiUriList: req.data.service.getApiUriList(res._apiuri)
       });
     });
   };
@@ -150,7 +151,7 @@ function ServicesController(options) {
     });
   };
 
-  this.revokeUser = function(req, res) {
+  this.revokeUser = function(req, res, next) {
     const userEmail = req.params.userEmail;
     UserModel.io.findOne({
       email: userEmail
@@ -211,7 +212,7 @@ function ServicesController(options) {
       }
       logger.info('service created: ' + service.name);
       EmailService
-        .sendAdminNotificationsNewService(req.session.user, service, res._apiuri)
+        .sendAdminNotificationsNewService(req.session.user, service, res._dashboarduri)
         .then(function(result) {
           return res.redirect('/dashboard/services/' + service.nameNormalized);
         })

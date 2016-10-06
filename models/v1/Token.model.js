@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose'),
+  mongoosePaginate = require('mongoose-paginate'),
   crypto = require('crypto');
 
 module.exports = TokenModel;
@@ -38,6 +39,10 @@ function TokenModel(options) {
   options = options || {};
   const logger = options.logger;
   const db = mongoose.createConnection(options.dbHost);
+
+  mongoose.Promise = global.Promise;
+
+  tokenSchema.plugin(mongoosePaginate);
 
   tokenSchema.pre('validate', function(next) {
     this.updatedAt = new Date();

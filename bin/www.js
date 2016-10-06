@@ -12,6 +12,12 @@ nconf.env({
 }).argv();
 nconf.defaults(require('../defaults'));
 
+// enable live performance monitoring
+const newRelicLicenseKey = process.env.NEW_RELIC_LICENSE_KEY || nconf.get('NEW_RELIC_LICENSE_KEY');
+if (newRelicLicenseKey) {
+  require('newrelic');
+}
+
 const logger = bunyan.createLogger({
   name: nconf.get('appname'),
   level: nconf.get('log:level'),
@@ -46,6 +52,7 @@ var server = new Server({
   sendgridPassword: process.env.SENDGRID_PASSWORD || nconf.get('sendgridPassword'),
   sendgridUsername: process.env.SENDGRID_USERNAME || nconf.get('sendgridUsername'),
   sendgridFrom: nconf.get('sendgridFrom'),
+  nodeEnv: process.env.NODE_ENV || nconf.get('NODE_ENV') || 'development',
   logger: logger,
   slack: slack
 });

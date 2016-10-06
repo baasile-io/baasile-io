@@ -1,8 +1,10 @@
 'use strict';
 
 const http = require('http'),
+  path = require('path'),
   express = require('express'),
   session = require('express-session'),
+  favicon = require('serve-favicon'),
   expressLayouts = require('express-ejs-layouts'),
   emptylogger = require('bunyan-blackhole'),
   expressBunyanLogger = require("express-bunyan-logger"),
@@ -11,6 +13,10 @@ const http = require('http'),
   MongoStore = require('connect-mongo')(session),
   mongodb = require('mongodb'),
   mongoose = require('mongoose');
+
+const userModel = require('./models/v1/User.model.js'),
+  serviceModel = require('./models/v1/Service.model.js'),
+  routeModel = require('./models/v1/Route.model.js');
 
 module.exports = Server;
 
@@ -22,6 +28,13 @@ function Server(options) {
   options.db = options.db || mongodb.MongoClient;
   options.tokenExpiration = options.tokenExpiration || 20; //minutes
   options.expressSessionCookieMaxAge = options.expressSessionCookieMaxAge || 5; //minutes
+
+  options.models = {
+    UserModel: new userModel(options),
+    ServiceModel: new serviceModel(options),
+    RouteModel: new routeModel(options)
+  };
+
   var logger = options.logger;
   var app = express();
   app.set("port", options.port);
@@ -73,6 +86,7 @@ function Server(options) {
   app.use(expressLayouts);
   app.use(express.static(__dirname + '/public'));
   app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
+  app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
 
   var server = http.createServer(app);
   routes.configure(app, http, options);

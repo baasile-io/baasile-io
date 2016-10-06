@@ -41,12 +41,20 @@ var userSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  updated_at: Date
+  updatedAt: Date
 });
 
 function UserModel(options) {
   options = options || {};
   const db = mongoose.createConnection(options.dbHost);
+
+  mongoose.Promise = global.Promise;
+
+  userSchema.pre('validate', function(next) {
+    if (!this.createdAt)
+      this.createdAt = new Date();
+    next();
+  });
 
   userSchema.pre('update', function(next) {
     this.options.runValidators = true;
@@ -57,6 +65,11 @@ function UserModel(options) {
     this.updatedAt = new Date();
     next();
   });
+
+  userSchema.virtual('fullName')
+    .get(function() {
+      return this.firstname + ' ' + this.lastname;
+    });
 
   this.io = db.model('User', userSchema);
 

@@ -12,11 +12,14 @@ const express = require('express'),
   relationsController = require('../../controllers/dashboard/relations.controller.js'),
   homesController = require('../../controllers/homes.controller.js'),
   emailsController = require('../../controllers/emails.controller.js'),
+  documentationsController = require('../../controllers/dashboard/documentations.controller.js'),
+  applicationController = require('../../controllers/application.controller.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
-const router = express.Router();
 
 module.exports = function (options) {
+  const router = express.Router();
+
   options = options || {};
   const logger = options.logger;
   const csrfProtection = csrf({ cookie: true });
@@ -31,6 +34,8 @@ module.exports = function (options) {
   const HomesController = new homesController(options);
   const EmailsController = new emailsController(options);
   const FlashHelper = new flashHelper(options);
+  const DocumentationsController = new documentationsController(options);
+  const ApplicationController = new applicationController(options);
 
   function restrictedArea(req, res, next) {
     if (req.session.user == null) {
@@ -42,20 +47,10 @@ module.exports = function (options) {
   };
 
   /* tokenized email links */
-  router.get('/email/:accessToken', EmailsController.getEmailTokenData, EmailsController.get);
+  router.all('/email/:accessToken', csrfProtection, EmailsController.getEmailTokenData, EmailsController.get);
 
   /* params + flash messages */
-  router.all('/*', function(req, res, next) {
-    req.data = req.data || {};
-    req.data.user = req.session.user;
-    res._apiuri = req.protocol + '://' + req.get('host');
-    FlashHelper.get(req.session, function(err, flash) {
-      if (err)
-        next(err);
-      res._flash = flash;
-      next();
-    });
-  });
+  router.all('/*', ApplicationController.dashboardInitialize);
 
   /* public pages */
   router.get('/', function(req, res) {
@@ -67,20 +62,32 @@ module.exports = function (options) {
     });
   });
 
-  /* login / logout / subscribe / public pages */
+  router
+    .get('/services', HomesController.services)
+    .get('/doc', DocumentationsController.index)
+    .get('/doc/:folderId/:pageId', DocumentationsController.getPage);
+
+  /* https only */
+  router
+    .all('/*', ApplicationController.restrictHttp);
+
   router
     .get('/login', csrfProtection, UsersController.sessionNew)
     .post('/login', csrfProtection, UsersController.sessionCreate)
     .get('/logout', UsersController.sessionDestroy)
     .get('/subscribe', csrfProtection, UsersController.new)
     .post('/subscribe', csrfProtection, UsersController.create)
-    .get('/services', HomesController.services);
+    .get('/services', HomesController.services)
+    .post('/actions/password_reset', csrfProtection, UsersController.processPasswordReset);
 
   /* dashboard / user area */
   router
     .all('/dashboard*', restrictedArea)
     .get('/dashboard', DashboardController.dashboard)
-    .get('/dashboard/account', UsersController.account)
+    .get('/dashboard/account', UsersController.view)
+    .post('/dashboard/account', csrfProtection, UsersController.update)
+    .get('/dashboard/account/edit', csrfProtection, UsersController.edit)
+    .get('/dashboard/account/password_reset', csrfProtection, UsersController.passwordReset)
     .get('/dashboard/services/new', csrfProtection, ServicesController.new)
     .get('/dashboard/services', ServicesController.index)
     .post('/dashboard/services', csrfProtection, ServicesController.create)
@@ -117,10 +124,13 @@ module.exports = function (options) {
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/up', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.up)
     .post('/dashboard/services/:serviceName/routes/:routeName/fields/:fieldId/down', csrfProtection, ServicesController.getServiceData, RoutesController.getRouteData, FieldsController.getFieldData, FieldsController.down)
     .post('/dashboard/services/:serviceName/tokens/generate', csrfProtection, ServicesController.getServiceData, TokensController.generateTokenFromDashboard)
+    .get('/dashboard/services/:serviceName/tokens/generate', ServicesController.getServiceData, TokensController.gotoIndex)
     .post('/dashboard/services/:serviceName/clientSecret', csrfProtection, ServicesController.getServiceData, ServicesController.showClientSecretFromDashboard)
     .post('/dashboard/services/:serviceName/clientId', csrfProtection, ServicesController.getServiceData, ServicesController.showClientIdFromDashboard)
     .post('/dashboard/services/:serviceName/tokens/:accessToken/destroy', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.destroy)
-    .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke);
+    .get('/dashboard/services/:serviceName/tokens/:accessToken/destroy', ServicesController.getServiceData, TokensController.gotoIndex)
+    .post('/dashboard/services/:serviceName/tokens/:accessToken/revoke', csrfProtection, ServicesController.getServiceData, TokensController.getTokenData, TokensController.revoke)
+    .get('/dashboard/services/:serviceName/tokens/:accessToken/revoke', ServicesController.getServiceData, TokensController.gotoIndex);
 
   return router;
 };

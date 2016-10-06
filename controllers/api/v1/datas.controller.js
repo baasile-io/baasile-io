@@ -5,7 +5,8 @@ const _ = require('lodash'),
   routeModel = require('../../../models/v1/Route.model.js'),
   fieldModel = require('../../../models/v1/Field.model.js'),
   dataModel = require('../../../models/v1/Data.model.js'),
-  franceConnectHelper = require('../../../helpers/fc.helper.js');
+  franceConnectHelper = require('../../../helpers/fc.helper.js'),
+  filterservice = require('../../../services/filter.service.js');
 
 module.exports = ServicesController;
 
@@ -17,12 +18,13 @@ function ServicesController(options) {
   const FieldModel = new fieldModel(options);
   const DataModel = new dataModel(options);
   const FranceConnectHelper = new franceConnectHelper(options);
+  const FilterService = new filterservice(options);
 
-  this.get = function(req, res, next) {
+  this.get = function (req, res, next) {
     return next({code: 200, data: req.data.data.getResourceObject(res._apiuri)});
   };
 
-  this.getDataData = function(req, res, next) {
+  this.getDataData = function (req, res, next) {
     let condition = {
       service: req.data.service._id,
       route: req.data.route._id
@@ -32,7 +34,7 @@ function ServicesController(options) {
     else
       condition.dataId = req.params.dataId;
     DataModel.io
-      .findOne(condition, function(err, data) {
+      .findOne(condition, function (err, data) {
         if (err)
           return next({code: 500});
         if (!data)
@@ -43,15 +45,15 @@ function ServicesController(options) {
       });
   };
 
-  this.destroy = function(req, res, next) {
-    req.data.data.remove(function(err) {
+  this.destroy = function (req, res, next) {
+    req.data.data.remove(function (err) {
       if (err)
         return next({code: 500});
       return next({code: 200});
     });
   };
 
-  this.fcAuthorize = function(req, res, next) {
+  this.fcAuthorize = function (req, res, next) {
     if (req.data.route.fcRestricted || (req.data.route.fcRequired && (req.data.route.service != res._service._id.toString() || res._request.params.fc_token))) {
       FranceConnectHelper
         .checkToken(res._request.params.fc_token, '')
@@ -67,7 +69,7 @@ function ServicesController(options) {
       next();
   };
 
-  this.processRequest = function(req, res, next) {
+  this.processRequest = function (req, res, next) {
     if (req.data.route.method == 'GET' && req.method != 'GET')
       return next({code: 404, messages: ['Méthode "' + req.method + '" non reconnue sur cette collection']});
     if (req.method == 'GET') {
@@ -78,7 +80,7 @@ function ServicesController(options) {
             service: req.data.service._id,
             route: req.data.route._id,
             dataId: req.params.dataId
-          }, function(err, data) {
+          }, function (err, data) {
             if (err)
               return next({code: 500});
             if (data)
@@ -95,25 +97,53 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
     var dataResult = [];
-    DataModel.io
-      .find({route: req.data.route._id})
-      .stream()
-      .on('data', function(data) {
-        dataResult.push(data.getResourceObject(res._apiuri));
+    var jsonRes = {};
+    jsonRes["route"] = req.data.route._id;
+    var whitelistedFields = [];
+    FieldModel.io
+      .find({
+        route: req.data.route._id
       })
-      .on('error', function(err) {
-        next({code: 500});
-      })
-      .on('end', function() {
-        next({code: 200, data: dataResult});
+      .exec(function (err, fields) {
+        if (err)
+          return next({code: 500});
+
+        fields.forEach(function (field) {
+          whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type});
+        });
+
+        var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields);
+        if (query["ERRORS"] !== undefined && query["ERRORS"].length > 0)
+          return next({code: 400, messages: query["ERRORS"]});
+
+        var queryOptions = {
+          sort: {updatedAt: -1, createdAt: -1},
+          populate: []
+        };
+        _.merge(queryOptions, res._paginate);
+
+        DataModel
+          .io
+          .paginate(query, queryOptions)
+          .then(function (results) {
+            next({code: 200, results: results});
+          })
+          .catch(function (err) {
+            logger.warn(JSON.stringify(err));
+            next({code: 500});
+          })
       });
+
   };
 
   function requestPost(req, res, next) {
     if (!res._request.params.data)
       return next({code: 400, messages: ['missing_parameter', '"data" is required']});
     if ((req.data.route.fcRestricted || (req.data.route.fcRequired && req.data.fcIdentity)) && Array.isArray(res._request.params.data))
-      return next({code: 400, messages: ['invalid_format', 'cannot update multiple objects when specifying "fc_token"']});
+      return next({
+        code: 400,
+        messages: ['invalid_format', 'cannot update multiple objects when specifying "fc_token"']
+      });
     if (!Array.isArray(res._request.params.data))
       res._request.params.data = [res._request.params.data];
 
@@ -126,16 +156,16 @@ function ServicesController(options) {
       .find({
         route: req.data.route._id
       })
-      .exec(function(err, fields) {
+      .exec(function (err, fields) {
         if (err)
           return next({code: 500});
 
-        fields.forEach(function(field) {
+        fields.forEach(function (field) {
           whitelistedFields.push(field.nameNormalized);
         });
 
         let errors = [];
-        res._request.params.data.forEach(function(data, i) {
+        res._request.params.data.forEach(function (data, i) {
           if (typeof data != 'object')
             errors.push('invalid_format', '"data" must be a JSON object or a collection of JSON objects', 'error on index: ');
           if (!data.type)
@@ -149,7 +179,7 @@ function ServicesController(options) {
           if ((req.data.route.fcRestricted || req.data.route.fcRequired) && req.data.fcIdentity && data.id)
             errors.push('unauthorized_parameter', 'context: "fc_token" specified', '"id" must be not specified', 'error on index: ' + i);
           if (!req.data.route.fcRestricted && !req.data.route.fcRequired && !data.id)
-            errors.push('missing_parameter', 'context: "fc_token" not specified', '"id" is required', 'error on index: ' + i);
+            errors.push('missing_parameter', '"id" is required', 'error on index: ' + i);
 
           if (req.data.route.isCollection) {
             if (!Array.isArray(data.attributes))
@@ -213,7 +243,7 @@ function ServicesController(options) {
         condition.dataId = FranceConnectHelper.generateHash(req.data.fcIdentity);
       else
         condition.dataId = res._request.params.data[i].id;
-      DataModel.io.findOne(condition, function(err, data) {
+      DataModel.io.findOne(condition, function (err, data) {
         if (err)
           return next({code: 500});
         if (data) {
@@ -221,7 +251,7 @@ function ServicesController(options) {
           data.save(function (err) {
             if (err)
               return next({code: 500});
-            DataModel.io.findOne(condition, function(err, data) {
+            DataModel.io.findOne(condition, function (err, data) {
               if (err)
                 return next({code: 500});
               objects.push(data.getResourceObject(res._apiuri));
@@ -241,14 +271,7 @@ function ServicesController(options) {
           }, function (err, data) {
             if (err)
               return next({code: 500, messages: err});
-            objects.push({
-              id: data.dataId,
-              type: 'donnees',
-              attributes: res._request.params.data[i].attributes,
-              links: {
-                self: res._apiuri + '/services/' + req.data.service.clientId + '/relationships/collections/' + data.dataId
-              }
-            });
+            objects.push(data.getResourceObject(res._apiuri));
             createdCount++;
             return requestPostElement(i + 1, fields);
           });
