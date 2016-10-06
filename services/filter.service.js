@@ -9,8 +9,6 @@ function FilterService(options) {
   
   const DEFAULT_TYPE = 'STRING';
   
-  
-  
   const COND_TYPES = {
     'ID': ["$eq"],
     'STRING': ["$eq", "$ne", "$regex", "$options", "$in", "$nin"],
@@ -76,31 +74,31 @@ function FilterService(options) {
     }
   }
   
-  function isKeyCondOkForThisTypeOfValue(key, value, listfields, errors) {
+  function isKeyCondOkForThisTypeOfValue(key, value, listfields, param) {
     var type = getTableTypeOf(value, listfields);
     if (type === undefined)
     {
-      errors.push("value : " + value + " is not a field in your model");
+      param["errors"].push("value : " + value + " is not a field in your model");
       return false;
     }
     else if (type.indexOf(key) === -1)
     {
-      errors.push("key : " + key + " is not a possible condition for the type: " + getTypeOf(value, listfields));
+      param["errors"].push("key : " + key + " is not a possible condition for the type: " + getTypeOf(value, listfields));
       return false;
     }
     return true;
     
   }
   
-  function getConvertValueByTypeKeyname(val, keyname, listfields, errors) {
+  function getConvertValueByTypeKeyname(val, keyname, listfields, param) {
     var type = getTypeOf(keyname, listfields);
     if (type === undefined)
-      errors.push("value : " + keyname + " is not a field in your model");
+      param["errors"].push("value : " + keyname + " is not a field in your model");
     if (type == 'NUMERIC' || type == 'PERCENT' || type == 'AMOUNT') {
       var res = Number(val);
       if (!isNaN(res))
         return Number(val);
-      errors.push("the value: " + val + " is not a valide NUMBER");
+      param["errors"].push("the value: " + val + " is not a valide NUMBER");
       return undefined;
     }
     else {
@@ -108,10 +106,10 @@ function FilterService(options) {
     }
   }
   
-  function getRealKeyNeeded(key, obj, objParent, errors)
+  function getRealKeyNeeded(key, obj, objParent, param)
   {
-    if (key === "options" && !objParent.indexOf("$regex")){
-      errors.push("options can only be with $regex");
+    if (key === "$options" &&  !("$regex" in objParent)){
+      param["errors"].push("options can only be with $regex");
     }
     if (key === '$ne' && Array.isArray(obj) === true)
       return "$nin";
@@ -131,44 +129,54 @@ function FilterService(options) {
     for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
     return obj3;
   }
-
+  
 // ******************************* //
 
 // ************* algo ************ //
   
-  function fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, errors) {
+  function addObjOptionIfNeeded(jsonRes, key, obj, param )
+  {
+    if (key == "$regex" && !("$options" in obj) && param["gOption"] !== undefined) {
+      jsonRes["$options"] = param["gOption"];
+    }
+    return jsonRes;
+  }
+  
+  function fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, param) {
     if (CONDITIONAL_OPERATORS.indexOf(key) != -1) {
-      jsonRes = getConditionBefore(val, obj, listfields, errors);
-    } else if (isKeyCondOkForThisTypeOfValue(key, val, listfields, errors)) {
-      if ( typeof  obj[key] === 'object' && canBeMultiVal(getRealKeyNeeded(key, obj[key], obj, errors)))
+      jsonRes = getConditionBefore(val, obj, listfields, param);
+    } else if (isKeyCondOkForThisTypeOfValue(key, val, listfields, param)) {
+      if ( typeof  obj[key] === 'object' && canBeMultiVal(getRealKeyNeeded(key, obj[key], obj, param)))
       {
         var jsontab = [];
         Object.keys(obj[key]).forEach(function (key1) {
-          jsontab.push(getConvertValueByTypeKeyname(obj[key][key1], val, listfields,errors));
+          jsontab.push(getConvertValueByTypeKeyname(obj[key][key1], val, listfields,param));
           
         });
-        jsonRes[getRealKeyNeeded(key, obj[key], obj, errors)] = jsontab;
+        jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsontab;
+        jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
       else {
-        jsonRes[getRealKeyNeeded(key, obj[key], obj, errors)] = getConvertValueByTypeKeyname(obj[key], val, listfields, errors);
+        jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = getConvertValueByTypeKeyname(obj[key], val, listfields, param);
+        jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
     }
     return jsonRes;
   }
   
-  function getConditionAfter(val, obj, listfields, errors) {
+  function getConditionAfter(val, obj, listfields, param) {
     var jsonRes = {};
     var value;
     Object.keys(obj).forEach(function (key) {
       if (key[0] === '$') {
-        jsonRes = fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, errors);
+        jsonRes = fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, param);
       }
       else if ((value = getValIfValExistInArray(key, listfields)) !== undefined)
       {
-          jsonRes[value] = (getConditionAfter(value, obj[key], listfields, errors));
+          jsonRes[value] = (getConditionAfter(value, obj[key], listfields, param));
       }
       else {
-        errors.push("key: "+ key + " need to be a condition started with '$'");
+        param["errors"].push("key: "+ key + " need to be a condition started with '$'");
         jsonRes = undefined;
         return undefined;
       }
@@ -176,14 +184,14 @@ function FilterService(options) {
     return (jsonRes);
   }
   
-  function getConditionBeforeArray(currentKey, array, listfields, errors) {
+  function getConditionBeforeArray(currentKey, array, listfields, param) {
     var jsontab = [];
     for(var i = 0; i < array.length; i++) {
       var value = array[i];
       if (typeof value !== 'object') {
         value = {'$eq': value};
       }
-      var res = getConditionAfter(currentKey, value, listfields, errors);
+      var res = getConditionAfter(currentKey, value, listfields, param);
       if (res === undefined) {
         return undefined;
       }
@@ -197,17 +205,18 @@ function FilterService(options) {
     return jsontab;
   }
   
-  function fillJsonObjWithKeyBefore(jsonRes, currentKey, key, obj, listfields, errors) {
-    jsonRes[getRealKeyNeeded(key, obj[key], obj, errors)] = getConditionBefore(currentKey, obj[key], listfields, errors);
-    if (jsonRes[getRealKeyNeeded(key, obj[key], obj, errors)] === undefined || !isKeyCondOkForThisTypeOfValue(key, jsonRes[key], listfields, errors)) {
+  function fillJsonObjWithKeyBefore(jsonRes, currentKey, key, obj, listfields, param) {
+    jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = getConditionBefore(currentKey, obj[key], listfields, param);
+    jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
+    if (jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] === undefined || !isKeyCondOkForThisTypeOfValue(key, jsonRes[key], listfields, param)) {
       return undefined;
     }
     return jsonRes;
   }
   
-  function getConditionBeforeObjOperator(jsontab, currentKey, key, obj, listfields, errors) {
+  function getConditionBeforeObjOperator(jsontab, currentKey, key, obj, listfields, param) {
     var jsonRes = {};
-    jsonRes = fillJsonObjWithKeyBefore(jsonRes, currentKey, key, obj, listfields, errors);
+    jsonRes = fillJsonObjWithKeyBefore(jsonRes, currentKey, key, obj, listfields, param);
     if (jsonRes === undefined)
       return undefined;
     if (currentKey !== null) {
@@ -219,10 +228,10 @@ function FilterService(options) {
     return jsontab;
   }
   
-  function getConditionBeforeObjSpeOp(jsontab, currentKey, key, obj, listfields, errors) {
-    var kval = getValIfValExistInArray(key, listfields, errors);
+  function getConditionBeforeObjSpeOp(jsontab, currentKey, key, obj, listfields, param) {
+    var kval = getValIfValExistInArray(key, listfields, param);
     if (kval === undefined) {
-      errors.push("value : " + key + " is not a field in your model");
+      param["errors"].push("value : " + key + " is not a field in your model");
       return (undefined);
     }
     if (typeof obj[kval] !== 'object') {
@@ -235,28 +244,29 @@ function FilterService(options) {
           value = {'$eq': value};
         }
         var jsonRes = {};
-        jsonRes[getRealKeyNeeded(key, obj[key], obj, errors)] = getConditionAfter(kval, value, listfields, errors);
+        jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = getConditionAfter(kval, value, listfields, param);
+        jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
         jsontab.push(jsonRes);
       }
     } else {
       var jsonRes = {};
-      jsonRes[kval] = getConditionAfter(kval, obj[kval], listfields, errors);
+      jsonRes[kval] = getConditionAfter(kval, obj[kval], listfields, param);
       jsontab.push(jsonRes);
     }
     return jsontab;
   }
   
-  function getConditionBeforeObj(currentKey, array, listfields, errors) {
+  function getConditionBeforeObj(currentKey, array, listfields, param) {
     var jsontab = [];
     Object.keys(array).forEach(function (key) {
       var jsonRes = {};
       if (CONDITIONAL_OPERATORS.indexOf(key) != -1) {
-        jsontab = getConditionBeforeObjOperator(jsontab, currentKey, key, array, listfields, errors);
+        jsontab = getConditionBeforeObjOperator(jsontab, currentKey, key, array, listfields, param);
         if (jsontab === undefined)
           return undefined;
       }
       else if (key[0] !== '$') {
-        if ((getConditionBeforeObjSpeOp(jsontab, currentKey, key, array, listfields, errors)) === undefined) {
+        if ((getConditionBeforeObjSpeOp(jsontab, currentKey, key, array, listfields, param)) === undefined) {
           jsontab = undefined;
           return undefined;
         }
@@ -264,7 +274,7 @@ function FilterService(options) {
       else {
         var jsonRes2 = {};
         jsonRes2[key] = array[key];
-        var jsontmp = getConditionAfter(currentKey, jsonRes2, listfields, errors);
+        var jsontmp = getConditionAfter(currentKey, jsonRes2, listfields, param);
         if (jsontmp === undefined) {
           jsontab = undefined;
           return undefined;
@@ -275,16 +285,16 @@ function FilterService(options) {
     return jsontab;
   }
   
-  function getConditionBefore(currentKey, array, listfields, errors) {
+  function getConditionBefore(currentKey, array, listfields, param) {
     var jsontab = [];
     if (Array.isArray(array) === true) {
       var tabtmp = [];
-      if ((tabtmp = getConditionBeforeArray(currentKey, array, listfields, errors)) === undefined)
+      if ((tabtmp = getConditionBeforeArray(currentKey, array, listfields, param)) === undefined)
         return undefined;
       jsontab = jsontab.concat(tabtmp);
     } else if (typeof array === 'object') {
       var tabtmp = [];
-      if ((tabtmp = getConditionBeforeObj(currentKey, array, listfields, errors)) === undefined)
+      if ((tabtmp = getConditionBeforeObj(currentKey, array, listfields, param)) === undefined)
         return undefined;
       if (currentKey !== null && currentKey !== undefined) {
         return tabtmp;
@@ -295,14 +305,20 @@ function FilterService(options) {
   }
   
   this.buildMongoQuery = function (jsonRes, filters, listfields) {
-    var errors = [];
+    var param = {};
+    param["gOption"]  = undefined;
+    param["errors"] = [];
     if (typeof filters !== 'undefined') {
+      if ("$options" in filters) {
+        param["gOption"] = filters["$options"];
+        delete filters.$options;
+      }
       var jsonVal = {};
-      jsonVal["$and"] = getConditionBefore(null, filters, listfields, errors);
-      if (jsonVal["$and"] === undefined || errors.length > 0 )
+      jsonVal["$and"] = getConditionBefore(null, filters, listfields, param);
+      if (jsonVal["$and"] === undefined || param["errors"].length > 0 )
       {
-        errors.unshift("filters error");
-        jsonVal["ERRORS"] = errors;
+        param["errors"].unshift("filters error");
+        jsonVal["ERRORS"] = param["errors"];
       }
       if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
       {
