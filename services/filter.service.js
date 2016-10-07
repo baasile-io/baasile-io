@@ -18,16 +18,18 @@ function FilterService(options) {
   
   const DEFAULT_TYPE = 'STRING';
   
+  const SPE_COND_TYPES_CAN_OBJ_AFTER = ['$not'];
+  
   const COND_TYPES = {
-    'ID': ["$eq"],
-    'STRING': ["$eq", "$ne", "$regex", "$options", "$in", "$nin"],
-    'NUMERIC': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
-    'PERCENT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
-    'AMOUNT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
-    'BOOLEAN': ["$eq", "$ne"],
-    'DATE': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin"],
-    'ENCODED': ["$eq", "$ne"],
-    'JSON': ["$eq", "$ne"]
+    'ID': ["$eq", "$not"],
+    'STRING': ["$eq", "$ne", "$regex", "$options", "$in", "$nin", "$not"],
+    'NUMERIC': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin", "$not"],
+    'PERCENT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin", "$not"],
+    'AMOUNT': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin", "$not"],
+    'BOOLEAN': ["$eq", "$ne", "$not"],
+    'DATE': ["$eq", "$ne", "$gt", "$lt", "$gte", "$lte", "$in", "$nin", "$not"],
+    'ENCODED': ["$eq", "$ne", "$not"],
+    'JSON': ["$eq", "$ne", "$not"]
   };
   options = options || {};
   const logger = options.logger;
@@ -215,6 +217,26 @@ function FilterService(options) {
           
         });
         jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsontab;
+        jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
+      }
+      else if (typeof  obj[key] === 'object' && SPE_COND_TYPES_CAN_OBJ_AFTER.indexOf(key) != -1)
+      {
+        var jsonval = {};
+        var nbkey = Object.keys(obj[key]).length;
+        if (nbkey > 1)
+          jsonval["and"] = new Array();
+        Object.keys(obj[key]).forEach(function (key1) {
+          var jsonobj = {};
+          jsonobj[key1] = getConvertValueByTypeKeyname(obj[key][key1], val, listfields,param);
+          if (nbkey < 2)
+            jsonval = jsonobj;
+          else {
+            var jsonobj2 = {};
+            jsonobj2 = jsonobj;
+            jsonval["and"].push(jsonobj);
+          }
+        });
+        jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsonval;
         jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
       else {

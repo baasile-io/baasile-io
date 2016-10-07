@@ -30,6 +30,8 @@ const filterError = [
 ]
 
 const filterClassic = [
+  { testname: "test NOT", res:["my_data_id5"], filter : "filter[$and][data.field1][$not]=first string"},
+  { testname: "test NOT", res:["my_data_id5"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90&filter[$and][1][data.field5][$not][$lt]=70"},
   { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
   { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
   { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"},
