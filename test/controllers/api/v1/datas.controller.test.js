@@ -47,7 +47,9 @@ const filterClassic = [
   { testname: "test $or $regex with one option", res:["my_data_id1", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE"},
   { testname: "test $or $regex with two option", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE&filter[$or][1][data.field1][$options]=i"},
   { testname: "test complex inseption $or $and $regex with options", res:["my_data_id1"], filter : "filter[$and][0][$or][0][data.field1][$regex]=IR&filter[$and][0][$or][0][data.field1][$options]=i&filter[$and][0][$or][1][data.field1][$regex]=SE&filter[$and][0][$or][1][data.field1][$options]=i&filter[$and][1][data.field1][$regex]=STR&filter[$and][1][data.field1][$options]=i"},
-  { testname: "test complex inseption $or $and $regex with one root options", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=SE&filter[$or][1][data.field1][$regex]=IR&filter[$options]=i"}
+  { testname: "test complex inseption $or $and $regex with one root options", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=SE&filter[$or][1][data.field1][$regex]=IR&filter[$options]=i"},
+  { testname: "test $text", res:["my_data_id3"], filter : "filter[$text][$search]=thi"},
+  { testname: "test $text with $search $language $caseSensitive $diacriticSensitive", res:["my_data_id3"], filter : "filter[$text][$search]=THI&filter[$text][$language]=fr&filter[$text][$caseSensitive]=false&filter[$text][$diacriticSensitive]=false"},
 ]
 
 const filter = [

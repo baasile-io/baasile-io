@@ -7,6 +7,15 @@ module.exports = FilterService;
 function FilterService(options) {
   const CONDITIONAL_OPERATORS = ['$and', '$or', '$nor'];
   
+  const SPE_OPERATORS = {'$text':['$search', '$language', '$caseSensitive', '$diacriticSensitive']};
+  
+  const SPE_COND_TYPES = {
+    "$search" : "STRING",
+    "$language" : "STRING",
+    "$caseSensitive" : "BOOLEAN",
+    "$diacriticSensitive" : "BOOLEAN"
+  };
+  
   const DEFAULT_TYPE = 'STRING';
   
   const COND_TYPES = {
@@ -23,7 +32,68 @@ function FilterService(options) {
   options = options || {};
   const logger = options.logger;
   
+  
   //  ******  outils  *******  //
+  
+  function getconvertedVal(val, type, param){
+    switch (type)
+    {
+      case "ID":
+        return val;
+        break;
+      case "STRING":
+        return val;
+        break;
+      case "NUMERIC":
+        var res = Number(val);
+        if (!isNaN(res))
+          return res;
+        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        return undefined;
+        break;
+      case "PERCENT":
+        var res = Number(val);
+        if (!isNaN(res))
+          return res;
+        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        return undefined;
+        break;
+      case "AMOUNT":
+        var res = Number(val);
+        if (!isNaN(res))
+          return res;
+        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        return undefined;
+        break;
+      case "BOOLEAN":
+        if (val === "true" || val === "1")
+          return true;
+        else if (val === "false" || val === "0")
+          return false;
+        param["errors"].push("the value: " + val + " is not a valide BOOLEAN (true || 1 => true, false || 0 => false)");
+        break;
+      case "DATE":
+        var res = Date(val);
+        if ( isNaN( res.getTime() ) ) {
+          param["errors"].push("the value: " + val + " is not a valide DATE");
+          return undefined;
+        }
+        else {
+          return res;
+        }
+        break;
+      case "ENCODED":
+        return val;
+        break;
+      case "JSON":
+        var json = JSON.stringify(eval("(" + val + ")"));
+        return json;
+        break;
+      default:
+        param["errors"].push("do not know the type "+ type);
+        break;
+    };
+  }
   
   function getTabByKeyVal(key, val, myArray) {
     if (key === undefined || val === undefined || myArray === undefined)
@@ -94,16 +164,7 @@ function FilterService(options) {
     var type = getTypeOf(keyname, listfields);
     if (type === undefined)
       param["errors"].push("value : " + keyname + " is not a field in your model");
-    if (type == 'NUMERIC' || type == 'PERCENT' || type == 'AMOUNT') {
-      var res = Number(val);
-      if (!isNaN(res))
-        return Number(val);
-      param["errors"].push("the value: " + val + " is not a valide NUMBER");
-      return undefined;
-    }
-    else {
-      return val;
-    }
+    return getconvertedVal(val, type, param);
   }
   
   function getRealKeyNeeded(key, obj, objParent, param)
@@ -256,6 +317,19 @@ function FilterService(options) {
     return jsontab;
   }
   
+  function getSpeOPeratorObj(key, obj, param) {
+    var jsonRes = {};
+    Object.keys(obj).forEach(function (key1) {
+      if (SPE_OPERATORS[key].indexOf(key1) != -1) {
+        jsonRes[key1] = getconvertedVal(obj[key1], SPE_COND_TYPES[key1], param);
+      }
+      else {
+        param["errors"].push("cond : " + key1 + " is not an option of " + key);
+      }
+    });
+    return jsonRes;
+  }
+  
   function getConditionBeforeObj(currentKey, array, listfields, param) {
     var jsontab = [];
     Object.keys(array).forEach(function (key) {
@@ -270,6 +344,11 @@ function FilterService(options) {
           jsontab = undefined;
           return undefined;
         }
+      }
+      else if (key in SPE_OPERATORS) {
+        var jsonRes2 = {};
+        jsonRes2[key] = getSpeOPeratorObj(key, array[key], param);
+        jsontab.push(jsonRes2);
       }
       else {
         var jsonRes2 = {};
@@ -314,18 +393,32 @@ function FilterService(options) {
         delete filters.$options;
       }
       var jsonVal = {};
-      jsonVal["$and"] = getConditionBefore(null, filters, listfields, param);
-      if (jsonVal["$and"] === undefined || param["errors"].length > 0 )
+      // if ("$text" in filters) {
+      //   //var jsonRes2 = {};
+      //   jsonRes["$text"] = getSpeOPeratorObj("$text", filters["$text"], param);
+      //   if (jsonRes["$text"] === undefined || param["errors"].length > 0 )
+      //   {
+      //     param["errors"].unshift("filters error");
+      //     jsonRes["ERRORS"] = param["errors"];
+      //
+      //   }
+      //   return jsonRes;
+      // }
+      // else
       {
-        param["errors"].unshift("filters error");
-        jsonVal["ERRORS"] = param["errors"];
-      }
-      if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
-      {
-        if (jsonVal["$and"] !== undefined)
-          jsonVal["$and"].unshift(jsonRes);
-        else {
-          jsonVal = jsonRes;
+        jsonVal["$and"] = getConditionBefore(null, filters, listfields, param);
+        if (jsonVal["$and"] === undefined || param["errors"].length > 0 )
+        {
+          param["errors"].unshift("filters error");
+          jsonVal["ERRORS"] = param["errors"];
+        }
+        if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
+        {
+          if (jsonVal["$and"] !== undefined)
+            jsonVal["$and"].unshift(jsonRes);
+          else {
+            jsonVal = jsonRes;
+          }
         }
       }
     }
