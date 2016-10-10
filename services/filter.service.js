@@ -174,6 +174,14 @@ function FilterService(options) {
     if (key === "$options" &&  !("$regex" in objParent)){
       param["errors"].push("options can only be with $regex");
     }
+    if (key === '$not' && Array.isArray(obj) === true)
+      return "$nin";
+    else if ((key === '$not') && (typeof obj !== 'object') && (obj[0] === '$'))
+      return key;
+    else if ((key === '$not') && (typeof obj === 'object') && (Object.keys(obj).length === 1))
+      return key;
+    else if (key === '$not')
+      return '$ne';
     if (key === '$ne' && Array.isArray(obj) === true)
       return "$nin";
     if (key === '$eq' && Array.isArray(obj) === true)

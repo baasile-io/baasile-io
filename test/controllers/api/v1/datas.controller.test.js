@@ -30,8 +30,9 @@ const filterError = [
 ]
 
 const filterClassic = [
-  { testname: "test NOT", res:["my_data_id5"], filter : "filter[$and][data.field1][$not]=first string"},
-  { testname: "test NOT", res:["my_data_id5"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90&filter[$and][1][data.field5][$not][$lt]=70"},
+  { testname: "test NOT -> NE", res:["my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$and][data.field1][$not]=first string"},
+  { testname: "test NOt -> NE && NOT 1", res:["my_data_id3", "my_data_id4", "my_data_id5"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90"},
+  { testname: "test NOt -> NE && multiple NOT 2", res:["my_data_id3"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90&filter[$and][1][data.field5][$not][$lt]=71"},
   { testname: "test AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and][data.field3]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
   { testname: "test OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or][data.field3]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
   { testname: "test inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or][data.field1]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"},
@@ -50,8 +51,8 @@ const filterClassic = [
   { testname: "test $or $regex with two option", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE&filter[$or][1][data.field1][$options]=i"},
   { testname: "test complex inseption $or $and $regex with options", res:["my_data_id1"], filter : "filter[$and][0][$or][0][data.field1][$regex]=IR&filter[$and][0][$or][0][data.field1][$options]=i&filter[$and][0][$or][1][data.field1][$regex]=SE&filter[$and][0][$or][1][data.field1][$options]=i&filter[$and][1][data.field1][$regex]=STR&filter[$and][1][data.field1][$options]=i"},
   { testname: "test complex inseption $or $and $regex with one root options", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=SE&filter[$or][1][data.field1][$regex]=IR&filter[$options]=i"},
-  { testname: "test $text", res:["my_data_id3"], filter : "filter[$text][$search]=thi"},
-  { testname: "test $text with $search $language $caseSensitive $diacriticSensitive", res:["my_data_id3"], filter : "filter[$text][$search]=THI&filter[$text][$language]=fr&filter[$text][$caseSensitive]=false&filter[$text][$diacriticSensitive]=false"},
+  // { testname: "test $text", res:["my_data_id3"], filter : "filter[$text][$search]=thi"},
+  // { testname: "test $text with $search $language $caseSensitive $diacriticSensitive", res:["my_data_id3"], filter : "filter[$text][$search]=THI&filter[$text][$language]=fr&filter[$text][$caseSensitive]=false&filter[$text][$diacriticSensitive]=false"},
 ]
 
 const filter = [
