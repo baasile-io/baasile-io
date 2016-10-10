@@ -3,7 +3,6 @@
 const path = require('path'),
   EmailTemplate = require('email-templates').EmailTemplate,
   nodemailer = require('nodemailer'),
-  emailTokenModel = require('../models/v1/EmailToken.model.js'),
   notificationService = require('./notification.service.js');
 
 module.exports = EmailService;
@@ -11,7 +10,7 @@ module.exports = EmailService;
 function EmailService(options) {
   options = options || {};
   const logger = options.logger;
-  const EmailTokenModel = new emailTokenModel(options);
+  const EmailTokenModel = options.models.EmailTokenModel;
   const NotificationService = new notificationService(options);
   const templatesDir = path.resolve(__dirname, '..', 'views', 'emails');
   const transport = nodemailer.createTransport({

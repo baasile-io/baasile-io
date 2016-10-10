@@ -2,8 +2,6 @@
 
 const request = require('request'),
   _ = require('lodash'),
-  routeModel = require('../../models/v1/Route.model.js'),
-  pageModel = require('../../models/v1/Page.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = PagesController;
@@ -11,8 +9,8 @@ module.exports = PagesController;
 function PagesController(options) {
   options = options || {};
   const logger = options.logger;
-  const RouteModel = new routeModel(options);
-  const PageModel = new pageModel(options);
+  const RouteModel = options.models.RouteModel;
+  const PageModel = options.models.PageModel;
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res) {

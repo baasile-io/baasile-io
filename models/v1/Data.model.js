@@ -71,6 +71,24 @@ function DataModel(options) {
   dataSchema.methods.getRelationshipsObject = function(apiUri, opt) {
     opt = opt || {};
     var relationships = {};
+    relationships[CONFIG.api.v1.resources.Service.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Service.type + '/' + this.clientId
+      }
+    };
+    relationships[CONFIG.api.v1.resources.Route.type] = {
+      links: {
+        self: apiUri + '/' + CONFIG.api.v1.resources.Route.type + '/' + this.routeId
+      }
+    };
+    if (Array.isArray(opt.include) === true) {
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Service.type].data = this.service.getRelationshipReference();
+      }
+      if (opt.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+        relationships[CONFIG.api.v1.resources.Route.type].data = this.route.getRelationshipReference();
+      }
+    }
     return relationships;
   };
 

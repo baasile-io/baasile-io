@@ -1,8 +1,6 @@
 'use strict';
 
 const _ = require('lodash'),
-  routeModel = require('../models/v1/Route.model.js'),
-  serviceModel = require('../models/v1/Service.model.js'),
   flashHelper = require('../helpers/flash.helper.js');
 
 module.exports = HomesController;
@@ -10,8 +8,8 @@ module.exports = HomesController;
 function HomesController(options) {
   options = options || {};
   const logger = options.logger;
-  const RouteModel = new routeModel(options);
-  const ServiceModel = new serviceModel(options);
+  const RouteModel = options.models.RouteModel;
+  const ServiceModel = options.models.ServiceModel;
   const FlashHelper = new flashHelper(options);
 
   this.services = function(req, res, next) {

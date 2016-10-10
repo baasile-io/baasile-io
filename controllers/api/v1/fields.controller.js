@@ -1,8 +1,6 @@
 'use strict';
 
-const fieldModel = require('../../../models/v1/Field.model.js'),
-  routeModel = require('../../../models/v1/Route.model.js'),
-  serviceModel = require('../../../models/v1/Service.model.js'),
+const serviceModel = require('../../../models/v1/Service.model.js'),
   CONFIG = require('../../../config/app.js'),
   _ = require('lodash');
 
@@ -11,8 +9,8 @@ module.exports = FieldsController;
 function FieldsController(options) {
   options = options || {};
   const logger = options.logger;
-  const FieldModel = new fieldModel(options);
-  const RouteModel = new routeModel(options);
+  const FieldModel = options.models.FieldModel;
+  const RouteModel = options.models.RouteModel;
   const ServiceModel = new serviceModel(options);
 
   this.getFields = function(req, res, next) {

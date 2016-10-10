@@ -1,27 +1,26 @@
 'use strict';
 
 const _ = require('lodash'),
-  serviceModel = require('../../../models/v1/Service.model.js'),
-  routeModel = require('../../../models/v1/Route.model.js'),
-  fieldModel = require('../../../models/v1/Field.model.js'),
-  dataModel = require('../../../models/v1/Data.model.js'),
   franceConnectHelper = require('../../../helpers/fc.helper.js'),
-  filterservice = require('../../../services/filter.service.js');
+  filterservice = require('../../../services/filter.service.js'),
+  convertService = require('../../../services/convert.service.js'),
+  CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
 
 function ServicesController(options) {
   options = options || {};
   const logger = options.logger;
-  const ServiceModel = new serviceModel(options);
-  const RouteModel = new routeModel(options);
-  const FieldModel = new fieldModel(options);
-  const DataModel = new dataModel(options);
+  const ServiceModel = options.models.ServiceModel;
+  const RouteModel = options.models.RouteModel;
+  const FieldModel = options.models.FieldModel;
+  const DataModel = options.models.DataModel;
   const FranceConnectHelper = new franceConnectHelper(options);
   const FilterService = new filterservice(options);
+  const ConvertService = new convertService(options);
 
   this.get = function (req, res, next) {
-    return next({code: 200, data: req.data.data.getResourceObject(res._apiuri)});
+    return next({code: 200, data: req.data.data.getResourceObject(res._apiuri, {include: res._request.params.include})});
   };
 
   this.getDataData = function (req, res, next) {
@@ -34,7 +33,17 @@ function ServicesController(options) {
     else
       condition.dataId = req.params.dataId;
     DataModel.io
-      .findOne(condition, function (err, data) {
+      .findOne(condition)
+      .populate([{
+        path: 'service',
+        model: ServiceModel.io,
+        options: {limit: CONFIG.api.pagination.limit}
+      },{
+        path: 'route',
+        model: RouteModel.io,
+        options: {limit: CONFIG.api.pagination.limit}
+      }])
+      .exec(function (err, data) {
         if (err)
           return next({code: 500});
         if (!data)
@@ -120,6 +129,22 @@ function ServicesController(options) {
           sort: {updatedAt: -1, createdAt: -1},
           populate: []
         };
+        if (Array.isArray(res._request.params.include) === true) {
+          if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
+            queryOptions.populate.push({
+              path: 'service',
+              model: ServiceModel.io,
+              options: {limit: CONFIG.api.pagination.limit}
+            });
+          }
+          if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
+            queryOptions.populate.push({
+              path: 'route',
+              model: RouteModel.io,
+              options: {limit: CONFIG.api.pagination.limit}
+            });
+          }
+        }
         _.merge(queryOptions, res._paginate);
 
         DataModel
@@ -198,12 +223,13 @@ function ServicesController(options) {
                 errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
 
               fields.forEach(function (field) {
-                let value = attr[field.nameNormalized];
-                if (field.required && !value) {
+                if (field.required && !attr[field.nameNormalized]) {
                   errors.push('missing_parameter', '"' + field.nameNormalized + '" is required', 'error on index: ' + i);
                 }
-                if (value && !FieldModel.isTypeValid(field.type, value)) {
-                  errors.push('invalid_format', '"' + field.nameNormalized + '" must be ' + field.type, 'error on index: ' + i);
+                if (attr[field.nameNormalized]) {
+                  attr[field.nameNormalized] = ConvertService.convert(field.type, attr[field.nameNormalized]);
+                  if (attr[field.nameNormalized] instanceof Error)
+                    errors.push('invalid_format', '"' + field.nameNormalized + '" must be ' + field.type, 'error on index: ' + i);
                 }
               });
 

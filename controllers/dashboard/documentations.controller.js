@@ -1,8 +1,6 @@
 'use strict';
 
-const serviceModel = require('../../models/v1/Service.model.js'),
-  routeModel = require('../../models/v1/Route.model.js'),
-  fs = require('fs'),
+const fs = require('fs'),
   markdown = require("node-markdown").Markdown;
 
 module.exports = DocumentationsController;
@@ -10,8 +8,8 @@ module.exports = DocumentationsController;
 function DocumentationsController(options) {
   options = options || {};
   const logger = options.logger;
-  const ServiceModel = new serviceModel(options);
-  const RouteModel = new routeModel(options);
+  const ServiceModel = options.models.ServiceModel;
+  const RouteModel = options.models.RouteModel;
 
   this.index = function(req, res, next) {
     res.render('pages/documentation/index', {

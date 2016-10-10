@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require('request'),
-  tokenModel = require('../../models/v1/Token.model.js'),
   flashHelper = require('../../helpers/flash.helper.js'),
   paginationService = require('../../services/pagination.service.js'),
   _ = require('lodash');
@@ -11,7 +10,7 @@ module.exports = TokensController;
 function TokensController(options) {
   options = options || {};
   const logger = options.logger;
-  const TokenModel = new tokenModel(options);
+  const TokenModel = options.models.TokenModel;
   const FlashHelper = new flashHelper(options);
   const PaginationService = new paginationService(options);
 
