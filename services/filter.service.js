@@ -221,10 +221,17 @@ function FilterService(options) {
       if ( typeof  obj[key] === 'object' && canBeMultiVal(getRealKeyNeeded(key, obj[key], obj, param)))
       {
         var jsontab = [];
-        Object.keys(obj[key]).forEach(function (key1) {
-          jsontab.push(getConvertValueByTypeKeyname(obj[key][key1], val, listfields,param));
-          
+        Object.keys(obj[key]).every(function (key1) {
+          var val = getConvertValueByTypeKeyname(obj[key][key1], val, listfields,param);
+          if (val === undefined) {
+            jsonRes = undefined;
+            return false;
+          }
+          jsontab.push();
+          return true;
         });
+        if (jsonRes === undefined)
+          return undefined;
         jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsontab;
         jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
@@ -234,17 +241,25 @@ function FilterService(options) {
         var nbkey = Object.keys(obj[key]).length;
         if (nbkey > 1)
           jsonval["and"] = new Array();
-        Object.keys(obj[key]).forEach(function (key1) {
+        Object.keys(obj[key]).every(function (key1) {
           var jsonobj = {};
           jsonobj[key1] = getConvertValueByTypeKeyname(obj[key][key1], val, listfields,param);
-          if (nbkey < 2)
+          if (jsonobj[key1] === undefined) {
+            jsonRes = undefined;
+            return false;
+          }
+          if (nbkey < 2) {
             jsonval = jsonobj;
+          }
           else {
             var jsonobj2 = {};
             jsonobj2 = jsonobj;
             jsonval["and"].push(jsonobj);
           }
+          return true;
         });
+        if (jsonRes === undefined)
+          return undefined;
         jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsonval;
         jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
@@ -259,22 +274,34 @@ function FilterService(options) {
   function getConditionAfter(val, obj, listfields, param) {
     var jsonRes = {};
     var value;
-    Object.keys(obj).forEach(function (key) {
+    Object.keys(obj).every(function (key) {
       if (key in SPE_OPERATORS) {
         jsonRes[key] = getSpeOPeratorVal(key, obj[key], param);
+        if (jsonRes[key] === undefined) {
+          jsonRes = undefined;
+          return false;
+        }
       }
       else if (key[0] === '$') {
         jsonRes = fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, param);
+        if (jsonRes === undefined) {
+          return false;
+        }
       }
       else if ((value = getValIfValExistInArray(key, listfields)) !== undefined)
       {
           jsonRes[value] = (getConditionAfter(value, obj[key], listfields, param));
+        if (jsonRes[value] === undefined) {
+          jsonRes = undefined;
+          return false;
+        }
       }
       else {
         param["errors"].push("key: "+ key + " need to be a condition started with '$'");
         jsonRes = undefined;
-        return undefined;
+        return false;
       }
+      return true;
     });
     return (jsonRes);
   }
@@ -312,8 +339,9 @@ function FilterService(options) {
   function getConditionBeforeObjOperator(jsontab, currentKey, key, obj, listfields, param) {
     var jsonRes = {};
     jsonRes = fillJsonObjWithKeyBefore(jsonRes, currentKey, key, obj, listfields, param);
-    if (jsonRes === undefined)
+    if (jsonRes === undefined) {
       return undefined;
+    }
     if (currentKey !== null) {
       return jsonRes;
     }
@@ -341,11 +369,19 @@ function FilterService(options) {
         var jsonRes = {};
         jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = getConditionAfter(kval, value, listfields, param);
         jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
+        if (jsontab === undefined) {
+          param["errors"].push("canot put " + JSON.stringify(jsonRes) + " in his parents");
+          return undefined;
+        }
         jsontab.push(jsonRes);
       }
     } else {
       var jsonRes = {};
       jsonRes[kval] = getConditionAfter(kval, obj[kval], listfields, param);
+      if (jsontab === undefined) {
+        param["errors"].push("canot put " + JSON.stringify(jsonRes) + " in his parents");
+        return undefined;
+      }
       jsontab.push(jsonRes);
     }
     return jsontab;
@@ -364,47 +400,60 @@ function FilterService(options) {
         jsonRes = undefined;
       }
     }
-    else
+    else {
       param["errors"].push("cond : " + key + "need to be before a declarate field");
-      
+    }
     return jsonRes;
   }
   
   function getSpeOPeratorObj(key, obj, param) {
     var jsonRes = {};
     if (SPE_OPERATORS[key] !== null) {
-      Object.keys(obj).forEach(function (key1) {
+      Object.keys(obj).every(function ( key1) {
         if (SPE_OPERATORS[key].indexOf(key1) != -1) {
           jsonRes[key1] = getconvertedVal(obj[key1], SPE_COND_TYPES[key1], param);
+          if (jsonRes[key1] === undefined) {
+            jsonRes = undefined;
+            return false;
+          }
         }
         else {
           param["errors"].push("cond : " + key1 + " is not an option of " + key);
+          jsonRes = undefined;
+          return false;
         }
+        return true;
       });
     }
-    else
+    else {
       param["errors"].push("cond : " + key + "need to be after a declarate field");
+      jsonRes = undefined;
+    }
     return jsonRes;
   }
   
   function getConditionBeforeObj(currentKey, array, listfields, param) {
     var jsontab = [];
-    Object.keys(array).forEach(function (key) {
+    Object.keys(array).every(function ( key) {
       var jsonRes = {};
       if (CONDITIONAL_OPERATORS.indexOf(key) != -1) {
         jsontab = getConditionBeforeObjOperator(jsontab, currentKey, key, array, listfields, param);
-        if (jsontab === undefined)
-          return undefined;
+        if (jsontab === undefined) {
+          return false;
+        }
       }
       else if (key[0] !== '$') {
         if ((getConditionBeforeObjSpeOp(jsontab, currentKey, key, array, listfields, param)) === undefined) {
           jsontab = undefined;
-          return undefined;
+          return false;
         }
       }
       else if (key in SPE_OPERATORS) {
         var jsonRes2 = {};
-        jsonRes2[key] = getSpeOPeratorObj(key, array[key], param);
+        if ((jsonRes2[key] = getSpeOPeratorObj(key, array[key], param)) === undefined) {
+          jsontab = undefined;
+          return false;
+        }
         jsontab.push(jsonRes2);
       }
       else {
@@ -413,10 +462,11 @@ function FilterService(options) {
         var jsontmp = getConditionAfter(currentKey, jsonRes2, listfields, param);
         if (jsontmp === undefined) {
           jsontab = undefined;
-          return undefined;
+          return false;
         }
         jsontab.push(jsontmp);
       }
+      return true;
     });
     return jsontab;
   }
@@ -425,13 +475,15 @@ function FilterService(options) {
     var jsontab = [];
     if (Array.isArray(array) === true) {
       var tabtmp = [];
-      if ((tabtmp = getConditionBeforeArray(currentKey, array, listfields, param)) === undefined)
+      if ((tabtmp = getConditionBeforeArray(currentKey, array, listfields, param)) === undefined) {
         return undefined;
+      }
       jsontab = jsontab.concat(tabtmp);
     } else if (typeof array === 'object') {
       var tabtmp = [];
-      if ((tabtmp = getConditionBeforeObj(currentKey, array, listfields, param)) === undefined)
+      if ((tabtmp = getConditionBeforeObj(currentKey, array, listfields, param)) === undefined) {
         return undefined;
+      }
       if (currentKey !== null && currentKey !== undefined) {
         return tabtmp;
       }
@@ -469,12 +521,12 @@ function FilterService(options) {
           param["errors"].unshift("filters error");
           jsonVal["ERRORS"] = param["errors"];
         }
-        if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
+        else if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
         {
           if (jsonVal["$and"] !== undefined)
             jsonVal["$and"].unshift(jsonRes);
           else {
-            jsonVal = jsonRes;
+              jsonVal = jsonRes;
           }
         }
       }
