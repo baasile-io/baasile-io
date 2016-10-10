@@ -7,13 +7,14 @@ module.exports = FilterService;
 function FilterService(options) {
   const CONDITIONAL_OPERATORS = ['$and', '$or', '$nor'];
   
-  const SPE_OPERATORS = {'$text':['$search', '$language', '$caseSensitive', '$diacriticSensitive']};
+  const SPE_OPERATORS = {'$text':['$search', '$language', '$caseSensitive', '$diacriticSensitive'],'$exists': null };
   
   const SPE_COND_TYPES = {
     "$search" : "STRING",
     "$language" : "STRING",
     "$caseSensitive" : "BOOLEAN",
-    "$diacriticSensitive" : "BOOLEAN"
+    "$diacriticSensitive" : "BOOLEAN",
+    "$exists" : "BOOLEAN"
   };
   
   const DEFAULT_TYPE = 'STRING';
@@ -259,7 +260,10 @@ function FilterService(options) {
     var jsonRes = {};
     var value;
     Object.keys(obj).forEach(function (key) {
-      if (key[0] === '$') {
+      if (key in SPE_OPERATORS) {
+        jsonRes[key] = getSpeOPeratorVal(key, obj[key], param);
+      }
+      else if (key[0] === '$') {
         jsonRes = fillJsonObjWithKeyAfter(jsonRes, key, val, obj, listfields, param);
       }
       else if ((value = getValIfValExistInArray(key, listfields)) !== undefined)
@@ -347,16 +351,39 @@ function FilterService(options) {
     return jsontab;
   }
   
+  function getSpeOPeratorVal(key, obj, param) {
+    var jsonRes = {};
+    if (SPE_OPERATORS[key] === null) {
+      if (typeof obj !== 'object')
+      {
+        jsonRes = getconvertedVal(obj, SPE_COND_TYPES[key], param);
+      }
+      else
+      {
+        param["errors"].push("cond : " + key + " could only contain type" + SPE_COND_TYPES[key]);
+        jsonRes = undefined;
+      }
+    }
+    else
+      param["errors"].push("cond : " + key + "need to be before a declarate field");
+      
+    return jsonRes;
+  }
+  
   function getSpeOPeratorObj(key, obj, param) {
     var jsonRes = {};
-    Object.keys(obj).forEach(function (key1) {
-      if (SPE_OPERATORS[key].indexOf(key1) != -1) {
-        jsonRes[key1] = getconvertedVal(obj[key1], SPE_COND_TYPES[key1], param);
-      }
-      else {
-        param["errors"].push("cond : " + key1 + " is not an option of " + key);
-      }
-    });
+    if (SPE_OPERATORS[key] !== null) {
+      Object.keys(obj).forEach(function (key1) {
+        if (SPE_OPERATORS[key].indexOf(key1) != -1) {
+          jsonRes[key1] = getconvertedVal(obj[key1], SPE_COND_TYPES[key1], param);
+        }
+        else {
+          param["errors"].push("cond : " + key1 + " is not an option of " + key);
+        }
+      });
+    }
+    else
+      param["errors"].push("cond : " + key + "need to be after a declarate field");
     return jsonRes;
   }
   

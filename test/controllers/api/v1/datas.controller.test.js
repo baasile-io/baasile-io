@@ -30,6 +30,7 @@ const filterError = [
 ]
 
 const filterClassic = [
+  { testname: "test $exists", res:["my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$and][data.field1][$ne]=first string&filter[$and][data.field1][$exists]=true"},
   { testname: "test NOT -> NE", res:["my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$and][data.field1][$not]=first string"},
   { testname: "test NOt -> NE && NOT 1", res:["my_data_id3", "my_data_id4", "my_data_id5"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90"},
   { testname: "test NOt -> NE && multiple NOT 2", res:["my_data_id3"], filter : "filter[$and][0][data.field1][$not]=first string&filter[$and][0][data.field3][$not]=1&filter[$and][0][data.field5][$not][$gt]=90&filter[$and][1][data.field5][$not][$lt]=71"},
