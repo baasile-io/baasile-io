@@ -26,11 +26,13 @@ function AccountsController(options) {
             return callback();
           });
         }
+        let firstEmail = /\/subscribe/.test(req.headers.referer);
+        console.log(req.headers.referer);
         FlashHelper.addError(req.session, {
-          title: 'Votre adresse E-Mail n\'a pas été confirmée',
+          title: firstEmail ? 'Veuillez confirmer votre adresse E-Mail' : 'Votre adresse E-Mail n\'a pas été confirmée',
           icon: 'send',
           messages: [
-            'Un nouveau lien de confirmation vous a été envoyé',
+            firstEmail ? 'Un lien de confirmation vous a été envoyé' : 'Un nouveau lien de confirmation vous a été envoyé',
             'Date d\'expiration du lien : ' + result.emailToken.accessTokenExpiresOn.toLocaleString(),
             'Les liens envoyés précédemment deviennent inactifs'
           ]
