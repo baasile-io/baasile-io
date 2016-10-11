@@ -133,7 +133,61 @@ module.exports = {
     clientSecret: 'client_secret_number_1',
     clientId: 'client_id_number_1',
     validated: true,
-    "ROUTES": []
+    "ROUTES": [{
+      name: 'CollectionWithAllTypes',
+      description: 'description',
+      routeId: 'my_route_with_all_types_id',
+      public: false,
+      isIdentified: false,
+      isCollection: false,
+      "FIELDS": [{
+        name: 'id',
+        required: true,
+        fieldId: 'my_field_all_types_id1',
+        type: 'ID'
+      }, {
+        name: 'my_string',
+        required: false,
+        fieldId: 'my_field_all_types_id2',
+        type: 'STRING'
+      }, {
+        name: 'my_numeric',
+        required: false,
+        fieldId: 'my_field_all_types_id3',
+        type: 'NUMERIC'
+      }, {
+        name: 'my_json',
+        required: false,
+        fieldId: 'my_field_all_types_id4',
+        type: 'JSON'
+      }, {
+        name: 'my_percent',
+        required: false,
+        fieldId: 'my_field_all_types_id5',
+        type: 'PERCENT'
+      }, {
+        name: 'my_amount',
+        required: false,
+        fieldId: 'my_field_all_types_id6',
+        type: 'AMOUNT'
+      }, {
+        name: 'my_boolean',
+        required: false,
+        fieldId: 'my_field_all_types_id7',
+        type: 'BOOLEAN'
+      }, {
+        name: 'my_encoded',
+        required: false,
+        fieldId: 'my_field_all_types_id8',
+        type: 'ENCODED'
+      }, {
+        name: 'my_date',
+        required: false,
+        fieldId: 'my_field_all_types_id9',
+        type: 'DATE'
+      }],
+      "DATAS": []
+    }]
   },{
     "CREATOR_INDEX": 1,
     "USERS_INDEX": [1],

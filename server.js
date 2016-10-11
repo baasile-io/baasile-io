@@ -16,7 +16,13 @@ const http = require('http'),
 
 const userModel = require('./models/v1/User.model.js'),
   serviceModel = require('./models/v1/Service.model.js'),
-  routeModel = require('./models/v1/Route.model.js');
+  routeModel = require('./models/v1/Route.model.js'),
+  fieldModel = require('./models/v1/Field.model.js'),
+  pageModel = require('./models/v1/Page.model.js'),
+  dataModel = require('./models/v1/Data.model.js'),
+  relationModel = require('./models/v1/Relation.model.js'),
+  tokenModel = require('./models/v1/Token.model.js'),
+  emailTokenModel = require('./models/v1/EmailToken.model.js');
 
 module.exports = Server;
 
@@ -32,7 +38,13 @@ function Server(options) {
   options.models = {
     UserModel: new userModel(options),
     ServiceModel: new serviceModel(options),
-    RouteModel: new routeModel(options)
+    RouteModel: new routeModel(options),
+    FieldModel: new fieldModel(options),
+    PageModel: new pageModel(options),
+    DataModel: new dataModel(options),
+    RelationModel: new relationModel(options),
+    TokenModel: new tokenModel(options),
+    EmailTokenModel: new emailTokenModel(options)
   };
 
   var logger = options.logger;

@@ -2,9 +2,6 @@
 
 const request = require('request'),
   _ = require('lodash'),
-  serviceModel = require('../../models/v1/Service.model.js'),
-  tokenModel = require('../../models/v1/Token.model.js'),
-  userModel = require('../../models/v1/User.model.js'),
   flashHelper = require('../../helpers/flash.helper.js'),
   emailService = require('../../services/email.service.js');
 
@@ -13,9 +10,9 @@ module.exports = ServicesController;
 function ServicesController(options) {
   options = options || {};
   const logger = options.logger;
-  const ServiceModel = new serviceModel(options);
-  const TokenModel = new tokenModel(options);
-  const UserModel = new userModel(options);
+  const ServiceModel = options.models.ServiceModel;
+  const TokenModel = options.models.TokenModel;
+  const UserModel = options.models.UserModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
 

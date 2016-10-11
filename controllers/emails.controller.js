@@ -1,9 +1,6 @@
 'use strict';
 
 const request = require('request'),
-  emailTokenModel = require('../models/v1/EmailToken.model.js'),
-  userModel = require('../models/v1/User.model.js'),
-  serviceModel = require('../models/v1/Service.model.js'),
   flashHelper = require('../helpers/flash.helper.js'),
   emailService = require('../services/email.service.js');
 
@@ -12,9 +9,9 @@ module.exports = EmailsController;
 function EmailsController(options) {
   options = options || {};
   const logger = options.logger;
-  const EmailTokenModel = new emailTokenModel(options);
-  const UserModel = new userModel(options);
-  const ServiceModel = new serviceModel(options);
+  const EmailTokenModel = options.models.EmailTokenModel;
+  const UserModel = options.models.UserModel;
+  const ServiceModel = options.models.ServiceModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
 

@@ -1,10 +1,6 @@
 'use strict';
 
 const _ = require('lodash'),
-  serviceModel = require('../../../models/v1/Service.model.js'),
-  routeModel = require('../../../models/v1/Route.model.js'),
-  fieldModel = require('../../../models/v1/Field.model.js'),
-  dataModel = require('../../../models/v1/Data.model.js'),
   CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
@@ -12,10 +8,10 @@ module.exports = ServicesController;
 function ServicesController(options) {
   options = options || {};
   const logger = options.logger;
-  const ServiceModel = new serviceModel(options);
-  const RouteModel = new routeModel(options);
-  const FieldModel = new fieldModel(options);
-  const DataModel = new dataModel(options);
+  const ServiceModel = options.models.ServiceModel;
+  const RouteModel = options.models.RouteModel;
+  const FieldModel = options.models.FieldModel;
+  const DataModel = options.models.DataModel;
 
   this.getRoutes = function(req, res, next) {
     var query = {

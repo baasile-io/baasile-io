@@ -2,8 +2,6 @@
 
 const request = require('request'),
   _ = require('lodash'),
-  fieldModel = require('../../models/v1/Field.model.js'),
-  dataModel = require('../../models/v1/Data.model.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
 module.exports = FieldsController;
@@ -11,8 +9,8 @@ module.exports = FieldsController;
 function FieldsController(options) {
   options = options || {};
   const logger = options.logger;
-  const FieldModel = new fieldModel(options);
-  const DataModel = new dataModel(options);
+  const FieldModel = options.models.FieldModel;
+  const DataModel = options.models.DataModel;
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res, next) {
