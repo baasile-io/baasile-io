@@ -2,10 +2,6 @@
 
 const request = require('request'),
   _ = require('lodash'),
-  routeModel = require('../../models/v1/Route.model.js'),
-  fieldModel = require('../../models/v1/Field.model.js'),
-  relationModel = require('../../models/v1/Relation.model.js'),
-  dataModel = require('../../models/v1/Data.model.js'),
   flashHelper = require('../../helpers/flash.helper.js'),
   CONFIG = require('../../config/app.js');
 
@@ -14,10 +10,10 @@ module.exports = RoutesController;
 function RoutesController(options) {
   options = options || {};
   const logger = options.logger;
-  const RouteModel = new routeModel(options);
-  const FieldModel = new fieldModel(options);
-  const DataModel = new dataModel(options);
-  const RelationModel = new relationModel(options);
+  const RouteModel = options.models.RouteModel;
+  const FieldModel = options.models.FieldModel;
+  const DataModel = options.models.DataModel;
+  const RelationModel = options.models.RelationModel;
   const FlashHelper = new flashHelper(options);
 
   this.index = function(req, res, next) {

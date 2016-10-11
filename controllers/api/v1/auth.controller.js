@@ -1,17 +1,14 @@
 'use strict';
 
-const request = require('request'),
-  StandardError = require('standard-error'),
-  tokenModel = require('../../../models/v1/Token.model.js'),
-  serviceModel = require('../../../models/v1/Service.model.js');
+const request = require('request');
 
 module.exports = AuthController;
 
 function AuthController(options) {
   options = options || {};
   const logger = options.logger;
-  const TokenModel = new tokenModel(options);
-  const ServiceModel = new serviceModel(options);
+  const TokenModel = options.models.TokenModel;
+  const ServiceModel = options.models.ServiceModel;
 
   this.authorize = function(req, res, next) {
     if (res._service)

@@ -254,23 +254,4 @@ function FieldModel(options) {
   this.getFieldTypes = function() {
     return FIELD_TYPES;
   };
-
-  this.isTypeValid = function(type, value) {
-    if (type == 'STRING' && typeof value != 'string')
-      return false;
-    if ((type == 'NUMERIC' || type == 'PERCENT' || type == 'AMOUNT') && typeof value != 'number')
-      return false;
-    if (type == 'DATE' && (typeof value != 'string' || isNaN(Date.parse(value))))
-      return false;
-    if (type == 'JSON') {
-      if (typeof value != 'object')
-        return false;
-      if (Array.isArray(value))
-        return false;
-    }
-    if (type == 'BOOLEAN' && typeof value != Boolean)
-      return false;
-    return true;
-  };
-
 };

@@ -2,8 +2,6 @@
 
 const _ = require('lodash'),
   request = require('request'),
-  userModel = require('../../models/v1/User.model.js'),
-  serviceModel = require('../../models/v1/Service.model.js'),
   emailService = require('../../services/email.service.js'),
   flashHelper = require('../../helpers/flash.helper.js');
 
@@ -12,8 +10,8 @@ module.exports = AccountsController;
 function AccountsController(options) {
   options = options || {};
   const logger = options.logger;
-  const UserModel = new userModel(options);
-  const ServiceModel = new serviceModel(options);
+  const UserModel = options.models.UserModel;
+  const ServiceModel = options.models.ServiceModel;
   const EmailService = new emailService(options);
   const FlashHelper = new flashHelper(options);
 

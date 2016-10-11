@@ -2,7 +2,9 @@
 
 const testHelper = require('../../../test.helper.js'),
   TestHelper = new testHelper(),
-  request = TestHelper.request;
+  request = TestHelper.request,
+  dataModel = require('../../../../models/v1/Data.model.js'),
+  DataModel = new dataModel(TestHelper.getOptions());
 
 const datadb = {
   my_data_id1: {field1: 'first string', field2: 'second string', field3: 12, field4: {'key': 'value'}, field5: 75},
@@ -87,6 +89,156 @@ describe('Datas', function () {
           });
           done();
         });
+    });
+
+    describe('Errors', function() {
+
+      it('404', function (done) {
+        request()
+          .get('/api/v1/collections/my_route_id1/relationships/donnees/hkgdhjqsDGKSQGDKQDS')
+          .query({access_token: TestHelper.getAccessToken()})
+          .end(function (err, res) {
+            TestHelper.checkResponse(res, {isSuccess: false, status: 404});
+            done();
+          });
+      });
+
+    });
+
+    describe('Relationships', function() {
+
+      describe('Collections', function() {
+
+        it('includes route', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees?include=collections')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data[0].relationships.should.have.property('collections');
+              res.body.data[0].relationships.collections.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/collections/my_route_id1'},
+                data: {
+                  type: "collections",
+                  id: "my_route_id1"
+                }
+              });
+              done();
+            });
+        });
+
+        it('includes service', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees?include=services')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data[0].relationships.should.have.property('services');
+              res.body.data[0].relationships.services.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/services/my_client_id'},
+                data: {
+                  type: "services",
+                  id: "my_client_id"
+                }
+              });
+              done();
+            });
+        });
+
+        it('includes route & service', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees?include=collections,services')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data[0].relationships.should.have.property('collections');
+              res.body.data[0].relationships.collections.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/collections/my_route_id1'},
+                data: {
+                  type: "collections",
+                  id: "my_route_id1"
+                }
+              });
+              res.body.data[0].relationships.should.have.property('services');
+              res.body.data[0].relationships.services.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/services/my_client_id'},
+                data: {
+                  type: "services",
+                  id: "my_client_id"
+                }
+              });
+              done();
+            });
+        });
+
+      });
+
+      describe('Resource', function() {
+
+        it('includes route', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees/my_data_id1?include=collections')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isCollection: false});
+              res.body.data.relationships.should.have.property('collections');
+              res.body.data.relationships.collections.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/collections/my_route_id1'},
+                data: {
+                  type: "collections",
+                  id: "my_route_id1"
+                }
+              });
+              done();
+            });
+        });
+
+        it('includes service', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees/my_data_id1?include=services')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isCollection: false});
+              res.body.data.relationships.should.have.property('services');
+              res.body.data.relationships.services.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/services/my_client_id'},
+                data: {
+                  type: "services",
+                  id: "my_client_id"
+                }
+              });
+              done();
+            });
+        });
+
+        it('includes route & service', function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/donnees/my_data_id1?include=collections,services')
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isCollection: false});
+              res.body.data.relationships.should.have.property('collections');
+              res.body.data.relationships.collections.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/collections/my_route_id1'},
+                data: {
+                  type: "collections",
+                  id: "my_route_id1"
+                }
+              });
+              res.body.data.relationships.should.have.property('services');
+              res.body.data.relationships.services.should.eql({
+                links: {self: 'http://localhost:3010/api/v1/services/my_client_id'},
+                data: {
+                  type: "services",
+                  id: "my_client_id"
+                }
+              });
+              done();
+            });
+        });
+
+      });
+
     });
   
     describe('Filter service', function () {
@@ -353,6 +505,210 @@ describe('Datas', function () {
             done();
           });
       });
+
+    });
+
+    describe('POST data', function() {
+
+      describe('errors management', function() {
+
+        it('need "data" field to be set', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken()
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('missing_parameter');
+              res.body.errors.should.include('"data" is required');
+              done();
+            });
+        });
+
+        it('need "type", "id" and "attributes" fields to be set', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {}
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('missing_parameter');
+              res.body.errors.should.include('"type" is required');
+              res.body.errors.should.include('"id" is required');
+              res.body.errors.should.include('"attributes" is required');
+              done();
+            });
+        });
+
+        it('need "type" to be equal to "donnees"', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {
+                id: "hqgkvcbekhjfbld",
+                type: "invalid_type",
+                attributes: {}
+              }
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('invalid_paramater');
+              res.body.errors.should.include('"type" must be equal to "donnees"');
+              done();
+            });
+        });
+
+        it('need required fields to be set (1)', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {
+                id: "hqgkvcbekhjfbld",
+                type: "donnees",
+                attributes: {}
+              }
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('missing_parameter');
+              res.body.errors.should.include('"field1" is required');
+              res.body.errors.should.include('"field2" is required');
+              res.body.errors.should.include('"field3" is required');
+              res.body.errors.should.include('"field4" is required');
+              res.body.errors.should.include('"field5" is required');
+              done();
+            });
+        });
+
+        it('need required fields to be set (2)', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {
+                id: "hqgkvcbekhjfbld",
+                type: "donnees",
+                attributes: {
+                  field1: "",
+                  field2: ""
+                }
+              }
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('missing_parameter');
+              res.body.errors.should.include('"field1" is required');
+              res.body.errors.should.include('"field2" is required');
+              res.body.errors.should.include('"field3" is required');
+              res.body.errors.should.include('"field4" is required');
+              res.body.errors.should.include('"field5" is required');
+              done();
+            });
+        });
+
+        it('need required fields to be the same type', function (done) {
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {
+                id: "hqgkvcbekhjfbld",
+                type: "donnees",
+                attributes: {
+                  field1: "STRING",
+                  field2: "STRING",
+                  field3: "STRING",
+                  field4: "STRING",
+                  field5: "STRING"
+                }
+              }
+            })
+            .end(function (err, res) {
+              TestHelper.checkResponse(res, {isSuccess: false, status: 400});
+              res.body.errors.should.include('invalid_format');
+              res.body.errors.should.include('"field3" must be NUMERIC');
+              res.body.errors.should.include('"field4" must be JSON');
+              res.body.errors.should.include('"field5" must be AMOUNT');
+              done();
+            });
+        });
+
+      });
+
+      describe('Success create (201) and then update (200)', function() {
+
+        it('save new data', function(done) {
+          var attributes = {
+            field1: "STRING",
+            field2: "STRING",
+            field3: 42,
+            field4: {test: 'ok'},
+            field5: 999.99
+          };
+
+          // post trough API
+          request()
+            .post('/api/v1/collections/my_route_id1/relationships/donnees')
+            .send({
+              access_token: TestHelper.getAccessToken(),
+              data: {
+                id: "hqgkvcbekhjfbld",
+                type: "donnees",
+                attributes: attributes
+              }
+            })
+            .end(function (err, res) {
+              if (err)
+                return done(err);
+              TestHelper.checkResponse(res, {status: 201});
+
+              // get from database
+              DataModel.io.findOne({dataId: "hqgkvcbekhjfbld"}, function(err, newObj) {
+                if (err)
+                  done(err);
+                newObj.dataId.should.eq("hqgkvcbekhjfbld");
+                newObj.data.should.eql(attributes);
+
+                // update trough API
+                attributes.field1 = "NEW STRING1";
+                attributes.field2 = "NEW STRING2";
+                attributes.field3 = -56;
+                attributes.field4 = {};
+                attributes.field5 = 12;
+                request()
+                  .post('/api/v1/collections/my_route_id1/relationships/donnees')
+                  .send({
+                    access_token: TestHelper.getAccessToken(),
+                    data: {
+                      id: "hqgkvcbekhjfbld",
+                      type: "donnees",
+                      attributes: attributes
+                    }
+                  })
+                  .end(function (err, res) {
+                    if (err)
+                      return done(err);
+                    TestHelper.checkResponse(res, {status: 200});
+
+                    // get from database
+                    DataModel.io.findOne({dataId: "hqgkvcbekhjfbld"}, function(err, newObj) {
+                      if (err)
+                        done(err);
+                      newObj.dataId.should.eq("hqgkvcbekhjfbld");
+                      newObj.data.should.eql(attributes);
+                      done();
+                    });
+                  });
+              });
+            });
+        });
+      });
+
 
     });
 
