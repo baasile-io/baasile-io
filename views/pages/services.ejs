@@ -9,30 +9,79 @@
   <% if (services.length == 0 ) { %>
   Il n'y a actuellement aucun service référencé sur l'API.
   <% } else { %>
-  <div class="ui two stackable cards">
   <% services.forEach(function(service) { %>
-    <div class="ui card">
-      <div class="content">
-        <div class="ui header icon">
-          <i class="cube icon"></i>
-          <div class=content"><%= service.name %></div>
+  <div class="ui raised segments">
+    <div class="ui segment">
+      <h2 class="ui header">
+        <img src="/assets/images/no-image.png">
+        <div class="content">
+          <%= service.name %>
+          <div class="sub header">
+            Créée le <%= service.createdAt.toLocaleString() %>
+            <% if (service.routes.length > 0) { %>
+            , <%= service.routes.length %> collection(s) partagée(s)
+            <% } %>
+          </div>
         </div>
-        <div class="meta">
-          <span class="date">Créé le <%= service.createdAt.toLocaleString() %></span>
+      </h2>
+      <p><%= service.description %></p>
+      <% if (service.website) { %>
+      <p><a href="<%= service.website %>" target="_blank" class="ui mini primary button">
+        Site Internet
+      </a></p>
+      <% } %>
+      <a class="ui fluid mini button display-route-id-btn" data-apiuri="<%= service.getApiUri(apiUri) %>">
+        <i class="icon external"></i>
+        Afficher la route
+      </a>
+    </div>
+    <% if (service.routes.length > 0) { %>
+    <div class="ui piled segment">
+      <div class="ui comments">
+        <% service.routes.forEach(function(route) { %>
+        <div class="comment">
+          <div class="avatar">
+            <i class="database icon"></i>
+          </div>
+          <div class="content">
+            <a class="author"><%= route.name %></a>
+            <div class="metadata">
+              <span class="date">Créée le <%= route.createdAt.toLocaleString() %></span>
+            </div>
+            <div class="text">
+              <%= route.description %>
+            </div>
+            <div class="actions">
+              <button class="ui mini basic fluid button display-route-id-btn" data-apiuri="<%= route.getApiUri(apiUri) %>">
+                <i class="icon external"></i>
+                Afficher la route
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="description">
-          <%= service.description %>
-        </div>
-      </div>
-      <div class="extra content">
-        <i class="database icon"></i>
-        <%= service.routes.length %> collection(s) partagée(s)
+        <% }) %>
       </div>
     </div>
-  <% }) %>
+    <% } %>
   </div>
+  <div class="ui hidden divider"></div>
+  <% }) %>
   <% } %>
 
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('.display-route-id-btn').on('click', function(e) {
+      e.preventDefault();
+      var self = $(this);
+      self.hide().after('<div class="ui mini fluid labeled input"><div class="ui blue label">GET</div><input type="text" value="' + self.data('apiuri') + '"/></div>').next().children().focus().select();
+    });
+  });
+</script>
+
+<style type="text/css">
+  .ui.comments {max-width: inherit;}
+</style>
 
 <%- contentFor('masthead') %>
