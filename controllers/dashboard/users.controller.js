@@ -15,6 +15,50 @@ function AccountsController(options) {
   const EmailService = new emailService(options);
   const FlashHelper = new flashHelper(options);
 
+  function sendEmailConfirmation(user, req, res, callback) {
+    EmailService
+      .sendEmailConfirmation(user, res._apiuri)
+      .then(function(result) {
+        if (result.responseStatus.accepted.indexOf(user.email) == -1) {
+          return FlashHelper.addError(req.session, 'Votre adresse E-Mail a été rejetée par le serveur de messagerie lors de l\'envoi du courriel de confirmation', function (err) {
+            if (err)
+              return callback({code: 500});
+            return callback();
+          });
+        }
+        let firstEmail = /\/subscribe/.test(req.headers.referer);
+        console.log(req.headers.referer);
+        FlashHelper.addError(req.session, {
+          title: firstEmail ? 'Veuillez confirmer votre adresse E-Mail' : 'Votre adresse E-Mail n\'a pas été confirmée',
+          icon: 'send',
+          messages: [
+            firstEmail ? 'Un lien de confirmation vous a été envoyé' : 'Un nouveau lien de confirmation vous a été envoyé',
+            'Date d\'expiration du lien : ' + result.emailToken.accessTokenExpiresOn.toLocaleString(),
+            'Les liens envoyés précédemment deviennent inactifs'
+          ]
+        }, function(err) {
+          if (err)
+            return callback({code: 500});
+          logger.info(JSON.stringify(result));
+          return callback();
+        });
+      })
+      .catch(function(err) {
+        if (err.code === 503) {
+          return FlashHelper.addError(req.session, {
+            title: 'Votre adresse E-Mail n\'a pas été confirmée',
+            icon: 'mail',
+            messages: err.messages
+          }, function (err) {
+            if (err)
+              return callback({code: 500});
+            return callback();
+          });
+        }
+        return callback({code: 500});
+      });
+  }
+
   this.sessionNew = function(req, res) {
     if (req.session.user != null) {
       return res.redirect('/dashboard');
@@ -36,7 +80,11 @@ function AccountsController(options) {
     }
     const user_email = req.body.user_email;
     const password = req.body.user_password;
-    var redirect_uri = req.body.redirect_uri;
+
+    // This can be used so that the user that logs in automatically gets
+    // redirected to the protected they were trying to access before loging
+    // in. It may not be set if the user goes straight to the login page.
+    var redirect_uri = req.body.redirect_uri || '/dashboard';
 
     // check form fields here
 
@@ -51,46 +99,19 @@ function AccountsController(options) {
       else if (!UserModel.validatePassword(password, user.password))
         errors.push('Mot de passe invalide');
       else if (!user.emailConfirmation) {
-        return EmailService
-          .sendEmailConfirmation(user, res._dashboarduri)
-          .then(function(result) {
-            if (result.responseStatus.accepted.indexOf(user.email) == -1) {
-              return FlashHelper.addError(req.session, 'Votre adresse E-Mail a été rejetée par le serveur de messagerie lors de l\'envoi du courriel de confirmation', function (err) {
-                if (err)
-                  return next({code: 500});
-                return res.redirect('/login').end();
-              });
-            }
-            FlashHelper.addError(req.session, {
-              title: 'Votre adresse E-Mail n\'a pas été confirmée',
-              icon: 'send',
-              messages: [
-                'Un nouveau lien de confirmation vous a été envoyé',
-                'Date d\'expiration du lien : ' + result.emailToken.accessTokenExpiresOn.toLocaleString(),
-                'Les liens envoyés précédemment deviennent inactifs'
-              ]
-            }, function(err) {
-              if (err)
-                return next({code: 500});
-              logger.info(JSON.stringify(result));
-              return res.redirect('/login');
-            });
-          })
-          .catch(function(err) {
-            if (err.code === 503) {
-              return FlashHelper.addError(req.session, {
-                title: 'Une erreur est survenue',
-                icon: 'mail',
-                messages: err.messages
-              }, function (err) {
-                if (err)
-                  return next({code: 500});
-                return res.redirect('/login');
-              });
-            }
-            return next({code: 500});
-          });
+        errors.push('L\'adresse email n\'a pas été confirmée, veuillez consultez vos emails');
+
+        sendEmailConfirmation(user, req, res, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          logger.info('user created: ' + user.email);
+          res.redirect('/login');
+        });
+        return;
       }
+
       if (errors.length > 0) {
         return res.render('pages/users/login', {
           layout: 'layouts/login',
@@ -107,17 +128,18 @@ function AccountsController(options) {
           }
         });
       }
+
       user.lastLoginAt = new Date();
       user.save(function(err) {
         if (err)
           return next({code: 500});
+
         req.session.user = user;
         req.session.save(function(err) {
           if (err)
             return next({code: 500});
+
           logger.info('user logged in: ' + user.email);
-          if (!redirect_uri || redirect_uri == '')
-            redirect_uri = '/dashboard';
           return res.redirect(redirect_uri);
         });
       });
@@ -322,10 +344,9 @@ function AccountsController(options) {
 
     UserModel.io.create(userInfo, function(err, user) {
       if (err) {
-        let errors;
+        let errors = [];
         if (err.code == 11000)
-          err = 'Cette adresse E-Mail est déjà utilisée';
-        errors = [err];
+          errors.push('Cette adresse E-Mail est déjà utilisée');
         return res.render('pages/users/new', {
           layout: 'layouts/home',
           page: 'pages/users/new',
@@ -343,8 +364,15 @@ function AccountsController(options) {
           }
         });
       }
-      logger.info('user created: ' + user.email);
-      res.redirect('/login');
+
+      sendEmailConfirmation(user, req, res, function(err) {
+        if (err) {
+          // dont handle error, there will be a warning anyway on the login page
+        }
+
+        logger.info('user created: ' + user.email);
+        res.redirect('/login');
+      });
     });
   };
 
