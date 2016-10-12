@@ -1,8 +1,15 @@
 'use strict';
 
+const nconf = require('nconf');
+
+// enable live performance monitoring
+const newRelicLicenseKey = process.env.NEW_RELIC_LICENSE_KEY || nconf.get('NEW_RELIC_LICENSE_KEY');
+if (newRelicLicenseKey) {
+  require('newrelic');
+}
+
 const bunyan = require('bunyan'),
   bunyanFormat = require('bunyan-format'),
-  nconf = require('nconf'),
   Server = require('../server'),
   http = require('http'),
   url = require('url');
@@ -11,12 +18,6 @@ nconf.env({
   separator: '_'
 }).argv();
 nconf.defaults(require('../defaults'));
-
-// enable live performance monitoring
-const newRelicLicenseKey = process.env.NEW_RELIC_LICENSE_KEY || nconf.get('NEW_RELIC_LICENSE_KEY');
-if (newRelicLicenseKey) {
-  require('newrelic');
-}
 
 const logger = bunyan.createLogger({
   name: nconf.get('appname'),
