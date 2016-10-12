@@ -18,7 +18,6 @@ const filterError = [
   { testname: "test Error AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
   { testname: "test Error OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
   { testname: "test Error inseption AND OR", res:["my_data_id2"], filter : "filter[$and][$or]=second&filter[$and][$or][data.field1]=sixs&filter[$and][$or][data.field1]=fives&filter[$and][data.field3][$lt]=20"},
-  { testname: "test Error multiple and inseption AND OR", res:["my_data_id2"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][0][$or][data.field3]=12&filter[$and][0][$or][data.field3]=1&filter[$and][0][$or][data.field3]=70&filter[$and][0][$or][data.field3]=125&filter[$and][0][$or][data.field5]=35&filter[$and][0][$or][data.field5]=2&filter[$and][0][$or][data.field5]=75"},
   { testname: "test Error $gt $lt $gte $lte", res:["my_data_id3", "my_data_id4"], filter : "filter[data.field2][$gt]=42&filter[data.field1][$lt]=71&filter[data.field4][$gte]=35&filter[data.field1][$lte]=85"},
   { testname: "test Error $eq -> $in", res:["my_data_id1", "my_data_id2", "my_data_id3" ], filter : "filter[$eq]=12&filter[data.field4][$eq]=1&filter[data.field1][$eq]=70"},
   { testname: "test Error $ne -> $nin", res:["my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$ne]=12&filter[data.field3][$ne]=1&filter[data.field3][$ne]=70"},
@@ -27,8 +26,8 @@ const filterError = [
   { testname: "test Error simple $regex", res:["my_data_id1", "my_data_id3"], filter : "filter[$regex]=ir"},
   { testname: "test Error multi whith $regex", res:["my_data_id1"], filter : "filter[0][data.field1][$regex]=ir&filter[1][$regex]=st"},
   { testname: "test Error $and whith $regex", res:["my_data_id1"], filter : "filter[$and][0][data.field1][$regex]=ir&filter[$and][1][$regex]=st"},
-  { testname: "test Error $or whith $regex", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=ir&filter[$or][1][$regex]=se"}
-]
+  { testname: "test Error $or whith $regex", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=ir&filter[$or][1][$regex]=se"},
+  ]
 
 const filterClassic = [
   { testname: "test $exists true", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[data.field1][$exists]=true"},
@@ -54,10 +53,12 @@ const filterClassic = [
   { testname: "test $or $regex with one option", res:["my_data_id1", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE"},
   { testname: "test $or $regex with two option", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=IR&filter[$or][0][data.field1][$options]=i&filter[$or][1][data.field1][$regex]=SE&filter[$or][1][data.field1][$options]=i"},
   { testname: "test complex inseption $or $and $regex with options", res:["my_data_id1"], filter : "filter[$and][0][$or][0][data.field1][$regex]=IR&filter[$and][0][$or][0][data.field1][$options]=i&filter[$and][0][$or][1][data.field1][$regex]=SE&filter[$and][0][$or][1][data.field1][$options]=i&filter[$and][1][data.field1][$regex]=STR&filter[$and][1][data.field1][$options]=i"},
-  { testname: "test table $regex", res:["my_data_id1"], filter : "filter[$regex]=ir&filter[$regex]=st"},
   { testname: "test complex inseption $or $and $regex with one root options", res:["my_data_id1", "my_data_id2", "my_data_id3"], filter : "filter[$or][0][data.field1][$regex]=SE&filter[$or][1][data.field1][$regex]=IR&filter[$options]=i"},
+  { testname: "test multiple and inseption AND OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$and][0][$or][data.field1]=second&filter[$and][0][$or][data.field1]=third&filter[$and][0][$or][data.field1]=fours&filter[$and][0][$or][data.field1]=fives&filter[$and][0][$or][data.field1]=sixs&filter[$and][0][$or][data.field3]=12&filter[$and][0][$or][data.field3]=1&filter[$and][0][$or][data.field3]=70&filter[$and][0][$or][data.field3]=125&filter[$and][0][$or][data.field5]=35&filter[$and][0][$or][data.field5]=2&filter[$and][0][$or][data.field5]=75"},
+  { testname: "test table ", res:["my_data_id2", "my_data_id3"], filter : "filter[data.field1][$eq]=second&filter[data.field1][$eq]=third"},
+  //{ testname: "test table $regex", res:["my_data_id1", "my_data_id3"], filter : "filter[data.field1][$regex]=ir&filter[data.field1][$regex]=st"},
   // { testname: "test $text", res:["my_data_id3"], filter : "filter[$text][$search]=thi"},
-  // { testname: "test $text with $search $language $caseSensitive $diacriticSensitive", res:["my_data_id3"], filter : "filter[$text][$search]=THI&filter[$text][$language]=fr&filter[$text][$caseSensitive]=false&filter[$text][$diacriticSensitive]=false"},
+   // { testname: "test $text with $search $language $caseSensitive $diacriticSensitive", res:["my_data_id3"], filter : "filter[$text][$search]=THI&filter[$text][$language]=fr&filter[$text][$caseSensitive]=false&filter[$text][$diacriticSensitive]=false"},
 ]
 
 const filter = [
@@ -145,38 +146,41 @@ describe('Datas', function () {
         
       });
   
-      filterClassic.forEach(function(objfilterclassic) {
-        it(objfilterclassic.testname, function (done) {
-          request()
-            .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?' + objfilterclassic.filter)
-            .query({access_token: TestHelper.getAccessToken()})
-            .end(function (err, res) {
-              TestHelper.checkResponse(res);
-              res.body.data.should.have.lengthOf(objfilterclassic.res.length);
-              for (var j = 0; j < objfilterclassic.res.length; ++j) {
-                let exists = false;
-                res.body.data.forEach(function(data) {
-                  if (data.id === objfilterclassic.res[j]) {
-                    exists = true;
-                    data.type.should.eql('donnees');
-                    //if (objfilterclassic.res[j] === "my_data_id7")
-                    // console.log(JSON.stringify(data));
-                    if (data.attributes !== undefined) {
-                      data.attributes.should.eql({
-                        field1: datadb[objfilterclassic.res[j]].field1,
-                        field2: datadb[objfilterclassic.res[j]].field2,
-                        field3: datadb[objfilterclassic.res[j]].field3,
-                        field4: datadb[objfilterclassic.res[j]].field4,
-                        field5: datadb[objfilterclassic.res[j]].field5
-                      });
+      describe('Filter TEST', function () {
+      
+        filterClassic.forEach(function(objfilterclassic) {
+          it(objfilterclassic.testname, function (done) {
+            request()
+              .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?' + objfilterclassic.filter)
+              .query({access_token: TestHelper.getAccessToken()})
+              .end(function (err, res) {
+                TestHelper.checkResponse(res);
+                res.body.data.should.have.lengthOf(objfilterclassic.res.length);
+                for (var j = 0; j < objfilterclassic.res.length; ++j) {
+                  let exists = false;
+                  res.body.data.forEach(function(data) {
+                    if (data.id === objfilterclassic.res[j]) {
+                      exists = true;
+                      data.type.should.eql('donnees');
+                      //if (objfilterclassic.res[j] === "my_data_id7")
+                      // console.log(JSON.stringify(data));
+                      if (data.attributes !== undefined) {
+                        data.attributes.should.eql({
+                          field1: datadb[objfilterclassic.res[j]].field1,
+                          field2: datadb[objfilterclassic.res[j]].field2,
+                          field3: datadb[objfilterclassic.res[j]].field3,
+                          field4: datadb[objfilterclassic.res[j]].field4,
+                          field5: datadb[objfilterclassic.res[j]].field5
+                        });
+                      }
                     }
-                  }
-                });
-                if (!exists)
-                  throw new Error('data not found');
-              }
-              done();
-            });
+                  });
+                  if (!exists)
+                    throw new Error('data not found');
+                }
+                done();
+              });
+          });
         });
       });
       

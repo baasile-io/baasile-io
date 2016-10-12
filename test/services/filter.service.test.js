@@ -141,8 +141,7 @@ describe('Filter service', function () {
       };
       var expected = {
         '$and': [
-          {'key': {'$eq': 'value1'}},
-          {'key': {'$eq': 'value2'}}
+          {'key': {'$in': ['value1', 'value2']}}
         ]
       };
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
@@ -213,6 +212,7 @@ describe('Filter service', function () {
           }
         ]
       };
+      console.log(FilterService.buildMongoQuery({}, filters));
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
@@ -227,8 +227,7 @@ describe('Filter service', function () {
         '$and': [
           {
             '$and': [
-              {'key': {'$eq': 'value1'}},
-              {'key': {'$eq': 'value2'}}
+              {'key': {'$in': ['value1' , 'value2']}}
             ]
           }
         ]
@@ -247,8 +246,7 @@ describe('Filter service', function () {
         '$and': [
           {
             '$or': [
-              {'key': {'$eq': 'value1'}},
-              {'key': {'$eq': 'value2'}}
+              {'key': {'$in': ['value1', 'value2']}}
             ]
           }
         ]
@@ -288,8 +286,7 @@ describe('Filter service', function () {
         '$and': [
           {
             '$or': [
-              {'key': {'$eq': 'value1'}},
-              {'key': {'$eq': 'value2'}}
+              {'key': {'$in': ['value1', 'value2']}}
             ]
           },
           {
@@ -338,6 +335,7 @@ describe('Filter service', function () {
             }
           }]
       };
+      console.log(FilterService.buildMongoQuery({}, filters));
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
@@ -377,22 +375,18 @@ describe('Filter service', function () {
                 '$and': [
                   {
                     '$or': [
-                      {'keyA': {'$eq': 'valueA1'}},
-                      {'keyA': {'$eq': 'valueA2'}}
+                      {'keyA': {'$in': ['valueA1', "valueA2"]}}
                     ]
                   },
                   {
                     '$or': [
-                      {'keyB': {'$eq': 'valueB1'}},
-                      {'keyB': {'$eq': 'valueB2'}}
+                      {'keyB': {'$in': ['valueB1', "valueB2"]}}
                     ]
                   }
                 ]
               },
               {'keyC': {'$eq': 'valueC'}},
-              {'keyD': {'$eq': 'valueD1'}},
-              {'keyD': {'$eq': 'valueD2'}},
-              {'keyD': {'$eq': 'valueD3'}}
+              {'keyD': {'$in': ['valueD1', "valueD2", "valueD3"]}}
             ]
           }
         ]
@@ -539,22 +533,37 @@ describe('Filter service', function () {
     it('try functional test 7', function (done) {
       // filter[$or][data.field1]=third&filter[$or][data.field2]=test3&filter[$or][data.field2]=test2
       var filters = {"$or":{"data.field1":"third","data.field2":["test3","test2"]}};
+      // var expected = {"$and":[{
+      //   "route":"57f1fa52f0a9620f445bba67"}, {
+      //     "$or":[{
+      //       "data.field1": {
+      //         "$eq":"third"
+      //       }
+      //     }, {
+      //       "data.field2":{
+      //         "$eq":"test3"
+      //       }
+      //     },{
+      //       "data.field2": {
+      //         "$eq":"test2"
+      //       }
+      //     }]
+      //   }]};
       var expected = {"$and":[{
         "route":"57f1fa52f0a9620f445bba67"}, {
-          "$or":[{
-            "data.field1": {
-              "$eq":"third"
-            }
-          }, {
-            "data.field2":{
-              "$eq":"test3"
-            }
-          },{
-            "data.field2": {
-              "$eq":"test2"
-            }
-          }]
-        }]};
+        "$or":[{
+          "data.field1": {
+            "$eq":"third"
+          }
+        }, {
+          "data.field2":{
+            "$in": [
+              "test3",
+              "test2"
+              ]
+          }
+        }]
+      }]};
       // console.log("----test 7----");
       // console.log("alradyin:"+JSON.stringify(alradyin));
       // console.log("filters:"+JSON.stringify(filters));
