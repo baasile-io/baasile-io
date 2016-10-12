@@ -55,7 +55,8 @@ var server = new Server({
   sendgridFrom: nconf.get('sendgridFrom'),
   nodeEnv: process.env.NODE_ENV || nconf.get('NODE_ENV') || 'development',
   logger: logger,
-  slack: slack
+  slack: slack,
+  slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development'
 });
 
 server.start(function (err) {

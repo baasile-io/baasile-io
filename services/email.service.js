@@ -35,6 +35,7 @@ function EmailService(options) {
           text: result.text
         }, function (err, responseStatus) {
           NotificationService.send({
+            channel: '#notif_emails',
             text: 'EMAIL',
             fields: {
               'Status': JSON.stringify(err),
