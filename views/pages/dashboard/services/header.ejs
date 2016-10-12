@@ -1,11 +1,13 @@
-<h1 class="ui header">
-  <i class="cube bordered icon"></i>
-  <div class="content">
-    <%= data.service.name %>
-    <div class="sub header">Service</div>
-  </div>
-</h1>
-<div class="ui pointing menu">
+<div class="ui twice attached segment">
+  <h1 class="ui header">
+    <i class="cube bordered icon"></i>
+    <div class="content">
+      <%= data.service.name %>
+      <div class="sub header">Service</div>
+    </div>
+  </h1>
+</div>
+<div class="ui bottom attached pointing menu">
   <a class="item <% if (page === 'pages/dashboard/services/view') { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>">
     État
   </a>
@@ -19,7 +21,7 @@
     Jetons de connexion
   </a>
   <a class="item <% if (page.indexOf('pages/dashboard/routes/') == 0 || page.indexOf('pages/dashboard/fields/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">
-    Base de données
+    Collections
   </a>
   <a class="item <% if (page.indexOf('pages/dashboard/pages/') == 0) { %>active<% } %>" href="/dashboard/services/<%= data.service.nameNormalized %>/pages">
     Documentation

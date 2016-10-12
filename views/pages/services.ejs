@@ -10,17 +10,13 @@
   Il n'y a actuellement aucun service référencé sur l'API.
   <% } else { %>
   <% services.forEach(function(service) { %>
-  <div class="ui raised segments">
-    <div class="ui segment">
+    <div class="ui raised segment">
       <h2 class="ui header">
         <img src="/assets/images/no-image.png">
         <div class="content">
           <%= service.name %>
           <div class="sub header">
             Créée le <%= service.createdAt.toLocaleString() %>
-            <% if (service.routes.length > 0) { %>
-            , <%= service.routes.length %> collection(s) partagée(s)
-            <% } %>
           </div>
         </div>
       </h2>
@@ -30,40 +26,43 @@
         Site Internet
       </a></p>
       <% } %>
-      <a class="ui fluid mini button display-route-id-btn" data-apiuri="<%= service.getApiUri(apiUri) %>">
+      <a class="ui mini button display-route-id-btn" data-apiuri="<%= service.getApiUri(apiUri) %>">
         <i class="icon external"></i>
         Afficher la route
       </a>
-    </div>
-    <% if (service.routes.length > 0) { %>
-    <div class="ui piled segment">
-      <div class="ui comments">
-        <% service.routes.forEach(function(route) { %>
-        <div class="comment">
-          <div class="avatar">
-            <i class="database icon"></i>
-          </div>
-          <div class="content">
-            <a class="author"><%= route.name %></a>
-            <div class="metadata">
-              <span class="date">Créée le <%= route.createdAt.toLocaleString() %></span>
-            </div>
-            <div class="text">
-              <%= route.description %>
-            </div>
-            <div class="actions">
-              <button class="ui mini basic fluid button display-route-id-btn" data-apiuri="<%= route.getApiUri(apiUri) %>">
-                <i class="icon external"></i>
-                Afficher la route
-              </button>
+
+      <% if (service.routes.length > 0) { %>
+      <h5 class="ui top attached header">
+        <%= service.routes.length %> collection(s) partagée(s)
+      </h5>
+          <% service.routes.forEach(function(route) { %>
+        <div class="ui secondary attached segment">
+          <div class="ui comments">
+            <div class="comment">
+              <div class="avatar">
+                <i class="database big icon"></i>
+              </div>
+              <div class="content">
+                <a class="author"><%= route.name %></a>
+                <div class="metadata">
+                  <span class="date">Créée le <%= route.createdAt.toLocaleString() %></span>
+                </div>
+                <div class="text">
+                  <%= route.description %>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="ui mini basic button display-route-id-btn" data-apiuri="<%= route.getApiUri(apiUri) %>">
+                  <i class="icon external"></i>
+                  Afficher la route
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <% }) %>
-      </div>
+          <% }) %>
+      <% } %>
     </div>
-    <% } %>
-  </div>
   <div class="ui hidden divider"></div>
   <% }) %>
   <% } %>
@@ -79,9 +78,5 @@
     });
   });
 </script>
-
-<style type="text/css">
-  .ui.comments {max-width: inherit;}
-</style>
 
 <%- contentFor('masthead') %>
