@@ -6,12 +6,13 @@ function NotificationService(options) {
   options = options || {};
   const logger = options.logger;
   const slack = options.slack;
+  const defaultChannel = '#notif_' + options.slackChannelPrefix;
 
   this.send = function(opt) {
     opt = opt || {};
     if (typeof slack != 'undefined') {
       slack.send({
-        channel: opt.channel || "#api_notifications",
+        channel: opt.channel || defaultChannel,
         text: opt.text,
         fields: opt.fields
       }, function(err) {

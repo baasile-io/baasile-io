@@ -347,6 +347,8 @@ function AccountsController(options) {
         let errors = [];
         if (err.code == 11000)
           errors.push('Cette adresse E-Mail est déjà utilisée');
+        else
+          errors.push(err);
         return res.render('pages/users/new', {
           layout: 'layouts/home',
           page: 'pages/users/new',
@@ -367,7 +369,7 @@ function AccountsController(options) {
 
       sendEmailConfirmation(user, req, res, function(err) {
         if (err) {
-          // dont handle error, there will be a warning anyway on the login page
+          return next(err);
         }
 
         logger.info('user created: ' + user.email);

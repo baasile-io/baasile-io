@@ -1,11 +1,13 @@
-<h1 class="ui header">
-  <i class="user bordered icon"></i>
-  <div class="content">
-    <%= data.user.fullName %>
-    <div class="sub header">Compte développeur</div>
-  </div>
-</h1>
-<div class="ui pointing menu">
+<div class="ui twice attached segment">
+  <h1 class="ui header">
+    <i class="user bordered icon"></i>
+    <div class="content">
+      <%= data.user.fullName %>
+      <div class="sub header">Compte développeur</div>
+    </div>
+  </h1>
+</div>
+<div class="ui bottom attached pointing menu">
   <a class="item <% if (page === 'pages/users/view') { %>active<% } %>" href="/dashboard/account">
     État
   </a>

@@ -103,7 +103,6 @@ exports.configure = function (app, http, options) {
       if (res._service)
         serviceName = res._service.name;
       NotificationService.send({
-        channel: '#api_errors',
         text: '[API] ' + status + ' ' + req.method + ' ' + res._originalUrl + ' (' + serviceName + ')'
       });
     }
@@ -113,7 +112,6 @@ exports.configure = function (app, http, options) {
     if (res._service)
       serviceName = res._service.name;
     NotificationService.send({
-      channel: '#api_errors',
       text: '[API] 404 ' + req.method + ' ' + res._originalUrl + ' (' + serviceName + ')'
     });
     return res.status(404).json({
@@ -156,7 +154,6 @@ exports.configure = function (app, http, options) {
       if (req.data && req.data.user)
         userName = req.data.user.firstname + ' ' + req.data.user.lastname + ' / ' + req.data.user.email;
       NotificationService.send({
-        channel: '#api_errors',
         text: '[DASHBOARD] ' + status + ' ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
       });
       return res.status(status).render(page, {
@@ -175,7 +172,6 @@ exports.configure = function (app, http, options) {
       if (req.data && req.data.user)
         userName = req.data.user.firstname + ' ' + req.data.user.lastname + ' / ' + req.data.user.email;
       NotificationService.send({
-        channel: '#api_errors',
         text: '[DASHBOARD] 404 ' + req.method + ' ' + res._originalUrl + ' (' + userName + ')'
       });
       return res.status(status).render('pages/errors/error404', {

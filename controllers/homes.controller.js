@@ -17,32 +17,22 @@ function HomesController(options) {
     ServiceModel
       .io
       .find({public: true})
-      .cursor()
-      .on('data', function (service) {
-        var self = this;
-        self.pause();
-        RouteModel.io.find({public: true, service: service._id}, function (err, routes) {
-          if (err)
-            return self.destroy();
-          services.push({
-            name: service.name,
-            description: service.description,
-            createdAt: service.createdAt,
-            routes: routes
-          });
-          return self.resume();
-        });
+      .sort({createdAt: -1})
+      .populate({
+        path: 'routes',
+        model: RouteModel.io,
+        match: {public: true}
       })
-      .on('error', function (err) {
-        return next({code: 500});
-      })
-      .on('end', function () {
-        return res.render('pages/services', {
+      .exec(function(err, services) {
+        if (err)
+          return next({code: 500});
+        res.render('pages/services', {
           layout: 'layouts/home',
           page: 'pages/services',
           data: req.data,
           services: services,
-          flash: res._flash
+          flash: res._flash,
+          apiUri: res._apiuri
         });
       });
   };
