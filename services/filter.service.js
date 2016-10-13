@@ -89,11 +89,20 @@ function FilterService(options) {
         return val;
         break;
       case "JSON":
-        try {
-          var json = JSON.parse(val);
-          return json;
+        if (typeof val === "string") {
+          try {
+            var json = JSON.parse(val);
+            return json;
+          }
+          catch (e) {
+            param["errors"].push("the value: \"" + val + "\" is not a valid JSON");
+            return undefined;
+          }
         }
-        catch (e) {
+        else if (typeof val === "object" && !Array.isArray(val))
+          return val;
+        else
+        {
           param["errors"].push("the value: \"" + val + "\" is not a valid JSON");
           return undefined;
         }
