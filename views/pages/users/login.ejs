@@ -78,5 +78,6 @@
       document.forms['reset_password_form'].email.value = document.forms['login_form'].user_email.value;
       $('#reset_password_modal').modal('show');
     });
+    document.forms['login_form'].user_email.focus();
   });
 </script>
