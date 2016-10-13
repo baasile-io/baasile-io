@@ -15,7 +15,7 @@ La stratégie de filtrage de la Plate-forme est régie par les règles suivantes
 
 - L'opérateur de comparaison par défaut est l'*ÉGALITÉ STRICTE* ;
 - L'opérateur logique par défaut est un *ET* ;
-- ~~Filtrer en fonction d'un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`** ;~~
+- Filtrer en fonction d'un champ invalide génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`** ;
 - Filtrer avec des valeurs dont le type ne correspond pas au champ génère une erreur **400 Bad Request** accompagné du message **`invalid_filter`**.
 
 ## Ajouter des filtres
@@ -112,23 +112,23 @@ L'opérateur d'*EXCLUSION* requiert un tableau de valeurs. Il permet de réalise
 
 "Je requête les résultats dont le champ `county` n'est strictement égal ni au 17ème, ni au 18ème arrondissement"
 
-#### ~~$regex - EXPRESSION RÉGULIÈRE~~
+#### $regex - EXPRESSION RÉGULIÈRE
 
-~~L'opérateur d'*EXPRESSION RÉGULIÈRE* requiert une chaîne de caractères compatible avec la norme des expressions régulière de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).~~
+L'opérateur d'*EXPRESSION RÉGULIÈRE* requiert une chaîne de caractères compatible avec la norme des expressions régulières de Perl (PCRE version 8.38 - [http://www.pcre.org/](http://www.pcre.org/)).
 
-~~Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant une seconde clé `$options` (valeurs possible : `i`, `m`, `x`, `s`).~~
+Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant une seconde clé `$options` (valeurs possible : `i`, `m`, `x`, `s`).
 
         ?filter[firstname][$regex]=^Jean
 
-~~"Je requête les résultats dont le champ `firstname` est strictement égal ou commence par `Jean`."~~
+"Je requête les résultats dont le champ `firstname` est strictement égal ou commence par `Jean`."
 
         ?filter[firstname][$regex]=^Jean&filter[firstname][$options]=i
 
-~~"Je requête les résultats dont le champ `firstname` est égal ou commence par `Jean`, peu importe la casse (`Jean`, `JEAN`, `jean`, `jEAN`, etc).~~
+"Je requête les résultats dont le champ `firstname` est égal ou commence par `Jean`, peu importe la casse (`Jean`, `JEAN`, `jean`, `jEAN`, etc).
 
         ?filter[county][$regex]=^3[04][0-9]{3}$
 
-~~"Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"~~
+"Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"
 
 ## Les opérateurs logiques
 
@@ -148,21 +148,27 @@ L'opérateur logique *OU* permet de filtrer les résultats en fonction d'une lis
 
 "Je requête les résultats dont le champ `score` est strictement égal à 0 ou strictement égal à 100"
 
-#### ~~$not - NON~~
+#### $nor - NON-OU
 
-~~L'opérateur logique *NON* permet d'inverser le résultat d'un seul et unique filtre.~~
-
-        ?filter[$not][lastname]=Mercier
-
-~~"Je requête les résultats dont les champs 'lastname' n'est pas strictement égal à 'Mercier'"~~
-
-#### ~~$nor - NON-OU~~
-
-~~L'opérateur logique *NON-OU* est l'équivalent d'un opérateur *ET* inversé. L'exemple présenté ci-dessous a le même effet que celui présenté pour l'opérateur *ET*.~~
+L'opérateur logique *NON-OU* est l'équivalent d'un opérateur *ET* inversé. L'exemple présenté ci-dessous a le même effet que celui présenté pour l'opérateur *ET*.
 
         ?filter[score][$nor][$lte]=75&filter[score][$nor][$gt]=100
 
-~~"Je requête les résultats dont le champ `score` n'est pas inférieur ou égal à 75 et n'est pas strictement plus grand que 100"~~
+"Je requête les résultats dont le champ `score` n'est pas inférieur ou égal à 75 et n'est pas strictement plus grand que 100"
+
+#### $not - NON
+
+L'opérateur logique *NON* permet d'inverser le résultat d'un seul et unique filtre.
+
+        ?filter[$not][lastname][$eq]=Mercier
+
+"Je requête les résultats dont les champs 'lastname' n'est pas strictement égal à 'Mercier'"
+
+Pour utiliser un *NON* sur plusieurs champs, utilisez un tableau comme dans l'exemple qui suit :
+
+        ?filter[0][$not][lastname][$eq]=Mercier&filter[1][$not][lastname][$eq]=Ratinger
+
+"Je requête les résultats dont les champs 'lastname' n'est ni strictement égal à 'Mercier', ni à 'Ratinger'"
 
 ## Filtrer une collection en fonction des champs personnalisés
 
@@ -234,21 +240,24 @@ On souhaite alors construire la structure conditionnelle suivante :
         ET (note)
             PLUS GRAND QUE OU ÉGAL À "3"
 
-Appliquons maintenant cette structure conditionnelle à la stratégie de filtrage de la Plate-forme :
+Appliquons maintenant cette structure conditionnelle dans une requête respectant la stratégie de filtrage de la Plate-forme :
 
-        ?filter[0][$or][data.code_naf][$in]=informatique
-        &filter[0][$or][data.code_naf][$in]=développement
-        &filter[0][$or][data.code_naf][$in]=expert
-        &filter[0][$or][data.intitule][$regex]=informatique
-        &filter[0][$or][data.intitule][$regex]=développement
-        &filter[0][$or][data.intitule][$regex]=expert
-        &filter[0][$or][data.description][$regex]=informatique
-        &filter[0][$or][data.description][$regex]=développement
-        &filter[0][$or][data.description][$regex]=expert
-        &filter[1][$or][data.ville][$regex]=Montpellier
-        &filter[1][$or][data.code_postal][$eq]=Montpellier
-        &filter[2][data.nb_heures][$gte]=35
-        &filter[2][data.nb_heures][$lte]=70
-        &filter[3][data.note][$gte]=3
+        ?filter[0][$options]=i
+        &filter[1][$or][0][data.code_naf][$in]=informatique
+        &filter[1][$or][0][data.code_naf][$in]=développement
+        &filter[1][$or][0][data.code_naf][$in]=expert
+        &filter[1][$or][1][data.intitule][$regex]=informatique
+        &filter[1][$or][2][data.intitule][$regex]=développement
+        &filter[1][$or][3][data.intitule][$regex]=expert
+        &filter[1][$or][4][data.description][$regex]=informatique
+        &filter[1][$or][5][data.description][$regex]=développement
+        &filter[1][$or][6][data.description][$regex]=expert
+        &filter[2][$or][7][data.ville][$regex]=Montpellier
+        &filter[2][$or][8][data.code_postal][$eq]=Montpellier
+        &filter[3][data.nb_heures][$gte]=35
+        &filter[4][data.nb_heures][$lte]=70
+        &filter[5][data.note][$gte]=3
 
-Remarquez la construction du tableau de base à 4 éléments. Cela permet de parenthéser les filtres pour former plusieurs blocs de conditions.
+Remarquez deux choses :  
+Le paramétrage de l'opérateur d'*EXPRÉSSION RÉGULIÈRE* (`$regex`) avec la clé `$options` peut se faire globalement.  
+Le parenthésage est géré à l'aide de tableaux, d'où `filter[1]`, `filter[2]`, etc. 
