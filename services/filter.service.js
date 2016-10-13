@@ -7,9 +7,9 @@ module.exports = FilterService;
 function FilterService(options) {
   const CONDITIONAL_OPERATORS = ['$and', '$or', '$nor'];
   
-  const SPE_OPERATORS = {'$text':['$search', '$language', '$caseSensitive', '$diacriticSensitive'],'$exists': null };
+  const SPECIAL_OPERATORS = {'$text':['$search', '$language', '$caseSensitive', '$diacriticSensitive'],'$exists': null };
   
-  const SPE_COND_TYPES = {
+  const SPECIAL_COND_TYPES = {
     "$search" : "STRING",
     "$language" : "STRING",
     "$caseSensitive" : "BOOLEAN",
@@ -19,7 +19,7 @@ function FilterService(options) {
   
   const DEFAULT_TYPE = 'STRING';
   
-  const SPE_COND_TYPES_CAN_OBJ_AFTER = ['$not'];
+  const SPECIAL_COND_TYPES_CAN_OBJ_AFTER = ['$not'];
   
   const COND_TYPES = {
     'ID': ["$eq", "$not"],
@@ -241,7 +241,7 @@ function FilterService(options) {
         jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = jsontab;
         jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param );
       }
-      else if (typeof  obj[key] === 'object' && SPE_COND_TYPES_CAN_OBJ_AFTER.indexOf(key) != -1)
+      else if (typeof  obj[key] === 'object' && SPECIAL_COND_TYPES_CAN_OBJ_AFTER.indexOf(key) != -1)
       {
         var jsonval = {};
         var nbkey = Object.keys(obj[key]).length;
@@ -308,7 +308,7 @@ function FilterService(options) {
     var jsonRes = {};
     var value;
     Object.keys(obj).every(function (key) {
-      if (key in SPE_OPERATORS) {
+      if (key in SPECIAL_OPERATORS) {
         jsonRes[key] = getSpeOPeratorVal(key, obj[key], param);
         if (jsonRes[key] === undefined) {
           jsonRes = undefined;
@@ -454,14 +454,14 @@ function FilterService(options) {
   
   function getSpeOPeratorVal(key, obj, param) {
     var jsonRes = {};
-    if (SPE_OPERATORS[key] === null) {
+    if (SPECIAL_OPERATORS[key] === null) {
       if (typeof obj !== 'object')
       {
-        jsonRes = getconvertedVal(obj, SPE_COND_TYPES[key], param);
+        jsonRes = getconvertedVal(obj, SPECIAL_COND_TYPES[key], param);
       }
       else
       {
-        param["errors"].push("cond : " + key + " could only contain type" + SPE_COND_TYPES[key]);
+        param["errors"].push("cond : " + key + " could only contain type" + SPECIAL_COND_TYPES[key]);
         jsonRes = undefined;
       }
     }
@@ -473,10 +473,10 @@ function FilterService(options) {
   
   function getSpeOPeratorObj(key, obj, param) {
     var jsonRes = {};
-    if (SPE_OPERATORS[key] !== null) {
+    if (SPECIAL_OPERATORS[key] !== null) {
       Object.keys(obj).every(function ( key1) {
-        if (SPE_OPERATORS[key].indexOf(key1) != -1) {
-          jsonRes[key1] = getconvertedVal(obj[key1], SPE_COND_TYPES[key1], param);
+        if (SPECIAL_OPERATORS[key].indexOf(key1) != -1) {
+          jsonRes[key1] = getconvertedVal(obj[key1], SPECIAL_COND_TYPES[key1], param);
           if (jsonRes[key1] === undefined) {
             jsonRes = undefined;
             return false;
@@ -512,7 +512,7 @@ function FilterService(options) {
           return false;
         }
       }
-      else if (key in SPE_OPERATORS) {
+      else if (key in SPECIAL_OPERATORS) {
         var jsonRes2 = {};
         if ((jsonRes2[key] = getSpeOPeratorObj(key, array[key], param)) === undefined) {
           jsontab = undefined;

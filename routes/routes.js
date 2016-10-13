@@ -27,7 +27,7 @@ exports.configure = function (app, http, options) {
   app.use('/api', ApplicationController.restrictHttp);
   app.use('/api', ApplicationController.apiCheckRequest);
   
-  app.use(bodyParser.json({reviver:{depth:10}}));
+  app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use('/', function (req, res, next) {
