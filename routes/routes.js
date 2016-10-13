@@ -8,7 +8,9 @@ const v1 = require('./api/v1/index.js'),
   paginationService = require('../services/pagination.service.js'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  qs = require('qs');
+  
 
 exports.configure = function (app, http, options) {
   const logger = options.logger;
@@ -24,18 +26,25 @@ exports.configure = function (app, http, options) {
   app.use('/api', ApplicationController.apiInitialize);
   app.use('/api', ApplicationController.restrictHttp);
   app.use('/api', ApplicationController.apiCheckRequest);
-
+  
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use('/', function (req, res, next) {
     // set data container
     req.data = req.data || {};
 
+    // parse again query for depth filter
+    if (req.query.filter !== undefined) {
+      var filterParam = qs.parse(res._originalUrlObject.query, { depth: 10 });
+      req.query.filter = filterParam.filter;
+    }
+    
     // set request
     res._request = {
       params: {}
     };
+    
     _.merge(res._request.params, req.body, req.query);
 
     // inclusion
