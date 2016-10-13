@@ -51,21 +51,21 @@ function FilterService(options) {
         var res = Number(val);
         if (!isNaN(res))
           return res;
-        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        param["errors"].push("the value: \"" + val + "\" is not a valid NUMBER");
         return undefined;
         break;
       case "PERCENT":
         var res = Number(val);
         if (!isNaN(res))
           return res;
-        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        param["errors"].push("the value: \"" + val + "\" is not a valid PERCENT");
         return undefined;
         break;
       case "AMOUNT":
         var res = Number(val);
         if (!isNaN(res))
           return res;
-        param["errors"].push("the value: " + val + " is not a valide NUMBER");
+        param["errors"].push("the value: \"" + val + "\" is not a valid AMOUNT");
         return undefined;
         break;
       case "BOOLEAN":
@@ -73,12 +73,12 @@ function FilterService(options) {
           return true;
         else if (val === "false" || val === "0")
           return false;
-        param["errors"].push("the value: " + val + " is not a valide BOOLEAN (true || 1 => true, false || 0 => false)");
+        param["errors"].push("the value: \"" + val + "\" is not a valid BOOLEAN (\"true\" || 1 => true, \"false\" || 0 => false)");
         break;
       case "DATE":
         var res = Date(val);
         if ( isNaN( res.getTime() ) ) {
-          param["errors"].push("the value: " + val + " is not a valide DATE");
+          param["errors"].push("the value: \"" + val + "\" is not a valid DATE");
           return undefined;
         }
         else {
@@ -89,11 +89,11 @@ function FilterService(options) {
         return val;
         break;
       case "JSON":
-        var json = JSON.stringify(eval("(" + val + ")"));
+        var json = JSON.stringify(eval("(\"" + val + "\")"));
         return json;
         break;
       default:
-        param["errors"].push("do not know the type "+ type);
+        param["errors"].push("do not know the type \""+ type + "\"");
         break;
     };
   }
@@ -148,15 +148,16 @@ function FilterService(options) {
   }
   
   function isKeyCondOkForThisTypeOfValue(key, value, listfields, param) {
+    
     var type = getTableTypeOf(value, listfields);
     if (type === undefined)
     {
-      param["errors"].push("value : " + value + " is not a field in your model");
+      param["errors"].push("value: \"" + value + "\" is not a field in your model");
       return false;
     }
     else if (type.indexOf(key) === -1)
     {
-      param["errors"].push("key : " + key + " is not a possible condition for the type: " + getTypeOf(value, listfields));
+      param["errors"].push("key: \"" + key + "\" is not a possible condition for the type: \"" + getTypeOf(value, listfields) + "\"");
       return false;
     }
     return true;
@@ -165,8 +166,9 @@ function FilterService(options) {
   
   function getConvertValueByTypeKeyname(val, keyname, listfields, param) {
     var type = getTypeOf(keyname, listfields);
-    if (type === undefined)
-      param["errors"].push("value : " + keyname + " is not a field in your model");
+    if (type === undefined) {
+      param["errors"].push("value: \"" + keyname + "\" is not a field in your model");
+    }
     return getconvertedVal(val, type, param);
   }
   
@@ -330,7 +332,7 @@ function FilterService(options) {
         }
       }
       else {
-        param["errors"].push("key: "+ key + " need to be a condition started with '$'");
+        param["errors"].push("key: \""+ key + "\" need to be a condition started with '$'");
         jsonRes = undefined;
         return false;
       }
@@ -345,7 +347,7 @@ function FilterService(options) {
       var value = array[i];
       if (typeof value !== 'object' && (currentKey === undefined || currentKey === null))
       {
-        param["errors"].push("cond : " + JSON.stringify(value) + " can't be before the field name");
+        param["errors"].push("cond: \"" + JSON.stringify(value) + "\" can't be before the field name");
         jsontab = undefined;
         return false;
       }
@@ -394,7 +396,7 @@ function FilterService(options) {
   function getConditionBeforeObjSpeOp(jsontab, currentKey, key, obj, listfields, param) {
     var kval = getValIfValExistInArray(key, listfields, param);
     if (kval === undefined) {
-      param["errors"].push("#3 value : " + key + " is not a field in your model");
+      param["errors"].push("value: \"" + key + "\" is not a field in your model");
       return (undefined);
     }
     if (typeof obj[kval] !== 'object') {
@@ -417,7 +419,7 @@ function FilterService(options) {
           jsonRes[getRealKeyNeeded(key, obj[key], obj, param)] = getConditionAfter(kval, value, listfields, param);
           jsonRes = addObjOptionIfNeeded(jsonRes, key, obj, param);
           if (jsontab === undefined) {
-            param["errors"].push("canot put " + JSON.stringify(jsonRes) + " in his parents");
+            param["errors"].push("canot put \"" + JSON.stringify(jsonRes) + "\" in his parents");
             return undefined;
           }
           jsontab.push(jsonRes);
@@ -439,12 +441,12 @@ function FilterService(options) {
       }
       if (jsontab == undefined)
       {
-        param["errors"].push("canot put " + JSON.stringify(jsonRes) + " in his parents");
+        param["errors"].push("canot put \"" + JSON.stringify(jsonRes) + "\" in his parents");
         return undefined;
       }
       else if (Array.isArray(jsontab) === false)
       {
-        param["errors"].push("canot put " + JSON.stringify(jsonRes) + " the parent beacause the parent is not a table");
+        param["errors"].push("canot put \"" + JSON.stringify(jsonRes) + "\" the parent beacause the parent is not a table");
         return undefined;
       }
       jsontab.push(jsonRes);
@@ -461,12 +463,12 @@ function FilterService(options) {
       }
       else
       {
-        param["errors"].push("cond : " + key + " could only contain type" + SPECIAL_COND_TYPES[key]);
+        param["errors"].push("cond: \"" + key + "\" could only contain type \"" + SPECIAL_COND_TYPES[key] + "\"");
         jsonRes = undefined;
       }
     }
     else {
-      param["errors"].push("cond : " + key + "need to be before a declarate field");
+      param["errors"].push("cond: \"" + key + "\" need to be before a declarate field");
     }
     return jsonRes;
   }
@@ -483,7 +485,7 @@ function FilterService(options) {
           }
         }
         else {
-          param["errors"].push("cond : " + key1 + " is not an option of " + key);
+          param["errors"].push("cond: \"" + key1 + "\" is not an option of \"" + key + "\"");
           jsonRes = undefined;
           return false;
         }
@@ -491,7 +493,7 @@ function FilterService(options) {
       });
     }
     else {
-      param["errors"].push("cond : " + key + "need to be after a declarate field");
+      param["errors"].push("cond: \"" + key + "\" need to be after a declarate field");
       jsonRes = undefined;
     }
     return jsonRes;
@@ -522,7 +524,7 @@ function FilterService(options) {
       }
       else {
         if (Array.isArray(jsontab) === false) {
-          param["errors"].push("key : " + key + " could not be merge with:" + JSON.stringify(jsontab));
+          param["errors"].push("key: \"" + key + "\" could not be merge with: \"" + JSON.stringify(jsontab) + "\"");
           jsontab = undefined;
           return false;
         }
@@ -595,7 +597,7 @@ function FilterService(options) {
           if (jsonVal["$and"] !== undefined)
             jsonVal["$and"].unshift(jsonRes);
           else {
-              jsonVal = jsonRes;
+            jsonVal = jsonRes;
           }
         }
       }
