@@ -89,7 +89,7 @@ function FilterService(options) {
         return val;
         break;
       case "JSON":
-        var json = JSON.stringify(eval("(\"" + val + "\")"));
+        var json = JSON.parse(val);
         return json;
         break;
       default:
