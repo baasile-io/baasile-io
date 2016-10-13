@@ -130,6 +130,16 @@ Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant u
 
 "Je requête les résultats dont le champ `county` correspond à un code postal de l'Hérault ou du Gard, commençant par 30 ou 34"
 
+## Les opérateurs de champ
+
+#### $exists - EXISTENCE
+
+L'opérateur de champ *EXISTENCE* permet de tester la présence ou non d'un champs sur une donnée.
+
+        ?filter[nickname][$exists]=true
+
+"Je requête les résultats dont le champ `nickname` est renseigné"
+
 ## Les opérateurs logiques
 
 #### $and - ET
