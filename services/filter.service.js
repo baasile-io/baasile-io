@@ -89,13 +89,20 @@ function FilterService(options) {
         return val;
         break;
       case "JSON":
-        var json = JSON.parse(val);
-        return json;
+        try {
+          var json = JSON.parse(val);
+          return json;
+        }
+        catch (e) {
+          param["errors"].push("the value: \"" + val + "\" is not a valid JSON");
+          return undefined;
+        }
         break;
       default:
         param["errors"].push("do not know the type \""+ type + "\"");
         break;
     };
+    return undefined;
   }
   
   function getTabByKeyVal(key, val, myArray) {
