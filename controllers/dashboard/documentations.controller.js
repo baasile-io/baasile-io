@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs'),
-  markdown = require("node-markdown").Markdown;
+  marked = require("marked");
 
 module.exports = DocumentationsController;
 
@@ -43,7 +43,7 @@ function DocumentationsController(options) {
           render(data);
         });
       }
-      render(markdown(data.toString()));
+      render(marked(data.toString()));
     });
   };
 }
