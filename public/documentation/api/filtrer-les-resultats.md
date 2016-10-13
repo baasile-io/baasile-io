@@ -144,7 +144,7 @@ L'opérateur de champ *EXISTENCE* permet de tester la présence ou non d'un cham
 
 #### $and - ET
 
-L'opérateur logique *ET* permet de filtrer les résultats en fonction d'une liste de filtres dont l'intégralité doit être positif.
+L'opérateur logique *ET* permet de filtrer les résultats en fonction d'une liste de conditions dont l'intégralité doit être remplies.
 
         ?filter[score][$and][$gt]=75&filter[score][$and][$lte]=100
 
@@ -152,7 +152,7 @@ L'opérateur logique *ET* permet de filtrer les résultats en fonction d'une lis
 
 #### $or - OU
 
-L'opérateur logique *OU* permet de filtrer les résultats en fonction d'une liste de filtres dont l'un au moins doit être positif.
+L'opérateur logique *OU* permet de filtrer les résultats en fonction d'une liste de conditions dont l'une au moins doit être remplie.
 
         ?filter[score][$or][$eq]=0&filter[score][$or][$eq]=100
 
