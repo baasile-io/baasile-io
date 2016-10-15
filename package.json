@@ -2,6 +2,9 @@
   "name": "api-cpa",
   "version": "0.1.0",
   "description": "L'API du CPA Store",
+  "engines": {
+    "node": "6.7.0"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www.js",
