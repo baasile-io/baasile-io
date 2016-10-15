@@ -120,6 +120,9 @@ function ServicesController(options) {
         fields.forEach(function (field) {
           whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type});
         });
+
+        logger.info(whitelistedFields);
+
         var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields);
         if (query["ERRORS"] !== undefined && query["ERRORS"].length > 0)
           return next({code: 400, messages: query["ERRORS"]});
