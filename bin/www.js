@@ -56,7 +56,9 @@ var server = new Server({
   nodeEnv: process.env.NODE_ENV || nconf.get('NODE_ENV') || 'development',
   logger: logger,
   slack: slack,
-  slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development'
+  slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development',
+  s3Bucket: process.env.S3_BUCKET || nconf.get('S3_BUCKET'),
+  s3Region: process.env.AWS_DEFAULT_REGION || nconf('AWS_DEFAULT_REGION')
 });
 
 server.start(function (err) {

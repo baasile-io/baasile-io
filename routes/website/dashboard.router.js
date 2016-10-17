@@ -14,7 +14,8 @@ const express = require('express'),
   emailsController = require('../../controllers/emails.controller.js'),
   documentationsController = require('../../controllers/dashboard/documentations.controller.js'),
   applicationController = require('../../controllers/application.controller.js'),
-  flashHelper = require('../../helpers/flash.helper.js');
+  flashHelper = require('../../helpers/flash.helper.js'),
+  multer = require('multer');
 
 
 module.exports = function (options) {
@@ -36,6 +37,7 @@ module.exports = function (options) {
   const FlashHelper = new flashHelper(options);
   const DocumentationsController = new documentationsController(options);
   const ApplicationController = new applicationController(options);
+  const upload = new multer({dest: 'uploads/'});
 
   function restrictedArea(req, res, next) {
     if (req.session.user == null) {
@@ -93,7 +95,7 @@ module.exports = function (options) {
     .post('/dashboard/services', csrfProtection, ServicesController.create)
     .get('/dashboard/services/:serviceName', ServicesController.getServiceData, ServicesController.view)
     .get('/dashboard/services/:serviceName/edit', csrfProtection, ServicesController.getServiceData, ServicesController.edit)
-    .post('/dashboard/services/:serviceName', csrfProtection, ServicesController.getServiceData, ServicesController.update)
+    .post('/dashboard/services/:serviceName', upload.single('service_logo'), csrfProtection, ServicesController.getServiceData, ServicesController.update)
     .get('/dashboard/services/:serviceName/pages', csrfProtection, ServicesController.getServiceData, PagesController.index)
     .get('/dashboard/services/:serviceName/pages/new', csrfProtection, ServicesController.getServiceData, PagesController.new)
     .post('/dashboard/services/:serviceName/pages', csrfProtection, ServicesController.getServiceData, PagesController.create)

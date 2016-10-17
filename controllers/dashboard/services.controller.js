@@ -3,7 +3,8 @@
 const request = require('request'),
   _ = require('lodash'),
   flashHelper = require('../../helpers/flash.helper.js'),
-  emailService = require('../../services/email.service.js');
+  emailService = require('../../services/email.service.js'),
+  thumbsService = require('../../services/thumbs.service.js');
 
 module.exports = ServicesController;
 
@@ -15,6 +16,7 @@ function ServicesController(options) {
   const UserModel = options.models.UserModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
+  const ThumbsService = new thumbsService(options);
 
   this.index = function(req, res) {
     ServiceModel.io.find({
@@ -252,12 +254,30 @@ function ServicesController(options) {
           }
         });
       }
-      logger.info('service updated: ' + serviceName);
-      FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
-        if (err)
-          return next({code: 500});
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized);
-      });
+
+      function doSuccess() {
+        logger.info('service updated: ' + serviceName);
+        FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
+          if (err)
+            return next({code: 500});
+          res.redirect('/dashboard/services/' + serviceNameNormalized);
+        });
+      };
+
+      if (req.file) {
+        const extension = /[^.]+$/.exec(req.file.originalname);
+        ThumbsService
+          .upload(req.file, 'services/logos/' + req.data.service.clientId + '.' + extension)
+          .then(function (data) {
+            doSuccess();
+          })
+          .catch(function (err) {
+            res.write(JSON.stringify(err));
+            return res.end();
+          });
+      } else {
+        doSuccess();
+      }
     });
   };
 

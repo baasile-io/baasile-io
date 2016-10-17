@@ -1,5 +1,4 @@
-<form class="ui large basic form" method="post" action="/dashboard/services<% if (typeof data.service != 'undefined') { %>/<%= data.service.nameNormalized %><% } %>">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<form class="ui large basic form" method="post" enctype="multipart/form-data" action="/dashboard/services<% if (typeof data.service != 'undefined') { %>/<%= data.service.nameNormalized %><% } %>?_csrf=<%= csrfToken %>">
 
   <div class="required field">
     <label>Nom du service</label>
@@ -11,6 +10,13 @@
   <div class="required field">
     <label>Description</label>
     <textarea rows="5" name="service_description"><%= query.service.description %></textarea>
+  </div>
+  <div class="field">
+    <label>Logo</label>
+    <div class="ui left icon input">
+      <i class="image icon"></i>
+      <input type="file" name="service_logo" value="">
+    </div>
   </div>
   <div class="field">
     <label>Site Internet</label>
