@@ -41,7 +41,7 @@ mhttp.on('stat', function (parsed, stats) {
   }, '%s %s took %dms (%d)', stats.method || 'GET', url.format(parsed), stats.totalTime, stats.statusCode);
 });
 
-var server = new Server({
+var options = {
   adminNotificationEmail: nconf.get('adminNotificationEmail'),
   tokenExpiration: nconf.get('tokenExpiration'),
   emailTokenExpiration: nconf.get('emailTokenExpiration'),
@@ -59,12 +59,30 @@ var server = new Server({
   slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development',
   s3Bucket: process.env.S3_BUCKET || nconf.get('S3_BUCKET'),
   s3Region: process.env.AWS_DEFAULT_REGION || nconf.get('AWS_DEFAULT_REGION')
-});
+};
 
-server.start(function (err) {
-  if (err) {
-    logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
-    setTimeout(process.exit.bind(null, 99), 10);
-  }
-  logger.info('Sever successfully started.');
-});
+options.s3BucketUrl = 'https://s3-' + options.s3Region + '.amazonaws.com/' + options.s3Bucket;
+
+if (process.argv.indexOf('worker') != -1) {
+  const worker = require('../worker.js');
+  var Worker = new worker(options);
+
+  Worker.start(function (err) {
+    if (err) {
+      logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
+      setTimeout(process.exit.bind(null, 99), 10);
+    }
+    logger.info('Worker successfully started.');
+  });
+
+} else {
+  var server = new Server(options);
+
+  server.start(function (err) {
+    if (err) {
+      logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
+      setTimeout(process.exit.bind(null, 99), 10);
+    }
+    logger.info('Sever successfully started.');
+  });
+}

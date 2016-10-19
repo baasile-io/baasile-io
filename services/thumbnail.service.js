@@ -1,13 +1,15 @@
 'use strict';
 
 const CONFIG = require('../config/app.js'),
-  s3Uploader = require('s3-uploader');
+  s3Uploader = require('s3-uploader'),
+  request = require('request');
 
 module.exports = ThumbnailService;
 
 function ThumbnailService(options) {
   options = options || {};
   const logger = options.logger;
+  const ServiceModel = options.models.ServiceModel;
   var S3Uploader;
 
   if (options.s3Bucket) {
@@ -28,7 +30,7 @@ function ThumbnailService(options) {
     });
   }
 
-  this.process = function(source, destination) {
+  function doProcess(source, destination) {
     return new Promise(function (resolve, reject) {
       if (typeof S3Uploader === 'undefined') {
         reject({code: 's3_undefined'});
@@ -42,10 +44,47 @@ function ThumbnailService(options) {
         }
         versions.forEach(function(image) {
           logger.info(image.width, image.height, image.url);
-          // 1024 760 https://my-bucket.s3.amazonaws.com/path/110ec58a-a0f2-4ac4-8393-c866d813b8d1.jpg
         });
         return resolve();
       });
     });
   }
+
+  this.process = doProcess;
+
+  this.init = function() {
+    let version = CONFIG.dashboard.thumbnail.versions[0];
+
+    return new Promise(function(resolve, reject) {
+      ServiceModel
+        .io
+        .find({})
+        .cursor()
+        .on('data', function (service) {
+          var self = this;
+          self.pause();
+          request
+            .get(options.s3BucketUrl + '/services/logos/' + service.clientId + version.suffix + '.' + version.format)
+            .on('response', function (response) {
+              if (response.statusCode != 200) {
+                logger.info('generating thumbnails for service ' + service.clientId);
+                return doProcess({path: './public/assets/images/no-image.png'}, 'services/logos/' + service.clientId)
+                  .then(function() {
+                    self.resume();
+                  })
+                  .catch(function(err) {
+                    self.destroy();
+                  });
+              }
+              self.resume();
+            });
+        })
+        .on('error', function (err) {
+          return reject(err);
+        })
+        .on('end', function () {
+          return resolve();
+        });
+    });
+  };
 }

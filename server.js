@@ -24,6 +24,8 @@ const userModel = require('./models/v1/User.model.js'),
   tokenModel = require('./models/v1/Token.model.js'),
   emailTokenModel = require('./models/v1/EmailToken.model.js');
 
+const thumbnailService = require('./services/thumbnail.service.js');
+
 module.exports = Server;
 
 function Server(options) {
@@ -45,6 +47,10 @@ function Server(options) {
     RelationModel: new relationModel(options),
     TokenModel: new tokenModel(options),
     EmailTokenModel: new emailTokenModel(options)
+  };
+
+  options.services = {
+    ThumbnailService: new thumbnailService(options)
   };
 
   var logger = options.logger;

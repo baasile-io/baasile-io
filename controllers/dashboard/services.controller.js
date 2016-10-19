@@ -3,8 +3,7 @@
 const request = require('request'),
   _ = require('lodash'),
   flashHelper = require('../../helpers/flash.helper.js'),
-  emailService = require('../../services/email.service.js'),
-  thumbnailService = require('../../services/thumbnail.service.js');
+  emailService = require('../../services/email.service.js');
 
 module.exports = ServicesController;
 
@@ -16,7 +15,7 @@ function ServicesController(options) {
   const UserModel = options.models.UserModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
-  const ThumbnailService = new thumbnailService(options);
+  const ThumbnailService = options.services.ThumbnailService;
 
   this.index = function(req, res) {
     ServiceModel.io.find({
