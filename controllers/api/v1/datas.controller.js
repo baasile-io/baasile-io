@@ -222,7 +222,7 @@ function ServicesController(options) {
               fields.forEach(function (field) {
                 if (field.required) {
                   if (typeof attr[field.nameNormalized] === 'undefined'
-                    || ((field.type == 'STRING' || field.type == 'ENCODED') && attr[field.nameNormalized] === '')) {
+                    || ((field.type == 'ID' || field.type == 'STRING' || field.type == 'ENCODED') && attr[field.nameNormalized] === '')) {
                     errors.push('missing_parameter', '"' + field.nameNormalized + '" is required', 'error on index: ' + i);
                   }
                 }
