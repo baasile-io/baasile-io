@@ -118,9 +118,9 @@ function ServicesController(options) {
           return next({code: 500});
 
         fields.forEach(function (field) {
-          whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type});
+          whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type });
         });
-        var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields);
+        var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields, 'Data');
         if (query["ERRORS"] !== undefined && query["ERRORS"].length > 0)
           return next({code: 400, messages: query["ERRORS"]});
         var queryOptions = {
