@@ -22,9 +22,11 @@ function Worker(options) {
       .init()
       .then(function() {
         logger.info('thumbnail.service terminated');
+        process.exit();
       })
       .catch(function(err) {
         logger.info('thumbnail.service error: ' + err);
+        process.exit();
       });
   };
 }
