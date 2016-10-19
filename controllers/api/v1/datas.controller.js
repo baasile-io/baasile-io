@@ -223,10 +223,13 @@ function ServicesController(options) {
                 errors.push('invalid_format', '"attributes" must be a JSON object', 'error on index: ' + i);
 
               fields.forEach(function (field) {
-                if (field.required && !attr[field.nameNormalized]) {
-                  errors.push('missing_parameter', '"' + field.nameNormalized + '" is required', 'error on index: ' + i);
+                if (field.required) {
+                  if (typeof attr[field.nameNormalized] === 'undefined'
+                    || ((field.type == 'STRING' || field.type == 'ENCODED') && attr[field.nameNormalized] === '')) {
+                    errors.push('missing_parameter', '"' + field.nameNormalized + '" is required', 'error on index: ' + i);
+                  }
                 }
-                if (attr[field.nameNormalized]) {
+                if (typeof attr[field.nameNormalized] !== 'undefined') {
                   attr[field.nameNormalized] = ConvertService.convert(field.type, attr[field.nameNormalized]);
                   if (attr[field.nameNormalized] instanceof Error)
                     errors.push('invalid_format', '"' + field.nameNormalized + '" must be ' + field.type, 'error on index: ' + i);
