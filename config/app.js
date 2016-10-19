@@ -107,5 +107,61 @@ module.exports = {
         limit: 200
       }
     }
+  },
+  dashboard: {
+    thumbnail: {
+      versions: [
+        {
+          maxHeight: 1040,
+          maxWidth: 1040,
+          format: 'png',
+          suffix: '-1040x1040'
+        },
+        {
+          maxWidth: 780,
+          format: 'png',
+          aspect: '3:2!h',
+          suffix: '-720x'
+        },
+        {
+          maxWidth: 320,
+          format: 'png',
+          aspect: '16:9!h',
+          suffix: '-320x'
+        },
+        {
+          maxHeight: 100,
+          maxWidth: 100,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-100x100'
+        },
+        {
+          maxHeight: 250,
+          maxWidth: 250,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-250x250'
+        },
+        {
+          maxHeight: 100,
+          maxWidth: 100,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-100x100bg'
+        },
+        {
+          maxHeight: 250,
+          maxWidth: 250,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-250x250bg'
+        }
+      ]
+    }
   }
 };

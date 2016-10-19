@@ -4,7 +4,7 @@ const request = require('request'),
   _ = require('lodash'),
   flashHelper = require('../../helpers/flash.helper.js'),
   emailService = require('../../services/email.service.js'),
-  thumbsService = require('../../services/thumbs.service.js');
+  thumbnailService = require('../../services/thumbnail.service.js');
 
 module.exports = ServicesController;
 
@@ -16,7 +16,7 @@ function ServicesController(options) {
   const UserModel = options.models.UserModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
-  const ThumbsService = new thumbsService(options);
+  const ThumbnailService = new thumbnailService(options);
 
   this.index = function(req, res) {
     ServiceModel.io.find({
@@ -265,9 +265,8 @@ function ServicesController(options) {
       };
 
       if (req.file) {
-        const extension = /[^.]+$/.exec(req.file.originalname);
-        ThumbsService
-          .upload(req.file, 'services/logos/' + req.data.service.clientId + '.' + extension)
+        ThumbnailService
+          .process(req.file, 'services/logos/' + req.data.service.clientId)
           .then(function (data) {
             doSuccess();
           })

@@ -1,10 +1,11 @@
 'use strict';
 
-const s3Uploader = require('s3-uploader');
+const CONFIG = require('../config/app.js'),
+  s3Uploader = require('s3-uploader');
 
-module.exports = ThumbnailsService;
+module.exports = ThumbnailService;
 
-function ThumbnailsService(options) {
+function ThumbnailService(options) {
   options = options || {};
   const logger = options.logger;
   var S3Uploader;
@@ -23,39 +24,11 @@ function ThumbnailsService(options) {
       original: {
         awsImageAcl: 'private'
       },
-      versions: [{
-        maxHeight: 1040,
-        maxWidth: 1040,
-        format: 'png',
-        suffix: '-large',
-        awsImageExpires: 31536000,
-        awsImageMaxAge: 31536000
-      }, {
-        maxWidth: 780,
-        format: 'png',
-        aspect: '3:2!h',
-        suffix: '-medium'
-      }, {
-        maxWidth: 320,
-        format: 'png',
-        aspect: '16:9!h',
-        suffix: '-small'
-      }, {
-        maxHeight: 100,
-        format: 'png',
-        aspect: '1:1',
-        suffix: '-thumb1'
-      }, {
-        maxHeight: 250,
-        maxWidth: 250,
-        format: 'png',
-        aspect: '1:1',
-        suffix: '-thumb2'
-      }]
+      versions: CONFIG.dashboard.thumbnail.versions
     });
   }
 
-  this.upload = function(source, destination) {
+  this.process = function(source, destination) {
     return new Promise(function (resolve, reject) {
       if (typeof S3Uploader === 'undefined') {
         reject({code: 's3_undefined'});
