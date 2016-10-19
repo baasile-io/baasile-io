@@ -12,7 +12,7 @@
   <% services.forEach(function(service) { %>
     <div class="ui raised segment">
       <h2 class="ui header">
-        <img src="/assets/images/no-image.png">
+        <img src="<%= service.getThumbnail('-100x100bg.png') %>">
         <div class="content">
           <%= service.name %>
           <div class="sub header">
