@@ -21,12 +21,10 @@ function Worker(options) {
     ThumbnailService
       .init()
       .then(function() {
-        logger.info('worker terminated');
-        process.exit();
+        logger.info('thumbnail.service terminated');
       })
       .catch(function(err) {
-        logger.info('worker error: ' + err);
-        process.exit();
+        logger.info('thumbnail.service error: ' + err);
       });
   };
 }
