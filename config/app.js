@@ -9,102 +9,94 @@ module.exports = {
         "Field": {
           type: "champs",
           authorizedFilters: [
-            {"name": "fieldId", "key": "String", "Alias" : ["id"] },
-            {"name": "name", "key": "String", "Alias" : ["nom"] },
-            {"name": "nameNormalized", "key": "String" },
-            {"name": "description", "key": "String" , "Alias" : ["desc"] },
-            {"name": "required", "key": "Boolean" },
-            {"name": "order", "key": "Number" },
-            {"name": "type", "key": "String" },
-            {"name": "routeId", "key": "String" },
-            {"name": "clientId", "key": "String" },
-            {"name": "createdAt", "key": "Date" , "Alias" : ["created", "created_at"] },
-            {"name": "updatedAt", "key": "Date" , "Alias" : ["updated", "updated_at"] },
+            {"name": "fieldId", "key": "STRING", "aliases" : ["id"] },
+            {"name": "name", "key": "STRING", "aliases" : ["nom"] },
+            {"name": "nameNormalized", "key": "STRING" },
+            {"name": "description", "key": "STRING" , "aliases" : ["desc"] },
+            {"name": "required", "key": "BOOLEAN" },
+            {"name": "order", "key": "NUMERIC" },
+            {"name": "type", "key": "STRING" },
+            {"name": "routeId", "key": "STRING" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "createdAt", "key": "DATE" , "aliases" : ["created", "created_at"] },
+            {"name": "updatedAt", "key": "DATE" , "aliases" : ["updated", "updated_at"] },
           ]
         },
         "Data": {
           type: "donnees",
           authorizedFilters: [
-            {"name": "dataId", "key": "String" },
-            {"name": "routeId", "key": "String" },
-            {"name": "clientId", "key": "String" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
+            {"name": "dataId", "key": "STRING" },
+            {"name": "routeId", "key": "STRING" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "createdAt", "key": "DATE" },
+            {"name": "updatedAt", "key": "DATE" }
           ]
         },
         "Page": {
           type: "pages",
           authorizedFilters: [
-            {"name": "pageId", "key": "String" },
-            {"name": "type", "key": "String" },
-            {"name": "name", "key": "String" },
-            {"name": "nameNormalized", "key": "String" },
-            {"name": "parentPageId", "key": "String" },
-            {"name": "relationType", "key": "String" },
-            {"name": "description", "key": "String" },
-            {"name": "smallDescription", "key": "String" },
-            {"name": "routeId", "key": "String" },
-            {"name": "clientId", "key": "String" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
+            {"name": "pageId", "key": "STRING" },
+            {"name": "type", "key": "STRING" },
+            {"name": "name", "key": "STRING" },
+            {"name": "nameNormalized", "key": "STRING" },
+            {"name": "parentPageId", "key": "STRING" },
+            {"name": "relationType", "key": "STRING" },
+            {"name": "description", "key": "STRING" },
+            {"name": "smallDescription", "key": "STRING" },
+            {"name": "routeId", "key": "STRING" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "createdAt", "key": "DATE" },
+            {"name": "updatedAt", "key": "DATE" }
           ]
         },
         "Relation": {
           type: "relations",
           authorizedFilters: [
-            {"name": "relationId", "key": "String" },
-            {"name": "type", "key": "String" },
-            {"name": "parentRouteId", "key": "String" },
-            {"name": "childRouteId", "key": "String" },
-            {"name": "clientId", "key": "String" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
+            {"name": "relationId", "key": "STRING" },
+            {"name": "type", "key": "STRING" },
+            {"name": "parentRouteId", "key": "STRING" },
+            {"name": "childRouteId", "key": "STRING" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "createdAt", "key": "DATE" },
+            {"name": "updatedAt", "key": "DATE" }
           ]
         },
         "Route": {
           type: "collections",
           authorizedFilters: [
-            {"name": "routeId", "key": "String" },
-            {"name": "name", "key": "String" },
-            {"name": "nameNormalized", "key": "String" },
-            {"name": "description", "key": "String" },
-            {"name": "type", "key": "String" },
-            {"name": "isCollection", "key": "Boolean" },
-            {"name": "isIdentified", "key": "Boolean" },
-            {"name": "method", "key": "String" },
-            {"name": "fcRequired", "key": "Boolean" },
-            {"name": "fcRestricted", "key": "Boolean" },
-            {"name": "public", "key": "Boolean" },
-            {"name": "clientId", "key": "String" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
+            {"name": "routeId", "key": "STRING" },
+            {"name": "name", "key": "STRING" },
+            {"name": "nameNormalized", "key": "STRING" },
+            {"name": "description", "key": "STRING" },
+            {"name": "type", "key": "STRING" },
+            {"name": "isCollection", "key": "BOOLEAN" },
+            {"name": "isIdentified", "key": "BOOLEAN" },
+            {"name": "method", "key": "STRING" },
+            {"name": "fcRequired", "key": "BOOLEAN" },
+            {"name": "fcRestricted", "key": "BOOLEAN" },
+            {"name": "public", "key": "BOOLEAN" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "createdAt", "key": "DATE" },
+            {"name": "updatedAt", "key": "DATE" }
           ]
         },
         "Service": {
           type: "services",
           authorizedFilters: [
-            {"name": "name", "key": "String" },
-            {"name": "nameNormalized", "key": "String" },
-            {"name": "description", "key": "String" },
-            {"name": "website", "key": "String" },
-            {"name": "public", "key": "Boolean" },
-            {"name": "clientSecret", "key": "String" },
-            {"name": "clientId", "key": "String" },
-            {"name": "validated", "key": "Boolean" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
+            {"name": "name", "key": "STRING" },
+            {"name": "nameNormalized", "key": "STRING" },
+            {"name": "description", "key": "STRING" },
+            {"name": "website", "key": "STRING" },
+            {"name": "public", "key": "BOOLEAN" },
+            {"name": "clientSecret", "key": "STRING" },
+            {"name": "clientId", "key": "STRING" },
+            {"name": "validated", "key": "BOOLEAN" },
+            {"name": "createdAt", "key": "DATE" },
+            {"name": "updatedAt", "key": "DATE" }
           ]
         },
         "Token": {
-          type: "tokens",
-          authorizedFilters: [
-            {"name": "accessToken", "key": "String" },
-            {"name": "accessTokenExpiresOn", "key": "Date" },
-            {"name": "production", "key": "Boolean" },
-            {"name": "nbOfUse", "key": "Number" },
-            {"name": "createdAt", "key": "Date" },
-            {"name": "updatedAt", "key": "Date" }
-          ]
+          type: "tokens"
         }
       }
     },
