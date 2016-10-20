@@ -4,6 +4,22 @@ const testHelper = require('../../../test.helper.js'),
   TestHelper = new testHelper(),
   request = TestHelper.request;
 
+
+const datadb = {
+  my_client_id: {alias: "test", nom: "Test", description: 'Description', site_internet: 'http://mywebsite.com', public: true},
+  my_client_id_private: {alias: "Private_service", nom: "Private service", description: 'Description', site_internet: '', public: false},
+  client_id_number_1: {alias: "service_1", nom: "service 1", description: 'Description', site_internet: '', public: true},
+  client_id_number_2: {alias: "service_2", nom: "service 2", description: 'Description', site_internet: '', public: true},
+  client_id_number_3: {alias: "service_3", nom: "service 3", description: 'Description', site_internet: '', public: true},
+  client_id_number_4: {alias: "service_4", nom: "service 4", description: 'Description', site_internet: '', public: true},
+};
+
+const filterClassic = [
+  { testname: "test simple", res:["my_client_id"], filter : "filter[name]=Test"},
+  { testname: "test simple 2", res:["my_client_id", "client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter : "filter[public]=true"},
+  { testname: "test whith $or 2 $regex", res:["client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter : "filter[name][$regex]=service"},
+]
+
 describe('Services', function () {
 
   before(TestHelper.startServer);
@@ -142,6 +158,61 @@ describe('Services', function () {
         });
       });
 
+    });
+    it('show list of public services', function (done) {
+      request()
+        .get('/api/v1/services')
+        .query({access_token: TestHelper.getAccessToken()})
+        .end(function (err, res) {
+          TestHelper.checkResponse(res);
+          res.body.data.should.have.lengthOf(5);
+          res.body.data[0].id.should.eql('my_client_id');
+          res.body.data[0].type.should.eql('services');
+          res.body.data[0].attributes.should.eql({
+            alias: 'test',
+            nom: 'Test',
+            description: 'Description',
+            site_internet: 'http://mywebsite.com',
+            public: true
+          });
+          done();
+        });
+    });
+  
+    describe('Filter TEST', function () {
+    
+      filterClassic.forEach(function(objfilterclassic) {
+        it(objfilterclassic.testname, function (done) {
+          request()
+            .get('/api/v1/services?' + objfilterclassic.filter)
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data.should.have.lengthOf(objfilterclassic.res.length);
+              for (var j = 0; j < objfilterclassic.res.length; ++j) {
+                let exists = false;
+                res.body.data.forEach(function(data) {
+                  if (data.id === objfilterclassic.res[j]) {
+                    exists = true;
+                    data.type.should.eql('services');
+                    if (data.attributes !== undefined) {
+                      data.attributes.should.eql({
+                        alias: datadb[objfilterclassic.res[j]].alias,
+                        nom: datadb[objfilterclassic.res[j]].nom,
+                        description: datadb[objfilterclassic.res[j]].description,
+                        site_internet: datadb[objfilterclassic.res[j]].site_internet,
+                        public: datadb[objfilterclassic.res[j]].public
+                      });
+                    }
+                  }
+                });
+                if (!exists)
+                  throw new Error('data not found');
+              }
+              done();
+            });
+        });
+      });
     });
 
   });

@@ -115,8 +115,9 @@ function FilterService(options) {
   }
   
   function getTabByKeyVal(key, val, myArray, myarray2) {
-    if (key === undefined || val === undefined || (myArray === undefined && myarray2 === undefined) )
+    if (key === undefined || val === undefined || (myArray === undefined && myarray2 === undefined) ) {
       return undefined;
+    }
     if (myArray !== undefined) {
       for (var i = 0; i < myArray.length; i++) {
         if (myArray[i][key] === val) {
@@ -125,9 +126,9 @@ function FilterService(options) {
       }
     }
     if (myarray2 !== undefined) {
-      for (var i = 0; i < myarray2.length; i++) {
+       for (var i = 0; i < myarray2.length; i++) {
         if (myarray2[i][key] === val) {
-          return myArray[i];
+          return myarray2[i];
         }
         else if (("Alias" in myarray2[i]))
         {

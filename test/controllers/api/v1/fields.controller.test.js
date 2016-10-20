@@ -6,6 +6,21 @@ const testHelper = require('../../../test.helper.js'),
   fieldModel = require('../../../../models/v1/Field.model.js'),
   FieldModel = new fieldModel(TestHelper.getOptions());
 
+
+const datadb = {
+  my_field_id1: {description: 'description', nom: 'field1', position: 0, type: 'STRING'},
+  my_field_id2: {description: 'description', nom: 'field2', position: 0, type: 'STRING'},
+  my_field_id3: {description: 'description', nom: 'field3', position: 0, type: 'NUMERIC'},
+  my_field_id4: {description: 'description', nom: 'field4', position: 0, type: 'JSON'},
+  my_field_id5: {description: 'description', nom: 'field5', position: 0, type: 'AMOUNT'},
+};
+
+const filterClassic = [
+  { testname: "test simple", res:["my_field_id1"], filter : "filter[name]=Field1"},
+  { testname: "test simple 2", res:["my_field_id1", "my_field_id2"], filter : "filter[type]=STRING"},
+  { testname: "test whith $or 2 $regex", res:["my_field_id1", "my_field_id2"], filter : "filter[$or][0][name][$regex]=ld1&filter[$or][1][name][$regex]=ld2"},
+]
+
 describe('Fields', function () {
 
   before(TestHelper.startServer);
@@ -100,6 +115,41 @@ describe('Fields', function () {
           });
           done();
         });
+    });
+  
+    describe('Filter TEST', function () {
+    
+      filterClassic.forEach(function(objfilterclassic) {
+        it(objfilterclassic.testname, function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/champs?' + objfilterclassic.filter)
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data.should.have.lengthOf(objfilterclassic.res.length);
+              for (var j = 0; j < objfilterclassic.res.length; ++j) {
+                let exists = false;
+                res.body.data.forEach(function(data) {
+                  if (data.id === objfilterclassic.res[j]) {
+                    exists = true;
+                    data.type.should.eql('champs');
+                    if (data.attributes !== undefined) {
+                      data.attributes.should.eql({
+                        description: datadb[objfilterclassic.res[j]].description,
+                        nom: datadb[objfilterclassic.res[j]].nom,
+                        position: datadb[objfilterclassic.res[j]].position,
+                        type: datadb[objfilterclassic.res[j]].type
+                      });
+                    }
+                  }
+                });
+                if (!exists)
+                  throw new Error('data not found');
+              }
+              done();
+            });
+        });
+      });
     });
 
   });
