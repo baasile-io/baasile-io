@@ -131,7 +131,7 @@ function FilterService(options) {
         }
         else if (("Alias" in myarray2[i]))
         {
-          for (var j = 0; j < myarray2[i]["Alias"].length; j++) {
+          for (var j = 0; j < myarray2[i]["aliases"].length; j++) {
             if (myarray2[i]["Alias"][j] === val) {
               return myarray2[i];
             }
@@ -143,9 +143,9 @@ function FilterService(options) {
   }
   
   function getValIfValExistInArray(value, listfields, param) {
-    if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
+    if (typeof listfields === 'undefined' && param["modelName"] === undefined)
       return value;
-    var typeTab = getTabByKeyVal("name", value, listfields, param["fieldZone"]);
+    var typeTab = getTabByKeyVal("name", value, listfields, param["modelName"]);
     if (typeTab !== undefined) {
       return value;
     }
@@ -158,9 +158,9 @@ function FilterService(options) {
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return CONDITIONAL_OPERATORS;
     else {
-      if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
+      if (typeof listfields === 'undefined' && param["modelName"] === undefined)
         return COND_TYPES[DEFAULT_TYPE];
-      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["fieldZone"]);
+      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["modelName"]);
       if (objson === undefined)
         return undefined;
       return COND_TYPES[objson.key];
@@ -168,12 +168,12 @@ function FilterService(options) {
   }
   
   function getTypeOf(value, listfields, param) {
-    if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
+    if (typeof listfields === 'undefined' && param["modelName"] === undefined)
       return DEFAULT_TYPE;
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return undefined;
     else {
-      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["fieldZone"]);
+      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["modelName"]);
       if (objson === undefined)
         return undefined;
       return objson.key;
@@ -596,13 +596,13 @@ function FilterService(options) {
     return jsontab;
   }
   
-  this.buildMongoQuery = function (jsonRes, filters, listfields, fieldZone) {
+  this.buildMongoQuery = function (jsonRes, filters, modelName, listfields) {
     var param = {};
     param["gOption"]  = undefined;
     param["errors"] = [];
-    param["fieldZone"] = undefined;
-    if (fieldZone != undefined && fieldZone != null)
-     param["fieldZone"] = CONFIG.api.v1.resources[fieldZone].authorizedFilters;
+    param["modelName"] = undefined;
+    if (modelName != undefined && modelName != null)
+     param["modelName"] = CONFIG.api.v1.resources[modelName].authorizedFilters;
     if (typeof filters !== 'undefined') {
       if ("$options" in filters) {
         param["gOption"] = filters["$options"];
