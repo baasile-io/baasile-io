@@ -1,15 +1,15 @@
 'use strict';
 
-const thumbnailService = require('./services/thumbnail.service.js'),
-  serviceModel = require('./models/v1/Service.model.js'),
+const thumbnailService = require('./../services/thumbnail.service.js'),
+  serviceModel = require('./../models/v1/Service.model.js'),
   awsSdk = require('aws-sdk'),
   fs = require('fs'),
-  CONFIG = require('./config/app.js');
+  CONFIG = require('./../config/app.js');
 
 
-module.exports = Worker;
+module.exports = S3Task;
 
-function Worker(options) {
+function S3Task(options) {
   var self = this;
   options = options || {};
   const logger = options.logger;
@@ -28,11 +28,11 @@ function Worker(options) {
     initBucket()
       .then(ThumbnailService.checkServicesLogosVersions)
       .then(function() {
-        logger.info('worker terminated');
+        logger.info('task terminated');
         process.exit();
       })
       .catch(function(err) {
-        logger.info('worker error: ' + err);
+        logger.info('task error: ' + err);
         process.exit();
       });
   };

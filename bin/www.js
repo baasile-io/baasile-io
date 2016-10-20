@@ -65,16 +65,16 @@ if (typeof options.s3Region !== 'undefined' && typeof options.s3Bucket !== 'unde
   options.s3BucketUrl = 'https://s3-' + options.s3Region + '.amazonaws.com/' + options.s3Bucket;
 }
 
-if (process.argv.indexOf('worker') != -1) {
-  const worker = require('../worker.js');
-  var Worker = new worker(options);
+if (process.argv.indexOf('s3.task') != -1) {
+  const s3Task = require('../tasks/s3.task.js');
+  var S3Task = new s3Task(options);
 
-  Worker.start(function (err) {
+  S3Task.start(function (err) {
     if (err) {
       logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
       setTimeout(process.exit.bind(null, 99), 10);
     }
-    logger.info('Worker successfully started.');
+    logger.info('Task successfully started.');
   });
 
 } else {
