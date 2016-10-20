@@ -54,7 +54,7 @@ function ThumbnailService(options) {
 
   this.process = doProcess;
 
-  this.checkVersions = function() {
+  this.checkServicesLogosVersions = function() {
     let versions = CONFIG.dashboard.thumbnail.versions;
 
     return new Promise(function(resolve, reject) {

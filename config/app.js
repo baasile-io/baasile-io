@@ -175,6 +175,22 @@ module.exports = {
           background: 'white',
           flatten: true,
           suffix: '-250x250bg'
+        },
+        {
+          maxHeight: 32,
+          maxWidth: 32,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-32x32'
+        },
+        {
+          maxHeight: 32,
+          maxWidth: 32,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-32x32bg'
         }
       ]
     }

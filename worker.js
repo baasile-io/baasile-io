@@ -26,7 +26,7 @@ function Worker(options) {
   this.start = function(onStarted) {
     onStarted();
     initBucket()
-      .then(ThumbnailService.init)
+      .then(ThumbnailService.checkServicesLogosVersions)
       .then(function() {
         logger.info('worker terminated');
         process.exit();
