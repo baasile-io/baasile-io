@@ -8,6 +8,7 @@
 
   <!-- Site Properties -->
   <title>API-CPA</title>
+  <link rel="icon" href="<%= getAssetUri('assets/images/api-cpa.ico') %>" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
@@ -35,7 +36,7 @@
   <div class="ui inverted fixed menu">
     <div class="ui container">
       <a href="/dashboard" class="header item">
-        <img class="logo" src="/assets/logo/api-cpa-logo.png">
+        <img class="logo" src="<%= getAssetUri('assets/logo/api-cpa-logo.png') %>">
       </a>
       <div class="ui simple dropdown item">
         <a href="/dashboard/services">
