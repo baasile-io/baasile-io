@@ -130,10 +130,10 @@ function FilterService(options) {
         if (myarray2[i][key] === val) {
           return myarray2[i];
         }
-        else if (("Alias" in myarray2[i]))
+        else if (("aliases" in myarray2[i]))
         {
           for (var j = 0; j < myarray2[i]["aliases"].length; j++) {
-            if (myarray2[i]["Alias"][j] === val) {
+            if (myarray2[i]["aliases"][j] === val) {
               return myarray2[i];
             }
           }
