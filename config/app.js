@@ -123,6 +123,10 @@ module.exports = {
     thumbnail: {
       versions: [
         {
+          format: 'png',
+          suffix: '-original'
+        },
+        {
           maxHeight: 1040,
           maxWidth: 1040,
           format: 'png',

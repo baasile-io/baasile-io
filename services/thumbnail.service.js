@@ -2,7 +2,8 @@
 
 const CONFIG = require('../config/app.js'),
   s3Uploader = require('s3-uploader'),
-  request = require('request');
+  request = require('request'),
+  fs = require('fs');
 
 module.exports = ThumbnailService;
 
@@ -53,8 +54,8 @@ function ThumbnailService(options) {
 
   this.process = doProcess;
 
-  this.init = function() {
-    let version = CONFIG.dashboard.thumbnail.versions[0];
+  this.checkVersions = function() {
+    let versions = CONFIG.dashboard.thumbnail.versions;
 
     return new Promise(function(resolve, reject) {
       ServiceModel
@@ -64,20 +65,64 @@ function ThumbnailService(options) {
         .on('data', function (service) {
           var self = this;
           self.pause();
+          let originalImgUri = options.s3BucketUrl + '/services/logos/' + service.clientId + '-original.png';
           request
-            .get(options.s3BucketUrl + '/services/logos/' + service.clientId + version.suffix + '.' + version.format)
+            .get(originalImgUri)
             .on('response', function (response) {
-              if (response.statusCode != 200) {
-                logger.info('generating thumbnails for service ' + service.clientId);
-                return doProcess({path: './public/assets/images/no-image.png'}, 'services/logos/' + service.clientId)
-                  .then(function() {
-                    self.resume();
-                  })
-                  .catch(function(err) {
-                    self.destroy();
+
+              function checkVersion(i) {
+                i = i || 0;
+                if (i == versions.length)
+                  return self.resume();
+                let version = versions[i];
+                request
+                  .get(options.s3BucketUrl + '/services/logos/' + service.clientId + version.suffix + '.' + version.format)
+                  .on('response', function (responseCheck) {
+                    if (responseCheck.statusCode != 200) {
+                      logger.info('missing thumbnails for service ' + service.clientId);
+                      logger.info('downloading image: ' + originalImgUri);
+
+                      request
+                        .get(options.s3BucketUrl + '/services/logos/' + service.clientId + '-original.png')
+                        .on('response', function (response) {
+                          var file = fs.createWriteStream('uploads/tmp_service_logo');
+                          response.pipe(file);
+                          file
+                            .on('error', function (err) {
+                              logger.warn('failed to download image: ' + err);
+                              self.destroy();
+                            })
+                            .on('finish', function () {
+                              logger.info('generating thumbnails for service ' + service.clientId);
+                              return doProcess({path: 'uploads/tmp_service_logo'}, 'services/logos/' + service.clientId)
+                                .then(function () {
+                                  self.resume();
+                                })
+                                .catch(function () {
+                                  self.destroy();
+                                });
+                            });
+                        });
+
+                    } else {
+                      checkVersion(i + 1);
+                    }
                   });
               }
-              self.resume();
+
+              if (response.statusCode != 200) {
+                logger.info('generating default thumbnails for service ' + service.clientId);
+                return doProcess({path: './public/assets/images/no-image.png'}, 'services/logos/' + service.clientId)
+                  .then(function () {
+                    self.resume();
+                  })
+                  .catch(function () {
+                    self.destroy();
+                  });
+              } else {
+                logger.info('checking thumbnails for service ' + service.clientId);
+                checkVersion();
+              }
             });
         })
         .on('error', function (err) {
