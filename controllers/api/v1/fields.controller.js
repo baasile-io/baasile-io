@@ -1,6 +1,7 @@
 'use strict';
 
 const serviceModel = require('../../../models/v1/Service.model.js'),
+  filterservice = require('../../../services/filter.service.js'),
   CONFIG = require('../../../config/app.js'),
   _ = require('lodash');
 
@@ -12,6 +13,7 @@ function FieldsController(options) {
   const FieldModel = options.models.FieldModel;
   const RouteModel = options.models.RouteModel;
   const ServiceModel = new serviceModel(options);
+  const FilterService = new filterservice(options);
 
   this.getFields = function(req, res, next) {
     var query;

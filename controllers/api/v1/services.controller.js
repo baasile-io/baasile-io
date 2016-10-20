@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash'),
+  filterservice = require('../../../services/filter.service.js'),
   CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
@@ -10,6 +11,7 @@ function ServicesController(options) {
   const logger = options.logger;
   const ServiceModel = options.models.ServiceModel;
   const RouteModel = options.models.RouteModel;
+  const FilterService = new filterservice(options);
 
   this.getServices = function(req, res, next) {
     var query = {
