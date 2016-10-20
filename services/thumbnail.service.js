@@ -33,6 +33,7 @@ function ThumbnailService(options) {
   function doProcess(source, destination) {
     return new Promise(function (resolve, reject) {
       if (typeof S3Uploader === 'undefined') {
+        logger.warn('S3Uploader is undefined');
         reject({code: 's3_undefined'});
       }
       S3Uploader.upload(source.path, {

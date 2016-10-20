@@ -270,8 +270,11 @@ function ServicesController(options) {
             doSuccess();
           })
           .catch(function (err) {
-            res.write(JSON.stringify(err));
-            return res.end();
+            return FlashHelper.addError(req.session, {icon: 'image', title: 'Erreur de téléchargement', messages: ['L\'image n\'a pas pu être téléchargée sur la plate-forme']}, function(err) {
+              if (err)
+                return next({code: 500});
+              return doSuccess();
+            });
           });
       } else {
         doSuccess();

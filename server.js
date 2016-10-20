@@ -77,6 +77,12 @@ function Server(options) {
     next();
   });
 
+  app.locals.getAssetUri = function(file) {
+    if (options.s3BucketUrl)
+      return options.s3BucketUrl + '/public/' + file;
+    return '/' + file;
+  };
+
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {

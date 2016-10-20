@@ -109,6 +109,17 @@ module.exports = {
     }
   },
   dashboard: {
+    assets: {
+      sources: [
+        'public/assets/images/api-cpa.ico',
+        'public/assets/images/badge-api-cpa.jpg',
+        'public/assets/images/dashboard-background.png',
+        'public/assets/images/night-sky-background.jpg',
+        'public/assets/logo/api-cpa-logo-transparent.png',
+        'public/assets/logo/api-cpa-logo.png',
+        'public/assets/plugins/tablesort.js'
+      ]
+    },
     thumbnail: {
       versions: [
         {

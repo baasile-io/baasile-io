@@ -61,7 +61,9 @@ var options = {
   s3Region: process.env.AWS_DEFAULT_REGION || nconf.get('AWS_DEFAULT_REGION')
 };
 
-options.s3BucketUrl = 'https://s3-' + options.s3Region + '.amazonaws.com/' + options.s3Bucket;
+if (typeof options.s3Region !== 'undefined' && typeof options.s3Bucket !== 'undefined') {
+  options.s3BucketUrl = 'https://s3-' + options.s3Region + '.amazonaws.com/' + options.s3Bucket;
+}
 
 if (process.argv.indexOf('worker') != -1) {
   const worker = require('../worker.js');

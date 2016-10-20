@@ -133,7 +133,9 @@ function ServiceModel(options) {
   };
 
   serviceSchema.methods.getThumbnail = function(suffix) {
-    return options.s3BucketUrl + '/services/logos/' + this.clientId + suffix;
+    if (options.s3BucketUrl)
+      return options.s3BucketUrl + '/services/logos/' + this.clientId + suffix;
+    return '/assets/images/no-image.png';
   };
 
   serviceSchema.methods.getRelationshipsObject = function(apiUri, opt) {

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/baasile-io/baasile-io#readme",
   "dependencies": {
+    "aws-sdk": "^2.6.10",
     "body-parser": "^1.15.1",
     "bunyan": "^1.8.1",
     "bunyan-blackhole": "^1.1.1",

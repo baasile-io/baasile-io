@@ -26,7 +26,7 @@
     }
     .masthead.inverted.segment,
     .ui.top.menu {
-      background: url('/assets/images/night-sky-background.jpg');
+      background: url('<%= getAssetUri('assets/images/night-sky-background.jpg') %>');
       background-size: cover;
     }
     .masthead.segment {
@@ -110,7 +110,7 @@
 
     .ui.comments {max-width: inherit;}
     body, body.pushable>.pusher {
-      background-image: url('/assets/images/dashboard-background.png');
+      background-image: url('<%= getAssetUri('assets/images/dashboard-background.png') %>');
     }
   </style>
 
