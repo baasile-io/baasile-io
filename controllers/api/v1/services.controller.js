@@ -18,6 +18,8 @@ function ServicesController(options) {
         {clientId: res._service.clientId}
       ]
     };
+    if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
+      query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Service');
     var queryOptions = {
       sort: {name: 1},
       populate: []

@@ -27,6 +27,8 @@ function ServicesController(options) {
     if (req.data.service) {
       query['$and'].push({service: req.data.service._id});
     }
+    if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
+      query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Route');
     var queryOptions = {
       sort: {name: 1},
       populate: []

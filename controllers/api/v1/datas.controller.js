@@ -106,8 +106,8 @@ function ServicesController(options) {
 
   function requestGet(req, res, next) {
     var dataResult = [];
-    var jsonRes = {};
-    jsonRes["route"] = req.data.route._id;
+    var query = {};
+    query["route"] = req.data.route._id;
     var whitelistedFields = [];
     FieldModel.io
       .find({
@@ -120,7 +120,8 @@ function ServicesController(options) {
         fields.forEach(function (field) {
           whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type });
         });
-        var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, whitelistedFields, 'Data');
+        if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
+          query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Data', whitelistedFields);
         if (query["ERRORS"] !== undefined && query["ERRORS"].length > 0)
           return next({code: 400, messages: query["ERRORS"]});
         var queryOptions = {
