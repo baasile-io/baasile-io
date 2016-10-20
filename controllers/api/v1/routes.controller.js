@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash'),
+  filterservice = require('../../../services/filter.service.js'),
   CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
@@ -12,6 +13,7 @@ function ServicesController(options) {
   const RouteModel = options.models.RouteModel;
   const FieldModel = options.models.FieldModel;
   const DataModel = options.models.DataModel;
+  const FilterService = new filterservice(options);
 
   this.getRoutes = function(req, res, next) {
     var query = {
@@ -27,6 +29,8 @@ function ServicesController(options) {
     if (req.data.service) {
       query['$and'].push({service: req.data.service._id});
     }
+    if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
+      query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Route');
     var queryOptions = {
       sort: {name: 1},
       populate: []

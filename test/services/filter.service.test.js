@@ -212,7 +212,6 @@ describe('Filter service', function () {
           }
         ]
       };
-      console.log(FilterService.buildMongoQuery({}, filters));
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
@@ -335,7 +334,6 @@ describe('Filter service', function () {
             }
           }]
       };
-      console.log(FilterService.buildMongoQuery({}, filters));
       FilterService.buildMongoQuery({}, filters).should.eql(expected);
       done();
     });
@@ -409,7 +407,7 @@ describe('Filter service', function () {
           }
         }
         ]};
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -425,7 +423,7 @@ describe('Filter service', function () {
           }
         }
         ]};
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -441,7 +439,7 @@ describe('Filter service', function () {
           }
         }
       ]};
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -449,7 +447,7 @@ describe('Filter service', function () {
       // filter[data.field3][$gte]=30&filter[data.field3][$lte]=80
       var filters = {"data.field3":{"$gte":"30","$lte":"80"}};
       var expected = {"$and":[{"route":"57f1fa52f0a9620f445bba67"},{"data.field3":{"$gte":30,"$lte":80}}]};
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -505,7 +503,7 @@ describe('Filter service', function () {
       //console.log("----test 5----");
       //console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       //console.log("----test 5----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
   
@@ -526,7 +524,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("----test 6----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -570,7 +568,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("----test 7----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -600,7 +598,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("---test 8-----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
 
@@ -633,7 +631,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("----test 9----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
   
@@ -673,7 +671,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("----test 9----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
   
@@ -687,7 +685,7 @@ describe('Filter service', function () {
       // console.log("whiteFields:"+JSON.stringify(whiteFields));
       // console.log(JSON.stringify(FilterService.buildMongoQuery(alradyin, filters, whiteFields)));
       // console.log("----test 9----");
-      FilterService.buildMongoQuery(alradyin, filters, whiteFields).should.eql(expected);
+      FilterService.buildMongoQuery(alradyin, filters, undefined, whiteFields).should.eql(expected);
       done();
     });
     

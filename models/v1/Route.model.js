@@ -117,7 +117,8 @@ function RouteModel(options) {
         nom: this.name,
         description: this.description,
         tableau_de_donnees: this.isCollection,
-        jeton_fc_lecture_ectriture: this.fcRestricted,
+        donnees_identifiees: this.isIdentified,
+        jeton_fc_lecture_ecriture: this.fcRestricted,
         jeton_fc_lecture_seulement: this.fcRequired,
         public: this.public
       };

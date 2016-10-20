@@ -1,6 +1,6 @@
 'use strict';
 
-const StandardError = require('standard-error');
+const CONFIG = require('../config/app.js');
 
 module.exports = FilterService;
 
@@ -114,21 +114,39 @@ function FilterService(options) {
     return undefined;
   }
   
-  function getTabByKeyVal(key, val, myArray) {
-    if (key === undefined || val === undefined || myArray === undefined)
+  function getTabByKeyVal(key, val, myArray, myarray2) {
+    if (key === undefined || val === undefined || (myArray === undefined && myarray2 === undefined) ) {
       return undefined;
-    for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i][key] === val) {
-        return myArray[i];
+    }
+    if (myArray !== undefined) {
+      for (var i = 0; i < myArray.length; i++) {
+        if (myArray[i][key] === val) {
+          return myArray[i];
+        }
+      }
+    }
+    if (myarray2 !== undefined) {
+       for (var i = 0; i < myarray2.length; i++) {
+        if (myarray2[i][key] === val) {
+          return myarray2[i];
+        }
+        else if (("aliases" in myarray2[i]))
+        {
+          for (var j = 0; j < myarray2[i]["aliases"].length; j++) {
+            if (myarray2[i]["aliases"][j] === val) {
+              return myarray2[i];
+            }
+          }
+        }
       }
     }
     return undefined;
   }
   
-  function getValIfValExistInArray(value, listfields) {
-    if (typeof listfields === 'undefined')
+  function getValIfValExistInArray(value, listfields, param) {
+    if (typeof listfields === 'undefined' && param["modelName"] === undefined)
       return value;
-    var typeTab = getTabByKeyVal("name", value, listfields);
+    var typeTab = getTabByKeyVal("name", value, listfields, param["modelName"]);
     if (typeTab !== undefined) {
       return value;
     }
@@ -137,26 +155,26 @@ function FilterService(options) {
     }
   }
   
-  function getTableTypeOf(value, listfields) {
+  function getTableTypeOf(value, listfields, param) {
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return CONDITIONAL_OPERATORS;
     else {
-      if (typeof listfields === 'undefined')
+      if (typeof listfields === 'undefined' && param["modelName"] === undefined)
         return COND_TYPES[DEFAULT_TYPE];
-      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields), listfields);
+      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["modelName"]);
       if (objson === undefined)
         return undefined;
       return COND_TYPES[objson.key];
     }
   }
   
-  function getTypeOf(value, listfields) {
-    if (typeof listfields === 'undefined')
+  function getTypeOf(value, listfields, param) {
+    if (typeof listfields === 'undefined' && param["modelName"] === undefined)
       return DEFAULT_TYPE;
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return undefined;
     else {
-      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields), listfields);
+      var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["modelName"]);
       if (objson === undefined)
         return undefined;
       return objson.key;
@@ -165,7 +183,7 @@ function FilterService(options) {
   
   function isKeyCondOkForThisTypeOfValue(key, value, listfields, param) {
     
-    var type = getTableTypeOf(value, listfields);
+    var type = getTableTypeOf(value, listfields, param);
     if (type === undefined)
     {
       param["errors"].push("value: \"" + value + "\" is not a field in your model");
@@ -173,7 +191,7 @@ function FilterService(options) {
     }
     else if (type.indexOf(key) === -1)
     {
-      param["errors"].push("key: \"" + key + "\" is not a possible condition for the type: \"" + getTypeOf(value, listfields) + "\"");
+      param["errors"].push("key: \"" + key + "\" is not a possible condition for the type: \"" + getTypeOf(value, listfields, param) + "\"");
       return false;
     }
     return true;
@@ -181,7 +199,7 @@ function FilterService(options) {
   }
   
   function getConvertValueByTypeKeyname(val, keyname, listfields, param) {
-    var type = getTypeOf(keyname, listfields);
+    var type = getTypeOf(keyname, listfields, param);
     if (type === undefined) {
       param["errors"].push("value: \"" + keyname + "\" is not a field in your model");
     }
@@ -339,7 +357,7 @@ function FilterService(options) {
           return false;
         }
       }
-      else if ((value = getValIfValExistInArray(key, listfields)) !== undefined)
+      else if ((value = getValIfValExistInArray(key, listfields, param)) !== undefined)
       {
           jsonRes[value] = (getConditionAfter(value, obj[key], listfields, param));
         if (jsonRes[value] === undefined) {
@@ -579,10 +597,13 @@ function FilterService(options) {
     return jsontab;
   }
   
-  this.buildMongoQuery = function (jsonRes, filters, listfields) {
+  this.buildMongoQuery = function (jsonRes, filters, modelName, listfields) {
     var param = {};
     param["gOption"]  = undefined;
     param["errors"] = [];
+    param["modelName"] = undefined;
+    if (modelName != undefined && modelName != null)
+     param["modelName"] = CONFIG.api.v1.resources[modelName].authorizedFilters;
     if (typeof filters !== 'undefined') {
       if ("$options" in filters) {
         param["gOption"] = filters["$options"];
