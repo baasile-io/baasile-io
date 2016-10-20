@@ -16,7 +16,7 @@ function AuthController(options) {
     const access_token = res._request.params.access_token;
     if (!access_token)
       return next({messages: ['missing_parameter', '"access_token" is required'], code: 400});
-    var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, undefined, 'Token');
+    //var query = FilterService.buildMongoQuery(jsonRes, res._request.params.filter, undefined, 'Token');
     TokenModel.io.findOne({
       accessToken: access_token
     }, function(err, token) {

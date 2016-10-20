@@ -1,6 +1,6 @@
 'use strict';
 
-const CONFIG = require('../../../config/app.js');
+const CONFIG = require('../config/app.js');
 
 module.exports = FilterService;
 
@@ -143,7 +143,7 @@ function FilterService(options) {
   }
   
   function getValIfValExistInArray(value, listfields, param) {
-    if (typeof listfields === 'undefined' && param["fieldZone"] === 'undefined')
+    if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
       return value;
     var typeTab = getTabByKeyVal("name", value, listfields, param["fieldZone"]);
     if (typeTab !== undefined) {
@@ -158,7 +158,7 @@ function FilterService(options) {
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return CONDITIONAL_OPERATORS;
     else {
-      if (typeof listfields === 'undefined' && param["fieldZone"] === 'undefined')
+      if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
         return COND_TYPES[DEFAULT_TYPE];
       var objson = getTabByKeyVal("name", getValIfValExistInArray(value, listfields, param), listfields, param["fieldZone"]);
       if (objson === undefined)
@@ -168,7 +168,7 @@ function FilterService(options) {
   }
   
   function getTypeOf(value, listfields, param) {
-    if (typeof listfields === 'undefined' && param["fieldZone"] === 'undefined')
+    if (typeof listfields === 'undefined' && param["fieldZone"] === undefined)
       return DEFAULT_TYPE;
     if ((value === undefined) || Array.isArray(value) || (value[0] == '$'))
       return undefined;
@@ -602,7 +602,7 @@ function FilterService(options) {
     param["errors"] = [];
     param["fieldZone"] = undefined;
     if (fieldZone != undefined && fieldZone != null)
-      param["fieldZone"] = CONFIG.fieldZone.api.v1.resources[fieldZone].authorizedFilters;
+     param["fieldZone"] = CONFIG.api.v1.resources[fieldZone].authorizedFilters;
     if (typeof filters !== 'undefined') {
       if ("$options" in filters) {
         param["gOption"] = filters["$options"];
