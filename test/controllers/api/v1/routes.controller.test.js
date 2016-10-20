@@ -8,7 +8,7 @@ const testHelper = require('../../../test.helper.js'),
 
 
 const datadb = {
-  my_route_id1: {alias: "collection1", description: 'description', jeton_fc_lecture_ecriture: false, jeton_fc_lecture_seulement: false, nom: "Collection1", public: true, tableau_de_donnees: false},
+  my_route_id1: {alias: "collection1", description: 'description', jeton_fc_lecture_ecriture: false, jeton_fc_lecture_seulement: false, nom: "Collection1", public: true, tableau_de_donnees: false, donnees_identifiees: false},
 };
 
 const filterClassic = [
@@ -43,7 +43,8 @@ describe('Routes', function () {
             "jeton_fc_lecture_seulement": false,
             "nom": "Collection1",
             "public": true,
-            "tableau_de_donnees": false
+            "tableau_de_donnees": false,
+            "donnees_identifiees": false
           });
           done();
         });
@@ -72,6 +73,7 @@ describe('Routes', function () {
                 alias: 'collection1',
                 nom: 'Collection1',
                 description: 'description',
+                donnees_identifiees: false,
                 tableau_de_donnees: false,
                 jeton_fc_lecture_ecriture: false,
                 jeton_fc_lecture_seulement: false,
@@ -109,6 +111,7 @@ describe('Routes', function () {
                         nom: datadb[objfilterclassic.res[j]].nom,
                         description: datadb[objfilterclassic.res[j]].description,
                         tableau_de_donnees: datadb[objfilterclassic.res[j]].tableau_de_donnees,
+                        donnees_identifiees: datadb[objfilterclassic.res[j]].donnees_identifiees,
                         jeton_fc_lecture_ecriture: datadb[objfilterclassic.res[j]].jeton_fc_lecture_ecriture,
                         jeton_fc_lecture_seulement: datadb[objfilterclassic.res[j]].jeton_fc_lecture_seulement,
                         public: datadb[objfilterclassic.res[j]].public
