@@ -2,6 +2,7 @@
 
 const _ = require('lodash'),
   filterservice = require('../../../services/filter.service.js'),
+  sortservice = require('../../../services/sort.service.js'),
   CONFIG = require('../../../config/app.js');
 
 module.exports = ServicesController;
@@ -14,6 +15,7 @@ function ServicesController(options) {
   const FieldModel = options.models.FieldModel;
   const DataModel = options.models.DataModel;
   const FilterService = new filterservice(options);
+  const SortService = new sortservice(options);
 
   this.getRoutes = function(req, res, next) {
     var query = {
@@ -32,9 +34,15 @@ function ServicesController(options) {
     if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
       query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Route');
     var queryOptions = {
-      sort: {name: 1},
+      //sort: {name: 1},
       populate: []
     };
+    if (res._request !== undefined && res._request.params !== undefined && res._request.params.sort !== undefined) {
+      queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Route');
+    }
+    else {
+      queryOptions["sort"] = {name: 1};
+    }
     if (Array.isArray(res._request.params.include) === true) {
       if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
         queryOptions.populate.push({

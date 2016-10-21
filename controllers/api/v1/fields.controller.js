@@ -2,6 +2,7 @@
 
 const serviceModel = require('../../../models/v1/Service.model.js'),
   filterservice = require('../../../services/filter.service.js'),
+  sortservice = require('../../../services/sort.service.js'),
   CONFIG = require('../../../config/app.js'),
   _ = require('lodash');
 
@@ -14,6 +15,7 @@ function FieldsController(options) {
   const RouteModel = options.models.RouteModel;
   const ServiceModel = new serviceModel(options);
   const FilterService = new filterservice(options);
+  const SortService = new sortservice(options);
 
   this.getFields = function(req, res, next) {
     var query;
@@ -25,9 +27,15 @@ function FieldsController(options) {
     if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
       query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Field');
     var queryOptions = {
-      sort: {name: 1},
+      //sort: {name: 1},
       populate: []
     };
+    if (res._request !== undefined && res._request.params !== undefined && res._request.params.sort !== undefined) {
+      queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Field');
+    }
+    else {
+      queryOptions["sort"] = {name: 1};
+    }
     if (Array.isArray(res._request.params.include) === true) {
       if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
         queryOptions.populate.push({
