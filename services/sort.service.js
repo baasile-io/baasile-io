@@ -49,23 +49,29 @@ function SortService(options) {
   function checkSortParam(sorts, param)
   {
     var objRes = {};
-    if (typeof sorts === 'object')
+    if (typeof sorts === 'string')
     {
-      Object.keys(sorts).every(function (key) {
-        if (typeof sorts[key] !== 'object' && (sorts[key] === "-1" || sorts[key] === "1") ){
-          if (key in objRes) {
-            param["errors"].push("you allready set a sort by the field" + key + " you can only set one type of sort for one field");
-          }
-          else if (getValIfValExistInArray(sorts[key], param)) {
-            objRes[key] = Number(sorts[key]);
-          }
-          else {
-            param["errors"].push("the name " + key + " is not in the field model");
-          }
-        } else {
-          param["errors"].push("the value for " + key +" is not -1 or 1");
+      var tab = sorts.split(',');
+      Object.keys(tab).every(function (key) {
+        
+        var sign = 1;
+        if (tab[key][0] === '-') {
+          sign = -1;
+          tab[key] = tab[key].substring(1);
+        }
+        if (tab[key] in objRes) {
+          param["errors"].push("you allready set a sort by the field" + tab[key] + " you can only set one type of sort for one field");
+        }
+        else if (getValIfValExistInArray(tab[key], param)) {
+          objRes[tab[key]] = sign;
+        }
+        else {
+          param["errors"].push("the name " + tab[key] + " is not in the field model");
         }
       });
+    }
+    else {
+      param["errors"].push("sort need to be a string : ?sort=value1 or ?sort=-value1 or ?sort=value1,value2,value3");
     }
     return objRes;
   }

@@ -28,12 +28,9 @@ function ServicesController(options) {
       //sort: {name: 1},
       populate: []
     };
-    if (res._request !== undefined && res._request.params !== undefined && res._request.params.sort !== undefined) {
-      queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Service');
-    }
-    else {
-      queryOptions["sort"] = {name: 1};
-    }
+    queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Service');
+    if (queryOptions["ERRORS"] !== undefined && queryOptions["ERRORS"].length > 0)
+      return next({code: 400, messages: queryOptions["ERRORS"]});
     if (Array.isArray(res._request.params.include) === true) {
       if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Route.type) != -1) {
         queryOptions.populate.push({
