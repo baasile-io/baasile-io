@@ -91,7 +91,7 @@ function SortService(options) {
         jsonVal["sort"] = checkSortParam(sorts, param);
         if (jsonVal["sort"] === undefined || param["errors"].length > 0 )
         {
-          param["errors"].unshift("invalid sort");
+          param["errors"].unshift("invalid_sort");
           jsonVal["ERRORS"] = param["errors"];
         }
     }

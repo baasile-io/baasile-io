@@ -626,7 +626,7 @@ function FilterService(options) {
         jsonVal["$and"] = getConditionBefore(undefined, filters, listfields, param);
         if (jsonVal["$and"] === undefined || param["errors"].length > 0 )
         {
-          param["errors"].unshift("invalid filters");
+          param["errors"].unshift("invalid_filter");
           jsonVal["ERRORS"] = param["errors"];
         }
         else if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)
