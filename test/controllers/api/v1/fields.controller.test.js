@@ -52,21 +52,21 @@ describe('Fields', function () {
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(5);
-          res.body.data[0].id.should.eql('my_field_id1');
+          res.body.data[0].id.should.eql('my_field_id5');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
-            "description": "description",
-            "nom": "field1",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id5'].description,
+            nom: datadb['my_field_id5'].nom,
+            position: datadb['my_field_id5'].position,
+            type: datadb['my_field_id5'].type
           });
-          res.body.data[1].id.should.eql('my_field_id2');
+          res.body.data[1].id.should.eql('my_field_id4');
           res.body.data[1].type.should.eql('champs');
           res.body.data[1].attributes.should.eql({
-            "description": "description",
-            "nom": "field2",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id4'].description,
+            nom: datadb['my_field_id4'].nom,
+            position: datadb['my_field_id4'].position,
+            type: datadb['my_field_id4'].type
           });
           done();
         });
@@ -97,21 +97,21 @@ describe('Fields', function () {
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(5);
-          res.body.data[0].id.should.eql('my_field_id1');
+          res.body.data[0].id.should.eql('my_field_id5');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
-            "description": "description",
-            "nom": "field1",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id5'].description,
+            nom: datadb['my_field_id5'].nom,
+            position: datadb['my_field_id5'].position,
+            type: datadb['my_field_id5'].type
           });
-          res.body.data[1].id.should.eql('my_field_id2');
+          res.body.data[1].id.should.eql('my_field_id4');
           res.body.data[1].type.should.eql('champs');
           res.body.data[1].attributes.should.eql({
-            "description": "description",
-            "nom": "field2",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id4'].description,
+            nom: datadb['my_field_id4'].nom,
+            position: datadb['my_field_id4'].position,
+            type: datadb['my_field_id4'].type
           });
           done();
         });

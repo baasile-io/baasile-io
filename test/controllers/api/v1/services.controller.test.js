@@ -39,14 +39,14 @@ describe('Services', function () {
           .end(function (err, res) {
             TestHelper.checkResponse(res);
             res.body.data.should.have.lengthOf(5);
-            res.body.data[0].id.should.eql('my_client_id');
+            res.body.data[0].id.should.eql('client_id_number_4');
             res.body.data[0].type.should.eql('services');
             res.body.data[0].attributes.should.eql({
-              alias: 'test',
-              nom: 'Test',
-              description: 'Description',
-              site_internet: 'http://mywebsite.com',
-              public: true
+              alias: datadb["client_id_number_4"].alias,
+              nom: datadb["client_id_number_4"].nom,
+              description: datadb["client_id_number_4"].description,
+              site_internet: datadb["client_id_number_4"].site_internet,
+              public: datadb["client_id_number_4"].public
             });
             done();
           });
@@ -68,14 +68,14 @@ describe('Services', function () {
             .end(function (err, res) {
               TestHelper.checkResponse(res);
               res.body.data.should.have.lengthOf(5);
-              res.body.data[0].id.should.eql('my_client_id');
+              res.body.data[0].id.should.eql('client_id_number_4');
               res.body.data[0].type.should.eql('services');
               res.body.data[0].attributes.should.eql({
-                alias: 'test',
-                nom: 'Test',
-                description: 'Description',
-                site_internet: 'http://mywebsite.com',
-                public: false
+                alias: datadb["client_id_number_4"].alias,
+                nom: datadb["client_id_number_4"].nom,
+                description: datadb["client_id_number_4"].description,
+                site_internet: datadb["client_id_number_4"].site_internet,
+                public: datadb["client_id_number_4"].public
               });
 
               // make my own service to be public again
@@ -99,12 +99,12 @@ describe('Services', function () {
             res.body.data.id.should.eql('my_client_id');
             res.body.data.type.should.eql('services');
             res.body.data.attributes.should.eql({
-              alias: 'test',
-              nom: 'Test',
-              description: 'Description',
-              site_internet: 'http://mywebsite.com',
-              public: true
-            });
+              alias: datadb["my_client_id"].alias,
+              nom: datadb["my_client_id"].nom,
+              description: datadb["my_client_id"].description,
+              site_internet: datadb["my_client_id"].site_internet,
+              public: datadb["my_client_id"].public
+             });
             done();
           });
       });
@@ -143,11 +143,11 @@ describe('Services', function () {
               res.body.data.id.should.eql('my_client_id');
               res.body.data.type.should.eql('services');
               res.body.data.attributes.should.eql({
-                alias: 'test',
-                nom: 'Test',
-                description: 'Description',
-                site_internet: 'http://mywebsite.com',
-                public: false
+                alias: datadb["my_client_id"].alias,
+                nom: datadb["my_client_id"].nom,
+                description: datadb["my_client_id"].description,
+                site_internet: datadb["my_client_id"].site_internet,
+                public: false//datadb["my_client_id"].public
               });
 
               // make my own service to be public again
@@ -166,14 +166,14 @@ describe('Services', function () {
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(5);
-          res.body.data[0].id.should.eql('my_client_id');
+          res.body.data[0].id.should.eql('client_id_number_4');
           res.body.data[0].type.should.eql('services');
           res.body.data[0].attributes.should.eql({
-            alias: 'test',
-            nom: 'Test',
-            description: 'Description',
-            site_internet: 'http://mywebsite.com',
-            public: true
+            alias: datadb["client_id_number_4"].alias,
+            nom: datadb["client_id_number_4"].nom,
+            description: datadb["client_id_number_4"].description,
+            site_internet: datadb["client_id_number_4"].site_internet,
+            public: datadb["client_id_number_4"].public
           });
           done();
         });
