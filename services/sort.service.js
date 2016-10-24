@@ -70,6 +70,7 @@ function SortService(options) {
         else {
           param["errors"].push("the name " + tab[key] + " is not in the field model");
         }
+        return true;
       });
     }
     else {
