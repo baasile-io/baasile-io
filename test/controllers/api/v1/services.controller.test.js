@@ -14,10 +14,16 @@ const datadb = {
   client_id_number_4: {alias: "service_4", nom: "service 4", description: 'Description', site_internet: '', public: true},
 };
 
+const sortFilter = [
+  { testname: "test simple 1 sort double", res:["client_id_number_4", "client_id_number_3", "client_id_number_2", "client_id_number_1", "my_client_id"], filter: "filter[public]=true", sort: "public,name"},
+  { testname: "test simple 2 sort double inv name", res:["client_id_number_4", "client_id_number_3", "client_id_number_2", "client_id_number_1", "my_client_id"], filter: "filter[public]=true", sort: "public,-name"},
+  { testname: "test whith $or 2 $regex", res:["client_id_number_4", "client_id_number_3", "client_id_number_2", "client_id_number_1"], filter: "filter[name][$regex]=service", sort: "public,-name"},
+]
+
 const filterClassic = [
   { testname: "test simple", res:["my_client_id"], filter : "filter[name]=Test"},
-  { testname: "test simple 2", res:["my_client_id", "client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter : "filter[public]=true"},
-  { testname: "test whith $or 2 $regex", res:["client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter : "filter[name][$regex]=service"},
+  { testname: "test simple 2", res:["my_client_id", "client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter: "filter[public]=true"},
+  { testname: "test whith $or 2 $regex", res:["client_id_number_1", "client_id_number_2", "client_id_number_3", "client_id_number_4"], filter: "filter[name][$regex]=service"},
 ]
 
 describe('Services', function () {
@@ -214,6 +220,41 @@ describe('Services', function () {
         });
       });
     });
+  
+    describe('Sort Filter TEST', function () {
+  
+      sortFilter.forEach(function(objsortFilter) {
+        it(objsortFilter.testname, function (done) {
+          request()
+            .get('/api/v1/services?' + objsortFilter.filter + "&" + objsortFilter.sort)
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data.should.have.lengthOf(objsortFilter.res.length);
+              let exists = false;
+              for (var j = 0; j < objsortFilter.res.length; ++j) {
+                res.body.data[j].id.should.eql(objsortFilter.res[j]);
+                  exists = true;
+                  res.body.data[j].type.should.eql('services');
+                  if (res.body.data[j].attributes !== undefined) {
+                    res.body.data[j].attributes.should.eql({
+                      alias: datadb[objsortFilter.res[j]].alias,
+                      nom: datadb[objsortFilter.res[j]].nom,
+                      description: datadb[objsortFilter.res[j]].description,
+                      site_internet: datadb[objsortFilter.res[j]].site_internet,
+                      public: datadb[objsortFilter.res[j]].public
+                    });
+                  }
+                }
+              if (!exists)
+                throw new Error('data not found');
+              done();
+            });
+        });
+      });
+    });
+  
+    
 
   });
 

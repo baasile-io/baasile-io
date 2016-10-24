@@ -16,6 +16,36 @@ const datadb = {
   my_data_id7: {field1: null, field2: null, field3: null, field4: null, field5: null}
 };
 
+const SortMulti = [
+  { testname: "Multi Sort data.field5 -data.field3", res:["my_data_id7", "my_data_id5", "my_data_id2", "my_data_id4", "my_data_id1", "my_data_id3", "my_data_id6"], sort : "sort=data.field5,-data.field3"},
+  { testname: "Multi Sort data.field5 data.field3", res:["my_data_id7", "my_data_id2", "my_data_id5", "my_data_id4", "my_data_id1", "my_data_id3", "my_data_id6"], sort : "sort=data.field5,data.field3"},
+]
+
+const SortClassic = [
+  { testname: "Sort data.field1", res:["my_data_id7", "my_data_id1", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2", "my_data_id6"], sort : "sort=data.field1"},
+  { testname: "Sort data.field2", res:["my_data_id7", "my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6", "my_data_id1"], sort : "sort=data.field2"},
+  { testname: "Sort data.field3", res:["my_data_id7", "my_data_id2", "my_data_id1", "my_data_id4", "my_data_id3", "my_data_id5", "my_data_id6"], sort : "sort=data.field3"},
+  { testname: "Sort data.field5", res:["my_data_id7", "my_data_id2", "my_data_id5", "my_data_id4", "my_data_id1", "my_data_id3", "my_data_id6"], sort : "sort=data.field5"},
+  { testname: "Sort '+' data.field1", res:["my_data_id7", "my_data_id1", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2", "my_data_id6"], sort : "sort=%2Bdata.field1"},
+  { testname: "Sort '+' data.field2", res:["my_data_id7", "my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6", "my_data_id1"], sort : "sort=%2Bdata.field2"},
+  { testname: "Sort '+' data.field3", res:["my_data_id7", "my_data_id2", "my_data_id1", "my_data_id4", "my_data_id3", "my_data_id5", "my_data_id6"], sort : "sort=%2Bdata.field3"},
+  { testname: "Sort '+' data.field5", res:["my_data_id7", "my_data_id2", "my_data_id5", "my_data_id4", "my_data_id1", "my_data_id3", "my_data_id6"], sort : "sort=%2Bdata.field5"},
+  { testname: "Sort '-' data.field1", res:["my_data_id6", "my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id1", "my_data_id7"], sort : "sort=-data.field1"},
+  { testname: "Sort '-' data.field2", res:["my_data_id1", "my_data_id6", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2", "my_data_id7"], sort : "sort=-data.field2"},
+  { testname: "Sort '-' data.field3", res:["my_data_id6", "my_data_id5", "my_data_id3", "my_data_id4", "my_data_id1", "my_data_id2", "my_data_id7"], sort : "sort=-data.field3"},
+  { testname: "Sort '-' data.field5", res:["my_data_id6", "my_data_id3", "my_data_id1", "my_data_id4", "my_data_id5", "my_data_id2", "my_data_id7"], sort : "sort=-data.field5"},
+]
+
+const SortError = [
+  { testname: "Sort data.field1", res:["my_data_id7", "my_data_id1", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2", "my_data_id6"], sort : "sort=data.field10"},
+]
+const SortWithFilter = [
+  { testname: "test $exists true and Sort data.field1", res:["my_data_id1", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2", "my_data_id6"], filter : "filter[data.field1][$exists]=true", sort :"sort=data.field1"},
+  { testname: "test $exists false and Sort data.field1", res:["my_data_id7"], filter : "filter[data.field1][$exists]=false", sort :"sort=data.field1"},
+  { testname: "test ne + $exists true and Sort '+' data.field2", res:["my_data_id2", "my_data_id3", "my_data_id4", "my_data_id5", "my_data_id6"], filter : "filter[$and][data.field1][$ne]=first string&filter[$and][data.field1][$exists]=true", sort :"sort=%2Bdata.field2"},
+  { testname: "test ne + $exists true and Sort '-' data.field2", res:["my_data_id6", "my_data_id5", "my_data_id4", "my_data_id3", "my_data_id2"], filter : "filter[$and][data.field1][$ne]=first string&filter[$and][data.field1][$exists]=true", sort :"sort=-data.field2"},
+]
+
 const filterError = [
   { testname: "test Error AND", res:["my_data_id1"], filter : "filter[$and][data.field1]=first string&filter[$and]=12&filter[$and][data.field5][$gt]=72&filter[$and][data.field5][$lt]=90"},
   { testname: "test Error OR", res:["my_data_id1", "my_data_id2", "my_data_id3", "my_data_id5", "my_data_id6"], filter : "filter[$or][data.field1]=second&filter[$or]=12&filter[$or][data.field3]=12&filter[$or][data.field5]=85&filter[$or][data.field1]=sixs&filter[$or][data.field2]=test4"},
@@ -277,6 +307,141 @@ describe('Datas', function () {
 
     });
   
+    
+    describe('Sort service', function () {
+  
+      describe('Sort Classic', function () {
+  
+        SortClassic.forEach(function (objSortClassic) {
+          it(objSortClassic.testname, function (done) {
+            request()
+              .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+ objSortClassic.sort)
+              .query({access_token: TestHelper.getAccessToken()})
+              .end(function (err, res) {
+                TestHelper.checkResponse(res);
+                res.body.data.should.have.lengthOf(objSortClassic.res.length);
+                for (var j = 0; j < objSortClassic.res.length; ++j) {
+                  let exists = false;
+                  res.body.data.forEach(function(data) {
+                    if (data.id === objSortClassic.res[j]) {
+                      exists = true;
+                      data.type.should.eql('donnees');
+                      //if (objSortClassic.res[j] === "my_data_id7")
+                      // console.log(JSON.stringify(data));
+                      if (data.attributes !== undefined) {
+                        data.attributes.should.eql({
+                          field1: datadb[objSortClassic.res[j]].field1,
+                          field2: datadb[objSortClassic.res[j]].field2,
+                          field3: datadb[objSortClassic.res[j]].field3,
+                          field4: datadb[objSortClassic.res[j]].field4,
+                          field5: datadb[objSortClassic.res[j]].field5
+                        });
+                      }
+                    }
+                  });
+                  if (!exists)
+                    throw new Error('data not found');
+                }
+                done();
+              });
+          });
+        });
+    
+      });
+  
+      describe('Sort Multi', function () {
+  
+        SortMulti.forEach(function (objSortMulti) {
+          it(objSortMulti.testname, function (done) {
+            request()
+              .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+ objSortMulti.sort)
+              .query({access_token: TestHelper.getAccessToken()})
+              .end(function (err, res) {
+                TestHelper.checkResponse(res);
+                res.body.data.should.have.lengthOf(objSortMulti.res.length);
+                for (var j = 0; j < objSortMulti.res.length; ++j) {
+                  let exists = false;
+                  res.body.data.forEach(function(data) {
+                    if (data.id === objSortMulti.res[j]) {
+                      exists = true;
+                      data.type.should.eql('donnees');
+                      if (data.attributes !== undefined) {
+                        data.attributes.should.eql({
+                          field1: datadb[objSortMulti.res[j]].field1,
+                          field2: datadb[objSortMulti.res[j]].field2,
+                          field3: datadb[objSortMulti.res[j]].field3,
+                          field4: datadb[objSortMulti.res[j]].field4,
+                          field5: datadb[objSortMulti.res[j]].field5
+                        });
+                      }
+                    }
+                  });
+                  if (!exists)
+                    throw new Error('data not found');
+                }
+                done();
+              });
+          });
+        });
+    
+      });
+  
+      
+  
+      
+      describe('Sort and filter', function () {
+  
+        SortWithFilter.forEach(function (objSortWithFilter) {
+          it(objSortWithFilter.testname, function (done) {
+            request()
+              .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?'+ objSortWithFilter.filter + "&"  + objSortWithFilter.sort)
+              .query({access_token: TestHelper.getAccessToken()})
+              .end(function (err, res) {
+                TestHelper.checkResponse(res);
+                res.body.data.should.have.lengthOf(objSortWithFilter.res.length);
+                for (var j = 0; j < objSortWithFilter.res.length; ++j) {
+                  let exists = false;
+                  res.body.data.forEach(function(data) {
+                    if (data.id === objSortWithFilter.res[j]) {
+                      exists = true;
+                      data.type.should.eql('donnees');
+                      if (data.attributes !== undefined) {
+                        data.attributes.should.eql({
+                          field1: datadb[objSortWithFilter.res[j]].field1,
+                          field2: datadb[objSortWithFilter.res[j]].field2,
+                          field3: datadb[objSortWithFilter.res[j]].field3,
+                          field4: datadb[objSortWithFilter.res[j]].field4,
+                          field5: datadb[objSortWithFilter.res[j]].field5
+                        });
+                      }
+                    }
+                  });
+                  if (!exists)
+                    throw new Error('data not found');
+                }
+                done();
+              });
+          });
+        });
+    
+      });
+      describe('Sort ERROR', function () {
+        SortError.forEach(function(objSortError) {
+          it(objSortError.testname, function (done) {
+            request()
+              .get('/api/v1/services/my_client_id/relationships/collections/my_route_id1/relationships/donnees?' + objSortError.sort)
+              .query({access_token: TestHelper.getAccessToken()})
+              .end(function (err, res) {
+                err.status.should.eql(400);
+                done();
+              });
+          });
+        });
+    
+      });
+      
+    });
+    
     describe('Filter service', function () {
   
       describe('Filter ERROR', function () {

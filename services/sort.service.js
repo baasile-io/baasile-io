@@ -53,7 +53,6 @@ function SortService(options) {
     {
       var tab = sorts.split(',');
       Object.keys(tab).every(function (key) {
-        
         var sign = 1;
         if (tab[key][0] === '-') {
           sign = -1;
@@ -92,8 +91,7 @@ function SortService(options) {
       param["model"] = listfields;
     if (typeof sorts !== 'undefined') {
         jsonVal["sort"] = checkSortParam(sorts, param);
-        if (jsonVal["sort"] === undefined || param["errors"].length > 0 )
-        {
+        if (jsonVal["sort"] === undefined || param["errors"].length > 0 ) {
           param["errors"].unshift("invalid_sort");
           jsonVal["ERRORS"] = param["errors"];
         }
