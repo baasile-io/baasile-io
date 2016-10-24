@@ -130,7 +130,7 @@ function ServicesController(options) {
         var queryOptions = {
           populate: []
         };
-        queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Data', whitelistedFields);
+        queryOptions = SortService.buildMongoSortOption(queryOptions, res._request.params.sort, 'Data', whitelistedFields);
         if (queryOptions["ERRORS"] !== undefined && queryOptions["ERRORS"].length > 0)
           return next({code: 400, messages: queryOptions["ERRORS"]});
         if (Array.isArray(res._request.params.include) === true) {

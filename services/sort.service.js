@@ -78,7 +78,7 @@ function SortService(options) {
     return objRes;
   }
   
-  this.buildMongoQuery = function (jsonRes, sorts, modelName, listfields) {
+  this.buildMongoSortOption = function (jsonRes, sorts, modelName, listfields) {
     var param = {};
     var jsonVal = jsonRes;
     param["gOption"]  = undefined;

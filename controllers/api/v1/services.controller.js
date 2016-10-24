@@ -28,7 +28,7 @@ function ServicesController(options) {
       //sort: {name: 1},
       populate: []
     };
-    queryOptions = SortService.buildMongoQuery(queryOptions, res._request.params.sort, 'Service');
+    queryOptions = SortService.buildMongoSortOption(queryOptions, res._request.params.sort, 'Service');
     if (queryOptions["ERRORS"] !== undefined && queryOptions["ERRORS"].length > 0)
       return next({code: 400, messages: queryOptions["ERRORS"]});
     if (Array.isArray(res._request.params.include) === true) {
