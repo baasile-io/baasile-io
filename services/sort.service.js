@@ -59,6 +59,9 @@ function SortService(options) {
           sign = -1;
           tab[key] = tab[key].substring(1);
         }
+        else if (tab[key][0] === '+') {
+          tab[key] = tab[key].substring(1);
+        }
         if (tab[key] in objRes) {
           param["errors"].push("you allready set a sort by the field" + tab[key] + " you can only set one type of sort for one field");
         }
