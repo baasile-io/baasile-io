@@ -1,7 +1,6 @@
 # Filtrer les résultats
 
-Note 1 : Cette fonctionnalité n'est actuellement implémentée que sur les champs des dollections de données.  
-Note 2 : Les parties barrées (~~barrées~~) ne sont pas encore fonctionnelles. 
+Note 1 : Les parties barrées (~~barrées~~) ne sont pas encore fonctionnelles.
 
 ## Le paramètre "filter"
 
