@@ -251,7 +251,7 @@ function FieldsController(options) {
     FieldModel.io
       .findOne({
         route: req.data.route,
-        fieldId: req.params.fieldId
+        order: req.data.field.order + 1
       })
       .exec(function(err, prevField) {
         if (err)

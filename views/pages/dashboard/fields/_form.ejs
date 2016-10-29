@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="required field">
-      <label>Nom du champ</label>
+      <label>Nom de l'attribut</label>
       <div class="ui left input">
         <input type="text" name="field_name" value="<%= query.field.name %>" placeholder="Nom du champ">
       </div>
@@ -36,7 +36,7 @@
 
   <div class="ui submit button" tabindex="0">
     <% if (typeof query.field._id == 'undefined') { %>
-    Ajouter le champ
+    Ajouter l'attribut
     <% } else { %>
     Enregistrer les modifications
     <% } %>

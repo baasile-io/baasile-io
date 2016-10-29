@@ -1,16 +1,16 @@
 <div class="ui container">
   <% include ../services/header %>
-  <% include ../routes/header %>
+  <% include ../routes/_header %>
 
   <div class="ui grid">
     <div class="four wide column">
       <div class="ui fluid vertical pointing menu">
         <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields">
-          Liste des champs (<%= data.route.fields.length %>)
+          Liste des attributs (<%= data.route.fields.length %>)
         </a>
         <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/new">
           <i class="add icon"></i>
-          Ajouter un champ
+          Ajouter un attribut
         </a>
         <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/<%= data.field.fieldId %>/edit">
           <i class="edit icon"></i>
@@ -19,10 +19,10 @@
       </div>
     </div>
     <div class="twelve wide column">
-      <% include ./header %>
+      <% include ./_header %>
 
       <div class="ui segment">
-        <% include ./form %>
+        <% include ./_form %>
       </div>
     </div>
   </div>
