@@ -64,7 +64,6 @@ function RoutesController(options) {
       routeId: RouteModel.generateId(),
       description: routeDescription,
       name: routeName,
-      nameNormalized: RouteModel.getNormalizedName(routeName),
       fcRequired: routeFcRequired,
       fcRestricted: routeFcRestricted,
       isCollection: routeCollection,
@@ -147,7 +146,6 @@ function RoutesController(options) {
 
   this.update = function(req, res, next) {
     req.data.route.name = _.trim(req.body.route_name);
-    req.data.route.nameNormalized = RouteModel.getNormalizedName(req.data.route.name);
     req.data.route.routeDescription = _.trim(req.body.route_description);
     req.data.route.public = req.body.route_public === 'true';
     req.data.route.fcRestricted = req.body.route_fc_restricted === 'true';
