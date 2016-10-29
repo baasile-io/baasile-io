@@ -92,7 +92,7 @@ module.exports = function (options) {
     .get('/dashboard/account/password_reset', csrfProtection, UsersController.passwordReset)
     .get('/dashboard/services/new', csrfProtection, ServicesController.new)
     .get('/dashboard/services', ServicesController.index)
-    .post('/dashboard/services', csrfProtection, ServicesController.create)
+    .post('/dashboard/services', csrfProtection, FormUpload.single('service_logo'), ServicesController.create)
     .get('/dashboard/services/:serviceName', ServicesController.getServiceData, ServicesController.view)
     .get('/dashboard/services/:serviceName/edit', csrfProtection, ServicesController.getServiceData, ServicesController.edit)
     .post('/dashboard/services/:serviceName', csrfProtection, FormUpload.single('service_logo'), ServicesController.getServiceData, ServicesController.update)
