@@ -77,7 +77,7 @@ function FieldsController(options) {
       order: req.data.route.fields.length
     };
 
-    FieldModel.io.create(fieldData, function(err, route) {
+    FieldModel.io.create(fieldData, function(err, field) {
       if (err) {
         return res.render('pages/dashboard/fields/new', {
           page: 'pages/dashboard/fields/new',
@@ -97,7 +97,12 @@ function FieldsController(options) {
           }
         });
       } else {
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields');
+        FlashHelper.addSuccess(req.session, 'Le champ a bien été créé', function (err) {
+          if (err)
+            return next({code: 500});
+          logger.info('field created: ' + field.name);
+          res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + req.data.route.nameNormalized + '/fields/new');
+        });
       }
     });
   };

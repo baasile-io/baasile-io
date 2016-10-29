@@ -4,17 +4,7 @@
 
   <div class="ui grid">
     <div class="four wide column">
-      <div class="ui fluid vertical pointing menu">
-        <% if (data.route.fields.length > 0) { %>
-        <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields">
-          Liste des attributs (<%= data.route.fields.length %>)
-        </a>
-        <% } %>
-        <a class="active item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/new">
-          <i class="add icon"></i>
-          Ajouter un attribut
-        </a>
-      </div>
+      <% include ./_sidebar %>
     </div>
     <div class="twelve wide column">
       <% include ./_header %>

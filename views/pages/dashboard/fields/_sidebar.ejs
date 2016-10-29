@@ -1,0 +1,18 @@
+<% if (data.route.fields.length > 0) { %>
+<div class="ui fluid vertical pointing menu">
+  <a class="<% if (page === 'pages/dashboard/fields/index') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/">
+    Liste des champs (<%= data.route.fields.length %>)
+  </a>
+  <% data.route.fields.forEach(function(field) { %>
+  <a class="<% if (page === 'pages/dashboard/fields/edit' && data.field.fieldId === field.fieldId) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/<%= field.fieldId %>/edit">
+    <i class="<%= field.completeType.icon %> icon"></i> <%= field.name %>
+  </a>
+  <% }) %>
+</div>
+<% } %>
+<div class="ui fluid vertical pointing menu">
+  <a class="<% if (page === 'pages/dashboard/fields/new') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/new">
+    <i class="add icon"></i>
+    Ajouter un champ
+  </a>
+</div>

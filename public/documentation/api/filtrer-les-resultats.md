@@ -40,7 +40,7 @@ Pour filtrer en fonction de valeurs multiples sur un même champ, dupliquez simp
 
         ?filter[$or][lastname]=Mercier&filter[$or][lastname]=Ratinger
 
-Remarquez l'utilisation de l'opérateur de logique *OU* à la raçine du tableau. On traduira ainsi l'exemple par "Je requête les résultats dont le champs `lastname` est strictement égal à l'une des deux valeurs `Mercier` et `Ratinger`".
+Remarquez l'utilisation de l'opérateur de logique *OU* à la raçine du tableau. On traduira ainsi l'exemple par "Je requête les résultats dont le champ `lastname` est strictement égal à l'une des deux valeurs `Mercier` et `Ratinger`".
 
 Enfin, pour filtrer en fonction de critères différents de l'*ÉGALITÉ STRICTE*, référez-vous à la section "**Les opérateurs de comparaison**".
 
@@ -134,7 +134,7 @@ Vous pouvez paramétrer l'opérateur d'*EXPRESSION RÉGULIÈRE* en spécifiant u
 
 #### $exists - EXISTENCE
 
-L'opérateur de champ *EXISTENCE* permet de tester la présence ou non d'un champs sur une donnée.
+L'opérateur de champ *EXISTENCE* permet de tester la présence ou non d'un champ sur une donnée.
 
         ?filter[nickname][$exists]=true
 

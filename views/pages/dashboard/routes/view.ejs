@@ -2,13 +2,21 @@
   <% include ../services/header %>
   <% include ./_header %>
 
+  <% if (data.route.fields.length == 0) { %>
+  <div class="ui tertiary inverted red segment">
+    <p>Attention, votre collection ne comporte aucun champ !</p>
+  </div>
+  <% } %>
   <div class="ui segment">
     <button class="<% if (dataCount == 0) { %>disabled<% } %> ui button" id="drop_database_modal_btn">
       <i class="trash icon"></i>
       Supprimer les données
     </button>
-  </div>
-  <div class="ui segment">
+    <button class="ui button" id="remove_database_modal_btn">
+      <i class="trash icon"></i>
+      Détruire la collection
+    </button>
+    <br >
     <div class="ui statistic">
       <div class="value">
         <%= dataCount %>
@@ -34,7 +42,32 @@
       </div>
     </div>
   </div>
+  <% include ./_data_preview %>
   <% include ../../../partials/api_uri_list %>
+</div>
+
+<div class="ui basic modal" id="remove_database_modal">
+  <div class="ui inverted icon header">
+    <i class="trash icon"></i>
+    <div class="content">
+      Détruire la collection et toutes ses données
+      <div class="sub header">
+        Êtes-vous certain de vouloir détruire cette collection et l'ensemble de ses données ?
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui center aligned basic segment">
+      <div class="ui cancel red basic inverted button">
+        <i class="remove icon"></i>
+        Annuler
+      </div>
+      <div class="ui ok green basic inverted button" id="remove_database_btn">
+        <i class="checkmark icon"></i>
+        Confirmer
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="ui basic modal" id="drop_database_modal">
@@ -72,6 +105,21 @@
     });
     $('#drop_database_modal_btn').on('click', function(e) {
       $('#drop_database_modal').modal('show');
+    });
+  });
+</script>
+
+<form id="remove_database_form" method="post" action="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/remove">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+
+<script>
+  $(document).ready(function() {
+    $('#remove_database_btn').on('click', function(e) {
+      document.getElementById('remove_database_form').submit();
+    });
+    $('#remove_database_modal_btn').on('click', function(e) {
+      $('#remove_database_modal').modal('show');
     });
   });
 </script>

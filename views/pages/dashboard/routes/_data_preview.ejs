@@ -1,0 +1,19 @@
+<div class="ui top attached tabular menu">
+  <div class="active item">Aperçu d'une donnée</div>
+</div>
+<div class="ui bottom attached active tab segment">
+<pre>{
+  "id": "ID_DONNEE",
+  "type": "donnees",
+  "attributes": <% if (data.route.isCollection) { %>[<% } %>{
+<% for(var i = 0; i < data.route.fields.length; i++) {
+  %>    "<%= data.route.fields[i].nameNormalized %>": <%= data.route.fields[i].completeType.sample %>,
+<%
+  } %>  }<% if (data.route.isCollection) { %>]<% } %>,
+  "meta": {
+    "creation": "2016-11-24T22:41:03.182Z",
+    "modification": "2016-12-27T06:23:03.182Z",
+    "version": 2
+  }
+}</pre>
+</div>

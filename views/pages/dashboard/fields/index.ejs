@@ -4,22 +4,17 @@
 
   <div class="ui grid">
     <div class="four wide column">
-      <div class="ui fluid vertical pointing menu">
-        <a class="active item">
-          Liste des attributs (<%= data.route.fields.length %>)
-        </a>
-        <a class="item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields/new">
-          <i class="add icon"></i>
-          Ajouter un attribut
-        </a>
-      </div>
+      <% include ./_sidebar %>
     </div>
+    <% if (data.route.fields.length > 0) { %>
     <div class="twelve wide column">
-      <% if (data.route.fields.length > 0) { %>
       <table class="ui celled compact table">
         <thead>
         <tr>
-          <th>Type &amp; nom</th>
+          <th>Type</th>
+          <th>Nom</th>
+          <th>Nom formaté</th>
+          <th>Obligatoire</th>
           <th colspan="<% if (data.route.fields.length > 1) { %>4<% } else { %>2<% } %>" class="two wide no-sort"></th>
         </tr>
         </thead>
@@ -27,7 +22,16 @@
         <% data.route.fields.forEach(function(field) { %>
         <tr>
           <td>
-            <i class="<%= field.completeType.icon %> bordered icon"></i> <strong><%= field.nameNormalized %><% if (field.required) { %> *<% } %></strong>
+            <i class="<%= field.completeType.icon %> bordered icon"></i> <%= field.completeType.name %>
+          </td>
+          <td>
+            <%= field.name %>
+          </td>
+          <td>
+            <%= field.nameNormalized %>
+          </td>
+          <td>
+            <% if (field.required) { %>Oui<% } %>
           </td>
           <% if (data.route.fields.length > 1) { %>
           <td>
@@ -65,14 +69,15 @@
         <% }) %>
         </tbody>
       </table>
-      <div class="divider"></div>
-      <% } else { %>
+      <% include ../routes/_data_preview %>
+    </div>
+    <% } else { %>
+    <div class="twelve wide column">
       <div class="ui segment">
         Vous n'avez créé aucun champ
       </div>
-      <% } %>
     </div>
-  </div>
+    <% } %>
 
 </div>
 
@@ -81,9 +86,9 @@
   <div class="ui inverted icon header">
     <i class="trash icon"></i>
     <div class="content">
-      Supprimer le champs
+      Supprimer le champ
       <div class="sub header">
-        Êtes-vous certain de vouloir supprimer le champs de cette collection ?
+        Êtes-vous certain de vouloir supprimer le champ de cette collection ?
       </div>
     </div>
   </div>

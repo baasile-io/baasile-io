@@ -20,15 +20,15 @@ function FieldModel(options) {
   mongoose.Promise = global.Promise;
 
   const FIELD_TYPES = [
-    {key: 'ID', name: 'Identifiant unique', icon: 'privacy', default: "ID"},
-    {key: 'STRING', name: 'Texte', icon: 'font', default: ""},
-    {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag', default: 0},
-    {key: 'PERCENT', name: 'Pourcentage', icon: 'percent', default: 0},
-    {key: 'AMOUNT', name: 'Montant', icon: 'euro', default: 0},
-    {key: 'BOOLEAN', name: 'Booléen', icon: 'toggle on', default: false},
-    {key: 'DATE', name: 'Date', icon: 'calendar', default: new Date()},
-    {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect', default: ""},
-    {key: 'JSON', name: 'JSON', icon: 'sitemap', default: {}}
+    {key: 'ID', name: 'Identifiant unique', icon: 'privacy', default: "ID", sample: "\"abcdefghijklmnopqrst...\""},
+    {key: 'STRING', name: 'Texte', icon: 'font', default: "", sample: "\"My string\""},
+    {key: 'NUMERIC', name: 'Numérique', icon: 'hashtag', default: 0, sample: "2017"},
+    {key: 'PERCENT', name: 'Pourcentage', icon: 'percent', default: 0, sample: "99.9"},
+    {key: 'AMOUNT', name: 'Montant', icon: 'euro', default: 0, sample: "42.42"},
+    {key: 'BOOLEAN', name: 'Booléen', icon: 'toggle on', default: false, sample: "true"},
+    {key: 'DATE', name: 'Date', icon: 'calendar', default: new Date(), sample: "\"2017-01-01T12:00:00.000Z\""},
+    {key: 'ENCODED', name: 'Donnée encodée', icon: 'protect', default: "", sample: "\"e4ba65bd1ab6070b1dbe...\""},
+    {key: 'JSON', name: 'JSON', icon: 'sitemap', default: {}, sample: "{\"field1\": \"value1\", \"field2\": \"value2\"}"}
   ];
 
   const fieldSchema = new mongoose.Schema({
@@ -221,8 +221,8 @@ function FieldModel(options) {
   this.io.schema.pre('validate', function(next) {
     var obj = this;
     this.nameNormalized = normalizeName(this.name);
-    if (this.type === 'ID' && this.nameNormalized != 'id')
-      this.invalidate('name', 'Un identifiant unique doit être nommé "id"');
+    if (this.type === 'ID' && this.nameNormalized.indexOf('id_') != 0)
+      this.invalidate('name', 'Un identifiant unique doit commencer par "id_"');
     if (this.type === 'ID' && !this.required)
       this.invalidate('required', 'Un identifiant unique doit être un champ obligatoire');
     self.io.find({

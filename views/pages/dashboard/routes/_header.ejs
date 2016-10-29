@@ -27,7 +27,7 @@
     Modifier
   </a>
   <a class="<% if (page.indexOf('pages/dashboard/fields') == 0) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields">
-    <% if (data.route.fields.length == 0) { %>Ajouter un attribut<% } else { %>Attributs (<%= data.route.fields.length %>)<% } %>
+    <% if (data.route.fields.length == 0) { %>Ajouter un champ<% } else { %>Champs (<%= data.route.fields.length %>)<% } %>
   </a>
   <a class="<% if (page.indexOf('pages/dashboard/relations') == 0) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations">
     <% if (data.route.relations.length == 0) { %>Ajouter une relation<% } else { %>Relations (<%= data.route.relations.length %>)<% } %>

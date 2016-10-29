@@ -100,7 +100,7 @@ function RoutesController(options) {
           }
         });
       } else {
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes');
+        res.redirect('/dashboard/services/' + req.data.service.nameNormalized + '/routes/' + route.nameNormalized + '/fields/new');
       }
     });
   };
