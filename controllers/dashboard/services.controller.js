@@ -172,7 +172,6 @@ function ServicesController(options) {
     const serviceName = _.trim(req.body.service_name);
     const serviceInfo = {
       name: serviceName,
-      nameNormalized: ServiceModel.getNormalizedName(serviceName),
       description: _.trim(req.body.service_description),
       website: _.trim(req.body.service_website),
       public: req.body.service_public === 'true',
@@ -222,7 +221,6 @@ function ServicesController(options) {
 
   this.update = function(req, res, next) {
     const serviceName = _.trim(req.body.service_name);
-    const serviceNameNormalized = ServiceModel.getNormalizedName(serviceName);
     const serviceDescription = _.trim(req.body.service_description);
     const serviceWebsite = _.trim(req.body.service_website);
     const servicePublic = req.body.service_public === 'true';

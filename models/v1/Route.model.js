@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose'),
   removeDiacritics = require('diacritics').remove,
+  validator = require('validator'),
   CONFIG = require('../../config/app.js'),
   serviceModel = require('./Service.model.js'),
   crypto = require('crypto'),
@@ -33,6 +34,12 @@ function RouteModel(options) {
     name: {
       type: String,
       required: [true, "Le nom est obligatoire"],
+      validate: {
+        validator: function (name) {
+          return validator.isWhitelisted(name.toLowerCase(), '\'abcdefghijklmnopqrstuvwxyz0123456789- ùûüÿàâçéèêëïîô');
+        },
+        message: 'Le nom de la collection doit uniquement comporter des chiffres, des lettres, des espaces et des caractères `-`'
+      }
     },
     nameNormalized: {
       type: String,
@@ -230,6 +237,7 @@ function RouteModel(options) {
   this.io = db.model('Route', routeSchema);
 
   this.io.schema.pre('validate', function(next) {
+    this.nameNormalized = normalizeName(this.name);
     var obj = this;
     if (!this.isIdentified) {
       this.fcRestricted = false;
@@ -257,7 +265,7 @@ function RouteModel(options) {
   };
 
   function normalizeName(name) {
-    return removeDiacritics(name.toLowerCase().replace(/ /g, '-'));
+    return removeDiacritics(name.toLowerCase().replace(/[ \']/g, '_'));
   };
 
   this.getNormalizedName = function(name) {
