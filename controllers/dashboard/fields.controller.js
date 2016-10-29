@@ -59,7 +59,6 @@ function FieldsController(options) {
 
   this.create = function(req, res, next) {
     const fieldName = _.trim(req.body.field_name);
-    const fieldNameNormalized = FieldModel.getNormalizedName(fieldName);
     const fieldDescription = _.trim(req.body.field_description);
     const fieldRequired = req.body.field_required === 'true';
     const fieldType = req.body.field_type;
@@ -69,7 +68,6 @@ function FieldsController(options) {
       type: fieldType,
       description: fieldDescription,
       name: fieldName,
-      nameNormalized: fieldNameNormalized,
       required: fieldRequired,
       createdAt: new Date(),
       creator: {_id: req.data.user._id},
@@ -110,21 +108,18 @@ function FieldsController(options) {
     const oldNameNormalized = field.nameNormalized;
     const oldRequired = field.required;
     const fieldName = _.trim(req.body.field_name);
-    const fieldNameNormalized = FieldModel.getNormalizedName(fieldName);
     const fieldDescription = _.trim(req.body.field_description);
     const fieldRequired = req.body.field_required === 'true';
     const fieldType = req.body.field_type;
 
     const fieldData = {
       name: fieldName,
-      nameNormalized: fieldNameNormalized,
       description: fieldDescription,
       required: fieldRequired,
       type: fieldType
     };
 
     field.name = fieldName;
-    field.nameNormalized = fieldNameNormalized;
     field.description = fieldDescription;
     field.required = fieldRequired;
     field.clientId = req.data.service.clientId; //TODO remove when migration done
@@ -145,7 +140,7 @@ function FieldsController(options) {
           }
         });
       }
-      if (oldNameNormalized != fieldNameNormalized || oldRequired != fieldRequired) {
+      if (oldNameNormalized != field.nameNormalized || oldRequired != fieldRequired) {
         DataModel
           .io
           .find({
@@ -158,24 +153,24 @@ function FieldsController(options) {
             self.pause();
             if (Array.isArray(data.data)) {
               data.data.forEach(function (value, i) {
-                if (oldNameNormalized != fieldNameNormalized) {
-                  data.data[i][fieldNameNormalized] = data.data[i][oldNameNormalized];
+                if (oldNameNormalized != field.nameNormalized) {
+                  data.data[i][field.nameNormalized] = data.data[i][oldNameNormalized];
                   delete data.data[i][oldNameNormalized];
                 }
                 if (oldRequired != fieldRequired && fieldRequired) {
-                  if (!data.data[i][fieldNameNormalized])
-                    data.data[i][fieldNameNormalized] = _.find(fieldTypes, {key: field.type}).default;
+                  if (!data.data[i][field.nameNormalized])
+                    data.data[i][field.nameNormalized] = _.find(fieldTypes, {key: field.type}).default;
                 }
               });
             }
             else {
-              if (oldNameNormalized != fieldNameNormalized) {
-                data.data[fieldNameNormalized] = data.data[oldNameNormalized];
+              if (oldNameNormalized != field.nameNormalized) {
+                data.data[field.nameNormalized] = data.data[oldNameNormalized];
                 delete data.data[oldNameNormalized];
               }
               if (oldRequired != fieldRequired && fieldRequired) {
-                if (!data.data[fieldNameNormalized])
-                  data.data[fieldNameNormalized] = _.find(fieldTypes, {key: field.type}).default;
+                if (!data.data[field.nameNormalized])
+                  data.data[field.nameNormalized] = _.find(fieldTypes, {key: field.type}).default;
               }
             }
             DataModel.io.update({

@@ -220,8 +220,7 @@ function FieldModel(options) {
 
   this.io.schema.pre('validate', function(next) {
     var obj = this;
-    if (this.nameNormalized != normalizeName(this.name))
-      this.invalidate('nameNormalized', 'Le nom normalisé doit correspondre avec le nom');
+    this.nameNormalized = normalizeName(this.name);
     if (this.type === 'ID' && this.nameNormalized != 'id')
       this.invalidate('name', 'Un identifiant unique doit être nommé "id"');
     if (this.type === 'ID' && !this.required)
