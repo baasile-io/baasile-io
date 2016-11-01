@@ -40,8 +40,7 @@ Refer to my wiki page about [environment variables](https://github.com/baasile-i
 
 #### External storage service
 
-I decided to not serve static files through the application router, so that you need an external storage service to be setup.  
-Get an account on Amazon Web Services and report your secret key and token to your environment.
+I decided to not serve static files through the application router, so that you need an external storage service to be setup. Get an account on Amazon Web Services and report your secret key and token to your environment.
 
 #### Local server
 
