@@ -6,7 +6,9 @@
 
 ## New setup
 
-<img align="right" src="http://baasile.io/assets/img/github/basilio-github-topright.png" alt="Basilio - Baasilio IO"/>#### Pre-requirements
+<img align="right" src="http://baasile.io/assets/img/github/basilio-github-topright.png" alt="Basilio - Baasilio IO"/>
+
+#### Pre-requirements
 
 This app has the following requirements:
 
