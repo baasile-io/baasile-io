@@ -225,7 +225,6 @@ function ServicesController(options) {
     const serviceWebsite = _.trim(req.body.service_website);
     const servicePublic = req.body.service_public === 'true';
     req.data.service.name = serviceName;
-    req.data.service.nameNormalized = serviceNameNormalized;
     req.data.service.description = serviceDescription;
     req.data.service.website = serviceWebsite;
     req.data.service.public = servicePublic;
@@ -257,7 +256,7 @@ function ServicesController(options) {
       FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
         if (err)
           return next({code: 500});
-        res.redirect('/dashboard/services/' + serviceNameNormalized);
+        res.redirect('/dashboard/services/' + req.data.service.nameNormalized);
       });
     });
   };
