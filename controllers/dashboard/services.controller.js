@@ -279,7 +279,7 @@ function ServicesController(options) {
         FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
           if (err)
             return next({code: 500});
-          res.redirect('/dashboard/services/' + serviceNameNormalized);
+          res.redirect('/dashboard/services/' + req.data.service.nameNormalized);
         });
       };
 
