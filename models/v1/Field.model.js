@@ -54,7 +54,7 @@ function FieldModel(options) {
       required: [true, "Le nom est obligatoire"],
       validate: {
         validator: function(o) {
-          return validator.isWhitelisted(o, 'abcdefghijklmnopqrstuvwxyz0123456789_');
+          return validator.isWhitelisted(o, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_');
         },
         message: 'Le nom normalisé n\'est pas valide'
       }
@@ -241,7 +241,7 @@ function FieldModel(options) {
   };
 
   function normalizeName(name) {
-    return removeDiacritics(name.toLowerCase().replace(/[ \-]/g, '_'));
+    return removeDiacritics(name.replace(/[ \-]/g, '_'));
   };
 
   this.getNormalizedName = function(name) {
