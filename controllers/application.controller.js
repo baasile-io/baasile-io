@@ -59,7 +59,9 @@ function ApplicationController(options) {
     // allow https only (heroku or production environment)
     if ((options.nodeEnv === 'heroku' && req.headers['x-forwarded-proto'] !== 'https')
       || (options.nodeEnv === 'production' && req.secure === false)) {
-      return next({code: 403, messages: ['forbidden_access', 'You must use HTTPS protocol']});
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      return res.end();
+      //return next({code: 403, messages: ['forbidden_access', 'You must use HTTPS protocol']});
     }
     next();
   };
