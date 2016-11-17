@@ -221,22 +221,21 @@ function ServicesController(options) {
           });
       }
 
-      if (req.file) {
-        ThumbnailService
-          .process(req.file, 'services/logos/' + service.clientId)
-          .then(function (data) {
-            doSuccess();
-          })
-          .catch(function (err) {
-            return FlashHelper.addError(req.session, {icon: 'image', title: 'Erreur de téléchargement', messages: ['L\'image n\'a pas pu être téléchargée sur la plate-forme']}, function(err) {
-              if (err)
-                return next({code: 500});
-              return doSuccess();
-            });
-          });
-      } else {
-        doSuccess();
+      if (typeof req.file === 'undefined') {
+        req.file = {path: './public/assets/images/no-image.png'};
       }
+      ThumbnailService
+        .process(req.file, 'services/logos/' + service.clientId)
+        .then(function (data) {
+          doSuccess();
+        })
+        .catch(function (err) {
+          return FlashHelper.addError(req.session, {icon: 'image', title: 'Erreur de téléchargement', messages: ['L\'image n\'a pas pu être téléchargée sur la plate-forme']}, function(err) {
+            if (err)
+              return next({code: 500});
+            return doSuccess();
+          });
+        });
     });
   };
 
