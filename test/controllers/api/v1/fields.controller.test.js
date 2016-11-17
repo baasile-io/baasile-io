@@ -24,7 +24,7 @@ const Sortfilter = [
 ]
 
 const filterClassic = [
-  { testname: "test simple", res:["my_field_id1"], filter : "filter[name]=Field1"},
+  { testname: "test simple", res:["my_field_id1"], filter : "filter[name]=field1"},
   { testname: "test simple 2", res:["my_field_id1", "my_field_id2"], filter : "filter[type]=STRING"},
   { testname: "test whith $or 2 $regex", res:["my_field_id1", "my_field_id2"], filter : "filter[$or][0][name][$regex]=ld1&filter[$or][1][name][$regex]=ld2"},
 ]
