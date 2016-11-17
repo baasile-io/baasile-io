@@ -15,8 +15,8 @@ function ApplicationController(options) {
   this.dashboardInitialize = function(req, res, next) {
     req.data = req.data || {};
     req.data.user = req.session.user;
-    res._dashboarduri = req.protocol + '://' + req.get('host');
-    res._apiuri = req.protocol + '://' + req.get('host') + '/api/' + CONFIG.api.current_version_url;
+    res._serverUri = req.protocol + '://' + req.get('host');
+    res._apiuri = res._serverUri + '/api/' + CONFIG.api.current_version_url;
     res._originalUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     res._originalUrlObject = new domurl(res._originalUrl, true);
     FlashHelper.get(req.session, function(err, flash) {
@@ -44,9 +44,10 @@ function ApplicationController(options) {
     res._jsonapi = {
       version: CONFIG.api.current_version
     };
-    res._apiuri = req.protocol + '://' + req.get('host') + '/api';
+    res._serverUri = req.protocol + '://' + req.get('host') + '/api';
+    res._apiuri = res._serverUri + '/api';
 
-    res._links = {self: res._originalUrl}
+    res._links = {self: res._originalUrl};
 
     res._meta = {};
     res._data;
