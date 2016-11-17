@@ -91,7 +91,7 @@ function EmailService(options) {
     });
   };
 
-  this.sendEmailConfirmation = function(user, apiuri) {
+  this.sendEmailConfirmation = function(user, serverUri) {
     return new Promise(function(resolve, reject) {
       if (!user || !user.email)
         return reject({code: 500});
@@ -103,7 +103,7 @@ function EmailService(options) {
       };
       generateEmailToken(type, user._id, user.email, true, user)
         .then(function(token) {
-          locals.link = apiuri + '/email/' + token.accessToken;
+          locals.link = serverUri + '/email/' + token.accessToken;
           send(type, locals, user.email)
             .then(function(result) {
               result.emailToken = token;
@@ -120,7 +120,7 @@ function EmailService(options) {
     });
   };
 
-  this.sendPasswordReset = function(user, apiuri) {
+  this.sendPasswordReset = function(user, serverUri) {
     return new Promise(function(resolve, reject) {
       if (!user || !user.email)
         return reject({code: 500});
@@ -132,7 +132,7 @@ function EmailService(options) {
       };
       generateEmailToken(type, user._id, user.email, true, user)
         .then(function(token) {
-          locals.link = apiuri + '/email/' + token.accessToken;
+          locals.link = serverUri + '/email/' + token.accessToken;
           send(type, locals, user.email)
             .then(function(result) {
               result.emailToken = token;
@@ -166,7 +166,7 @@ function EmailService(options) {
     });
   };
   
-  this.sendAdminNotificationsNewService = function(user, service, apiuri) {
+  this.sendAdminNotificationsNewService = function(user, service, serverUri) {
     return new Promise(function(resolve, reject) {
       const type = 'admin_notification_new_service';
       const locals = {
@@ -178,7 +178,7 @@ function EmailService(options) {
       };
       generateEmailToken(type, service.clientId, options.adminNotificationEmail, false)
         .then(function(token) {
-          locals.link = apiuri + '/email/' + token.accessToken;
+          locals.link = serverUri + '/email/' + token.accessToken;
           send(type, locals, options.adminNotificationEmail)
             .then(function(result) {
               return resolve(result);

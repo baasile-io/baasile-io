@@ -211,7 +211,7 @@ function ServicesController(options) {
       function doSuccess() {
         logger.info('service created: ' + service.name);
         EmailService
-          .sendAdminNotificationsNewService(req.session.user, service, res._dashboarduri)
+          .sendAdminNotificationsNewService(req.session.user, service, res._serverUri)
           .then(function (result) {
             return res.redirect('/dashboard/services/' + service.nameNormalized);
           })
