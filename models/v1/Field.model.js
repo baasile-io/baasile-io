@@ -221,8 +221,6 @@ function FieldModel(options) {
   this.io.schema.pre('validate', function(next) {
     var obj = this;
     this.nameNormalized = normalizeName(this.name);
-    if (this.type === 'ID' && this.nameNormalized.indexOf('id_') != 0)
-      this.invalidate('name', 'Un identifiant unique doit commencer par "id_"');
     if (this.type === 'ID' && !this.required)
       this.invalidate('required', 'Un identifiant unique doit être un champ obligatoire');
     self.io.find({
