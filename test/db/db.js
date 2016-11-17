@@ -31,27 +31,27 @@ module.exports = {
       isIdentified: false,
       isCollection: false,
       "FIELDS": [{
-        name: 'Field1',
+        name: 'field1',
         required: true,
         fieldId: 'my_field_id1',
         type: 'STRING'
       }, {
-        name: 'Field2',
+        name: 'field2',
         required: true,
         fieldId: 'my_field_id2',
         type: 'STRING'
       }, {
-        name: 'Field3',
+        name: 'field3',
         required: true,
         fieldId: 'my_field_id3',
         type: 'NUMERIC'
       }, {
-        name: 'Field4',
+        name: 'field4',
         required: true,
         fieldId: 'my_field_id4',
         type: 'JSON'
       }, {
-        name: 'Field5',
+        name: 'field5',
         required: true,
         fieldId: 'my_field_id5',
         type: 'AMOUNT'
