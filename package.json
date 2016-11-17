@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/api-cpa/api-cpa.git"
+    "url": "git+ssh://git@github.com/baasile-io/baasile-io.git"
   },
   "author": "Equipe API CPA",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/api-cpa/api-cpa/issues"
+    "url": "https://github.com/baasile-io/baasile-io/issues"
   },
-  "homepage": "https://github.com/api-cpa/api-cpa#readme",
+  "homepage": "https://github.com/baasile-io/baasile-io#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
     "bunyan": "^1.8.1",
