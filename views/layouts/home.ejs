@@ -8,6 +8,7 @@
 
   <!-- Site Properties -->
   <title>API-CPA</title>
+  <link rel="icon" href="<%= getAssetUri('assets/images/api-cpa.ico') %>" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
@@ -26,7 +27,7 @@
     }
     .masthead.inverted.segment,
     .ui.top.menu {
-      background: url('/assets/images/night-sky-background.jpg');
+      background: url('<%= getAssetUri('assets/images/night-sky-background.jpg') %>');
       background-size: cover;
     }
     .masthead.segment {
@@ -110,7 +111,7 @@
 
     .ui.comments {max-width: inherit;}
     body, body.pushable>.pusher {
-      background-image: url('/assets/images/dashboard-background.png');
+      background-image: url('<%= getAssetUri('assets/images/dashboard-background.png') %>');
     }
   </style>
 

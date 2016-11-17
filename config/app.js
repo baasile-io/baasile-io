@@ -107,5 +107,92 @@ module.exports = {
         limit: 200
       }
     }
+  },
+  dashboard: {
+    assets: {
+      sources: [
+        'public/assets/images/api-cpa.ico',
+        'public/assets/images/badge-api-cpa.jpg',
+        'public/assets/images/dashboard-background.png',
+        'public/assets/images/night-sky-background.jpg',
+        'public/assets/logo/api-cpa-logo-transparent.png',
+        'public/assets/logo/api-cpa-logo.png',
+        'public/assets/plugins/tablesort.js'
+      ]
+    },
+    thumbnail: {
+      versions: [
+        {
+          format: 'png',
+          suffix: '-original'
+        },
+        {
+          maxHeight: 1040,
+          maxWidth: 1040,
+          format: 'png',
+          suffix: '-1040x1040'
+        },
+        {
+          maxWidth: 780,
+          format: 'png',
+          aspect: '3:2!h',
+          suffix: '-720x'
+        },
+        {
+          maxWidth: 320,
+          format: 'png',
+          aspect: '16:9!h',
+          suffix: '-320x'
+        },
+        {
+          maxHeight: 100,
+          maxWidth: 100,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-100x100'
+        },
+        {
+          maxHeight: 250,
+          maxWidth: 250,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-250x250'
+        },
+        {
+          maxHeight: 100,
+          maxWidth: 100,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-100x100bg'
+        },
+        {
+          maxHeight: 250,
+          maxWidth: 250,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-250x250bg'
+        },
+        {
+          maxHeight: 32,
+          maxWidth: 32,
+          format: 'png',
+          aspect: '1:1',
+          suffix: '-32x32'
+        },
+        {
+          maxHeight: 32,
+          maxWidth: 32,
+          format: 'png',
+          aspect: '1:1',
+          background: 'white',
+          flatten: true,
+          suffix: '-32x32bg'
+        }
+      ]
+    }
   }
 };

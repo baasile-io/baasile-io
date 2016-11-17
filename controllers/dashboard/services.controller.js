@@ -15,6 +15,7 @@ function ServicesController(options) {
   const UserModel = options.models.UserModel;
   const FlashHelper = new flashHelper(options);
   const EmailService = new emailService(options);
+  const ThumbnailService = options.services.ThumbnailService;
 
   this.index = function(req, res) {
     ServiceModel.io.find({
@@ -206,16 +207,36 @@ function ServicesController(options) {
           }
         });
       }
-      logger.info('service created: ' + service.name);
-      EmailService
-        .sendAdminNotificationsNewService(req.session.user, service, res._dashboarduri)
-        .then(function(result) {
-          return res.redirect('/dashboard/services/' + service.nameNormalized);
-        })
-        .catch(function(result) {
-          logger.warn('failed to send admin notification: ' + JSON.stringify(result));
-          return res.redirect('/dashboard/services/' + service.nameNormalized);
-        });
+
+      function doSuccess() {
+        logger.info('service created: ' + service.name);
+        EmailService
+          .sendAdminNotificationsNewService(req.session.user, service, res._dashboarduri)
+          .then(function (result) {
+            return res.redirect('/dashboard/services/' + service.nameNormalized);
+          })
+          .catch(function (result) {
+            logger.warn('failed to send admin notification: ' + JSON.stringify(result));
+            return res.redirect('/dashboard/services/' + service.nameNormalized);
+          });
+      }
+
+      if (req.file) {
+        ThumbnailService
+          .process(req.file, 'services/logos/' + service.clientId)
+          .then(function (data) {
+            doSuccess();
+          })
+          .catch(function (err) {
+            return FlashHelper.addError(req.session, {icon: 'image', title: 'Erreur de téléchargement', messages: ['L\'image n\'a pas pu être téléchargée sur la plate-forme']}, function(err) {
+              if (err)
+                return next({code: 500});
+              return doSuccess();
+            });
+          });
+      } else {
+        doSuccess();
+      }
     });
   };
 
@@ -252,12 +273,32 @@ function ServicesController(options) {
           }
         });
       }
-      logger.info('service updated: ' + serviceName);
-      FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
-        if (err)
-          return next({code: 500});
-        res.redirect('/dashboard/services/' + req.data.service.nameNormalized);
-      });
+
+      function doSuccess() {
+        logger.info('service updated: ' + serviceName);
+        FlashHelper.addSuccess(req.session, 'Le service a bien été mis à jour', function(err) {
+          if (err)
+            return next({code: 500});
+          res.redirect('/dashboard/services/' + serviceNameNormalized);
+        });
+      };
+
+      if (req.file) {
+        ThumbnailService
+          .process(req.file, 'services/logos/' + req.data.service.clientId)
+          .then(function (data) {
+            doSuccess();
+          })
+          .catch(function (err) {
+            return FlashHelper.addError(req.session, {icon: 'image', title: 'Erreur de téléchargement', messages: ['L\'image n\'a pas pu être téléchargée sur la plate-forme']}, function(err) {
+              if (err)
+                return next({code: 500});
+              return doSuccess();
+            });
+          });
+      } else {
+        doSuccess();
+      }
     });
   };
 

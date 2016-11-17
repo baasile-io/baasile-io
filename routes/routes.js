@@ -26,7 +26,7 @@ exports.configure = function (app, http, options) {
   app.use('/api', ApplicationController.apiInitialize);
   app.use('/api', ApplicationController.restrictHttp);
   app.use('/api', ApplicationController.apiCheckRequest);
-  
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 

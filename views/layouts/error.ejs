@@ -8,6 +8,7 @@
 
   <!-- Site Properties -->
   <title>API-CPA</title>
+  <link rel="icon" href="<%= getAssetUri('assets/images/api-cpa.ico') %>" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
@@ -15,7 +16,7 @@
   <style type="text/css">
     body {
       background-color: #DADADA;
-      background: url('/assets/images/night-sky-background.jpg');
+      background: url('<%= getAssetUri('assets/images/night-sky-background.jpg') %>');
       background-size: cover;
       padding: 3em 0;
     }

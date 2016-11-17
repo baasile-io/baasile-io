@@ -24,6 +24,8 @@ const userModel = require('./models/v1/User.model.js'),
   tokenModel = require('./models/v1/Token.model.js'),
   emailTokenModel = require('./models/v1/EmailToken.model.js');
 
+const thumbnailService = require('./services/thumbnail.service.js');
+
 module.exports = Server;
 
 function Server(options) {
@@ -45,6 +47,10 @@ function Server(options) {
     RelationModel: new relationModel(options),
     TokenModel: new tokenModel(options),
     EmailTokenModel: new emailTokenModel(options)
+  };
+
+  options.services = {
+    ThumbnailService: new thumbnailService(options)
   };
 
   var logger = options.logger;
@@ -71,6 +77,12 @@ function Server(options) {
     next();
   });
 
+  app.locals.getAssetUri = function(file) {
+    if (options.s3BucketUrl)
+      return options.s3BucketUrl + '/public/' + file;
+    return '/' + file;
+  };
+
   app.use(session({
     secret: options.expressSessionSecret,
     cookie: {
@@ -96,9 +108,9 @@ function Server(options) {
   app.set("layout extractStyles", true);
   app.set("layout extractScripts", true);
   app.use(expressLayouts);
-  app.use(express.static(__dirname + '/public'));
-  app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
-  app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
+  //app.use(express.static(__dirname + '/public'));
+  //app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
+  //app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
 
   var server = http.createServer(app);
   routes.configure(app, http, options);

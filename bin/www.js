@@ -41,7 +41,7 @@ mhttp.on('stat', function (parsed, stats) {
   }, '%s %s took %dms (%d)', stats.method || 'GET', url.format(parsed), stats.totalTime, stats.statusCode);
 });
 
-var server = new Server({
+var options = {
   adminNotificationEmail: nconf.get('adminNotificationEmail'),
   tokenExpiration: nconf.get('tokenExpiration'),
   emailTokenExpiration: nconf.get('emailTokenExpiration'),
@@ -56,13 +56,35 @@ var server = new Server({
   nodeEnv: process.env.NODE_ENV || nconf.get('NODE_ENV') || 'development',
   logger: logger,
   slack: slack,
-  slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development'
-});
+  slackChannelPrefix: process.env.SLACK_CHANNEL_SUFFIX || nconf.get('SLACK_CHANNEL_SUFFIX') || 'development',
+  s3Bucket: process.env.S3_BUCKET || nconf.get('S3_BUCKET'),
+  s3Region: process.env.AWS_DEFAULT_REGION || nconf.get('AWS_DEFAULT_REGION')
+};
 
-server.start(function (err) {
-  if (err) {
-    logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
-    setTimeout(process.exit.bind(null, 99), 10);
-  }
-  logger.info('Sever successfully started.');
-});
+if (typeof options.s3Region !== 'undefined' && typeof options.s3Bucket !== 'undefined') {
+  options.s3BucketUrl = 'https://s3-' + options.s3Region + '.amazonaws.com/' + options.s3Bucket;
+}
+
+if (process.argv.indexOf('s3.task') != -1) {
+  const s3Task = require('../tasks/s3.task.js');
+  var S3Task = new s3Task(options);
+
+  S3Task.start(function (err) {
+    if (err) {
+      logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
+      setTimeout(process.exit.bind(null, 99), 10);
+    }
+    logger.info('Task successfully started.');
+  });
+
+} else {
+  var server = new Server(options);
+
+  server.start(function (err) {
+    if (err) {
+      logger.fatal({error: err}, 'cannot recover from previous errors. shutting down now. error was', err.stack);
+      setTimeout(process.exit.bind(null, 99), 10);
+    }
+    logger.info('Sever successfully started.');
+  });
+}

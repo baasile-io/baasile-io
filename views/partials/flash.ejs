@@ -1,39 +1,7 @@
-<% if (typeof flash != 'undefined' && typeof flash.errors == 'object') { %>
+<% if (typeof flash != 'undefined' && (typeof flash.success == 'object' || typeof flash.errors == 'object')) { %>
 <div class="ui flash container">
-  <div class="ui error icon message">
-    <% if (Array.isArray(flash.errors)) { %>
-    <% if (flash.errors.length > 0) { %>
-    <i class="warning icon"></i>
-    <div class="content">
-      <div class="header">
-        L'opération n'a pas pu être effectuée
-      </div>
-      <ul class="list">
-        <% flash.errors.forEach(function(msg) { %>
-        <li><%= msg %></li>
-        <% }); %>
-      </ul>
-    </div>
-    <% } %>
-    <% } else if (typeof flash.errors == 'object') { %>
-    <i class="<%= flash.errors.icon || 'warning' %> icon"></i>
-    <div class="content">
-      <div class="header">
-        <%= flash.errors.title %>
-      </div>
-      <ul class="list">
-        <% flash.errors.messages.forEach(function(msg) { %>
-        <li><%= msg %></li>
-        <% }); %>
-      </ul>
-    </div>
-    <% } %>
-  </div>
-</div>
-<% } %>
 
-<% if (typeof flash != 'undefined' && typeof flash.success == 'object') { %>
-  <div class="ui flash container">
+  <% if (typeof flash != 'undefined' && typeof flash.success == 'object') { %>
     <div class="ui success icon message">
       <% if (Array.isArray(flash.success)) { %>
         <% if (flash.success.length > 0) { %>
@@ -63,5 +31,39 @@
         </div>
       <% } %>
     </div>
+  <% } %>
+
+  <% if (typeof flash != 'undefined' && typeof flash.errors == 'object') { %>
+  <div class="ui error icon message">
+    <% if (Array.isArray(flash.errors)) { %>
+    <% if (flash.errors.length > 0) { %>
+    <i class="warning icon"></i>
+    <div class="content">
+      <div class="header">
+        L'opération n'a pas pu être effectuée
+      </div>
+      <ul class="list">
+        <% flash.errors.forEach(function(msg) { %>
+        <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+    <% } %>
+    <% } else if (typeof flash.errors == 'object') { %>
+    <i class="<%= flash.errors.icon || 'warning' %> icon"></i>
+    <div class="content">
+      <div class="header">
+        <%= flash.errors.title %>
+      </div>
+      <ul class="list">
+        <% flash.errors.messages.forEach(function(msg) { %>
+        <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+    <% } %>
   </div>
+  <% } %>
+
+</div>
 <% } %>
