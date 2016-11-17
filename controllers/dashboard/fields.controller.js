@@ -64,7 +64,6 @@ function FieldsController(options) {
     const fieldType = req.body.field_type;
 
     const fieldData = {
-      fieldId: FieldModel.generateId(),
       type: fieldType,
       description: fieldDescription,
       name: fieldName,

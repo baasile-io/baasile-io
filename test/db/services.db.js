@@ -44,6 +44,7 @@ function ServicesDb(options) {
             return reject(err);
 
           db.push(service);
+          service.routesArray = [];
 
           var iRoute = 0;
           function insertRoutes() {
@@ -68,6 +69,8 @@ function ServicesDb(options) {
                 return reject(err);
 
               routes.push(route);
+              service.routesArray.push(route);
+              route.fieldsArray = [];
 
               var iField = 0;
               function insertFields() {
@@ -92,6 +95,7 @@ function ServicesDb(options) {
                     return reject(err);
 
                   fields.push(field);
+                  route.fieldsArray.push(field);
 
                   iField++;
                   return insertFields();

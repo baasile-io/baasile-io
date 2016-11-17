@@ -29,6 +29,14 @@ function TestHelper(options) {
     services = [],
     accessToken;
 
+  this.getUsers = function() {
+    return users;
+  };
+
+  this.getServices = function() {
+    return services;
+  };
+
   this.getOptions = function() {
     return options;
   };

@@ -220,6 +220,10 @@ function FieldModel(options) {
 
   this.io.schema.pre('validate', function(next) {
     var obj = this;
+    if (!this.createdAt)
+      this.createdAt = new Date();
+    if (!this.fieldId)
+        this.fieldId = generateId();
     this.nameNormalized = normalizeName(this.name);
     if (this.type === 'ID' && !this.required)
       this.invalidate('required', 'Un identifiant unique doit être un champ obligatoire');
@@ -236,11 +240,12 @@ function FieldModel(options) {
     });
   });
 
-  this.generateId = function() {
+  function generateId() {
     return crypto.randomBytes(16).toString('hex');
   };
 
   function normalizeName(name) {
+    name = name || '';
     return removeDiacritics(name.replace(/[ \-]/g, '_'));
   };
 
