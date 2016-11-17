@@ -11,6 +11,10 @@ const datadb = {
   my_route_id1: {alias: "collection1", description: 'description', jeton_fc_lecture_ecriture: false, jeton_fc_lecture_seulement: false, nom: "Collection1", public: true, tableau_de_donnees: false, donnees_identifiees: false},
 };
 
+const sortClassic = [
+  { testname: "test simple", res:["my_route_id1"], sort : "sort=name"},
+]
+
 const filterClassic = [
   { testname: "test simple", res:["my_route_id1"], filter : "filter[name]=Collection1"},
   { testname: "test simple 2", res:["my_route_id1"], filter : "filter[public]=true"},
@@ -127,7 +131,48 @@ describe('Routes', function () {
         });
       });
     });
-
+  
+    describe('Sort TEST', function () {
+  
+      sortClassic.forEach(function(objsortClassic) {
+        it(objsortClassic.testname, function (done) {
+          request()
+            .get('/api/v1/services/' + TestHelper.getClientId() + '/relationships/collections?' + objsortClassic.sort)
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data.should.have.lengthOf(objsortClassic.res.length);
+              for (var j = 0; j < objsortClassic.res.length; ++j) {
+                let exists = false;
+                res.body.data.forEach(function(data) {
+                  if (data.id === objsortClassic.res[j]) {
+                    exists = true;
+                    data.type.should.eql('collections');
+                    if (data.attributes !== undefined) {
+                      data.attributes.should.eql({
+                        alias: datadb[objsortClassic.res[j]].alias,
+                        nom: datadb[objsortClassic.res[j]].nom,
+                        description: datadb[objsortClassic.res[j]].description,
+                        tableau_de_donnees: datadb[objsortClassic.res[j]].tableau_de_donnees,
+                        donnees_identifiees: datadb[objsortClassic.res[j]].donnees_identifiees,
+                        jeton_fc_lecture_ecriture: datadb[objsortClassic.res[j]].jeton_fc_lecture_ecriture,
+                        jeton_fc_lecture_seulement: datadb[objsortClassic.res[j]].jeton_fc_lecture_seulement,
+                        public: datadb[objsortClassic.res[j]].public
+                      });
+                    }
+                  }
+                });
+                if (!exists)
+                  throw new Error('data not found');
+              }
+              done();
+            });
+        });
+      });
+    });
+    
+    
+    
   });
 
 });

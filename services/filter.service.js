@@ -599,6 +599,7 @@ function FilterService(options) {
   
   this.buildMongoQuery = function (jsonRes, filters, modelName, listfields) {
     var param = {};
+    var jsonVal = {};
     param["gOption"]  = undefined;
     param["errors"] = [];
     param["modelName"] = undefined;
@@ -609,7 +610,6 @@ function FilterService(options) {
         param["gOption"] = filters["$options"];
         delete filters.$options;
       }
-      var jsonVal = {};
       // if ("$text" in filters) {
       //   //var jsonRes2 = {};
       //   jsonRes["$text"] = getSpeOPeratorObj("$text", filters["$text"], param);
@@ -626,7 +626,7 @@ function FilterService(options) {
         jsonVal["$and"] = getConditionBefore(undefined, filters, listfields, param);
         if (jsonVal["$and"] === undefined || param["errors"].length > 0 )
         {
-          param["errors"].unshift("filters error");
+          param["errors"].unshift("invalid_filter");
           jsonVal["ERRORS"] = param["errors"];
         }
         else if (jsonRes !== undefined && Object.keys(jsonRes).length > 0)

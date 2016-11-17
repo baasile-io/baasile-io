@@ -15,6 +15,14 @@ const datadb = {
   my_field_id5: {description: 'description', nom: 'field5', position: 0, type: 'AMOUNT'},
 };
 
+const Sortfilter = [
+  { testname: "test simple Sort", res:["my_field_id5", "my_field_id4", "my_field_id3", "my_field_id1", "my_field_id2"], filter : "filter[name][$exists]=true", sort: "sort=type"},
+  { testname: "test double Sort", res:["my_field_id5", "my_field_id4", "my_field_id3", "my_field_id1", "my_field_id2"], filter : "filter[name][$exists]=true", sort: "sort=type,name"},
+  { testname: "test double sort inv name", res:["my_field_id5", "my_field_id4", "my_field_id3", "my_field_id2", "my_field_id1"], filter : "filter[name][$exists]=true", sort: "sort=-name,type"},
+  { testname: "test simple 2 sort inv name", res:["my_field_id2", "my_field_id1"], filter : "filter[type]=STRING", sort: "sort=-name"},
+  { testname: "test simple 2 sort name", res:["my_field_id1", "my_field_id2"], filter : "filter[type]=STRING", sort: "sort=name"},
+]
+
 const filterClassic = [
   { testname: "test simple", res:["my_field_id1"], filter : "filter[name]=Field1"},
   { testname: "test simple 2", res:["my_field_id1", "my_field_id2"], filter : "filter[type]=STRING"},
@@ -52,21 +60,21 @@ describe('Fields', function () {
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(5);
-          res.body.data[0].id.should.eql('my_field_id1');
+          res.body.data[0].id.should.eql('my_field_id5');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
-            "description": "description",
-            "nom": "field1",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id5'].description,
+            nom: datadb['my_field_id5'].nom,
+            position: datadb['my_field_id5'].position,
+            type: datadb['my_field_id5'].type
           });
-          res.body.data[1].id.should.eql('my_field_id2');
+          res.body.data[1].id.should.eql('my_field_id4');
           res.body.data[1].type.should.eql('champs');
           res.body.data[1].attributes.should.eql({
-            "description": "description",
-            "nom": "field2",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id4'].description,
+            nom: datadb['my_field_id4'].nom,
+            position: datadb['my_field_id4'].position,
+            type: datadb['my_field_id4'].type
           });
           done();
         });
@@ -97,21 +105,21 @@ describe('Fields', function () {
         .end(function (err, res) {
           TestHelper.checkResponse(res);
           res.body.data.should.have.lengthOf(5);
-          res.body.data[0].id.should.eql('my_field_id1');
+          res.body.data[0].id.should.eql('my_field_id5');
           res.body.data[0].type.should.eql('champs');
           res.body.data[0].attributes.should.eql({
-            "description": "description",
-            "nom": "field1",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id5'].description,
+            nom: datadb['my_field_id5'].nom,
+            position: datadb['my_field_id5'].position,
+            type: datadb['my_field_id5'].type
           });
-          res.body.data[1].id.should.eql('my_field_id2');
+          res.body.data[1].id.should.eql('my_field_id4');
           res.body.data[1].type.should.eql('champs');
           res.body.data[1].attributes.should.eql({
-            "description": "description",
-            "nom": "field2",
-            "position": 0,
-            "type": 'STRING'
+            description: datadb['my_field_id4'].description,
+            nom: datadb['my_field_id4'].nom,
+            position: datadb['my_field_id4'].position,
+            type: datadb['my_field_id4'].type
           });
           done();
         });
@@ -146,6 +154,40 @@ describe('Fields', function () {
                 if (!exists)
                   throw new Error('data not found');
               }
+              done();
+            });
+        });
+      });
+    });
+  
+    describe('Sort Filter TEST', function () {
+      
+      Sortfilter.forEach(function(objSortfilter) {
+        it(objSortfilter.testname, function (done) {
+          request()
+            .get('/api/v1/collections/my_route_id1/relationships/champs?' + objSortfilter.filter + "&" + objSortfilter.sort)
+            .query({access_token: TestHelper.getAccessToken()})
+            .end(function (err, res) {
+              TestHelper.checkResponse(res);
+              res.body.data.should.have.lengthOf(objSortfilter.res.length);
+              let exists = false;
+              for (var j = 0; j < objSortfilter.res.length; ++j) {
+                if (res.body.data[j] !== undefined) {
+                  res.body.data[j].id.should.eql(objSortfilter.res[j]);
+                  exists = true;
+                  res.body.data[j].type.should.eql('champs');
+                  if (res.body.data[j].attributes !== undefined) {
+                    res.body.data[j].attributes.should.eql({
+                      description: datadb[objSortfilter.res[j]].description,
+                      nom: datadb[objSortfilter.res[j]].nom,
+                      position: datadb[objSortfilter.res[j]].position,
+                      type: datadb[objSortfilter.res[j]].type
+                    });
+                  }
+                }
+              }
+              if (!exists)
+                throw new Error('data not found');
               done();
             });
         });

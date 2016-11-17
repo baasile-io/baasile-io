@@ -3,6 +3,7 @@
 const _ = require('lodash'),
   franceConnectHelper = require('../../../helpers/fc.helper.js'),
   filterservice = require('../../../services/filter.service.js'),
+  sortservice = require('../../../services/sort.service.js'),
   convertService = require('../../../services/convert.service.js'),
   CONFIG = require('../../../config/app.js');
 
@@ -17,6 +18,7 @@ function ServicesController(options) {
   const DataModel = options.models.DataModel;
   const FranceConnectHelper = new franceConnectHelper(options);
   const FilterService = new filterservice(options);
+  const SortService = new sortservice(options);
   const ConvertService = new convertService(options);
 
   this.get = function (req, res, next) {
@@ -120,14 +122,17 @@ function ServicesController(options) {
         fields.forEach(function (field) {
           whitelistedFields.push({"name": "data." + field.nameNormalized, "key": field.type });
         });
-        if (typeof res._request !== 'undefined' && res._request.params !== 'undefined');
+        if (typeof res._request !== 'undefined' && res._request.params !== 'undefined') {
           query = FilterService.buildMongoQuery(query, res._request.params.filter, 'Data', whitelistedFields);
+        }
         if (query["ERRORS"] !== undefined && query["ERRORS"].length > 0)
           return next({code: 400, messages: query["ERRORS"]});
         var queryOptions = {
-          sort: {updatedAt: -1, createdAt: -1},
           populate: []
         };
+        queryOptions = SortService.buildMongoSortOption(queryOptions, res._request.params.sort, 'Data', whitelistedFields);
+        if (queryOptions["ERRORS"] !== undefined && queryOptions["ERRORS"].length > 0)
+          return next({code: 400, messages: queryOptions["ERRORS"]});
         if (Array.isArray(res._request.params.include) === true) {
           if (res._request.params.include.indexOf(CONFIG.api.v1.resources.Service.type) != -1) {
             queryOptions.populate.push({
