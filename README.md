@@ -24,12 +24,11 @@ Check your version of MongoDB with `mongod --version`.
 
 #### Sources
 
-Get my sources from Github, checkout my branch named `develop` and install the dependencies:
+Get my sources from Github and install the dependencies:
 
 ```
 git clone git@github.com:baasile-io/baasile-io.git
 cd baasile-io
-git checkout develop
 npm install
 ```
 
@@ -58,4 +57,14 @@ npm start
 
 ## Development
 
+Be sure to checkout the `develop` branch:
+
+```
+checkout my branch named `develop`
+```
+
 Refer to [Baasile IO Wiki](https://github.com/baasile-io/baasile-io/wiki).
+
+## Licence
+
+Baasile IO is licensed under the Open Source licence Apache 2.0.
