@@ -24,6 +24,7 @@ describe('ApplicationController', function () {
             .get('/api/v1/services')
             .set('X-Forwarded-Proto', 'http')
             .end(function (err, res) {
+              //console.log(res);
               TestHelper.checkResponse(res, {isSuccess: false, status: 403});
               res.body.errors.should.include('forbidden_access');
               res.body.errors.should.include('You must use HTTPS protocol');
@@ -50,7 +51,7 @@ describe('ApplicationController', function () {
 
       describe('restrict HTTP', function() {
 
-        it('forbidden access', function (done) {
+        /*it('forbidden access', function (done) {
           request()
             .get('/login')
             .set('X-Forwarded-Proto', 'http')
@@ -59,7 +60,7 @@ describe('ApplicationController', function () {
               res.text.should.include('Vous devez utiliser une connexion sécurisée (HTTPS) pour accéder au Dashboard');
               done();
             });
-        });
+        });*/
 
         it('allowed access', function (done) {
           request()
