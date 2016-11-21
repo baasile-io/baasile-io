@@ -113,6 +113,7 @@ function FieldModel(options) {
 
   fieldSchema.pre('save', function(next) {
     this.updatedAt = new Date();
+    this.increment();
     next();
   });
 

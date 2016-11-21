@@ -59,6 +59,7 @@ function DataModel(options) {
 
   dataSchema.pre('save', function(next) {
     this.updatedAt = new Date();
+    this.increment();
     next();
   });
 

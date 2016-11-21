@@ -87,6 +87,7 @@ function RelationModel(options) {
 
   relationSchema.pre('save', function(next) {
     this.updatedAt = new Date();
+    this.increment();
     next();
   });
 

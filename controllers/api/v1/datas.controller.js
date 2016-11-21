@@ -165,6 +165,10 @@ function ServicesController(options) {
   };
 
   function requestPost(req, res, next) {
+    // restrict POST to owner
+    if (res._service.clientId !== req.data.service.clientId)
+      return next({code: 401, messages: ['unauthorized', '"POST" method only is authorized to owner']});
+
     if (!res._request.params.data)
       return next({code: 400, messages: ['missing_parameter', '"data" is required']});
     if ((req.data.route.fcRestricted || (req.data.route.fcRequired && req.data.fcIdentity)) && Array.isArray(res._request.params.data))

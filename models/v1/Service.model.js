@@ -104,6 +104,7 @@ function ServiceModel(options) {
 
   serviceSchema.pre('save', function(next) {
     this.updatedAt = new Date();
+    this.increment();
     next();
   });
 

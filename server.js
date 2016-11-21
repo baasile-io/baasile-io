@@ -108,9 +108,11 @@ function Server(options) {
   app.set("layout extractStyles", true);
   app.set("layout extractScripts", true);
   app.use(expressLayouts);
-  //app.use(express.static(__dirname + '/public'));
-  //app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
-  //app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
+  if (typeof options.s3BucketUrl === 'undefined') {
+    app.use(express.static(__dirname + '/public'));
+    app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
+    app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'api-cpa.ico')));
+  }
 
   var server = http.createServer(app);
   routes.configure(app, http, options);
