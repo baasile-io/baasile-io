@@ -107,6 +107,13 @@ function Server(options) {
   app.set('layout', 'layouts/dashboard');
   app.set("layout extractStyles", true);
   app.set("layout extractScripts", true);
+  app.use('/robots.txt', function(req, res) {
+    res.type('text/plain');
+    if (options.nodeEnv === 'production')
+      res.send("User-agent: *\nDisallow:");
+    else
+      res.send("User-agent: *\nDisallow: /");
+  });
   app.use(expressLayouts);
   if (typeof options.s3BucketUrl === 'undefined') {
     app.use(express.static(__dirname + '/public'));
