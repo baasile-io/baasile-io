@@ -98,23 +98,25 @@ function Server(options) {
     })
   }));
 
-  app.use(function(req, res, next){
-    req.session.touch();
-    next();
-  });
-
-  app.set('view engine', 'ejs');
-  app.set('layout', 'layouts/dashboard');
-  app.set("layout extractStyles", true);
-  app.set("layout extractScripts", true);
-  app.use('/robots.txt', function(req, res) {
+  app.get('/robots.txt', function(req, res) {
     res.type('text/plain');
     if (options.nodeEnv === 'production')
       res.send("User-agent: *\nDisallow:");
     else
       res.send("User-agent: *\nDisallow: /");
   });
+
+  app.set('view engine', 'ejs');
+  app.set('layout', 'layouts/dashboard');
+  app.set("layout extractStyles", true);
+  app.set("layout extractScripts", true);
   app.use(expressLayouts);
+
+  app.use(function(req, res, next){
+    req.session.touch();
+    next();
+  });
+
   if (typeof options.s3BucketUrl === 'undefined') {
     app.use(express.static(__dirname + '/public'));
     app.use('/semantic/dist/', express.static(__dirname + '/semantic/dist/'));
