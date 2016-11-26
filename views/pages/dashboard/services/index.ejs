@@ -4,7 +4,7 @@
       <i class="cubes bordered icon"></i>
       <div class="content">
         Mes services
-        <div class="sub header">Créez et configurez vos services, contribuez à la révolution de l'État !</div>
+        <div class="sub header">Administrez les services associés à votre compte développeur</div>
       </div>
     </h1>
   </div>
@@ -20,30 +20,33 @@
   <table class="ui <% if (services.length > 1) { %>sortable<% } %> celled table">
     <thead>
     <tr>
-      <th>Nom</th>
-      <th>Description</th>
-      <th>État</th>
-      <th class="two wide"></th>
+      <th></th>
+      <th>Nom &amp; description</th>
+      <th class="three wide">État</th>
+      <th class="three wide"></th>
     </tr>
     </thead>
     <tbody>
     <% services.forEach(function(service) { %>
-    <tr>
-      <td><i class="cube bordered icon"></i> <%= service.name %></td>
-      <td><%= service.description %></td>
+    <tr class="top aligned">
+      <td><img src="<%= service.getThumbnail('-100x100bg.png') %>" width="70" height="70" class=""></td>
+      <td>
+        <h3 class="ui header"><%= service.name %></h3>
+        <%= service.description %>
+      </td>
       <td>
         <% if (!service.validated) { %>
-        <div class="ui red horizontal label">En attente de validation</div>
+        <div class="ui red horizontal fluid label"></div> En attente de validation
         <% } else if (service.public) { %>
-        <div class="ui green horizontal label">Référencé sur l'API</div>
+        <div class="ui green horizontal fluid label"></div> Référencé sur l'API
         <% } else { %>
-        <div class="ui grey horizontal label">Privé</div>
+        <div class="ui grey horizontal fluid label"></div> Privé
         <% } %>
       </td>
       <td>
-        <a href="/dashboard/services/<%= service.nameNormalized %>" class="ui tiny labeled icon button">
-          <i class="cube icon"></i>
-          Dashboard
+        <a href="/dashboard/services/<%= service.nameNormalized %>" class="ui right labeled icon button">
+          <i class="chevron circle right icon"></i>
+          Administrer le service
         </a>
       </td>
     </tr>
