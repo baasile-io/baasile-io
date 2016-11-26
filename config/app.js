@@ -117,7 +117,8 @@ module.exports = {
         'public/assets/images/night-sky-background.jpg',
         'public/assets/logo/api-cpa-logo-transparent.png',
         'public/assets/logo/api-cpa-logo.png',
-        'public/assets/plugins/tablesort.js'
+        'public/assets/plugins/tablesort.js',
+        'public/robots.txt'
       ]
     },
     thumbnail: {
