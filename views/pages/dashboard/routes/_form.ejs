@@ -2,7 +2,7 @@
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
   <div class="required field">
-    <label>Nom de la collection</label>
+    <label>Nom de la base de donnée</label>
     <div class="ui left icon input">
       <i class="database icon"></i>
       <input type="text" name="route_name" value="<%= query.route.name %>" placeholder="Nom de la collection">
@@ -40,13 +40,19 @@
     <label>Description</label>
     <textarea rows="5" name="route_description"><%= query.route.description %></textarea>
   </div>
-  <div class="field">
-    <label>Partage</label>
+  <div class="<% if (data.service.validated === false || data.service.public === false) { %>disabled<% } %> field">
+    <label>Partager la base de donnée</label>
     <div class="ui toggle checkbox">
       <input type="checkbox" tabindex="0" value="true" name="route_public" class="hidden" <% if (query.route.public === true) { %>checked="checked"<% } %>>
-      <label>Activer le partage de la collection sur l'API du CPA Store</label>
+      <label>Partager la base de donnée sur l'API du CPA Store</label>
+      <% if (data.service.validated === false) { %>
+      <div class="ui pointing red basic label">
+        Votre service doit être validé par l'équipe administratrice avant de prétendre être référencé.
+      </div>
+      <% } %>
     </div>
   </div>
+
 
   <div class="ui submit button" tabindex="0">
     <% if (typeof query.route._id == 'undefined') { %>

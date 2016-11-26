@@ -1,29 +1,46 @@
 <div class="ui container">
-  <% include ../services/header %>
+  <% include ../services/_header %>
   <% include ./_header %>
 
   <% if (routes.length > 0) { %>
   <table class="ui <% if (routes.length > 1) { %>sortable<% } %> celled table">
     <thead>
     <tr>
-      <th>Nom</th>
-      <th>Description</th>
-      <th>FranceConnect</th>
-      <th>Publique</th>
-      <th class="two wide no-sort"></th>
+      <th class="one wide"></th>
+      <th>Nom &amp; description</th>
+      <th class="three wide">FranceConnect</th>
+      <th class="three wide">Partage</th>
+      <th class="four wide no-sort"></th>
     </tr>
     </thead>
     <tbody>
     <% routes.forEach(function(route) { %>
-    <tr>
-      <td><i class="database bordered icon"></i> <%= route.name %></td>
-      <td><%= route.description %></td>
-      <td><%= route.fcRequired ? 'Oui' : 'Non' %></td>
-      <td><%= route.public ? 'Oui' : 'Non' %></td>
+    <tr class="top aligned">
       <td>
-        <a class="ui tiny fluid labeled icon button" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= route.nameNormalized %>">
-          <i class="pencil icon"></i>
-          Éditer
+        <i class="database large bordered icon"></i>
+      </td>
+      <td>
+        <h3 class="ui header"><%= route.name %></h3>
+        <%= route.description %>
+      </td>
+      <td>
+        <% if (route.fcRequired === true) { %>
+        <div class="ui green horizontal fluid label"></div> Activé
+        <% } else { %>
+        <div class="ui red horizontal fluid label"></div> Désactivé
+        <% } %>
+      </td>
+      <td>
+        <% if (route.public === true) { %>
+        <div class="ui green horizontal fluid label"></div> Activé
+        <% } else { %>
+        <div class="ui red horizontal fluid label"></div> Désactivé
+        <% } %>
+      </td>
+      <td>
+        <a class="ui right labeled icon button" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= route.nameNormalized %>">
+          <i class="chevron circle right icon"></i>
+          Administrer la base de donnée
         </a>
       </td>
     </tr>
