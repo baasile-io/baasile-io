@@ -10,27 +10,29 @@
       <table class="ui celled compact table">
         <thead>
         <tr>
-          <th>Type</th>
-          <th>Nom</th>
+          <th class="one wide"></th>
+          <th>Nom &amp; type de champ</th>
           <th>Nom formaté</th>
-          <th>Obligatoire</th>
           <th colspan="<% if (data.route.fields.length > 1) { %>4<% } else { %>2<% } %>" class="two wide no-sort"></th>
         </tr>
         </thead>
         <tbody>
         <% data.route.fields.forEach(function(field) { %>
         <tr>
-          <td>
-            <i class="<%= field.completeType.icon %> bordered icon"></i> <%= field.completeType.name %>
+          <td class="center aligned">
+            <i class="<%= field.completeType.icon %> large icon"></i>
           </td>
           <td>
-            <%= field.name %>
+            <h4 style="margin-bottom: 0"><%= field.name %></h4>
+            <%= field.completeType.name %> /
+            <% if (field.required) { %>
+            Obligatoire
+            <% } else { %>
+            Optionnel
+            <% } %>
           </td>
           <td>
             <%= field.nameNormalized %>
-          </td>
-          <td>
-            <% if (field.required) { %>Oui<% } %>
           </td>
           <% if (data.route.fields.length > 1) { %>
           <td>

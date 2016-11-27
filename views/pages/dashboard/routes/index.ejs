@@ -3,12 +3,12 @@
   <% include ./_header %>
 
   <% if (routes.length > 0) { %>
-  <table class="ui <% if (routes.length > 1) { %>sortable<% } %> celled table">
+  <table class="ui celled table">
     <thead>
     <tr>
       <th class="one wide"></th>
-      <th>Nom &amp; description</th>
-      <th class="three wide">FranceConnect</th>
+      <th>Nom &amp; type</th>
+      <th class="three wide">Donnée identifiée</th>
       <th class="three wide">Partage</th>
       <th class="four wide no-sort"></th>
     </tr>
@@ -21,13 +21,26 @@
       </td>
       <td>
         <h3 class="ui header"><%= route.name %></h3>
-        <%= route.description %>
+        <% if (route.isCollection === true) { %>
+        Tableau de données
+        <% } else { %>
+        Donnée simple
+        <% } %>
       </td>
       <td>
+        <% if (route.isIdentified === true) { %>
         <% if (route.fcRequired === true) { %>
-        <div class="ui green horizontal fluid label"></div> Activé
+        <div class="ui teal horizontal label">FranceConnect</div>
+        <% if (route.fcRestricted === true) { %>
+        Lecture / écriture
         <% } else { %>
-        <div class="ui red horizontal fluid label"></div> Désactivé
+        Lecture seulement
+        <% } %>
+        <% } else { %>
+        <div class="ui green empty circular label"></div> Activé
+        <% } %>
+        <% } else { %>
+        <div class="ui red empty circular label"></div> Désactivé
         <% } %>
       </td>
       <td>
@@ -46,11 +59,24 @@
     </tr>
     <% }) %>
     </tbody>
+    <tfoot>
+    <tr>
+      <th colspan="5" class="right aligned">
+        <a href="/dashboard/services/<%= data.service.nameNormalized %>/routes/new" class="ui icon button">
+          <i class="plus icon"></i>
+          Créer une nouvelle base de donnée
+        </a>
+      </th>
+    </th>
+    </tfoot>
   </table>
   <% include ../../../partials/api_uri_list %>
   <% } else { %>
   <div class="ui segment">
-    Vous n'avez créé aucune donnée partagée
+    <a href="/dashboard/services/<%= data.service.nameNormalized %>/routes/new" class="ui icon button">
+      <i class="plus icon"></i>
+      Créer une base de donnée
+    </a>
   </div>
   <% } %>
 </div>

@@ -3,14 +3,25 @@
     <img class="ui image" src="<%= data.service.getThumbnail('-100x100bg.png') %>">
     <div class="content">
       <%= data.service.name %>
+      <% if (!data.service.validated) { %>
+      <div class="ui red horizontal label">
+        En attente de validation
+      </div>
+      <% } else if (data.service.public) { %>
+      <div class="ui green horizontal label">
+        Référencé sur l'API
+      </div>
+      <% } else { %>
+      <div class="ui grey horizontal label">
+        Privé
+      </div>
+      <% } %>
       <div class="sub header">
-        <% if (!data.service.validated) { %>
-        <div class="ui red empty circular label"></div> &nbsp;En attente de validation
-        <% } else if (data.service.public) { %>
-        <div class="ui green empty circular label"></div> &nbsp;Référencé sur l'API
-        <% } else { %>
-        <div class="ui grey empty circular label"></div> &nbsp;Privé
-        <% } %>
+        <div class="ui breadcrumb">
+          <a class="section" href="/dashboard/services">Tableau de bord</a>
+          <i class="right chevron icon divider"></i>
+          <div class="active section"><%= data.service.name %></div>
+        </div>
       </div>
     </div>
   </h1>

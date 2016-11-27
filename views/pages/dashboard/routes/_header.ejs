@@ -4,22 +4,72 @@
     <img class="ui image" src="<%= data.service.getThumbnail('-100x100bg.png') %>">
     <div class="content">
       <%= data.service.name %>
+      <% if (!data.service.validated) { %>
+      <div class="ui red horizontal label">
+        En attente de validation
+      </div>
+      <% } else if (data.service.public) { %>
+      <div class="ui green horizontal label">
+        Référencé sur l'API
+      </div>
+      <% } else { %>
+      <div class="ui grey horizontal label">
+        Privé
+      </div>
+      <% } %>
       <div class="sub header">
-        <% if (!data.service.validated) { %>
-        <div class="ui red empty circular label"></div> &nbsp;En attente de validation
-        <% } else if (data.service.public) { %>
-        <div class="ui green empty circular label"></div> &nbsp;Référencé sur l'API
-        <% } else { %>
-        <div class="ui grey empty circular label"></div> &nbsp;Privé
-        <% } %>
+        <div class="ui breadcrumb">
+          <a class="section" href="/dashboard/services">Tableau de bord</a>
+          <i class="right chevron icon divider"></i>
+          <a class="section" href="/dashboard/services/<%= data.service.nameNormalized %>"><%= data.service.name %></a>
+          <i class="right chevron icon divider"></i>
+          <a class="section" href="/dashboard/services/<%= data.service.nameNormalized %>/routes">Bases de données</a>
+          <i class="right chevron icon divider"></i>
+          <div class="active section"><%= data.route.name %></div>
+        </div>
       </div>
     </div>
   </h1>
+</div>
+<div class="ui attached segment">
   <h3 class="ui header">
-    <i class="database bordered icon"></i>
+    <i class="database icon"></i>
     <div class="content">
       <%= data.route.name %>
-      <div class="sub header">Collection</div>
+      <div class="sub header">
+        <div class="ui horizontal divided list">
+          <div class="item">
+            <% if (data.route.isCollection === true) { %>
+            Tableau de données
+            <% } else { %>
+            Donnée simple
+            <% } %>
+          </div>
+          <div class="item">
+            <% if (data.route.isIdentified === true) { %>
+            <% if (data.route.fcRequired === true) { %>
+            <div class="ui teal empty circular label"></div> FranceConnect :
+            <% if (data.route.fcRestricted === true) { %>
+            Lecture / écriture
+            <% } else { %>
+            Lecture seulement
+            <% } %>
+            <% } else { %>
+            <div class="ui green empty circular label"></div> Données identifiées
+            <% } %>
+            <% } else { %>
+            <div class="ui red empty circular label"></div> Données non identifiées
+            <% } %>
+          </div>
+          <div class="item">
+            <% if (data.route.public === true) { %>
+            <div class="ui green empty circular label"></div> Partagée
+            <% } else { %>
+            <div class="ui red empty circular label"></div> Non partagée
+            <% } %>
+          </div>
+        </div>
+      </div>
     </div>
   </h3>
 </div>
@@ -27,17 +77,16 @@
   <a class="<% if (page === 'pages/dashboard/routes/view') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>">
     État
   </a>
-  <a class="<% if (page === 'pages/dashboard/routes/edit') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/edit">
-    Modifier
-  </a>
   <a class="<% if (page.indexOf('pages/dashboard/fields') == 0) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/fields">
     <% if (data.route.fields.length == 0) { %>Ajouter un champ<% } else { %>Champs (<%= data.route.fields.length %>)<% } %>
   </a>
   <a class="<% if (page.indexOf('pages/dashboard/relations') == 0) { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/relations">
     <% if (data.route.relations.length == 0) { %>Ajouter une relation<% } else { %>Relations (<%= data.route.relations.length %>)<% } %>
   </a>
+  <a class="<% if (page === 'pages/dashboard/routes/edit') { %>active<% } %> item" href="/dashboard/services/<%= data.service.nameNormalized %>/routes/<%= data.route.nameNormalized %>/edit">
+    Paramètres
+  </a>
 </div>
-<% } else { %>
 <% } %>
 <% if (page === 'pages/dashboard/routes/new') { %>
 <h4 class="ui header">
