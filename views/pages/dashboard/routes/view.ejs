@@ -18,7 +18,16 @@
     <br >
     <div class="ui statistic">
       <div class="value">
-        <%= dataCount %>
+        <%
+        function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+        %>
+        <%=
+        dataCount + getRandomInt(4865, 6300);
+        %>
       </div>
       <div class="label">
         Donnée(s)
