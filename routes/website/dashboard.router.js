@@ -85,7 +85,9 @@ module.exports = function (options) {
   /* dashboard / user area */
   router
     .all('/dashboard*', restrictedArea)
-    .get('/dashboard', DashboardController.dashboard)
+    .get('/dashboard', function(req, res) {
+      return res.redirect('/dashboard/services');
+    })
     .get('/dashboard/account', UsersController.view)
     .post('/dashboard/account', csrfProtection, UsersController.update)
     .get('/dashboard/account/edit', csrfProtection, UsersController.edit)
