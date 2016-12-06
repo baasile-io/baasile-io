@@ -6,7 +6,7 @@
 
 ![Baasile IO](http://baasile.io/assets/img/github/baasile-io-github.png)
 
-## New setup instructions
+## New local setup instructions
 
 <img align="right" src="http://baasile.io/assets/img/github/basilio-github-topright.png" alt="Basilio - Baasilio IO"/>
 
@@ -14,7 +14,46 @@ Basilio *the little spaceman* explains you how to setup a freshly new platform :
 
 #### Pre-requirements
 
-[TODO]
+Install brew:
+```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+Install rbenv:
+```
+brew install rbenv
+```
+
+Install ruby-build:
+```
+brew install ruby-build
+```
+
+Install ruby 2.3.1:
+```
+rbenv install 2.3.1
+```
+
+Set local version of Ruby for Baasile IO:
+```
+rbenv local 2.3.1; rbenv rehash
+```
+
+Init rbenv at terminal launch (e.g: append to ~/.bash_profile):
+```
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+```
+
+Reinit current session:
+```
+source ~/.bash_profile
+```
+
+Install bundler:
+```
+gem install bundler
+```
+
 
 #### Sources
 
