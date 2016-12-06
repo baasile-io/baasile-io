@@ -1,0 +1,6 @@
+[submodule "baasile-io-api"]
+	path = baasile-io-api
+	url = git@github.com:baasile-io/baasile-io-api.git
+[submodule "baasile-io-manager"]
+	path = baasile-io-manager
+	url = git@github.com:baasile-io/baasile-io-manager.git
