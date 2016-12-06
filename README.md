@@ -14,6 +14,11 @@ Basilio *the little spaceman* explains you how to setup a freshly new platform :
 
 #### Pre-requirements
 
+Install xcode:
+```
+xcode-select --install
+```
+
 Install brew:
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -54,6 +59,10 @@ Install bundler:
 gem install bundler
 ```
 
+Install Rails:
+```
+gem install rails
+```
 
 #### Sources
 
