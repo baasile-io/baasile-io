@@ -70,7 +70,10 @@ gem install rails
 
 #### Environment variables
 
-[TODO]
+```
+#production:
+BAASILE_IO_HOSTNAME="baasile-io-demo.net"
+```
 
 #### External storage service
 
@@ -79,6 +82,18 @@ gem install rails
 #### Local server
 
 [TODO]
+
+## Running localy
+
+Build Docker images with docker-compose:
+```
+docker-compose build
+```
+
+Then run:
+```
+docker-compose up
+```
 
 ## Development
 

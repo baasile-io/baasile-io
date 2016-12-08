@@ -1,0 +1,25 @@
+version: '2'
+
+networks:
+  baasile_io_network:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    container_name: baasile_io_db
+    networks:
+      - baasile_io_network
+
+  baasile_io:
+    build: .
+    container_name: baasile_io
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/baasile_io
+    ports:
+      - "3042:3000"
+    networks:
+      - baasile_io_network
+    depends_on:
+      - db
