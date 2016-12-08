@@ -1,20 +1,37 @@
-require 'rails_helper'
 require 'features_helper'
 
 describe "the signin process" do
-  before :each do
-    User.create(email: 'user@example.com', password: 'password')
+
+  describe "confirmed user" do
+    before :each do
+      @user = create :user
+    end
+
+    it "sign me in" do
+      visit '/users/sign_in'
+
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+
+      click_button 'Log in'
+      expect(page).to have_content I18n.t('hello')
+      expect(page.current_path).to eq '/'
+    end
   end
 
-  describe "email confirmation" do
+  describe "unconfirmed user" do
+    before :each do
+      @unconfirmed_user = create :unconfirmed_user
+    end
+
     it "does not sign me in" do
       visit '/users/sign_in'
 
-      fill_in 'Email', with: 'user@example.com'
-      fill_in 'Password', with: 'password'
+      fill_in 'Email', with: @unconfirmed_user.email
+      fill_in 'Password', with: @unconfirmed_user.password
 
       click_button 'Log in'
-      expect(page).to have_content 'You have to confirm your email address before continuing.'
+      expect(page).to have_content I18n.t('devise.failure.unconfirmed')
     end
   end
 end
