@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>BaasileIo</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>BaasileIo</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
+<body>
+
+
+  <div class="container">
+    <%= render 'layouts/header' %>
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <%= yield %>
-  </body>
+    <div class="b-io-main-container">
+      <div class="b-io-menu">
+        <div class="b-io-menu--secondary b-io-menu--tertiary">
+          <nav class="nav nav-pills nav-stacked">
+            <a class="nav-link active" href="#">Mes services</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="b-io-content" style="height: 1500px">
+        <div class="b-io-content--header"></div>
+        <div class="b-io-content--secondary" style="height: 1000px;">
+
+          <%= yield %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

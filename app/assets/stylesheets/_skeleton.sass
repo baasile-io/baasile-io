@@ -1,0 +1,41 @@
+
+.b-io-header
+  position: relative
+  height: 110px
+
+.b-io-main-container
+  .b-io-menu
+    position: relative
+
+    @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
+      float: left
+      width: 280px
+
+
+    .b-io-menu--secondary
+      @include alpha-background-color(rgba($color-blue, .4), $color-blue)
+      position: relative
+      margin: 15px
+      border-radius: 5px
+
+      &.b-io-menu--tertiary
+        @include alpha-background-color(rgba($color-blue-dark, .4), $color-blue)
+
+  .b-io-content
+    position: relative
+    @include alpha-background-color(rgba($color-blue, .3), $color-blue)
+    border-radius: 5px
+
+    @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
+      margin-left: 280px
+
+    .b-io-content--header
+      position: relative
+      height: 100px
+
+    .b-io-content--secondary
+      position: relative
+      margin: 10px
+      background-color: #FFFFFF
+      border-radius: 5px
+      box-shadow: 0 0 15px rgba(190, 190, 190, .4)
