@@ -3,4 +3,6 @@ class User < ApplicationRecord
   #  :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
+
+  has_many :services, foreign_key: 'creator_id'
 end

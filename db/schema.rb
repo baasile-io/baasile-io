@@ -10,13 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208134007) do
+ActiveRecord::Schema.define(version: 20161210144117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pg_trgm"
   enable_extension "unaccent"
+
+  create_table "services", force: :cascade do |t|
+    t.string   "name",          limit: 255
+    t.string   "alias"
+    t.string   "description"
+    t.string   "website"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.integer  "creator_id"
+    t.datetime "confirmed_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
