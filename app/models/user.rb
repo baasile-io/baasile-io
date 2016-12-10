@@ -4,5 +4,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
-  has_many :services, foreign_key: 'creator_id'
+  has_many :services
 end

@@ -1,0 +1,7 @@
+en:
+  services:
+    index:
+      title: 'List of services'
+    new:
+      title: 'Create a new service'
+

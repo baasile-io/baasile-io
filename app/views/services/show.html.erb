@@ -1,0 +1,13 @@
+<% content_for(:page_title) { @resource.name } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <%= @resource.name %><br />
+    <%= @resource.description %><br />
+
+    <%= link_to t('actions.edit'), edit_service_path, class: 'btn btn-secondary' %>
+    <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
+
+  </div>
+</div>

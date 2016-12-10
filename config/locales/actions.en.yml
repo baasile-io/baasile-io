@@ -1,6 +1,15 @@
 en:
   actions:
+    destroy: 'Delete'
+    edit: 'Edit'
+    save: 'Save'
+    save_in_progress: 'Save in progress...'
     sign_in: 'Sign in'
     signin_in: 'Signin in...'
     sign_up: 'Sign up'
     signin_up: 'Signin up..'
+    success:
+      created: '%{resource} was successfuly created'
+      destroyed: '%{resource} was successfuly deleted'
+      updated: '%{resource} was successfuly updated'
+

@@ -1,6 +1,6 @@
 <% flash.delete(:timedout).each do |name, msg| %>
   <%
-    alert_class = if name == 'alert'
+    alert_class = if name == 'alert' || name == 'error'
                     'danger'
                   elsif name == 'notice'
                     'info'
@@ -10,6 +10,16 @@
   %>
   <div class="flash_message alert alert-<%= alert_class %>">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <%= raw(msg) %>
+    <% if msg.is_a?(Hash) %>
+      <ul>
+        <% msg.each do |key, value| %>
+          <% unless value.empty? %>
+            <li><%= key.to_s %>: <%= value.join(', ') %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% else %>
+      <%= raw(msg) %>
+    <% end %>
   </div>
 <% end %>

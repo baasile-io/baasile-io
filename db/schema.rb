@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20161210144117) do
     t.string   "website"
     t.string   "client_id"
     t.string   "client_secret"
-    t.integer  "creator_id"
+    t.integer  "user_id"
     t.datetime "confirmed_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

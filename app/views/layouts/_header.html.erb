@@ -26,7 +26,7 @@
             <a href="<%= new_user_session_path %>" class="btn btn-outline-info">Sign in</a>
             <a href="<%= new_user_registration_path %>" class="btn btn-outline-info">Sign up</a>
           <% else %>
-            <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-outline-danger' %>
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger' %>
           <% end %>
         </div>
       </div>
