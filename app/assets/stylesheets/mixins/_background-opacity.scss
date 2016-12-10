@@ -2,6 +2,6 @@
   $percent: alpha($color) * 100%;
   $opaque: opacify($color, 1);
   $solid-color: mix($opaque, $background, $percent);
-  background-color: $solid-color;
-  background-color: $color;
+  background-color: $solid-color !important;
+  background-color: $color !important;
 }

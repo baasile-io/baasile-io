@@ -34,9 +34,9 @@ gem 'pg', '~>0.19'
 # User account
 gem 'devise', '~>4.2'
 
-# CSS
+# Front
 gem 'bootstrap', '~> 4.0.0.alpha5'
-
+gem 'simple_form', '~>3.3.1'
 ## tether positionning for popovers and tooltips
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

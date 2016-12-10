@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BaasileIo</title>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> Baasile IO</title>
   <%= csrf_meta_tags %>
 
   <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700" rel="stylesheet">
@@ -14,29 +14,21 @@
 
   <div class="container">
     <%= render 'layouts/header' %>
-
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <%= render 'shared/flash' %>
 
     <div class="b-io-main-container">
       <div class="b-io-menu">
-        <div class="b-io-menu--secondary b-io-menu--tertiary">
-          <nav class="nav nav-pills nav-stacked">
-            <a class="nav-link active" href="#">Mes services</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </nav>
-        </div>
+        <%= render 'shared/menu' %>
       </div>
 
-      <div class="b-io-content" style="height: 1500px">
-        <div class="b-io-content--header"></div>
-        <div class="b-io-content--secondary" style="height: 1000px;">
-
-          <%= yield %>
-
+      <div class="b-io-content">
+        <div class="b-io-content--header">
+          <div class="container">
+            <h2><%= content_for(:page_title) %></h2>
+          </div>
         </div>
+
+        <%= yield %>
       </div>
     </div>
   </div>
