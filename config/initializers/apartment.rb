@@ -7,6 +7,9 @@ require 'apartment/elevators/generic'
 # require 'apartment/elevators/subdomain'
 # require 'apartment/elevators/first_subdomain'
 
+# Rescue from Apartment::TenantNotFound exception
+require 'rescued_apartment_middleware'
+
 #
 # Apartment Configuration
 #
@@ -83,8 +86,8 @@ end
 
 # Setup a custom Tenant switching middleware. The Proc should return the name of the Tenant that
 # you want to switch to.
-Rails.application.config.middleware.use 'Apartment::Elevators::Generic', lambda { |request|
-  tenant = request.path.match(/\/dashboard\/([0-9]*)\/?/)[1] rescue -1
+Rails.application.config.middleware.use Apartment::Elevators::Generic, lambda { |request|
+  tenant = request.path.match(/\/dashboard\/([0-9]*)\/?/)[1].to_i rescue 0
   return nil if tenant < 1 || Service.find_by_id(tenant).nil?
   tenant
 }
@@ -92,3 +95,5 @@ Rails.application.config.middleware.use 'Apartment::Elevators::Generic', lambda 
 # Rails.application.config.middleware.use 'Apartment::Elevators::Domain'
 # Rails.application.config.middleware.use 'Apartment::Elevators::Subdomain'
 # Rails.application.config.middleware.use 'Apartment::Elevators::FirstSubdomain'
+
+Apartment::Elevators::Generic.prepend RescuedApartmentMiddleware

@@ -8,7 +8,7 @@ default: &default
 development:
   <<: *default
   port: 5432
-  host: db
+  host: postgres
   database: baasile_io_development
   username: postgres
   password:
@@ -19,7 +19,7 @@ development:
 test:
   <<: *default
   port: 5432
-  host: db
+  host: postgres
   database: baasile_io_test
   username: postgres
   password:

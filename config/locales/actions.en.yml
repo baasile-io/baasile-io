@@ -1,5 +1,6 @@
 en:
   actions:
+    activate: 'Activate'
     destroy: 'Delete'
     edit: 'Edit'
     save: 'Save'

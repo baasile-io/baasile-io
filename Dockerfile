@@ -1,4 +1,5 @@
 FROM ruby:2.3.1
+MAINTAINER Basile & Jean-Michel <contact@baasile.io>
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 RUN mkdir /baasile_io
 WORKDIR /baasile_io

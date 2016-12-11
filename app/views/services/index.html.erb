@@ -7,7 +7,7 @@
       <thead>
       <tr>
         <th>Name</th>
-        <th>Locked</th>
+        <th>Activated</th>
         <th></th>
       </tr>
       </thead>
@@ -15,7 +15,7 @@
       <% @collection.each do |service| %>
       <tr>
         <td><%= service.name %></td>
-        <td><%= service.is_locked? %></td>
+        <td><%= service.is_activated? %></td>
         <td class="text-xs-right">
           <%= link_to t('actions.edit'), service_path(service.id), class: 'btn btn-secondary' %>
         </td>

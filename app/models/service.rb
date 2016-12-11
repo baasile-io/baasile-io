@@ -2,7 +2,6 @@ class Service < ApplicationRecord
   # User rights
   resourcify
   after_create :assign_default_user_role
-  after_destroy :
 
   belongs_to :user
 
@@ -15,18 +14,11 @@ class Service < ApplicationRecord
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end
 
-  def is_locked?
-    self.confirmed_at.nil?
+  def is_activated?
+    !self.confirmed_at.nil?
   end
 
   def assign_default_user_role
     self.user.add_role(:developer, self)
-  end
-
-  def do_unlock!
-    if Apartment::Tenant.create(self.id)
-      self.confirmed_at = Date.new
-      self.save
-    end
   end
 end

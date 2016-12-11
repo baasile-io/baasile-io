@@ -51,11 +51,22 @@ class ServicesController < ApplicationController
     end
   end
 
-  def unlock
+  def activate
     return head(:forbidden) unless current_user.has_role?(:superadmin)
-    @service = Service.find_by_id(params[:id])
-    @service.do_unlock!
-    redirect_to service_path(@service)
+
+    if @service = Service.find_by_id(params[:id])
+      ActivateServiceJob.perform_later @service.id
+      redirect_to service_path(@service)
+    end
+  end
+
+  def deactivate
+    return head(:forbidden) unless current_user.has_role?(:superadmin)
+
+    if @service = Service.find_by_id(params[:id])
+      DeactivateServiceJob.perform_later @service.id
+      redirect_to service_path(@service)
+    end
   end
 
   private

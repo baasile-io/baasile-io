@@ -8,9 +8,10 @@ class DashboardController < ApplicationController
       redirect_to root_path
       return false
     end
+    redirect_to root_path unless Service.find_by_id(Apartment::Tenant.current_tenant).is_activated?
   end
 
   def authorize_user
-    return false unless current_user.has_role?(:superadmin) || current_user.has_role?(:developer, Service.find(Apartment::Tenant.current_tenant))
+    return head(:forbidden) unless current_user.has_role?(:superadmin) || current_user.has_role?(:developer, Service.find(Apartment::Tenant.current_tenant))
   end
 end
