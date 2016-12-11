@@ -1,4 +1,4 @@
-# Baasile IO (Ruby on Rails)
+# Baasile IO (on Rails)
 
 [![Build Status](https://travis-ci.org/baasile-io/baasile-io.svg?branch=master)](https://travis-ci.org/baasile-io/baasile-io) [![Dependency Status](https://dependencyci.com/github/baasile-io/baasile-io/badge)](https://dependencyci.com/github/baasile-io/baasile-io)
 
@@ -14,85 +14,57 @@ Basilio *the little spaceman* explains you how to setup a freshly new platform :
 
 #### Pre-requirements
 
-Install xcode:
-```
-xcode-select --install
-```
-
-Install brew:
-```
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-Install rbenv:
-```
-brew install rbenv
-```
-
-Install ruby-build:
-```
-brew install ruby-build
-```
-
-Install ruby 2.3.1:
-```
-rbenv install 2.3.1
-```
-
-Set local version of Ruby for Baasile IO:
-```
-rbenv local 2.3.1; rbenv rehash
-```
-
-Init rbenv at terminal launch (e.g: append to ~/.bash_profile):
-```
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-```
-
-Reinit current session:
-```
-source ~/.bash_profile
-```
-
-Install bundler:
-```
-gem install bundler
-```
-
-Install Rails:
-```
-gem install rails
-```
+To allow you working on any platforms, I recommend you to [install Docker Compose](https://docs.docker.com/compose/install/).
 
 #### Sources
 
-[TODO]
+Get the sources by cloning my repository:
+```
+git clone git@github.com:baasile-io/baasile-io.git
+cd baasile-io
+```
+
+#### Build images
+
+You can now build the images of my platform with the following instructions:
+```
+docker-compose build    # it can take a few minutes
+```
+
+#### Setup database
+
+If you just downloaded my sources, then setup the database:
+
+```
+docker-compose run baasile_io  rails db:setup
+```
+
+Later you will need to run migrations by running:
+
+```
+docker-compose run baasile_io  rails db:migrate
+```
+
+#### Run server
+
+```
+docker-compose up       # run on localhost at http://localhost:3042
+```
+
+#### Change configuration
+
+Any update of my Gemfile requires the docker image to be built again:
+
+```
+docker-compose stop && docker-compose build
+```
 
 #### Environment variables
 
-```
-#production:
-BAASILE_IO_HOSTNAME="baasile-io-demo.net"
-```
+Updating my Gemfile requires the the docker image to be built again:
 
-#### External storage service
-
-[TODO]
-
-#### Local server
-
-[TODO]
-
-## Running localy
-
-Build Docker images with docker-compose:
-```
-docker-compose build
 ```
 
-Then run:
-```
-docker-compose up
 ```
 
 ## Development
@@ -100,7 +72,7 @@ docker-compose up
 Be sure to checkout the `develop` branch:
 
 ```
-checkout my branch named `develop`
+git checkout develop
 ```
 
 Refer to [Baasile IO Wiki](https://github.com/baasile-io/baasile-io/wiki).
