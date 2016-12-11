@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
   # User rights
-  rolify
+  rolify role_join_table_name: 'public.users_roles'
 
   has_many :services
 end

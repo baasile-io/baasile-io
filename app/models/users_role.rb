@@ -1,0 +1,2 @@
+class UsersRole < ApplicationRecord
+end
