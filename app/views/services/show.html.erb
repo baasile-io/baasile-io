@@ -1,13 +1,21 @@
-<% content_for(:page_title) { @resource.name } %>
+<% content_for(:page_title) { @service.name } %>
 
 <div class="b-io-content--secondary">
   <div class="container">
 
-    <%= @resource.name %><br />
-    <%= @resource.description %><br />
+    <%= @service.name %><br />
+    <%= @service.description %><br />
 
     <%= link_to t('actions.edit'), edit_service_path, class: 'btn btn-secondary' %>
     <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
+
+    <% if @service.is_locked? %>
+      <% if current_user.has_role?(:superadmin) %>
+        <%= link_to t('actions.unlock'), unlock_service_path, method: :post, class: 'btn btn-primary' %>
+      <% end %>
+    <% else %>
+      <%= link_to t('dashboard'), dashboard_path(tenant: @service.id), class: 'btn btn-primary' %>
+    <% end %>
 
   </div>
 </div>

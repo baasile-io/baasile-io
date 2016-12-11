@@ -5,7 +5,7 @@ FactoryGirl.define do
     association           :user
     confirmed_at          Date.new
 
-    factory :service_not_validated do
+    factory :service_locked do
       confirmed_at        nil
     end
   end

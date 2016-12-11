@@ -33,6 +33,8 @@ gem 'pg', '~>0.19'
 
 # User account
 gem 'devise', '~>4.2'
+gem 'rolify', '~>5.1.0'
+gem 'apartment', '~>1.2'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha5'

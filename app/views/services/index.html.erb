@@ -3,9 +3,27 @@
 <div class="b-io-content--secondary">
   <div class="container">
 
-    <% @collection.each do |service| %>
-      <%= link_to service.name, service_path(service.id) %><br />
-    <% end %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Locked</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |service| %>
+      <tr>
+        <td><%= service.name %></td>
+        <td><%= service.is_locked? %></td>
+        <td class="text-xs-right">
+          <%= link_to t('actions.edit'), service_path(service.id), class: 'btn btn-secondary' %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= link_to t('actions.new'), new_service_path, class: 'btn btn-secondary' %><br />
 
   </div>
 </div>

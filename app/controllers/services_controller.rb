@@ -1,58 +1,74 @@
 class ServicesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy]
+
   def index
-    @collection = Service.all
+    @collection = Service.authorized(current_user)
   end
 
   def show
-    @resource = Service.find_by_id(params[:id])
   end
 
   def new
-    @resource = Service.new
+    @service = Service.new
   end
 
   def create
-    @resource = Service.new
-    @resource.update_attributes(service_params)
-    @resource.user = current_user
+    @service = Service.new
+    @service.user = current_user
+    @service.assign_attributes(service_params)
 
-    if @resource.save
+    if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
-      redirect_to service_path(@resource)
+      redirect_to service_path(@service)
     else
-      flash[:error] = @resource.errors.messages
+      flash[:error] = @service.errors.messages
     end
   end
 
   def edit
-    @resource = Service.find_by_id(params[:id])
   end
 
   def update
-    @resource = Service.find_by_id(params[:id])
+    @service.assign_attributes(service_params)
 
-    if @resource.update_attributes(service_params)
+    if @service.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
-      redirect_to service_path(@resource)
+      redirect_to service_path(@service)
     else
-      flash[:error] = @resource.errors.messages
+      flash[:error] = @service.errors.messages
       render :edit
     end
   end
 
   def destroy
-    @resource = Service.find_by_id(params[:id])
-
-    if @resource.destroy
+    if @service.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.service'))
       redirect_to services_path
     else
-      flash[:error] = @resource.errors.messages
+      flash[:error] = @service.errors.messages
       render :show
     end
   end
 
+  def unlock
+    return head(:forbidden) unless current_user.has_role?(:superadmin)
+    @service = Service.find_by_id(params[:id])
+    @service.do_unlock!
+    redirect_to service_path(@service)
+  end
+
+  private
+
   def service_params
     params.require(:service).permit(:name, :description)
+  end
+
+  def load_service_and_authorize
+    @service = Service.find_by_id(params[:id])
+    return redirect_to services_path if @service.nil?
+    unless @service.authorized?(current_user)
+      return head(:forbidden)
+    end
   end
 end
