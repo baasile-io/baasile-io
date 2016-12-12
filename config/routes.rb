@@ -23,4 +23,12 @@ Rails.application.routes.draw do
       resource :dashboards, except: [:index]
     end
   end
+
+  namespace :api do
+    scope "/(:api_version)" do
+      scope "/oauth" do
+        post 'token' => 'authentication#authenticate'
+      end
+    end
+  end
 end

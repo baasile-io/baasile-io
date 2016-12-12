@@ -5,6 +5,8 @@
 
     <%= @service.name %><br />
     <%= @service.description %><br />
+    <%= @service.client_id %><br />
+    <%= @service.client_secret %><br />
 
     <%= link_to t('actions.edit'), edit_service_path, class: 'btn btn-secondary' %>
     <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
