@@ -4,7 +4,7 @@ fr:
     destroy: 'Effacer'
     edit: 'modifier'
     save: 'sauvegarder'
-    save_in_progress: 'Enregistrer en cours...'
+    save_in_progress: 'Enregistrement en cours...'
     sign_in: 'se connecter'
     signin_in: 'Connexion...'
     sign_up: 'S'inscrire'
