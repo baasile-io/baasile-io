@@ -1,0 +1,13 @@
+fr:
+  activerecord:
+    attributes:
+      service:
+        client_id: 'CLIENT_ID'
+        client_secret: 'CLIENT_SECRET'
+        description: 'Description'
+        name: 'Nom'
+        user: 'Créateur'
+        user_id: 'Créateur'
+        website: 'Site Internet'
+    models:
+      service: 'Service'
