@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Background jobs
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
     mount Sidekiq::Web => '/sidekiq'
   end
 

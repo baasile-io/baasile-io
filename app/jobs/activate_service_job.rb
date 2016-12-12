@@ -1,6 +1,4 @@
 class ActivateServiceJob < ApplicationJob
-  queue_as :default
-
   rescue_from PG::DuplicateSchema do |exception|
     confirm_service
   end
