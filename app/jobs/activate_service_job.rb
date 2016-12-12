@@ -10,8 +10,12 @@ class ActivateServiceJob < ApplicationJob
   end
 
   def confirm_service
-    s = Service.find(@service_id)
-    s.confirmed_at = Date.new if s.confirmed_at.nil?
-    s.save
+    Service.transaction do
+      s = Service.find(@service_id)
+      s.confirmed_at = Date.new if s.confirmed_at.nil?
+      s.generate_client_id!
+      s.generate_client_secret!
+      s.save!
+    end
   end
 end
