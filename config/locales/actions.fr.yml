@@ -1,15 +1,15 @@
 fr:
   actions:
-    activate: 'Activer'
-    destroy: 'Effacer'
-    edit: 'modifier'
-    save: 'sauvegarder'
-    save_in_progress: 'Enregistrement en cours...'
-    sign_in: 'se connecter'
-    signin_in: 'Connexion...'
-    sign_up: 'S'inscrire'
-    signin_up: 'inscription..'
-    success:
-      created: '%{resource} A été créé avec succès'
-      destroyed: '%{resource} A été supprimé avec succès'
-      updated: '%{resource} A été mis à jour avec succès'
+      activate: 'Activer'
+      destroy: 'Effacer'
+      edit: 'modifier'
+      save: 'sauvegarder'
+      save_in_progress: 'Enregistrement en cours...'
+      sign_in: 'se connecter'
+      signin_in: 'Connexion...'
+      sign_up: "S'inscrire"
+      signin_up: 'inscription..'
+      success:
+          created: '%{resource} A été créé avec succès'
+          destroyed: '%{resource} A été supprimé avec succès'
+          updated: '%{resource} A été mis à jour avec succès'
