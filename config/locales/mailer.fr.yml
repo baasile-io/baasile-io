@@ -1,0 +1,10 @@
+fr:
+  mailer:
+    service_notifier:
+      send_validation:
+        subject: 'Votre service a été activé'
+        text: 'Vous pouvez dès à présent accéder au tableau de bord de %{name}.'
+    shared:
+      hello: 'Bonjour,'
+      best_regard: 'Cordialement.'
+

@@ -5,7 +5,7 @@ class ServiceNotifier < ApplicationMailer
     users = User.with_role(:developer, @service)
     users.each do |u|
       mail( :to => u.email,
-            :subject => I18n.t('.subject') )
+            :subject => I18n.t('mailer.service_notifier.send_validation.subject') )
     end
   end
 end

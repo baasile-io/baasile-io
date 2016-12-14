@@ -1,0 +1,10 @@
+en:
+  mailer:
+    service_notifier:
+      send_validation:
+        subject: 'Your service has been activated'
+        text: 'You are notified that you can now access to the dashboard of %{name}.'
+    shared:
+      hello: 'Hello!'
+      best_regard: 'Best regard.'
+
