@@ -16,6 +16,7 @@ class ActivateServiceJob < ApplicationJob
       s.generate_client_id!
       s.generate_client_secret!
       s.save!
+      ServiceNotifier.send_validation(s).deliver_now
     end
   end
 end
