@@ -3,12 +3,15 @@
     <img class="img-fluid" src="/dashboard/basilio-little-spaceman.png">
   </div>
 <% else %>
-<div class="b-io-menu--secondary b-io-menu--tertiary">
-  <nav class="nav nav-pills nav-stacked">
-    <a class="nav-link active" href="#">Mes services</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link disabled" href="#">Disabled</a>
-  </nav>
-</div>
+  <% if current_service.nil? %>
+  <% else %>
+    <div class="b-io-menu--secondary b-io-menu--tertiary">
+      <nav class="nav nav-pills nav-stacked">
+        <a class="nav-link active" href="<%= back_office_functionalities_path %>">Mes fonctionnalités</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </nav>
+    </div>
+  <% end %>
 <% end %>

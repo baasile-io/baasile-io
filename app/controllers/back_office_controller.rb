@@ -1,4 +1,4 @@
-class DashboardController < ApplicationController
+class BackOfficeController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_tenant
   before_action :authorize_user
@@ -8,7 +8,11 @@ class DashboardController < ApplicationController
       redirect_to root_path
       return false
     end
-    redirect_to root_path unless Service.find_by_id(Apartment::Tenant.current_tenant).is_activated?
+    redirect_to root_path unless current_service.is_activated?
+  end
+
+  def current_service
+    @current_service ||= Service.find_by_subdomain(Apartment::Tenant.current_tenant)
   end
 
   def authorize_user

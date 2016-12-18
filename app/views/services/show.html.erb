@@ -16,7 +16,7 @@
         <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
       <% end %>
     <% else %>
-      <%= link_to t('dashboard'), dashboard_path(tenant: @service.id), class: 'btn btn-primary' %>
+      <%= link_to t('dashboard'), @service.dashboard_url, class: 'btn btn-primary' %>
       <% if current_user.has_role?(:superadmin) %>
         <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
       <% end %>

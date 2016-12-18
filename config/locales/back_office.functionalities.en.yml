@@ -1,0 +1,17 @@
+en:
+  back_office:
+    functionalities:
+      configure:
+        title: 'Configure proxy'
+      form:
+        select_functionality_type: 'Select a functionality type...'
+      edit:
+        title: 'Edit functionality'
+      index:
+        title: 'List of functionalities'
+      new:
+        title: 'New functionality'
+      proxy_parameters_form:
+        select_authentication_mode: 'Select an authentication mode...'
+      show:
+        title: 'Functionality'

@@ -4,9 +4,14 @@ class Service < ApplicationRecord
   after_create :assign_default_user_role
 
   belongs_to :user
+  has_many :functionalities
 
   validates :name, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
+
+  validates :subdomain, uniqueness: true
+  validates :subdomain, presence: true, format: {with: /[a-z]*/}, length: {minimum: 2, maximum: 15}, if: :is_activated?
+  validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
                             format: { with: /\A[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\z/i },
@@ -34,6 +39,20 @@ class Service < ApplicationRecord
 
   def is_activated?
     !self.confirmed_at.nil?
+  end
+
+  def is_activable?
+    !self.subdomain.blank?
+  end
+
+  def subdomain_changed_disallowed
+    if subdomain_changed? && self.is_activated?
+      errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
+    end
+  end
+
+  def dashboard_url
+    "//#{self.subdomain}.#{ENV['BAASILE_IO_HOSTNAME']}#{":#{ENV['PORT']}" unless ENV['PORT'].blank?}/back_office"
   end
 
   def assign_default_user_role

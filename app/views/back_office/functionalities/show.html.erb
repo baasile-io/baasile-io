@@ -1,0 +1,19 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <%= @functionality.type %><br />
+    <%= @functionality.name %><br />
+    <%= @functionality.description %><br />
+
+    <%= link_to t('actions.configure'), configure_back_office_functionality_path(@functionality), class: 'btn btn-secondary' %>
+
+    <% if @functionality.type == 'proxy' %>
+      <% unless @functionality.proxy_parameter.nil? %>
+        <%= render partial: 'proxy_parameters', locals: {proxy_parameter: @functionality.proxy_parameter} %>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

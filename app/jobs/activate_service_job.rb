@@ -3,20 +3,25 @@ class ActivateServiceJob < ApplicationJob
     confirm_service
   end
 
-  def perform(service_id)
-    @service_id = service_id
-    Apartment::Tenant.create(service_id.to_s)
+  rescue_from Apartment::TenantExists do |exception|
     confirm_service
+  end
+
+  def perform(service_id)
+    @service = Service.find(service_id)
+    if @service.is_activable?
+      Apartment::Tenant.create(@service.subdomain)
+      confirm_service
+    end
   end
 
   def confirm_service
     Service.transaction do
-      s = Service.find(@service_id)
-      s.confirmed_at = Date.new if s.confirmed_at.nil?
-      s.generate_client_id!
-      s.generate_client_secret!
-      s.save!
-      ServiceNotifier.send_validation(s).deliver_now
+      @service.confirmed_at = Date.new if @service.confirmed_at.nil?
+      @service.generate_client_id!
+      @service.generate_client_secret!
+      @service.save!
+      ServiceNotifier.send_validation(@service).deliver_now
     end
   end
 end

@@ -23,6 +23,7 @@ class ServicesController < ApplicationController
       redirect_to service_path(@service)
     else
       flash[:error] = @service.errors.messages
+      render :new
     end
   end
 
@@ -54,10 +55,15 @@ class ServicesController < ApplicationController
   def activate
     return head(:forbidden) unless current_user.has_role?(:superadmin)
 
-    if @service = Service.find_by_id(params[:id])
+    @service = Service.find(params[:id])
+
+    unless @service.is_activable?
+      flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
+    else
       ActivateServiceJob.perform_later @service.id
-      redirect_to service_path(@service)
     end
+
+    redirect_to service_path(@service)
   end
 
   def deactivate
@@ -72,7 +78,9 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    params.require(:service).permit(:name, :description)
+    allowed_parameters = [:name, :description]
+    allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
+    params.require(:service).permit(allowed_parameters)
   end
 
   def load_service_and_authorize

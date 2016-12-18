@@ -1,13 +1,34 @@
 fr:
   activerecord:
     attributes:
+      functionality:
+        description: 'Description'
+        functionality_type: 'Type'
+        name: 'Nom'
+        service: 'Service'
+        service_id: 'Service'
+        user: 'Créateur'
+        user_id: 'Créateur'
+      proxy_parameter:
+        authentication_mode: "Mode d'authentification"
+        authentication_url: "URL d'authentification"
+        hostname: 'Domaine'
+        port: 'Port'
+        protocol: 'Protocole'
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
         description: 'Description'
+        subdomain: 'Sous-domaine'
         name: 'Nom'
         user: 'Créateur'
         user_id: 'Créateur'
         website: 'Site Internet'
     models:
+      functionality: 'Fonctionnalité'
+      proxy_parameter: 'Paramètres du proxy'
       service: 'Service'
+    validations:
+      service:
+        missing_subdomain: "Le paramètre sous-domaine doit être renseigné"
+        subdomain_changed_disallowed: "Le sous-domaine ne peut pas être modifié car le service est actif"

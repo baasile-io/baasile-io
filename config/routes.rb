@@ -1,5 +1,11 @@
 require 'sidekiq/web'
 
+class Subdomain
+  def self.matches?(request)
+    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
+  end
+end
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -17,10 +23,17 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :dashboard do
-    scope "/(:tenant)" do
+  constraints Subdomain do
+    namespace :back_office do
       get '/', to: 'dashboards#index'
-      resource :dashboards, except: [:index]
+      resources :dashboards, except: [:index]
+
+      resources :functionalities do
+        member do
+          get :configure
+          post :save_configuration
+        end
+      end
     end
   end
 

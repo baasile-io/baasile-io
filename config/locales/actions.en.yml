@@ -1,6 +1,7 @@
 en:
   actions:
     activate: 'Activate'
+    configure: 'Configurate'
     destroy: 'Delete'
     edit: 'Edit'
     save: 'Save'

@@ -10,13 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161211144201) do
+ActiveRecord::Schema.define(version: 20161217163835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
-  enable_extension "unaccent"
+
+  create_table "functionalities", force: :cascade do |t|
+    t.string   "name",               limit: 255
+    t.string   "description"
+    t.integer  "type"
+    t.integer  "service_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "proxy_parameter_id"
+  end
+
+  create_table "proxy_parameters", force: :cascade do |t|
+    t.integer  "protocol"
+    t.string   "hostname"
+    t.integer  "port"
+    t.string   "authentication_url"
+    t.integer  "authentication_mode"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -39,6 +59,7 @@ ActiveRecord::Schema.define(version: 20161211144201) do
     t.datetime "confirmed_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "subdomain"
   end
 
   create_table "users", force: :cascade do |t|
