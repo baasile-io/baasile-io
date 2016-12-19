@@ -35,13 +35,23 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    namespace :api do
+      #scope "/(:api_version)" do
+        resources :proxies do
+          member do
+            get '/*url' => 'proxies#show'
+          end
+        end
+      #end
+    end
   end
 
   namespace :api do
-    scope "/(:api_version)" do
+    #scope "/(:api_version)" do
       scope "/oauth" do
         post 'token' => 'authentication#authenticate'
       end
-    end
+    #end
   end
 end

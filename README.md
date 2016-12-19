@@ -24,6 +24,37 @@ git clone git@github.com:baasile-io/baasile-io.git
 cd baasile-io
 ```
 
+#### Setting environment
+
+Copy the file `.env.example` to `.env` and at least set the following variables:
+
+```
+RAILS_ENV=development
+COMPOSE_PROJECT_NAME=baasile_io
+
+PORT=3042
+
+BAASILE_IO_HOSTNAME=baasile-io-demo.net
+
+REDIS_PROVIDER=redis://redis:6379
+REDIS_URL=redis://redis:6379
+REDIS_CACHE_URL=redis://redis:6379/0/cache
+```
+
+#### Set local hosts
+
+Add the following line into your `/etc/hosts` file:
+
+```
+127.0.0.1  baasile-io-demo.dev
+```
+
+Later, when adding a new subdomain into the database, you also must add it into `/etc/hosts`:  
+
+```
+127.0.0.1  myservice.baasile-io-demo.dev
+```
+
 #### Build images
 
 You can now build the images of my platform with the following instructions:
