@@ -50,7 +50,7 @@ Apartment.configure do |config|
   #   end
   # end
   #
-  config.tenant_names = lambda { Service.pluck :id }
+  config.tenant_names = lambda { Service.pluck :subdomain }
 
   #
   # ==> PostgreSQL only options

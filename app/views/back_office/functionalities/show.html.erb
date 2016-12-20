@@ -8,6 +8,7 @@
     <%= @functionality.description %><br />
 
     <%= link_to t('actions.configure'), configure_back_office_functionality_path(@functionality), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.routes'), back_office_functionality_routes_path(@functionality), class: 'btn btn-secondary' %>
 
     <% if @functionality.type == 'proxy' %>
       <% unless @functionality.proxy_parameter.nil? %>

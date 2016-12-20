@@ -69,7 +69,7 @@ module BackOffice
     end
 
     def proxy_parameter_params
-      params.require(:proxy_parameter).permit(:authentication_mode, :protocol, :hostname, :port, :authentication_url)
+      params.require(:proxy_parameter).permit(:authentication_mode, :protocol, :hostname, :port, :authentication_url, :client_id, :client_secret)
     end
 
     def load_functionality_and_authorize

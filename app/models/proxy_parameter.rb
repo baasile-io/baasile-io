@@ -15,6 +15,9 @@ class ProxyParameter < ApplicationRecord
   validates :hostname, presence: true
   validates :port, presence: true, numericality: {greater_than: 0}
   validates :authentication_url, presence: true, if: :authentication_required?
+  validates :client_id, presence: true, if: :authentication_required?
+  validates :client_secret, presence: true, if: :authentication_required?
+
 
   def authentication_required?
     return false if self.authentication_mode.nil?

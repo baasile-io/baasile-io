@@ -33,6 +33,8 @@ Rails.application.routes.draw do
           get :configure
           post :save_configuration
         end
+
+        resources :routes
       end
     end
 

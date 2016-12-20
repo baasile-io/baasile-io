@@ -1,4 +1,8 @@
 class Functionality < ApplicationRecord
+  # User rights
+  resourcify
+  after_create :assign_default_user_role
+
   FUNCTIONALITY_TYPES = {database: 1, proxy: 2}
   enum type: FUNCTIONALITY_TYPES
 
@@ -6,6 +10,7 @@ class Functionality < ApplicationRecord
   belongs_to :user
 
   belongs_to :proxy_parameter, optional: true, autosave: true
+  has_many :routes
 
   validates :type, presence: true
 

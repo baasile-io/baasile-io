@@ -1,0 +1,35 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <th><%= t('activerecord.attributes.route.name') %></th>
+        <td><%= @route.name %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.route.description') %></th>
+        <td><%= @route.description %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.route.protocol') %></th>
+        <td><%= @route.protocol %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.route.hostname') %></th>
+        <td><%= @route.hostname %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.route.port') %></th>
+        <td><%= @route.port %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.route.url') %></th>
+        <td><%= @route.url %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
