@@ -1,7 +1,13 @@
+sudo: required
+
 language: ruby
 
-rvm:
-  - 2.3.1
+services:
+  - docker
 
-addons:
-  postgresql: "9.6"
+before_install:
+  - docker-compose build
+  - docker-compose run baasile_io rspec
+
+script:
+  - rspec
