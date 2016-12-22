@@ -96,4 +96,11 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  config.before(:all) do
+    # for Apartment
+    # Ensure that each test starts with a clean connection
+    # Necessary as some tests will leak things like current_schema into the next test
+    ActiveRecord::Base.clear_all_connections!
+  end
 end
