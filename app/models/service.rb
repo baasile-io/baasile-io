@@ -22,6 +22,7 @@ class Service < ApplicationRecord
                             if: :confirmed_at?
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
+  scope :activated, -> { where.not(confirmed_at: nil) }
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
