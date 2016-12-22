@@ -23,6 +23,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    #scope "/(:api_version)" do
+    resources :services do
+      member do
+        get '/*url' => 'services#index'
+      end
+    end
+  end
+
   constraints Subdomain do
     namespace :back_office do
       get '/', to: 'dashboards#index'
@@ -40,11 +49,6 @@ Rails.application.routes.draw do
 
     namespace :api do
       #scope "/(:api_version)" do
-      resources :services do
-        member do
-          get '/*url' => 'services#index'
-        end
-      end
         resources :proxies do
           resources :routes do
             member do
