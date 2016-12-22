@@ -14,7 +14,7 @@ module Api
           }
         }
       end
-      render :json => services_restrict
+      render json: services_restrict
     end
 
   end
