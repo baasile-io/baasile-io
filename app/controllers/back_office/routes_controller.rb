@@ -8,7 +8,7 @@ module BackOffice
     end
 
     def index
-      @collection = Route.authorized(current_user)
+      @collection = current_functionality.routes.authorized(current_user)
     end
 
     def new
