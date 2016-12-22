@@ -2,7 +2,7 @@ module Api
   class ServicesController < FunctionalitiesController
 
     def index
-      services = Service.all
+      services = Service.activated
       services_restrict = services.map do |service|
         {
           id: service.id,

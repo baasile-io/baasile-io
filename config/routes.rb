@@ -25,11 +25,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     #scope "/(:api_version)" do
-    resources :services do
-      member do
-        get '/*url' => 'services#index'
-      end
-    end
+    resources :services, only: :index
   end
 
   constraints Subdomain do
