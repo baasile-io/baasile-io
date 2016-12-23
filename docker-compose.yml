@@ -42,7 +42,7 @@ services:
 
   sidekiq:
     build: '.'
-    command: 'bundle exec sidekiq -q default -q mailers'
+    command: 'bundle exec sidekiq -c 1 -q default -q mailers'
     volumes:
       - '.:/baasile_io'
     env_file:

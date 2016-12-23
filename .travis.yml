@@ -1,0 +1,13 @@
+sudo: required
+
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker-compose build
+  - docker-compose run baasile_io rspec
+
+script:
+  - rspec
