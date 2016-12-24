@@ -5,10 +5,12 @@ language: ruby
 services:
   - docker
 
-before_install:
-  - sudo /etc/init.d/postgresql stop
+install: true
+
+before_script:
   - cp .env.travis .env
+  - sudo /etc/init.d/postgresql stop
   - docker-compose build
 
 script:
-  - rspec
+  - docker-compose run baasile_io rspec
