@@ -15,7 +15,7 @@ before_script:
   - cp .env.travis .env
   - sudo /etc/init.d/postgresql stop
   - docker-compose build
-  - docker-compose run -e "RAILS_ENV=test" baasile_io "sleep 10 && rails db:setup"
+  - docker-compose run -e "RAILS_ENV=test" baasile_io rails db:setup
 
 # run tests
 script:

@@ -39,6 +39,8 @@ services:
       - 'baasile_io_network'
     depends_on:
       - 'redis'
+    links:
+      - "postgres:postgres"
 
   sidekiq:
     build: '.'
