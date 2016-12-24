@@ -27,7 +27,7 @@ services:
       - 'redis:/var/lib/redis/data'
 
   baasile_io:
-    build: .
+    build: '.'
     command: "bundle exec rails s -p 3042 -b '0.0.0.0'"
     volumes:
       - '.:/baasile_io'
@@ -39,8 +39,6 @@ services:
       - 'baasile_io_network'
     depends_on:
       - 'redis'
-    links:
-      - "postgres:postgres"
 
   sidekiq:
     build: '.'
