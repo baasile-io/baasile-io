@@ -5,12 +5,17 @@ language: ruby
 services:
   - docker
 
+# skip installation step (tests run into docker containers)
 install: true
 
+# prepare environment variables
+# stop postgres default travis service
+# build app
 before_script:
   - cp .env.travis .env
   - sudo /etc/init.d/postgresql stop
   - docker-compose build
 
+# run tests
 script:
   - docker-compose run baasile_io rspec
