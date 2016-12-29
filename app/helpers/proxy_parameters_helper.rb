@@ -4,4 +4,10 @@ module ProxyParametersHelper
       ["#{I18n.t("types.authentication_modes.#{key}")}", key]
     end
   end
+
+  def format_protocols_for_select
+    ProxyParameter::PROTOCOLS.map do |key, _|
+      ["#{I18n.t("types.protocols.#{key}")}", key]
+    end
+  end
 end

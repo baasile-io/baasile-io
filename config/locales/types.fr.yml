@@ -1,8 +1,8 @@
 fr:
   types:
     authentication_modes:
-      null: 'Authentification non requise'
+      'null': 'Authentification non requise'
       oauth2: 'OAuth2'
-    functionality_types:
-      database: 'Base de donnée'
-      proxy: 'Proxy'
+    protocols:
+      http: 'HTTP'
+      https: 'HTTPS'

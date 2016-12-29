@@ -1,5 +1,6 @@
 module Api
-  class RoutesController < FunctionalitiesController
+  class RoutesController < ApiController
+    before_action :authenticate_request!
     before_action :load_proxy_and_authorize
     before_action :load_route_and_authorize
 
@@ -101,15 +102,12 @@ module Api
 
     def load_proxy_and_authorize
       #render plain: "ok 1"
-      @proxy = Functionality.find_by_id(params[:proxy_id])
+      @proxy = Proxy.find_by_id(params[:proxy_id])
       if @proxy.nil?
         return head :not_found
       end
       if current_service.id != @proxy.service.id && !(current_service.has_role?(:get, @proxy) || current_service.has_role?(:get, @proxy.service))
         return head :forbidden
-      end
-      if @proxy.type != 'proxy'
-        return head :not_found
       end
     end
 
@@ -118,7 +116,7 @@ module Api
       if @route.nil?
         return head :not_found
       end
-      if current_service.id != @route.functionality.service.id && !(current_service.has_role?(:get, @route) || current_service.has_role?(:get, @route.functionality.service))
+      if current_service.id != @route.proxy.service.id && !(current_service.has_role?(:get, @route) || current_service.has_role?(:get, @route.proxy.service))
         return head :forbidden
       end
     end

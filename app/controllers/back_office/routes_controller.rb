@@ -1,14 +1,14 @@
 module BackOffice
   class RoutesController < BackOfficeController
-    before_action :authorize_functionality
+    before_action :authorize_proxy
     before_action :load_route, only: [:show, :edit, :update, :destroy]
 
-    def authorize_functionality
-      return head(:forbidden) unless current_functionality.authorized?(current_user)
+    def authorize_proxy
+      return head(:forbidden) unless current_proxy.authorized?(current_user)
     end
 
     def index
-      @collection = current_functionality.routes.authorized(current_user)
+      @collection = current_proxy.routes.authorized(current_user)
     end
 
     def new
@@ -18,12 +18,12 @@ module BackOffice
     def create
       @route = Route.new
       @route.user = current_user
-      @route.functionality = current_functionality
+      @route.proxy = current_proxy
       @route.assign_attributes(route_params)
 
       if @route.save
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.route'))
-        redirect_to back_office_functionality_route_path(@route.functionality, @route)
+        redirect_to back_office_proxy_route_path(@route.proxy, @route)
       else
         flash[:error] = @route.errors.messages
         render :new
@@ -37,7 +37,7 @@ module BackOffice
       @route.assign_attributes(route_params)
       if @route.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.route'))
-        redirect_to back_office_functionality_route_path(@route.functionality, @route)
+        redirect_to back_office_proxy_route_path(@route.proxy, @route)
       else
         flash[:error] = @route.errors.messages
         render :edit
@@ -54,13 +54,13 @@ module BackOffice
       params.require(:route).permit(:name, :description, :url, :protocol, :hostname, :port)
     end
 
-    def current_functionality
-      @current_functionality ||= Functionality.find_by_id(params[:functionality_id])
-    end
-
     def load_route
       @route = Route.find_by_id(params[:id])
       return redirect_to services_path if @route.nil?
+    end
+
+    def current_proxy
+      @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
     end
   end
 end

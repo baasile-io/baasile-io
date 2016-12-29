@@ -3,6 +3,6 @@ en:
     authentication_modes:
       'null': 'No authentication required'
       oauth2: 'OAuth2'
-    functionality_types:
-      database: 'Database'
-      proxy: 'Proxy'
+    protocols:
+      http: 'HTTP'
+      https: 'HTTPS'

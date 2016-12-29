@@ -8,6 +8,6 @@ class User < ApplicationRecord
   rolify role_join_table_name: 'public.users_roles'
 
   has_many :services
-  has_many :functionalities
+  has_many :proxies
   has_many :routes
 end

@@ -33,12 +33,7 @@ Rails.application.routes.draw do
       get '/', to: 'dashboards#index'
       resources :dashboards, except: [:index]
 
-      resources :functionalities do
-        member do
-          get :configure
-          post :save_configuration
-        end
-
+      resources :proxies do
         resources :routes
       end
     end

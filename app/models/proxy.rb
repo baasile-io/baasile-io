@@ -1,18 +1,15 @@
-class Functionality < ApplicationRecord
+class Proxy < ApplicationRecord
   # User rights
   resourcify
   after_create :assign_default_user_role
 
-  FUNCTIONALITY_TYPES = {database: 1, proxy: 2}
-  enum type: FUNCTIONALITY_TYPES
-
   belongs_to :service
   belongs_to :user
 
-  belongs_to :proxy_parameter, optional: true, autosave: true
+  belongs_to :proxy_parameter
   has_many :routes
 
-  validates :type, presence: true
+  accepts_nested_attributes_for :proxy_parameter
 
   validates :name, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
@@ -25,13 +22,5 @@ class Functionality < ApplicationRecord
 
   def assign_default_user_role
     self.user.add_role(:developer, self)
-  end
-
-  def type_humanize
-    I18n.t("types.functionality_types.#{self.type}")
-  end
-
-  def self.inheritance_column
-    nil
   end
 end

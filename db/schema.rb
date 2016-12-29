@@ -14,19 +14,18 @@ ActiveRecord::Schema.define(version: 20161220163217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "pg_trgm"
-  enable_extension "unaccent"
 
-  create_table "functionalities", force: :cascade do |t|
+  create_table "proxies", force: :cascade do |t|
     t.string   "name",               limit: 255
+    t.string   "alias",              limit: 25
     t.string   "description"
-    t.integer  "type"
     t.integer  "service_id"
     t.integer  "user_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "proxy_parameter_id"
+    t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
+    t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
   end
 
   create_table "proxy_parameters", force: :cascade do |t|
@@ -58,11 +57,11 @@ ActiveRecord::Schema.define(version: 20161220163217) do
     t.string   "hostname"
     t.string   "port"
     t.string   "url"
-    t.integer  "functionality_id"
+    t.integer  "proxy_id"
     t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["functionality_id"], name: "index_routes_on_functionality_id", using: :btree
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end
 

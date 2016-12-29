@@ -61,6 +61,8 @@ group :development, :test do
   # Tests
   gem 'rspec-rails', '~> 3.5'
   gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'capybara-screenshot'
   gem 'pry-rails'
   gem 'factory_girl_rails'
 end

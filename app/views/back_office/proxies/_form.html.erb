@@ -1,0 +1,24 @@
+
+<%= simple_form_for [:back_office, @proxy] do |f| %>
+
+  <%= f.input :name, required: true %>
+  <%= f.input :alias %>
+  <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
+
+  <%= f.simple_fields_for :proxy_parameter do |f2| %>
+
+    <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
+    <%= f2.input :protocol %>
+    <%= f2.input :hostname %>
+    <%= f2.input :port %>
+    <%= f2.input :authentication_url %>
+    <%= f2.input :client_id %>
+    <%= f2.input :client_secret %>
+
+  <% end %>
+
+  <div class="actions">
+    <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+  </div>
+
+<% end %>

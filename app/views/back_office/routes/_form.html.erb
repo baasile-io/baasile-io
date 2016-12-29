@@ -1,10 +1,11 @@
-<%= simple_form_for [:back_office, current_functionality, @route] do |f| %>
+<%= simple_form_for [:back_office, current_proxy, @route] do |f| %>
 
   <%= f.input :name %>
   <%= f.input :description %>
-  <%= f.input :protocol %>
-  <%= f.input :hostname %>
-  <%= f.input :port %>
+
+  <%= f.input :protocol, as: :select, collection: format_protocols_for_select, include_blank: t('.default_protocol', protocol: t("types.protocols.#{current_proxy.proxy_parameter.protocol}")) %>
+  <%= f.input :hostname, placeholder: current_proxy.proxy_parameter.hostname %>
+  <%= f.input :port, placeholder: current_proxy.proxy_parameter.port.to_s %>
   <%= f.input :url %>
 
   <div class="actions">

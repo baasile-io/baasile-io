@@ -1,0 +1,17 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <%= @proxy.name %><br />
+    <%= @proxy.description %><br />
+
+    <%= link_to t('actions.edit'), edit_back_office_proxy_path(@proxy), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.routes'), back_office_proxy_routes_path(@proxy), class: 'btn btn-secondary' %>
+
+    <% unless @proxy.proxy_parameter.nil? %>
+      <%= render partial: 'proxy_parameters', locals: {proxy_parameter: @proxy.proxy_parameter} %>
+    <% end %>
+
+  </div>
+</div>

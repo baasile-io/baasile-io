@@ -1,5 +1,5 @@
 module Api
-  class ServicesController < FunctionalitiesController
+  class ServicesController < ApiController
 
     def index
       services = Service.activated

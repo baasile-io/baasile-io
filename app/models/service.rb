@@ -4,7 +4,8 @@ class Service < ApplicationRecord
   after_create :assign_default_user_role
 
   belongs_to :user
-  has_many :functionalities
+  has_many :proxies
+  has_many :routes, through: :proxies
 
   validates :name, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true

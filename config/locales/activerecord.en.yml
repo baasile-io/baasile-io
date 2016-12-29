@@ -1,9 +1,9 @@
 en:
   activerecord:
     attributes:
-      functionality:
+      proxy:
+        alias: 'Alias'
         description: 'Description'
-        functionality_type: 'Type'
         name: 'Name'
         service: 'Service'
         service_id: 'Service'
@@ -15,6 +15,17 @@ en:
         hostname: 'Hostname'
         port: 'Port'
         protocol: 'Protocol'
+      route:
+        description: 'Description'
+        name: 'Name'
+        hostname: 'Hostname'
+        port: 'Port'
+        protocol: 'Protocol'
+        proxy: 'Proxy'
+        proxy_id: 'Proxy'
+        url: 'URL'
+        user: 'Creator'
+        user_id: 'Creator'
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
@@ -25,8 +36,9 @@ en:
         user_id: 'Creator'
         website: 'Website'
     models:
-      functionality: 'Functionality'
+      proxy: 'Proxy'
       proxy_parameter: 'Proxy parameters'
+      route: 'Route'
       service: 'Service'
     validations:
       service:

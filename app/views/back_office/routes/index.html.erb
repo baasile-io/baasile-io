@@ -16,14 +16,14 @@
         <tr>
           <td><%= route.name %></td>
           <td class="text-xs-right">
-            <%= link_to t('actions.show'), back_office_functionality_route_path(route.functionality, route), class: 'btn btn-secondary' %>
-            <%= link_to t('actions.edit'), edit_back_office_functionality_route_path(route.functionality, route), class: 'btn btn-secondary' %>
+            <%= link_to t('actions.show'), back_office_proxy_route_path(route.proxy, route), class: 'btn btn-secondary' %>
+            <%= link_to t('actions.edit'), edit_back_office_proxy_route_path(route.proxy, route), class: 'btn btn-secondary' %>
           </td>
         </tr>
       <% end %>
       </tbody>
     </table>
-    <%= link_to t('actions.new'), new_back_office_functionality_route_path, class: 'btn btn-secondary' %><br />
+    <%= link_to t('actions.new'), new_back_office_proxy_route_path, class: 'btn btn-secondary' %><br />
 
   </div>
 </div>

@@ -12,6 +12,6 @@ class CreateProxyParameters < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_column :functionalities, :proxy_parameter_id, :integer, null: true
+    add_column      :proxies, :proxy_parameter_id, :integer, null: true
   end
 end

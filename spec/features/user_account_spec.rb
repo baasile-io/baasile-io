@@ -1,6 +1,6 @@
 require 'features_helper'
 
-describe "the signin process" do
+describe "the signin process", :type => :feature do
 
   describe "confirmed user" do
     before :each do
@@ -28,7 +28,7 @@ describe "the signin process" do
     it "does not sign me in" do
       visit '/users/sign_in'
 
-      fill_in 'Email', with: @unconfirmed_user.email
+      fill_in 'user_email', with: @unconfirmed_user.email
       fill_in 'Password', with: @unconfirmed_user.password
 
       click_button 'Sign in'

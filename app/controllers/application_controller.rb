@@ -2,13 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_service
-  helper_method :current_functionality
+  helper_method :current_proxy
 
   def current_service
     nil
   end
 
-  def current_functionality
+  def current_proxy
     nil
   end
 end
