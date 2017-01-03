@@ -51,7 +51,7 @@ module BackOffice
     end
 
     def route_params
-      params.require(:route).permit(:name, :description, :url, :protocol, :hostname, :port)
+      params.require(:route).permit(:name, :description, :url, :protocol, :hostname, :port, allowed_methods: [])
     end
 
     def load_route

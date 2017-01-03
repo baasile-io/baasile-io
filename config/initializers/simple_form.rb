@@ -91,10 +91,10 @@ SimpleForm.setup do |config|
 
   # You can wrap each item in a collection of radio/check boxes with a tag,
   # defaulting to :span.
-  # config.item_wrapper_tag = :span
+  config.item_wrapper_tag = :div
 
   # You can define a class to use in all item wrappers. Defaulting to none.
-  # config.item_wrapper_class = nil
+  config.item_wrapper_class = 'form-check'
 
   # How the label text should be generated altogether with the required text.
   # config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
@@ -154,11 +154,11 @@ SimpleForm.setup do |config|
   # config.input_class = nil
 
   # Define the default class of the input wrapper of the boolean input.
-  config.boolean_label_class = 'checkbox'
+  config.boolean_label_class = 'form-check-label'
 
   # Defines if the default input wrapper class should be included in radio
   # collection wrappers.
-  # config.include_default_input_wrapper_class = true
+  config.include_default_input_wrapper_class = true
 
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
@@ -178,4 +178,20 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
     b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
+
+  config.wrappers :vertical_radio_and_checkboxes, tag: 'fieldset', class: 'form-group', error_class: 'has-danger' do |b|
+    b.use :html5
+    b.optional :readonly
+    b.use :label, class: 'form-control-label'
+
+    b.use :input
+
+    b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+    b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+  end
+
+  config.wrapper_mappings = {
+    check_boxes: :vertical_radio_and_checkboxes,
+    radio_buttons: :vertical_radio_and_checkboxes
+  }
 end
