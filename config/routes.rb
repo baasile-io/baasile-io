@@ -42,16 +42,19 @@ Rails.application.routes.draw do
     end
 
     namespace :api do
-      #scope "/(:api_version)" do
+      namespace :v1 do
         resources :proxies do
-          resources :routes do
+          resources :routes, only: [:index] do
             member do
-              get '/*url' => 'proxies#show'
+              match 'request' => 'routes#process_request', as: 'standard_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
+              match 'request/*follow_url' => 'routes#process_request', as: 'special_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
             end
           end
         end
-      #end
+      end
     end
+
+    match '/services' => redirect("#{ENV['BAASILE_IO_HOSTNAME']}/%{a}"), via: :all
   end
 
   namespace :api do
