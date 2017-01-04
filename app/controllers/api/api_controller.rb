@@ -1,5 +1,7 @@
 module Api
   class ApiController < ActionController::Base
+    helper_method :current_service
+
     protected
     def authenticate_request!
       unless service_id_in_token?
