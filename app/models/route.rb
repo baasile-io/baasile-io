@@ -7,6 +7,7 @@ class Route < ApplicationRecord
   belongs_to :proxy
   has_one :service, through: :proxy
   belongs_to :user
+  has_many :query_parameters
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
 

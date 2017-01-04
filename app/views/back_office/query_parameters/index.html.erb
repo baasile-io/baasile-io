@@ -1,0 +1,29 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.route.name') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |query_param| %>
+          <tr>
+            <td><%= query_param.name %></td>
+            <td class="text-xs-right">
+              <%= link_to t('actions.show'), back_office_proxy_route_query_parameter_path(query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.edit'), edit_back_office_proxy_route_query_parameter_path(query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= link_to t('actions.new'), new_back_office_proxy_route_query_parameter_path, class: 'btn btn-secondary' %><br />
+
+  </div>
+</div>

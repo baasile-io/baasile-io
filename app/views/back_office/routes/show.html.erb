@@ -32,6 +32,7 @@
     </table>
 
     <%= link_to t('actions.edit'), edit_back_office_proxy_route_path(@route.proxy, @route), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.query_parameter'), back_office_proxy_route_query_parameters_path(@route.proxy, @route), class: 'btn btn-secondary' %>
   </div>
 </div>
 
