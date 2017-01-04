@@ -10,6 +10,8 @@ class ProxyParameter < ApplicationRecord
 
   has_many :proxies
 
+  validates :follow_url, presence: true, inclusion: { in: [0, 1] }
+  validates :follow_redirection, presence: true, numericality: {greater_than_or_equal: 0, less_than: 21}
   validates :authentication_mode, presence: true
   validates :protocol, presence: true
   validates :hostname, presence: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104153743) do
+ActiveRecord::Schema.define(version: 20170104174316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,12 @@ ActiveRecord::Schema.define(version: 20170104153743) do
     t.integer  "authentication_mode"
     t.string   "client_id"
     t.string   "client_secret"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "realm"
     t.string   "grant_type"
+    t.boolean  "follow_url",          default: false
+    t.integer  "follow_redirection",  default: 10
   end
 
   create_table "roles", force: :cascade do |t|
