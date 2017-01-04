@@ -15,9 +15,13 @@ en:
       proxy_parameter:
         authentication_mode: 'Authentication mode'
         authentication_url: 'Authenticiation URL'
+        client_id: 'CLIENT ID'
+        client_secret: 'CLIENT SECRET'
+        grant_type: 'Grant type'
         hostname: 'Hostname'
         port: 'Port'
         protocol: 'Protocol'
+        realm: 'realm'
       route:
         description: 'Description'
         name: 'Name'

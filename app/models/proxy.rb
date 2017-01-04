@@ -23,4 +23,8 @@ class Proxy < ApplicationRecord
   def assign_default_user_role
     self.user.add_role(:developer, self)
   end
+
+  def authentication_uri
+    "#{proxy_parameter.protocol}://#{proxy_parameter.hostname}:#{proxy_parameter.port}#{proxy_parameter.authentication_url}"
+  end
 end
