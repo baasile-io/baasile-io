@@ -7,19 +7,6 @@ class Subdomain
 end
 
 Rails.application.routes.draw do
-  get 'query_parameters/new'
-
-  get 'query_parameters/create'
-
-  get 'query_parameters/update'
-
-  get 'query_parameters/edit'
-
-  get 'query_parameters/destroy'
-
-  get 'query_parameters/index'
-
-  get 'query_parameters/show'
 
   devise_for :users
 
