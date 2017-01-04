@@ -22,4 +22,8 @@ class ProxyParameter < ApplicationRecord
     return false if self.authentication_mode.nil?
     AUTHENTICATION_MODES[self.authentication_mode.to_sym][:authentication_required]
   end
+
+  def redis_token
+    "proxy_access_token_#{authentication_mode}_#{id}"
+  end
 end

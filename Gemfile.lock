@@ -176,6 +176,8 @@ GEM
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     redis (3.3.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rolify (5.1.0)
@@ -272,6 +274,8 @@ DEPENDENCIES
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-assets-tether (>= 1.1.0)!
+  redis
+  redis-namespace
   rolify (~> 5.1.0)
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
