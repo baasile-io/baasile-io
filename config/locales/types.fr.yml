@@ -2,7 +2,7 @@ fr:
   types:
     authentication_modes:
       'null': 'Authentification non requise'
-      oauth2: 'OAuth2'
+      oauth2: 'OAuth 2.0 client credentials'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
