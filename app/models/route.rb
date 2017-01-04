@@ -31,4 +31,8 @@ class Route < ApplicationRecord
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self.proxy)
   end
+
+  def uri
+    "#{protocol || proxy.proxy_parameter.protocol}://#{hostname}:#{port}#{url}"
+  end
 end

@@ -26,6 +26,11 @@ module RedisStoreConcern
     redis.expire(hash, time)
   end
 
+  # Destroy an item
+  def cache_del(hash)
+    redis.del(hash)
+  end
+
   private
 
   def redis

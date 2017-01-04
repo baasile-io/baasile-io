@@ -9,41 +9,44 @@ module Api
     include ProxifyConcern
 
     def show
-      ret = proxy_authenticate @proxy.proxy_parameter if @proxy.proxy_parameter.authentication_mode != 'null'
-      if ret == 'error'
-        return render plain: @proxy_access_token
-      end
-
-      uri_str = "#{@route.protocol || @proxy.proxy_parameter.protocol}://#{@route.hostname}:#{@route.port}#{@route.url}?#{URI.encode_www_form(request.query_parameters)}"
-
-      res = proxy_request uri_str
-
-      case res
-        when Net::HTTPSuccess     then render plain: res.body
-        else
-          render plain: res
+      begin
+        res = proxy_process
+        case res
+          when Net::HTTPSuccess     then render plain: res.body
+          else
+            render plain: res
+        end
+      rescue ProxyAuthenticationError
+        render plain: 'ProxyAuthenticationError'
+      rescue ProxyInitializationError
+        render plain: 'ProxyInitializationError'
       end
     end
 
     def load_proxy_and_authorize
-      #render plain: "ok 1"
-      @proxy = Proxy.find_by_id(params[:proxy_id])
-      if @proxy.nil?
+      if current_proxy.nil?
         return head :not_found
       end
-      if current_service.id != @proxy.service.id && !(current_service.has_role?(:get, @proxy) || current_service.has_role?(:get, @proxy.service))
+      if current_service.id != current_proxy.service.id && !(current_service.has_role?(:get, current_proxy) || current_service.has_role?(:get, current_proxy.service))
         return head :forbidden
       end
     end
 
     def load_route_and_authorize
-      @route = @proxy.routes.find_by_id(params[:id])
-      if @route.nil?
+      if current_route.nil?
         return head :not_found
       end
-      if current_service.id != @route.proxy.service.id && !(current_service.has_role?(:get, @route) || current_service.has_role?(:get, @route.proxy.service))
+      if current_service.id != current_route.proxy.service.id && !(current_service.has_role?(:get, current_route) || current_service.has_role?(:get, current_route.proxy.service))
         return head :forbidden
       end
+    end
+
+    def current_proxy
+      @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
+    end
+
+    def current_route
+      @current_route ||= current_proxy.routes.find_by_id(params[:id])
     end
   end
 end
