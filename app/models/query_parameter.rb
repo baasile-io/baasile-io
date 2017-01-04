@@ -1,7 +1,9 @@
 class QueryParameter < ApplicationRecord
-  belongs_to :route
 
-  ATTRIBUTE_MODE = ['NEEDED', 'OPTIONAL', 'FORBIDEN']
+  MODES = {mandatory: 1, optional: 2, forbidden: 3}
+  enum mode: MODES
+
+  belongs_to :route
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
 

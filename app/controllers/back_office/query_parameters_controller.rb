@@ -14,7 +14,7 @@ module BackOffice
 
     def create
       @query_parameter = QueryParameter.new
-      @query_parameter.user = current_user
+      #@query_parameter.user = current_user
       @query_parameter.route = current_route
       @query_parameter.assign_attributes(query_parameter_params)
 
@@ -54,6 +54,7 @@ module BackOffice
     def query_parameter_params
       params.require(:query_parameter).permit(:name, :mode)
     end
+
 
     def load_query_parameter
       @query_parameter = QueryParameter.find_by_id(params[:id])

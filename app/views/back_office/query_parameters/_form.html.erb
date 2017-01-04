@@ -1,7 +1,7 @@
 <%= simple_form_for [:back_office, current_proxy, current_route, @query_parameter] do |f| %>
 
   <%= f.input :name %>
-    <%= f.input :mode, as: :radio_buttons, collection: QueryParameter::ATTRIBUTE_MODE %>
+    <%= f.input :mode, as: :radio_buttons , enum: QueryParameter::MODES %>
 
   <div class="actions">
     <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>

@@ -42,13 +42,11 @@ ActiveRecord::Schema.define(version: 20170104120710) do
 
   create_table "query_parameters", force: :cascade do |t|
     t.string   "name"
-    t.string   "mode"
+    t.integer  "mode"
     t.integer  "route_id"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
-    t.index ["user_id"], name: "index_query_parameters_on_user_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
