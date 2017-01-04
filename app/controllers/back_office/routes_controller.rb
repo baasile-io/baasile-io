@@ -62,5 +62,9 @@ module BackOffice
     def current_proxy
       @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
     end
+
+    def current_route
+      @route
+    end
   end
 end

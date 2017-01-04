@@ -3,12 +3,17 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_service
   helper_method :current_proxy
+  helper_method :current_route
 
   def current_service
     nil
   end
 
   def current_proxy
+    nil
+  end
+
+  def current_route
     nil
   end
 end

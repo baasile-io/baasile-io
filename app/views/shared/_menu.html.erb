@@ -5,6 +5,16 @@
 <% else %>
   <% if current_service.nil? %>
   <% else %>
+    <% if current_route.nil? %>
+    <% else %>
+      <div class="b-io-menu--secondary b-io-menu--secondary">
+        <h4><%= current_route.name %></h4>
+        <nav class="nav nav-pills nav-stacked">
+          <a class="nav-link" href="<%= back_office_proxy_route_path(current_proxy, current_route) %>">Tableau de bord</a>
+          <a class="nav-link" href="<%= edit_back_office_proxy_route_path(current_proxy, current_route) %>">Modifier</a>
+        </nav>
+      </div>
+    <% end %>
     <% if current_proxy.nil? %>
     <% else %>
       <div class="b-io-menu--secondary b-io-menu--secondary">
