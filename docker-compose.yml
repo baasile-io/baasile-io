@@ -29,6 +29,10 @@ services:
   selenium:
     image: selenium/standalone-firefox
     container_name: selenium
+    ports:
+      - '4444:4444'
+    networks:
+      - 'baasile_io_network'
 
   baasile_io:
     build: '.'

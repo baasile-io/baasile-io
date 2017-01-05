@@ -13,7 +13,10 @@ describe "the signin process", type: :feature do
       fill_in 'Email', with: @user.email
       fill_in 'Password', with: @user.password
 
-      click_button 'Sign in'
+      within ".actions" do
+        click_button 'Sign in'
+      end
+
       expect(page).to have_content 'Sign out'
     end
   end
