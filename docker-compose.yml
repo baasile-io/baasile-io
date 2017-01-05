@@ -26,6 +26,10 @@ services:
     volumes:
       - 'redis:/var/lib/redis/data'
 
+  selenium:
+    image: selenium/standalone-firefox
+    container_name: selenium
+
   baasile_io:
     build: '.'
     command: ["./scripts/wait_for_postgres.sh", "postgres", "--", "bundle", "exec", "rails", "s", "-p", "3042", "-b", "0.0.0.0"]
@@ -39,6 +43,7 @@ services:
       - 'baasile_io_network'
     depends_on:
       - 'redis'
+      - 'selenium'
 
   sidekiq:
     build: '.'
