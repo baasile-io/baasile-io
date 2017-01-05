@@ -27,4 +27,8 @@ class Proxy < ApplicationRecord
   def authentication_uri
     "#{proxy_parameter.protocol}://#{proxy_parameter.hostname}:#{proxy_parameter.port}#{proxy_parameter.authentication_url}"
   end
+
+  def cache_token
+    "proxy_cache_token_#{proxy_parameter.authentication_mode}_#{id}"
+  end
 end

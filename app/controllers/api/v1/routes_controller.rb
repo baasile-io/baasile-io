@@ -11,12 +11,8 @@ module Api
 
       def process_request
         begin
-          res = proxy_process
-          case res
-            when Net::HTTPSuccess     then render plain: res.body
-            else
-              render plain: res
-          end
+          res = proxy_request
+          render status: res.code, plain: res.body
         rescue ProxyInitializationError
           render plain: 'ProxyInitializationError'
         rescue ProxyAuthenticationError
