@@ -24,6 +24,9 @@ end
 RSpec.configure do |config|
   config.include Capybara::DSL
 
+  config.use_transactional_examples = false
+  config.use_transactional_fixtures = false
+
   config.before :each do
     if /selenium_remote/.match Capybara.current_driver.to_s
       ip = `/sbin/ip route|awk '/scope/ { print $9 }'`
