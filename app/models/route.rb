@@ -17,6 +17,7 @@ class Route < ApplicationRecord
   def validate_methods
     if !allowed_methods.is_a?(Array)
       errors.add(:allowed_methods, :invalid)
+      return
     end
 
     # rails adds an empty value to allow to uncheck all values
