@@ -21,4 +21,4 @@ before_script:
 
 # run tests
 script:
-  - docker-compose run -e "RAILS_ENV=test" baasile_io xvfb-run rspec
+  - docker-compose run -e "RAILS_ENV=test" baasile_io rspec
