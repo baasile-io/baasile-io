@@ -1,25 +1,72 @@
+<%=
+  tab_active = nil
+  tab_attributes = {
+    proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection'],
+    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret']
+  }
+  tab_errors = {
+    proxy_main: 0,
+    proxy_authentication: 0
+  }
+
+  puts @proxy.errors.messages
+  if @proxy.errors.messages.length > 0
+    tab_attributes.each_pair do |k, v|
+      v.each do |v2|
+        if @proxy.errors.messages.include? v2
+          puts v2
+          tab_active = k if tab_active == nil
+          tab_errors[k] = 1
+        end
+      end
+    end
+  end
+  tab_active = :proxy_main if tab_active.nil?
+
+  puts tab_active
+
+%>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :proxy_main %> <%= 'has-danger' if tab_errors[:proxy_main] == 1 %>" data-toggle="tab" href="#proxy_main" role="tab">Général</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :proxy_authentication %> <%= 'has-danger' if tab_errors[:proxy_authentication] == 1 %>" data-toggle="tab" href="#proxy_authentication" role="tab">Authentification</a>
+  </li>
+</ul>
 
 <%= simple_form_for [:back_office, @proxy] do |f| %>
 
-  <%= f.input :name, required: true %>
-  <%= f.input :alias %>
-  <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
+  <div class="tab-content">
 
-  <%= f.simple_fields_for :proxy_parameter do |f2| %>
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_main %>" id="proxy_main">
+      <%= f.input :name, required: true %>
+      <%= f.input :alias %>
+      <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
 
-    <%= f2.input :follow_url, as: :radio_buttons %>
-    <%= f2.input :follow_redirection %>
-    <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
-    <%= f2.input :protocol %>
-    <%= f2.input :hostname %>
-    <%= f2.input :port %>
-    <%= f2.input :authentication_url %>
-    <%= f2.input :realm %>
-    <%= f2.input :grant_type %>
-    <%= f2.input :client_id %>
-    <%= f2.input :client_secret %>
+      <%= f.simple_fields_for :proxy_parameter do |f2| %>
+        <%= f2.input :follow_url, as: :radio_buttons %>
+        <%= f2.input :follow_redirection %>
+      <% end %>
+    </div>
 
-  <% end %>
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authentication %>" id="proxy_authentication">
+      <%= f.simple_fields_for :proxy_parameter do |f2| %>
+        <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
+        <%= f2.input :protocol %>
+        <%= f2.input :hostname %>
+        <%= f2.input :port %>
+        <%= f2.input :authentication_url %>
+        <%= f2.input :realm %>
+        <%= f2.input :grant_type %>
+        <%= f2.input :client_id %>
+        <%= f2.input :client_secret %>
+      <% end %>
+    </div>
+
+  </div>
 
   <div class="actions">
     <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>

@@ -8,3 +8,16 @@
     > label
       > input
         margin-right: 5px
+
+.nav
+  &.nav-tabs
+    margin-bottom: 15px
+    >.nav-item
+      >.nav-link
+        &.has-danger
+          color: $alert-danger-text
+          font-weight: bold
+
+          &.active
+            border-color: $btn-danger-border
+            border-bottom-color: #FFFFFF

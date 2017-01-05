@@ -1,7 +1,6 @@
 
 .b-io-header
   position: relative
-  height: 150px
   padding-top: 70px
 
   .bg-inverse
@@ -11,23 +10,29 @@
 
 
 .b-io-main-container
+  position: relative
+
   .b-io-menu
     position: relative
-
-    @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
-      float: left
-      width: 280px
-
 
     .b-io-menu--secondary
       @include alpha-background-color(rgba($color-blue, .4), $color-blue)
       position: relative
-      margin: 0 15px 0 0
+      margin: 0
       padding: 10px
-      border-radius: 5px
 
       &.b-io-menu--tertiary
         @include alpha-background-color(rgba($color-blue-dark, .4), $color-blue)
+
+    @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
+      position: absolute
+      left: 0
+      top: 0
+      width: 280px
+
+      .b-io-menu--secondary
+        border-radius: 5px
+        margin-right: 15px
 
   .b-io-content
     position: relative
@@ -41,10 +46,6 @@
     .b-io-content--header
       position: relative
       display: block
-
-      >.container
-        &::after
-          display: none
 
       h2
         padding: 20px 0 10px 0
