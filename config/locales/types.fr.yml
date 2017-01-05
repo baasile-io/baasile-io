@@ -6,3 +6,7 @@ fr:
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
+    modes:
+      mandatory: 'obligatoire'
+      optional: 'optionel'
+      forbidden: 'interdit'
