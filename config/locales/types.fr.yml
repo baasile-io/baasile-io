@@ -3,9 +3,9 @@ fr:
     authentication_modes:
       'null': 'Authentification non requise'
       oauth2: 'OAuth2'
-    modes:
+    query_parameter_modes:
       mandatory: 'obligatoire'
-      optional: 'optionel'
+      optional: 'optionnel'
       forbidden: 'interdit'
     protocols:
       http: 'HTTP'

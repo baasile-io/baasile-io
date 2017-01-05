@@ -3,7 +3,7 @@ en:
     authentication_modes:
       'null': 'No authentication required'
       oauth2: 'OAuth2'
-    modes:
+    query_parameter_modes:
       mandatory: 'mandatory'
       optional: 'optional'
       forbidden: 'forbidden'

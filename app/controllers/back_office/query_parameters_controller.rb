@@ -9,12 +9,12 @@ module BackOffice
     end
 
     def new
-      @query_parameter = QueryParameter.new
+      @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
     end
 
     def create
       @query_parameter = QueryParameter.new
-      #@query_parameter.user = current_user
+      @query_parameter.user = current_user
       @query_parameter.route = current_route
       @query_parameter.assign_attributes(query_parameter_params)
 
@@ -45,7 +45,7 @@ module BackOffice
     end
 
     def index
-      @query_parameter = QueryParameter.new
+      @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
       @collection = current_route.query_parameters
     end
 

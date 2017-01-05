@@ -1,7 +1,7 @@
 FactoryGirl.define do
-  factory :query_parameters do
+  factory :query_parameter do
     name "MyString"
     mode 1
-    Route nil
+    association :route
   end
 end
