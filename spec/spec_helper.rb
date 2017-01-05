@@ -103,4 +103,19 @@ RSpec.configure do |config|
     # Necessary as some tests will leak things like current_schema into the next test
     ActiveRecord::Base.clear_all_connections!
   end
+
+  config.before :suite do
+    # Clean all tables to start
+    DatabaseCleaner.clean_with :truncation #, {except: %w[appconfigs]}
+    # Use transactions for tests
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before :each do
+    DatabaseCleaner.start
+  end
+
+  config.after :suite do
+    DatabaseCleaner.clean
+  end
 end
