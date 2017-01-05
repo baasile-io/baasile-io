@@ -28,7 +28,7 @@ services:
 
   baasile_io:
     build: '.'
-    command: "bundle exec rails s -p 3042 -b '0.0.0.0'"
+    command: ["./scripts/wait_for_postgres.sh", "postgres", "--", "bundle", "exec", "rails", "s", "-p", "3042", "-b", "0.0.0.0"]
     volumes:
       - '.:/baasile_io'
     env_file:
