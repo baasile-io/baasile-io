@@ -6,16 +6,30 @@ RSpec.describe Proxy, type: :model do
   end
 
   describe "attributes" do
-    it "requires a name" do
-      @proxy.name = nil
-      expect(@proxy.valid?).to be_falsey
-      expect(@proxy.errors.messages[:name]).to_not be_empty
+    describe "name" do
+      it "is required" do
+        @proxy.name = nil
+        expect(@proxy.valid?).to be_falsey
+        expect(@proxy.errors.messages[:name]).to_not be_empty
+      end
     end
 
-    it "requires a description" do
-      @proxy.description = nil
-      expect(@proxy.valid?).to be_falsey
-      expect(@proxy.errors.messages[:description]).to_not be_empty
+    describe "description" do
+      it "is required" do
+        @proxy.description = nil
+        expect(@proxy.valid?).to be_falsey
+        expect(@proxy.errors.messages[:description]).to_not be_empty
+      end
+    end
+
+    describe "cache_token" do
+      it "returns a string" do
+        @proxy.proxy_parameter.authentication_mode = :null
+        expect(@proxy.cache_token).to eq "proxy_cache_token_null_#{@proxy.id}"
+
+        @proxy.proxy_parameter.authentication_mode = :oauth2
+        expect(@proxy.cache_token).to eq "proxy_cache_token_oauth2_#{@proxy.id}"
+      end
     end
   end
 end
