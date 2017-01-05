@@ -3,10 +3,10 @@ fr:
     authentication_modes:
       'null': 'Authentification non requise'
       oauth2: 'OAuth2'
-    protocols:
-      http: 'HTTP'
-      https: 'HTTPS'
     modes:
       mandatory: 'obligatoire'
       optional: 'optionel'
       forbidden: 'interdit'
+    protocols:
+      http: 'HTTP'
+      https: 'HTTPS'
