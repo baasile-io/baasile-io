@@ -3,6 +3,10 @@ fr:
     authentication_modes:
       'null': 'Authentification non requise'
       oauth2: 'OAuth2'
+    query_parameter_modes:
+      mandatory: 'obligatoire'
+      optional: 'optionnel'
+      forbidden: 'interdit'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'

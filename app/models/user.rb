@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_many :services
   has_many :proxies
   has_many :routes
+  has_many :query_parameters
 end

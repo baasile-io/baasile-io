@@ -1,6 +1,9 @@
 fr:
   activerecord:
     attributes:
+      query_parameter:
+        name: 'Nom'
+        mode: 'Mode'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -36,6 +39,7 @@ fr:
         user_id: 'Créateur'
         website: 'Site Internet'
     models:
+      query_parameter: 'Paramètres de la requête'
       proxy: 'Proxy'
       proxy_parameter: 'Paramètres du proxy'
       route: 'Route'

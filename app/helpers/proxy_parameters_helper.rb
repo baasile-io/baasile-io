@@ -10,4 +10,5 @@ module ProxyParametersHelper
       ["#{I18n.t("types.protocols.#{key}")}", key]
     end
   end
+
 end

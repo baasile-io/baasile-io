@@ -7,6 +7,7 @@ class Subdomain
 end
 
 Rails.application.routes.draw do
+
   devise_for :users
 
   # Background jobs
@@ -34,7 +35,9 @@ Rails.application.routes.draw do
       resources :dashboards, except: [:index]
 
       resources :proxies do
-        resources :routes
+        resources :routes do
+          resources :query_parameters
+        end
       end
     end
 
