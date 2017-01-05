@@ -8,5 +8,6 @@ class CreateQueryParameters < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+    add_index :query_parameters, :name,                unique: true
   end
 end

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170104120710) do
     t.integer  "route_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_query_parameters_on_name", unique: true, using: :btree
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
   end
 

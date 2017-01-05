@@ -20,7 +20,7 @@ module BackOffice
 
       if @query_parameter.save
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.query_parameter'))
-        redirect_to back_office_proxy_route_query_parameter_path(@query_parameter.route.proxy, @query_parameter.route, @query_parameter)
+        redirect_to back_office_proxy_route_query_parameters_path(@query_parameter.route.proxy, @query_parameter.route)
       else
         flash[:error] = @query_parameter.errors.messages
         render :new
@@ -31,7 +31,7 @@ module BackOffice
       @query_parameter.assign_attributes(query_parameter_params)
       if @query_parameter.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.query_parameter'))
-        redirect_to back_office_proxy_route_query_parameter_path(@query_parameter.route.proxy, @query_parameter.route, @query_parameter)
+        redirect_to back_office_proxy_route_query_parameters_path(@query_parameter.route.proxy, @query_parameter.route)
       else
         flash[:error] = @query_parameter.errors.messages
         render :edit
@@ -45,6 +45,7 @@ module BackOffice
     end
 
     def index
+      @query_parameter = QueryParameter.new
       @collection = current_route.query_parameters
     end
 
