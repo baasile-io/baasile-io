@@ -1,6 +1,6 @@
 require 'features_helper'
 
-describe "the signin process", :type => :feature do
+describe "the signin process", type: :feature, js: true do
 
   describe "confirmed user" do
     before :each do
@@ -31,7 +31,10 @@ describe "the signin process", :type => :feature do
       fill_in 'user_email', with: @unconfirmed_user.email
       fill_in 'Password', with: @unconfirmed_user.password
 
-      click_button 'Sign in'
+      within ".actions" do
+        click_button 'Sign in'
+      end
+
       expect(page).to have_content I18n.t('devise.failure.unconfirmed')
     end
   end
