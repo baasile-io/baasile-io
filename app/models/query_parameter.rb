@@ -5,7 +5,7 @@ class QueryParameter < ApplicationRecord
 
   belongs_to :route
 
-  validates :name, presence: true
+  validates :name, uniqueness: true, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
 
