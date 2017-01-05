@@ -1,6 +1,6 @@
 require 'features_helper'
 
-describe "the signin process", type: :feature, js: true do
+describe "the signin process", type: :feature do
 
   describe "confirmed user" do
     before :each do
@@ -8,15 +8,13 @@ describe "the signin process", type: :feature, js: true do
     end
 
     it "sign me in" do
-      pending
       visit '/users/sign_in'
 
       fill_in 'Email', with: @user.email
       fill_in 'Password', with: @user.password
 
       click_button 'Sign in'
-      expect(page).to have_content I18n.t('hello')
-      expect(page.current_path).to eq '/'
+      expect(page).to have_content 'Sign out'
     end
   end
 
