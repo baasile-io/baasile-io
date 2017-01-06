@@ -70,9 +70,6 @@ group :development, :test do
   gem 'capybara-screenshot'
   gem 'pry-rails'
   gem 'factory_girl_rails'
-end
-
-group :test do
   gem 'database_cleaner'
 end
 
