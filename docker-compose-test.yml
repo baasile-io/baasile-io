@@ -26,31 +26,28 @@ services:
     volumes:
       - 'redis:/var/lib/redis/data'
 
+  selenium:
+    image: 'selenium/standalone-firefox'
+    ports:
+      - '4444:4444'
+    networks:
+      - 'baasile_io_network'
+    depends_on:
+      - 'redis'
+
   baasile_io:
     build: '.'
     command: ["./scripts/wait_for_postgres.sh", "postgres", "--", "bundle", "exec", "rails", "s", "-p", "3042", "-b", "0.0.0.0"]
     volumes:
       - '.:/baasile_io'
     env_file:
-      - '.env'
+      - '.env.test'
     ports:
       - '3042:3042'
     networks:
       - 'baasile_io_network'
     depends_on:
-      - 'redis'
-
-  sidekiq:
-    build: '.'
-    command: 'bundle exec sidekiq -c 1 -q default -q mailers'
-    volumes:
-      - '.:/baasile_io'
-    env_file:
-      - '.env'
-    networks:
-      - 'baasile_io_network'
-    depends_on:
-      - 'baasile_io'
+      - 'selenium'
 
 volumes:
   redis:

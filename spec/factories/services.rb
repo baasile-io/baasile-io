@@ -14,6 +14,7 @@ FactoryGirl.define do
 
     after(:create) do |service|
       if service.subdomain.present?
+        Apartment::Tenant.drop(service.subdomain) rescue nil
         Apartment::Tenant.create(service.subdomain)
         service.confirmed_at = Date.new
         service.save
