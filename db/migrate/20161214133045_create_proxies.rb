@@ -10,5 +10,7 @@ class CreateProxies < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :proxies, :name,                unique: true
   end
 end

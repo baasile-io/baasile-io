@@ -7,7 +7,7 @@ class Service < ApplicationRecord
   has_many :proxies
   has_many :routes, through: :proxies
 
-  validates :name, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
   validates :subdomain, uniqueness: true

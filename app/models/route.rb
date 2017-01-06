@@ -11,7 +11,7 @@ class Route < ApplicationRecord
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
 
-  validates :name, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
   validate :validate_methods
 
