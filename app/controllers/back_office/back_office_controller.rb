@@ -9,7 +9,7 @@ module BackOffice
         redirect_to root_path
         return false
       end
-      Apartment::Tenant.switch session[:service_subdomain]
+      Apartment::Tenant.switch! session[:service_subdomain]
     end
 
     def current_service
