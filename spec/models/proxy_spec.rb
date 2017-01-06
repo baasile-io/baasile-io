@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Proxy, type: :model do
   before :each do
     @proxy = create :proxy
+    @proxy2 = create :proxy
   end
 
   describe "attributes" do
@@ -12,6 +13,16 @@ RSpec.describe Proxy, type: :model do
         expect(@proxy.valid?).to be_falsey
         expect(@proxy.errors.messages[:name]).to_not be_empty
       end
+
+      it "must be unique" do
+        @proxy2.name = @proxy.name
+        expect(@proxy2.valid?).to be_falsey
+        expect(@proxy2.errors.messages[:name]).to_not be_empty
+      end
+    end
+
+    describe "name" do
+
     end
 
     describe "description" do

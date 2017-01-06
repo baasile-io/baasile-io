@@ -3,9 +3,17 @@ require 'rails_helper'
 RSpec.describe Service, type: :model do
   before :each do
     @service = create :service
+    @service2 = create :service
     @service_not_activated = create :service_not_activated
   end
 
+  describe "name" do
+    it "must be unique" do
+      @service2.name = @service.name
+      expect(@service2.valid?).to be_falsey
+      expect(@service2.errors.messages[:name]).to_not be_empty
+    end
+  end
   describe "attributes" do
     describe "is_activated?" do
       it "returns false when confirmed_at is nil" do
