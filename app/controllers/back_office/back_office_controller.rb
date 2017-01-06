@@ -1,10 +1,10 @@
 module BackOffice
   class BackOfficeController < ApplicationController
     before_action :authenticate_user!
-    before_action :authenticate_tenant
+    before_action :authenticate_schema
     before_action :authorize_user
 
-    def authenticate_tenant
+    def authenticate_schema
       if current_service.nil? || !current_service.is_activated? || current_service.subdomain != current_user.current_subdomain
         redirect_to root_path
         return false
