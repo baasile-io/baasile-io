@@ -1,10 +1,10 @@
 require 'sidekiq/web'
 
-class Subdomain
-  def self.matches?(request)
-    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
-  end
-end
+#class Subdomain
+#  def self.matches?(request)
+#    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
+#  end
+#end
 
 Rails.application.routes.draw do
 
@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   end
 
   root to: "pages#root"
+
+  post '/switch', to: 'application#switch_service'
 
   resources :services do
     member do
@@ -29,10 +31,10 @@ Rails.application.routes.draw do
     resources :services, only: :index
   end
 
-  constraints Subdomain do
+  #constraints Subdomain do
     namespace :back_office do
       get '/', to: 'dashboards#index'
-      resources :dashboards, except: [:index]
+      resources :dashboards
 
       resources :proxies do
         resources :routes do
@@ -55,7 +57,7 @@ Rails.application.routes.draw do
     end
 
     match '/services' => redirect("#{ENV['BAASILE_IO_HOSTNAME']}/%{a}"), via: :all
-  end
+  #end
 
   namespace :api do
     #scope "/(:api_version)" do

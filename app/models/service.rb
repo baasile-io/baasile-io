@@ -53,10 +53,6 @@ class Service < ApplicationRecord
     end
   end
 
-  def dashboard_url
-    "//#{self.subdomain}.#{ENV['BAASILE_IO_HOSTNAME']}#{":#{ENV['PORT']}" unless ENV['PORT'].blank?}/back_office"
-  end
-
   def assign_default_user_role
     self.user.add_role(:developer, self)
   end
