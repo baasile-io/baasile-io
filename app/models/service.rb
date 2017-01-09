@@ -25,6 +25,9 @@ class Service < ApplicationRecord
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
+  # Service rights
+  rolify role_join_table_name: 'public.services_roles'
+
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end

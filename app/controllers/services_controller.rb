@@ -75,6 +75,28 @@ class ServicesController < ApplicationController
     end
   end
 
+  def set_right
+    return head(:forbidden) unless current_user.has_role?(:superadmin)
+    service_owner = Service.find(params[:id])
+    service_targeted = Service.find(params[:target_id])
+    service_owner.add_role(:all, service_targeted)
+    redirect_to admin_board_service_path(params[:id])
+  end
+
+  def unset_right
+    return head(:forbidden) unless current_user.has_role?(:superadmin)
+    service_owner = Service.find(params[:id])
+    service_targeted = Service.find(params[:target_id])
+    service_owner.remove_role :all, service_targeted
+    redirect_to admin_board_service_path(params[:id])
+  end
+
+  def admin_board
+    return head(:forbidden) unless current_user.has_role?(:superadmin)
+    @collection = Service.where.not(id: params[:id])
+    @service = Service.find_by_id(params[:id])
+  end
+
   private
 
   def service_params
@@ -90,4 +112,10 @@ class ServicesController < ApplicationController
       return head(:forbidden)
     end
   end
+
+  def is_admin_of(service)
+    return @service.has_role? :all, service
+  end
+
+  helper_method :is_admin_of
 end
