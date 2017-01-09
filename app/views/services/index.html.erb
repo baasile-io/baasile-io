@@ -2,10 +2,12 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
     <table class="table">
       <thead>
       <tr>
+        <% if current_user.has_role?(:superadmin) %>
+            <th>Admin</th>
+        <% end %>
         <th>Name</th>
         <th>Activated</th>
         <th></th>
@@ -14,6 +16,11 @@
       <tbody>
       <% @collection.each do |service| %>
       <tr>
+        <% if current_user.has_role?(:superadmin) %>
+            <td>
+              <%= link_to t('actions.admin_borad'), admin_board_service_path(service.id), class: 'btn btn-secondary' %>
+            </td>
+        <% end %>
         <td><%= service.name %></td>
         <td><%= service.is_activated? %></td>
         <td class="text-xs-right">

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     member do
       post :activate
       post :deactivate
+      get :admin_board
+      post :set_right
+      post :unset_right
     end
   end
 
