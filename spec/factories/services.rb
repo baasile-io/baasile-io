@@ -7,18 +7,23 @@ FactoryGirl.define do
     sequence(:client_id)  {|i| "2d931510-#{i.to_s.rjust(4, '0')}-494a-8c67-87feb05e1594"}
     client_secret         'abcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghj'
 
-    factory :service_not_activated do
-      confirmed_at        nil
-      subdomain           nil
-    end
-
     after(:create) do |service|
       if service.subdomain.present?
-        Apartment::Tenant.drop(service.subdomain) rescue nil
-        Apartment::Tenant.create(service.subdomain)
+        Apartment::Tenant.drop service.subdomain rescue nil
+        Apartment::Tenant.create service.subdomain
         service.confirmed_at = Date.new
         service.save
       end
     end
+  end
+
+  factory :service_not_activated, class: Service do
+    sequence(:name)       {|i| "My Service Not Activated (#{i})"}
+    description           'My Description'
+    association           :user
+    sequence(:client_id)  {|i| "2e931510-#{i.to_s.rjust(4, '0')}-494a-8c67-87feb05e1594"}
+    client_secret         'abcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghj'
+    confirmed_at          nil
+    subdomain             nil
   end
 end

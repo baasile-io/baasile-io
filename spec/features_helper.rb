@@ -3,6 +3,11 @@ require 'capybara/rspec'
 require 'capybara/webkit'
 require 'selenium-webdriver'
 
+# support files
+Dir[Rails.root.join("spec/support/**/*.rb")].each do |f|
+  require f
+end
+
 RSpec.configure do |config|
   config.include Capybara::DSL
 

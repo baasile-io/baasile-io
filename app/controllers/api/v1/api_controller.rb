@@ -2,6 +2,7 @@ module Api
   module V1
     class ApiController < ActionController::Base
       helper_method :current_service
+      helper_method :authenticate_schema
 
       protected
       def authenticate_request!
@@ -9,7 +10,7 @@ module Api
           render json: { errors: ['Not Authenticated'] }, status: :unauthorized
           return
         end
-        @current_service = Service.find(auth_token[:service_id])
+        @authenticated_service = Service.find(auth_token[:service_id])
       rescue JWT::VerificationError, JWT::DecodeError
         render json: { errors: ['Not Authenticated'] }, status: :unauthorized
       end
@@ -30,7 +31,13 @@ module Api
       end
 
       def current_service
-        @current_service ||= Service.find_by_subdomain(Apartment::Tenant.current_tenant)
+        @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
+      end
+
+      def authenticate_schema
+        if current_service.nil?
+          return render nothing: true, status: :not_found
+        end
       end
     end
   end

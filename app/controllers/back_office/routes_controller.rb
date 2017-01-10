@@ -64,7 +64,8 @@ module BackOffice
     end
 
     def current_route
-      @route
+      return nil unless params[:id]
+      @route if @route.persisted?
     end
   end
 end

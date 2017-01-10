@@ -1,10 +1,10 @@
 require 'sidekiq/web'
 
-class Subdomain
-  def self.matches?(request)
-    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
-  end
-end
+#class Subdomain
+#  def self.matches?(request)
+#    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
+#  end
+#end
 
 Rails.application.routes.draw do
 
@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
 
+  post '/switch', to: 'application#switch_service'
+
   resources :services do
     member do
       post :activate
@@ -24,25 +26,25 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api do
-    #scope "/(:api_version)" do
-    resources :services, only: :index
-  end
+  namespace :back_office do
+    get '/', to: 'dashboards#index'
+    resources :dashboards
 
-  constraints Subdomain do
-    namespace :back_office do
-      get '/', to: 'dashboards#index'
-      resources :dashboards, except: [:index]
-
-      resources :proxies do
-        resources :routes do
-          resources :query_parameters
-        end
+    resources :proxies do
+      resources :routes do
+        resources :query_parameters
       end
     end
+  end
 
-    namespace :api do
-      namespace :v1 do
+  namespace :api do
+    scope "/oauth" do
+      post 'token' => 'authentication#authenticate'
+    end
+
+    namespace :v1 do
+      scope '/:current_subdomain' do
+        resources :services, only: :index
         resources :proxies do
           resources :routes, only: [:index] do
             member do
@@ -53,15 +55,5 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    match '/services' => redirect("#{ENV['BAASILE_IO_HOSTNAME']}/%{a}"), via: :all
-  end
-
-  namespace :api do
-    #scope "/(:api_version)" do
-      scope "/oauth" do
-        post 'token' => 'authentication#authenticate'
-      end
-    #end
   end
 end
