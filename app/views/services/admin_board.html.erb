@@ -18,7 +18,7 @@
             <td><%= service.is_activated? %></td>
 
             <td >
-              <%= is_admin_of(service) %>
+              <%= type_admin_of(service) %>
             </td>
             <td >
               <% if is_admin_of(service) %>
@@ -26,8 +26,9 @@
               <% else %>
                   <%= link_to t('actions.set_right'), set_right_service_path(@service.id, target_id: service.id), method: :post, class: 'btn btn-secondary' %>
               <% end %>
+              <%= link_to t('dashboard'), switch_path(service_subdomain: service.subdomain, owner_id: @service.id), method: :post, class: 'btn btn-primary' %>
             </td>
-          </tr>
+            </tr>
       <% end %>
       </tbody>
     </table>

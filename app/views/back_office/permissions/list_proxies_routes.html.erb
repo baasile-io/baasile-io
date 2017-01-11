@@ -1,0 +1,37 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.proxy.name') %></th>
+        <th>ROUTE</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |item| %>
+          <tr>
+            <td><%= item.proxy.name %></td>
+            <td>
+            <table class="table">
+              <thead>
+              <tr>
+                <th><%= t('activerecord.attributes.route.name') %></th>
+              </tr>
+              </thead>
+              <tbody>
+                <% item.route.each do |route| %>
+                  <tr>
+                    <td><%= route.name %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
