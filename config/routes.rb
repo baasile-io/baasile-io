@@ -33,18 +33,27 @@ Rails.application.routes.draw do
     get '/', to: 'dashboards#index'
     resources :dashboards
 
+    resources :permissions do
+      get :list_proxies_routes
+      post :set_right_proxy
+      post :unset_right_proxy
+      post :set_right_route
+      post :unset_right_route
+    end
+    #get '/permissions/list_proxies_routes', as: 'permissions#list_proxies_routes'
+=begin
     resources :services do
-      resources :Permissions do
-        member do
+
+      resources :permissions do
           get :list_proxies_routes
           post :set_right_proxy
           post :unset_right_proxy
           post :set_right_route
           post :unset_right_route
-        end
       end
-    end
 
+    end
+=end
     resources :proxies do
       resources :routes do
         resources :query_parameters

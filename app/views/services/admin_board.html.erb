@@ -17,16 +17,17 @@
             <td><%= service.name %></td>
             <td><%= service.is_activated? %></td>
 
-            <td >
-              <%= type_admin_of(service) %>
+            <td>
+              <%= type_acces_to(@service, service) %>
             </td>
-            <td >
-              <% if is_admin_of(service) %>
+            <td>
+              <% if type_acces_to(@service, service) != "no" %>
                   <%= link_to t('actions.unset_right'), unset_right_service_path(@service.id, target_id: service.id), method: :post, class: 'btn btn-secondary' %>
-              <% else %>
+              <% end %>
+              <% if type_acces_to(@service, service) != "all" %>
                   <%= link_to t('actions.set_right'), set_right_service_path(@service.id, target_id: service.id), method: :post, class: 'btn btn-secondary' %>
               <% end %>
-              <%= link_to t('dashboard'), switch_path(service_subdomain: service.subdomain, owner_id: @service.id), method: :post, class: 'btn btn-primary' %>
+              <%= link_to t('dashboard'), switch_path(service_subdomain: service.subdomain, service_owner_id: @service.id), method: :post, class: 'btn btn-primary' %>
             </td>
             </tr>
       <% end %>

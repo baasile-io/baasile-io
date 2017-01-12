@@ -1,10 +1,18 @@
 module BackOffice
   class PermissionsController < BackOfficeController
 
-    before_action :is_super_admin
+    before_action :authorize_superadmin
     before_action :get_service_owner
 
-    def list_proxies_routes
+    def index
+      @collection = Array.new
+      @collection_proxies = Proxy.all
+      @collection_proxies.each do |proxy|
+        @collection << { proxy: proxy, route: Route.find_by_id(proxy.id) }
+      end
+    end
+
+    def list_proxies_route
       @collection = Array.new
       @collection_proxies = Proxy.all
       @collection_proxies.each do |proxy|
@@ -37,8 +45,8 @@ module BackOffice
       return head(:forbidden) if @service.nil?
     end
 
-    def is_super_admin
-      return head(:forbidden) unless current_user.has_role?(:superadmin)
+    def authorize_superadmin
+      return head(:forbidden) unless is_super_admin
     end
 
   end
