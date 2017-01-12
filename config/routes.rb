@@ -29,18 +29,18 @@ Rails.application.routes.draw do
     end
   end
 
+
+
   namespace :back_office do
     get '/', to: 'dashboards#index'
     resources :dashboards
 
-    resources :permissions do
-      get :list_proxies_routes
-      post :set_right_proxy
-      post :unset_right_proxy
-      post :set_right_route
-      post :unset_right_route
-    end
-    #get '/permissions/list_proxies_routes', as: 'permissions#list_proxies_routes'
+
+    get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'
+    get '/permissions/list_services', to: 'permissions#list_services'
+
+
+
 =begin
     resources :services do
 

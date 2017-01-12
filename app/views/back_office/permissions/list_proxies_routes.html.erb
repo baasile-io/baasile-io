@@ -5,31 +5,31 @@
     <table class="table">
       <thead>
       <tr>
-        <th><%= t('activerecord.attributes.proxy.name') %></th>
-        <th>ROUTE</th>
+        <th>Set permission</th>
+        <th>Proxies</th>
+        <th>Routes</th>
       </tr>
       </thead>
       <tbody>
-      <% @collection.each do |item| %>
+      <% @collection_proxies.each do |item| %>
           <tr>
-            <td><%= item.proxy.name %></td>
             <td>
-            <table class="table">
-              <thead>
-              <tr>
-                <th><%= t('activerecord.attributes.route.name') %></th>
-              </tr>
-              </thead>
-              <tbody>
-                <% item.route.each do |route| %>
-                  <tr>
-                    <td><%= route.name %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+                  <%= link_to t('actions.unset_right'), class: 'btn btn-secondary' %>
+
             </td>
+            <td><%= item.name %></td>
+            <td>All</td>
           </tr>
+          <% item.routes.each do |route| %>
+            <tr>
+              <td>
+                <%= link_to t('actions.unset_right'), class: 'btn btn-secondary' %>
+
+              </td>
+              <td><%= item.name %></td>
+              <td><%= route.name %></td>
+            </tr>
+          <% end %>
       <% end %>
       </tbody>
     </table>

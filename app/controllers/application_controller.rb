@@ -37,7 +37,8 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: root_path) unless is_super_admin
     service_owner = Service.find(params[:service_owner_id])
     service_owner.add_role(:permissions, s)
-    return redirect_to back_office_permission_list_proxies_routes_path(params[:service_owner_id])
+    logger.debug "########### go to redirection #########"
+    return redirect_to back_office_permissions_list_proxies_routes_path(params[:service_owner_id], params[:service_subdomain])
   end
 
     def is_super_admin

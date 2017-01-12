@@ -2,22 +2,14 @@ module BackOffice
   class PermissionsController < BackOfficeController
 
     before_action :authorize_superadmin
-    before_action :get_service_owner
+    #before_action :get_service_owner
 
-    def index
-      @collection = Array.new
-      @collection_proxies = Proxy.all
-      @collection_proxies.each do |proxy|
-        @collection << { proxy: proxy, route: Route.find_by_id(proxy.id) }
-      end
+    def list_services
+      @collection = Service.all
     end
 
-    def list_proxies_route
-      @collection = Array.new
+    def list_proxies_routes
       @collection_proxies = Proxy.all
-      @collection_proxies.each do |proxy|
-        @collection << { proxy: proxy, route: Route.find_by_id(proxy.id) }
-      end
     end
 
     def set_right_for_proxy
