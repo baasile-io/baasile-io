@@ -6,27 +6,36 @@
       <thead>
       <tr>
         <th>Set permission</th>
+        <th>Authorised</th>
         <th>Proxies</th>
         <th>Routes</th>
       </tr>
       </thead>
       <tbody>
-      <% @collection_proxies.each do |item| %>
+      <% @collection_proxies.each do |proxy| %>
           <tr>
             <td>
-                  <%= link_to t('actions.unset_right'), class: 'btn btn-secondary' %>
-
+              <% if type_acces_to(@service_owner, proxy) != "all" %>
+                  <%= link_to t('actions.set_right'), back_office_permissions_set_right_proxy_path(service_id: @service_owner.id, id: proxy.id), method: :post, class: 'btn btn-secondary' %>
+              <% else %>
+                  <%= link_to t('actions.unset_right'), back_office_permissions_unset_right_proxy_path(service_id: @service_owner.id, id: proxy.id), method: :post, class: 'btn btn-secondary' %>
+              <% end %>
             </td>
-            <td><%= item.name %></td>
+            <td><%= type_acces_to(@service_owner, proxy) %></td>
+            <td><%= proxy.name %></td>
             <td>All</td>
           </tr>
-          <% item.routes.each do |route| %>
+          <% proxy.routes.each do |route| %>
             <tr>
               <td>
-                <%= link_to t('actions.unset_right'), class: 'btn btn-secondary' %>
-
+                <% if type_acces_to(@service_owner, route) != "all" %>
+                    <%= link_to t('actions.set_right'), back_office_permissions_set_right_route_path(service_id: @service_owner.id, id: route.id), method: :post, class: 'btn btn-secondary' %>
+                <% else %>
+                    <%= link_to t('actions.unset_right'), back_office_permissions_unset_right_route_path(service_id: @service_owner.id, id: route.id), method: :post, class: 'btn btn-secondary' %>
+                <% end %>
               </td>
-              <td><%= item.name %></td>
+              <td><%= type_acces_to(@service_owner, route) %></td>
+              <td><%= proxy.name %></td>
               <td><%= route.name %></td>
             </tr>
           <% end %>

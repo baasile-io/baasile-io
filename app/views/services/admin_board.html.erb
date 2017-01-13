@@ -21,10 +21,9 @@
               <%= type_acces_to(@service, service) %>
             </td>
             <td>
-              <% if type_acces_to(@service, service) != "no" %>
+              <% if type_acces_to(@service, service) == "all" %>
                   <%= link_to t('actions.unset_right'), unset_right_service_path(@service.id, target_id: service.id), method: :post, class: 'btn btn-secondary' %>
-              <% end %>
-              <% if type_acces_to(@service, service) != "all" %>
+              <% else %>
                   <%= link_to t('actions.set_right'), set_right_service_path(@service.id, target_id: service.id), method: :post, class: 'btn btn-secondary' %>
               <% end %>
               <%= link_to t('dashboard'), switch_path(service_subdomain: service.subdomain, service_owner_id: @service.id), method: :post, class: 'btn btn-primary' %>

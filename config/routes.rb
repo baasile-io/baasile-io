@@ -38,7 +38,10 @@ Rails.application.routes.draw do
 
     get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'
     get '/permissions/list_services', to: 'permissions#list_services'
-
+    post '/permissions/set_right_proxy', to: 'permissions#set_right_proxy'
+    post '/permissions/unset_right_proxy', to: 'permissions#unset_right_proxy'
+    post '/permissions/set_right_route', to: 'permissions#set_right_route'
+    post '/permissions/unset_right_route', to: 'permissions#unset_right_route'
 
 
 =begin
