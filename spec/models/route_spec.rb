@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Route, type: :model do
   before :each do
     @route = create :route
+    @route2 = create :route
   end
 
   describe "attributes" do
@@ -48,6 +49,12 @@ RSpec.describe Route, type: :model do
         @route.name = 'a' * 256
         expect(@route.valid?).to be_falsey
         expect(@route.errors.messages[:name]).to_not be_empty
+      end
+
+      it "must be unique" do
+        @route2.name = @route.name
+        expect(@route2.valid?).to be_falsey
+        expect(@route2.errors.messages[:name]).to_not be_empty
       end
     end
 

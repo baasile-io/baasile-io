@@ -55,7 +55,7 @@
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authentication %>" id="proxy_authentication">
       <%= f.simple_fields_for :proxy_parameter do |f2| %>
         <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
-        <%= f2.input :protocol %>
+        <%= f2.input :protocol, as: :radio_buttons, collection: format_protocols_for_radio_buttons %>
         <%= f2.input :hostname %>
         <%= f2.input :port %>
         <%= f2.input :authentication_url %>

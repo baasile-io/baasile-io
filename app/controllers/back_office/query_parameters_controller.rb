@@ -20,11 +20,10 @@ module BackOffice
 
       if @query_parameter.save
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.query_parameter'))
-        redirect_to back_office_proxy_route_query_parameters_path(@query_parameter.route.proxy, @query_parameter.route)
       else
         flash[:error] = @query_parameter.errors.messages
-        render :new
       end
+      redirect_to back_office_proxy_route_query_parameters_path(@query_parameter.route.proxy, @query_parameter.route)
     end
 
     def update

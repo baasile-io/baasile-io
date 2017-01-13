@@ -5,10 +5,13 @@ module ProxyParametersHelper
     end
   end
 
-  def format_protocols_for_select
+  def format_protocols_for_radio_buttons
     ProxyParameter::PROTOCOLS.map do |key, _|
       ["#{I18n.t("types.protocols.#{key}")}", key]
     end
+  end
+  def format_protocols_for_select
+    format_protocols_for_radio_buttons
   end
 
 end

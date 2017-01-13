@@ -59,11 +59,11 @@ class ServicesController < ApplicationController
 
     unless @service.is_activable?
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
+      redirect_to edit_service_path(@service)
     else
       ActivateServiceJob.perform_later @service.id
+      redirect_to service_path(@service)
     end
-
-    redirect_to service_path(@service)
   end
 
   def deactivate
