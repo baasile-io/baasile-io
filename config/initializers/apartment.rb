@@ -50,7 +50,7 @@ Apartment.configure do |config|
   #   end
   # end
   #
-  config.tenant_names = lambda { Service.pluck :subdomain }
+  config.tenant_names = lambda { Service.where('subdomain IS NOT NULL').pluck :subdomain }
 
   #
   # ==> PostgreSQL only options

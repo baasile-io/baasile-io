@@ -19,7 +19,7 @@ module Api
         rescue ProxyAuthenticationError
           render plain: 'ProxyAuthenticationError'
         rescue ProxyRequestError => e
-          render status: :bad_gateway, json: {error: {code: e.code, body: e.body}}
+          render status: :bad_gateway, plain: "error code: #{e.code}\r\n\r\n#{e.body}"
         end
       end
 

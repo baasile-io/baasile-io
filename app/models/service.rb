@@ -10,7 +10,7 @@ class Service < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
-  validates :subdomain, uniqueness: true
+  validates :subdomain, uniqueness: true, if: Proc.new { !subdomain.nil? }
   validates :subdomain, presence: true, format: {with: /[a-z]*/}, length: {minimum: 2, maximum: 15}, if: :is_activated?
   validate :subdomain_changed_disallowed
 

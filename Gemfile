@@ -42,6 +42,7 @@ gem 'apartment', '~>1.2'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'font-awesome-sass'
 gem 'simple_form', '~>3.3.1'
 ## tether positionning for popovers and tooltips
 source 'https://rails-assets.org' do

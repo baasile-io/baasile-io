@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 20170106103408) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "proxy_parameter_id"
-    t.index ["name"], name: "index_proxies_on_name", unique: true, using: :btree
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
   end
@@ -79,7 +78,6 @@ ActiveRecord::Schema.define(version: 20170106103408) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.text     "allowed_methods", default: [],              array: true
-    t.index ["name"], name: "index_routes_on_name", unique: true, using: :btree
     t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end
@@ -96,7 +94,12 @@ ActiveRecord::Schema.define(version: 20170106103408) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.string   "subdomain"
-    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
+  end
+
+  create_table "services_roles", id: false, force: :cascade do |t|
+    t.integer "service_id"
+    t.integer "role_id"
+    t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

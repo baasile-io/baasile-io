@@ -35,6 +35,6 @@ class Route < ApplicationRecord
   end
 
   def uri
-    "#{protocol || proxy.proxy_parameter.protocol}://#{hostname}:#{port}#{url}"
+    "#{protocol || proxy.proxy_parameter.protocol}://#{hostname.present? ? hostname : proxy.proxy_parameter.hostname}:#{port.present? ? port : proxy.proxy_parameter.port}#{url}"
   end
 end
