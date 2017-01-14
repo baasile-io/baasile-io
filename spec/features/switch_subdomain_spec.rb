@@ -5,8 +5,6 @@ describe "switching subdomain", type: :feature do
     @user = create :user
     @service = create :service, user: @user
 
-    switch_schema @service
-
     @proxy = build :proxy, user: @user, service: @service
     @proxy.save
 

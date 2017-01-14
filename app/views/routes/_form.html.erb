@@ -1,4 +1,4 @@
-<%= simple_form_for [:back_office, current_proxy, @route] do |f| %>
+<%= simple_form_for [current_service, current_proxy, @route] do |f| %>
 
   <%= f.input :name %>
   <%= f.input :description %>

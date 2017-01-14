@@ -1,4 +1,4 @@
-<%= simple_form_for [:back_office, @proxy.proxy_parameter], url: save_configuration_back_office_proxy_path(@proxy), method: :post do |f| %>
+<%= simple_form_for [current_service, @proxy.proxy_parameter], url: save_configuration_service_proxy_path(current_service, @proxy), method: :post do |f| %>
 
   <%= f.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
   <%= f.input :protocol %>

@@ -113,6 +113,11 @@ class ServicesController < ApplicationController
     end
   end
 
+  def current_service
+    return nil unless params[:id]
+    @service
+  end
+
   def is_admin_of(service)
     return @service.has_role? :all, service
   end

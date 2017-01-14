@@ -13,6 +13,6 @@
         <td><%= @query_parameter.mode %></td>
       </tr>
       </table>
-    <%= link_to t('actions.edit'), edit_back_office_proxy_route_query_parameter_path(@query_parameter.route.proxy, @query_parameter.route, @query_parameter), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, @query_parameter.route.proxy, @query_parameter.route, @query_parameter), class: 'btn btn-secondary' %>
   </div>
 </div>

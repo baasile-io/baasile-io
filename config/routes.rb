@@ -1,11 +1,5 @@
 require 'sidekiq/web'
 
-#class Subdomain
-#  def self.matches?(request)
-#    (request.subdomain.present? && request.subdomain != 'www' && request.subdomain.match(/[a-z]+/))
-#  end
-#end
-
 Rails.application.routes.draw do
 
   devise_for :users
@@ -17,8 +11,6 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
 
-  post '/switch', to: 'application#switch_service'
-
   resources :services do
     member do
       post :activate
@@ -27,11 +19,6 @@ Rails.application.routes.draw do
       post :set_right
       post :unset_right
     end
-  end
-
-  namespace :back_office do
-    get '/', to: 'dashboards#index'
-    resources :dashboards
 
     resources :proxies do
       resources :routes do
