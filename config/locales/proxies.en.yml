@@ -1,0 +1,14 @@
+en:
+  proxies:
+    configure:
+      title: 'Configure proxy'
+    edit:
+      title: 'Edit proxy'
+    index:
+      title: 'List of proxies'
+    new:
+      title: 'New proxy'
+    proxy_parameters_form:
+      select_authentication_mode: 'Select an authentication mode...'
+    show:
+      title: 'Proxy'

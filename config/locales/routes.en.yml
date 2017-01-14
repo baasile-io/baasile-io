@@ -1,0 +1,12 @@
+en:
+  routes:
+    edit:
+      title: 'Edit route'
+    form:
+      default_protocol: "Default (%{protocol})"
+    index:
+      title: 'List of routes'
+    new:
+      title: 'New route'
+    show:
+      title: 'Route'

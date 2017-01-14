@@ -1,0 +1,14 @@
+fr:
+  proxies:
+    configure:
+      title: 'Configurer le proxy'
+    edit:
+      title: 'Modifier le proxy'
+    show:
+      title: 'Liste des proxies'
+    new:
+      title: 'Nouveau proxy'
+    proxy_parameters_form:
+      select_authentication_mode: "Sélectionnez un mode d'authentification..."
+    show:
+      title: 'Proxy'

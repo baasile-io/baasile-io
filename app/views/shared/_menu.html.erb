@@ -8,10 +8,10 @@
     <div class="b-io-menu--secondary <% unless current_proxy.nil? %>b-io-menu--tertiary<% end %>">
       <h4><%= current_service.name %></h4>
       <nav class="nav nav-pills nav-stacked">
-        <a class="nav-link" href="<%= service_path(current_service) %>">Tableau de bord</a>
-        <a class="nav-link" href="<%= edit_service_path(current_service) %>">Modifier</a>
-        <a class="nav-link" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server"></i> Proxies</a>
-        <a class="nav-link" href="<%= service_permissions_list_services_path(current_service) %>">Permissions</a>
+        <a class="nav-link" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
+        <a class="nav-link" href="<%= edit_service_path(current_service) %>"><%= t('actions.edit') %></a>
+        <a class="nav-link" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
+        <a class="nav-link" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
       </nav>
     </div>
 
@@ -20,9 +20,9 @@
       <div class="b-io-menu--secondary <% unless current_route.nil? %>b-io-menu--tertiary<% end %>">
         <h4><i class="fa fa-server"></i> <%= current_proxy.name %></h4>
         <nav class="nav nav-pills nav-stacked">
-          <a class="nav-link" href="<%= service_proxy_path(current_service, current_proxy) %>">Tableau de bord</a>
-          <a class="nav-link" href="<%= edit_service_proxy_path(current_service, current_proxy) %>">Modifier</a>
-          <a class="nav-link" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road"></i> Routes</a>
+          <a class="nav-link" href="<%= service_proxy_path(current_service, current_proxy) %>"><%= t('misc.dashboard') %></a>
+          <a class="nav-link" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('actions.edit') %></a>
+          <a class="nav-link" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
         </nav>
       </div>
 
@@ -31,9 +31,9 @@
         <div class="b-io-menu--secondary">
           <h4><i class="fa fa-road"></i> <%= current_route.name %></h4>
           <nav class="nav nav-pills nav-stacked">
-            <a class="nav-link" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>">Tableau de bord</a>
-            <a class="nav-link" href="<%= edit_service_proxy_route_path(current_service, current_proxy, current_route) %>">Modifier</a>
-            <a class="nav-link" href="<%= service_proxy_route_query_parameters_path(current_service, current_proxy, current_route) %>">Paramètres en entrée</a>
+            <a class="nav-link" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('misc.dashboard') %></a>
+            <a class="nav-link" href="<%= edit_service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('actions.edit') %></a>
+            <a class="nav-link" href="<%= service_proxy_route_query_parameters_path(current_service, current_proxy, current_route) %>"><%= t('activerecord.models.query_parameter').pluralize %></a>
           </nav>
         </div>
       <% end %>
