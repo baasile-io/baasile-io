@@ -2,16 +2,28 @@ class PermissionsController < DashboardController
 
   before_action :authorize_superadmin
   before_action :get_service_owner,
-                only: [:list_proxies_routes, :set_right_proxy,
+                only: [:list_services, :list_proxies_routes, :set_right_proxy,
                        :unset_right_proxy, :set_right_route,
-                       :unset_right_route]
+                       :unset_right_route, :set_right, :unset_right]
 
   def list_services
-    @collection = Service.all
+    @collection = Service.where.not(id: @service_owner.id)
   end
 
   def list_proxies_routes
     @collection_proxies = Proxy.all
+  end
+
+  def set_right
+    service_targeted = Service.find(params[:id])
+    @service_owner.add_role(:all, service_targeted)
+    redirect_to service_permissions_list_services_path(@service_owner.id)
+  end
+
+  def unset_right
+    service_targeted = Service.find(params[:id])
+    @service_owner.remove_role :all, service_targeted
+    redirect_to service_permissions_list_services_path(@service_owner.id)
   end
 
   def set_right_proxy
@@ -46,4 +58,10 @@ class PermissionsController < DashboardController
   def authorize_superadmin
     return head(:forbidden) unless is_super_admin
   end
+
+  def is_admin_of(service)
+    return @service_owner.has_role? :all, service
+  end
+
+  helper_method :is_admin_of
 end

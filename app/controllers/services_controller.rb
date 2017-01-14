@@ -71,6 +71,7 @@ class ServicesController < ApplicationController
     end
   end
 
+=begin
   def set_right
     service_owner = Service.find(params[:id])
     service_targeted = Service.find(params[:target_id])
@@ -84,6 +85,7 @@ class ServicesController < ApplicationController
     service_owner.remove_role :all, service_targeted
     redirect_to admin_board_service_path(params[:id])
   end
+=end
 
   def admin_board
     @collection = Service.where.not(id: params[:id])

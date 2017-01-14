@@ -10,8 +10,10 @@
       <nav class="nav nav-pills nav-stacked">
         <a class="nav-link" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
         <a class="nav-link" href="<%= edit_service_path(current_service) %>"><%= t('actions.edit') %></a>
-        <a class="nav-link" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
-        <a class="nav-link" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
+        <% if current_service.is_activated? %>
+            <a class="nav-link" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
+            <a class="nav-link" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
+        <% end %>
       </nav>
     </div>
 

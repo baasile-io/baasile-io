@@ -1,4 +1,5 @@
 class ActivateServiceJob < ApplicationJob
+=begin
   rescue_from PG::DuplicateSchema do |exception|
     confirm_service
   end
@@ -6,11 +7,12 @@ class ActivateServiceJob < ApplicationJob
   rescue_from Apartment::TenantExists do |exception|
     confirm_service
   end
+=end
 
   def perform(service_id)
     @service = Service.find(service_id)
     if @service.is_activable?
-      Apartment::Tenant.create(@service.subdomain)
+      #Apartment::Tenant.create(@service.subdomain)
       confirm_service
     end
   end

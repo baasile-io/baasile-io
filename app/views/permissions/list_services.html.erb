@@ -5,23 +5,35 @@
     <table class="table">
       <thead>
       <tr>
-        <% if current_user.has_role?(:superadmin) %>
-            <th>Admin</th>
-        <% end %>
         <th>Name</th>
         <th>Activated</th>
+        <% if current_user.has_role?(:superadmin) %>
+            <th>Authorised</th>
+            <th>advanced permissions</th>
+            <th>all permissions</th>
+        <% end %>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |service| %>
       <tr>
-        <% if current_user.has_role?(:superadmin) %>
-            <td>
-              <%= link_to "advanced permissions", service_permissions_list_proxies_routes_path(current_service, service_id: service.id), class: 'btn btn-secondary' %>
-            </td>
-        <% end %>
         <td><%= service.name %></td>
         <td><%= service.is_activated? %></td>
+        <% if current_user.has_role?(:superadmin) %>
+        <td >
+          <%= is_admin_of(service) %>
+        </td>
+          <td>
+            <%= link_to "property", service_permissions_list_proxies_routes_path(id: service.id, service_id: current_service.id), class: 'btn btn-secondary' %>
+          </td>
+          <td>
+         <% if is_admin_of(service) %>
+              <%= link_to t('actions.unset_right'), service_permissions_unset_right_path(id: service.id, service_id: current_service.id), method: :post, class: 'btn btn-secondary' %>
+          <% else %>
+              <%= link_to t('actions.set_right'), service_permissions_set_right_path(id: service.id, service_id: current_service.id), method: :post, class: 'btn btn-secondary' %>
+          <% end %>
+          </td>
+         <% end %>
       </tr>
       <% end %>
       </tbody>

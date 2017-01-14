@@ -23,7 +23,7 @@
         </td>
         <% if current_user.has_role?(:superadmin) %>
           <td>
-            <%= link_to t('actions.admin_board'), admin_board_service_path(service.id), class: 'btn btn-secondary' %>
+            <%= link_to_if service.is_activated?, t('actions.permissions'), service_permissions_list_services_path(service.id), class: 'btn btn-secondary' %>
           </td>
         <% end %>
       </tr>

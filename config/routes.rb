@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     post '/permissions/unset_right_proxy', to: 'permissions#unset_right_proxy'
     post '/permissions/set_right_route', to: 'permissions#set_right_route'
     post '/permissions/unset_right_route', to: 'permissions#unset_right_route'
+    post '/permissions/set_right', to: 'permissions#set_right'
+    post '/permissions/unset_right', to: 'permissions#unset_right'
 
     resources :proxies do
       resources :routes do
