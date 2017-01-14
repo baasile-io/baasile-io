@@ -6,7 +6,7 @@
 
 ![Baasile IO](http://baasile.io/assets/img/github/baasile-io-github.png)
 
-## New local setup instructions
+## New local development setup instructions
 
 <img align="right" src="http://baasile.io/assets/img/github/basilio-github-topright.png" alt="Basilio - Baasilio IO"/>
 
@@ -43,23 +43,18 @@ REDIS_CACHE_URL=redis://redis:6379/0/cache
 
 #### Set local hosts
 
-Add the following line into your `/etc/hosts` file:
+Add the following line into your `/etc/hosts` file, according to the environment variable `BAASILE_IO_HOSTNAME`:
 
 ```
 127.0.0.1  baasile-io-demo.dev
 ```
 
-Later, when adding a new subdomain into the database, you also must add it into `/etc/hosts`:  
-
-```
-127.0.0.1  myservice.baasile-io-demo.dev
-```
-
 #### Build images
 
 You can now build the images of my platform with the following instructions:
+
 ```
-docker-compose build    # it can take a few minutes
+docker-compose build
 ```
 
 #### Setup database
@@ -107,6 +102,27 @@ git checkout develop
 ```
 
 Refer to [Baasile IO Wiki](https://github.com/baasile-io/baasile-io/wiki).
+
+## New local test setup instruction
+
+### Environment variables
+
+Make sure to have a file named `.env.test` copied from `.env.example`.
+
+Tests need the additional environment variables:
+
+```
+SELENIUM_REMOTE_HOST=selenium
+SELENIUM_DESIRED_CAPABILITIES=firefox
+```
+
+### Running tests
+
+Run tests with special docker configuration:
+
+```
+docker-compose -f docker-compose-test.yml up
+```
 
 ## Licence
 
