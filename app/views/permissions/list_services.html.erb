@@ -1,0 +1,30 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <% if current_user.has_role?(:superadmin) %>
+            <th>Admin</th>
+        <% end %>
+        <th>Name</th>
+        <th>Activated</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |service| %>
+      <tr>
+        <% if current_user.has_role?(:superadmin) %>
+            <td>
+              <%= link_to "advanced permissions", service_permissions_list_proxies_routes_path(current_service, service_id: service.id), class: 'btn btn-secondary' %>
+            </td>
+        <% end %>
+        <td><%= service.name %></td>
+        <td><%= service.is_activated? %></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

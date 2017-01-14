@@ -16,4 +16,11 @@ class ApplicationController < ActionController::Base
   def current_route
     nil
   end
+
+
+  private
+
+    def is_super_admin
+      return current_user.has_role?(:superadmin)
+    end
 end

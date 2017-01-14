@@ -1,4 +1,5 @@
 class Route < ApplicationRecord
+  resourcify
   PROTOCOLS = {https: 1, http: 2}
   enum protocol: PROTOCOLS
 
