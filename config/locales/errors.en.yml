@@ -3,4 +3,5 @@ en:
     messages:
       blank: "can't be blank"
       not_a_number: 'must be numeric'
+      record_invalid: "The record cannot be saved because it is invalid"
       too_short: 'is too short'

@@ -10,6 +10,7 @@ en:
     save_in_progress: 'Save in progress...'
     sign_in: 'Sign in'
     signin_in: 'Signin in...'
+    sign_out: 'Sign out'
     sign_up: 'Sign up'
     signin_up: 'Signin up..'
     success:

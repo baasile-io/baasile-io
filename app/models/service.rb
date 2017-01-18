@@ -51,7 +51,7 @@ class Service < ApplicationRecord
   end
 
   def subdomain_changed_disallowed
-    if subdomain_changed? && self.is_activated?
+    if self.persisted? && subdomain_changed? && self.is_activated?
       errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
     end
   end

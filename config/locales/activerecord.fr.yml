@@ -54,12 +54,16 @@ fr:
         user: 'Créateur'
         user_id: 'Créateur'
         website: 'Site Internet'
+      user:
+        email: 'E-Mail'
+        password: 'Mot de passe'
     models:
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'
       route: 'Route'
       service: 'Service'
+      user: 'Utilisateur'
     validations:
       service:
         missing_subdomain: "Le paramètre sous-domaine doit être renseigné"

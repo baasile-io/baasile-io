@@ -10,6 +10,7 @@ fr:
     save_in_progress: 'Enregistrement en cours...'
     sign_in: 'Se connecter'
     signin_in: 'Connexion...'
+    sign_out: 'Se déconnecter'
     sign_up: "S'inscrire"
     signin_up: 'Inscription..'
     success:
