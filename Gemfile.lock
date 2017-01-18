@@ -41,12 +41,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    apartment (1.2.0)
-      activerecord (>= 3.1.2, < 6.0)
-      rack (>= 1.3.6)
-    apartment-sidekiq (1.1.0)
-      apartment (~> 1.0)
-      sidekiq (>= 2.11)
     arel (7.1.4)
     autoprefixer-rails (6.5.3.1)
       execjs
@@ -264,8 +258,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  apartment (~> 1.2)
-  apartment-sidekiq
   bootstrap (~> 4.0.0.alpha5)
   byebug
   capybara

@@ -1,0 +1,18 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <th><%= t('activerecord.attributes.query_parameter.name') %></th>
+        <td><%= @query_parameter.name %></td>
+      </tr>
+      <tr>
+        <th><%= t('activerecord.attributes.query_parameter.mode') %></th>
+        <td><%= @query_parameter.mode %></td>
+      </tr>
+      </table>
+    <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, @query_parameter.route.proxy, @query_parameter.route, @query_parameter), class: 'btn btn-secondary' %>
+  </div>
+</div>

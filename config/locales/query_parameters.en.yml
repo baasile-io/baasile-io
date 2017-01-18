@@ -1,0 +1,12 @@
+en:
+  query_parameters:
+    edit:
+      title: 'Edit query parameters'
+    form:
+      default_mode: "DEFAULT"
+    index:
+      title: 'List of query parameters'
+    new:
+      title: 'New query parameter'
+    show:
+      title: 'Query parameter'

@@ -10,16 +10,6 @@
   %>
   <div class="flash_message alert alert-<%= alert_class %>">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <% if msg.is_a?(Hash) %>
-      <ul>
-        <% msg.each do |key, value| %>
-          <% unless value.empty? %>
-            <li><%= key.to_s %>: <%= value.join(', ') %></li>
-          <% end %>
-        <% end %>
-      </ul>
-    <% else %>
-      <%= raw(msg) %>
-    <% end %>
+    <%= raw(msg) %>
   </div>
 <% end %>

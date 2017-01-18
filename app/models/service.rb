@@ -25,6 +25,9 @@ class Service < ApplicationRecord
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
+  # Service rights
+  rolify role_join_table_name: 'public.services_roles'
+
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end
@@ -48,7 +51,7 @@ class Service < ApplicationRecord
   end
 
   def subdomain_changed_disallowed
-    if subdomain_changed? && self.is_activated?
+    if self.persisted? && subdomain_changed? && self.is_activated?
       errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
     end
   end

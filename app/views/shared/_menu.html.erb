@@ -3,25 +3,16 @@
     <img class="img-fluid" src="/dashboard/basilio-little-spaceman.png">
   </div>
 <% else %>
-  <% if current_service.nil? %>
-  <% else %>
-    <div class="b-io-menu--secondary <% unless current_proxy.nil? %>b-io-menu--tertiary<% end %>">
-      <h4><%= current_service.name %></h4>
-      <nav class="nav nav-pills nav-stacked">
-        <a class="nav-link" href="<%= back_office_dashboards_path %>">Tableau de bord</a>
-        <a class="nav-link" href="<%= edit_service_path(current_service) %>">Modifier</a>
-        <a class="nav-link" href="<%= back_office_proxies_path %>"><i class="fa fa-server"></i> Proxies</a>
-      </nav>
-    </div>
-
+  <% unless current_service.nil? %>
     <% if current_proxy.nil? %>
     <% else %>
+
       <div class="b-io-menu--secondary <% unless current_route.nil? %>b-io-menu--tertiary<% end %>">
         <h4><i class="fa fa-server"></i> <%= current_proxy.name %></h4>
         <nav class="nav nav-pills nav-stacked">
-          <a class="nav-link" href="<%= back_office_proxy_path(current_proxy) %>">Tableau de bord</a>
-          <a class="nav-link" href="<%= edit_back_office_proxy_path(current_proxy) %>">Modifier</a>
-          <a class="nav-link" href="<%= back_office_proxy_routes_path(current_proxy) %>"><i class="fa fa-road"></i> Routes</a>
+          <a class="nav-link" href="<%= service_proxy_path(current_service, current_proxy) %>"><%= t('misc.dashboard') %></a>
+          <a class="nav-link" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('actions.edit') %></a>
+          <a class="nav-link" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
         </nav>
       </div>
 
@@ -30,9 +21,9 @@
         <div class="b-io-menu--secondary">
           <h4><i class="fa fa-road"></i> <%= current_route.name %></h4>
           <nav class="nav nav-pills nav-stacked">
-            <a class="nav-link" href="<%= back_office_proxy_route_path(current_proxy, current_route) %>">Tableau de bord</a>
-            <a class="nav-link" href="<%= edit_back_office_proxy_route_path(current_proxy, current_route) %>">Modifier</a>
-            <a class="nav-link" href="<%= back_office_proxy_route_query_parameters_path(current_proxy, current_route) %>">Paramètres en entrée</a>
+            <a class="nav-link" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('misc.dashboard') %></a>
+            <a class="nav-link" href="<%= edit_service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('actions.edit') %></a>
+            <a class="nav-link" href="<%= service_proxy_route_query_parameters_path(current_service, current_proxy, current_route) %>"><%= t('activerecord.models.query_parameter').pluralize %></a>
           </nav>
         </div>
       <% end %>

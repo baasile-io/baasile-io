@@ -8,6 +8,16 @@ en:
         alias: 'Alias'
         description: 'Description'
         name: 'Name'
+        proxy_parameter:
+          authentication_mode: 'Authentication mode'
+          authentication_url: 'Authenticiation URL'
+          client_id: 'CLIENT ID'
+          client_secret: 'CLIENT SECRET'
+          grant_type: 'Grant type'
+          hostname: 'Hostname'
+          port: 'Port'
+          protocol: 'Protocol'
+          realm: 'realm'
         service: 'Service'
         service_id: 'Service'
         user: 'Creator'
@@ -42,12 +52,16 @@ en:
         user: 'Creator'
         user_id: 'Creator'
         website: 'Website'
+      user:
+        email: 'Email'
+        password: 'Password'
     models:
-      query_parameter: 'Query parameters'
+      query_parameter: 'Query parameter'
       proxy: 'Proxy'
-      proxy_parameter: 'Proxy parameters'
+      proxy_parameter: 'Proxy parameter'
       route: 'Route'
       service: 'Service'
+      user: 'User'
     validations:
       service:
         missing_subdomain: "The attribute subdomain can't be blank"

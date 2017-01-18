@@ -1,0 +1,12 @@
+fr:
+  proxies:
+    edit:
+      title: 'Modifier la fonctionnalité'
+    index:
+      title: 'Fonctionnalités'
+    new:
+      title: 'Nouvelle fonctionalité'
+    proxy_parameters_form:
+      select_authentication_mode: "Sélectionnez un mode d'authentification..."
+    show:
+      title: 'Fonctionnalité'

@@ -1,0 +1,5 @@
+en:
+  misc:
+    correct_errors: 'Correct the following errors and try again:'
+    dashboard: 'Dashboard'
+    invalid_fields: 'Invalid Fields'

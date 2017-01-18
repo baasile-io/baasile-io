@@ -1,0 +1,12 @@
+en:
+  proxies:
+    edit:
+      title: 'Edit functionality'
+    index:
+      title: 'Functionalities'
+    new:
+      title: 'New functionality'
+    proxy_parameters_form:
+      select_authentication_mode: 'Select an authentication mode...'
+    show:
+      title: 'Functionality'

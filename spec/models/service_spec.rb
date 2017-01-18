@@ -14,6 +14,7 @@ RSpec.describe Service, type: :model do
       expect(@service2.errors.messages[:name]).to_not be_empty
     end
   end
+
   describe "attributes" do
     describe "is_activated?" do
       it "returns false when confirmed_at is nil" do

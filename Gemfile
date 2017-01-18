@@ -38,7 +38,7 @@ gem 'redis-namespace'
 # User account
 gem 'devise', '~>4.2'
 gem 'rolify', '~>5.1.0'
-gem 'apartment', '~>1.2'
+#gem 'apartment', '~>1.2'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha5'
@@ -50,7 +50,7 @@ source 'https://rails-assets.org' do
 end
 
 # Background jobs
-gem 'apartment-sidekiq'
+#gem 'apartment-sidekiq'
 gem 'sidekiq'
 
 # API authentication

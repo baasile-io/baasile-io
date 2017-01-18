@@ -241,7 +241,7 @@ $border-radius-lg:       .3rem !default;
 $border-radius-sm:       .2rem !default;
 
 $component-active-color: #fff !default;
-$component-active-bg:    $brand-primary !default;
+$component-active-bg:    #000; //$brand-primary !default;
 
 $caret-width:            .3em !default;
 $caret-width-lg:         $caret-width !default;

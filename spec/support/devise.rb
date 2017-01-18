@@ -5,7 +5,7 @@ def sign_in_with(user)
   fill_in 'user_password', with: user.password
 
   within '.actions' do
-    click_on 'Sign in'
+    click_on 'Se connecter'
   end
 end
 

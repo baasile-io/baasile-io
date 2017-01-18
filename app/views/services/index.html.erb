@@ -2,12 +2,14 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
     <table class="table">
       <thead>
       <tr>
         <th>Name</th>
         <th>Activated</th>
+        <% if current_user.has_role?(:superadmin) %>
+          <th>Admin</th>
+        <% end %>
         <th></th>
       </tr>
       </thead>
@@ -16,8 +18,15 @@
       <tr>
         <td><%= service.name %></td>
         <td><%= service.is_activated? %></td>
+        <% if current_user.has_role?(:superadmin) %>
+          <td>
+            <% if service.is_activated? %>
+              <%= link_to t('actions.permissions'), service_permissions_list_services_path(service.id), class: 'btn btn-secondary' %>
+            <% end %>
+          </td>
+        <% end %>
         <td class="text-xs-right">
-          <%= link_to t('actions.edit'), service_path(service.id), class: 'btn btn-secondary' %>
+          <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
         </td>
       </tr>
       <% end %>

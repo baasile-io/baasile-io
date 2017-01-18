@@ -1,5 +1,5 @@
 
-.b-io-header
+.b-io-topbar
   position: relative
   padding-top: 70px
 
@@ -7,6 +7,21 @@
     @include alpha-background-color(rgba($color-blue-dark, .4), $color-blue)
 
 
+
+.b-io-header
+  position: relative
+  border-radius: 5px
+  margin: 0 0 15px 0
+  padding: 15px 0 15px 0
+  background-color: #FFF
+
+  h1
+    font-weight: bold
+
+  .nav-tabs
+    border-bottom: 0
+    .nav-item
+      margin-bottom: 0
 
 
 .b-io-main-container
@@ -19,14 +34,13 @@
       @include alpha-background-color(rgba($color-blue, .2), $color-blue)
       position: relative
       margin: 0 0 15px 0
-      padding: 10px
+      padding: 0 10px 10px 10px
 
       h4
         font-weight: bold
 
       h4, h5
-        color: #FFF
-        padding: 16px 0 8px 16px
+        padding: 15px 0 5px 16px
 
       .nav-pills
         .nav-link
@@ -34,11 +48,11 @@
           border-radius: 0
 
       &.b-io-menu--tertiary
-        @include alpha-background-color(rgba($color-blue-dark, .2), $color-blue)
+        @include alpha-background-color(rgba($color-blue, .1), $color-blue)
 
         .nav-pills
           .nav-link
-            @include alpha-background-color(rgba($color-blue-dark, .3), $color-blue)
+            @include alpha-background-color(rgba($color-blue, .1), $color-blue)
 
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
@@ -53,29 +67,32 @@
 
   .b-io-content
     position: relative
+    border: 1px solid transparent
     padding-bottom: 15px
-    @include alpha-background-color(rgba($color-blue, .3), $color-blue)
+    //@include alpha-background-color(rgba($color-blue-dark, .2), $color-blue)
+    background-color: #FFF
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
-      margin-left: 280px
       border-radius: 5px
+
+      &.b-io-content--with-menu
+        margin-left: 280px
 
     .b-io-content--header
       position: relative
       display: block
 
-      h2
-        padding: 20px 0 10px 0
-        color: #FFFFFF
-        font-style: italic
+      h3
+        padding: 15px 0 5px 0
+        //color: #FFFFFF
 
     .b-io-content--secondary
       position: relative
       display: block
-      margin: 10px
+      margin: 0 0 10px 0
       background-color: #FFFFFF
-      border-radius: 5px
-      box-shadow: 0 0 15px rgba(190, 190, 190, .4)
+      //border-radius: 5px
+      box-shadow: 0 -5px 5px rgba(190, 190, 190, .4)
 
       >.container
         padding-top: 15px
