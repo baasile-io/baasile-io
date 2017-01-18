@@ -19,7 +19,6 @@ class ProxiesController < DashboardController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else
-      flash[:error] = @proxy.errors.messages
       render :new
     end
   end
@@ -32,7 +31,6 @@ class ProxiesController < DashboardController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else
-      flash[:error] = @proxy.errors.messages
       render :edit
     end
   end
@@ -41,6 +39,12 @@ class ProxiesController < DashboardController
   end
 
   def destroy
+    if @proxy.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.proxy'))
+      redirect_to service_proxies_path(current_service)
+    else
+      render :show
+    end
   end
 
   def proxy_params

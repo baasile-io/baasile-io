@@ -3,22 +3,10 @@
     <img class="img-fluid" src="/dashboard/basilio-little-spaceman.png">
   </div>
 <% else %>
-  <% if current_service.nil? %>
-  <% else %>
-    <div class="b-io-menu--secondary <% unless current_proxy.nil? %>b-io-menu--tertiary<% end %>">
-      <h4><%= current_service.name %></h4>
-      <nav class="nav nav-pills nav-stacked">
-        <a class="nav-link" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
-        <a class="nav-link" href="<%= edit_service_path(current_service) %>"><%= t('actions.edit') %></a>
-        <% if current_service.is_activated? %>
-            <a class="nav-link" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
-            <a class="nav-link" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
-        <% end %>
-      </nav>
-    </div>
-
+  <% unless current_service.nil? %>
     <% if current_proxy.nil? %>
     <% else %>
+
       <div class="b-io-menu--secondary <% unless current_route.nil? %>b-io-menu--tertiary<% end %>">
         <h4><i class="fa fa-server"></i> <%= current_proxy.name %></h4>
         <nav class="nav nav-pills nav-stacked">

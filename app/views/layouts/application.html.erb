@@ -12,18 +12,22 @@
 <body>
 
   <div class="container">
-    <%= render 'layouts/header' %>
+    <%= render 'shared/topbar' %>
+    <%= render 'shared/header' %>
     <%= render 'shared/flash' %>
 
     <div class="b-io-main-container">
-      <div class="b-io-menu">
-        <%= render 'shared/menu' %>
-      </div>
 
-      <div class="b-io-content">
+      <% unless current_proxy.nil? %>
+        <div class="b-io-menu">
+          <%= render 'shared/menu' %>
+        </div>
+      <% end %>
+
+      <div class="b-io-content <%= 'b-io-content--with-menu' unless current_proxy.nil? %>">
         <div class="b-io-content--header">
           <div class="container">
-            <h2><%= content_for(:page_title) %></h2>
+            <h3><%= content_for(:page_title) %></h3>
           </div>
         </div>
 

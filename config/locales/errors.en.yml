@@ -1,0 +1,6 @@
+en:
+  errors:
+    messages:
+      blank: "can't be blank"
+      not_a_number: 'must be numeric'
+      too_short: 'is too short'

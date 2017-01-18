@@ -1,0 +1,7 @@
+fr:
+  errors:
+    messages:
+      blank: 'doit être renseigné(e)'
+      not_a_number: 'doit être numérique'
+      too_short: 'est trop court'
+

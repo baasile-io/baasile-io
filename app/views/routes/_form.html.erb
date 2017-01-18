@@ -1,5 +1,7 @@
 <%= simple_form_for [current_service, current_proxy, @route] do |f| %>
 
+  <%= error_messages_for(@route) %>
+
   <%= f.input :name %>
   <%= f.input :description %>
   <%= f.input :url %>

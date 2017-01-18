@@ -2,8 +2,10 @@ en:
   actions:
     activate: 'Activate'
     configure: 'Configurate'
+    deactivate: 'Deactivate'
     destroy: 'Delete'
     edit: 'Edit'
+    new: 'New'
     save: 'Save'
     save_in_progress: 'Save in progress...'
     sign_in: 'Sign in'

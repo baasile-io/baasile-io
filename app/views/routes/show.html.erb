@@ -2,37 +2,10 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-    <table class="table table-bordered">
-      <tbody>
-      <tr>
-        <th><%= t('activerecord.attributes.route.name') %></th>
-        <td><%= @route.name %></td>
-      </tr>
-      <tr>
-        <th><%= t('activerecord.attributes.route.description') %></th>
-        <td><%= @route.description %></td>
-      </tr>
-      <tr>
-        <th><%= t('activerecord.attributes.route.protocol') %></th>
-        <td><%= @route.protocol %></td>
-      </tr>
-      <tr>
-        <th><%= t('activerecord.attributes.route.hostname') %></th>
-        <td><%= @route.hostname %></td>
-      </tr>
-      <tr>
-        <th><%= t('activerecord.attributes.route.port') %></th>
-        <td><%= @route.port %></td>
-      </tr>
-      <tr>
-        <th><%= t('activerecord.attributes.route.url') %></th>
-        <td><%= @route.url %></td>
-      </tr>
-      </tbody>
-    </table>
 
-    <%= link_to t('actions.edit'), edit_service_proxy_route_path(current_service, @route.proxy, @route), class: 'btn btn-secondary' %>
-    <%= link_to t('actions.query_parameter'), service_proxy_route_query_parameters_path(current_service, @route.proxy, @route), class: 'btn btn-secondary' %>
+    <h5><%= @route.name %></h5>
+    <%= @route.description %>
+
   </div>
 </div>
 

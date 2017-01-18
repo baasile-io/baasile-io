@@ -1,7 +1,5 @@
 <% content_for(:page_title, t('.title')) %>
 
-<%= render 'new' %>
-
 <div class="b-io-content--secondary">
   <div class="container">
 
@@ -30,3 +28,11 @@
 
   </div>
 </div>
+
+<div class="b-io-content--header">
+  <div class="container">
+    <h3><%= t('query_parameters.new.title') %></h3>
+  </div>
+</div>
+
+<%= render 'new' %>

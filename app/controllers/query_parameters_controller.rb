@@ -18,9 +18,8 @@ class QueryParametersController < DashboardController
 
     if @query_parameter.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.query_parameter'))
-    else
-      flash[:error] = @query_parameter.errors.messages
     end
+
     redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
   end
 
@@ -30,7 +29,6 @@ class QueryParametersController < DashboardController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.query_parameter'))
       redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
     else
-      flash[:error] = @query_parameter.errors.messages
       render :edit
     end
   end

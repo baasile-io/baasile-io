@@ -7,6 +7,16 @@ fr:
       proxy:
         alias: 'Alias'
         description: 'Description'
+        proxy_parameter:
+          authentication_mode: "Mode d'authentification"
+          authentication_url: "URL d'authentification"
+          client_id: 'CLIENT ID'
+          client_secret: 'CLIENT SECRET'
+          grant_type: 'Grant type'
+          hostname: 'Domaine'
+          port: 'Port'
+          protocol: 'Protocole'
+          realm: 'realm'
         name: 'Nom'
         service: 'Service'
         service_id: 'Service'
@@ -15,9 +25,15 @@ fr:
       proxy_parameter:
         authentication_mode: "Mode d'authentification"
         authentication_url: "URL d'authentification"
+        client_id: 'CLIENT ID'
+        client_secret: 'CLIENT SECRET'
+        follow_redirection: 'Nombre de redirections maximum'
+        follow_url: "Suivre l'URL"
+        grant_type: 'Grant type'
         hostname: 'Domaine'
         port: 'Port'
         protocol: 'Protocole'
+        realm: 'realm'
       route:
         description: 'Description'
         name: 'Nom'
@@ -39,9 +55,9 @@ fr:
         user_id: 'Créateur'
         website: 'Site Internet'
     models:
-      query_parameter: 'Paramètres de la requête'
-      proxy: 'Proxy'
-      proxy_parameter: 'Paramètres du proxy'
+      query_parameter: 'Paramètre de requête'
+      proxy: 'Fonctionnalité'
+      proxy_parameter: 'Paramètres de fonctionnalité'
       route: 'Route'
       service: 'Service'
     validations:

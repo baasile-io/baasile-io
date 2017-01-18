@@ -7,10 +7,10 @@
       <tr>
         <th>Name</th>
         <th>Activated</th>
-        <th></th>
         <% if current_user.has_role?(:superadmin) %>
           <th>Admin</th>
         <% end %>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -18,14 +18,16 @@
       <tr>
         <td><%= service.name %></td>
         <td><%= service.is_activated? %></td>
-        <td class="text-xs-right">
-          <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-secondary' %>
-        </td>
         <% if current_user.has_role?(:superadmin) %>
           <td>
-            <%= link_to_if service.is_activated?, t('actions.permissions'), service_permissions_list_services_path(service.id), class: 'btn btn-secondary' %>
+            <% if service.is_activated? %>
+              <%= link_to t('actions.permissions'), service_permissions_list_services_path(service.id), class: 'btn btn-secondary' %>
+            <% end %>
           </td>
         <% end %>
+        <td class="text-xs-right">
+          <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
+        </td>
       </tr>
       <% end %>
       </tbody>

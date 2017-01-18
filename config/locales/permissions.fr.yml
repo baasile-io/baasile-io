@@ -1,0 +1,4 @@
+fr:
+  permissions:
+    list_services:
+      title: 'Permissions'

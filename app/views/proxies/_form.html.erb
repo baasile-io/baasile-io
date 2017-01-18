@@ -38,11 +38,12 @@
 
 <%= simple_form_for [current_service, @proxy] do |f| %>
 
+  <%= error_messages_for(@proxy) %>
+
   <div class="tab-content">
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_main %>" id="proxy_main">
       <%= f.input :name, required: true %>
-      <%= f.input :alias %>
       <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
 
       <%= f.simple_fields_for :proxy_parameter do |f2| %>

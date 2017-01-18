@@ -3,11 +3,11 @@
 <div class="b-io-content--secondary">
   <div class="container">
 
-
-    <table class="table">
+    <table class="table table-hover">
       <thead>
       <tr>
         <th><%= t('activerecord.attributes.route.name') %></th>
+        <th><%= t('activerecord.attributes.route.url') %></th>
         <th></th>
       </tr>
       </thead>
@@ -15,9 +15,9 @@
       <% @collection.each do |route| %>
         <tr>
           <td><%= route.name %></td>
+          <td><%= route.url %></td>
           <td class="text-xs-right">
-            <%= link_to t('actions.show'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>
-            <%= link_to t('actions.edit'), edit_service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>
+            <%= link_to t('misc.dashboard'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>
           </td>
         </tr>
       <% end %>

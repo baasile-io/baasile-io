@@ -1,0 +1,4 @@
+en:
+  permissions:
+    list_services:
+      title: 'Permissions'

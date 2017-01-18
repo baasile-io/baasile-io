@@ -1,3 +1,5 @@
 fr:
   misc:
+    correct_errors: 'Merci de corriger les erreurs ci-dessous :'
     dashboard: 'Tableau de bord'
+    invalid_fields: 'Champs renseignés non valides'

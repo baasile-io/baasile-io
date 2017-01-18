@@ -23,7 +23,6 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
-      flash[:error] = @service.errors.messages
       render :new
     end
   end
@@ -38,7 +37,6 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
-      flash[:error] = @service.errors.messages
       render :edit
     end
   end
@@ -48,7 +46,6 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.service'))
       redirect_to services_path
     else
-      flash[:error] = @service.errors.messages
       render :show
     end
   end

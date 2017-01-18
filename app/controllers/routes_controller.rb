@@ -24,7 +24,6 @@ class RoutesController < DashboardController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.route'))
       redirect_to service_proxy_route_path(current_service, @route.proxy, @route)
     else
-      flash[:error] = @route.errors.messages
       render :new
     end
   end
@@ -38,7 +37,6 @@ class RoutesController < DashboardController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.route'))
       redirect_to service_proxy_route_path(current_service, @route.proxy, @route)
     else
-      flash[:error] = @route.errors.messages
       render :edit
     end
   end

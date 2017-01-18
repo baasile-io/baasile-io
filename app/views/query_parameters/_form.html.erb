@@ -1,5 +1,7 @@
 <%= simple_form_for [current_service, current_proxy, current_route, @query_parameter] do |f| %>
 
+  <%= error_messages_for(@query_parameter) %>
+
   <%= f.input :name %>
     <%= f.input :mode, as: :radio_buttons, collection: format_mode_for_select, mode: t("types.mode.#{@query_parameter.mode}")%>
 
