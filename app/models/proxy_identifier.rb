@@ -12,7 +12,6 @@ class ProxyIdentifier < ApplicationRecord
   private
   def encrypt_secret
     self.encrypted_secret = DataEncryption.encrypt_secret(self.client_secret)
-    crypt.decrypt_and_verify(encrypted_data)
   end
 
 end

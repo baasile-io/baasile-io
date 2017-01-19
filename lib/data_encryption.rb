@@ -5,11 +5,11 @@ class DataEncryption
     @@secret_crypt
   end
 
-  def encrypt_secret(value)
+  def self.encrypt_secret(value)
     secret_crypt.encrypt_and_sign(value)
   end
 
-  def decrypt_secret(value)
+  def self.decrypt_secret(value)
     secret_crypt.decrypt_and_verify(value)
   end
 end
