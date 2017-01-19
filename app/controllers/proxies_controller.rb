@@ -24,6 +24,7 @@ class ProxiesController < DashboardController
     @proxy = Proxy.new(proxy_params)
     @proxy.user = current_user
     @proxy.service = current_service
+    @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.authorization_required? && @proxy.proxy_parameter.identifier.nil?
 
     if @proxy.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.proxy'))
@@ -34,11 +35,16 @@ class ProxiesController < DashboardController
   end
 
   def edit
-    logger.info @proxy.inspect
   end
 
   def update
-    if @proxy.update(proxy_params)
+    @proxy.assign_attributes(proxy_params)
+    if @proxy.proxy_parameter.authorization_required?
+      @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
+    else
+      @proxy.proxy_parameter.identifier.destroy unless @proxy.proxy_parameter.identifier.nil?
+    end
+    if @proxy.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else
@@ -59,11 +65,11 @@ class ProxiesController < DashboardController
   end
 
   def proxy_params
-    params.require(:proxy).permit(:name, :description, :alias, proxy_parameter_attributes: [:id, :follow_url, :follow_redirection, :authentication_mode, :protocol, :hostname, :port, :authentication_url, :realm, :grant_type, :client_id, :client_secret, :scope])
+    params.require(:proxy).permit(:name, :description, :alias, proxy_parameter_attributes: [:id, :follow_url, :follow_redirection, :authorization_mode, :protocol, :hostname, :port, :authorization_url, :realm, :grant_type, scopes: [], identifier_attributes: [:id, :client_id, :client_secret]])
   end
 
   def load_proxy_and_authorize
-    @proxy ||= Proxy.find_by_id(params[:id])
+    @proxy = Proxy.includes(:proxy_parameter, {:proxy_parameter => :identifier}).find_by_id(params[:id])
     return redirect_to services_path if @proxy.nil?
     unless @proxy.authorized?(current_user)
       return head(:forbidden)

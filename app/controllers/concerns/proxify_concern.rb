@@ -15,11 +15,19 @@ module ProxifyConcern
     end
 
     def code
-      @data[:code]
+      @data[:code].to_i
     end
 
     def body
       @data[:body]
+    end
+
+    def req
+      @data[:req]
+    end
+
+    def uri
+      @data[:uri]
     end
   end
 
@@ -27,6 +35,9 @@ module ProxifyConcern
   end
 
   class ProxyAuthenticationError < ProxyError
+  end
+
+  class ProxyRedirectionError < ProxyError
   end
 
   class ProxyRequestError < ProxyError
@@ -43,39 +54,62 @@ module ProxifyConcern
   end
 
   def proxy_request
-    proxy_authenticate if @current_proxy_parameter.authentication_mode != 'null'
-    proxy_prepare_request "#{current_route.uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", request.query_parameters
+    proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
+    proxy_prepare_request "#{current_route.uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", request.GET
     proxy_send_request
   end
 
   def proxy_prepare_request(uri, query = nil)
     @current_proxy_uri_object = URI.parse uri
     @current_proxy_uri_object.query = URI.encode_www_form(query) unless query.nil?
-    @current_proxy_send_request = Net::HTTP::Get.new @current_proxy_uri_object
-    case @current_proxy_parameter.authentication_mode
+
+    request_obj = case request.method_symbol
+                    when :get then Net::HTTP::Get
+                    when :post then Net::HTTP::Post
+                    when :head then Net::HTTP::Head
+                    when :put then Net::HTTP::Put
+                    when :delete then Net::HTTP::Delete
+                  end
+    @current_proxy_send_request = request_obj.send(:new, @current_proxy_uri_object)
+
+    case @current_proxy_send_request.content_type = request.content_type
+      when 'application/x-www-form-urlencoded'
+        @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
+      else
+        @current_proxy_send_request.body = request.raw_post
+    end
+
+    headers = request.headers.env.select { |k, _| k =~ /^HTTP_(USER|ACCEPT)/ }
+    headers.each do |header|
+      name = header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
+      @current_proxy_send_request[name] = header[1]
+    end
+
+    case @current_proxy_parameter.authorization_mode
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?
     end
   end
 
   def proxy_authenticate_after_unauthorized
     cache_del @current_proxy_cache_token
-    proxy_authenticate @current_proxy_parameter
+    proxy_authenticate
   end
 
   def proxy_authenticate
     if current_proxy_access_token.nil?
-      if @current_proxy_parameter.authentication_mode == 'oauth2'
-        uri = URI.parse current_proxy.authentication_uri
+      if @current_proxy_parameter.authorization_mode == 'oauth2'
+        uri = URI.parse current_proxy.authorization_uri
+        new_query_ar = URI.decode_www_form(uri.query || '')
+        new_query_ar << ["realm", @current_proxy_parameter.realm] if @current_proxy_parameter.realm.present?
+        uri.query = URI.encode_www_form(new_query_ar)
         req = Net::HTTP::Post.new uri
         req.content_type = 'application/x-www-form-urlencoded'
         params = {
-          client_id: @current_proxy_parameter.client_id,
-          client_secret: @current_proxy_parameter.client_secret
+          client_id: @current_proxy_parameter.identifier.client_id,
+          client_secret: @current_proxy_parameter.identifier.decrypt_secret
         }
-        params[:realm] = @current_proxy_parameter.realm if @current_proxy_parameter.realm.present?
         params[:grant_type] = @current_proxy_parameter.grant_type if @current_proxy_parameter.grant_type.present?
         params[:scope] = @current_proxy_parameter.scope if @current_proxy_parameter.scope.present?
-        logger.info params
         req.set_form_data(params)
 
         http = Net::HTTP.new uri.host, uri.port
@@ -85,7 +119,7 @@ module ProxifyConcern
         case res
           when Net::HTTPOK, Net::HTTPCreated   then set_current_proxy_access_token JSON.parse(res.body)['access_token']
           else
-            raise ProxyAuthenticationError, {code: res.code, body: res.body}
+            raise ProxyAuthenticationError, {uri: uri, req: req, code: res.code, body: res.body}
         end
       end
     end
@@ -94,16 +128,16 @@ module ProxifyConcern
   def proxy_send_request(limit = nil)
     limit ||= @current_proxy_parameter.follow_redirection
 
-    http = Net::HTTP.new @current_proxy_uri_object.host, @current_proxy_uri_object.port
+    http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
     http.use_ssl = @current_proxy_uri_object.scheme == 'https'
     res = http.request @current_proxy_send_request
 
     case res
       when Net::HTTPUnauthorized  then proxy_authenticate_after_unauthorized; proxy_send_request(limit - 1)
-      when Net::HTTPRedirection   then limit -= 1; if limit == -1 then raise ProxyRequestError else proxy_prepare_request(res['location']); proxy_send_request(limit) end
+      when Net::HTTPRedirection   then limit -= 1; if limit == -1 then raise(ProxyRedirectionError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body}) else proxy_prepare_request(res['location']); proxy_send_request(limit) end
       when Net::HTTPSuccess       then res
       else
-        raise ProxyRequestError, {code: res.code, body: res.body}
+        raise ProxyRequestError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body}
     end
   end
 

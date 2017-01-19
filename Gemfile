@@ -49,6 +49,8 @@ gem 'rack-attack'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha6'
+gem "select2-rails"
+gem "i18n-js", ">= 3.0.0.rc15"
 gem 'font-awesome-sass'
 gem 'simple_form', '~>3.3.1'
 ## tether positionning for popovers and tooltips
@@ -78,6 +80,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'capybara-screenshot'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
 end

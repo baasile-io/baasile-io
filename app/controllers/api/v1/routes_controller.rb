@@ -13,11 +13,41 @@ module Api
           res = proxy_request
           render status: res.code, plain: res.body
         rescue ProxyInitializationError
-          render plain: 'ProxyInitializationError'
-        rescue ProxyAuthenticationError => e
-          render status: :bad_gateway, plain: "An error occured with the proxy parameters. Please check on your dashboard your configuration.\r\nStatus code: #{e.code}\r\n#{e.body}"
-        rescue ProxyRequestError => e
-          render status: :bad_gateway, plain: "error code: #{e.code}\r\n\r\n#{e.body}"
+          render status: :internal_server_error, json: {
+            errors: [{
+              status: 591,
+              title: 'The server cannot process the request due to a configuration error'
+           }]
+          }
+        rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
+          if e.code >= 500
+            status = 595
+            title = 'The origin server cannot or will not process the request due to an apparent internal error'
+          elsif e.code >= 400
+            status = 594
+            title = 'The origin server cannot or will not process the request due to an apparent client error'
+          else
+            status = 593
+            title = 'The origin server cannot or will not process the request due to an apparent redirection error'
+          end
+          render status: :bad_gateway, json: {
+            errors: [{
+              status: status,
+              title: title,
+              meta: {
+                request: {
+                  method: e.req.method,
+                  original_url: e.uri.to_s,
+                  headers: e.req.to_hash,
+                  body: e.req.body
+                },
+                response: {
+                  status: e.code,
+                  body: e.body.to_s
+                }
+              }
+            }]
+          }
         end
       end
 
