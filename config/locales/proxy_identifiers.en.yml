@@ -1,0 +1,6 @@
+en:
+  proxy_identifiers:
+    index:
+      title: 'Credentials'
+    new:
+      title: 'Create a new credential'

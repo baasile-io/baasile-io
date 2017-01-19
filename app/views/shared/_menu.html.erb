@@ -12,6 +12,7 @@
         <nav class="nav nav-pills nav-stacked">
           <a class="nav-link" href="<%= service_proxy_path(current_service, current_proxy) %>"><%= t('misc.dashboard') %></a>
           <a class="nav-link" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('actions.edit') %></a>
+          <a class="nav-link" href="<%= service_proxy_proxy_identifiers_path(current_service, current_proxy) %>"><i class="fa fa-key fa-fw"></i> <%= t('activerecord.models.proxy_identifier').pluralize %></a>
           <a class="nav-link" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
         </nav>
       </div>

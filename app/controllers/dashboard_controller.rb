@@ -17,4 +17,8 @@ class DashboardController < ApplicationController
   def authorize_user
     return head(:forbidden) unless current_user.has_role?(:superadmin) || current_user.has_role?(:developer, current_service)
   end
+
+  def authorize_proxy
+    return head(:forbidden) unless current_proxy.authorized?(current_user)
+  end
 end

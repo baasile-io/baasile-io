@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119135810) do
+ActiveRecord::Schema.define(version: 20170119142129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20170119135810) do
     t.integer  "proxy_parameter_id"
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
+  end
+
+  create_table "proxy_identifiers", force: :cascade do |t|
+    t.string   "client_id"
+    t.string   "encrypted_secret"
+    t.integer  "proxy_id"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["client_id", "encrypted_secret"], name: "index_proxy_identifiers_on_client_id_and_encrypted_secret", unique: true, using: :btree
+    t.index ["proxy_id"], name: "index_proxy_identifiers_on_proxy_id", using: :btree
+    t.index ["user_id"], name: "index_proxy_identifiers_on_user_id", using: :btree
   end
 
   create_table "proxy_parameters", force: :cascade do |t|

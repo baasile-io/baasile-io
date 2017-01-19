@@ -22,6 +22,12 @@ fr:
         service_id: 'Service'
         user: 'Créateur'
         user_id: 'Créateur'
+      proxy_identifier:
+        client_id: 'Clé publique'
+        client_secret: 'Clé secrète'
+        encrypted_secret: 'Clé secrète cryptée'
+        proxy: 'Fonctionnalité'
+        user: 'Créateur'
       proxy_parameter:
         authentication_mode: "Mode d'authentification"
         authentication_url: "URL d'authentification"
@@ -60,6 +66,7 @@ fr:
     models:
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
+      proxy_identifier: 'Identifiant'
       proxy_parameter: 'Paramètres de fonctionnalité'
       route: 'Route'
       service: 'Service'

@@ -2,10 +2,6 @@ class RoutesController < DashboardController
   before_action :authorize_proxy
   before_action :load_route, only: [:show, :edit, :update, :destroy]
 
-  def authorize_proxy
-    return head(:forbidden) unless current_proxy.authorized?(current_user)
-  end
-
   def index
     @collection = current_proxy.routes.authorized(current_user)
   end

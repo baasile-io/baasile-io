@@ -1,0 +1,29 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.proxy_identifier.client_id') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |proxy_identifier| %>
+          <tr>
+            <td><%= proxy_identifier.client_id %></td>
+            <td class="text-xs-right">
+              <%= link_to t('actions.show'), service_proxy_proxy_identifier_path(current_service, current_proxy, proxy_identifier), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.edit'), edit_service_proxy_proxy_identifier_path(current_service, current_proxy, proxy_identifier), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= link_to t('actions.new'), new_service_proxy_proxy_identifier_path(current_service, current_proxy), class: 'btn btn-secondary' %><br />
+
+  </div>
+</div>

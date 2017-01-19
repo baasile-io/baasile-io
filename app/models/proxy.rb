@@ -8,6 +8,7 @@ class Proxy < ApplicationRecord
 
   belongs_to :proxy_parameter
   has_many :routes
+  has_many :proxy_identifiers
 
   accepts_nested_attributes_for :proxy_parameter
 

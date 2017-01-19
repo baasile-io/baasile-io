@@ -1,0 +1,6 @@
+fr:
+  proxy_identifiers:
+    index:
+      title: 'Identifiants de connexion'
+    new:
+      title: 'Créer un nouvel identifiant de connexion'

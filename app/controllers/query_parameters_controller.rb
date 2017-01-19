@@ -2,10 +2,6 @@ class QueryParametersController < DashboardController
   before_action :authorize_proxy
   before_action :load_query_parameter, only: [:show, :edit, :update, :destroy]
 
-  def authorize_proxy
-    return head(:forbidden) unless current_proxy.authorized?(current_user)
-  end
-
   def new
     @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
   end
