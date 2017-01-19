@@ -29,6 +29,15 @@
       <% end %>
     <% end %>
 
+    <hr>
+
+    <% if @service.is_referancable? %>
+        <% unless @service.is_referanced? %>
+            <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
+        <% else %>
+            <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
+        <% end %>
+    <% end %>
 
   </div>
 </div>

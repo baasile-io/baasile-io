@@ -50,6 +50,14 @@ class Service < ApplicationRecord
     !self.subdomain.blank?
   end
 
+  def is_referancable?
+    self.is_activated?
+  end
+
+  def is_referanced?
+    self.public?
+  end
+
   def subdomain_changed_disallowed
     if self.persisted? && subdomain_changed? && self.is_activated?
       errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))

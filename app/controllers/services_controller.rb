@@ -68,6 +68,29 @@ class ServicesController < ApplicationController
     end
   end
 
+  def public_set
+    @service = Service.find_by_id(params[:id])
+    unless @service.is_referancable?
+      flash[:error] = I18n.t('activerecord.validations.service.need_to_be_activated')
+      redirect_to edit_service_path(@service)
+    else
+      @service.public = true;
+      if @service.save
+        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
+      end
+      redirect_to service_path(@service)
+    end
+  end
+
+  def public_unset
+    @service = Service.find_by_id(params[:id])
+    @service.public = false;
+    if @service.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
+    end
+    redirect_to service_path(@service)
+  end
+
 =begin
   def set_right
     service_owner = Service.find(params[:id])

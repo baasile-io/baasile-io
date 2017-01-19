@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :services do
     member do
+      post :public_set
+      post :public_unset
       post :activate
       post :deactivate
       get :admin_board
