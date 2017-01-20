@@ -6,7 +6,8 @@
       <thead>
       <tr>
         <th>Name</th>
-        <th>Activated</th>
+        <th>Admin</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -18,6 +19,8 @@
         <% else %>
             <td>false</td>
         <% end %>
+        <td><%= link_to t('actions.user.show'), user_path(user.id), class: 'btn btn-secondary' %>
+        </td>
       </tr>
       <% end %>
       </tbody>
