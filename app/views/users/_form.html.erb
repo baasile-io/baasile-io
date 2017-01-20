@@ -1,0 +1,14 @@
+<%= simple_form_for @user  do |f| %>
+
+  <%= error_messages_for(@user) %>
+
+  <%= f.input :email, required: true %>
+    <%= f.input :first_name%>
+    <%= f.input :last_name%>
+    <%= f.input :gender, as: :select, collection: format_gender_for_select, mode: t("types.gender.#{@user.gender}")%>
+    <%= f.input :phone%>
+
+  <div class="actions">
+    <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+  </div>
+<% end %>

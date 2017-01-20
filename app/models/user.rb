@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :trackable, :validatable, :confirmable, :lockable
 
+  GENDERS = {Male: 1, Female: 2}
+  enum gender: GENDERS
+
   # User rights
   rolify role_join_table_name: 'public.users_roles'
 

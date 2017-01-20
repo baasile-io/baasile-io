@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
 
-  get '/show_profile', to: 'users#show_profile'
+  get '/profile', to: 'users#profile'
 
   resources :users do
   end

@@ -1,18 +1,39 @@
 class UsersController < ApplicationController
 
   before_action :is_super_admin, only: [:index]
-  before_action :load_user, only: [:show]
+  before_action :load_user, only: [:show, :edit, :update]
+  before_action :load_user_by_current_user, only: [:profile ]
 
   def index
     @collection = User.all
   end
 
-  def show_profile
-    @user = current_user
+  def update
+    @user.assign_attributes(user_params)
+    if @user.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
+      if @user != current_user
+        redirect_to users_path
+      else
+        redirect_to profile_path
+      end
+    else
+      render :edit
+    end
+  end
+
+  def edit
+  end
+
+  def profile
   end
 
   def show
     @services = Service.authorized(@user)
+  end
+
+  def load_user_by_current_user
+    @user = current_user
   end
 
   def load_user
@@ -26,6 +47,11 @@ class UsersController < ApplicationController
         return redirect_back
       end
     end
+  end
+
+  def user_params
+    allowed_parameters = [:email, :first_name, :last_name, :gender, :phone]
+    params.require(:user).permit(allowed_parameters)
   end
 
   def is_super_admin

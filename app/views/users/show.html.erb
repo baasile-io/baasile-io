@@ -2,13 +2,40 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
-    <h5><%= @user.email %></h5>
-
-    <% if @user.has_role?(:superadmin) %>
-        <h6>Admin user</h6>
-    <% end %>
-
+    <table class="table">
+      <thead>
+      <tr>
+        <th><% if @user.has_role?(:superadmin) %>
+              Admin user
+          <% else %>
+              Normal user
+          <% end %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>email:</td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td>first name:</td>
+        <td><%= @user.first_name %></td>
+      </tr>
+      <tr>
+        <td>last name:</td>
+        <td><%= @user.last_name %></td>
+      </tr>
+      <tr>
+        <td>gender:</td>
+        <td><%= t("types.gender.#{@user.gender}") unless @user.gender.nil? %></td>
+      </tr>
+      <tr>
+        <td>phone:</td>
+        <td><%= @user.phone %></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
