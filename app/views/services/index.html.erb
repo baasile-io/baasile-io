@@ -8,8 +8,9 @@
         <th>Name</th>
         <th>Activated</th>
         <% if current_user.has_role?(:superadmin) %>
-          <th>Admin</th>
+            <th>Admin</th>
         <% end %>
+        <th>Public</th>
         <th></th>
       </tr>
       </thead>
@@ -25,6 +26,7 @@
             <% end %>
           </td>
         <% end %>
+        <td><%= service.is_public? %></td>
         <td class="text-xs-right">
           <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
         </td>

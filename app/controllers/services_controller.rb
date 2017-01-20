@@ -18,7 +18,6 @@ class ServicesController < ApplicationController
     @service = Service.new
     @service.user = current_user
     @service.assign_attributes(service_params)
-
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
@@ -32,7 +31,6 @@ class ServicesController < ApplicationController
 
   def update
     @service.assign_attributes(service_params)
-
     if @service.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
@@ -70,16 +68,11 @@ class ServicesController < ApplicationController
 
   def public_set
     @service = Service.find_by_id(params[:id])
-    unless @service.is_referancable?
-      flash[:error] = I18n.t('activerecord.validations.service.need_to_be_activated')
-      redirect_to edit_service_path(@service)
-    else
-      @service.public = true;
-      if @service.save
-        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
-      end
-      redirect_to service_path(@service)
+    @service.public = true;
+    if @service.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
     end
+    redirect_to service_path(@service)
   end
 
   def public_unset
@@ -107,15 +100,10 @@ class ServicesController < ApplicationController
   end
 =end
 
-  def admin_board
-    @collection = Service.where.not(id: params[:id])
-    @service = Service.find_by_id(params[:id])
-  end
-
   private
 
   def service_params
-    allowed_parameters = [:name, :description]
+    allowed_parameters = [:name, :description, :public]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
   end

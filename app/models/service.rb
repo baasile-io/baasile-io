@@ -25,7 +25,7 @@ class Service < ApplicationRecord
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
-  scope :referenced, -> { where.not(confirmed_at: nil) and where(public: true) }
+  scope :publishable, -> { where.not(confirmed_at: nil) and where(public: true) }
 
   # Service rights
   rolify role_join_table_name: 'public.services_roles'
@@ -52,11 +52,7 @@ class Service < ApplicationRecord
     !self.subdomain.blank?
   end
 
-  def is_referancable?
-    self.is_activated?
-  end
-
-  def is_referanced?
+  def is_public?
     self.public?
   end
 
