@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @services = Service.authorized(@user)
   end
 
   def load_user
