@@ -7,6 +7,10 @@ class UsersController < ApplicationController
     @collection = User.all
   end
 
+  def show_profile
+    @user = current_user
+  end
+
   def show
   end
 

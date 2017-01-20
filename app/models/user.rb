@@ -11,4 +11,10 @@ class User < ApplicationRecord
   has_many :proxies
   has_many :routes
   has_many :query_parameters
+
+
+  def is_super_admin
+    return self.has_role?(:superadmin)
+  end
+
 end

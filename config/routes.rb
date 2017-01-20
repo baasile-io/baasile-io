@@ -11,11 +11,15 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
 
+  get '/show_profile', to: 'users#show_profile'
+
+  resources :users do
+  end
+
   resources :services do
     member do
       post :activate
       post :deactivate
-      get :admin_board
       post :set_right
       post :unset_right
     end
