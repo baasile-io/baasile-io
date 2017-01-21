@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :is_super_admin, only: [:index]
-  before_action :load_user, only: [:show, :edit, :update]
+  before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin]
   before_action :load_user_by_current_user, only: [:profile ]
 
   def index
@@ -30,6 +30,16 @@ class UsersController < ApplicationController
 
   def show
     @services = Service.authorized(@user)
+  end
+
+  def set_admin
+    @user.add_role(:superadmin);
+    return redirect_to users_path
+  end
+
+  def unset_admin
+    @user.remove_role(:superadmin);
+    return redirect_to users_path
   end
 
   def load_user_by_current_user

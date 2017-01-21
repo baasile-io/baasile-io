@@ -20,6 +20,13 @@
             <td>false</td>
         <% end %>
         <td><%= link_to t('actions.user.show'), user_path(user.id), class: 'btn btn-secondary' %>
+          <% if user != current_user %>
+          <% if user.has_role?(:superadmin) %>
+          <%= link_to t('actions.user.unset_admin'), unset_admin_user_path(user.id), method: :post, class: 'btn btn-secondary' %>
+          <% else %>
+              <%= link_to t('actions.user.set_admin'), set_admin_user_path(user.id), method: :post, class: 'btn btn-secondary' %>
+        <% end %>
+          <% end %>
         </td>
       </tr>
       <% end %>

@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#profile'
 
   resources :users do
+    member do
+      post :set_admin
+      post :unset_admin
+    end
   end
 
   resources :services do
