@@ -3,6 +3,10 @@ module Api
     class RoutesController < ApiController
       before_action :load_proxy_and_authorize
       before_action :load_route_and_authorize, except: [:index]
+      before_action :is_service_self_calling,
+                    only: [:authorize_scope_route,
+                           :authorize_scope_proxy,
+                           :authorize_scope_service]
 
       # allow proxy functionality
       include RedisStoreConcern
@@ -50,6 +54,36 @@ module Api
       def current_route
         @current_route ||= current_proxy.routes.find_by_id(params[:id])
       end
+
+      def authorize_scope_route
+        if @authenticated_service.has_role? :all, current_route
+          return true
+        end
+        return authorize_scope_proxy
+      end
+
+      def authorize_scope_proxy
+        if @authenticated_service.has_role? :all, current_proxy
+          return true
+        end
+        return authorize_scope_service
+      end
+
+      def authorize_scope_service
+
+        if @authenticated_service.has_role? :all, current_service
+          return true
+        end
+        return false
+      end
+
+      def is_service_self_calling
+        if @authenticated_service == current_service
+          return true
+        end
+        return false
+      end
+
     end
   end
 end
