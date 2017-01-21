@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :is_super_admin, only: [:index]
+  before_action :autorize_superadmin, only: [:index]
   before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin]
   before_action :load_user_by_current_user, only: [:profile ]
 
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(allowed_parameters)
   end
 
-  def is_super_admin
+  def autorize_superadmin
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end
 

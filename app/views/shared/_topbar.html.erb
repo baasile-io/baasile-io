@@ -9,7 +9,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="<%= services_path %>">Services</a>
             </li>
-            <% if current_user.is_super_admin %>
+            <% if current_user.is_superadmin %>
             <li class="nav-item active">
               <a class="nav-link" href="<%= users_path %>">Users</a>
             </li>

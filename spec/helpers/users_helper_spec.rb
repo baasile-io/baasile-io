@@ -12,4 +12,11 @@ require 'rails_helper'
 # end
 RSpec.describe UsersHelper, type: :helper do
   pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "gender" do
+     it "get_table" do
+      # expect(helper.format_gender_for_select()).to eq(1)
+     end
+  end
+
 end

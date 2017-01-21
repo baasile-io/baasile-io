@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :trackable, :validatable, :confirmable, :lockable
 
-  GENDERS = {Male: 1, Female: 2}
+  GENDERS = {male: 1, female: 2}
   enum gender: GENDERS
 
   # User rights
@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :query_parameters
 
 
-  def is_super_admin
+  def is_superadmin
     return self.has_role?(:superadmin)
   end
 
