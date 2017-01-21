@@ -1,7 +1,10 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy]
-  before_action :is_super_admin, only: [:activate, :deactivate, :set_right, :unset_right, :admin_board]
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy,
+                                                    :activate, :deactivate, :public_set,
+                                                    :public_unset]
+  before_action :is_super_admin, only: [:activate, :deactivate, :set_right,
+                                        :unset_right, :admin_board]
 
   def index
     @collection = Service.authorized(current_user)
@@ -49,7 +52,6 @@ class ServicesController < ApplicationController
   end
 
   def activate
-    @service = Service.find_by_id(params[:id])
     unless @service.is_activable?
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
       redirect_to edit_service_path(@service)
@@ -60,14 +62,13 @@ class ServicesController < ApplicationController
   end
 
   def deactivate
-    if @service = Service.find_by_id(params[:id])
+    if @service
       DeactivateServiceJob.perform_later @service.id
       redirect_to service_path(@service)
     end
   end
 
   def public_set
-    @service = Service.find_by_id(params[:id])
     @service.public = true;
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
@@ -76,7 +77,6 @@ class ServicesController < ApplicationController
   end
 
   def public_unset
-    @service = Service.find_by_id(params[:id])
     @service.public = false;
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))

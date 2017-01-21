@@ -2,7 +2,7 @@ module Api
   module V1
     class ServicesController < ApiController
       def index
-        services = Service.publishable
+        services = Service.published
         services_restrict = services.map do |service|
           {
             id: service.id,

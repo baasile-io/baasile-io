@@ -26,7 +26,7 @@
             <% end %>
           </td>
         <% end %>
-        <td><%= service.is_public? %></td>
+        <td><%= service.public %></td>
         <td class="text-xs-right">
           <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
         </td>

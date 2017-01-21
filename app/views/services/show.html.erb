@@ -29,7 +29,7 @@
     <% end %>
 
     <hr>
-    <% unless @service.is_public? %>
+    <% unless @service.public %>
         <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
     <% else %>
         <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
