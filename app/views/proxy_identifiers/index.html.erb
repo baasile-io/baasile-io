@@ -13,17 +13,19 @@
       <tbody>
       <% @collection.each do |proxy_identifier| %>
           <tr>
-            <td><%= proxy_identifier.client_id %></td>
+            <td>
+              <%= proxy_identifier.client_id %>
+            </td>
             <td class="text-xs-right">
-              <%= link_to t('actions.show'), service_proxy_proxy_identifier_path(current_service, current_proxy, proxy_identifier), class: 'btn btn-secondary' %>
               <%= link_to t('actions.edit'), edit_service_proxy_proxy_identifier_path(current_service, current_proxy, proxy_identifier), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.destroy'), service_proxy_proxy_identifier_path(current_service, current_proxy, proxy_identifier), method: :delete, class: 'btn btn-secondary' %>
             </td>
           </tr>
       <% end %>
       </tbody>
     </table>
 
-    <%= link_to t('actions.new'), new_service_proxy_proxy_identifier_path(current_service, current_proxy), class: 'btn btn-secondary' %><br />
+    <%= link_to t('actions.new'), new_service_proxy_proxy_identifier_path(current_service, current_proxy), class: 'btn btn-primary' %><br />
 
   </div>
 </div>

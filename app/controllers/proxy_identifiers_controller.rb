@@ -1,5 +1,6 @@
 class ProxyIdentifiersController < DashboardController
   before_action :authorize_proxy
+  before_action :load_proxy_identifier, only: [:edit, :update, :destroy]
 
   def index
     @collection = current_proxy.proxy_identifiers
@@ -17,6 +18,27 @@ class ProxyIdentifiersController < DashboardController
     if @proxy_identifier.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.proxy_identifier'))
       redirect_to service_proxy_proxy_identifiers_path(current_service, current_proxy)
+    else
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def destroy
+    if @proxy_identifier.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.proxy_identifier'))
+    end
+    redirect_to service_proxy_proxy_identifiers_path(current_service, current_proxy)
+  end
+
+  def update
+    if @proxy_identifier.update(proxy_identifier_params)
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy_identifier'))
+      redirect_to service_proxy_proxy_identifiers_path(current_service, current_proxy)
+    else
+      render :edit
     end
   end
 
@@ -26,5 +48,9 @@ class ProxyIdentifiersController < DashboardController
 
   def proxy_identifier_params
     params.require(:proxy_identifier).permit(:client_id, :client_secret)
+  end
+
+  def load_proxy_identifier
+    @proxy_identifier = ProxyIdentifier.find(params[:id])
   end
 end

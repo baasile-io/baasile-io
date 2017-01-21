@@ -3,6 +3,9 @@ fr:
     messages:
       blank: 'doit être renseigné(e)'
       not_a_number: 'doit être numérique'
+      not_in_the_future: 'doit être dans le futur'
       record_invalid: "L'objet de peut être enregistré car il est invalide"
+      required: 'est obligatoire'
+      taken: 'est déjà utilisé(e)'
       too_short: 'est trop court'
 

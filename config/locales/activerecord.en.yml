@@ -26,6 +26,7 @@ en:
         client_id: 'Public Key'
         client_secret: 'Secret Key'
         encrypted_secret: 'Encrypted Secret Key'
+        expires_at: "Expiration date"
         proxy: 'Functionality'
         user: 'Creator'
       proxy_parameter:

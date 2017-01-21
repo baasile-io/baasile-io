@@ -3,5 +3,8 @@ en:
     messages:
       blank: "can't be blank"
       not_a_number: 'must be numeric'
+      not_in_the_future: 'must be in the future'
       record_invalid: "The record cannot be saved because it is invalid"
+      required: 'is required'
+      taken: 'is already used'
       too_short: 'is too short'

@@ -26,6 +26,7 @@ fr:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'
         encrypted_secret: 'Clé secrète cryptée'
+        expires_at: "Date d'expiration"
         proxy: 'Fonctionnalité'
         user: 'Créateur'
       proxy_parameter:
