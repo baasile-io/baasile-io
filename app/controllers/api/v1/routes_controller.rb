@@ -7,6 +7,7 @@ module Api
                     only: [:authorize_scope_route,
                            :authorize_scope_proxy,
                            :authorize_scope_service]
+      before_action :authorize_scope_route
 
       # allow proxy functionality
       include RedisStoreConcern
@@ -56,6 +57,7 @@ module Api
       end
 
       def authorize_scope_route
+        return true if is_service_self_calling
         if @authenticated_service.has_role? :all, current_route
           return true
         end
@@ -63,6 +65,7 @@ module Api
       end
 
       def authorize_scope_proxy
+        return true if is_service_self_calling
         if @authenticated_service.has_role? :all, current_proxy
           return true
         end
@@ -70,7 +73,7 @@ module Api
       end
 
       def authorize_scope_service
-
+        return true if is_service_self_calling
         if @authenticated_service.has_role? :all, current_service
           return true
         end
