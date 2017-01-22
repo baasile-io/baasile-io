@@ -14,7 +14,7 @@ class Proxy < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
+  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)

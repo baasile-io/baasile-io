@@ -22,7 +22,7 @@ class Service < ApplicationRecord
                             presence: true,
                             if: :confirmed_at?
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
+  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
   # Service rights

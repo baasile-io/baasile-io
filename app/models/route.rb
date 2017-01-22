@@ -10,7 +10,7 @@ class Route < ApplicationRecord
   belongs_to :user
   has_many :query_parameters
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
+  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
