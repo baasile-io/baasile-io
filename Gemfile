@@ -38,6 +38,8 @@ gem 'redis-namespace'
 # User account
 gem 'devise', '~>4.2'
 gem 'rolify', '~>5.1.0'
+gem 'devise_security_extension'
+gem 'rails_email_validator'
 #gem 'apartment', '~>1.2'
 
 # Front
