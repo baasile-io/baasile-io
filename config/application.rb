@@ -14,5 +14,8 @@ module BaasileIo
 
     # Background jobs
     config.active_job.queue_adapter = :sidekiq
+
+    # Security
+    config.middleware.use Rack::Attack
   end
 end

@@ -8,6 +8,9 @@
     <%= f.email_field :email, autofocus: true %>
   </div>
 
+  <p><%= captcha_tag %></p>
+  <p><%= text_field_tag :captcha %></p>
+
   <div class="actions">
     <%= f.submit "Resend unlock instructions" %>
   </div>

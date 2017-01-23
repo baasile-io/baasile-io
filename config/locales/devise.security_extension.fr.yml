@@ -1,0 +1,14 @@
+fr:
+  errors:
+    messages:
+      taken_in_past: "a déjà été utilisé par le passé"
+      equal_to_current_password: "doit être différent du mot de passe courant"
+      password_format: "doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial"
+  devise:
+    invalid_captcha: "Le captcha est invalide"
+    password_expired:
+      updated: "Votre nouveau mot de passe a bien été enregistré."
+      change_required: "Votre mot de passe a expiré, veuillez le changer."
+    failure:
+      session_limited: 'Vous avez une session active sur un autre appareil, veuillez vous reconnecter.'
+      expired: "Votre compte a été désactivé du fait d'une longue inactivité. Veuillez contacter un administrateur afin de réactiver votre accès."

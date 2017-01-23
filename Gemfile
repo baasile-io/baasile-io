@@ -31,14 +31,21 @@ gem 'jbuilder', '~> 2.5'
 # Databases
 gem 'pg', '~>0.19'
 
-# Cach store
-gem 'redis'
+# Cache store
+gem 'redis-rails'
+#gem 'redis'
 gem 'redis-namespace'
 
 # User account
 gem 'devise', '~>4.2'
 gem 'rolify', '~>5.1.0'
+gem 'devise_security_extension'
+gem 'rails_email_validator'
+gem 'easy_captcha'
 #gem 'apartment', '~>1.2'
+
+# Security
+gem 'rack-attack'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha5'
