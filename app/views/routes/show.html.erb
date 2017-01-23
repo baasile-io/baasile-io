@@ -6,6 +6,12 @@
     <h5><%= @route.name %></h5>
     <%= @route.description %>
 
+    <hr>
+    <h5>API</h5>
+    <p>/api/v1/<%= current_service.subdomain %>/proxies/<%= current_proxy.id %>/routes/<%= @route.id %></p>
+    <p>Make a request to the API beside this proxy: <br />/api/v1/<%= current_service.subdomain %>/proxies/<%= current_proxy.id %>/routes/<%= @route.id %>/request</p>
+
+
   </div>
 </div>
 
