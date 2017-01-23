@@ -48,7 +48,7 @@ class ProxiesController < DashboardController
   end
 
   def proxy_params
-    params.require(:proxy).permit(:name, :description, :alias, proxy_parameter_attributes: [:id, :follow_url, :follow_redirection, :authentication_mode, :protocol, :hostname, :port, :authentication_url, :realm, :grant_type, :client_id, :client_secret])
+    params.require(:proxy).permit(:name, :description, :alias, proxy_parameter_attributes: [:id, :follow_url, :follow_redirection, :authentication_mode, :protocol, :hostname, :port, :authentication_url, :realm, :grant_type, :client_id, :client_secret, :scope])
   end
 
   def load_proxy_and_authorize

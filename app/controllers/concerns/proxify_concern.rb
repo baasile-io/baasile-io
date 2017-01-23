@@ -71,7 +71,8 @@ module ProxifyConcern
         req.set_form_data({realm: @current_proxy_parameter.realm,
                            grant_type: @current_proxy_parameter.grant_type || 'client_credentials',
                            client_id: @current_proxy_parameter.client_id,
-                           client_secret: @current_proxy_parameter.client_secret})
+                           client_secret: @current_proxy_parameter.client_secret,
+                           scope: @current_proxy_parameter.scope})
 
         http = Net::HTTP.new uri.host, uri.port
         http.use_ssl = @current_proxy_parameter.protocol == 'https'

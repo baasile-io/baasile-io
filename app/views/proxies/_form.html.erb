@@ -2,7 +2,7 @@
   tab_active = nil
   tab_attributes = {
     proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection'],
-    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret']
+    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret', :'proxy_parameter.scope']
   }
   tab_errors = {
     proxy_main: 0,
@@ -62,6 +62,7 @@
         <%= f2.input :authentication_url %>
         <%= f2.input :realm %>
         <%= f2.input :grant_type %>
+        <%= f2.input :scope %>
         <%= f2.input :client_id %>
         <%= f2.input :client_secret %>
       <% end %>
