@@ -2,7 +2,7 @@ module Api
   class AuthenticationController < ApiController
     def authenticate
       service = Service.find_by_client_id(params[:client_id])
-      if !service.nil? && service.client_secret == params[:client_secret]
+      if !service.nil? && service.is_activated? && service.client_secret == params[:client_secret]
         render json: payload(service)
       else
         render json: {errors: ['Invalid ID/SECRET']}, status: :unauthorized

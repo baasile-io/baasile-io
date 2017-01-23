@@ -31,6 +31,7 @@ module Api
 
     def current_service
       @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
+      head :forbidden unless @current_service.is_activated?
     end
 
     def authenticate_schema
