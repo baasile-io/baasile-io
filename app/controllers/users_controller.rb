@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :autorize_superadmin, only: [:index]
   before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin]
   before_action :load_user_by_current_user, only: [:profile ]

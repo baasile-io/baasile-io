@@ -3,8 +3,6 @@
 <div class="b-io-content--secondary">
   <div class="container">
 
-    <%= render 'shared/flash' %>
-
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
       <%= f.input :email, required: true, autofocus: true %>
@@ -21,6 +19,12 @@
         <%= f.button :submit, value: t('actions.sign_in'), data: { disable_with: t('actions.signin_in') } %>
       </div>
     <% end %>
+
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container">
 
     <%= render "devise/shared/links" %>
 
