@@ -2,10 +2,11 @@
 
   <%= error_messages_for(@user) %>
 
-  <%= f.input :email, required: true %>
+  <%= @user.email%>
+    <hr>
     <%= f.input :first_name%>
     <%= f.input :last_name%>
-    <%= f.input :gender, as: :select, collection: format_gender_for_select, mode: t("types.gender.#{@user.gender}")%>
+    <%= f.input :gender, as: :select, collection: format_gender_for_select, mode: t("types.gender.#{@user.gender}"), include_blank: false%>
     <%= f.input :phone%>
 
   <div class="actions">

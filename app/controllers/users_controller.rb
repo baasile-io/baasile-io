@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @services = Service.authorized(@user)
+    @services = Service.owned(@user)
   end
 
   def set_admin
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    allowed_parameters = [:email, :first_name, :last_name, :gender, :phone]
+    allowed_parameters = [:first_name, :last_name, :gender, :phone]
     params.require(:user).permit(allowed_parameters)
   end
 
