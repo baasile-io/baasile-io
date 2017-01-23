@@ -2,7 +2,7 @@ module ProxifyConcern
   extend ActiveSupport::Concern
 
   included do
-    before_action :proxy_initialize
+    before_action :proxy_initialize, only: [:process_request]
   end
 
   class ProxyError < StandardError

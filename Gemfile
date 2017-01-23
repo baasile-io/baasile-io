@@ -33,7 +33,7 @@ gem 'pg', '~>0.19'
 
 # Cache store
 gem 'redis-rails'
-#gem 'redis'
+gem 'redis'
 gem 'redis-namespace'
 
 # User account
