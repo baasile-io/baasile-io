@@ -2,7 +2,7 @@ class ProxiesController < DashboardController
   before_action :load_proxy_and_authorize, only: [:show, :edit, :update, :destroy]
 
   def index
-    @collection = Proxy.authorized(current_user)
+    @collection = current_service.proxies.authorized(current_user)
   end
 
   def new
