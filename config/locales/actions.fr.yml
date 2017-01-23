@@ -6,6 +6,7 @@ fr:
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     edit: 'Modifier'
+    edit_account: 'Modifier mon compte'
     new: 'Ajouter'
     resend_confirmation_instructions: 'Renvoyer le de confirmation'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'

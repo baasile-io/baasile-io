@@ -6,6 +6,7 @@ en:
     deactivate: 'Deactivate'
     destroy: 'Delete'
     edit: 'Edit'
+    edit_account: 'Edit account'
     new: 'New'
     resend_confirmation_instructions: 'Resend condirmation instructions'
     reset_unlock_instructions: 'Resend unlock instructions'
