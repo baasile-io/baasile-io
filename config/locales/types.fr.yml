@@ -11,5 +11,5 @@ fr:
       http: 'HTTP'
       https: 'HTTPS'
     genders:
-      male: 'male'
-      female: 'female'
+      male: 'Monsieur'
+      female: 'Madame'
