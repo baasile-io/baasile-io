@@ -1,7 +1,6 @@
 module Api
   class ApiController < ActionController::Base
-    helper_method :current_service
-    helper_method :authenticate_schema
+    before_action :authenticate_schema
 
     protected
     def authenticate_request!
@@ -31,12 +30,16 @@ module Api
 
     def current_service
       @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
-      head :forbidden unless @current_service.is_activated?
     end
 
     def authenticate_schema
       if current_service.nil?
-        return render nothing: true, status: :not_found
+        render nothing: true, status: :not_found
+        return false
+      end
+      unless @current_service.is_activated?
+        head :forbidden
+        return false
       end
     end
   end

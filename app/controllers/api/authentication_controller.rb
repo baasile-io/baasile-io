@@ -1,5 +1,7 @@
 module Api
   class AuthenticationController < ApiController
+    skip_before_action :authenticate_schema
+
     def authenticate
       service = Service.find_by_client_id(params[:client_id])
       if !service.nil? && service.is_activated? && service.client_secret == params[:client_secret]
