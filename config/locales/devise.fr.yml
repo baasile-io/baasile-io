@@ -31,9 +31,12 @@ fr:
       failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
       success: "Authentifié avec succès via %{kind}."
     passwords:
+      edit:
+        title: 'Changer de mot de passe'
       new:
         title: 'Mot de passe oublié'
       no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète."
+      password_restrictions: "Au minimum 6 caractères, 1 majuscule, 1 minuscule et 1 chiffre."
       send_instructions: "Vous allez recevoir les instructions de réinitialisation du mot de passe dans quelques instants"
       send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez recevoir un lien de réinitialisation par e-mail"
       updated: "Votre mot de passe a été édité avec succès, vous êtes maintenant connecté"

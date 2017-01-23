@@ -21,8 +21,8 @@
         </ul>
         <div class="float-lg-right">
           <% if current_user.nil? %>
-            <a href="<%= new_user_session_path %>" class="btn btn-outline-info">Sign in</a>
-            <a href="<%= new_user_registration_path %>" class="btn btn-outline-info">Sign up</a>
+            <a href="<%= new_user_session_path %>" class="btn btn-outline-info"><%= t('actions.sign_in') %></a>
+            <a href="<%= new_user_registration_path %>" class="btn btn-outline-info"><%= t('actions.sign_up') %></a>
           <% else %>
             <%= link_to t('actions.sign_out'), destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger' %>
           <% end %>

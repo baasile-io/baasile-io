@@ -1,6 +1,7 @@
 fr:
   actions:
     activate: 'Activer'
+    change_password: 'Changer de mot de passe'
     configure: 'Configurer'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'

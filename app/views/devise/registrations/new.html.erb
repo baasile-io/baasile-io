@@ -8,7 +8,7 @@
 
         <%= f.input :email, required: true, autofocus: true %>
 
-        <%= f.input :password, required: true, autocomplete: "off" %>
+        <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
 
         <%= f.input :password_confirmation, required: true %>
 

@@ -1,6 +1,7 @@
 en:
   actions:
     activate: 'Activate'
+    change_password: 'Change password'
     configure: 'Configurate'
     deactivate: 'Deactivate'
     destroy: 'Delete'
