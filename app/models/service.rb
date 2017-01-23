@@ -68,4 +68,9 @@ class Service < ApplicationRecord
       self.save
     end
   end
+
+  def deactivate
+    self.confirmed_at = nil
+    self.save
+  end
 end

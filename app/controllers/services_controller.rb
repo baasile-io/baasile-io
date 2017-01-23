@@ -55,14 +55,14 @@ class ServicesController < ApplicationController
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
       redirect_to edit_service_path(@service)
     else
-      ServiceNotifier.send_validation(self).deliver_now
+      ServiceNotifier.send_validation(@service).deliver_now
       redirect_to service_path(@service)
     end
   end
 
   def deactivate
-    if @service.deactivate
-
+    unless @service.deactivate
+      flash[:error] = I18n.t('errors.an_error_occured')
     end
     redirect_to service_path(@service)
   end
