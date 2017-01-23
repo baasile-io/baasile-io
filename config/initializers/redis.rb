@@ -1,1 +1,1 @@
-$redis = Redis::Namespace.new(ENV['BAASILE_IO_HOSTNAME'], :redis => Redis.new)
+$redis = Redis::Namespace.new("app", redis: Redis.new)

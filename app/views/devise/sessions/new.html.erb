@@ -14,6 +14,9 @@
         <%= f.input :remember_me, as: :boolean, wrapper: :checkbox %>
       <% end -%>
 
+      <p><%= captcha_tag %></p>
+      <p><%= text_field_tag :captcha %></p>
+
       <div class="actions">
         <%= f.button :submit, value: t('actions.sign_in'), data: { disable_with: t('actions.signin_in') } %>
       </div>

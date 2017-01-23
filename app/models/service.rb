@@ -59,4 +59,13 @@ class Service < ApplicationRecord
   def assign_default_user_role
     self.user.add_role(:developer, self)
   end
+
+  def activate
+    if self.is_activable?
+      self.confirmed_at = Date.new if self.confirmed_at.nil?
+      self.generate_client_id!
+      self.generate_client_secret!
+      self.save
+    end
+  end
 end

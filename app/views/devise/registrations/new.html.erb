@@ -12,6 +12,9 @@
 
         <%= f.input :password_confirmation, required: true %>
 
+        <p><%= captcha_tag %></p>
+        <p><%= text_field_tag :captcha %></p>
+
         <div class="actions">
           <%= f.button :submit, value: I18n.t('actions.sign_up'), data: { disable_with: t('actions.signin_up') } %>
         </div>
