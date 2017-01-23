@@ -112,14 +112,9 @@ ActiveRecord::Schema.define(version: 20170122222051) do
     t.string   "client_secret"
     t.integer  "user_id"
     t.datetime "confirmed_at"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "subdomain"
-<<<<<<< HEAD
-    t.boolean  "public",                    default: false
-    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
-=======
->>>>>>> implement middleware security Rack::Attack
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -146,22 +141,16 @@ ActiveRecord::Schema.define(version: 20170122222051) do
     t.integer  "failed_attempts",                   default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-<<<<<<< HEAD
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "current_subdomain"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "gender"
-    t.string   "phone"
-=======
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
     t.datetime "password_changed_at"
     t.string   "unique_session_id",      limit: 20
     t.datetime "last_activity_at"
     t.datetime "expired_at"
->>>>>>> implement middleware security Rack::Attack
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "gender"
+    t.string   "phone"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree
     t.index ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree
