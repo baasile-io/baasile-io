@@ -1,7 +1,6 @@
 module Api
   module V1
     class RoutesController < ApiController
-      before_action :authenticate_request!
       before_action :load_proxy_and_authorize
       before_action :load_route_and_authorize, except: [:index]
 

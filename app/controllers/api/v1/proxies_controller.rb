@@ -1,7 +1,6 @@
 module Api
   module V1
     class ProxiesController < ApiController
-      before_action :authenticate_request!
       before_action :load_proxy_and_authorize, except: [:index]
 
       def show
