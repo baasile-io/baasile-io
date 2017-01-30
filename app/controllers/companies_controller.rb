@@ -4,11 +4,14 @@ class CompaniesController < ApplicationController
 
 
   def index
-    @company = Company.new
     @collection = Company.all
   end
 
   def show
+  end
+
+  def new
+    @company = Company.new
   end
 
   def create
@@ -18,9 +21,9 @@ class CompaniesController < ApplicationController
 
     if @company.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.company'))
-      redirect_to companies_path
+      redirect_to company_path(@company)
     else
-      redirect_to companies_path
+      render :new
     end
   end
 
@@ -32,7 +35,7 @@ class CompaniesController < ApplicationController
 
     if @company.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.company'))
-      redirect_to companies_path
+      redirect_to company_path(@company)
     else
       render :edit
     end
@@ -43,7 +46,7 @@ class CompaniesController < ApplicationController
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.company'))
       redirect_to companies_path
     else
-      redirect_to companies_path
+      render :show
     end
   end
 

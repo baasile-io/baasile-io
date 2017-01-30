@@ -2,14 +2,6 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
-    <%= render 'form' %>
-
-  </div>
-</div>
-
-<div class="b-io-content--secondary">
-  <div class="container">
     <table class="table">
       <thead>
       <tr>
@@ -30,6 +22,7 @@
       <% end %>
       </tbody>
     </table>
+    <%= link_to t('actions.new'), new_company_path, class: 'btn btn-secondary' %><br />
 
   </div>
 </div>
