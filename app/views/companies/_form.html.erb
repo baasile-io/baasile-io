@@ -1,0 +1,10 @@
+<%= simple_form_for @company  do |f| %>
+
+  <%= error_messages_for(@company) %>
+
+  <%= f.input :name, required: true %>
+
+  <div class="actions">
+    <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+  </div>
+<% end %>

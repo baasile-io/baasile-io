@@ -1,0 +1,35 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <%= render 'form' %>
+
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |company| %>
+      <tr>
+        <td><%= company.name %></td>
+        <td> <%= link_to t('actions.edit'), edit_company_path(company.id), class: 'btn btn-secondary' %></td>
+
+        <td><%= button_to t('actions.destroy'), company_path(company.id), class: 'btn btn-danger', method: :delete %></td>
+
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
