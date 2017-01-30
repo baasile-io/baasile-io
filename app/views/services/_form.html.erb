@@ -4,8 +4,8 @@
 
   <%= f.input :name, required: true %>
   <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
-
-  <% if current_user.has_role?(:superadmin) %>
+    <%= f.input :company_id, as: :select, collection: @companies,required: false %>
+    <% if current_user.has_role?(:superadmin) %>
     <%= f.input :subdomain, disabled: @service.is_activated? %>
   <% end %>
     <%= f.input :public, label: false, inline_label: true%>
