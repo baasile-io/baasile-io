@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130114137) do
+ActiveRecord::Schema.define(version: 20170130155205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,24 @@ ActiveRecord::Schema.define(version: 20170130114137) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.index ["name"], name: "index_companies_on_name", unique: true, using: :btree
+  end
+
+  create_table "contact_details", force: :cascade do |t|
+    t.string   "contactable_type"
+    t.integer  "contactable_id"
+    t.string   "name",             limit: 255
+    t.string   "siret",            limit: 255
+    t.string   "address_line1",    limit: 255
+    t.string   "address_line2",    limit: 255
+    t.string   "address_line3",    limit: 255
+    t.string   "zip",              limit: 255
+    t.string   "city",             limit: 255
+    t.string   "country",          limit: 255
+    t.string   "phone",            limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
+    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "old_passwords", force: :cascade do |t|
