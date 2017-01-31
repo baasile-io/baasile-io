@@ -5,7 +5,6 @@ class CreateCompanies < ActiveRecord::Migration[5.0]
       t.integer :uuid
       t.string :name, limit: 255
       t.integer :administrator_id
-      t.integer :contact_detail_id
       t.integer :user_id
 
       t.timestamps
