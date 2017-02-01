@@ -3,17 +3,18 @@
   <%= error_messages_for(@company) %>
 
   <%= f.input :name, required: true %>
-    <%= f.simple_fields_for :contactable do |f2| %>
-        <%= f2.input :name, required: true %>
-        <%= f2.input :siret, required: true %>
-        <%= f2.input :address_line1, required: true %>
-        <%= f2.input :address_line2, required: true %>
-        <%= f2.input :address_line3, required: true %>
-        <%= f2.input :zip, required: true %>
-        <%= f2.input :city, required: true %>
-        <%= f2.input :country, as: :string, required: true %>
-        <%= f2.input :phone, required: true %>
-    <% end %>
+
+  <%= f.simple_fields_for :contact_detail do |f2| %>
+    <%= f2.input :name, required: true %>
+    <%= f2.input :siret, required: true %>
+    <%= f2.input :address_line1, required: true %>
+    <%= f2.input :address_line2, required: true %>
+    <%= f2.input :address_line3, required: true %>
+    <%= f2.input :zip, required: true %>
+    <%= f2.input :city, required: true %>
+    <%= f2.input :country, as: :string, required: true %>
+    <%= f2.input :phone, required: true %>
+  <% end %>
 
   <div class="actions">
     <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
