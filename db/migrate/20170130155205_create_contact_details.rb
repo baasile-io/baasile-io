@@ -1,7 +1,7 @@
 class CreateContactDetails < ActiveRecord::Migration[5.0]
   def change
     create_table :contact_details do |t|
-      t.references :contactable, polymorphic: true, index: true
+      t.references :contactable, polymorphic: true
       t.string :name, limit: 255
       t.string :siret, limit: 255
       t.string :address_line1, limit: 255
