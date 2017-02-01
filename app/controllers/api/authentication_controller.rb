@@ -20,9 +20,10 @@ module Api
 
     def payload(service)
       return nil unless service and service.id
+      exp = Time.now.to_i + 4 * 3600
+      payload = { service_id: service.id, exp: exp }
       {
-        auth_token: JsonWebToken.encode({service_id: service.id}),
-        service: {id: service.id}
+        auth_token: JsonWebToken.encode(payload)
       }
     end
   end
