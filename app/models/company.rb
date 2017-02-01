@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
 
-  belongs_to :service
+  has_many :services
   belongs_to :user
   has_one :contact_detail, as: :contactable, dependent: :destroy
 

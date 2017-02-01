@@ -5,6 +5,9 @@
       <div class="row">
         <div class="col-xs-12">
           <h1><%= current_service.name %></h1>
+          <% if current_service.company %>
+            <h4><%= current_service.company.name %></h4>
+          <% end %>
         </div>
       </div>
       <div class="row">

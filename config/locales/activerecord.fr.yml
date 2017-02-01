@@ -1,6 +1,8 @@
 fr:
   activerecord:
     attributes:
+      company:
+        name: 'Nom'
       query_parameter:
         name: 'Nom'
         mode: 'Mode'
@@ -58,6 +60,7 @@ fr:
         email: 'E-Mail'
         password: 'Mot de passe'
     models:
+      company: 'Compagnie'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'

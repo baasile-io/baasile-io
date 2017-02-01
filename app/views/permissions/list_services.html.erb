@@ -24,7 +24,7 @@
           <%= is_admin_of(service) %>
         </td>
           <td>
-            <%= link_to "property", service_permissions_list_proxies_routes_path(id: service.id, service_id: current_service.id), class: 'btn btn-secondary' %>
+            <%= link_to "property", service_permissions_list_proxies_routes_path(service, service_id: current_service.id), class: 'btn btn-secondary' %>
           </td>
           <td>
          <% if is_admin_of(service) %>

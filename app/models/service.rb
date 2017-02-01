@@ -4,7 +4,7 @@ class Service < ApplicationRecord
   after_create :assign_default_user_role
 
   belongs_to :user
-  has_one :company
+  belongs_to :company
   has_many :proxies
   has_many :routes, through: :proxies
 
