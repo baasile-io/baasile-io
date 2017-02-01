@@ -52,6 +52,10 @@ class CompaniesController < ApplicationController
     'companies'
   end
 
+  def company_admin
+    @collection = User.has_role?(:admin, user)
+  end
+
   private
 
   def company_params
