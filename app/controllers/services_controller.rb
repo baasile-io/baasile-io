@@ -52,20 +52,20 @@ class ServicesController < ApplicationController
   end
 
   def activate
-    unless @service.is_activable?
+    unless @service.activate
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
       redirect_to edit_service_path(@service)
     else
-      ActivateServiceJob.perform_later @service.id
+      ServiceNotifier.send_validation(@service).deliver_now
       redirect_to service_path(@service)
     end
   end
 
   def deactivate
-    if @service
-      DeactivateServiceJob.perform_later @service.id
-      redirect_to service_path(@service)
+    unless @service.deactivate
+      flash[:error] = I18n.t('errors.an_error_occured')
     end
+    redirect_to service_path(@service)
   end
 
   def public_set
@@ -83,22 +83,6 @@ class ServicesController < ApplicationController
     end
     redirect_to service_path(@service)
   end
-
-=begin
-  def set_right
-    service_owner = Service.find(params[:id])
-    service_targeted = Service.find(params[:target_id])
-    service_owner.add_role(:all, service_targeted)
-    redirect_to admin_board_service_path(params[:id])
-  end
-
-  def unset_right
-    service_owner = Service.find(params[:id])
-    service_targeted = Service.find(params[:target_id])
-    service_owner.remove_role :all, service_targeted
-    redirect_to admin_board_service_path(params[:id])
-  end
-=end
 
   private
 

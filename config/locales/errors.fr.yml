@@ -1,5 +1,6 @@
 fr:
   errors:
+    an_error_occured: 'Une erreur est survenue'
     messages:
       blank: 'doit être renseigné(e)'
       not_a_number: 'doit être numérique'

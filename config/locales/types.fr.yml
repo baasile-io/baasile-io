@@ -10,3 +10,6 @@ fr:
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
+    genders:
+      male: 'Monsieur'
+      female: 'Madame'

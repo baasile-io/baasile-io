@@ -2,6 +2,8 @@ require_relative 'boot'
 
 require 'rails/all'
 
+require_relative '../lib/api_auth_middleware'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -14,5 +16,9 @@ module BaasileIo
 
     # Background jobs
     config.active_job.queue_adapter = :sidekiq
+
+    # Security
+    config.middleware.use ::ApiAuthMiddleware
+    config.middleware.use Rack::Attack
   end
 end

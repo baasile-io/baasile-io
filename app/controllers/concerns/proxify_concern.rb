@@ -2,7 +2,7 @@ module ProxifyConcern
   extend ActiveSupport::Concern
 
   included do
-    before_action :proxy_initialize
+    before_action :proxy_initialize, only: [:process_request]
   end
 
   class ProxyError < StandardError
@@ -68,10 +68,15 @@ module ProxifyConcern
         uri = URI.parse current_proxy.authentication_uri
         req = Net::HTTP::Post.new uri
         req.content_type = 'application/x-www-form-urlencoded'
-        req.set_form_data({realm: @current_proxy_parameter.realm,
-                           grant_type: @current_proxy_parameter.grant_type || 'client_credentials',
-                           client_id: @current_proxy_parameter.client_id,
-                           client_secret: @current_proxy_parameter.client_secret})
+        params = {
+          client_id: @current_proxy_parameter.client_id,
+          client_secret: @current_proxy_parameter.client_secret
+        }
+        params[:realm] = @current_proxy_parameter.realm if @current_proxy_parameter.realm.present?
+        params[:grant_type] = @current_proxy_parameter.grant_type if @current_proxy_parameter.grant_type.present?
+        params[:scope] = @current_proxy_parameter.scope if @current_proxy_parameter.scope.present?
+        logger.info params
+        req.set_form_data(params)
 
         http = Net::HTTP.new uri.host, uri.port
         http.use_ssl = @current_proxy_parameter.protocol == 'https'

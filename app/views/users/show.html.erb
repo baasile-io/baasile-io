@@ -1,0 +1,76 @@
+<% content_for(:page_title) { @user.email } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th><% if @user.has_role?(:superadmin) %>
+              Admin user
+          <% else %>
+              Normal user
+          <% end %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>email:</td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td>first name:</td>
+        <td><%= @user.first_name %></td>
+      </tr>
+      <tr>
+        <td>last name:</td>
+        <td><%= @user.last_name %></td>
+      </tr>
+      <tr>
+        <td>gender:</td>
+        <td><%= t("types.genders.#{@user.gender}") unless @user.gender.nil? %></td>
+      </tr>
+      <tr>
+        <td>phone:</td>
+        <td><%= @user.phone %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Activated</th>
+        <% if current_user.has_role?(:superadmin) %>
+            <th>Admin</th>
+        <% end %>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @services.each do |service| %>
+          <tr>
+            <td><%= service.name %></td>
+            <td><%= service.is_activated? %></td>
+            <% if current_user.has_role?(:superadmin) %>
+                <td>
+                  <% if service.is_activated? %>
+                      <%= link_to t('actions.permissions'), service_permissions_list_services_path(service.id), class: 'btn btn-secondary' %>
+                  <% end %>
+                </td>
+            <% end %>
+            <td class="text-xs-right">
+              <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

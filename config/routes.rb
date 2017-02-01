@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  captcha_route
   devise_for :users
 
   # Background jobs
@@ -11,13 +12,21 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
 
+  get '/profile', to: 'users#profile'
+
+  resources :users do
+    member do
+      post :set_admin
+      post :unset_admin
+    end
+  end
+
   resources :services do
     member do
       post :public_set
       post :public_unset
       post :activate
       post :deactivate
-      get :admin_board
       post :set_right
       post :unset_right
     end
@@ -44,8 +53,8 @@ Rails.application.routes.draw do
     end
 
     namespace :v1 do
+      resources :services, only: :index
       scope '/:current_subdomain' do
-        resources :services, only: :index
         resources :proxies do
           resources :routes, only: [:index] do
             member do

@@ -22,7 +22,8 @@ class Service < ApplicationRecord
                             presence: true,
                             if: :confirmed_at?
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : with_role(:developer, user) }
+  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
+  scope :owned, ->(user) { where(user_id: user.id) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
   scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
@@ -60,5 +61,19 @@ class Service < ApplicationRecord
 
   def assign_default_user_role
     self.user.add_role(:developer, self)
+  end
+
+  def activate
+    if self.is_activable?
+      self.confirmed_at = Date.new if self.confirmed_at.nil?
+      self.generate_client_id!
+      self.generate_client_secret!
+      self.save
+    end
+  end
+
+  def deactivate
+    self.confirmed_at = nil
+    self.save
   end
 end
