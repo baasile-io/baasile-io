@@ -64,11 +64,10 @@ class CompaniesController < ApplicationController
   def load_company_and_authorize
     @company = Company.find_by_id(params[:id])
     return redirect_to companies_path if @company.nil?
-=begin
+
     unless @company.authorized?(current_user)
       return head(:forbidden)
     end
-=end
   end
 
   def current_company

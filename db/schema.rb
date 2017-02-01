@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
+    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -60,21 +61,9 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "proxy_parameter_id"
+    t.index ["name"], name: "index_proxies_on_name", unique: true, using: :btree
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
-  end
-
-  create_table "proxy_identifiers", force: :cascade do |t|
-    t.string   "client_id"
-    t.string   "encrypted_secret"
-    t.datetime "expires_at"
-    t.integer  "proxy_id"
-    t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["client_id", "encrypted_secret", "proxy_id"], name: "index_proxy_identifiers_on_client_id_encrypted_secret_proxy_id", unique: true, using: :btree
-    t.index ["proxy_id"], name: "index_proxy_identifiers_on_proxy_id", using: :btree
-    t.index ["user_id"], name: "index_proxy_identifiers_on_user_id", using: :btree
   end
 
   create_table "proxy_parameters", force: :cascade do |t|
@@ -128,6 +117,7 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.text     "allowed_methods", default: [],              array: true
+    t.index ["name"], name: "index_routes_on_name", unique: true, using: :btree
     t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end
@@ -144,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "subdomain"
+    t.boolean  "public",                    default: false
     t.integer  "company_id"
     t.boolean  "public",                    default: false
   end
@@ -174,14 +165,15 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.datetime "locked_at"
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.datetime "password_changed_at"
-    t.string   "unique_session_id",      limit: 20
-    t.datetime "last_activity_at"
-    t.datetime "expired_at"
+    t.string   "current_subdomain"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
+    t.datetime "password_changed_at"
+    t.string   "unique_session_id",      limit: 20
+    t.datetime "last_activity_at"
+    t.datetime "expired_at"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree
     t.index ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree

@@ -1,15 +1,13 @@
 <%= simple_form_for @service  do |f| %>
-
-  <%= error_messages_for(@service) %>
-
-  <%= f.input :name, required: true %>
-  <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
-    <%= f.input :company_id, as: :select, collection: @companies,required: false %>
+    <%= error_messages_for(@service) %>
+    <%= f.input :name, required: true %>
+    <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
     <% if current_user.has_role?(:superadmin) %>
-    <%= f.input :subdomain, disabled: @service.is_activated? %>
-  <% end %>
+        <%= f.input :company_id, as: :select, collection: @companies,required: false %>
+        <%= f.input :subdomain, disabled: @service.is_activated? %>
+    <% end %>
     <%= f.input :public, label: false, inline_label: true%>
-  <div class="actions">
-    <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-  </div>
+    <div class="actions">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
 <% end %>
