@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:root, :annuaire_services]
+  before_action :authenticate_user!, except: [:root, :service_book]
 
-  def annuaire_services
+  def service_book
     @collection = Service.published
   end
 
