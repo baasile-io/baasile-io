@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_proxy
   helper_method :current_route
 
+  def current_company
+    nil
+  end
+
   def current_service
     nil
   end

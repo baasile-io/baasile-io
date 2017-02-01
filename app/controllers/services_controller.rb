@@ -1,10 +1,8 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy,
-                                                    :activate, :deactivate, :public_set,
-                                                    :public_unset]
-  before_action :is_super_admin, only: [:activate, :deactivate, :set_right,
-                                        :unset_right, :admin_board]
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :activate, :deactivate, :public_set, :public_unset]
+  before_action :is_super_admin, only: [:activate, :deactivate, :set_right, :unset_right, :admin_board]
+  before_action :load_companies, only: [:edit, :new]
 
   def index
     @collection = Service.authorized(current_user)
@@ -69,7 +67,7 @@ class ServicesController < ApplicationController
   end
 
   def public_set
-    @service.public = true;
+    @service.public = true
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
     end
@@ -77,7 +75,7 @@ class ServicesController < ApplicationController
   end
 
   def public_unset
-    @service.public = false;
+    @service.public = false
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
     end
@@ -87,9 +85,13 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    allowed_parameters = [:name, :description, :public]
+    allowed_parameters = [:name, :description, :public, :company_id]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
+  end
+
+  def load_companies
+    @companies = Company.all
   end
 
   def load_service_and_authorize

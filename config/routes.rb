@@ -21,6 +21,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :companies do
+
+  end
+
   resources :services do
     member do
       post :public_set

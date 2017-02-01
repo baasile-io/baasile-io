@@ -10,9 +10,12 @@
               <a class="nav-link" href="<%= services_path %>">Services</a>
             </li>
             <% if current_user.is_superadmin %>
-            <li class="nav-item active">
-              <a class="nav-link" href="<%= users_path %>">Users</a>
-            </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="<%= companies_path %>">Companies</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="<%= users_path %>">Users</a>
+              </li>
             <% end %>
             <li class="nav-item">
               <a class="nav-link" href="<%= profile_path %>">Mon compte</a>
