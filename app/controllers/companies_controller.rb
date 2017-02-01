@@ -56,6 +56,36 @@ class CompaniesController < ApplicationController
     @collection = User.has_role?(:admin, user)
   end
 
+  def company_admins
+    @company = Company.find_by_id(params[:id])
+    @collection = User.all.reject { |user| !user.has_role?(:admin, @company) }
+
+  end
+
+  def set_admin
+    company = Company.find_by_id(params[:company_id])
+    user = User.find_by_id(params[:user_id])
+    if (!company.nil? && !user.nil?)
+      user.add_role(:admin, company)
+    end
+    redirect_to company_admins_company_path(company.id)
+  end
+
+  def unset_admin
+    company = Company.find_by_id(params[:company_id])
+    user = User.find_by_id(params[:user_id])
+    if (!company.nil? && !user.nil?)
+      user.remove_role(:admin, company)
+    end
+    redirect_to company_admins_company_path(company.id)
+  end
+
+  def add_admin
+    @company = Company.find_by_id(params[:id])
+    @collection = User.all.reject { |user| user.has_role?(:admin, @company) }
+>>>>>>> set and unset admin for company
+  end
+
   private
 
   def company_params

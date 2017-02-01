@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20170130155205) do
     t.string   "subdomain"
     t.boolean  "public",                    default: false
     t.integer  "company_id"
-    t.boolean  "public",                    default: false
+    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|

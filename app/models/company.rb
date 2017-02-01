@@ -1,5 +1,5 @@
 class Company < ApplicationRecord
-
+  resourcify
   has_many :services
   belongs_to :user
   has_one :contact_detail, as: :contactable, dependent: :destroy

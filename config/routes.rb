@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   root to: "pages#root"
   get '/service_book', to: "pages#service_book"
-
   get '/profile', to: 'users#profile'
 
   resources :users do
@@ -23,7 +22,12 @@ Rails.application.routes.draw do
   end
 
   resources :companies do
-
+    member do
+      get :company_admins
+      get :add_admin
+      post :unset_admin
+      post :set_admin
+    end
   end
 
   resources :services do

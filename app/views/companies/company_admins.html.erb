@@ -1,0 +1,25 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>email</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |user| %>
+          <tr>
+            <td><%= user.email %></td>
+            <td>
+              <%= link_to t('actions.user.unset_admin'), unset_admin_company_path(company_id: @company.id, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+      <% end %>
+        </tbody>
+    </table>
+    <%= link_to t('actions.user.add_admin'), add_admin_company_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
