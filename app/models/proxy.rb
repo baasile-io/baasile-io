@@ -16,6 +16,8 @@ class Proxy < ApplicationRecord
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
+  after_initialize :build_associations
+
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end
@@ -30,5 +32,9 @@ class Proxy < ApplicationRecord
 
   def cache_token
     "proxy_cache_token_#{proxy_parameter.authentication_mode}_#{id}"
+  end
+
+  def build_associations
+    self.build_proxy_parameter
   end
 end

@@ -9,4 +9,10 @@ class Company < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :contact_detail, presence: true
 
+  after_initialize :build_associations
+
+  def build_associations
+    self.build_contact_detail
+  end
+
 end
