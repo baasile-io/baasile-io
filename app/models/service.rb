@@ -67,8 +67,8 @@ class Service < ApplicationRecord
   def activate
     if self.is_activable?
       self.confirmed_at = Date.new if self.confirmed_at.nil?
-      self.generate_client_id!
-      self.generate_client_secret!
+      self.generate_client_id! unless self.client_id.present?
+      self.generate_client_secret! unless self.client_secret.present?
       self.save
     end
   end

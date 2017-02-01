@@ -5,11 +5,13 @@
     <table class="table">
       <thead>
       <tr>
-        <th><% if @user.has_role?(:superadmin) %>
+        <th>
+          <% if @user.has_role?(:superadmin) %>
               Admin user
           <% else %>
               Normal user
-          <% end %></th>
+          <% end %>
+        </th>
         <th></th>
       </tr>
       </thead>
@@ -36,6 +38,8 @@
       </tr>
       </tbody>
     </table>
+
+    <%= link_to t('actions.edit'), edit_user_path(@user.id), class: 'btn btn-primary' %>
   </div>
 </div>
 
@@ -45,7 +49,7 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Name</th>
+        <th>Services</th>
         <th>Activated</th>
         <% if current_user.has_role?(:superadmin) %>
             <th>Admin</th>

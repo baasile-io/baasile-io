@@ -2,18 +2,18 @@
 
   <%= error_messages_for(@company) %>
 
-  <%= f.input :name, required: true %>
+  <%= f.input :name %>
 
   <%= f.simple_fields_for :contact_detail do |f2| %>
-    <%= f2.input :name, required: true %>
-    <%= f2.input :siret, required: true %>
-    <%= f2.input :address_line1, required: true %>
-    <%= f2.input :address_line2, required: true %>
-    <%= f2.input :address_line3, required: true %>
-    <%= f2.input :zip, required: true %>
-    <%= f2.input :city, required: true %>
-    <%= f2.input :country, as: :string, required: true %>
-    <%= f2.input :phone, required: true %>
+    <%= f2.input :siret %>
+    <%= f2.input :name %>
+    <%= f2.input :address_line1 %>
+    <%= f2.input :address_line2 %>
+    <%= f2.input :address_line3 %>
+    <%= f2.input :zip %>
+    <%= f2.input :city %>
+    <%= f2.input :country, as: :string %>
+    <%= f2.input :phone %>
   <% end %>
 
   <div class="actions">

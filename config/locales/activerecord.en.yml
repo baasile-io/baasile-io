@@ -4,6 +4,16 @@ en:
       query_parameter:
         name: 'Name'
         mode: 'Mode'
+      contact_detail:
+        address_line1: "Address"
+        address_line2: "Address (line 2)"
+        address_line3: "Address (line 3)"
+        city: "City"
+        country: "Country"
+        name: "Address Name"
+        phone: "Phone Number"
+        siret: "SIRET Number"
+        zip: "Zip Code"
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -57,6 +67,7 @@ en:
         password: 'Password'
     models:
       company: 'Company'
+      contact_detail: 'Contact Detail'
       query_parameter: 'Query parameter'
       proxy: 'Proxy'
       proxy_parameter: 'Proxy parameter'

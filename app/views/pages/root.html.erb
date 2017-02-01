@@ -1,1 +1,11 @@
-<h1><%= I18n.t('pages.root.title') %></h1>
+<% content_for(:page_title) { t('config.platform_name') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <h1><%= I18n.t('pages.root.title') %></h1>
+    Ici, la page d'accueil publique de la marketplace.<br />
+    <%= link_to 'Voir le catalogue des API', service_book_url %>
+
+  </div>
+</div>

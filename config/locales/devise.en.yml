@@ -53,7 +53,8 @@ en:
       updated: "Your account has been updated successfully."
     sessions:
       new:
-        title: "Log in"
+        description: "Log in to your developer account and manage your functionalities"
+        title: "Developer Account"
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."

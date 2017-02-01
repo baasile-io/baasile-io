@@ -3,6 +3,16 @@ fr:
     attributes:
       company:
         name: 'Nom'
+      contact_detail:
+        address_line1: "Adresse"
+        address_line2: "Adresse (ligne 2)"
+        address_line3: "Adresse (ligne 3)"
+        city: "Ville"
+        country: "Pays"
+        name: "Nom d'adresse"
+        phone: "Numéro de téléphone"
+        siret: "Numéro de SIRET"
+        zip: "Code postal"
       query_parameter:
         name: 'Nom'
         mode: 'Mode'
@@ -61,6 +71,7 @@ fr:
         password: 'Mot de passe'
     models:
       company: 'Compagnie'
+      contact_detail: 'Coordonnée'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'

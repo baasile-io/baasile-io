@@ -35,6 +35,6 @@ class Proxy < ApplicationRecord
   end
 
   def build_associations
-    self.build_proxy_parameter
+    self.build_proxy_parameter if self.proxy_parameter_id.nil?
   end
 end

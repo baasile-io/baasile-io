@@ -23,6 +23,7 @@ class ProxiesController < DashboardController
   end
 
   def edit
+    logger.info @proxy.inspect
   end
 
   def update

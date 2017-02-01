@@ -5,24 +5,23 @@
       <div class="collapse navbar-toggleable-md" id="navbarResponsive">
         <a class="navbar-brand" href="<%= root_path %>"><%= t('config.platform_name') %></a>
         <ul class="nav navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="<%= service_book_path %>">Annuaire</a>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
           </li>
           <% if !current_user.nil? %>
-            <li class="nav-item active">
-              <a class="nav-link" href="<%= services_path %>">Services</a>
-            </li>
             <% if current_user.is_superadmin %>
-              <li class="nav-item active">
-                <a class="nav-link" href="<%= companies_path %>">Companies</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="<%= users_path %>">Users</a>
+              <li class="nav-item">
+                <a class="nav-link" href="<%= companies_path %>"><%= t('companies.index.title') %></a>
               </li>
             <% end %>
             <li class="nav-item">
-              <a class="nav-link" href="<%= profile_path %>">Mon compte</a>
+              <a class="nav-link" href="<%= services_path %>"><%= t('services.index.title') %></a>
             </li>
+            <% if current_user.is_superadmin %>
+              <li class="nav-item">
+                <a class="nav-link" href="<%= users_path %>"><%= t('users.index.title') %></a>
+              </li>
+            <% end %>
           <% end %>
         </ul>
         <div class="float-lg-right">
@@ -30,6 +29,7 @@
             <a href="<%= new_user_session_path %>" class="btn btn-outline-info"><%= t('actions.sign_in') %></a>
             <a href="<%= new_user_registration_path %>" class="btn btn-outline-info"><%= t('actions.sign_up') %></a>
           <% else %>
+            <%= link_to current_user.full_name, profile_path, class: 'btn btn-outline-default' %>
             <%= link_to t('actions.sign_out'), destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger' %>
           <% end %>
         </div>

@@ -7,10 +7,10 @@
       <tr>
         <th>Name</th>
         <th>Activated</th>
+        <th>Publié sur l'annuaire</th>
         <% if current_user.has_role?(:superadmin) %>
-            <th>Admin</th>
+          <th>Admin</th>
         <% end %>
-        <th>Public</th>
         <th></th>
       </tr>
       </thead>
@@ -19,6 +19,7 @@
       <tr>
         <td><%= service.name %></td>
         <td><%= service.is_activated? %></td>
+        <td><%= service.public %></td>
         <% if current_user.has_role?(:superadmin) %>
           <td>
             <% if service.is_activated? %>
@@ -26,7 +27,6 @@
             <% end %>
           </td>
         <% end %>
-        <td><%= service.public %></td>
         <td class="text-xs-right">
           <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-primary' %>
         </td>

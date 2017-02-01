@@ -2,3 +2,6 @@ fr:
   pages:
     root:
       title: 'Bienvenue sur OpenRH'
+    service_book:
+      title: 'Annuaire des startups'
+      description: 'Voici le catalogue des startups proposant leurs APIs sur la plateforme'

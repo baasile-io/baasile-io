@@ -1,6 +1,6 @@
 fr:
   services:
     index:
-      title: 'Liste des services'
+      title: 'Services'
     new:
       title: 'Créer un nouveau service'

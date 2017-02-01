@@ -6,7 +6,6 @@
     <table class="table table-hover">
       <thead class="">
       <tr>
-        <th></th>
         <th><%= t('activerecord.attributes.proxy.name') %></th>
         <th><%= t('activerecord.attributes.proxy.description') %></th>
         <th></th>
@@ -15,8 +14,7 @@
       <tbody>
       <% @collection.each do |proxy| %>
         <tr>
-          <td><i class="fa fa-server"></i> </td>
-          <td><%= proxy.name %></td>
+          <td><i class="fa fa-server"></i> <%= proxy.name %></td>
           <td><%= proxy.description %></td>
           <td class="text-xs-right">
             <%= link_to t('misc.dashboard'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>

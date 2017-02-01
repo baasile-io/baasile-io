@@ -53,7 +53,8 @@ fr:
       updated: "Votre compte a été modifié avec succès."
     sessions:
       new:
-        title: "S'identifier"
+        description: "Connectez-vous en tant que développeur et configurez vos fonctionnalités"
+        title: "Accès développeur"
       signed_in: "Connecté."
       signed_out: "Déconnecté."
       already_signed_out: "Déconnecté."

@@ -11,9 +11,12 @@
 .b-io-header
   position: relative
   border-radius: 5px
-  margin: 0 0 15px 0
+  border-top-left-radius: 0
+  border-top-right-radius: 0
+  margin: -16px 0 15px 0
   padding: 15px 0 15px 0
   background-color: #FFF
+  box-shadow: -5px -5px 5px rgba(190, 190, 190, .4)
 
   h1
     font-weight: bold
@@ -71,6 +74,7 @@
     padding-bottom: 15px
     //@include alpha-background-color(rgba($color-blue-dark, .2), $color-blue)
     background-color: #FFF
+    box-shadow: -5px -5px 5px rgba(190, 190, 190, .4)
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
       border-radius: 5px

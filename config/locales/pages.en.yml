@@ -2,3 +2,6 @@ en:
   pages:
     root:
       title: 'Welcome to OpenRH'
+    service_book:
+      title: 'Startup Book'
+      description: 'The catalog of startups providing APIs on the marketplace'
