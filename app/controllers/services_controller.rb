@@ -1,7 +1,10 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :activate, :deactivate]
-  before_action :is_super_admin, only: [:activate, :deactivate, :set_right, :unset_right, :admin_board]
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy,
+                                                    :activate, :deactivate, :public_set,
+                                                    :public_unset]
+  before_action :is_super_admin, only: [:activate, :deactivate, :set_right,
+                                        :unset_right, :admin_board]
 
   def index
     @collection = Service.authorized(current_user)
@@ -18,7 +21,6 @@ class ServicesController < ApplicationController
     @service = Service.new
     @service.user = current_user
     @service.assign_attributes(service_params)
-
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
@@ -32,7 +34,6 @@ class ServicesController < ApplicationController
 
   def update
     @service.assign_attributes(service_params)
-
     if @service.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
@@ -67,15 +68,26 @@ class ServicesController < ApplicationController
     redirect_to service_path(@service)
   end
 
-  def admin_board
-    @collection = Service.where.not(id: params[:id])
-    @service = Service.find_by_id(params[:id])
+  def public_set
+    @service.public = true;
+    if @service.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
+    end
+    redirect_to service_path(@service)
+  end
+
+  def public_unset
+    @service.public = false;
+    if @service.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
+    end
+    redirect_to service_path(@service)
   end
 
   private
 
   def service_params
-    allowed_parameters = [:name, :description]
+    allowed_parameters = [:name, :description, :public]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
   end

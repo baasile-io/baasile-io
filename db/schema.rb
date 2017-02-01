@@ -113,9 +113,11 @@ ActiveRecord::Schema.define(version: 20170123132607) do
     t.string   "client_secret"
     t.integer  "user_id"
     t.datetime "confirmed_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "subdomain"
+    t.boolean  "public",                    default: false
+    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|

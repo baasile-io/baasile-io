@@ -26,6 +26,8 @@ class Service < ApplicationRecord
   scope :owned, ->(user) { where(user_id: user.id) }
   scope :activated, -> { where.not(confirmed_at: nil) }
 
+  scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
+
   # Service rights
   rolify role_join_table_name: 'public.services_roles'
 
