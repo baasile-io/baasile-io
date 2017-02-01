@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   root to: "pages#root"
+  get '/service_book', to: "pages#service_book"
 
   get '/profile', to: 'users#profile'
 

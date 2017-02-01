@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:root]
+  before_action :authenticate_user!, except: [:root, :service_book]
+
+  def service_book
+    @collection = Service.published
+  end
 
   def root
     unless current_user.nil?
