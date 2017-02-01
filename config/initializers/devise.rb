@@ -298,7 +298,7 @@ Devise.setup do |config|
   config.captcha_for_sign_up = true
 
   # captcha integration for sign in form
-  config.captcha_for_sign_in = true
+  config.captcha_for_sign_in = false
 
   # captcha integration for unlock form
   config.captcha_for_unlock = true
