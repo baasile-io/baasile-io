@@ -11,7 +11,8 @@ class Proxy < ApplicationRecord
 
   accepts_nested_attributes_for :proxy_parameter
 
-  validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: true, scope: [:service_id]
   validates :description, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
