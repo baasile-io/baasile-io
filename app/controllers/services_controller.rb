@@ -119,7 +119,7 @@ class ServicesController < ApplicationController
   def load_service_and_authorize_with_admin_company
     @service = Service.find_by_id(params[:id])
     return redirect_to services_path if @service.nil?
-    unless @service.referanced?(current_user) || @service.authorized?(current_user)
+    unless @service.associated?(current_user) || @service.authorized?(current_user)
       return head(:forbidden)
     end
   end

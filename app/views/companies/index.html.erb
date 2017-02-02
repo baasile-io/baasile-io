@@ -29,7 +29,7 @@
         </td>
         <% if current_user.is_superadmin %>
           <td>
-            <%= link_to t('actions.user.admins'), company_admins_company_path(company.id), class: 'btn btn-secondary' %>
+            <%= link_to t('actions.user.admins'), admin_list_company_path(company.id), class: 'btn btn-secondary' %>
           </td>
         <% end %>
         <% if current_user.is_superadmin %>

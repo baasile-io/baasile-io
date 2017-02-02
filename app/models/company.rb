@@ -3,6 +3,7 @@ class Company < ApplicationRecord
   has_many :services
   belongs_to :user
   has_one :contact_detail, as: :contactable, dependent: :destroy
+  before_destroy :remove_services_associations
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
@@ -14,5 +15,12 @@ class Company < ApplicationRecord
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:admin, self)
+  end
+
+  def remove_services_associations
+    services = Service.associated(self)
+    services.each do |service|
+      service.company_id = nil
+    end
   end
 end

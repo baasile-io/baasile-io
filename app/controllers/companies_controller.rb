@@ -1,11 +1,11 @@
 class CompaniesController < ApplicationController
 
-  before_action :load_company_and_full_authorize, only: [:company_admin, :company_admins, :destroy, :set_admin, :unset_admin, :add_admin ]
+  before_action :load_company_and_full_authorize, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin ]
 
   before_action :load_company_and_authorize, only: [:services_company, :show, :edit, :update, :activate, :deactivate]
 
   def index
-    if current_user.is_campany_admin
+    if current_user.is_campany_admin || current_user.is_superadmin
       @collection = Company.authorized(current_user)
     else
       return head(:forbidden)
@@ -46,7 +46,6 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    remove_company_referances
     if @company.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.company'))
       redirect_to companies_path
@@ -56,18 +55,14 @@ class CompaniesController < ApplicationController
   end
 
   def services_company
-    @services = Service.referanced(@company)
+    @services = Service.associated(@company)
   end
 
   def current_module
     'companies'
   end
 
-  def company_admin
-    @collection = User.has_role?(:admin, user)
-  end
-
-  def company_admins
+  def admin_list
     @collection = User.all.reject { |user| !user.has_role?(:admin, @company) }
 
   end
@@ -77,7 +72,7 @@ class CompaniesController < ApplicationController
     if (!@company.nil? && !user.nil?)
       user.add_role(:admin, @company)
     end
-    redirect_to company_admins_company_path(@company.id)
+    redirect_to admin_list_company_path(@company.id)
   end
 
   def unset_admin
@@ -85,7 +80,7 @@ class CompaniesController < ApplicationController
     if (!@company.nil? && !user.nil?)
       user.remove_role(:admin, @company)
     end
-    redirect_to company_admins_company_path(@company.id)
+    redirect_to admin_list_company_path(@company.id)
   end
 
   def add_admin
@@ -95,13 +90,6 @@ class CompaniesController < ApplicationController
 
 
   private
-
-  def remove_company_referances
-    services = Service.referanced(@company)
-    services.each do |service|
-      service.company_id = nil
-    end
-  end
 
   def company_params
     allowed_parameters = [:name, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
