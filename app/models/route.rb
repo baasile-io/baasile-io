@@ -14,7 +14,7 @@ class Route < ApplicationRecord
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
-  validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: {scope: :proxy_id}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
   validate :validate_methods
 
