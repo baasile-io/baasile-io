@@ -18,17 +18,19 @@
     <h5>API</h5>
     <p>/api/v1/<%= @service.subdomain %></p>
 
-    <hr>
-    <h5>Fonctionalités admin</h5>
-    <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
+    <% if current_user.has_role?(:superadmin) %>
+      <hr>
+      <h5>Fonctionalités admin</h5>
+      <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
 
-    <% unless @service.is_activated? %>
-      <% if current_user.has_role?(:superadmin) %>
-        <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
-      <% end %>
-    <% else %>
-      <% if current_user.has_role?(:superadmin) %>
-        <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
+      <% unless @service.is_activated? %>
+        <% if current_user.has_role?(:superadmin) %>
+          <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
+        <% end %>
+      <% else %>
+        <% if current_user.has_role?(:superadmin) %>
+          <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
+        <% end %>
       <% end %>
     <% end %>
 
