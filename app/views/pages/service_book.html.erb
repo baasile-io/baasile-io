@@ -4,7 +4,7 @@
 <div class="b-io-content--secondary">
   <div class="container">
     <% @collection.each.with_index do |service, index| %>
-      <%= '<hr>' if index > 1 %>
+      <%= '<hr>'.html_safe if index > 0 %>
       <div class="row">
         <div class="col-sm-2">
           <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
