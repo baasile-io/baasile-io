@@ -20,9 +20,11 @@
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['proxies', 'routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
-              </li>
+              <% if current_user.has_role?(:superadmin) %>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= service_permissions_list_services_path(current_service) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
+                </li>
+              <% end %>
             <% end %>
           </ul>
         </div>
