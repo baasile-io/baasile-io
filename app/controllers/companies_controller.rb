@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
 
-  before_action :load_company_and_full_authorize, only: [:company_admin, :company_admins, :set_admin, :unset_admin, :add_admin ]
+  before_action :load_company_and_full_authorize, only: [:company_admin, :company_admins, :destroy, :set_admin, :unset_admin, :add_admin ]
 
-  before_action :load_company_and_authorize, only: [:show, :edit, :update, :destroy, :activate, :deactivate]
+  before_action :load_company_and_authorize, only: [:services_company, :show, :edit, :update, :activate, :deactivate]
 
   def index
     if current_user.is_campany_admin
@@ -55,6 +55,9 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def services_company
+    @services = Service.referanced(@company)
+  end
 
   def current_module
     'companies'
@@ -89,6 +92,7 @@ class CompaniesController < ApplicationController
     @company = Company.find_by_id(params[:id])
     @collection = User.all.reject { |user| user.has_role?(:admin, @company) }
   end
+
 
   private
 

@@ -37,6 +37,10 @@ class Service < ApplicationRecord
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end
 
+  def referanced?(user)
+    user.has_role?(:admin, self.company)
+  end
+
   def generate_client_id!
     begin
       self.client_id = SecureRandom.uuid
