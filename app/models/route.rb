@@ -1,5 +1,7 @@
 class Route < ApplicationRecord
   resourcify
+  after_create :assign_default_user_role
+
   PROTOCOLS = {https: 1, http: 2}
   enum protocol: PROTOCOLS
 
@@ -33,6 +35,10 @@ class Route < ApplicationRecord
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self.proxy)
+  end
+
+  def assign_default_user_role
+    self.user.add_role(:developer, self)
   end
 
   def uri
