@@ -2,3 +2,9 @@ fr:
   companies:
     index:
       title: 'Compagnies'
+    new:
+      title: 'Créer une nouvelle compagnie'
+    add_admin:
+      title: 'ajouté un administrateur'
+    admin_list:
+      title: 'liste des administrateurs'

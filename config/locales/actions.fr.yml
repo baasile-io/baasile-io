@@ -1,18 +1,24 @@
 fr:
   actions:
     activate: 'Activer'
+    add_admin: 'Ajouter un administrateur'
+    admin_list: 'liste des administrateurs'
     change_password: 'Changer de mot de passe'
     configure: 'Configurer'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
+    infos: 'Infos'
     new: 'Ajouter'
     resend_confirmation_instructions: 'Renvoyer le de confirmation'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
+    return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    set_admin: "Ajouter les droits admin"
+    unset_admin: "Enlever les droits admin"
     sign_in: 'Se connecter'
     signin_in: 'Connexion...'
     sign_out: 'Se déconnecter'

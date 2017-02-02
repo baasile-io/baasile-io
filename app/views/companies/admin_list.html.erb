@@ -2,7 +2,7 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-    <%= link_to t('actions.user.return'), companies_path, class: 'btn btn-secondary' %>
+    <%= link_to t('actions.return'), companies_path, class: 'btn btn-secondary' %>
     <table class="table">
       <thead>
       <tr>
@@ -15,12 +15,12 @@
           <tr>
             <td><%= user.email %></td>
             <td>
-              <%= link_to t('actions.user.unset_admin'), unset_admin_company_path(company_id: @company.id, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
+              <%= link_to t('actions.unset_admin'), unset_admin_company_path(company_id: @company.id, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
             </td>
           </tr>
       <% end %>
         </tbody>
     </table>
-    <%= link_to t('actions.user.add_admin'), add_admin_company_path, class: 'btn btn-secondary' %>
+    <%= link_to t('actions.add_admin'), add_admin_company_path, class: 'btn btn-secondary' %>
   </div>
 </div>
