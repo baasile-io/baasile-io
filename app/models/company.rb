@@ -12,7 +12,7 @@ class Company < ApplicationRecord
   after_initialize :build_associations
 
   def build_associations
-    self.build_contact_detail if contact_detail_id.nil?
+    self.build_contact_detail if self.contact_detail.nil?
   end
 
 end
