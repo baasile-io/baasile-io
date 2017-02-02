@@ -116,4 +116,8 @@ class ServicesController < ApplicationController
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end
 
+  def current_module
+    'dashboard'
+  end
+
 end

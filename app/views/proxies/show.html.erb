@@ -15,6 +15,17 @@
     <p>/api/v1/<%= current_service.subdomain %>/proxies/<%= @proxy.id %></p>
 
     <hr />
+    <h5>Routes</h5>
+    <p><%= @proxy.routes.count %> route(s)</p>
+
+    <% unless @proxy.has_get_context? %>
+    <div class="alert alert-danger" role="alert">
+      <strong>Attention !</strong> Cette fonctionnalité ne dispose pas encore de la route <strong>getContext</strong>. <%= link_to 'Créer la route', new_service_proxy_route_path(current_service, @proxy) %>
+    </div>
+    <% end %>
+
+
+    <hr>
 
     <div class="text-sm-right">
       <%= link_to t('actions.destroy'), service_proxy_path(current_service, @proxy), method: :delete, class: 'btn btn-secondary btn-danger' %>

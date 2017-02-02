@@ -3,6 +3,7 @@ en:
     edit:
       title: 'Edit functionality'
     index:
+      description: 'Manage your APIs and provide data to the clients'
       title: 'Functionalities'
     new:
       title: 'New functionality'

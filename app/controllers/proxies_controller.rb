@@ -7,6 +7,7 @@ class ProxiesController < DashboardController
 
   def new
     @proxy = Proxy.new
+    @proxy.build_proxy_parameter
   end
 
   def create

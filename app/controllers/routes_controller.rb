@@ -45,6 +45,12 @@ class RoutesController < DashboardController
   end
 
   def destroy
+    if @route.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.route'))
+      redirect_to service_proxy_routes_path(current_service, current_proxy)
+    else
+      render :show
+    end
   end
 
   def route_params

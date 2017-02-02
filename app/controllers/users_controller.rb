@@ -69,4 +69,8 @@ class UsersController < ApplicationController
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end
 
+  def current_module
+    'users'
+  end
+
 end

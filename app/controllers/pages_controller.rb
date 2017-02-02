@@ -10,4 +10,8 @@ class PagesController < ApplicationController
       redirect_to services_path
     end
   end
+
+  def current_module
+    'service_book'
+  end
 end

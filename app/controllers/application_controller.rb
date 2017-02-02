@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_service
   helper_method :current_proxy
   helper_method :current_route
+  helper_method :current_module
 
   def current_company
     nil
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_route
+    nil
+  end
+
+  def current_module
     nil
   end
 

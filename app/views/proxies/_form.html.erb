@@ -58,10 +58,10 @@
         <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
 
         <div class="row">
-          <div class="col-xs-2">
+          <div class="col-xs-3">
             <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
           </div>
-          <div class="col-xs-8">
+          <div class="col-xs-7">
             <%= f2.input :hostname %>
           </div>
           <div class="col-xs-2">

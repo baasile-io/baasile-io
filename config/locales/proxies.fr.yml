@@ -3,6 +3,7 @@ fr:
     edit:
       title: 'Modifier la fonctionnalité'
     index:
+      description: 'Paramétrez vos APIs afin de fournir des données à des clients'
       title: 'Fonctionnalités'
     new:
       title: 'Nouvelle fonctionalité'

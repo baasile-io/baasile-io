@@ -12,6 +12,11 @@
     <p>Make a request to the API beside this proxy: <br />/api/v1/<%= current_service.subdomain %>/proxies/<%= current_proxy.id %>/routes/<%= @route.id %>/request</p>
 
 
+    <hr>
+
+    <div class="text-sm-right">
+      <%= link_to t('actions.destroy'), service_proxy_route_path(current_service, current_proxy, @route), method: :delete, class: 'btn btn-secondary btn-danger' %>
+    </div>
   </div>
 </div>
 

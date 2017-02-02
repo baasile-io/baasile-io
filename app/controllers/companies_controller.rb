@@ -47,6 +47,9 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def current_module
+    'companies'
+  end
 
   private
 
