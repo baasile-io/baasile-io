@@ -83,7 +83,6 @@ class CompaniesController < ApplicationController
   def add_admin
     @company = Company.find_by_id(params[:id])
     @collection = User.all.reject { |user| user.has_role?(:admin, @company) }
->>>>>>> set and unset admin for company
   end
 
   private
