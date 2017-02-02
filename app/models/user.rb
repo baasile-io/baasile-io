@@ -21,6 +21,11 @@ class User < ApplicationRecord
     return self.has_role?(:superadmin)
   end
 
+  def is_campany_admin
+    companies = Company.all.reject { |company| !self.has_role?(:admin, company) }
+    return companies.count > 0
+  end
+
   def full_name
     self.first_name.present? && self.last_name.present? ? "#{self.first_name} #{self.last_name}" : self.email
   end

@@ -21,9 +21,11 @@
           <%= link_to t('actions.infos'), company_path(company.id), class: 'btn btn-secondary' %>
           <%= link_to t('actions.edit'), edit_company_path(company.id), class: 'btn btn-secondary' %>
         </td>
-        <td>
-          <%= link_to t('actions.user.admins'), company_admins_company_path(company.id), class: 'btn btn-secondary' %>
-        </td>
+        <% if current_user.is_superadmin %>
+          <td>
+            <%= link_to t('actions.user.admins'), company_admins_company_path(company.id), class: 'btn btn-secondary' %>
+          </td>
+        <% end %>
         <td class="text-xs-right">
           <%= button_to t('actions.destroy'), company_path(company.id), class: 'btn btn-danger', method: :delete %>
         </td>
@@ -31,7 +33,8 @@
       <% end %>
       </tbody>
     </table>
-    <%= link_to t('actions.new'), new_company_path, class: 'btn btn-secondary' %><br />
-
+    <% if current_user.is_superadmin %>
+      <%= link_to t('actions.new'), new_company_path, class: 'btn btn-secondary' %><br />
+    <% end %>
   </div>
 </div>

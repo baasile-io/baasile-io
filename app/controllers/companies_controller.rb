@@ -1,9 +1,15 @@
 class CompaniesController < ApplicationController
 
+  before_action :load_company_and_full_authorize, only: [:company_admin, :company_admins, :set_admin, :unset_admin, :add_admin ]
+
   before_action :load_company_and_authorize, only: [:show, :edit, :update, :destroy, :activate, :deactivate]
 
   def index
-    @collection = Company.all
+    if current_user.is_campany_admin
+      @collection = Company.authorized(current_user)
+    else
+      return head(:forbidden)
+    end
   end
 
   def show
@@ -57,27 +63,24 @@ class CompaniesController < ApplicationController
   end
 
   def company_admins
-    @company = Company.find_by_id(params[:id])
     @collection = User.all.reject { |user| !user.has_role?(:admin, @company) }
 
   end
 
   def set_admin
-    company = Company.find_by_id(params[:company_id])
     user = User.find_by_id(params[:user_id])
-    if (!company.nil? && !user.nil?)
-      user.add_role(:admin, company)
+    if (!@company.nil? && !user.nil?)
+      user.add_role(:admin, @company)
     end
-    redirect_to company_admins_company_path(company.id)
+    redirect_to company_admins_company_path(@company.id)
   end
 
   def unset_admin
-    company = Company.find_by_id(params[:company_id])
     user = User.find_by_id(params[:user_id])
-    if (!company.nil? && !user.nil?)
-      user.remove_role(:admin, company)
+    if (!@company.nil? && !user.nil?)
+      user.remove_role(:admin, @company)
     end
-    redirect_to company_admins_company_path(company.id)
+    redirect_to company_admins_company_path(@company.id)
   end
 
   def add_admin
@@ -93,10 +96,25 @@ class CompaniesController < ApplicationController
     params.require(:company).permit(allowed_parameters)
   end
 
+  def load_company_and_full_authorize
+    @company = Company.find_by_id(params[:id])
+    return redirect_to companies_path if @company.nil?
+    return full_authorized?
+  end
 
   def load_company_and_authorize
     @company = Company.find_by_id(params[:id])
     return redirect_to companies_path if @company.nil?
+    return authorized?
+  end
+
+  def full_authorized?
+    unless current_user.is_superadmin
+      return head(:forbidden)
+    end
+  end
+
+  def authorized?
     unless @company.authorized?(current_user)
       return head(:forbidden)
     end
