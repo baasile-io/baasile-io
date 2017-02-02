@@ -46,6 +46,7 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
+    remove_company_referances
     if @company.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.company'))
       redirect_to companies_path
@@ -53,6 +54,7 @@ class CompaniesController < ApplicationController
       render :show
     end
   end
+
 
   def current_module
     'companies'
@@ -89,6 +91,13 @@ class CompaniesController < ApplicationController
   end
 
   private
+
+  def remove_company_referances
+    services = Service.referanced(@company)
+    services.each do |service|
+      service.company_id = nil
+    end
+  end
 
   def company_params
     allowed_parameters = [:name, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
