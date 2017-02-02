@@ -9,4 +9,10 @@ class Company < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :contact_detail, presence: true
 
+  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:admin, user) }
+  scope :owned, ->(user) { where(user_id: user.id) }
+
+  def authorized?(user)
+    user.has_role?(:superadmin) || user.has_role?(:admin, self)
+  end
 end
