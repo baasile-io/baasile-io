@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   resources :companies do
     member do
-      get :services_company
+      get :services
       get :admin_list
       get :add_admin
       post :unset_admin

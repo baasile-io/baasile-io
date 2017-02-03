@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
 
-  before_action :load_company_and_full_authorize, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin ]
+  before_action :load_company_and__authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin ]
 
-  before_action :load_company_and_authorize, only: [:services_company, :show, :edit, :update, :activate, :deactivate]
+  before_action :load_company_and_authorize_admin, only: [:services, :show, :edit, :update, :activate, :deactivate]
 
   def index
     if current_user.is_campany_admin || current_user.is_superadmin
@@ -54,7 +54,7 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def services_company
+  def services
     @services = Service.associated(@company)
   end
 
@@ -97,13 +97,13 @@ class CompaniesController < ApplicationController
     params.require(:company).permit(allowed_parameters)
   end
 
-  def load_company_and_full_authorize
+  def load_company_and__authorize_superadmin
     @company = Company.find_by_id(params[:id])
     return redirect_to companies_path if @company.nil?
     return full_authorized?
   end
 
-  def load_company_and_authorize
+  def load_company_and_authorize_admin
     @company = Company.find_by_id(params[:id])
     return redirect_to companies_path if @company.nil?
     return authorized?

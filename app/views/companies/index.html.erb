@@ -21,7 +21,7 @@
         <% if company.services.count <= 0 %>
             <td><%= company.services.count.to_s + " service(s)" %> </td>
         <% else %>
-            <td><%= link_to company.services.count.to_s + " service(s)", services_company_company_path(company.id), class: 'btn btn-secondary' %> </td>
+            <td><%= link_to company.services.count.to_s + " service(s)", services_company_path(company.id), class: 'btn btn-secondary' %> </td>
         <% end %>
         <td>
         <%= link_to t('actions.infos'), company_path(company.id), class: 'btn btn-secondary' %>
