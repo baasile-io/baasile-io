@@ -1,8 +1,11 @@
 <% content_for(:page_title) { @company.name } %>
 
+<div class="container">
+  <%= link_to t('actions.return'), companies_path, class: 'btn btn-secondary' %>
+</div>
+
 <div class="b-io-content--secondary">
   <div class="container">
-    <%= link_to t('actions.return'), companies_path, class: 'btn btn-secondary' %>
     <h5><%= @company.name %></h5>
     <table class="table">
       <thead>
@@ -50,10 +53,14 @@
           </tr>
       </tbody>
     </table>
-
-    <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
-
-    <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
-
+    <div class="container">
+      <%= link_to t('actions.admin_list'), admin_list_company_path, class: 'btn btn-secondary' %>
+    </div>
+    <div class="container">
+      <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
+    </div>
+    <div class="container">
+      <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
+    </div>
   </div>
 </div>
