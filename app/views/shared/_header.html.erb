@@ -48,11 +48,13 @@
               <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= company_services_path(current_company) %>"><i class="fa fa-server fa-fw"></i> Services</a>
+              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= services_company_path(current_company) %>">Services</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= company_admin_list_path(current_company) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
-            </li>
+            <% if current_user.is_superadmin %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>
