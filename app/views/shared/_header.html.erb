@@ -31,3 +31,32 @@
   </div>
 
 <% end %>
+
+<% if current_module == 'companies' && !current_company.nil? %>
+
+  <div class="b-io-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1><%= current_company.name %></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= company_services_path(current_company) %>"><i class="fa fa-server fa-fw"></i> Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= company_admin_list_path(current_company) %>"><i class="fa fa-lock fa-fw"></i> Permissions</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

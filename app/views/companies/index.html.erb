@@ -8,41 +8,22 @@
         <th>Name</th>
         <th></th>
         <th></th>
-        <% if current_user.is_superadmin %>
-          <th></th>
-          <th></th>
-        <% end %>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |company| %>
-      <tr>
-        <td><%= company.name %></td>
-        <% if company.services.count <= 0 %>
-            <td><%= company.services.count.to_s + " service(s)" %> </td>
-        <% else %>
-            <td><%= link_to company.services.count.to_s + " service(s)", services_company_path(company.id), class: 'btn btn-secondary' %> </td>
-        <% end %>
-        <td>
-        <%= link_to t('actions.infos'), company_path(company.id), class: 'btn btn-secondary' %>
-        <%= link_to t('actions.edit'), edit_company_path(company.id), class: 'btn btn-secondary' %>
-        </td>
-        <% if current_user.is_superadmin %>
-          <td>
-            <%= link_to t('actions.admin_list'), admin_list_company_path(company.id), class: 'btn btn-secondary' %>
-          </td>
-        <% end %>
-        <% if current_user.is_superadmin %>
+        <tr>
+          <td><%= company.name %></td>
+          <td><%= company.services.count.to_s + " service(s)" %></td>
           <td class="text-xs-right">
-            <%= button_to t('actions.destroy'), company_path(company.id), class: 'btn btn-danger', method: :delete %>
+            <%= link_to t('misc.dashboard'), company_path(company.id), class: 'btn btn-secondary' %>
           </td>
-        <% end %>
-      </tr>
+        </tr>
       <% end %>
       </tbody>
     </table>
     <% if current_user.is_superadmin %>
-      <%= link_to t('actions.new'), new_company_path, class: 'btn btn-secondary' %><br />
+      <%= link_to t('actions.new'), new_company_path, class: 'btn btn-primary' %><br />
     <% end %>
   </div>
 </div>
