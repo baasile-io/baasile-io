@@ -2,12 +2,60 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
     <h5><%= @company.name %></h5>
-
-    <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
-
-    <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
-
+    <table class="table">
+      <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>siret :</b></td>
+          <td><%= @company.contact_detail.siret %></td>
+        </tr>
+        <tr>
+          <td><b>name :</b></td>
+          <td><%= @company.contact_detail.name %></td>
+        </tr>
+        <tr>
+          <td><b>address_line1 :</b></td>
+          <td><%= @company.contact_detail.address_line1 %></td>
+        </tr>
+        <tr>
+          <td><b>address_line2 :</b></td>
+          <td><%= @company.contact_detail.address_line2 %></td>
+        </tr>
+        <tr>
+          <td><b>address_line3 :</b></td>
+          <td><%= @company.contact_detail.address_line3 %></td>
+        </tr>
+        <tr>
+          <td><b>zip :</b></td>
+          <td><%= @company.contact_detail.zip %></td>
+        </tr>
+        <tr>
+          <td><b>city :</b></td>
+          <td><%= @company.contact_detail.city %></td>
+        </tr>
+        <tr>
+          <td><b>country :</b></td>
+          <td><%= @company.contact_detail.country%></td>
+        </tr>
+        <tr>
+          <td><b>phone :</b></td>
+          <td><%= @company.contact_detail.phone %></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="container">
+      <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
+    </div>
+    <% if current_user.is_superadmin %>
+      <div class="container">
+        <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
+      </div>
+    <% end %>
   </div>
 </div>

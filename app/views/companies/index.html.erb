@@ -8,25 +8,22 @@
         <th>Name</th>
         <th></th>
         <th></th>
-        <th></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |company| %>
-      <tr>
-        <td><%= company.name %></td>
-        <td><%= company.services.count %> service(s)</td>
-        <td>
-          <%= link_to t('actions.edit'), edit_company_path(company.id), class: 'btn btn-secondary' %>
-        </td>
-        <td class="text-xs-right">
-          <%= button_to t('actions.destroy'), company_path(company.id), class: 'btn btn-danger', method: :delete %>
-        </td>
-      </tr>
+        <tr>
+          <td><%= company.name %></td>
+          <td><%= company.services.count.to_s + " service(s)" %></td>
+          <td class="text-xs-right">
+            <%= link_to t('misc.dashboard'), company_path(company.id), class: 'btn btn-secondary' %>
+          </td>
+        </tr>
       <% end %>
       </tbody>
     </table>
-    <%= link_to t('actions.new'), new_company_path, class: 'btn btn-secondary' %><br />
-
+    <% if current_user.is_superadmin %>
+      <%= link_to t('actions.new'), new_company_path, class: 'btn btn-primary' %><br />
+    <% end %>
   </div>
 </div>

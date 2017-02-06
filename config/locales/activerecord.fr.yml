@@ -13,9 +13,6 @@ fr:
         phone: "Numéro de téléphone"
         siret: "Numéro de SIRET"
         zip: "Code postal"
-      query_parameter:
-        name: 'Nom'
-        mode: 'Mode'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -46,6 +43,9 @@ fr:
         port: 'Port'
         protocol: 'Protocole'
         realm: 'realm'
+      query_parameter:
+        name: 'Nom'
+        mode: 'Mode'
       route:
         description: 'Description'
         name: 'Nom'

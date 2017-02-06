@@ -26,6 +26,7 @@ class Service < ApplicationRecord
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
   scope :owned, ->(user) { where(user_id: user.id) }
   scope :activated, -> { where.not(confirmed_at: nil) }
+  scope :associated, ->(company) { where(company_id: company.id) }
 
   scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
 
@@ -34,6 +35,10 @@ class Service < ApplicationRecord
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
+  end
+
+  def associated?(user)
+    user.has_role?(:admin, self.company)
   end
 
   def generate_client_id!

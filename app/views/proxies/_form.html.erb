@@ -1,8 +1,8 @@
 <%=
   tab_active = nil
   tab_attributes = {
-    proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection'],
-    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret', :'proxy_parameter.scope']
+    proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
+    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret', :'proxy_parameter.scope']
   }
   tab_errors = {
     proxy_main: 0,
@@ -47,16 +47,6 @@
       <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
 
       <%= f.simple_fields_for :proxy_parameter do |f2| %>
-        <%= f2.input :follow_url, as: :radio_buttons %>
-        <%= f2.input :follow_redirection %>
-      <% end %>
-    </div>
-
-
-    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authentication %>" id="proxy_authentication">
-      <%= f.simple_fields_for :proxy_parameter do |f2| %>
-        <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
-
         <div class="row">
           <div class="col-xs-3">
             <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
@@ -68,6 +58,15 @@
             <%= f2.input :port %>
           </div>
         </div>
+        <%= f2.input :follow_url, as: :radio_buttons %>
+        <%= f2.input :follow_redirection %>
+      <% end %>
+    </div>
+
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authentication %>" id="proxy_authentication">
+      <%= f.simple_fields_for :proxy_parameter do |f2| %>
+        <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
         <%= f2.input :authentication_url %>
         <%= f2.input :realm %>
         <%= f2.input :grant_type %>

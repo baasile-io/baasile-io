@@ -1,8 +1,10 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :activate, :deactivate, :public_set, :public_unset]
-  before_action :is_super_admin, only: [:activate, :deactivate, :set_right, :unset_right, :admin_board]
+  before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
+  before_action :superadmin, only: [:set_right, :unset_right, :admin_board]
   before_action :load_companies, only: [:edit, :new]
+  before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
 
   def index
     @collection = Service.authorized(current_user)
@@ -52,18 +54,17 @@ class ServicesController < ApplicationController
   def activate
     unless @service.activate
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
-      redirect_to edit_service_path(@service)
     else
       ServiceNotifier.send_validation(@service).deliver_now
-      redirect_to service_path(@service)
     end
+    redirect_back fallback_location: service_path(@service)
   end
 
   def deactivate
     unless @service.deactivate
       flash[:error] = I18n.t('errors.an_error_occured')
     end
-    redirect_to service_path(@service)
+    redirect_back fallback_location: service_path(@service)
   end
 
   def public_set
@@ -102,6 +103,14 @@ class ServicesController < ApplicationController
     end
   end
 
+  def load_service_and_authorize_with_admin_company
+    @service = Service.find_by_id(params[:id])
+    return redirect_to services_path if @service.nil?
+    unless @service.associated?(current_user) || @service.authorized?(current_user)
+      return head(:forbidden)
+    end
+  end
+
   def current_service
     return nil unless params[:id]
     @service
@@ -112,8 +121,12 @@ class ServicesController < ApplicationController
   end
 
   helper_method :is_admin_of
-  def is_super_admin
+  def superadmin
     return head(:forbidden) unless current_user.has_role?(:superadmin)
+  end
+
+  def admin_superadmin_authorize
+    return head(:forbidden) unless current_user.is_superadmin || current_user.has_role?(:admin, @service.company)
   end
 
   def current_module

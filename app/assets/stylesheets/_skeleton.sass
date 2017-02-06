@@ -6,13 +6,13 @@
 
 .b-io-header
   position: relative
-  border-radius: 5px
+  border-radius: 3px
   border-top-left-radius: 0
   border-top-right-radius: 0
   margin: -16px 0 15px 0
   padding: 15px 0 15px 0
-  background-color: #FFF
-  box-shadow: -5px -5px 5px rgba(190, 190, 190, .4)
+  background-color: #CADAEA
+  box-shadow: 0px 0px 2px rgba(190, 190, 190, .4)
 
   h1
     font-weight: bold
@@ -33,7 +33,7 @@
       @include alpha-background-color(rgba($color-blue, .2), $color-blue)
       position: relative
       margin: 0 0 15px 0
-      padding: 0 10px 10px 10px
+      padding: 10px 10px 10px 0px
 
       h4
         font-weight: bold
@@ -41,17 +41,20 @@
       h4, h5
         padding: 15px 0 5px 16px
 
+      .nav
+        margin: 0px
+
       .nav-pills
         .nav-link
-          @include alpha-background-color(rgba($color-blue, .1), $color-blue)
+          //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
           border-radius: 0
 
       &.b-io-menu--tertiary
-        @include alpha-background-color(rgba($color-blue, .1), $color-blue)
+        //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
 
         .nav-pills
           .nav-link
-            @include alpha-background-color(rgba($color-blue, .1), $color-blue)
+            //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
 
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
@@ -70,10 +73,10 @@
     padding-bottom: 15px
     //@include alpha-background-color(rgba($color-blue-dark, .2), $color-blue)
     background-color: #FFF
-    box-shadow: -5px -5px 5px rgba(190, 190, 190, .4)
+    box-shadow: 0px 0px 2px rgba(190, 190, 190, .4)
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
-      border-radius: 5px
+      border-radius: 3px
 
       &.b-io-content--with-menu
         margin-left: 280px
@@ -92,7 +95,7 @@
       margin: 0 0 10px 0
       background-color: #FFFFFF
       //border-radius: 5px
-      box-shadow: 0 -5px 5px rgba(190, 190, 190, .4)
+      box-shadow: 0 -2px 2px rgba(190, 190, 190, .4)
 
       >.container
         padding-top: 15px
