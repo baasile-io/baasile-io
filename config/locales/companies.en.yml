@@ -5,6 +5,6 @@ en:
     new:
       title: 'Create a new company'
     add_admin:
-      title: 'add an administrator'
+      title: 'Add an administrator'
     admin_list:
-      title: 'administrator list'
+      title: 'Administrators list'

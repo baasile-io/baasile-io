@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_route
   helper_method :current_module
 
+  def authorize_admin!
+    unless current_user.is_campany_admin || current_user.is_superadmin
+      return head(:forbidden)
+    end
+  end
+
   def current_company
     nil
   end
@@ -29,7 +35,6 @@ class ApplicationController < ActionController::Base
   def current_module
     nil
   end
-
 
   private
 

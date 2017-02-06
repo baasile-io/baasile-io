@@ -5,6 +5,6 @@ fr:
     new:
       title: 'Créer une nouvelle compagnie'
     add_admin:
-      title: 'ajouté un administrateur'
+      title: 'Ajouter un administrateur'
     admin_list:
-      title: 'liste des administrateurs'
+      title: 'Liste des administrateurs'

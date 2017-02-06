@@ -1,15 +1,10 @@
 class CompaniesController < ApplicationController
-
-  before_action :load_company_and__authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin ]
-
+  before_action :authorize_admin!
+  before_action :load_company_and_authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin]
   before_action :load_company_and_authorize_admin, only: [:services, :show, :edit, :update, :activate, :deactivate]
 
   def index
-    if current_user.is_campany_admin || current_user.is_superadmin
-      @collection = Company.authorized(current_user)
-    else
-      return head(:forbidden)
-    end
+    @collection = Company.authorized(current_user)
   end
 
   def show
@@ -36,7 +31,6 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    logger.info company_params.inspect
     if @company.update(company_params)
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.company'))
       redirect_to company_path(@company)
@@ -64,12 +58,11 @@ class CompaniesController < ApplicationController
 
   def admin_list
     @collection = User.all.reject { |user| !user.has_role?(:admin, @company) }
-
   end
 
   def set_admin
     user = User.find_by_id(params[:user_id])
-    if (!@company.nil? && !user.nil?)
+    unless user.nil?
       user.add_role(:admin, @company)
     end
     redirect_to admin_list_company_path(@company.id)
@@ -77,15 +70,14 @@ class CompaniesController < ApplicationController
 
   def unset_admin
     user = User.find_by_id(params[:user_id])
-    if (!@company.nil? && !user.nil?)
+    unless user.nil?
       user.remove_role(:admin, @company)
     end
     redirect_to admin_list_company_path(@company.id)
   end
 
   def add_admin
-    @company = Company.find_by_id(params[:id])
-    @collection = User.all.reject { |user| user.has_role?(:admin, @company) }
+    @users = User.all.reject { |user| user.has_role?(:admin, @company) || user.has_role?(:superadmin) }
   end
 
 
@@ -97,7 +89,7 @@ class CompaniesController < ApplicationController
     params.require(:company).permit(allowed_parameters)
   end
 
-  def load_company_and__authorize_superadmin
+  def load_company_and_authorize_superadmin
     @company = Company.find_by_id(params[:id])
     return redirect_to companies_path if @company.nil?
     return full_authorized?

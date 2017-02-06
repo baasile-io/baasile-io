@@ -54,30 +54,17 @@ class ServicesController < ApplicationController
   def activate
     unless @service.activate
       flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
-      if (params.key?(:callback_url))
-        redirect_to params[:callback_url]
-      else
-        redirect_to edit_service_path(@service)
-      end
     else
       ServiceNotifier.send_validation(@service).deliver_now
-      if (params.key?(:callback_url))
-        redirect_to params[:callback_url]
-      else
-        redirect_to service_path(@service)
-      end
     end
+    redirect_back fallback_location: service_path(@service)
   end
 
   def deactivate
     unless @service.deactivate
       flash[:error] = I18n.t('errors.an_error_occured')
     end
-    if (params.key?(:callback_url))
-      redirect_to params[:callback_url]
-    else
-      redirect_to service_path(@service)
-    end
+    redirect_back fallback_location: service_path(@service)
   end
 
   def public_set

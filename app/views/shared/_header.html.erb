@@ -30,6 +30,18 @@
     </div>
   </div>
 
+  <% unless current_proxy.nil? %>
+    <div class="b-io-header" style="background-color: #B4CAE0">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h5 style="margin:0;"><%= current_proxy.name %></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
 <% end %>
 
 <% if current_module == 'companies' && !current_company.nil? %>
@@ -45,14 +57,14 @@
         <div class="col-xs-12">
           <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'show' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'company' %>" href="<%= services_company_path(current_company) %>">Services</a>
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'services' %>" href="<%= services_company_path(current_company) %>">Services</a>
             </li>
             <% if current_user.is_superadmin %>
               <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'permissions' %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
+                <a class="nav-link <%= 'active' if controller_name == 'companies' && ['admin_list', 'add_admin'].include?(action_name) %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
               </li>
             <% end %>
           </ul>
