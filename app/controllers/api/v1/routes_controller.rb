@@ -3,10 +3,6 @@ module Api
     class RoutesController < ApiController
       before_action :load_proxy_and_authorize
       before_action :load_route_and_authorize, except: [:index]
-      before_action :is_service_self_calling,
-                    only: [:authorize_scope_route,
-                           :authorize_scope_proxy,
-                           :authorize_scope_service]
       before_action :authorize_scope_route
 
       # allow proxy functionality
