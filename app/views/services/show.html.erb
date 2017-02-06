@@ -22,24 +22,17 @@
       <hr>
       <h5>Fonctionalités admin</h5>
       <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
-
       <% unless @service.is_activated? %>
-        <% if current_user.has_role?(:superadmin) %>
-          <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
-        <% end %>
+        <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
       <% else %>
-        <% if current_user.has_role?(:superadmin) %>
-          <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
-        <% end %>
+        <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
+      <% end %>
+      <hr>
+      <% unless @service.public %>
+          <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
+      <% else %>
+          <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
       <% end %>
     <% end %>
-
-    <hr>
-    <% unless @service.public %>
-        <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
-    <% else %>
-        <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
-    <% end %>
-
   </div>
 </div>
