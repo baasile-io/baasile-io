@@ -1,5 +1,16 @@
 <%= simple_form_for @service  do |f| %>
   <%= error_messages_for(@service) %><%= f.input :name, required: true %>
+    <%= f.simple_fields_for :contact_detail do |f2| %>
+        <%= f2.input :siret %>
+        <%= f2.input :name %>
+        <%= f2.input :address_line1 %>
+        <%= f2.input :address_line2 %>
+        <%= f2.input :address_line3 %>
+        <%= f2.input :zip %>
+        <%= f2.input :city %>
+        <%= f2.input :country, as: :string %>
+        <%= f2.input :phone %>
+    <% end %>
   <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
   <% if current_user.is_superadmin || current_user.is_campany_admin %>
     <%= f.input :company_id, as: :select, collection: @companies.authorized(current_user),required: false %>

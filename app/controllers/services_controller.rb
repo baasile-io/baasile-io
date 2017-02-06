@@ -15,6 +15,7 @@ class ServicesController < ApplicationController
 
   def new
     @service = Service.new
+    @service.build_contact_detail
   end
 
   def create
@@ -86,7 +87,7 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    allowed_parameters = [:name, :description, :public, :company_id]
+    allowed_parameters = [:name, :description, :public, :company_id, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
   end
