@@ -59,6 +59,7 @@ en:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
         description: 'Description'
+        kind_of: 'Type'
         subdomain: 'Subdomain'
         name: 'Name'
         user: 'Creator'

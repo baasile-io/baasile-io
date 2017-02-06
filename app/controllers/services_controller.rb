@@ -14,7 +14,12 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @service = Service.new
+    @service = Service.new(kind_of: Service::KINDOF[:startup])
+    @service.build_contact_detail
+  end
+
+  def new_client
+    @service = Service.new(kind_of: Service::KINDOF[:client])
     @service.build_contact_detail
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202093826) do
+ActiveRecord::Schema.define(version: 20170206132703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170202093826) do
     t.string   "subdomain"
     t.boolean  "public",                    default: false
     t.integer  "company_id"
+    t.integer  "kind_of",                   default: 1
     t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 

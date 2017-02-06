@@ -3,6 +3,9 @@ class Service < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
+  KINDOF = {startup: 1, client: 2}
+  enum kind_of: KINDOF
+
   belongs_to :user
   belongs_to :company
   has_many :proxies
@@ -11,7 +14,6 @@ class Service < ApplicationRecord
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
-  validates :contact_detail, presence: true
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
