@@ -29,11 +29,11 @@
             <% else %>
               <%= link_to t('actions.set_admin'), set_admin_user_path(user.id), method: :post, class: 'btn btn-secondary' %>
             <% end %>
-            <% if current_user.has_role?(:superadmin) %>
-              <%= link_to t('actions.destroy'), user_path(user.id), method: :delete, class: 'btn btn-secondary' %>
-            <% end %>
           <% end %>
         </td>
+        <% if user != current_user && current_user.has_role?(:superadmin) %>
+            <td> <%= link_to t('actions.destroy'), user_path(user.id), method: :delete, class: 'btn btn-danger' %></td>
+        <% end %>
       </tr>
       <% end %>
       </tbody>
