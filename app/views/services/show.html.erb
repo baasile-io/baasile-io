@@ -14,10 +14,8 @@
     CLIENT_ID: <%= @service.client_id %><br />
     CLIENT_SECRET: <%= @service.client_secret %><br />
     <hr>
-    <% unless @service.is_client? %>
       <h5>API</h5>
       <p>/api/v1/<%= @service.subdomain %></p>
-    <% end %>
     <% if current_user.has_role?(:superadmin) %>
       <hr>
       <h5>Fonctionalités admin</h5>
