@@ -16,6 +16,9 @@ class User < ApplicationRecord
   has_many :routes
   has_many :query_parameters
 
+  after_find do |user|
+    puts "user find"
+  end
 
   def is_superadmin?
     self.has_role?(:superadmin)

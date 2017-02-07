@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post :admin_create , to: "users#admin_create"
   resources :users do
     member do
+      post :activate
+      post :desactivate
       post :set_admin
       post :unset_admin
     end

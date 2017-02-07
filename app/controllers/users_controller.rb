@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :autorize_superadmin, only: [:index, :new, :create, :destroy]
-  before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin]
+  before_action :autorize_superadmin, only: [:index, :new, :create, :destroy, :desactivate, :activate]
+  before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin,:desactivate, :activate]
   before_action :load_user_by_current_user, only: [:profile ]
 
   def index
@@ -62,6 +62,18 @@ class UsersController < ApplicationController
 
   def unset_admin
     @user.remove_role(:superadmin);
+    return redirect_to users_path
+  end
+
+  def activate
+    @user.is_active = true
+    @user.save
+    return redirect_to users_path
+  end
+
+  def desactivate
+    @user.is_active = false
+    @user.save
     return redirect_to users_path
   end
 
