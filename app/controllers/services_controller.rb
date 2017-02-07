@@ -3,11 +3,15 @@ class ServicesController < ApplicationController
   before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
   before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
-  before_action :load_companies, only: [:edit, :new]
+  before_action :load_companies, only: [:edit, :new, :new_client]
   before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
 
   def index
-    @collection = Service.authorized(current_user)
+    @collection = Service.authorized(current_user).where(kind_of: :startup)
+  end
+
+  def list_client
+    @collection = Service.authorized(current_user).where(kind_of: :client)
   end
 
   def show
@@ -92,7 +96,7 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    allowed_parameters = [:name, :description, :public, :company_id, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
+    allowed_parameters = [:name, :kind_of, :description, :public, :company_id, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
   end

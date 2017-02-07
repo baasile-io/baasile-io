@@ -17,7 +17,9 @@ class Service < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
-  validates :subdomain, uniqueness: true, if: Proc.new { !subdomain.nil? }
+  validates :public,inclusion: { in: [ false] },  if: :is_client?
+
+  validates :subdomain, uniqueness: true, allow_blank: true, if: Proc.new { !subdomain.nil? }
   validates :subdomain, presence: true, format: {with: /[a-z]*/}, length: {minimum: 2, maximum: 35}, if: :is_activated?
   validate :subdomain_changed_disallowed
 
@@ -63,6 +65,10 @@ class Service < ApplicationRecord
 
   def is_activable?
     !self.subdomain.blank?
+  end
+
+  def is_client?
+    return (self.kind_of.to_s == :client.to_s)
   end
 
   def subdomain_changed_disallowed

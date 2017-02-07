@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get :new_client, to: 'services#new_client'
+  get :list_client, to: 'services#list_client'
+
   resources :services do
     member do
       post :public_set

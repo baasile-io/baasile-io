@@ -1,6 +1,6 @@
 <%= simple_form_for @service  do |f| %>
   <%= error_messages_for(@service) %>
-  <%= f.input :kind_of, collection: format_kind_of_for_select, disabled: true %>
+  <%= f.input :kind_of, as: :select, collection: format_kind_of_for_select, readonly: true %>
   <%= f.input :name, required: true %>
   <%= f.simple_fields_for :contact_detail do |f2| %>
       <%= f2.input :siret %>
