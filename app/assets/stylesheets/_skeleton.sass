@@ -30,32 +30,15 @@
     position: relative
 
     .b-io-menu--secondary
-      @include alpha-background-color(rgba($color-blue, .2), $color-blue)
+      //@include alpha-background-color(rgba($color-blue, .2), $color-blue)
       position: relative
       margin: 0 0 15px 0
-      padding: 10px 10px 10px 0px
 
       h4
         font-weight: bold
 
       h4, h5
         padding: 15px 0 5px 16px
-
-      .nav
-        margin: 0px
-
-      .nav-pills
-        .nav-link
-          //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
-          border-radius: 0
-
-      &.b-io-menu--tertiary
-        //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
-
-        .nav-pills
-          .nav-link
-            //@include alpha-background-color(rgba($color-blue, .1), $color-blue)
-
 
     @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
       position: absolute

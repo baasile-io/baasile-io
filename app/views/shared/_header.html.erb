@@ -3,7 +3,7 @@
   <div class="b-io-header">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <h1><%= current_service.name %></h1>
           <% if current_service.company %>
             <h4><%= current_service.company.name %></h4>
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <ul class="nav nav-pills">
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
@@ -36,7 +36,7 @@
     <div class="b-io-header" style="background-color: #B4CAE0">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-12">
             <h5 style="margin:0;"><%= current_proxy.name %></h5>
           </div>
         </div>
@@ -51,12 +51,12 @@
   <div class="b-io-header">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <h1><%= current_company.name %></h1>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <ul class="nav nav-pills">
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'show' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
