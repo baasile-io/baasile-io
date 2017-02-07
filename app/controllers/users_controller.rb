@@ -1,12 +1,28 @@
 class UsersController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :autorize_superadmin, only: [:index]
+  before_action :autorize_superadmin, only: [:index, :new, :create, :destroy]
   before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin]
   before_action :load_user_by_current_user, only: [:profile ]
 
   def index
     @collection = User.all
+  end
+
+  def new
+    @user = User.new
+  end
+
+  def admin_create
+    logger.info "############### in create ###########"
+    @user = User.new(new_user_params)
+    @user.confirmed_at = DateTime.now
+    if @user.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.users'))
+      redirect_to users_path
+    else
+      render :new
+    end
   end
 
   def update
@@ -21,6 +37,12 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to users_url
   end
 
   def edit
@@ -58,6 +80,11 @@ class UsersController < ApplicationController
         return redirect_back
       end
     end
+  end
+
+  def new_user_params
+    allowed_parameters = [:email, :password, :password_confirmation]
+    params.require(:user).permit(allowed_parameters)
   end
 
   def user_params

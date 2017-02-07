@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/service_book', to: "pages#service_book"
   get '/profile', to: 'users#profile'
 
+  post :admin_create , to: "users#admin_create"
   resources :users do
     member do
       post :set_admin
