@@ -19,6 +19,7 @@ class Service < ApplicationRecord
 
   validates :public,inclusion: { in: [ false] },  if: :is_client?
 
+  validates :company_id, presence: true, allow_blank: false
   validates :subdomain, uniqueness: true, allow_blank: true, if: Proc.new { !subdomain.nil? }
   validates :subdomain, presence: true, format: {with: /[a-z]*/}, length: {minimum: 2, maximum: 35}, if: :is_activated?
   validate :subdomain_changed_disallowed

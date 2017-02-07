@@ -8,7 +8,9 @@
         <th>Name</th>
         <th>Activated</th>
         <th>Publié sur l'annuaire</th>
-        <th></th>
+        <% if current_user.is_superadmin || current_user.is_campany_admin %>
+          <th></th>
+        <% end %>
       </tr>
       </thead>
       <tbody>
@@ -30,7 +32,7 @@
         <% end %>
       </tbody>
     </table>
-    <%= link_to t('actions.new'), new_service_path, class: 'btn btn-secondary' %><br />
+    <%= link_to t('actions.new'), new_service_path(company_id: current_company.id), class: 'btn btn-secondary' %><br />
 
   </div>
 </div>

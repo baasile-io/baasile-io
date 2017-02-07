@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :companies do
     member do
+      get :clients
       get :services
       get :admin_list
       get :add_admin
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
   end
 
   get :new_client, to: 'services#new_client'
-  get :list_client, to: 'services#list_client'
+  get :clients, to: 'services#clients'
 
   resources :services do
     member do

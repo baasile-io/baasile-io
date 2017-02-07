@@ -1,5 +1,9 @@
 en:
   services:
+    clients:
+      title: 'List of clients'
+    new_client:
+      title: 'Create a new client'
     index:
       title: 'List of services'
     new:

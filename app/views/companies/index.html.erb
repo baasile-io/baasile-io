@@ -6,7 +6,8 @@
       <thead>
       <tr>
         <th>Name</th>
-        <th></th>
+        <th>Startups</th>
+        <th>Clients</th>
         <th></th>
       </tr>
       </thead>
@@ -14,7 +15,8 @@
       <% @collection.each do |company| %>
         <tr>
           <td><%= company.name %></td>
-          <td><%= company.services.count.to_s + " service(s)" %></td>
+          <td><%= company.services.where(kind_of: :startup).count.to_s + " service(s)" %></td>
+          <td><%= company.services.where(kind_of: :client).count.to_s + " client(s)" %></td>
           <td class="text-xs-right">
             <%= link_to t('misc.dashboard'), company_path(company.id), class: 'btn btn-secondary' %>
           </td>

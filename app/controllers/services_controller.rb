@@ -10,7 +10,7 @@ class ServicesController < ApplicationController
     @collection = Service.authorized(current_user).where(kind_of: :startup)
   end
 
-  def list_client
+  def clients
     @collection = Service.authorized(current_user).where(kind_of: :client)
   end
 
@@ -19,11 +19,17 @@ class ServicesController < ApplicationController
 
   def new
     @service = Service.new(kind_of: Service::KINDOF[:startup])
+    if (params[:company_id])
+      @service.company_id = params[:company_id]
+    end
     @service.build_contact_detail
   end
 
   def new_client
     @service = Service.new(kind_of: Service::KINDOF[:client])
+    if (params[:company_id])
+      @service.company_id = params[:company_id]
+    end
     @service.build_contact_detail
   end
 
@@ -35,7 +41,12 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
-      render :new
+      load_companies
+      if (@service.is_client?)
+        render :new_client
+      else
+        render :new
+      end
     end
   end
 

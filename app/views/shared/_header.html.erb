@@ -16,7 +16,7 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
             </li>
-            <% if current_service.is_activated? %>
+            <% if current_service.is_activated? && !current_service.is_client? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['proxies', 'routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
               </li>
@@ -63,6 +63,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'services' %>" href="<%= services_company_path(current_company) %>">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>">Clients</a>
             </li>
             <% if current_user.is_superadmin %>
               <li class="nav-item">

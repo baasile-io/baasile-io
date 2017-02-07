@@ -1,0 +1,36 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Activated</th>
+        <% if current_user.is_superadmin || current_user.is_campany_admin %>
+          <th></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @services.each do |service| %>
+          <tr>
+            <td><%= service.name %></td>
+            <td><%= service.is_activated? %></td>
+            <% if current_user.is_superadmin || current_user.is_campany_admin %>
+                <td class="text-xs-right">
+                  <% unless service.is_activated? %>
+                      <%= link_to t('actions.activate'), activate_service_path(id: service.id), method: :post, class: 'btn btn-primary' %>
+                  <% else %>
+                      <%= link_to t('actions.deactivate'), deactivate_service_path(id: service.id), method: :post, class: 'btn btn-primary' %>
+                  <% end %>
+                </td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= link_to t('actions.new'), new_client_path(company_id: current_company.id), class: 'btn btn-secondary' %><br />
+
+  </div>
+</div>

@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 20170206132703) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "proxy_parameter_id"
-    t.index ["name"], name: "index_proxies_on_name", unique: true, using: :btree
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
   end
@@ -117,7 +116,6 @@ ActiveRecord::Schema.define(version: 20170206132703) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.text     "allowed_methods", default: [],              array: true
-    t.index ["name"], name: "index_routes_on_name", unique: true, using: :btree
     t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end

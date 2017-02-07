@@ -15,6 +15,9 @@
         <li class="nav-item">
           <a class="nav-link <%= 'active' if current_module == 'dashboard' %>" href="<%= services_path %>"><%= t('services.index.title') %></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if current_module == 'dashboard' %>" href="<%= clients_path %>"><%= t('services.clients.title') %></a>
+        </li>
         <% if current_user.is_superadmin %>
           <li class="nav-item">
             <a class="nav-link <%= 'active' if current_module == 'users' %>" href="<%= users_path %>"><%= t('users.index.title') %></a>
