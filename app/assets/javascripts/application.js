@@ -15,4 +15,9 @@
 //= require turbolinks
 //= require tether
 //= require bootstrap-sprockets
+
+//= require tether/tether.min.js
+//= require ie10-viewport/ie10-viewport-bug-workaround.js
+
 //= require_tree .
+

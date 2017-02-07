@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <%= csrf_meta_tags %>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <%= stylesheet_link_tag    'public', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+
+<%= render 'shared/topbar' %>
+
+<%= yield %>
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-sm-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+  </div>
+</footer>
+</body>
+</html>

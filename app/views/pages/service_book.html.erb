@@ -1,22 +1,31 @@
 <% content_for(:page_title) { t('.title') } %>
 <% content_for(:page_description) { t('.description') } %>
 
-<div class="b-io-content--secondary">
+<section class="jumbotron text-center">
   <div class="container">
-    <% @collection.each.with_index do |service, index| %>
-      <%= '<hr>'.html_safe if index > 0 %>
-      <div class="row">
-        <div class="col-sm-2">
+    <h1 class="jumbotron-heading"><%= t('.title') %></h1>
+    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+  </div>
+</section>
+
+<div class="album text-muted">
+  <div class="container">
+
+    <div class="row">
+
+      <% @collection.each.with_index do |service, index| %>
+        <div class="card">
           <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
+          <div class="card-text-container">
+            <p class="card-text">
+              <strong><%= service.name %></strong><br />
+              <%= service.description %>
+            </p>
+          </div>
         </div>
-        <div class="col-sm-7">
-          <h5><%= service.name %></h5>
-          <%= service.description %>
-        </div>
-        <div class="col-sm-3">
-          <%= service.proxies.count %> fonctionnalité<%= 's' if service.proxies.count > 1 %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+
+    </div>
+
   </div>
 </div>
