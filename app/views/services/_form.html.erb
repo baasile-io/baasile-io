@@ -42,10 +42,18 @@
       <% if current_user.is_superadmin? %>
         <div class="row">
           <div class="col-6">
-            <%= f.input :service_type, collection: format_service_types_for_select %>
+            <% if !@service.service_type %>
+              <%= f.input :service_type, collection: format_service_types_for_select %>
+            <% else %>
+              <%= f.input :service_type, collection: format_service_types_for_select, readonly: true %>
+            <% end %>
           </div>
           <div class="col-6">
-            <%= f.input :company_id, collection: @companies %>
+            <% if !@service.company_id %>
+              <%= f.input :company_id, collection: @companies %>
+            <% else %>
+              <%= f.input :company_id, collection: @companies, readonly: true %>
+            <% end %>
           </div>
         </div>
       <% end %>
