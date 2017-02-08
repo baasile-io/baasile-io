@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   end
 
   def admin_create
-    logger.info "############### in create ###########"
     @user = User.new(new_user_params)
     @user.confirmed_at = DateTime.now
     if @user.save

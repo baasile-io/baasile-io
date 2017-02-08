@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
-  before_action :authenticate_user!
   before_action :check_current_user_is_active
+  before_action :authenticate_user!
   before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
   before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
