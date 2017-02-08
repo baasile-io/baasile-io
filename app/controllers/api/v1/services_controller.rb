@@ -10,7 +10,7 @@ module Api
                 name: service.name,
                 description: service.description,
                 website: service.website,
-                subdomain: service.subdomain
+                identifier: service.subdomain
             }
           }
         end

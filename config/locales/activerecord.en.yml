@@ -58,9 +58,13 @@ en:
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
+        company: 'Company'
+        company_id: 'Company'
         description: 'Description'
-        subdomain: 'Subdomain'
+        service_type: 'Type'
+        subdomain: 'Public identifier'
         name: 'Name'
+        public: 'Publish in catalog'
         user: 'Creator'
         user_id: 'Creator'
         website: 'Website'
@@ -78,6 +82,6 @@ en:
       user: 'User'
     validations:
       service:
-        missing_subdomain: "The attribute subdomain can't be blank"
-        subdomain_changed_disallowed: "Subdomain can't be changed because service is active"
+        missing_subdomain: "The public identifier can't be blank"
+        subdomain_changed_disallowed: "The public identifier can't be changed because service is active"
 

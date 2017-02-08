@@ -1,9 +1,11 @@
 class Company < ApplicationRecord
   resourcify
-  has_many :services
+
   belongs_to :user
+  has_many :services
   has_one :contact_detail, as: :contactable, dependent: :destroy
-  before_destroy :remove_services_associations
+
+  after_destroy :remove_services_associations
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
@@ -21,6 +23,7 @@ class Company < ApplicationRecord
     services = Service.associated(self)
     services.each do |service|
       service.company_id = nil
+      service.save(validate: false)
     end
   end
 end

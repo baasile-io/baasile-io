@@ -2,17 +2,20 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
-
-    <h5><%= @service.name %></h5>
-    <%= @service.description %><br>
-
-    <%= link_to t('actions.edit'), edit_service_path, class: 'btn btn-secondary' %>
-
-    <hr>
     <h5>Identifiants</h5>
 
-    CLIENT_ID: <%= @service.client_id %><br />
-    CLIENT_SECRET: <%= @service.client_secret %><br />
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">CLIENT_ID</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" readonly="readonly" value="<%= @service.client_id %>">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">CLIENT_SECRET</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" readonly="readonly" value="<%= @service.client_secret %>">
+      </div>
+    </div>
 
     <hr>
     <h5>API</h5>
@@ -22,24 +25,21 @@
       <hr>
       <h5>Fonctionalités admin</h5>
       <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
-
       <% unless @service.is_activated? %>
-        <% if current_user.has_role?(:superadmin) %>
-          <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
-        <% end %>
+        <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
       <% else %>
-        <% if current_user.has_role?(:superadmin) %>
-          <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
+        <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
+      <% end %>
+      <hr>
+
+      <% unless @service.is_client? %>
+        <h5>Catalogue de startups</h5>
+        <% unless @service.public %>
+            <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
+        <% else %>
+            <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
         <% end %>
       <% end %>
     <% end %>
-
-    <hr>
-    <% unless @service.public %>
-        <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
-    <% else %>
-        <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
-    <% end %>
-
   </div>
 </div>

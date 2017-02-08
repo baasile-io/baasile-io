@@ -1,13 +1,74 @@
+<%
+  tab_active = nil
+  tab_attributes = {
+    service_main: [:name, :description, :company_id, :public, :subdomain, :service_type],
+    service_contact_detail: [:'contact_detail.name', :'contact_detail.siret', :'contact_detail.address_line1', :'contact_detail.address_line2', :'contact_detail.address_line3', :'contact_detail.zip', :'contact_detail.city', :'contact_detail.country', :'contact_detail.phone']
+  }
+  tab_errors = {
+    proxy_main: 0,
+    service_contact_detail: 0
+  }
+
+  if @service.errors.messages.length > 0
+    tab_attributes.each_pair do |k, v|
+      v.each do |v2|
+        if @service.errors.messages.include? v2
+          tab_active = k if tab_active == nil
+          tab_errors[k] = 1
+        end
+      end
+    end
+  end
+
+  tab_active = :service_main if tab_active.nil?
+%>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab">Général</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :service_contact_detail %> <%= 'has-danger' if tab_errors[:service_contact_detail] == 1 %>" data-toggle="tab" href="#service_contact_detail" role="tab">Coordonnées</a>
+  </li>
+</ul>
+
 <%= simple_form_for @service  do |f| %>
-  <%= error_messages_for(@service) %><%= f.input :name, required: true %>
-  <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
-  <% if current_user.is_superadmin || current_user.is_campany_admin %>
-    <%= f.input :company_id, as: :select, collection: @companies.authorized(current_user),required: false %>
-  <% end %>
-  <% if current_user.is_superadmin %>
-    <%= f.input :subdomain, disabled: @service.is_activated? %>
-  <% end %>
-  <%= f.input :public, label: false, inline_label: true%>
+  <%= error_messages_for(@service) %>
+
+  <div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_main %>" id="service_main">
+
+      <% if current_user.is_superadmin? %>
+        <div class="row">
+          <div class="col-6">
+            <%= f.input :service_type, collection: format_service_types_for_select %>
+          </div>
+          <div class="col-6">
+            <%= f.input :company_id, collection: @companies %>
+          </div>
+        </div>
+      <% end %>
+
+
+      <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
+      <%= f.input :description, as: :text, input_html: {rows: 5} %>
+
+      <% if current_user.is_superadmin? %>
+        <%= f.input :subdomain, disabled: @service.is_activated?, hint: t('.hints.subdomain') %>
+
+        <% if !@service.is_client? %>
+          <%= f.input :public, as: :radio_buttons %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_contact_detail %>" id="service_contact_detail">
+      <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
+    </div>
+
+  </div>
+
   <div class="actions">
     <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
   </div>

@@ -52,7 +52,7 @@
     <div class="container">
       <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
     </div>
-    <% if current_user.is_superadmin %>
+    <% if current_user.is_superadmin? %>
       <div class="container">
         <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
       </div>

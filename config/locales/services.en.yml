@@ -2,6 +2,9 @@ en:
   services:
     index:
       title: 'List of services'
+    form:
+      hints:
+        subdomain: "Must be lower case and contain alphanumeric and minus characters only"
     new:
       title: 'Create a new service'
 

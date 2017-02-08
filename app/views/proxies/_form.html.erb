@@ -1,4 +1,4 @@
-<%=
+<%
   tab_active = nil
   tab_attributes = {
     proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
@@ -9,22 +9,18 @@
     proxy_authentication: 0
   }
 
-  puts @proxy.errors.messages
   if @proxy.errors.messages.length > 0
     tab_attributes.each_pair do |k, v|
       v.each do |v2|
         if @proxy.errors.messages.include? v2
-          puts v2
           tab_active = k if tab_active == nil
           tab_errors[k] = 1
         end
       end
     end
   end
+
   tab_active = :proxy_main if tab_active.nil?
-
-  puts tab_active
-
 %>
 
 <ul class="nav nav-tabs" role="tablist">

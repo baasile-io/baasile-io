@@ -1,0 +1,35 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Activé</th>
+    <% if service_type == :startup %>
+      <th>Publié sur l'annuaire</th>
+    <% end %>
+    <% if current_user.is_superadmin? || current_user.is_admin_of?(current_company) %>
+      <th></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% services.each do |service| %>
+    <tr>
+      <td><%= service.name %></td>
+      <td><%= service.is_activated? %></td>
+      <% if service_type == :startup %>
+        <td><%= service.public %></td>
+      <% end %>
+      <td><%= link_to t('misc.dashboard'), service_path(service), class: 'btn btn-secondary' %></td>
+      <% if current_user.is_superadmin? || current_user.is_admin_of?(current_company) %>
+        <td class="text-xs-right">
+          <% unless service.is_activated? %>
+            <%= link_to t('actions.activate'), activate_service_path(id: service.id), method: :post, class: 'btn btn-primary' %>
+          <% else %>
+            <%= link_to t('actions.deactivate'), deactivate_service_path(id: service.id), method: :post, class: 'btn btn-primary' %>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

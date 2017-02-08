@@ -14,9 +14,12 @@
         <div class="col-12">
           <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
+              <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'show' %>" href="<%= service_path(current_service) %>"><%= t('misc.dashboard') %></a>
             </li>
-            <% if current_service.is_activated? %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><%= t('misc.parameters') %></a>
+            </li>
+            <% if current_service.is_activated? && !current_service.is_client? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['proxies', 'routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
               </li>
@@ -62,9 +65,15 @@
               <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'show' %>" href="<%= company_path(current_company) %>"><%= t('misc.dashboard') %></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'services' %>" href="<%= services_company_path(current_company) %>">Services</a>
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_company_path(current_company) %>"><%= t('misc.parameters') %></a>
             </li>
-            <% if current_user.is_superadmin %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'startups' %>" href="<%= startups_company_path(current_company) %>">Startups</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>">Clients</a>
+            </li>
+            <% if current_user.is_superadmin? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'companies' && ['admin_list', 'add_admin'].include?(action_name) %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
               </li>
