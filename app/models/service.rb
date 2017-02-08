@@ -26,7 +26,7 @@ class Service < ApplicationRecord
 
   validates :company_id, presence: true
   validates :subdomain, presence: true, if: :is_activated?
-  validates :subdomain, uniqueness: true, format: {with: /[a-z0-9]*/}, length: {minimum: 2, maximum: 35}, if: Proc.new { !subdomain.nil? }
+  validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { !subdomain.nil? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,

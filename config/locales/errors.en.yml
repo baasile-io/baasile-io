@@ -3,6 +3,7 @@ en:
     an_error_occured: 'An error occured'
     messages:
       blank: "can't be blank"
+      invalid: "is invalid"
       not_a_number: 'must be numeric'
       record_invalid: "The record cannot be saved because it is invalid"
       too_short: 'is too short'

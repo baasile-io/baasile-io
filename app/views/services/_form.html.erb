@@ -55,7 +55,7 @@
       <%= f.input :description, as: :text, input_html: {rows: 5} %>
 
       <% if current_user.is_superadmin? %>
-        <%= f.input :subdomain, disabled: @service.is_activated? %>
+        <%= f.input :subdomain, disabled: @service.is_activated?, hint: t('.hints.subdomain') %>
 
         <% if !@service.is_client? %>
           <%= f.input :public, as: :radio_buttons %>
