@@ -1,5 +1,4 @@
 class PermissionsController < DashboardController
-
   before_action :authorize_superadmin
   before_action :get_service_owner,
                 only: [:list_services, :list_proxies_routes, :set_right_proxy,

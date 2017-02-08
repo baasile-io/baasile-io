@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  before_action :check_current_user_is_active
   before_action :authenticate_user!
   before_action :autorize_superadmin, only: [:index, :new, :create, :destroy, :desactivate, :activate]
   before_action :load_user, only: [:show, :edit, :update, :set_admin, :unset_admin,:desactivate, :activate]

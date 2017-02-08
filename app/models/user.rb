@@ -24,6 +24,11 @@ class User < ApplicationRecord
     self.has_role?(:superadmin)
   end
 
+  def is_admin?
+    companies = Company.all.reject { |obj| !self.has_role?(:admin, obj) }
+    return companies.count > 0
+  end
+
   def is_admin_of?(obj)
     self.has_role?(:admin, obj)
   end
