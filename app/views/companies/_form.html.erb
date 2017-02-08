@@ -2,18 +2,10 @@
 
   <%= error_messages_for(@company) %>
 
-  <%= f.input :name %>
+  <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'company_contact_detail_attributes_name'} %>
 
   <%= f.simple_fields_for :contact_detail do |f2| %>
-    <%= f2.input :siret %>
-    <%= f2.input :name %>
-    <%= f2.input :address_line1 %>
-    <%= f2.input :address_line2 %>
-    <%= f2.input :address_line3 %>
-    <%= f2.input :zip %>
-    <%= f2.input :city %>
-    <%= f2.input :country, as: :string %>
-    <%= f2.input :phone %>
+    <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
   <% end %>
 
   <div class="actions">

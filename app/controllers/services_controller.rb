@@ -3,33 +3,20 @@ class ServicesController < ApplicationController
   before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
   before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
-  before_action :load_companies, only: [:edit, :new, :new_client]
+  before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
 
   def index
-    @collection = Service.authorized(current_user).where(kind_of: :startup)
-  end
-
-  def clients
-    @collection = Service.authorized(current_user).where(kind_of: :client)
+    @collection = Service.authorized(current_user).where(service_type: :startup)
   end
 
   def show
   end
 
   def new
-    @service = Service.new(kind_of: Service::KINDOF[:startup])
-    if (params[:company_id])
-      @service.company_id = params[:company_id]
-    end
-    @service.build_contact_detail
-  end
-
-  def new_client
-    @service = Service.new(kind_of: Service::KINDOF[:client])
-    if (params[:company_id])
-      @service.company_id = params[:company_id]
-    end
+    @service = Service.new
+    @service.company_id = params[:company_id]
+    @service.service_type = params[:service_type].to_i if params[:service_type]
     @service.build_contact_detail
   end
 
@@ -41,16 +28,12 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
-      load_companies
-      if (@service.is_client?)
-        render :new_client
-      else
-        render :new
-      end
+      render :new
     end
   end
 
   def edit
+    @service.build_contact_detail if @service.contact_detail.nil?
   end
 
   def update
@@ -107,13 +90,13 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    allowed_parameters = [:name, :kind_of, :description, :public, :company_id, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
-    allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
+    allowed_parameters = [:name, :service_type, :description, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
+    allowed_parameters += [:subdomain, :company_id, :public] if current_user.has_role?(:superadmin)
     params.require(:service).permit(allowed_parameters)
   end
 
   def load_companies
-    @companies = Company.all
+    @companies = Company.authorized(current_user)
   end
 
   def load_service_and_authorize
@@ -147,7 +130,7 @@ class ServicesController < ApplicationController
   end
 
   def admin_superadmin_authorize
-    return head(:forbidden) unless current_user.is_superadmin || current_user.has_role?(:admin, @service.company)
+    return head(:forbidden) unless current_user.is_superadmin? || current_user.has_role?(:admin, @service.company)
   end
 
   def current_module

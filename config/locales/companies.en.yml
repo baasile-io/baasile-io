@@ -1,10 +1,14 @@
 en:
   companies:
-    index:
-      title: 'Companies'
-    new:
-      title: 'Create a new company'
     add_admin:
       title: 'Add an administrator'
     admin_list:
       title: 'Administrators list'
+    clients:
+      title: 'Clients'
+    index:
+      title: 'Companies'
+    new:
+      title: 'Create a new company'
+    startups:
+      title: 'Startups'

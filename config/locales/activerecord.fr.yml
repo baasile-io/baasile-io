@@ -60,10 +60,13 @@ fr:
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
+        company: 'Compagnie'
+        company_id: 'Compagnie'
         description: 'Description'
-        kind_of: 'Type'
-        subdomain: 'Sous-domaine'
+        service_type: 'Type'
+        subdomain: 'Identifiant publique'
         name: 'Nom'
+        public: 'Référencer dans le catalogue'
         user: 'Créateur'
         user_id: 'Créateur'
         website: 'Site Internet'
@@ -81,5 +84,5 @@ fr:
       user: 'Utilisateur'
     validations:
       service:
-        missing_subdomain: "Le paramètre sous-domaine doit être renseigné"
-        subdomain_changed_disallowed: "Le sous-domaine ne peut pas être modifié car le service est actif"
+        missing_subdomain: "L'identifiant publique doit être renseigné"
+        subdomain_changed_disallowed: "L'identifiant publique ne peut pas être modifié car le service est actif"

@@ -3,8 +3,12 @@ class Service < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
-  KINDOF = {startup: 1, client: 2}
-  enum kind_of: KINDOF
+  # Service rights
+  rolify role_join_table_name: 'public.services_roles'
+
+  SERVICE_TYPES = {startup: {index: 1}, client: {index: 2}}
+  SERVICE_TYPES_ENUM = SERVICE_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
+  enum service_type: SERVICE_TYPES_ENUM
 
   belongs_to :user
   belongs_to :company
@@ -17,11 +21,12 @@ class Service < ApplicationRecord
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
 
-  validates :public,inclusion: { in: [ false] },  if: :is_client?
+  validates :service_type, presence: true
+  validates :public, inclusion: { in: [false] }, if: :is_client?
 
-  validates :company_id, presence: true, allow_blank: false
-  validates :subdomain, uniqueness: true, allow_blank: true, if: Proc.new { !subdomain.nil? }
-  validates :subdomain, presence: true, format: {with: /[a-z]*/}, length: {minimum: 2, maximum: 35}, if: :is_activated?
+  validates :company_id, presence: true
+  validates :subdomain, presence: true, if: :is_activated?
+  validates :subdomain, uniqueness: true, format: {with: /[a-z0-9]*/}, length: {minimum: 2, maximum: 35}, if: Proc.new { !subdomain.nil? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
@@ -38,9 +43,6 @@ class Service < ApplicationRecord
   scope :associated, ->(company) { where(company_id: company.id) }
 
   scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
-
-  # Service rights
-  rolify role_join_table_name: 'public.services_roles'
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
@@ -69,7 +71,7 @@ class Service < ApplicationRecord
   end
 
   def is_client?
-    return (self.kind_of.to_s == :client.to_s)
+    self.service_type == SERVICE_TYPES[:client]
   end
 
   def subdomain_changed_disallowed

@@ -8,9 +8,9 @@ module ServicesHelper
     end
   end
 
-  def format_kind_of_for_select
-    Service::KINDOF.map do |key, _|
-      ["#{I18n.t("types.service_kind_of.#{key}")}", key]
+  def format_service_types_for_select
+    Service::SERVICE_TYPES.map do |key, _|
+      ["#{I18n.t("types.service_types.#{key}")}", key]
     end
   end
 

@@ -13,7 +13,7 @@ en:
     genders:
       male: 'Mr.'
       female: 'Ms.'
-    service_kind_of:
+    service_types:
       service: 'Service'
       startup: 'Startup'
       client: 'Client'

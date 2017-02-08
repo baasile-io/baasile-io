@@ -17,13 +17,12 @@ class User < ApplicationRecord
   has_many :query_parameters
 
 
-  def is_superadmin
-    return self.has_role?(:superadmin)
+  def is_superadmin?
+    self.has_role?(:superadmin)
   end
 
-  def is_campany_admin
-    companies = Company.all.reject { |company| !self.has_role?(:admin, company) }
-    return companies.count > 0
+  def is_admin_of?(obj)
+    self.has_role?(:admin, obj)
   end
 
   def full_name

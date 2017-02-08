@@ -5,4 +5,9 @@ $(document).ready(function(e) {
     $(this).tab('show');
   });
 
+  $('input.input-placeholder-live-update').on('keyup change', function(e) {
+    input = $(this)
+    $('#'+input.data('target')).attr('placeholder', input.val());
+  });
+
 });

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   resources :companies do
     member do
       get :clients
-      get :services
+      get :startups
       get :admin_list
       get :add_admin
       post :unset_admin
@@ -32,8 +32,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get :new_client, to: 'services#new_client'
-  get :clients, to: 'services#clients'
 
   resources :services do
     member do

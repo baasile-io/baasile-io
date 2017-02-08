@@ -1,10 +1,14 @@
 fr:
   companies:
-    index:
-      title: 'Compagnies'
-    new:
-      title: 'Créer une nouvelle compagnie'
     add_admin:
       title: 'Ajouter un administrateur'
     admin_list:
       title: 'Liste des administrateurs'
+    clients:
+      title: 'Clients'
+    index:
+      title: 'Compagnies'
+    new:
+      title: 'Créer une nouvelle compagnie'
+    startups:
+      title: 'Startups'

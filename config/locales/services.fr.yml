@@ -1,10 +1,8 @@
 fr:
   services:
-    clients:
-      title: 'Clients'
-    new_client:
-      title: 'Créer un nouveau client'
     index:
       title: 'Services'
     new:
       title: 'Créer un nouveau service'
+    new_client:
+      title: 'Créer un nouveau client'

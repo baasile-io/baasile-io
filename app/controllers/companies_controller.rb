@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
-  before_action :authorize_admin!
   before_action :load_company_and_authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin]
-  before_action :load_company_and_authorize_admin, only: [:services, :clients, :show, :edit, :update, :activate, :deactivate]
+  before_action :load_company_and_authorize_admin, only: [:startups, :clients, :show, :edit, :update, :activate, :deactivate]
+  before_action :authorize_admin!
 
   def index
     @collection = Company.authorized(current_user)
@@ -48,12 +48,12 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def services
-    @services = Service.associated(@company).where(kind_of: :startup)
+  def startups
+    @services = @company.services.where(service_type: :startup)
   end
 
   def clients
-    @services = Service.associated(@company).where(kind_of: :client)
+    @services = @company.services.where(service_type: :client)
   end
 
 
@@ -107,7 +107,7 @@ class CompaniesController < ApplicationController
   end
 
   def full_authorized?
-    unless current_user.is_superadmin
+    unless current_user.is_superadmin?
       return head(:forbidden)
     end
   end
