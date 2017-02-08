@@ -18,5 +18,9 @@ module Api
         return false
       end
     end
+
+    def authenticated_service
+      request.env[:authenticated_service]
+    end
   end
 end

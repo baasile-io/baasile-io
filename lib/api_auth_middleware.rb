@@ -9,7 +9,7 @@ class ApiAuthMiddleware
     if restricted_path? ::Rack::Request.new(env).path
       begin
         @http_token = env.fetch('HTTP_AUTHORIZATION', '').split(' ').last
-        service = authenticate
+        env[:authenticated_service] = authenticate
       rescue JWT::ExpiredSignature
         return [403, {}, ['']]
       rescue JWT::VerificationError, JWT::DecodeError

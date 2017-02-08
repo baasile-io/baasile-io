@@ -61,7 +61,7 @@ Rails.application.routes.draw do
       resources :services, only: :index
       scope '/:current_subdomain' do
         resources :proxies do
-          resources :routes, only: [:index] do
+          resources :routes, only: [:index, :show] do
             member do
               match 'request' => 'routes#process_request', as: 'standard_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
               match 'request/*follow_url' => 'routes#process_request', as: 'special_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
