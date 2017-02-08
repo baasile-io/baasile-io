@@ -71,7 +71,7 @@ class Service < ApplicationRecord
   end
 
   def is_client?
-    self.service_type == SERVICE_TYPES[:client]
+    self.service_type.to_s == :client.to_s
   end
 
   def subdomain_changed_disallowed
