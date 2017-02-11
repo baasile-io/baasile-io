@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    users:
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Utilisateurs'
+      new:
+        title: 'Créer un utilisateur'
+      permissions:
+        title: 'Permissions'

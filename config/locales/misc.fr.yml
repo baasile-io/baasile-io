@@ -1,5 +1,6 @@
 fr:
   misc:
+    back_office: "Tableau d'administration"
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'

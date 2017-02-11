@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20170207200818) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
-    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "old_passwords", force: :cascade do |t|

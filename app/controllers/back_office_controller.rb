@@ -2,6 +2,8 @@ class BackOfficeController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_superadmin!
 
+  add_breadcrumb I18n.t('misc.back_office'), :back_office_path
+
   layout 'back_office'
 
   def index
@@ -9,5 +11,9 @@ class BackOfficeController < ApplicationController
 
   def authorize_superadmin!
     return head(:forbidden) unless current_user.is_superadmin?
+  end
+
+  def current_module
+    'back_office'
   end
 end

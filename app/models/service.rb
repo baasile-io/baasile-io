@@ -4,7 +4,7 @@ class Service < ApplicationRecord
   after_create :assign_default_user_role
 
   # Service rights
-  rolify role_join_table_name: 'public.services_roles'
+  rolify strict: true, role_join_table_name: 'public.services_roles'
 
   SERVICE_TYPES = {startup: {index: 1}, client: {index: 2}}
   SERVICE_TYPES_ENUM = SERVICE_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end

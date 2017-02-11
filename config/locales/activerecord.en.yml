@@ -77,7 +77,7 @@ en:
         last_name: 'Last name'
         password: 'Password'
         password_confirmation: 'Password confirmation'
-        phone: 'Phone number'
+        phone: 'Phone Number'
     models:
       company: 'Company'
       contact_detail: 'Contact Detail'

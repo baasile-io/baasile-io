@@ -2,31 +2,78 @@
 
 <div class="b-io-content--secondary">
   <div class="container">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= edit_back_office_user_path(@user) %>">Modifier</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Permissions</a>
+      </li>
+    </ul>
+
     Is active : <%= @user.is_active %>
     <%= link_to 'toggle is_active', toggle_is_active_back_office_user_path(@user), method: :put %>
     <hr>
-    Superadmin : <%= @user.is_superadmin? %>
-    <%= link_to 'toggle superadmin', toggle_superadmin_back_office_user_path(@user), method: :put %>
-    <hr>
 
     <table class="table">
+      <tbody>
+      <% [:superadmin, :admin, :commercial, :developer].each do |scope| %>
+        <tr>
+          <td><%= scope %></td>
+          <td><%= @user.has_role?(scope) %></td>
+          <td class="text-right">
+            <%= link_to "toggle #{scope}", toggle_role_back_office_user_path(@user, scope: scope), method: :put %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container">
+    <h3>Advanced permissions</h3>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <table class="table table-sm">
       <thead>
       <tr>
-        <th>Company</th>
-        <th>Admin</th>
-        <th>Commercial</th>
+        <th></th>
+        <th>admin</th>
+        <th>commercial</th>
+        <th>developer</th>
       </tr>
       </thead>
       <tbody>
       <% @companies.each do |company| %>
-        <tr>
-          <td><%= company.name %></td>
+        <tr class="table-info">
+          <th scope="row"><%= company.name %></th>
           <% [:admin, :commercial].each do |scope| %>
             <td>
-              <%= link_to @user.has_role?(scope, company).to_s, toggle_company_role_back_office_user_path(@user, company_id: company.id, scope: scope), method: :put %>
+              <%= link_to @user.has_role?(scope, company).to_s, toggle_object_role_back_office_user_path(@user, object_type: 'Company', object_id: company.id, scope: scope), method: :put %>
             </td>
           <% end %>
+          <td></td>
         </tr>
+        <% company.services.each do |service| %>
+          <tr>
+            <td><%= service.name %></td>
+            <td></td>
+            <td></td>
+            <% [:developer].each do |scope| %>
+              <td>
+                <%= link_to @user.has_role?(scope, service).to_s, toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
       <% end %>
       </tbody>
     </table>

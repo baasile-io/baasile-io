@@ -97,7 +97,7 @@ SimpleForm.setup do |config|
   config.item_wrapper_class = 'form-check'
 
   # How the label text should be generated altogether with the required text.
-  # config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
+  config.label_text = lambda { |label, required, explicit_label| "#{label} #{required}" }
 
   # You can define the class to use on all labels. Default is nil.
   # config.label_class = nil
@@ -148,7 +148,7 @@ SimpleForm.setup do |config|
   # config.inputs_discovery = true
 
   # Cache SimpleForm inputs discovery
-  # config.cache_discovery = !Rails.env.development?
+  config.cache_discovery = !Rails.env.development?
 
   # Default class for inputs
   # config.input_class = nil
@@ -163,13 +163,15 @@ SimpleForm.setup do |config|
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
 
-  config.wrappers :bootstrap, tag: 'div', class: 'form-group', error_class: 'has-danger' do |b|
+  config.wrappers :bootstrap, tag: 'div', class: 'form-group row', error_class: 'has-danger' do |b|
     b.use :html5
     b.use :placeholder
-    b.use :label, class: 'form-control-label'
-    b.use :input, class: 'form-control', error_class: 'form-control-danger'
-    b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    b.use :label, class: 'col-md-3 col-form-label'
+    b.wrapper tag: :div, class: 'col-md-9' do |b2|
+      b2.use :input, class: 'form-control', error_class: 'form-control-danger'
+      b2.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      b2.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    end
   end
 
   config.wrappers :checkbox, tag: 'div', class: 'checkbox', error_class: 'has-danger' do |b|
@@ -179,15 +181,15 @@ SimpleForm.setup do |config|
     b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :vertical_radio_and_checkboxes, tag: 'fieldset', class: 'form-group', error_class: 'has-danger' do |b|
+  config.wrappers :vertical_radio_and_checkboxes, tag: 'div', class: 'form-group row', error_class: 'has-danger' do |b|
     b.use :html5
     b.optional :readonly
-    b.use :label, class: 'form-control-label'
-
-    b.use :input
-
-    b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    b.use :label, class: 'col-md-3 col-control-label'
+    b.wrapper tag: :div, class: 'col-md-9' do |b2|
+      b2.use :input
+      b2.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      b2.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    end
   end
 
   config.wrapper_mappings = {

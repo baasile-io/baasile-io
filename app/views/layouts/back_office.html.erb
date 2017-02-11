@@ -23,35 +23,33 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h1>BackOffice</h1>
+            <h1><%= t('misc.back_office') %></h1>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'users' %>" href="<%= back_office_users_path %>"><%= t('activerecord.models.user').pluralize %></a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <%= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
       </div>
     </div>
 
-    <%= render 'shared/flash' %>
-
     <div class="b-io-main-container">
 
-      <% unless current_proxy.nil? %>
-        <div class="b-io-menu">
-          <%= render 'shared/menu' %>
+      <div class="b-io-menu">
+        <div class="b-io-menu--secondary">
+          <div class="list-group">
+            <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
+          </div>
         </div>
-      <% end %>
+      </div>
 
-      <div class="b-io-content <%= 'b-io-content--with-menu' unless current_proxy.nil? %>">
+
+      <div class="b-io-content b-io-content--with-menu">
+
+        <%= render 'shared/flash' %>
+
         <div class="b-io-content--header">
           <div class="container">
-            <h3><%= content_for(:page_title) %></h3>
+            <h3>
+              <%= content_for(:page_title) %>
+            </h3>
             <% if content_for?(:page_description) %>
               <p><%= content_for(:page_description) %></p>
             <% end %>

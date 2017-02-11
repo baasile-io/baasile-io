@@ -7,8 +7,7 @@ Rails.application.routes.draw do
                                                   registrations: 'users/registrations',
                                                   confirmations: 'users/confirmations',
                                                   passwords: 'users/passwords',
-                                                  unlocks: 'users/unlocks'
-  }
+                                                  unlocks: 'users/unlocks' }
 
   # Background jobs
   authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
@@ -63,7 +62,7 @@ Rails.application.routes.draw do
         get :permissions
         put :toggle_is_active
         put :toggle_role
-        put :toggle_company_role
+        put :toggle_object_role
       end
     end
   end

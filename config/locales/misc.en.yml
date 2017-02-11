@@ -1,5 +1,6 @@
 en:
   misc:
+    back_office: 'Back Office'
     captcha: 'Verification code'
     captcha_hint: 'Please copy the verification code.'
     correct_errors: 'Correct the following errors and try again:'

@@ -8,7 +8,7 @@ class User < ApplicationRecord
   enum gender: GENDERS
 
   # User rights
-  rolify role_join_table_name: 'public.users_roles'
+  rolify strict: true, role_join_table_name: 'public.users_roles'
 
   has_many :companies
   has_many :services
@@ -31,6 +31,10 @@ class User < ApplicationRecord
 
   def is_admin?
     self.has_role?(:superadmin) || self.has_role?(:admin)
+  end
+
+  def is_commercial?
+    self.has_role?(:superadmin) || self.has_role?(:commercial)
   end
 
   def is_admin_of?(obj)

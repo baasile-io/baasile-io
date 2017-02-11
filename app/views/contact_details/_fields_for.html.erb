@@ -6,14 +6,8 @@
   <%= f2.input :address_line2 %>
   <%= f2.input :address_line3 %>
 
-  <div class="row">
-    <div class="col-4">
-      <%= f2.input :zip %>
-    </div>
-    <div class="col-8">
-      <%= f2.input :city %>
-    </div>
-  </div>
+  <%= f2.input :zip %>
+  <%= f2.input :city %>
 
   <%= f2.input :country, as: :string %>
 <% end %>

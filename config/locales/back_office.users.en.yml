@@ -1,0 +1,11 @@
+en:
+  back_office:
+    users:
+      edit:
+        title: 'Edit'
+      index:
+        title: 'Users'
+      new:
+        title: 'New User'
+      permissions:
+        title: 'Permissions'

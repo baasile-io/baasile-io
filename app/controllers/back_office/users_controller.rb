@@ -2,6 +2,9 @@ module BackOffice
   class UsersController < BackOfficeController
     before_action :load_user, except: [:index, :new, :create]
 
+    add_breadcrumb I18n.t('back_office.users.index.title'), :back_office_users_path
+    before_action :add_breadcrumb_current_action, except: [:index]
+
     def index
       @collection = User.all.order(email: :asc)
     end
@@ -24,6 +27,7 @@ module BackOffice
     end
 
     def update
+      @page_title = @user.full_name
       if @user.update(user_params)
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
         redirect_to back_office_users_path
@@ -38,6 +42,7 @@ module BackOffice
     end
 
     def edit
+      @page_title = @user.full_name
     end
 
     def permissions
@@ -55,10 +60,13 @@ module BackOffice
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
     end
 
-    def toggle_company_role
+    def toggle_object_role
       scope = params[:scope]
-      company = Company.find(params[:company_id])
-      @user.send(@user.has_role?(scope, company) ? :remove_role : :add_role, scope, company)
+      object_type = params[:object_type]
+      object_id = params[:object_id]
+
+      object = object_type.constantize.find(object_id)
+      @user.send(@user.has_role?(scope, object) ? :remove_role : :add_role, scope, object)
 
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
     end
@@ -80,10 +88,6 @@ module BackOffice
     def user_params
       allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :is_active]
       params.require(:user).permit(allowed_parameters)
-    end
-
-    def current_module
-      'users'
     end
 
   end

@@ -79,7 +79,7 @@ fr:
         last_name: 'Nom'
         password: 'Mot de passe'
         password_confirmation: 'Confirmation du mot de passe'
-        phone: 'Numéro de téléphone'
+        phone: 'Téléphone'
     models:
       company: 'Compagnie'
       contact_detail: 'Coordonnée'

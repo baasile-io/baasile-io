@@ -8,17 +8,9 @@
 
       <%= f.input :email, required: true, autofocus: true %>
 
-      <div class="row">
-        <div class="col-md-2">
-          <%= f.input :gender, as: :select, collection: format_gender_for_select %>
-        </div>
-        <div class="col-md-5">
-          <%= f.input :first_name %>
-        </div>
-        <div class="col-md-5">
-          <%= f.input :last_name %>
-        </div>
-      </div>
+      <%= f.input :gender, as: :select, collection: format_gender_for_select %>
+      <%= f.input :first_name %>
+      <%= f.input :last_name %>
 
       <%= f.input :phone %>
 
