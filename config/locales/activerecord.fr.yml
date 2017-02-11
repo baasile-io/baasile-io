@@ -71,8 +71,15 @@ fr:
         user_id: 'Créateur'
         website: 'Site Internet'
       user:
+        current_password: 'Mot de passe actuel'
         email: 'E-Mail'
+        first_name: 'Prénom'
+        gender: 'Civilité'
+        is_active: 'Actif ?'
+        last_name: 'Nom'
         password: 'Mot de passe'
+        password_confirmation: 'Confirmation du mot de passe'
+        phone: 'Numéro de téléphone'
     models:
       company: 'Compagnie'
       contact_detail: 'Coordonnée'

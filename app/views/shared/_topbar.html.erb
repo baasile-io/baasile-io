@@ -17,7 +17,7 @@
         </li>
         <% if current_user.is_superadmin? %>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if current_module == 'users' %>" href="<%= users_path %>"><%= t('users.index.title') %></a>
+            <a class="nav-link <%= 'active' if current_module == 'back_office' %>" href="<%= back_office_path %>"><%= t('misc.back_office') %></a>
           </li>
         <% end %>
       <% end %>

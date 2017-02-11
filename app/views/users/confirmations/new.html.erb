@@ -8,8 +8,7 @@
 
       <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
 
-      <p><%= captcha_tag %></p>
-      <p><%= text_field_tag :captcha %></p>
+      <%= render partial: 'shared/captcha', locals: {f: f} %>
 
       <div class="actions">
         <%= f.button :submit, value: t('actions.resend_confirmation_instructions'), data: { disable_with: t('actions.resend_confirmation_instructions') } %>

@@ -55,7 +55,7 @@ class PermissionsController < DashboardController
   end
 
   def authorize_superadmin
-    return head(:forbidden) unless is_super_admin
+    return head(:forbidden) unless current_user.is_superadmin?
   end
 
   def is_admin_of(service)

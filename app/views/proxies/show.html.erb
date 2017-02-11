@@ -24,7 +24,7 @@
     <hr>
 
     <div class="text-right">
-      <%= link_to t('actions.destroy'), service_proxy_path(current_service, @proxy), method: :delete, class: 'btn btn-secondary btn-danger' %>
+      <%= link_to t('actions.destroy'), service_proxy_path(current_service, @proxy), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-secondary btn-danger' %>
     </div>
 
 

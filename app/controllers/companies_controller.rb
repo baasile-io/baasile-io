@@ -1,5 +1,4 @@
 class CompaniesController < ApplicationController
-  before_action :check_current_user_is_active
   before_action :load_company_and_authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin]
   before_action :load_company_and_authorize_admin, only: [:startups, :clients, :show, :edit, :update, :activate, :deactivate]
   before_action :authorize_admin!

@@ -1,0 +1,35 @@
+<% content_for(:page_title) { @user.full_name } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    Is active : <%= @user.is_active %>
+    <%= link_to 'toggle is_active', toggle_is_active_back_office_user_path(@user), method: :put %>
+    <hr>
+    Superadmin : <%= @user.is_superadmin? %>
+    <%= link_to 'toggle superadmin', toggle_superadmin_back_office_user_path(@user), method: :put %>
+    <hr>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Company</th>
+        <th>Admin</th>
+        <th>Commercial</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @companies.each do |company| %>
+        <tr>
+          <td><%= company.name %></td>
+          <% [:admin, :commercial].each do |scope| %>
+            <td>
+              <%= link_to @user.has_role?(scope, company).to_s, toggle_company_role_back_office_user_path(@user, company_id: company.id, scope: scope), method: :put %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

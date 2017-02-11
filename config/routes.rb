@@ -3,7 +3,12 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   captcha_route
-  devise_for :users
+  devise_for :users, path: 'auth', controllers: { sessions: 'users/sessions',
+                                                  registrations: 'users/registrations',
+                                                  confirmations: 'users/confirmations',
+                                                  passwords: 'users/passwords',
+                                                  unlocks: 'users/unlocks'
+  }
 
   # Background jobs
   authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
@@ -13,16 +18,6 @@ Rails.application.routes.draw do
   root to: "pages#root"
   get '/service_book', to: "pages#service_book"
   get '/profile', to: 'users#profile'
-
-  post :admin_create , to: "users#admin_create"
-  resources :users do
-    member do
-      post :activate
-      post :desactivate
-      post :set_admin
-      post :unset_admin
-    end
-  end
 
   resources :companies do
     member do
@@ -34,8 +29,7 @@ Rails.application.routes.draw do
       post :set_admin
     end
   end
-
-
+  
   resources :services do
     member do
       post :public_set
@@ -58,6 +52,18 @@ Rails.application.routes.draw do
     resources :proxies do
       resources :routes do
         resources :query_parameters
+      end
+    end
+  end
+
+  get 'back_office', to: 'back_office#index'
+  namespace :back_office do
+    resources :users do
+      member do
+        get :permissions
+        put :toggle_is_active
+        put :toggle_role
+        put :toggle_company_role
       end
     end
   end

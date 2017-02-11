@@ -16,6 +16,11 @@ class User < ApplicationRecord
   has_many :routes
   has_many :query_parameters
 
+  validates :email, presence: true
+  validates :gender, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   after_find do |user|
     puts "user find"
   end
@@ -25,12 +30,11 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    companies = Company.all.reject { |obj| !self.has_role?(:admin, obj) }
-    return companies.count > 0
+    self.has_role?(:superadmin) || self.has_role?(:admin)
   end
 
   def is_admin_of?(obj)
-    self.has_role?(:admin, obj)
+    self.has_role?(:superadmin) || self.has_role?(:admin, obj)
   end
 
   def full_name

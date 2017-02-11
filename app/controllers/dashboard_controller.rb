@@ -1,5 +1,4 @@
 class DashboardController < ApplicationController
-  before_action :check_current_user_is_active
   before_action :authenticate_user!
   before_action :authenticate_schema
   before_action :authorize_user

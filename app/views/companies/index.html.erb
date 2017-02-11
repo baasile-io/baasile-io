@@ -24,7 +24,7 @@
       <% end %>
       </tbody>
     </table>
-    <% if current_user.is_superadmin? %>
+    <% if current_user.is_admin? %>
       <%= link_to t('actions.new'), new_company_path, class: 'btn btn-primary' %><br />
     <% end %>
   </div>

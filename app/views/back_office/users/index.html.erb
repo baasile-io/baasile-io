@@ -1,0 +1,32 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>SuperAdmin</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.is_superadmin? %></td>
+        <td class="text-right">
+          <%= link_to t('actions.edit'), edit_back_office_user_path(user), class: 'btn btn-secondary' %>
+          <%= link_to t('misc.permissions'), permissions_back_office_user_path(user), class: 'btn btn-secondary' %>
+          <% if user != current_user %>
+            <%= link_to user.is_active ? t('actions.deactivate') : t('actions.activate'), toggle_is_active_back_office_user_path(user), method: :put, class: 'btn btn-primary' %>
+            <%= link_to t('actions.destroy'), back_office_user_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= link_to t('actions.new'), new_back_office_user_path, class: 'btn btn-secondary' %><br />
+  </div>
+</div>

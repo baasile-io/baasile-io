@@ -1,15 +1,12 @@
-<% content_for(:page_title) { @user.email } %>
+<% content_for(:page_title) { current_user.email } %>
 
 <div class="b-io-content--secondary">
   <div class="container">
-    <%= link_to t('actions.edit_account'), edit_user_registration_path, class: 'btn btn-secondary' %>
-    <%= link_to t('actions.edit'), edit_user_path(@user.id), class: 'btn btn-secondary' %>
-
 
     <table class="table">
       <thead>
       <tr>
-        <th><% if @user.has_role?(:superadmin) %>
+        <th><% if current_user.is_superadmin? %>
               Admin user
           <% else %>
               Normal user
@@ -20,23 +17,23 @@
       <tbody>
       <tr>
         <td>email:</td>
-        <td><%= @user.email %></td>
+        <td><%= current_user.email %></td>
       </tr>
       <tr>
         <td>first name:</td>
-        <td><%= @user.first_name %></td>
+        <td><%= current_user.first_name %></td>
       </tr>
       <tr>
         <td>last name:</td>
-        <td><%= @user.last_name %></td>
+        <td><%= current_user.last_name %></td>
       </tr>
       <tr>
         <td>gender:</td>
-        <td><%= t("types.genders.#{@user.gender}") unless @user.gender.nil? %></td>
+        <td><%= t("types.genders.#{current_user.gender}") unless current_user.gender.nil? %></td>
       </tr>
       <tr>
         <td>phone:</td>
-        <td><%= @user.phone %></td>
+        <td><%= current_user.phone %></td>
       </tr>
       </tbody>
     </table>

@@ -1,6 +1,9 @@
 fr:
   misc:
+    captcha: 'Code de vérification'
+    captcha_hint: 'Veuillez recopier le code de vérification.'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
     dashboard: 'Tableau de bord'
     invalid_fields: 'Champs renseignés non valides'
     parameters: 'Paramètres'
+    profile: 'Profil'

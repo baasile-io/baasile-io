@@ -1,5 +1,4 @@
 class ServicesController < ApplicationController
-  before_action :check_current_user_is_active
   before_action :authenticate_user!
   before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
   before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
@@ -8,7 +7,7 @@ class ServicesController < ApplicationController
   before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
 
   def index
-    @collection = Service.authorized(current_user).where(service_type: :startup)
+    @collection = Service.authorized(current_user)
   end
 
   def show

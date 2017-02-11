@@ -49,13 +49,12 @@
         </tr>
       </tbody>
     </table>
-    <div class="container">
-      <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
-    </div>
+
+    <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
+
     <% if current_user.is_superadmin? %>
-      <div class="container">
-        <%= button_to t('actions.destroy'), company_path, class: 'btn btn-danger', method: :delete %>
-      </div>
+      <%= link_to t('actions.destroy'), company_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
     <% end %>
+
   </div>
 </div>

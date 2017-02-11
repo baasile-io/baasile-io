@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   # reset captcha code after each request for security
   after_action :reset_last_captcha_code!
-  #after_action :check_current_user_is_active
 
   protect_from_forgery with: :exception
 
@@ -12,14 +11,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_module
 
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+    request.env['omniauth.origin'] || stored_location_for(resource) || profile_path
   end
 
-  def check_current_user_is_active
-    if !current_user.nil?
-      unless current_user.is_active?
-        return head(:forbidden)
-      end
+  def authenticate_user!(opts={})
+    super(opts)
+    unless current_user.is_active
+      return head(:forbidden)
     end
   end
 
@@ -48,10 +46,4 @@ class ApplicationController < ActionController::Base
   def current_module
     nil
   end
-
-  private
-
-    def is_super_admin
-      return current_user.has_role?(:superadmin)
-    end
 end
