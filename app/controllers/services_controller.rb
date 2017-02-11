@@ -7,7 +7,7 @@ class ServicesController < ApplicationController
   before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
 
   def index
-    @collection = Service.authorized(current_user).where(service_type: :startup)
+    @collection = Service.authorized(current_user)
   end
 
   def show
