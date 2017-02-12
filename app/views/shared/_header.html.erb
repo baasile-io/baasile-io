@@ -1,7 +1,7 @@
-<% unless current_service.nil? %>
+<% if !current_service.nil? %>
 
   <div class="b-io-header">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <h1><%= current_service.name %></h1>
@@ -10,6 +10,7 @@
           <% end %>
         </div>
       </div>
+      <%= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
       <div class="row">
         <div class="col-12">
           <ul class="nav nav-pills">
@@ -37,7 +38,7 @@
 
   <% unless current_proxy.nil? %>
     <div class="b-io-header" style="background-color: #B4CAE0">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <h5 style="margin:0;"><%= current_proxy.name %></h5>
@@ -47,12 +48,10 @@
     </div>
   <% end %>
 
-<% end %>
-
-<% if current_module == 'companies' && !current_company.nil? %>
+<% elsif current_module == 'companies' && !current_company.nil? %>
 
   <div class="b-io-header">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <h1><%= current_company.name %></h1>
@@ -78,6 +77,38 @@
                 <a class="nav-link <%= 'active' if controller_name == 'companies' && ['admin_list', 'add_admin'].include?(action_name) %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
               </li>
             <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% elsif !current_user.nil? %>
+
+  <div class="b-io-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <h1><%= current_user.full_name %></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><%= t('misc.profile') %></a>
+            </li>
+            <% if current_user.is_admin? %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'companies' %>" href="<%= companies_path %>"><%= t('activerecord.models.company').pluralize %></a>
+              </li>
+            <% end %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><%= t('activerecord.models.service').pluralize %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'registrations' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_user_registration_path %>"><%= t('actions.edit_account') %></a>
+            </li>
           </ul>
         </div>
       </div>

@@ -1,5 +1,7 @@
 fr:
   proxies:
+    create:
+      title: 'Nouvelle fonctionalité'
     edit:
       title: 'Modifier la fonctionnalité'
     index:
@@ -11,3 +13,5 @@ fr:
       select_authentication_mode: "Sélectionnez un mode d'authentification..."
     show:
       title: 'Fonctionnalité'
+    update:
+      title: 'Modifier la fonctionnalité'

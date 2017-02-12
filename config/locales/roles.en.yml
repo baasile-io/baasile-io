@@ -1,0 +1,18 @@
+en:
+  roles:
+    admin:
+      description: 'A Company Administrator can create companies and manage them.'
+      title: 'Administrator'
+      title_long: 'Company Administrator'
+    commercial:
+      description: 'A Company Commercial can create contracts and on behalf of his clients.'
+      title: 'Commercial'
+      title_long: 'Company Commercial'
+    developer:
+      description: 'A startuper can create startups and manage their APIs.'
+      title: 'Startuper'
+      title_long: 'Startuper'
+    superadmin:
+      description: 'A Super-Administrator can do everything on the platform.'
+      title: 'Super-Administrator'
+      title_long: 'Super-Administrator'

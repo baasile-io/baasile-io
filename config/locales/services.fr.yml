@@ -1,9 +1,15 @@
 fr:
   services:
-    new:
-      title: 'Créer un nouveau service'
+    edit:
+      title: 'Paramètres'
     form:
       hints:
         subdomain: "Doit être en minuscule et ne peut contenir que des caractères alpha-numériques et le trait d'union"
     index:
       title: 'Services'
+    new:
+      title: 'Créer un nouveau service'
+    show:
+      title: 'Tableau de bord'
+    update:
+      title: 'Paramètres'

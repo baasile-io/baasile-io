@@ -1,0 +1,22 @@
+fr:
+  roles:
+    admin:
+      description: 'Un administrateur de compagnie peut créer des compagnies et administrer des clients.'
+      icon: 'fa fa-fw fa-user-circle'
+      title: 'Administrateur'
+      title_long: 'Administrateur de compagnie'
+    commercial:
+      description: 'Un commercial peut créer des contrats pour le compte de ses clients ou startups.'
+      icon: 'fa fa-fw fa-handshake-o'
+      title: 'Commercial'
+      title_long: 'Commercial'
+    developer:
+      description: 'Un startuper peut créer des startups et configurer leurs APIs.'
+      icon: 'fa fa-fw fa-user'
+      title: 'Startuper'
+      title_long: 'Startuper'
+    superadmin:
+      description: 'Un Super-Administrateur de la plateforme a accès à tout en lecture et écriture.'
+      icon: 'fa fa-fw fa-star'
+      title: 'Super-administrateur'
+      title_long: 'Super-Administrateur'

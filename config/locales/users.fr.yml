@@ -1,4 +1,50 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
 fr:
   users:
+    confirmations:
+      new:
+        title: 'Instructions de confirmation'
     index:
       title: 'Utilisateurs'
+    mailer:
+      confirmation_instructions:
+        subject: "Instructions de confirmation"
+      reset_password_instructions:
+        subject: "Instructions pour changer le mot de passe"
+      unlock_instructions:
+        subject: "Instructions pour déverrouiller le compte"
+      password_change:
+        subject: "Votre mot de passe a été modifié avec succés."
+    passwords:
+      edit:
+        title: 'Changer de mot de passe'
+      new:
+        title: 'Mot de passe oublié'
+    registrations:
+      edit:
+        title: 'Modifier mon compte'
+      new:
+        title: "S'inscrire"
+    sessions:
+      new:
+        description: "Accédez au tableau de bord"
+        title: "Se connecter"
+    shared:
+      links:
+        did_not_received_confirmation_instructions: "Je n'ai pas reçu les instructions de confirmation"
+        did_not_received_unlock_instruction: "Je n'ai pas reçu les instructions pour réactiver mon compte"
+        forgot_password: 'Mot de passe oublié'
+    unlocks:
+      new:
+        title: 'Activer mon compte'
+  errors:
+    messages:
+      already_confirmed: "a déjà été validé(e), veuillez essayer de vous connecter"
+      confirmation_period_expired: "à confirmer dans les %{period}, merci de faire une nouvelle demande"
+      expired: "a expiré, merci d'en faire une nouvelle demande"
+      not_found: "n'a pas été trouvé(e)"
+      not_locked: "n'était pas verrouillé(e)"
+      not_saved:
+        one: "1 erreur a empêché ce(tte) %{resource} d'être sauvegardé(e) :"
+        other: "%{count} erreurs ont empêché ce(tte) %{resource} d'être sauvegardé(e) :"

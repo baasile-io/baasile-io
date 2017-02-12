@@ -48,6 +48,7 @@ GEM
     bootstrap (4.0.0.alpha6)
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
+    breadcrumbs_on_rails (3.0.1)
     builder (3.2.2)
     byebug (9.0.6)
     capybara (2.11.0)
@@ -297,6 +298,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap (~> 4.0.0.alpha6)
+  breadcrumbs_on_rails
   byebug
   capybara
   capybara-screenshot

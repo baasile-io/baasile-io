@@ -1,12 +1,16 @@
 fr:
   query_parameters:
+    create:
+      title: 'Ajouter'
     edit:
-      title: 'Modifier le paramètre de requête'
+      title: 'Modifier'
     form:
       default_mode: "DEFAULT"
     index:
       title: 'Paramètres de requête'
     new:
-      title: 'Ajouter un paramètres de requête'
+      title: 'Ajouter'
     show:
       title: 'Paramètre de requête'
+    update:
+      title: 'Modifier'

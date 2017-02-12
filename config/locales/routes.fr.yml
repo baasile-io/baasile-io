@@ -1,12 +1,16 @@
 fr:
   routes:
+    create:
+      title: 'Nouvelle route'
     edit:
       title: 'Modifier la route'
     form:
       default_protocol: "Par défaut (%{protocol})"
     index:
-      title: 'Liste des routes'
+      title: 'Routes'
     new:
       title: 'Nouvelle route'
     show:
       title: 'Route'
+    update:
+      title: 'Modifier la route'

@@ -1,6 +1,16 @@
 class ProxiesController < DashboardController
   before_action :load_proxy_and_authorize, only: [:show, :edit, :update, :destroy]
 
+  before_action :add_breadcrumb_parent
+  before_action :add_breadcrumb_current_action, except: [:index, :show]
+
+  def add_breadcrumb_parent
+    add_breadcrumb I18n.t('services.index.title'), :services_path
+    add_breadcrumb current_service.name, service_path(current_service)
+    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
+    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) if current_proxy
+  end
+
   def index
     @collection = current_service.proxies.authorized(current_user)
   end

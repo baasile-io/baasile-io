@@ -4,7 +4,7 @@ class Service < ApplicationRecord
   after_create :assign_default_user_role
 
   # Service rights
-  rolify role_join_table_name: 'public.services_roles'
+  rolify strict: true, role_join_table_name: 'public.services_roles'
 
   SERVICE_TYPES = {startup: {index: 1}, client: {index: 2}}
   SERVICE_TYPES_ENUM = SERVICE_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
@@ -24,7 +24,7 @@ class Service < ApplicationRecord
   validates :service_type, presence: true
   validates :public, inclusion: { in: [false] }, if: :is_client?
 
-  validates :company_id, presence: true
+  #validates :company_id, presence: true
   validates :subdomain, presence: true, if: :is_activated?
   validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { !subdomain.nil? }
   validate :subdomain_changed_disallowed
@@ -38,9 +38,9 @@ class Service < ApplicationRecord
                             if: :confirmed_at?
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
-  scope :owned, ->(user) { where(user_id: user.id) }
+  scope :owned, ->(user) { where(user: user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
-  scope :associated, ->(company) { where(company_id: company.id) }
+  scope :associated, ->(company) { where(company: company) }
 
   scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
 

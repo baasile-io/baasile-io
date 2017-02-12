@@ -1,5 +1,7 @@
 class Company < ApplicationRecord
+  # User rights
   resourcify
+  after_create :assign_default_user_role
 
   belongs_to :user
   has_many :services
@@ -13,10 +15,14 @@ class Company < ApplicationRecord
   validates :contact_detail, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:admin, user) }
-  scope :owned, ->(user) { where(user_id: user.id) }
+  scope :owned, ->(user) { where(user: user) }
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:admin, self)
+  end
+
+  def assign_default_user_role
+    self.user.add_role(:admin, self)
   end
 
   def remove_services_associations

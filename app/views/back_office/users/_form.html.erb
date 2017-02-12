@@ -1,0 +1,43 @@
+<%= simple_form_for [:back_office, @user] do |f| %>
+
+  <%= error_messages_for(@user) %>
+
+  <%= f.input :email %>
+
+  <%= f.input :gender, as: :select, collection: format_gender_for_select %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+
+  <%= f.input :phone %>
+
+  <%= f.input :is_active, as: :radio_buttons %>
+
+  <% if !f.object.persisted? %>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="skip_confirmation"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :skip_confirmation, 'true', params[:skip_confirmation].present? %>
+          <%= t('actions.skip_confirmation') %>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="send_welcome_instructions"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :send_welcome_instructions, 'true', params[:send_welcome_instructions].present? %>
+          <%= t('actions.send_welcome_instructions') %>
+        </label>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

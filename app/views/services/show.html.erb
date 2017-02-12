@@ -1,7 +1,7 @@
 <% content_for(:page_title) { @service.name } %>
 
 <div class="b-io-content--secondary">
-  <div class="container">
+  <div class="container-fluid">
     <h5>Identifiants</h5>
 
     <div class="form-group row">
@@ -24,7 +24,7 @@
     <% if current_user.has_role?(:superadmin) %>
       <hr>
       <h5>Fonctionalités admin</h5>
-      <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', method: :delete %>
+      <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
       <% unless @service.is_activated? %>
         <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
       <% else %>

@@ -39,15 +39,9 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_main %>" id="service_main">
 
+      <%= f.input :service_type, collection: format_service_types_for_select %>
       <% if current_user.is_superadmin? %>
-        <div class="row">
-          <div class="col-6">
-            <%= f.input :service_type, collection: format_service_types_for_select %>
-          </div>
-          <div class="col-6">
-            <%= f.input :company_id, collection: @companies %>
-          </div>
-        </div>
+        <%= f.input :company_id, collection: @companies %>
       <% end %>
 
 
@@ -69,7 +63,9 @@
 
   </div>
 
-  <div class="actions">
-    <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
   </div>
 <% end %>

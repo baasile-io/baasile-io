@@ -69,8 +69,16 @@ en:
         user_id: 'Creator'
         website: 'Website'
       user:
+        current_password: 'Current password'
         email: 'Email'
+        first_name: 'First name'
+        full_name: 'Full name'
+        gender: 'Gender'
+        is_active: 'Active ?'
+        last_name: 'Last name'
         password: 'Password'
+        password_confirmation: 'Password confirmation'
+        phone: 'Phone Number'
     models:
       company: 'Company'
       contact_detail: 'Contact Detail'

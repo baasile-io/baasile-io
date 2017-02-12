@@ -1,14 +1,15 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  #  :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :trackable, :validatable, :confirmable, :lockable
+  #  :omniauthable :password_archivable
+  devise :database_authenticatable, :registerable, :timeoutable,
+         :recoverable, :trackable, :secure_validatable, :confirmable, :lockable,
+         :password_expirable, :session_limitable, :expirable
 
   GENDERS = {male: 1, female: 2}
   enum gender: GENDERS
 
   # User rights
-  rolify role_join_table_name: 'public.users_roles'
+  rolify strict: true, role_join_table_name: 'public.users_roles'
 
   has_many :companies
   has_many :services
@@ -16,13 +17,25 @@ class User < ApplicationRecord
   has_many :routes
   has_many :query_parameters
 
+  validates :email, presence: true, uniqueness: true
+  validates :gender, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def is_superadmin?
     self.has_role?(:superadmin)
   end
 
+  def is_admin?
+    self.has_role?(:superadmin) || self.has_role?(:admin)
+  end
+
+  def is_commercial?
+    self.has_role?(:superadmin) || self.has_role?(:commercial)
+  end
+
   def is_admin_of?(obj)
-    self.has_role?(:admin, obj)
+    self.has_role?(:superadmin) || self.has_role?(:admin, obj)
   end
 
   def full_name

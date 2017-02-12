@@ -1,4 +1,50 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
 en:
   users:
+    confirmations:
+      new:
+        title: 'Confirmation instructions'
     index:
       title: 'Users'
+    mailer:
+      confirmation_instructions:
+        subject: "Confirmation instructions"
+      reset_password_instructions:
+        subject: "Reset password instructions"
+      unlock_instructions:
+        subject: "Unlock instructions"
+      password_change:
+        subject: "Password Changed"
+    passwords:
+      edit:
+        title: 'Change password'
+      new:
+        title: 'Forgot password'
+    registrations:
+      edit:
+        title: 'Edit my account'
+      new:
+        title: "Sign up"
+    sessions:
+      new:
+        description: "Log in to your developer account and manage your functionalities"
+        title: "Developer Account"
+    shared:
+      links:
+        did_not_received_confirmation_instructions: "Didn't receive confirmation instructions?"
+        did_not_received_unlock_instruction: "Didn't receive unlock instructions?"
+        forgot_password: 'Forgot password'
+    unlocks:
+      new:
+        title: 'Unlock my account'
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"

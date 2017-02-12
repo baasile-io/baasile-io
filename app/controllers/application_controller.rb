@@ -10,6 +10,17 @@ class ApplicationController < ActionController::Base
   helper_method :current_route
   helper_method :current_module
 
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || profile_path
+  end
+
+  def authenticate_user!(opts={})
+    super(opts)
+    unless current_user.is_active
+      return head(:forbidden)
+    end
+  end
+
   def authorize_admin!
     unless current_user.is_admin_of?(current_company) || current_user.is_superadmin?
       return head(:forbidden)
@@ -36,9 +47,7 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  private
-
-    def is_super_admin
-      return current_user.has_role?(:superadmin)
-    end
+  def add_breadcrumb_current_action
+    add_breadcrumb I18n.t("#{controller_name}.#{action_name}.title")
+  end
 end

@@ -1,5 +1,7 @@
 en:
   routes:
+    create:
+      title: 'New route'
     edit:
       title: 'Edit route'
     form:
@@ -10,3 +12,5 @@ en:
       title: 'New route'
     show:
       title: 'Route'
+    update:
+      title: 'Edit route'

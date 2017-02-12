@@ -7,4 +7,7 @@ fr:
     shared:
       hello: 'Bonjour,'
       best_regard: 'Cordialement.'
+    user_notifier:
+      send_welcome_email:
+        subject: 'Bienvenue'
 

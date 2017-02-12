@@ -1,7 +1,7 @@
 <% content_for(:page_title, t('.title')) %>
 
 <div class="b-io-content--secondary">
-  <div class="container">
+  <div class="container-fluid">
 
     <h5><%= @route.name %></h5>
     <%= @route.description %>
@@ -15,7 +15,7 @@
     <hr>
 
     <div class="text-sm-right">
-      <%= link_to t('actions.destroy'), service_proxy_route_path(current_service, current_proxy, @route), method: :delete, class: 'btn btn-secondary btn-danger' %>
+      <%= link_to t('actions.destroy'), service_proxy_route_path(current_service, current_proxy, @route), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-secondary btn-danger' %>
     </div>
   </div>
 </div>

@@ -1,13 +1,15 @@
 <nav class="navbar navbar-toggleable-md <%= 'fixed-top' if controller_name != 'pages' %> navbar-inverse bg-inverse">
-  <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   <a class="navbar-brand" href="<%= root_path %>"><%= t('config.platform_name') %></a>
-  <div class="collapse navbar-collapse" id="navbarText">
+  <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link <%= 'active' if current_module == 'service_book' %>" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
       </li>
       <% if !current_user.nil? %>
-        <% if current_user.is_superadmin? || current_user.is_admin? %>
+        <% if current_user.is_admin? %>
           <li class="nav-item">
             <a class="nav-link <%= 'active' if current_module == 'companies' %>" href="<%= companies_path %>"><%= t('companies.index.title') %></a>
           </li>
@@ -17,7 +19,7 @@
         </li>
         <% if current_user.is_superadmin? %>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if current_module == 'users' %>" href="<%= users_path %>"><%= t('users.index.title') %></a>
+            <a class="nav-link <%= 'active' if current_module == 'back_office' %>" href="<%= back_office_path %>"><%= t('misc.back_office') %></a>
           </li>
         <% end %>
       <% end %>
