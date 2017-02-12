@@ -1,3 +1,4 @@
+<% content_for(:page_back) { back_office_users_path } %>
 <% content_for(:page_title) { @user.full_name } %>
 
 <div class="b-io-content--secondary">
@@ -12,18 +13,52 @@
       </li>
     </ul>
 
-    Is active : <%= @user.is_active %>
-    <%= link_to 'toggle is_active', toggle_is_active_back_office_user_path(@user), method: :put %>
-    <hr>
+    <table class="table table-sm">
+      <tbody>
+      <tr>
+        <th>
+          <%= t('devise.confirmations.email_confirmation') %>
+        </th>
+        <td class="text-right">
+          <%= link_to "<i class=\"fa fa-fw fa-2x fa-#{'un' unless @user.confirmed_at.nil?}lock\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"#{@user.confirmed_at.nil? ? t('devise.confirmations.unconfirmed') : t('devise.confirmations.confirmed_at', date: @user.confirmed_at)}\"></i>".html_safe, '#', class: 'btn btn-link' %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <%= t('activerecord.attributes.user.is_active') %>
+        </th>
+        <td class="text-right">
+          <%= link_to "<i class=\"fa fa-fw fa-2x fa-toggle-#{@user.is_active ? 'on' : 'off'}\"></i>".html_safe, toggle_is_active_back_office_user_path(@user), title: (@user.is_active ? t('actions.deactivate') : t('actions.activate')), data: {toggle: 'tooltip', placement: 'left'}, method: :put, class: 'btn btn-link' %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-    <table class="table">
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container">
+    <h3><%= t('misc.roles') %></h3>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <table class="table table-sm">
       <tbody>
       <% [:superadmin, :admin, :commercial, :developer].each do |scope| %>
         <tr>
-          <td><%= scope %></td>
-          <td><%= @user.has_role?(scope) %></td>
+          <td>
+            <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />
+            <small class="text-muted"><%= t("roles.#{scope}.description") %></small>
+          </td>
           <td class="text-right">
-            <%= link_to "toggle #{scope}", toggle_role_back_office_user_path(@user, scope: scope), method: :put %>
+            <div class="btn-group">
+              <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(scope) ? '#' : toggle_role_back_office_user_path(@user, scope: scope), method: :put, class: "btn #{@user.has_role?(scope) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+              <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(scope) ? '#' : toggle_role_back_office_user_path(@user, scope: scope), method: :put, class: "btn #{!@user.has_role?(scope) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+            </div>
           </td>
         </tr>
       <% end %>
@@ -35,7 +70,7 @@
 
 <div class="b-io-content--header">
   <div class="container">
-    <h3>Advanced permissions</h3>
+    <h3><%= t('misc.advanced_permissions') %></h3>
   </div>
 </div>
 
@@ -46,34 +81,43 @@
       <thead>
       <tr>
         <th></th>
-        <th>admin</th>
-        <th>commercial</th>
-        <th>developer</th>
+        <th class="width-20"><i class="<%= t("roles.admin.icon") %>"></i> <%= t("roles.admin.title") %></th>
+        <th class="width-20"><i class="<%= t("roles.commercial.icon") %>"></i> <%= t("roles.commercial.title") %></th>
+        <th class="width-20"><i class="<%= t("roles.developer.icon") %>"></i> <%= t("roles.developer.title") %></th>
       </tr>
       </thead>
       <tbody>
-      <% @companies.each do |company| %>
+      <%
+        prev_company = nil
+        @services.each do |service|
+          if prev_company != service.company && service.company
+            prev_company = service.company
+      %>
         <tr class="table-info">
-          <th scope="row"><%= company.name %></th>
+          <th scope="row"><%= prev_company.name %></th>
           <% [:admin, :commercial].each do |scope| %>
             <td>
-              <%= link_to @user.has_role?(scope, company).to_s, toggle_object_role_back_office_user_path(@user, object_type: 'Company', object_id: company.id, scope: scope), method: :put %>
+              <div class="btn-group">
+                <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(scope, prev_company) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Company', object_id: prev_company.id, scope: scope), method: :put, class: "btn btn-sm #{@user.has_role?(scope, prev_company) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+                <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(scope, prev_company) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Company', object_id: prev_company.id, scope: scope), method: :put, class: "btn btn-sm #{!@user.has_role?(scope, prev_company) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+              </div>
             </td>
           <% end %>
           <td></td>
         </tr>
-        <% company.services.each do |service| %>
-          <tr>
-            <td><%= service.name %></td>
-            <td></td>
-            <td></td>
-            <% [:developer].each do |scope| %>
-              <td>
-                <%= link_to @user.has_role?(scope, service).to_s, toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put %>
-              </td>
-            <% end %>
-          </tr>
         <% end %>
+        <tr>
+          <td><%= '<i class="fa fa-fw fa-caret-right"></i> '.html_safe if service.company %><%= service.name %></td>
+          <td></td>
+          <% [:commercial, :developer].each do |scope| %>
+            <td>
+              <div class="btn-group">
+                <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(scope, service) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put, class: "btn btn-sm #{@user.has_role?(scope, service) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+                <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(scope, service) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put, class: "btn btn-sm #{!@user.has_role?(scope, service) ? 'btn-primary disabled' : 'btn-secondary'}" %>
+              </div>
+            </td>
+          <% end %>
+        </tr>
       <% end %>
       </tbody>
     </table>

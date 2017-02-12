@@ -1,32 +1,47 @@
+<% content_for(:page_controls) { link_to t('actions.new'), new_back_office_user_path, class: 'btn btn-primary' } %>
 <% content_for(:page_title) { t('.title') } %>
 
 <div class="b-io-content--secondary">
-  <div class="container">
-    <table class="table">
+  <div class="container-fluid">
+
+    <table class="table table-sm table-hover">
       <thead>
       <tr>
-        <th>Name</th>
-        <th>SuperAdmin</th>
+        <th>
+          <small><%= t('activerecord.attributes.user.full_name') %></small><br />
+          <%= t('activerecord.attributes.user.email') %>
+        </th>
+        <th class="width-20" colspan="4"><%= t('misc.roles') %></th>
+        <th><%= t('activerecord.attributes.user.is_active') %></th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |user| %>
       <tr>
-        <td><%= user.email %></td>
-        <td><%= user.is_superadmin? %></td>
+        <td>
+          <small class="text-muted"><%= user.full_name %></small><br />
+          <%= "<i class=\"fa fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i>".html_safe if user.confirmed_at.nil? %> <%= user.email %>
+        </td>
+        <% [:superadmin, :admin, :commercial, :developer].each do |scope| %>
+          <td class="width-5">
+            <% if user.has_role?(scope) %>
+              <i class="fa fa-fw <%= t("roles.#{scope}.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.#{scope}.title") %>"></i>
+            <% end %>
+          </td>
+        <% end %>
+        <td>
+          <%= link_to "<i class=\"fa fa-toggle-#{user.is_active ? 'on' : 'off'}\"></i>".html_safe, toggle_is_active_back_office_user_path(user), title: (user.is_active ? t('actions.deactivate') : t('actions.activate')), data: {toggle: 'tooltip', placement: 'top'}, method: :put, class: 'btn btn-link btn-sm' %>
+        </td>
         <td class="text-right">
-          <%= link_to t('actions.edit'), edit_back_office_user_path(user), class: 'btn btn-secondary' %>
-          <%= link_to t('misc.permissions'), permissions_back_office_user_path(user), class: 'btn btn-secondary' %>
-          <% if user != current_user %>
-            <%= link_to user.is_active ? t('actions.deactivate') : t('actions.activate'), toggle_is_active_back_office_user_path(user), method: :put, class: 'btn btn-primary' %>
-            <%= link_to t('actions.destroy'), back_office_user_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
-          <% end %>
+          <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_back_office_user_path(user), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+          <%= link_to '<i class="fa fa-key"></i>'.html_safe, permissions_back_office_user_path(user), class: 'btn btn-secondary btn-sm', title: t('misc.permissions'), data: {toggle: 'tooltip', placement: 'top'} %>
+          <%= link_to '<i class="fa fa-trash"></i>'.html_safe, back_office_user_path(user), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
         </td>
       </tr>
       <% end %>
       </tbody>
     </table>
-    <%= link_to t('actions.new'), new_back_office_user_path, class: 'btn btn-secondary' %><br />
+
   </div>
 </div>

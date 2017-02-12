@@ -2,8 +2,11 @@ en:
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
+      confirmed_at: "Email address was confirmed on %{date}"
+      email_confirmation: "Email address confirmation"
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      unconfirmed: "Email address has not been confirmed"
     failure:
       already_authenticated: "You are already signed in."
       inactive: "Your account is not activated yet."

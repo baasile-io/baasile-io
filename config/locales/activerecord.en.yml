@@ -72,6 +72,7 @@ en:
         current_password: 'Current password'
         email: 'Email'
         first_name: 'First name'
+        full_name: 'Full name'
         gender: 'Gender'
         is_active: 'Active ?'
         last_name: 'Last name'

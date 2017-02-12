@@ -1,5 +1,6 @@
 fr:
   misc:
+    advanced_permissions: 'Permissions avancées'
     back_office: "Tableau d'administration"
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
@@ -7,4 +8,6 @@ fr:
     dashboard: 'Tableau de bord'
     invalid_fields: 'Champs renseignés non valides'
     parameters: 'Paramètres'
+    permissions: 'Permissions'
     profile: 'Profil'
+    roles: 'Rôles'

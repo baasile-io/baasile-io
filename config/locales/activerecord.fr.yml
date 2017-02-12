@@ -74,6 +74,7 @@ fr:
         current_password: 'Mot de passe actuel'
         email: 'E-Mail'
         first_name: 'Prénom'
+        full_name: 'Nom complet'
         gender: 'Civilité'
         is_active: 'Actif ?'
         last_name: 'Nom'

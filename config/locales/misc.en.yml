@@ -1,5 +1,6 @@
 en:
   misc:
+    advanced_permissions: 'Advanced permissions'
     back_office: 'Back Office'
     captcha: 'Verification code'
     captcha_hint: 'Please copy the verification code.'
@@ -7,4 +8,6 @@ en:
     dashboard: 'Dashboard'
     invalid_fields: 'Invalid Fields'
     parameters: 'Parameters'
+    permissions: 'Permissions'
     profile: 'Profile'
+    roles: 'Roles'

@@ -15,12 +15,12 @@ module BackOffice
 
     def create
       @user = User.new(user_params)
+      @user.password_confirmation = @user.password = SecureRandom.hex(32)
       if @user.save
-        @user.password_confirmation = @user.password = SecureRandom.hex(32)
         @user.save!
         @user.send_confirmation_instructions
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.user'))
-        redirect_to back_office_users_path
+        redirect_to permissions_back_office_user_path(@user)
       else
         render :new
       end
@@ -46,7 +46,7 @@ module BackOffice
     end
 
     def permissions
-      @companies = Company.all
+      @services = Service.includes(:company).order('companies.name ASC NULLS FIRST')
     end
 
     def toggle_role

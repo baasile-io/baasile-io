@@ -3,6 +3,7 @@ en:
     activate: 'Activate'
     add_admin: 'Add an administrator'
     admin_list: 'administrator list'
+    back: '<< Back'
     change_password: 'Change password'
     configure: 'Configurate'
     deactivate: 'Deactivate'

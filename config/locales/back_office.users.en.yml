@@ -1,6 +1,8 @@
 en:
   back_office:
     users:
+      create:
+        title: 'New User'
       edit:
         title: 'Edit'
       index:

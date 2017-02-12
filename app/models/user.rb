@@ -21,10 +21,6 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  after_find do |user|
-    puts "user find"
-  end
-
   def is_superadmin?
     self.has_role?(:superadmin)
   end
