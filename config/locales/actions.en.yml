@@ -18,7 +18,7 @@ en:
     return: 'Return'
     save: 'Save'
     save_in_progress: 'Save in progress...'
-    send_confirmation_instructions: 'Send confirmation instructions by email'
+    send_welcome_instructions: 'Send welcome instructions by email'
     set_admin: 'Set admin'
     unset_admin: 'Unset admin'
     sign_in: 'Sign in'

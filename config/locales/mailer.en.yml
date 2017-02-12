@@ -7,4 +7,7 @@ en:
     shared:
       hello: 'Hello!'
       best_regard: 'Best regard.'
+    user_notifier:
+      send_welcome_email:
+        subject: 'Welcome'
 

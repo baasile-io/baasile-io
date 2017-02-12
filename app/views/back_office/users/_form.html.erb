@@ -14,17 +14,24 @@
 
   <% if !f.object.persisted? %>
     <div class="form-group row">
-      <label class="col-md-3 col-form-label" for="send_confirmation_instructions">
-
-      </label>
+      <label class="col-md-3 col-form-label" for="skip_confirmation"></label>
       <div class="col-md-9">
         <label>
-          <%= check_box_tag :send_confirmation_instructions, 'true', params[:send_confirmation_instructions].present? %>
-          <%= t('actions.send_confirmation_instructions') %>
+          <%= check_box_tag :skip_confirmation, 'true', params[:skip_confirmation].present? %>
+          <%= t('actions.skip_confirmation') %>
         </label>
       </div>
     </div>
 
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="send_welcome_instructions"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :send_welcome_instructions, 'true', params[:send_welcome_instructions].present? %>
+          <%= t('actions.send_welcome_instructions') %>
+        </label>
+      </div>
+    </div>
   <% end %>
 
   <div class="row">

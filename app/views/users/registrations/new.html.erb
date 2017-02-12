@@ -19,8 +19,10 @@
 
       <%= render partial: 'shared/captcha', locals: {f: f} %>
 
-      <div class="actions">
-        <%= f.button :submit, value: I18n.t('actions.sign_up'), data: { disable_with: t('actions.signin_up') } %>
+      <div class="row">
+        <div class="actions col-md-9 offset-md-3">
+          <%= f.button :submit, value: I18n.t('actions.sign_up'), data: { disable_with: t('actions.signin_up') } %>
+        </div>
       </div>
     <% end %>
 

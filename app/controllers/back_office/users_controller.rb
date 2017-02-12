@@ -10,17 +10,19 @@ module BackOffice
     end
 
     def new
-      params[:send_confirmation_instructions] = 'true'
+      params[:send_welcome_instructions] = 'true'
+      params[:skip_confirmation] = 'true'
       @user = User.new
       @user.is_active = true
     end
 
     def create
       @user = User.new(user_params)
-      @user.password_confirmation = @user.password = SecureRandom.hex(32)
+      @user.password_confirmation = @user.password = temporary_password = (('a'..'k').to_a + ('L'..'Z').to_a + ('0'..'9').to_a + ['/', '.', '?', '%']).shuffle.join
+      @user.password_changed_at = 1.year.ago
+      @user.skip_confirmation! if params[:skip_confirmation]
       if @user.save
-        @user.save!
-        @user.send_confirmation_instructions if params[:send_confirmation_instructions]
+        UserNotifier.send_welcome_email(@user, temporary_password).deliver_now if params[:send_welcome_instructions]
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.user'))
         redirect_to permissions_back_office_user_path(@user)
       else
@@ -39,7 +41,9 @@ module BackOffice
     end
 
     def destroy
-      flash[:success] = "User deleted"
+      if @user.destroy
+        flash[:success] = "User deleted"
+      end
       redirect_to back_office_users_path
     end
 

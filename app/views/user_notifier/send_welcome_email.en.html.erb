@@ -1,0 +1,8 @@
+<p>Hello <%= @user.first_name %>,</p>
+<p>Your account on <%= t('config.platform_name') %> has just been created.</p>
+<p>
+  <strong>Email address:</strong> <%= @user.email %><br />
+  <strong>Temporary password:</strong> <%= @temporary_password %>
+</p>
+<p><a href="<%= new_user_session_url %>">Connect to <%= t('config.platform_name') %></a></p>
+<p>You will be required to change your password when you sign in.</p>
