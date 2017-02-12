@@ -1,6 +1,20 @@
 class QueryParametersController < DashboardController
   before_action :authorize_proxy
   before_action :load_query_parameter, only: [:show, :edit, :update, :destroy]
+  before_action :load_collection, only: [:index, :create]
+
+  before_action :add_breadcrumb_parent
+  before_action :add_breadcrumb_current_action, except: [:index, :show]
+
+  def add_breadcrumb_parent
+    add_breadcrumb I18n.t('services.index.title'), :services_path
+    add_breadcrumb current_service.name, service_path(current_service)
+    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
+    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy)
+    add_breadcrumb I18n.t('routes.index.title'), :service_proxy_routes_path
+    add_breadcrumb current_route.name, service_proxy_route_path(current_service, current_proxy, current_route)
+    add_breadcrumb I18n.t('query_parameters.index.title'), :service_proxy_route_query_parameters_path
+  end
 
   def authorize_proxy
     return head(:forbidden) unless current_proxy.authorized?(current_user)
@@ -18,9 +32,10 @@ class QueryParametersController < DashboardController
 
     if @query_parameter.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.query_parameter'))
+      redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
+    else
+      render :index
     end
-
-    redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
   end
 
   def update
@@ -41,10 +56,6 @@ class QueryParametersController < DashboardController
 
   def index
     @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
-    @collection = current_route.query_parameters
-  end
-
-  def show
   end
 
   def query_parameter_params
@@ -63,5 +74,9 @@ class QueryParametersController < DashboardController
 
   def current_proxy
     @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
+  end
+
+  def load_collection
+    @collection = current_route.query_parameters
   end
 end

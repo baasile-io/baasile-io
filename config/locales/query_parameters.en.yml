@@ -1,12 +1,16 @@
 en:
   query_parameters:
+    create:
+      title: 'New query parameter'
     edit:
-      title: 'Edit query parameters'
+      title: 'Edit'
     form:
       default_mode: "DEFAULT"
     index:
-      title: 'List of query parameters'
+      title: 'Query parameters'
     new:
       title: 'New query parameter'
     show:
       title: 'Query parameter'
+    update:
+      title: 'Edit'

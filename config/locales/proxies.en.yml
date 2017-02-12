@@ -1,5 +1,7 @@
 en:
   proxies:
+    create:
+      title: 'New functionality'
     edit:
       title: 'Edit functionality'
     index:
@@ -11,3 +13,5 @@ en:
       select_authentication_mode: 'Select an authentication mode...'
     show:
       title: 'Functionality'
+    update:
+      title: 'Edit functionality'

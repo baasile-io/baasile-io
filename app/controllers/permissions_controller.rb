@@ -5,6 +5,15 @@ class PermissionsController < DashboardController
                        :unset_right_proxy, :set_right_route,
                        :unset_right_route, :set_right, :unset_right]
 
+  before_action :add_breadcrumb_parent
+  before_action :add_breadcrumb_current_action, except: [:index, :show]
+
+  def add_breadcrumb_parent
+    add_breadcrumb I18n.t('services.index.title'), :services_path
+    add_breadcrumb current_service.name, service_path(current_service)
+    add_breadcrumb I18n.t('permissions.list_services.title'), :service_permissions_list_services_path
+  end
+
   def list_services
     @collection = Service.where.not(id: @service_owner.id)
   end

@@ -11,7 +11,7 @@
 
 <body>
 
-  <div class="container">
+  <div class="container-fluid">
 
     <div class="b-io-topbar">
       <div class="container-fluid">
@@ -32,7 +32,7 @@
 
       <div class="b-io-content <%= 'b-io-content--with-menu' unless current_proxy.nil? %>">
         <div class="b-io-content--header">
-          <div class="container">
+          <div class="container-fluid">
             <h3><%= content_for(:page_title) %></h3>
             <% if content_for?(:page_description) %>
               <p><%= content_for(:page_description) %></p>

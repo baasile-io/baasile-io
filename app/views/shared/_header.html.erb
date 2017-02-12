@@ -1,7 +1,7 @@
 <% if !current_service.nil? %>
 
   <div class="b-io-header">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <h1><%= current_service.name %></h1>
@@ -10,6 +10,7 @@
           <% end %>
         </div>
       </div>
+      <%= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
       <div class="row">
         <div class="col-12">
           <ul class="nav nav-pills">
@@ -37,7 +38,7 @@
 
   <% unless current_proxy.nil? %>
     <div class="b-io-header" style="background-color: #B4CAE0">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <h5 style="margin:0;"><%= current_proxy.name %></h5>
@@ -50,7 +51,7 @@
 <% elsif current_module == 'companies' && !current_company.nil? %>
 
   <div class="b-io-header">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <h1><%= current_company.name %></h1>
@@ -85,7 +86,7 @@
 <% elsif !current_user.nil? %>
 
   <div class="b-io-header">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <h1><%= current_user.full_name %></h1>
