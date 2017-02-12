@@ -10,7 +10,9 @@ module BackOffice
     end
 
     def new
+      params[:send_confirmation_instructions] = 'true'
       @user = User.new
+      @user.is_active = true
     end
 
     def create
@@ -18,7 +20,7 @@ module BackOffice
       @user.password_confirmation = @user.password = SecureRandom.hex(32)
       if @user.save
         @user.save!
-        @user.send_confirmation_instructions
+        @user.send_confirmation_instructions if params[:send_confirmation_instructions]
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.user'))
         redirect_to permissions_back_office_user_path(@user)
       else

@@ -12,12 +12,13 @@ fr:
     edit_account: 'Modifier mon compte'
     infos: 'Infos'
     new: 'Créer'
-    resend_confirmation_instructions: 'Renvoyer le de confirmation'
+    resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    send_confirmation_instructions: "Envoyer les instructions de confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
     unset_admin: "Enlever les droits admin"
     sign_in: 'Se connecter'
