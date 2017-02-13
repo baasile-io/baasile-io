@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170209144626) do
+ActiveRecord::Schema.define(version: 20170213104411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,18 @@ ActiveRecord::Schema.define(version: 20170209144626) do
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
     t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.integer  "client_id",     default: 0, null: false
+    t.integer  "service_id",    default: 0, null: false
+    t.integer  "proxy_id",      default: 0, null: false
+    t.integer  "route_id",      default: 0, null: false
+    t.integer  "number_call",   default: 0, null: false
+    t.datetime "first_call_at"
+    t.datetime "last_call_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "old_passwords", force: :cascade do |t|
