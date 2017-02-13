@@ -14,7 +14,7 @@
 
       <%= f.input :phone %>
 
-      <%= f.input :password, required: true, autocomplete: 'off', hint: t('users.passwords.password_restrictions') %>
+      <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, required: true %>
 
       <%= render partial: 'shared/captcha', locals: {f: f} %>
