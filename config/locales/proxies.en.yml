@@ -10,7 +10,12 @@ en:
         client_secret: "The secret key is encrypted on save. You are not required to fill it if you want to keep the actual value."
         hostname: 'Example: "api.google.fr".'
       tabs:
-        authorization: 'Authorization'
+        proxy_authorization:
+          hint: "Production parameters are takes effect during production phase of contracts."
+          title: 'Production parameters'
+        proxy_authorization_test:
+          hint: "Test parameters are used by the platform by default."
+          title: 'Test parameters'
         general: 'General'
     index:
       description: 'Manage your APIs and provide data to the clients'

@@ -1,0 +1,49 @@
+<% if @measures_input.size > 0 %>
+  <hr>
+  <h5>Requêtes reçues</h5>
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th>Horaire</th>
+      <th>Client</th>
+      <th>Route</th>
+      <th>Nbre</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @measures_input.each do |m| %>
+      <tr>
+        <td><%= m.created_at.strftime('%Y/%m/%d %Hh') %></td>
+        <td><%= m.service.name %></td>
+        <td><%= m.route.name %></td>
+        <td><%= m.requests_count %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if @measures_output.size > 0 %>
+  <hr>
+  <h5>Requêtes envoyées</h5>
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th>Horaire</th>
+      <th>Startup</th>
+      <th>Route</th>
+      <th>Nbre</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @measures_output.each do |m| %>
+      <tr>
+        <td><%= m.created_at.strftime('%Y/%m/%d %Hh') %></td>
+        <td><%= m.client.name %></td>
+        <td><%= m.route.name %></td>
+        <td><%= m.requests_count %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

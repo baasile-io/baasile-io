@@ -10,7 +10,7 @@
       <div class="b-io-menu--secondary <% unless current_route.nil? %>b-io-menu--tertiary<% end %>">
         <ul class="list-group">
           <a class="list-group-item" href="<%= service_proxy_path(current_service, current_proxy) %>"><%= t('misc.dashboard') %></a>
-          <a class="list-group-item" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('actions.edit') %></a>
+          <a class="list-group-item" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('misc.parameters') %></a>
           <a class="list-group-item" href="<%= service_proxy_identifiers_path(current_service, current_proxy) %>"><i class="fa fa-key fa-fw"></i> <%= t('activerecord.models.identifier').pluralize %></a>
           <a class="list-group-item" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
         </ul>

@@ -49,7 +49,7 @@ module ProxifyConcern
     @current_proxy_access_token = nil
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil
-    @current_proxy_parameter = current_proxy.proxy_parameter
+    @current_proxy_parameter = current_proxy.proxy_parameter_test #TODO: production when contract is activated
     @current_proxy_cache_token = current_proxy.cache_token
   end
 

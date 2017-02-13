@@ -24,7 +24,11 @@ module Api
     end
 
     def authenticated_service
-      request.env[:authenticated_service]
+      @authenticated_service ||= request.env[:authenticated_service]
+    end
+
+    def authenticated_scope
+      @authenticated_scope ||= request.env[:authenticated_scope].split
     end
   end
 end

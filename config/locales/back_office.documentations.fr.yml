@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    documentations:
+      create:
+        title: 'Nouvelle page'
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Documentations'
+      new:
+        title: 'Nouvelle page'

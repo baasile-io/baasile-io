@@ -1,0 +1,12 @@
+<% content_for(:page_back) { @documentation.parent.nil? ? documentations_path : documentation_path(@documentation.parent) } %>
+<% content_for(:page_title, @documentation.title ) %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <div class="documentation_body">
+      <%= @markdown.render(@documentation.body).html_safe %>
+    </div>
+
+  </div>
+</div>

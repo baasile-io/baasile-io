@@ -7,10 +7,12 @@ class Proxy < ApplicationRecord
   belongs_to :user
 
   belongs_to :proxy_parameter
+  belongs_to :proxy_parameter_test, class_name: ProxyParameter.name
   has_many :routes
   has_one :identifier, as: :identifiable, through: :proxy_parameter
 
   accepts_nested_attributes_for :proxy_parameter
+  accepts_nested_attributes_for :proxy_parameter_test
 
   validates :name, presence: true, length: {minimum: 2, maximum: 255}
   validates :name, uniqueness: {scope: :service_id}

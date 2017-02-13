@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214074818) do
+ActiveRecord::Schema.define(version: 20170227201559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(version: 20170214074818) do
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
   end
 
+  create_table "documentations", force: :cascade do |t|
+    t.integer  "documentation_type", default: 1
+    t.string   "ancestry"
+    t.string   "locale",                         null: false
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
   create_table "identifiers", force: :cascade do |t|
     t.string   "client_id"
     t.string   "encrypted_secret"
@@ -55,6 +65,19 @@ ActiveRecord::Schema.define(version: 20170214074818) do
     t.index ["identifiable_type", "identifiable_id"], name: "identifiable_type_id", using: :btree
   end
 
+  create_table "measurements", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "requests_count", default: 0, null: false
+    t.integer  "service_id"
+    t.integer  "proxy_id"
+    t.integer  "route_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
+    t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
+    t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
+  end
+
   create_table "old_passwords", force: :cascade do |t|
     t.string   "encrypted_password",       null: false
     t.string   "password_archivable_type", null: false
@@ -64,14 +87,15 @@ ActiveRecord::Schema.define(version: 20170214074818) do
   end
 
   create_table "proxies", force: :cascade do |t|
-    t.string   "name",               limit: 255
-    t.string   "alias",              limit: 25
+    t.string   "name",                    limit: 255
+    t.string   "alias",                   limit: 25
     t.string   "description"
     t.integer  "service_id"
     t.integer  "user_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "proxy_parameter_id"
+    t.integer  "proxy_parameter_test_id"
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
   end
@@ -101,6 +125,16 @@ ActiveRecord::Schema.define(version: 20170214074818) do
     t.index ["name", "route_id"], name: "index_query_parameters_on_name_and_route_id", unique: true, using: :btree
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
     t.index ["user_id"], name: "index_query_parameters_on_user_id", using: :btree
+  end
+
+  create_table "refresh_tokens", force: :cascade do |t|
+    t.string   "value"
+    t.integer  "service_id"
+    t.datetime "expires_at"
+    t.string   "scope"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_refresh_tokens_on_service_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
