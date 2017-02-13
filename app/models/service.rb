@@ -22,7 +22,7 @@ class Service < ApplicationRecord
   validates :description, presence: true
 
   validates :service_type, presence: true
-  validates :public, inclusion: { in: [false] }, if: :is_client?
+  before_save :public_validation
 
   #validates :company_id, presence: true
   validates :subdomain, presence: true, if: :is_activated?
@@ -96,5 +96,11 @@ class Service < ApplicationRecord
   def deactivate
     self.confirmed_at = nil
     self.save
+  end
+
+  def public_validation
+    if self.is_client?
+      self.public = false
+    end
   end
 end
