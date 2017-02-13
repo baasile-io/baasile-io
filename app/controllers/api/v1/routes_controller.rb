@@ -7,6 +7,8 @@ module Api
       # allow proxy functionality
       include RedisStoreConcern
       include ProxifyConcern
+
+      # allow measure functionality
       include MeasurementConcern
 
       def process_request

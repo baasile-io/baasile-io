@@ -9,6 +9,9 @@ class ServicesController < ApplicationController
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:show]
 
+  # allow get measure info to show
+  include ShowMeasurementConcern
+
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
     add_breadcrumb current_service.name, service_path(current_service) if current_service
@@ -19,15 +22,6 @@ class ServicesController < ApplicationController
   end
 
   def show
-    @tabname = Hash.new
-    @measures_service = Measurement.service(@service)
-    @measures_service.each do |service|
-      @tabname[service.client_id] = Service.find(service.client_id)
-    end
-    @measures_client = Measurement.client(@service)
-    @measures_client.each do |client|
-      @tabname[client.service_id] = Service.find(client.service_id)
-    end
   end
 
   def new
