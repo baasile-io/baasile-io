@@ -3,6 +3,13 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
+    <% if current_user.pending_reconfirmation? %>
+      <div class="alert alert-info">
+        <strong><%= t('devise.registrations.pending_reconfirmation', email: current_user.unconfirmed_email) %></strong><br>
+        <%= t('devise.registrations.update_needs_confirmation') %>
+      </div>
+    <% end %>
+
     <table class="table">
       <thead>
       <tr>

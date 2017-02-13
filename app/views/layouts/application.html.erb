@@ -33,6 +33,9 @@
       <div class="b-io-content <%= 'b-io-content--with-menu' unless current_proxy.nil? %>">
         <div class="b-io-content--header">
           <div class="container-fluid">
+            <% if content_for?(:page_controls) %>
+              <div class="b-io-content--header--controls"><%= content_for(:page_controls) %></div>
+            <% end %>
             <h3><%= content_for(:page_title) %></h3>
             <% if content_for?(:page_description) %>
               <p><%= content_for(:page_description) %></p>
