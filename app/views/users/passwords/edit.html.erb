@@ -8,11 +8,7 @@
       <%= f.hidden_field :reset_password_token %>
 
       <%= f.input :password, autofocus: true, autocomplete: "off", hint: t('devise.passwords.password_restrictions') %>
-
-      <div class="field">
-        <%= f.label :password_confirmation, "Confirm new password" %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off" %>
-      </div>
+      <%= f.input :password_confirmation, autocomplete: "off" %>
 
       <div class="row">
         <div class="actions col-md-9 offset-md-3">
