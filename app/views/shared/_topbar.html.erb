@@ -11,7 +11,7 @@
       <% if !current_user.nil? %>
         <% if current_user.is_admin? %>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if current_module == 'companies' %>" href="<%= companies_path %>"><%= t('companies.index.title') %></a>
+            <a class="nav-link <%= 'active' if current_module == 'companies' %>" href="<%= companies_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('companies.index.title') %></a>
           </li>
         <% end %>
         <li class="nav-item">

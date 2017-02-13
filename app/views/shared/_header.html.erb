@@ -4,9 +4,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <h1><%= current_service.name %></h1>
+          <h1><%= current_service.name %> <span class="pull-right text-muted"><%= I18n.t("types.service_types.#{current_service.service_type}") %></span></h1>
           <% if current_service.company %>
-            <h4><%= current_service.company.name %></h4>
+            <h4><i class="fa fa-fw fa-bank"></i> <%= current_service.company.name %></h4>
           <% end %>
         </div>
       </div>
@@ -54,7 +54,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <h1><%= current_company.name %></h1>
+          <h1><i class="fa fa-fw fa-bank"></i> <%= current_company.name %></h1>
         </div>
       </div>
       <div class="row">
@@ -100,7 +100,7 @@
             </li>
             <% if current_user.is_admin? %>
               <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'companies' %>" href="<%= companies_path %>"><%= t('activerecord.models.company').pluralize %></a>
+                <a class="nav-link <%= 'active' if controller_name == 'companies' %>" href="<%= companies_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('activerecord.models.company').pluralize %></a>
               </li>
             <% end %>
             <li class="nav-item">

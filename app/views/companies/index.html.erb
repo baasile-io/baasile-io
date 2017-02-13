@@ -15,7 +15,7 @@
       <tbody>
       <% @collection.each do |company| %>
         <tr>
-          <td><%= company.name %></td>
+          <td><i class="fa fa-fw fa-bank"></i> <%= company.name %></td>
           <td><%= company.services.where(service_type: :startup).count.to_s + " startup(s)" %></td>
           <td><%= company.services.where(service_type: :client).count.to_s + " client(s)" %></td>
           <td class="text-right">

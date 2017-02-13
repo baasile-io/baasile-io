@@ -1,11 +1,10 @@
 <% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_controls) { link_to t('actions.new'), new_service_path(company_id: current_company.id), class: 'btn btn-primary' } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
     <%= render partial: 'services_list', locals: {services: @services, service_type: :startup} %>
-
-    <%= link_to t('actions.new'), new_service_path(company_id: current_company.id), class: 'btn btn-secondary' %><br />
 
   </div>
 </div>
