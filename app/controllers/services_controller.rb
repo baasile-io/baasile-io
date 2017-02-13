@@ -19,6 +19,15 @@ class ServicesController < ApplicationController
   end
 
   def show
+    @tabname = Hash.new
+    @measures_service = Measurement.service(@service)
+    @measures_service.each do |service|
+      @tabname[service.client_id] = Service.find(service.client_id)
+    end
+    @measures_client = Measurement.client(@service)
+    @measures_client.each do |client|
+      @tabname[client.service_id] = Service.find(client.service_id)
+    end
   end
 
   def new
