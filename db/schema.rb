@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207200818) do
+ActiveRecord::Schema.define(version: 20170209144626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170207200818) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
+    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -62,19 +63,6 @@ ActiveRecord::Schema.define(version: 20170207200818) do
     t.integer  "proxy_parameter_id"
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
-  end
-
-  create_table "proxy_identifiers", force: :cascade do |t|
-    t.string   "client_id"
-    t.string   "encrypted_secret"
-    t.datetime "expires_at"
-    t.integer  "proxy_id"
-    t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["client_id", "encrypted_secret", "proxy_id"], name: "index_proxy_identifiers_on_client_id_encrypted_secret_proxy_id", unique: true, using: :btree
-    t.index ["proxy_id"], name: "index_proxy_identifiers_on_proxy_id", using: :btree
-    t.index ["user_id"], name: "index_proxy_identifiers_on_user_id", using: :btree
   end
 
   create_table "proxy_parameters", force: :cascade do |t|
@@ -144,9 +132,10 @@ ActiveRecord::Schema.define(version: 20170207200818) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "subdomain"
-    t.integer  "company_id"
     t.boolean  "public",                    default: false
+    t.integer  "company_id"
     t.integer  "service_type",              default: 1
+    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -156,12 +145,12 @@ ActiveRecord::Schema.define(version: 20170207200818) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",   null: false
+    t.string   "encrypted_password",                default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -170,20 +159,21 @@ ActiveRecord::Schema.define(version: 20170207200818) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,     null: false
+    t.integer  "failed_attempts",                   default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.datetime "password_changed_at"
-    t.string   "unique_session_id",      limit: 20
-    t.datetime "last_activity_at"
-    t.datetime "expired_at"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.string   "current_subdomain"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
-    t.boolean  "is_active",                         default: false
+    t.datetime "password_changed_at"
+    t.string   "unique_session_id",      limit: 20
+    t.datetime "last_activity_at"
+    t.datetime "expired_at"
+    t.boolean  "is_active",                         default: true
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree
     t.index ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree
