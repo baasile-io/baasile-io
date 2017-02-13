@@ -50,8 +50,6 @@
       </tbody>
     </table>
 
-    <%= link_to t('actions.edit'), edit_company_path, class: 'btn btn-secondary' %>
-
     <% if current_user.is_superadmin? %>
       <%= link_to t('actions.destroy'), company_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
     <% end %>
