@@ -45,7 +45,7 @@ class Service < ApplicationRecord
   scope :published, -> { where.not(confirmed_at: nil) and where(public: true) }
 
   def authorized?(user)
-    user.has_role?(:superadmin) || user.has_role?(:developer, self)
+    user.is_superadmin? || (self.company && user.is_admin_of?(self.company)) || user.has_role?(:developer, self)
   end
 
   def associated?(user)
