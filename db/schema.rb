@@ -45,15 +45,16 @@ ActiveRecord::Schema.define(version: 20170213104411) do
   end
 
   create_table "measurements", force: :cascade do |t|
-    t.integer  "client_id",     default: 0, null: false
-    t.integer  "service_id",    default: 0, null: false
-    t.integer  "proxy_id",      default: 0, null: false
-    t.integer  "route_id",      default: 0, null: false
-    t.integer  "number_call",   default: 0, null: false
-    t.datetime "first_call_at"
-    t.datetime "last_call_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "client_id"
+    t.integer  "requests_count", default: 0, null: false
+    t.integer  "service_id"
+    t.integer  "proxy_id"
+    t.integer  "route_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
+    t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
+    t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
   end
 
   create_table "old_passwords", force: :cascade do |t|

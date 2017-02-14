@@ -12,10 +12,10 @@
   <tbody>
   <% @measures_service.each do |m| %>
       <tr>
-        <td><%= @tabname[m.client_id].name %></td>
-        <td><%= m.number_call %></td>
-        <td><%= m.first_call_at %></td>
-        <td><%= m.last_call_at %></td>
+        <td><%= m.client.name %></td>
+        <td><%= m.requests_count %></td>
+        <td><%= m.created_at %></td>
+        <td><%= m.updated_at %></td>
       </tr>
   <% end %>
   </tbody>
@@ -34,10 +34,10 @@
   <tbody>
   <% @measures_client.each do |m| %>
       <tr>
-        <td><%= @tabname[m.service_id].name %></td>
-        <td><%= m.number_call %></td>
-        <td><%= m.first_call_at %></td>
-        <td><%= m.last_call_at %></td>
+        <td><%= m.service.name %></td>
+        <td><%= m.requests_count %></td>
+        <td><%= m.created_at %></td>
+        <td><%= m.updated_at %></td>
       </tr>
   <% end %>
   </tbody>
