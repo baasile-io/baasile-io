@@ -2,7 +2,7 @@ module MeasurementConcern
   extend ActiveSupport::Concern
 
   included do
-    after_action :do_request_measure, only: [:process_request], if: -> { @request_sucess }
+    after_action :do_request_measure, only: [:process_request]
   end
 
   private

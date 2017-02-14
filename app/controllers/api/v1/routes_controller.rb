@@ -12,11 +12,9 @@ module Api
       include MeasurementConcern
 
       def process_request
-        @request_sucess = false;
         begin
           res = proxy_request
           render status: res.code, plain: res.body
-          @request_sucess = true
         rescue ProxyInitializationError
           render plain: 'ProxyInitializationError'
         rescue ProxyAuthenticationError => e
