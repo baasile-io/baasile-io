@@ -1,0 +1,5 @@
+en:
+  contact_details:
+    fields_for:
+      hints:
+        phone: 'International format is required: "+33 6 12 34 56 78".'

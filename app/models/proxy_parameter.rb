@@ -17,7 +17,7 @@ class ProxyParameter < ApplicationRecord
   validates :follow_redirection, presence: true, numericality: {greater_than_or_equal: 0, less_than: 21}
   validates :authorization_mode, presence: true
   validates :protocol, presence: true
-  validates :hostname, presence: true
+  validates :hostname, presence: true, hostname: true
   validates :port, presence: true, numericality: {greater_than: 0}
   validates :authorization_url, format: {with: /\A\//}, presence: true, if: :authorization_required?
   validates :identifier, presence: true, if: :authorization_required?

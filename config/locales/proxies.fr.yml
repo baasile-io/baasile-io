@@ -8,6 +8,7 @@ fr:
       hints:
         authorization_url: "L'URL d'autorisation doit commencer par un slash. Exemple : \"/api/oauth/token\"."
         client_secret: "La clé secrète est encryptée à l'enregistrement. Ne la renseignez que si vous souhaitez modifier sa valeur."
+        hostname: 'Exemple : "api.google.fr".'
       tabs:
         authorization: 'Autorisation'
         general: 'Général'

@@ -11,6 +11,7 @@ class Route < ApplicationRecord
   has_one :service, through: :proxy
   belongs_to :user
   has_many :query_parameters
+  validates :hostname, hostname: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 

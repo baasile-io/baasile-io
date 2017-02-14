@@ -6,6 +6,8 @@ en:
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       not_a_number: 'must be numeric'
+      not_a_hostname: "must be a valid hostname"
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'
+

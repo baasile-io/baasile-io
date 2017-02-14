@@ -21,5 +21,8 @@ module BaasileIo
     config.middleware.use ::ApiAuthMiddleware
     config.middleware.use Rack::Attack
     config.middleware.use I18n::JS::Middleware
+
+    # add custom validators path
+    config.autoload_paths += %W["#{config.root}/app/validators/"]
   end
 end

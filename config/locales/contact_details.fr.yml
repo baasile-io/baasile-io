@@ -1,0 +1,5 @@
+fr:
+  contact_details:
+    fields_for:
+      hints:
+        phone: 'Format international requis : "+33 6 12 34 56 78".'
