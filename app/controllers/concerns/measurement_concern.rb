@@ -11,7 +11,7 @@ module MeasurementConcern
     date_start = Time.now.change(min: 0, sec: 0)
     date_end = date_start + 1.hour
 
-    measure = Measurement.identical(authenticated_service, current_service, current_proxy, current_route, date_start, date_end).first
+    measure = Measurement.get_identical(authenticated_service, current_service, current_proxy, current_route, date_start, date_end)
     if measure.nil?
       measure = Measurement.new(client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id)
     end
