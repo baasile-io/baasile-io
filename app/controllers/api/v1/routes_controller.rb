@@ -8,6 +8,9 @@ module Api
       include RedisStoreConcern
       include ProxifyConcern
 
+      # allow measure functionality
+      include MeasurementConcern
+
       def process_request
         begin
           res = proxy_request

@@ -1,0 +1,44 @@
+<hr>
+<h5>requetes reçut</h5>
+<table class="table">
+  <thead>
+  <tr>
+    <th>client</th>
+    <th>nombre de requestes</th>
+    <th>date premiere requete</th>
+    <th>date derniere requete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @measures_service.each do |m| %>
+      <tr>
+        <td><%= m.client.name %></td>
+        <td><%= m.requests_count %></td>
+        <td><%= m.created_at %></td>
+        <td><%= m.updated_at %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<hr>
+<h5>requetes envoyé</h5>
+<table class="table">
+  <thead>
+  <tr>
+    <th>startup</th>
+    <th>nombre de requestes</th>
+    <th>date premiere requete</th>
+    <th>date derniere requete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @measures_client.each do |m| %>
+      <tr>
+        <td><%= m.service.name %></td>
+        <td><%= m.requests_count %></td>
+        <td><%= m.created_at %></td>
+        <td><%= m.updated_at %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
