@@ -20,5 +20,6 @@ module BaasileIo
     # Security
     config.middleware.use ::ApiAuthMiddleware
     config.middleware.use Rack::Attack
+    config.middleware.use I18n::JS::Middleware
   end
 end

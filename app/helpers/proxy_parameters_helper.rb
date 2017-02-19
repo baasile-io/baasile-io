@@ -1,7 +1,7 @@
 module ProxyParametersHelper
-  def format_authentication_modes_for_select
-    ProxyParameter::AUTHENTICATION_MODES_ENUM.map do |key, _|
-      ["#{I18n.t("types.authentication_modes.#{key}")}", key]
+  def format_authorization_modes_for_select
+    ProxyParameter::AUTHORIZATION_MODES_ENUM.map do |key, _|
+      ["#{I18n.t("types.authorization_modes.#{key}")}", key]
     end
   end
 

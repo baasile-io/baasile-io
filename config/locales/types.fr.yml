@@ -1,8 +1,8 @@
 fr:
   types:
-    authentication_modes:
-      'null': 'Authentification non requise'
-      oauth2: 'OAuth 2.0 client credentials'
+    authorization_modes:
+      'null': 'Autorisation non requise'
+      oauth2: 'OAuth 2.0 client credentials grant'
     query_parameter_modes:
       mandatory: 'obligatoire'
       optional: 'optionnel'

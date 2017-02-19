@@ -4,13 +4,20 @@ fr:
       title: 'Nouvelle fonctionalité'
     edit:
       title: 'Modifier la fonctionnalité'
+    form:
+      hints:
+        authorization_url: "L'URL d'autorisation doit commencer par un slash. Exemple : \"/api/oauth/token\"."
+        client_secret: "La clé secrète est encryptée à l'enregistrement. Ne la renseignez que si vous souhaitez modifier sa valeur."
+      tabs:
+        authorization: 'Autorisation'
+        general: 'Général'
     index:
       description: 'Paramétrez vos APIs afin de fournir des données à des clients'
       title: 'Fonctionnalités'
     new:
       title: 'Nouvelle fonctionalité'
     proxy_parameters_form:
-      select_authentication_mode: "Sélectionnez un mode d'authentification..."
+      select_authorization_mode: "Sélectionnez un mode d'autorisation..."
     show:
       title: 'Fonctionnalité'
     update:

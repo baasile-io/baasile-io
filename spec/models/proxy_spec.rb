@@ -35,10 +35,10 @@ RSpec.describe Proxy, type: :model do
 
     describe "cache_token" do
       it "returns a string" do
-        @proxy.proxy_parameter.authentication_mode = :null
+        @proxy.proxy_parameter.authorization_mode = :null
         expect(@proxy.cache_token).to eq "proxy_cache_token_null_#{@proxy.id}"
 
-        @proxy.proxy_parameter.authentication_mode = :oauth2
+        @proxy.proxy_parameter.authorization_mode = :oauth2
         expect(@proxy.cache_token).to eq "proxy_cache_token_oauth2_#{@proxy.id}"
       end
     end

@@ -16,10 +16,6 @@ class QueryParametersController < DashboardController
     add_breadcrumb I18n.t('query_parameters.index.title'), :service_proxy_route_query_parameters_path
   end
 
-  def authorize_proxy
-    return head(:forbidden) unless current_proxy.authorized?(current_user)
-  end
-
   def new
     @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
   end

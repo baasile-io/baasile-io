@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require i18n
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
@@ -18,6 +19,9 @@
 
 //= require tether/tether.min.js
 //= require ie10-viewport/ie10-viewport-bug-workaround.js
+
+//= require select2-full
+//= require select2_locale_fr
 
 //= require_tree .
 

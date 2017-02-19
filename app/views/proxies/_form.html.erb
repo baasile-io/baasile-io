@@ -2,11 +2,11 @@
   tab_active = nil
   tab_attributes = {
     proxy_main: [:name, :alias, :description, :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
-    proxy_authentication: [:'proxy_parameter.authentication_mode', :'proxy_parameter.authentication_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.client_id', :'proxy_parameter.client_secret', :'proxy_parameter.scope']
+    proxy_authorization: [:'proxy_parameter.authorization_mode', :'proxy_parameter.authorization_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.identifier.client_id', :'proxy_parameter.identifier.encrypted_secret', :'proxy_parameter.scope']
   }
   tab_errors = {
     proxy_main: 0,
-    proxy_authentication: 0
+    proxy_authorization: 0
   }
 
   if @proxy.errors.messages.length > 0
@@ -25,10 +25,10 @@
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :proxy_main %> <%= 'has-danger' if tab_errors[:proxy_main] == 1 %>" data-toggle="tab" href="#proxy_main" role="tab">Général</a>
+    <a class="nav-link <%= 'active' if tab_active == :proxy_main %> <%= 'has-danger' if tab_errors[:proxy_main] == 1 %>" data-toggle="tab" href="#proxy_main" role="tab"><%= t('.tabs.general') %></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :proxy_authentication %> <%= 'has-danger' if tab_errors[:proxy_authentication] == 1 %>" data-toggle="tab" href="#proxy_authentication" role="tab">Authentification</a>
+    <a class="nav-link <%= 'active' if tab_active == :proxy_authorization %> <%= 'has-danger' if tab_errors[:proxy_authorization] == 1 %>" data-toggle="tab" href="#proxy_authorization" role="tab"><%= t('.tabs.authorization') %></a>
   </li>
 </ul>
 
@@ -52,15 +52,18 @@
     </div>
 
 
-    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authentication %>" id="proxy_authentication">
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authorization %>" id="proxy_authorization">
       <%= f.simple_fields_for :proxy_parameter do |f2| %>
-        <%= f2.input :authentication_mode, as: :select, collection: format_authentication_modes_for_select, include_blank: t('.select_authentication_mode') %>
-        <%= f2.input :authentication_url %>
+        <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select, include_blank: t('.select_authorization_mode') %>
+        <%= f2.input :authorization_url, hint: t('.hints.authorization_url') %>
         <%= f2.input :realm %>
         <%= f2.input :grant_type %>
-        <%= f2.input :scope %>
-        <%= f2.input :client_id %>
-        <%= f2.input :client_secret %>
+        <%= f2.input :scope, as: :select, include_blank: false, multiple: true, collection: f2.object.scopes, selected: f2.object.scopes, input_html: {'data-layer': 'tags', multiple: 'multiple', name: 'proxy[proxy_parameter_attributes][scopes][]'} %>
+
+        <%= f2.simple_fields_for :identifier do |f3| %>
+          <%= f3.input :client_id, required: f2.object.authorization_required? %>
+          <%= f3.input :client_secret, as: :password, required: (f2.object.authorization_required? && !f3.object.persisted?), hint: (t('.hints.client_secret') if f3.object.persisted?) %>
+        <% end %>
       <% end %>
     </div>
 

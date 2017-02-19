@@ -8,6 +8,7 @@ class Proxy < ApplicationRecord
 
   belongs_to :proxy_parameter
   has_many :routes
+  has_one :identifier, as: :identifiable, through: :proxy_parameter
 
   accepts_nested_attributes_for :proxy_parameter
 
@@ -25,12 +26,12 @@ class Proxy < ApplicationRecord
     self.user.add_role(:developer, self)
   end
 
-  def authentication_uri
-    "#{proxy_parameter.protocol}://#{proxy_parameter.hostname}:#{proxy_parameter.port}#{proxy_parameter.authentication_url}"
+  def authorization_uri
+    "#{proxy_parameter.protocol}://#{proxy_parameter.hostname}:#{proxy_parameter.port}#{proxy_parameter.authorization_url}"
   end
 
   def cache_token
-    "proxy_cache_token_#{proxy_parameter.authentication_mode}_#{id}"
+    "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at}"
   end
 
   def has_get_context?

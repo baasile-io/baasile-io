@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     post '/permissions/unset_right', to: 'permissions#unset_right'
 
     resources :proxies do
+      resources :identifiers
       resources :routes do
         resources :query_parameters
       end

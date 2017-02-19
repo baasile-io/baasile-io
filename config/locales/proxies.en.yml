@@ -4,13 +4,20 @@ en:
       title: 'New functionality'
     edit:
       title: 'Edit functionality'
+    form:
+      hints:
+        authorization_url: "Authorisation URL must start with a slash. Example : \"/api/oauth/token\"."
+        client_secret: "The secret key is encrypted on save. You are not required to fill it if you want to keep the actual value."
+      tabs:
+        authorization: 'Authorization'
+        general: 'General'
     index:
       description: 'Manage your APIs and provide data to the clients'
       title: 'Functionalities'
     new:
       title: 'New functionality'
     proxy_parameters_form:
-      select_authentication_mode: 'Select an authentication mode...'
+      select_authorization_mode: 'Select an authorization mode...'
     show:
       title: 'Functionality'
     update:
