@@ -24,6 +24,8 @@ fr:
         encrypted_secret: 'Clé secrète cryptée'
         proxy: 'Fonctionnalité'
         user: 'Créateur'
+      contract:
+        name: 'Nom'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -98,6 +100,7 @@ fr:
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'
       identifier: 'Identifiant'
+      contract: 'contrat'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'

@@ -23,6 +23,8 @@ en:
         client_secret: 'Secret Key'
         encrypted_secret: 'Encrypted Secret Key'
         user: 'Creator'
+      contract:
+        name: 'Name'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -93,6 +95,7 @@ en:
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'
       identifier: 'Credential'
+      contract: 'contract'
       query_parameter: 'Query parameter'
       proxy: 'Proxy'
       proxy_parameter: 'Proxy parameter'

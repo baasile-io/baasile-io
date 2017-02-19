@@ -110,6 +110,11 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><%= t('misc.profile') %></a>
             </li>
+            <% if current_user.is_commercial? %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+              </li>
+            <% end %>
             <% if current_user.is_admin? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'companies' %>" href="<%= companies_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('activerecord.models.company').pluralize %></a>

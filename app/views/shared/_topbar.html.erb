@@ -11,7 +11,7 @@
       <% if !current_user.nil? %>
         <% if current_user.is_commercial? %>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('contracts.index.title') %></a>
+            <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('contracts.index.title') %></a>
           </li>
         <% end %>
         <% if current_user.is_admin? %>
