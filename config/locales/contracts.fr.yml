@@ -1,0 +1,12 @@
+fr:
+  contracts:
+    edit:
+      title: 'Paramètres'
+    index:
+      title: 'Contracts'
+    new:
+      title: 'Créer un nouveau contract'
+    show:
+      title: 'Tableau de bord'
+    update:
+      title: 'Paramètres'

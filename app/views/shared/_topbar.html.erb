@@ -9,6 +9,11 @@
         <a class="nav-link <%= 'active' if current_module == 'service_book' %>" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
       </li>
       <% if !current_user.nil? %>
+        <% if current_user.is_commercial? %>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('contracts.index.title') %></a>
+          </li>
+        <% end %>
         <% if current_user.is_admin? %>
           <li class="nav-item">
             <a class="nav-link <%= 'active' if current_module == 'companies' %>" href="<%= companies_path %>"><i class="fa fa-fw fa-bank"></i> <%= t('companies.index.title') %></a>

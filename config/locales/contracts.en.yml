@@ -1,0 +1,7 @@
+en:
+  contracts:
+    index:
+      title: 'List of contracts'
+    new:
+      title: 'Create a new contract'
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303144608) do
+ActiveRecord::Schema.define(version: 20170217112826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,35 @@ ActiveRecord::Schema.define(version: 20170303144608) do
     t.integer  "identifiable_id"
     t.index ["identifiable_type", "identifiable_id", "client_id"], name: "identifiable_type_id_client_id", unique: true, using: :btree
     t.index ["identifiable_type", "identifiable_id"], name: "identifiable_type_id", using: :btree
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "requests_count", default: 0, null: false
+    t.integer  "service_id"
+    t.integer  "proxy_id"
+    t.integer  "route_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
+    t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
+    t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "client_id"
+    t.integer  "company_id"
+    t.integer  "startup_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_contracts_on_client_id", using: :btree
+    t.index ["company_id"], name: "index_contracts_on_company_id", using: :btree
+    t.index ["startup_id"], name: "index_contracts_on_startup_id", using: :btree
+    t.index ["user_id"], name: "index_contracts_on_user_id", using: :btree
   end
 
   create_table "measurements", force: :cascade do |t|

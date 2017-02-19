@@ -1,0 +1,16 @@
+<%= simple_form_for [@contract] do |f| %>
+
+    <%= error_messages_for(@contract) %>
+
+    <%= f.input :name %>
+    <%= f.input :startup, collection: @services %>
+    <%= f.input :company, collection: @companies %>
+    <%= f.input :client, collection: @clients %>
+
+    <div class="row">
+      <div class="actions col-md-9 offset-md-3">
+        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+      </div>
+    </div>
+
+<% end %>

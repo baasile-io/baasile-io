@@ -1,0 +1,26 @@
+<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_controls) { link_to t('actions.new'), new_contract_path, class: 'btn btn-primary' } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |contract| %>
+      <tr>
+        <td><%= contract.name %></td>
+        <td class="text-right">
+          <%= link_to t('misc.dashboard'), contract_path(contract.id), class: 'btn btn-secondary' %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
