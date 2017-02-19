@@ -103,7 +103,7 @@ fr:
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'
       identifier: 'Identifiant'
-      contract: 'contrat'
+      contract: 'Contrat'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'
