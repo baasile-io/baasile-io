@@ -1,10 +1,10 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :commercial?
+  before_action :load_contract, only: [:show, :edit, :update, :destroy]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
-  #before_action :refactor_params, only: [:create, :update]
 
   def index
     @collection = Contract.all
@@ -15,15 +15,19 @@ class ContractsController < ApplicationController
   end
 
   def create
-    @contract = Service.new
+    @contract = Contract.new
     @contract.user = current_user
-    @contract.company = params[:company].to_i if params.key?(:company)
-    @contract.startup = params[:startup].to_i if params.key?(:startup)
-    @contract.client = params[:client].to_i if params.key?(:client)
+    @contract.company_id = params[:contract][:company].to_i if params[:contract].key?(:company)
+    @contract.startup_id = params[:contract][:startup].to_i if params[:contract].key?(:startup)
+    @contract.client_id = params[:contract][:client].to_i if params[:contract].key?(:client)
+    logger.info "#################@#@@"
+    logger.info params.inspect
+    logger.info "#################@#@@"
+
     @contract.assign_attributes(contract_params)
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
-      redirect_to service_path(@contract)
+      redirect_to contract_path(@contract)
     else
       render :new
     end
@@ -37,7 +41,7 @@ class ContractsController < ApplicationController
     @contract.assign_attributes(contract_params)
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-      redirect_to service_path(@contract)
+      redirect_to contract_path(@contract)
     else
       render :edit
     end
@@ -50,13 +54,17 @@ class ContractsController < ApplicationController
   def destroy
     if @contract.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.contract'))
-      redirect_to services_path
+      redirect_to contracts_path
     else
       render :show
     end
   end
 
   private
+
+  def load_contract
+    @contract = Contract.find(params[:id])
+  end
 
   def load_active_services
     services = Service.activated_startup()

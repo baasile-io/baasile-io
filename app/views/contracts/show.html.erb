@@ -1,8 +1,37 @@
-<% content_for(:page_title) { @service.name } %>
+<% content_for(:page_title) { @contract.name } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
     <h5><%= @contract.name %></h5>
 
+    <table class="table">
+      <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% unless @contract.company.nil? %>
+          <tr>
+            <td>Company</td>
+            <td class="text-left"><%= @contract.company.name %></td>
+          </tr>
+        <% end %>
+        <% unless @contract.startup.nil? %>
+          <tr>
+            <td>Service</td>
+            <td class="text-left"><%= @contract.startup.name %></td>
+          </tr>
+        <% end %>
+        <% unless @contract.client.nil? %>
+          <tr>
+            <td>Client</td>
+            <td class="text-left"><%= @contract.client.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= button_to t('actions.destroy'), contract_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
   </div>
 </div>
