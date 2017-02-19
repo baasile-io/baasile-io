@@ -26,6 +26,9 @@ fr:
         user: 'Créateur'
       contract:
         name: 'Nom'
+        startup: 'Startup'
+        client: 'Client'
+        company: 'Compagnie'
       proxy:
         alias: 'Alias'
         description: 'Description'

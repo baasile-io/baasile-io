@@ -4,6 +4,10 @@ class Contract < ApplicationRecord
   belongs_to :client, class_name: "Service"
   belongs_to :startup, class_name: "Service"
 
+  validates :name, presence: true, uniqueness: true
+  validates :startup, presence:true
+  validates :client, presence:true
+
   scope :client_associated, ->(client) { where(client: client) }
   scope :company_associated, ->(company) { where(company: company) }
   scope :service_associated, ->(startup) { where(startup: startup) }

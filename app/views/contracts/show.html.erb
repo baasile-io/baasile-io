@@ -2,31 +2,25 @@
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <h5><%= @contract.name %></h5>
 
     <table class="table">
-      <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
+
       <tbody>
         <% unless @contract.company.nil? %>
           <tr>
-            <td>Company</td>
+            <td><%= t('activerecord.attributes.contract.company') %></td>
             <td class="text-left"><%= @contract.company.name %></td>
           </tr>
         <% end %>
         <% unless @contract.startup.nil? %>
           <tr>
-            <td>Service</td>
+            <td><%= t('activerecord.attributes.contract.startup') %></td>
             <td class="text-left"><%= @contract.startup.name %></td>
           </tr>
         <% end %>
         <% unless @contract.client.nil? %>
           <tr>
-            <td>Client</td>
+            <td><%= t('activerecord.attributes.contract.client') %></td>
             <td class="text-left"><%= @contract.client.name %></td>
           </tr>
         <% end %>
