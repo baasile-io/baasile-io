@@ -5,9 +5,9 @@ class CreateContracts < ActiveRecord::Migration[5.0]
       t.datetime :start_date
       t.datetime :end_date
 
-      t.integer :client_id, :integer, null: true
-      t.integer :company_id, :integer, null: true
-      t.integer :startup_id, :integer, null: true
+      t.integer :client_id, null: true
+      t.integer :company_id, null: true
+      t.integer :startup_id, null: true
       t.integer :user_id
 
       t.timestamps
