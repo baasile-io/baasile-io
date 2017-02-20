@@ -32,6 +32,16 @@ fr:
       proxy:
         alias: 'Alias'
         description: 'Description'
+        proxy_parameter:
+          authentication_mode: "Mode d'authentification"
+          authentication_url: "URL d'authentification"
+          client_id: 'CLIENT ID'
+          client_secret: 'CLIENT SECRET'
+          grant_type: 'Grant type'
+          hostname: 'Domaine'
+          port: 'Port'
+          protocol: 'Protocole'
+          realm: 'Realm'
         name: 'Nom'
         service: 'Service'
         service_id: 'Service'
@@ -56,7 +66,7 @@ fr:
         hostname: 'Domaine'
         port: 'Port'
         protocol: 'Protocole'
-        realm: 'realm'
+        realm: 'Realm'
       query_parameter:
         name: 'Nom'
         mode: 'Mode'

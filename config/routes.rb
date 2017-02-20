@@ -18,8 +18,7 @@ Rails.application.routes.draw do
   get '/service_book', to: "pages#service_book"
   get '/profile', to: 'users#profile'
 
-  resources :contracts do
-  end
+  resources :contracts
 
   resources :companies do
     member do
