@@ -83,15 +83,12 @@ ActiveRecord::Schema.define(version: 20170217112826) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "client_id"
+    t.integer  "integer"
     t.integer  "company_id"
     t.integer  "startup_id"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["client_id"], name: "index_contracts_on_client_id", using: :btree
-    t.index ["company_id"], name: "index_contracts_on_company_id", using: :btree
-    t.index ["startup_id"], name: "index_contracts_on_startup_id", using: :btree
-    t.index ["user_id"], name: "index_contracts_on_user_id", using: :btree
   end
 
   create_table "measurements", force: :cascade do |t|

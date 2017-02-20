@@ -1,6 +1,6 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
-  before_action :commercial?
+  before_action :is_commercial?
   before_action :load_contract, only: [:show, :edit, :update, :destroy]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
@@ -17,13 +17,6 @@ class ContractsController < ApplicationController
   def create
     @contract = Contract.new
     @contract.user = current_user
-    @contract.company_id = params[:contract][:company].to_i if params[:contract].key?(:company)
-    @contract.startup_id = params[:contract][:startup].to_i if params[:contract].key?(:startup)
-    @contract.client_id = params[:contract][:client].to_i if params[:contract].key?(:client)
-    logger.info "#################@#@@"
-    logger.info params.inspect
-    logger.info "#################@#@@"
-
     @contract.assign_attributes(contract_params)
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
@@ -34,7 +27,6 @@ class ContractsController < ApplicationController
   end
 
   def edit
-
   end
 
   def update
@@ -67,39 +59,23 @@ class ContractsController < ApplicationController
   end
 
   def load_active_services
-    services = Service.activated_startup()
-    @services = Hash.new()
-    services.each do |service|
-      @services[service.name] = service.id
-    end
+    @services = Service.activated_startup()
   end
 
   def load_active_client
-    clients = Service.activated_client()
-    @clients = Hash.new()
-    clients.each do |client|
-      @clients[client.name] = client.id
-    end
+    @clients = Service.activated_client()
   end
 
   def load_active_companies
-    companies = Company.all
-    @companies = Hash.new()
-    companies.each do |company|
-      @companies[company.name] = company.id
-    end
+    @companies = Company.all
   end
 
   def contract_params
-    allowed_parameters = [:name, :start_date ]
-    refactor_params()
+    allowed_parameters = [:name, :start_date, :company_id, :startup_id, :client_id]
     params.require(:contract).permit(allowed_parameters)
   end
 
-  def refactor_params
-  end
-
-  def commercial?
+  def is_commercial?
     current_user.is_commercial?
   end
 
