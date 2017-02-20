@@ -59,11 +59,11 @@ class ContractsController < ApplicationController
   end
 
   def load_active_services
-    @services = Service.activated_startup()
+    @services = Service.activated_startups()
   end
 
   def load_active_client
-    @clients = Service.activated_client()
+    @clients = Service.activated_clients()
   end
 
   def load_active_companies
