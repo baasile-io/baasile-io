@@ -5,6 +5,7 @@ fr:
     form:
       hints:
         subdomain: "Doit être en minuscule et ne peut contenir que des caractères alpha-numériques et le trait d'union"
+        website: 'Exemple: "http://www.google.fr"'
     index:
       title: 'Services'
     new:

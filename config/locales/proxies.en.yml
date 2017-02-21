@@ -8,6 +8,7 @@ en:
       hints:
         authorization_url: "Authorisation URL must start with a slash. Example : \"/api/oauth/token\"."
         client_secret: "The secret key is encrypted on save. You are not required to fill it if you want to keep the actual value."
+        hostname: 'Example: "api.google.fr".'
       tabs:
         authorization: 'Authorization'
         general: 'General'

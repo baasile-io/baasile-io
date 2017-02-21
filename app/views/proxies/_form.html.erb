@@ -44,7 +44,7 @@
 
       <%= f.simple_fields_for :proxy_parameter do |f2| %>
         <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
-        <%= f2.input :hostname %>
+        <%= f2.input :hostname, hint: t('.hints.hostname') %>
         <%= f2.input :port %>
         <%= f2.input :follow_url, as: :radio_buttons %>
         <%= f2.input :follow_redirection %>

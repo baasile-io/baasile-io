@@ -5,5 +5,5 @@ class ContactDetail < ApplicationRecord
   validates :zip, presence: true
   validates :city, presence: true
   validates :country, presence: true
-  validates :phone, presence: true
+  validates :phone, presence: true, phone: true
 end
