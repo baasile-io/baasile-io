@@ -28,6 +28,9 @@ class ContractsController < ApplicationController
 
   def new
     @contract = Contract.new
+    @contract.company = current_company if !current_company.nil?
+    @contract.client = current_service if !current_service.nil? && current_service.is_client?
+    @contract.startup = current_service if !current_service.nil? && !current_service.is_client?
   end
 
   def create
