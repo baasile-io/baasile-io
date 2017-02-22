@@ -30,6 +30,7 @@ class ProxyParameter < ApplicationRecord
   attr_accessor :scopes
 
   def scopes
+    return [] if self.scope.nil?
     self.scope.split(' ')
   end
 
