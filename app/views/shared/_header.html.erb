@@ -32,7 +32,7 @@
             <% end %>
             <% if current_user.is_commercial? %>
                 <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contract' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+                  <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
                 </li>
             <% end %>
           </ul>
@@ -79,7 +79,7 @@
             </li>
             <% if current_user.is_commercial? %>
                 <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contract' %>" href="<%= company_contracts_path(current_company) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+                  <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= company_contracts_path(current_company) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
                 </li>
             <% end %>
             <% if current_user.is_superadmin? %>
