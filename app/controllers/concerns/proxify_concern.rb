@@ -63,7 +63,8 @@ module ProxifyConcern
     @current_proxy_uri_object = URI.parse uri
     @current_proxy_uri_object.query = URI.encode_www_form(query) unless query.nil?
 
-    request_obj = case request.method_symbol
+    method_symbol = request.method_symbol
+    request_obj = case method_symbol
                     when :get then Net::HTTP::Get
                     when :post then Net::HTTP::Post
                     when :head then Net::HTTP::Head
@@ -72,11 +73,13 @@ module ProxifyConcern
                   end
     @current_proxy_send_request = request_obj.send(:new, @current_proxy_uri_object)
 
-    case @current_proxy_send_request.content_type = request.content_type
-      when 'application/x-www-form-urlencoded'
-        @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
-      else
-        @current_proxy_send_request.body = request.raw_post
+    if request.content_type
+      case @current_proxy_send_request.content_type = request.content_type
+        when 'application/x-www-form-urlencoded'
+          @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
+        else
+          @current_proxy_send_request.body = request.raw_post
+      end
     end
 
     headers = request.headers.env.select { |k, _| k =~ /^HTTP_(USER|ACCEPT)/ }
