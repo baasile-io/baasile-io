@@ -17,7 +17,13 @@ class ContractsController < ApplicationController
   end
 
   def index
-    @collection = Contract.all
+    if !current_company.nil?
+      @collection = Contract.where(company: current_company)
+    elsif !current_service.nil?
+      @collection = Contract.where('startup_id=? OR client_id=?',current_service.id, current_service.id)
+    else
+      @collection = Contract.all
+    end
   end
 
   def new
