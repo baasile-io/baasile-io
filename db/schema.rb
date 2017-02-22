@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20170217112826) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "client_id"
-    t.integer  "integer"
     t.integer  "company_id"
     t.integer  "startup_id"
     t.integer  "user_id"

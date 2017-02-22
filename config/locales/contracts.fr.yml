@@ -10,3 +10,15 @@ fr:
       title: 'Tableau de bord'
     update:
       title: 'Paramètres'
+  back_office:
+    contracts:
+      edit:
+        title: 'Paramètres'
+      index:
+        title: 'Contracts'
+      new:
+        title: 'Créer un nouveau contract'
+      show:
+        title: 'Tableau de bord'
+      update:
+        title: 'Paramètres'

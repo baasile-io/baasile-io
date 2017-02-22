@@ -1,16 +1,46 @@
-<%= simple_form_for [@contract] do |f| %>
+<% if !current_company.nil? %>
+  <%= simple_form_for [current_company, @contract] do |f| %>
+        <%= error_messages_for(@contract) %>
 
-    <%= error_messages_for(@contract) %>
+        <%= f.input :name %>
+        <%= f.input :startup_id, type: :number, collection: @services %>
+        <%= f.input :company_id, type: :number, collection: @companies %>
+        <%= f.input :client_id, type: :number, collection: @clients %>
 
-    <%= f.input :name %>
-    <%= f.input :startup_id, type: :number, collection: @services %>
-    <%= f.input :company_id, type: :number, collection: @companies %>
-    <%= f.input :client_id, type: :number, collection: @clients %>
+        <div class="row">
+          <div class="actions col-md-9 offset-md-3">
+            <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+          </div>
+        </div>
+  <% end %>
+<% elsif !current_service.nil? %>
+  <%= simple_form_for [current_service, @contract] do |f| %>
+        <%= error_messages_for(@contract) %>
 
-    <div class="row">
-      <div class="actions col-md-9 offset-md-3">
-        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-      </div>
-    </div>
+        <%= f.input :name %>
+        <%= f.input :startup_id, type: :number, collection: @services %>
+        <%= f.input :company_id, type: :number, collection: @companies %>
+        <%= f.input :client_id, type: :number, collection: @clients %>
 
+        <div class="row">
+          <div class="actions col-md-9 offset-md-3">
+            <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+          </div>
+        </div>
+  <% end %>
+<% else %>
+  <%= simple_form_for [@contract] do |f| %>
+        <%= error_messages_for(@contract) %>
+
+        <%= f.input :name %>
+        <%= f.input :startup_id, type: :number, collection: @services %>
+        <%= f.input :company_id, type: :number, collection: @companies %>
+        <%= f.input :client_id, type: :number, collection: @clients %>
+
+        <div class="row">
+          <div class="actions col-md-9 offset-md-3">
+            <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+          </div>
+        </div>
+  <% end %>
 <% end %>

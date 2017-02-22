@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :contracts
 
   resources :companies do
+    resources :contracts
     member do
       get :clients
       get :startups
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
   resources :documentations
   
   resources :services do
+    resources :contracts
     member do
       post :public_set
       post :public_unset

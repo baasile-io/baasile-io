@@ -2,9 +2,7 @@
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-
     <table class="table">
-
       <tbody>
         <% unless @contract.company.nil? %>
           <tr>
@@ -26,6 +24,12 @@
         <% end %>
       </tbody>
     </table>
-    <%= button_to t('actions.destroy'), contract_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
-  </div>
+    <% if !current_company.nil? %>
+        <%= button_to t('actions.destroy'), company_contract_path(current_company), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+    <% elsif !current_service.nil? %>
+        <%= button_to t('actions.destroy'), service_contract_path(current_service), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+    <% else %>
+        <%= button_to t('actions.destroy'), contract_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+    <% end %>
+    </div>
 </div>
