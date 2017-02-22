@@ -18,7 +18,9 @@ fr:
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    send_reset_password: 'Réinitialiser le mot de passe'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
+    skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
     unset_admin: "Enlever les droits admin"
     sign_in: 'Se connecter'

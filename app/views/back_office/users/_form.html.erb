@@ -13,6 +13,7 @@
   <%= f.input :is_active, as: :radio_buttons %>
 
   <% if !f.object.persisted? %>
+
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="skip_confirmation"></label>
       <div class="col-md-9">
@@ -20,6 +21,7 @@
           <%= check_box_tag :skip_confirmation, 'true', params[:skip_confirmation].present? %>
           <%= t('actions.skip_confirmation') %>
         </label>
+        <small class="form-text text-muted"><%= t('.hints.skip_confirmation') %></small>
       </div>
     </div>
 
@@ -30,8 +32,23 @@
           <%= check_box_tag :send_welcome_instructions, 'true', params[:send_welcome_instructions].present? %>
           <%= t('actions.send_welcome_instructions') %>
         </label>
+        <small class="form-text text-muted"><%= t('.hints.send_welcome_instructions') %></small>
       </div>
     </div>
+
+  <% else %>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="send_reset_password"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :send_reset_password, 'true', params[:send_reset_password].present? %>
+          <%= t('actions.send_reset_password') %>
+        </label>
+        <small class="form-text text-muted"><%= t('.hints.send_reset_password') %></small>
+      </div>
+    </div>
+
   <% end %>
 
   <div class="row">

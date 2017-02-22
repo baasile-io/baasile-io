@@ -2,9 +2,16 @@ en:
   back_office:
     users:
       create:
+        success_message: "The user has been successfully created (Temporary password: \"%{pwd}\")"
+        success_reset_password: "The user has been successfully updated (Temporary password: \"%{pwd}\")"
         title: 'New User'
       edit:
         title: 'Edit'
+      form:
+        hints:
+          send_reset_password: "Check the box to reset user's password and send instructions by email."
+          send_welcome_instructions: "Check the box to send an email containing a temporary password and prompt the user to choose his / her own password the first time he / she logs in."
+          skip_confirmation: "Check the box to confirm the email address and do not send the validation email."
       index:
         title: 'Users'
       new:

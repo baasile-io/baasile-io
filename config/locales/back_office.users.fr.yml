@@ -2,9 +2,16 @@ fr:
   back_office:
     users:
       create:
+        success_message: "L'utilisateur a bien été créé (mot de passe temporaire : \"%{pwd}\")"
+        success_reset_password: "L'utilisateur a bien été modifié (mot de passe temporaire : \"%{pwd}\")"
         title: 'Créer un utilisateur'
       edit:
         title: 'Modifier'
+      form:
+        hints:
+          send_reset_password: "Cochez la case pour réinitialiser le mot de passe et envoyer les instructions par E-Mail."
+          send_welcome_instructions: "Cochez la case pour envoyer un courriel de bienvenue contenant un mot de passe temporaire et inviter l'utilisateur à choisir son propre mot de passe lors de sa première connexion."
+          skip_confirmation: "Cochez la case pour valider l'adresse E-Mail et ne pas envoyer le courriel de validation."
       index:
         title: 'Utilisateurs'
       new:

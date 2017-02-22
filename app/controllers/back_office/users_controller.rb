@@ -18,12 +18,12 @@ module BackOffice
 
     def create
       @user = User.new(user_params)
-      @user.password_confirmation = @user.password = temporary_password = (('a'..'k').to_a + ('L'..'Z').to_a + ('0'..'9').to_a + ['/', '.', '?', '%']).shuffle.join
+      generate_random_password
       @user.password_changed_at = 1.year.ago
       @user.skip_confirmation! if params[:skip_confirmation]
       if @user.save
-        UserNotifier.send_welcome_email(@user, temporary_password).deliver_now if params[:send_welcome_instructions]
-        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.user'))
+        UserNotifier.send_welcome_email(@user, @user.password).deliver_now if params[:send_welcome_instructions]
+        flash[:success] = I18n.t('back_office.users.create.success_message', pwd: @user.password)
         redirect_to permissions_back_office_user_path(@user)
       else
         render :new
@@ -32,12 +32,22 @@ module BackOffice
 
     def update
       @page_title = @user.full_name
+      generate_random_password if params[:send_reset_password]
       if @user.update(user_params)
-        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
+        if params[:send_reset_password]
+          UserNotifier.send_reset_password(@user, @user.password).deliver_now
+          flash[:success] = I18n.t('back_office.users.create.success_reset_password', pwd: @user.password)
+        else
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
+        end
         redirect_to back_office_users_path
       else
         render :edit
       end
+    end
+
+    def generate_random_password
+      @user.password_confirmation = @user.password = temporary_password = (('a'..'k').to_a + ('L'..'Z').to_a + ('0'..'9').to_a + ['/', '.', '?', '%']).shuffle.join
     end
 
     def destroy
