@@ -85,6 +85,8 @@ module ProxifyConcern
       @current_proxy_send_request[name] = header[1]
     end
 
+    @current_proxy_send_request[I18n.t('config.headers.proxy_callback')] = "#{current_host}/api/v1/#{current_service.subdomain}/proxies/#{current_proxy.id}/routes/#{current_route.id}/request"
+
     case @current_proxy_parameter.authorization_mode
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?
     end
@@ -109,7 +111,7 @@ module ProxifyConcern
           client_secret: @current_proxy_parameter.identifier.decrypt_secret
         }
         params[:grant_type] = @current_proxy_parameter.grant_type if @current_proxy_parameter.grant_type.present?
-        params[:scope] = @current_proxy_parameter.scope if @current_proxy_parameter.scope.present?
+        params[:scope] = @current_proxy_parameter.scope.strip if @current_proxy_parameter.scope.present?
         req.set_form_data(params)
 
         http = Net::HTTP.new uri.host, uri.port

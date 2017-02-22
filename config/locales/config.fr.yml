@@ -1,3 +1,5 @@
 fr:
   config:
+    headers:
+      proxy_callback: 'OpenRH-Proxy-Callback-Uri'
     platform_name: 'OpenRH'

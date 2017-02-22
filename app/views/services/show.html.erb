@@ -17,9 +17,16 @@
       </div>
     </div>
 
-    <hr>
-    <h5>API</h5>
-    <p>/api/v1/<%= @service.subdomain %></p>
+    <% if @service.is_activated? %>
+      <hr>
+      <h5>API</h5>
+      <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">URI</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" readonly="readonly" value="<%= current_host %>/api/v1/<%= @service.subdomain %>">
+        </div>
+      </div>
+    <% end %>
 
     <% if current_user.has_role?(:superadmin) %>
       <hr>

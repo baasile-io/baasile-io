@@ -8,6 +8,10 @@ module Api
       @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
     end
 
+    def current_host
+      "#{request.protocol}#{request.host_with_port}"
+    end
+
     def authenticate_schema
       if current_service.nil?
         render nothing: true, status: :not_found

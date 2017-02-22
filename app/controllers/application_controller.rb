@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_proxy
   helper_method :current_route
   helper_method :current_module
+  helper_method :current_host
 
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || stored_location_for(resource) || profile_path
@@ -45,6 +46,10 @@ class ApplicationController < ActionController::Base
 
   def current_module
     nil
+  end
+
+  def current_host
+    "#{request.protocol}#{request.host_with_port}"
   end
 
   def add_breadcrumb_current_action

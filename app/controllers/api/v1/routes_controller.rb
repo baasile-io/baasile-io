@@ -43,7 +43,7 @@ module Api
                 },
                 response: {
                   status: e.code,
-                  body: e.body.to_s
+                  body: e.body.to_s.force_encoding('UTF-8')
                 }
               }
             }]
