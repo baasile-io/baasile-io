@@ -82,11 +82,11 @@ module ProxifyConcern
       end
     end
 
-    headers = request.headers.env.select { |k, _| k =~ /^HTTP_(USER|ACCEPT)/ }
-    headers.each do |header|
-      name = header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
-      @current_proxy_send_request[name] = header[1]
-    end
+    #headers = request.headers.env.select { |k, _| k =~ /^HTTP_(USER|ACCEPT)/ }
+    #headers.each do |header|
+    #  name = header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
+    #  @current_proxy_send_request[name] = header[1]
+    #end
 
     @current_proxy_send_request[I18n.t('config.headers.proxy_callback')] = "#{current_host}/api/v1/#{current_service.subdomain}/proxies/#{current_proxy.id}/routes/#{current_route.id}/request"
 
@@ -135,6 +135,8 @@ module ProxifyConcern
 
     http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
     http.use_ssl = @current_proxy_uri_object.scheme == 'https'
+
+    Rails.logger.info "Proxy Request: #{@current_proxy_uri_object}"
     res = http.request @current_proxy_send_request
 
     case res
