@@ -18,12 +18,13 @@ class ContractsController < ApplicationController
 
   def index
     if !current_company.nil?
-      @collection = Contract.where(company: current_company)
+      @collection = Contract.associated_companies(current_company)
     elsif !current_service.nil?
-      @collection = Contract.where('startup_id=? OR client_id=?',current_service.id, current_service.id)
+      @collection = Contract.associated_startups_clients(current_service)
     else
       @collection = Contract.all
     end
+    @collection = @collection.reject { |contract| !contract.authorized_to_act?(current_user) }
   end
 
   def new

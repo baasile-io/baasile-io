@@ -13,9 +13,16 @@
       <tbody>
         <% unless @contract.company.nil? %>
           <tr>
+            <td><%= t('actions.activate') %></td>
+            <td><%= @contract.activate %></td>
+          </tr>
+          <tr>
+            <td><%= t('actions.status') %></td>
+            <td><%= format_contract_status_collection[@contract.status][0] %></td>
+          </tr>
+          <tr>
             <td><%= t('activerecord.attributes.contract.company') %></td>
             <td><%= @contract.company.name %></td>
-            <td><%= @contract.activate %></td>
           </tr>
         <% end %>
         <% unless @contract.startup.nil? %>

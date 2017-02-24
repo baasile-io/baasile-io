@@ -28,6 +28,7 @@ fr:
     sign_out: 'Se déconnecter'
     sign_up: "S'inscrire"
     signin_up: 'Inscription..'
+    status: 'Status'
     success:
       created: '%{resource} a été créé avec succès'
       destroyed: '%{resource} a été supprimé avec succès'
