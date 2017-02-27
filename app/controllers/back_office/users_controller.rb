@@ -52,7 +52,7 @@ module BackOffice
 
     def destroy
       if @user.destroy
-        flash[:success] = "User deleted"
+        flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.user'))
       end
       redirect_to back_office_users_path
     end

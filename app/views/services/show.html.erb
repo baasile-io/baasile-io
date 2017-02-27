@@ -37,9 +37,9 @@
       <% else %>
         <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
       <% end %>
-      <hr>
 
       <% unless @service.is_client? %>
+        <hr>
         <h5>Catalogue de startups</h5>
         <% unless @service.public %>
             <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
@@ -48,5 +48,8 @@
         <% end %>
       <% end %>
     <% end %>
+
+    <%= render 'shared/measurement' %>
+
   </div>
 </div>

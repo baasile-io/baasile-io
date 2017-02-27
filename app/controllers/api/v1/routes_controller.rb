@@ -8,12 +8,15 @@ module Api
       include RedisStoreConcern
       include ProxifyConcern
 
+      # allow measure functionality
+      include MeasurementConcern
+
       def process_request
         begin
           res = proxy_request
           render status: res.code, plain: res.body
         rescue ProxyInitializationError
-          render status: :internal_server_error, json: {
+          render status: :bad_gateway, json: {
             errors: [{
               status: 591,
               title: 'The server cannot process the request due to a configuration error'
@@ -78,11 +81,23 @@ module Api
       end
 
       def authorize_request!
-        return true if current_service == authenticated_service
-        if authenticated_service.has_role?(:all, current_route) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_service)
-          return true
+        status = 403
+        if authenticated_scope.include?(current_service.subdomain)
+          if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
+            return true
+          end
+          title = 'Client is not authorized to access this route'
+        else
+          status = 400
+          title = "Unknown/invalid scope(s): #{authenticated_scope.inspect}. Required scope: \"#{current_service.subdomain}\"."
         end
-        return head :forbidden
+        render status: status, json: {
+          errors: [{
+            status: status,
+            title: title
+          }]
+        }
+        return false
       end
 
     end

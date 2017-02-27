@@ -1,0 +1,17 @@
+<%= simple_form_for [:back_office, @documentation] do |f| %>
+
+  <%= error_messages_for(@documentation) %>
+
+  <%= f.input :locale, as: :hidden %>
+
+  <%= f.input :parent_id, as: :select, collection: @documentation_tree.select {|el| el.locale == f.object.locale && (f.object.persisted? ? (el.id != f.object.id && !f.object.descendant_ids.include?(el.id)) : true)} %>
+  <%= f.input :title %>
+  <%= f.input :body, input_html: {rows: 30} %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

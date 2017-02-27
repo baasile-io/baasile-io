@@ -1,0 +1,11 @@
+en:
+  back_office:
+    documentations:
+      create:
+        title: 'New Page'
+      edit:
+        title: 'Edit'
+      index:
+        title: 'Documentations'
+      new:
+        title: 'New Page'

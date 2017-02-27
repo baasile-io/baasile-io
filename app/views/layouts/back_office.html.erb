@@ -38,6 +38,9 @@
           <div class="list-group">
             <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
           </div>
+          <div class="list-group">
+            <%= link_to t('activerecord.models.documentation').pluralize, back_office_documentations_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'documentations'}" %>
+          </div>
         </div>
       </div>
 

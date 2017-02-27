@@ -13,6 +13,11 @@ en:
         phone: "Phone Number"
         siret: "SIRET Number"
         zip: "Zip Code"
+      documentation:
+        ancestry: 'Parent'
+        body: 'Content'
+        locale: 'Language'
+        title: 'Title'
       identifier:
         client_id: 'Public Key'
         client_secret: 'Secret Key'
@@ -22,19 +27,19 @@ en:
         alias: 'Alias'
         description: 'Description'
         name: 'Name'
-        proxy_parameter:
-          authorization_mode: 'Authorization mode'
-          authorization_url: 'Authorization URL'
-          grant_type: 'Grant type'
-          hostname: 'Hostname'
-          port: 'Port'
-          protocol: 'Protocol'
-          realm: 'realm'
         service: 'Service'
         service_id: 'Service'
         user: 'Creator'
         user_id: 'Creator'
       proxy_parameter:
+        authorization_mode: 'Authorization mode'
+        authorization_url: 'Authorization URL'
+        grant_type: 'Grant type'
+        hostname: 'Hostname'
+        port: 'Port'
+        protocol: 'Protocol'
+        realm: 'realm'
+      proxy_parameter_test:
         authorization_mode: 'Authorization mode'
         authorization_url: 'Authorization URL'
         grant_type: 'Grant type'
@@ -83,6 +88,7 @@ en:
     models:
       company: 'Company'
       contact_detail: 'Contact Detail'
+      documentation: 'Documentation'
       identifier: 'Credential'
       query_parameter: 'Query parameter'
       proxy: 'Proxy'

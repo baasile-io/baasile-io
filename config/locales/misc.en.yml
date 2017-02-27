@@ -6,7 +6,11 @@ en:
     captcha_hint: 'Please copy the verification code.'
     correct_errors: 'Correct the following errors and try again:'
     dashboard: 'Dashboard'
+    documentation: 'Documentation'
     invalid_fields: 'Invalid Fields'
+    locales:
+      en: 'English'
+      fr: 'French'
     parameters: 'Parameters'
     permissions: 'Permissions'
     profile: 'Profile'

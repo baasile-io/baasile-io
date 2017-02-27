@@ -49,6 +49,8 @@ GEM
       rake
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    ancestry (2.2.2)
+      activerecord (>= 3.0.0)
     arel (7.1.4)
     autoprefixer-rails (6.7.2)
       execjs
@@ -215,6 +217,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redcarpet (3.4.0)
     redis (3.3.2)
     redis-actionpack (5.0.1)
       actionpack (>= 4.0, < 6)
@@ -325,6 +328,7 @@ PLATFORMS
 
 DEPENDENCIES
   activevalidators
+  ancestry
   bootstrap (~> 4.0.0.alpha6)
   breadcrumbs_on_rails
   byebug
@@ -353,6 +357,7 @@ DEPENDENCIES
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-assets-tether (>= 1.1.0)!
   rails_email_validator
+  redcarpet
   redis
   redis-namespace
   redis-rails

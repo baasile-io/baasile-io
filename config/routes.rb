@@ -28,6 +28,8 @@ Rails.application.routes.draw do
       post :set_admin
     end
   end
+
+  resources :documentations
   
   resources :services do
     member do
@@ -66,6 +68,7 @@ Rails.application.routes.draw do
         put :toggle_object_role
       end
     end
+    resources :documentations
   end
 
   namespace :api do

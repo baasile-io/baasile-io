@@ -10,7 +10,12 @@ fr:
         client_secret: "La clé secrète est encryptée à l'enregistrement. Ne la renseignez que si vous souhaitez modifier sa valeur."
         hostname: 'Exemple : "api.google.fr".'
       tabs:
-        authorization: 'Autorisation'
+        proxy_authorization:
+          hint: "Les paramètres de production prennent effet en phase de production d'un contrat."
+          title: 'Paramètres de production'
+        proxy_authorization_test:
+          hint: "Les paramètres de test sont utilisés par défaut par la plateforme."
+          title: 'Paramètres de test'
         general: 'Général'
     index:
       description: 'Paramétrez vos APIs afin de fournir des données à des clients'

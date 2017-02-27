@@ -23,6 +23,9 @@
           </li>
         <% end %>
       <% end %>
+      <li class="nav-item">
+        <a class="nav-link <%= 'active' if current_module == 'documentation' %>" href="<%= documentations_path %>"><%= t('misc.documentation') %></a>
+      </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">
       <% if current_user.nil? %>
@@ -30,7 +33,7 @@
         <a href="<%= new_user_registration_path %>" class="btn btn-outline-info"><%= t('actions.sign_up') %></a>
       <% else %>
         <%= link_to current_user.full_name, profile_path, class: 'btn btn-info' %>
-        <%= link_to t('actions.sign_out'), destroy_user_session_path, method: :delete, class: 'btn btn-info' %>
+        <%= link_to '<i class="fa fa-fw fa-sign-out"></i>'.html_safe, destroy_user_session_path, method: :delete, class: 'btn btn-secondary', data: {toggle: 'tooltip', title: t('actions.sign_out'), placement: 'left'} %>
       <% end %>
     </div>
   </div>

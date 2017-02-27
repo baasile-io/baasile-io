@@ -15,6 +15,7 @@ class Service < ApplicationRecord
   has_many :proxies
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
+  has_many :refresh_tokens
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 

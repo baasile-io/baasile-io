@@ -13,6 +13,11 @@ fr:
         phone: "Numéro de téléphone"
         siret: "Numéro de SIRET"
         zip: "Code postal"
+      documentation:
+        ancestry: 'Parent'
+        body: 'Contenu'
+        locale: 'Langue'
+        title: 'Titre'
       identifier:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'
@@ -22,20 +27,22 @@ fr:
       proxy:
         alias: 'Alias'
         description: 'Description'
-        proxy_parameter:
-          authorization_mode: "Mode d'autorisation"
-          authorization_url: "URL d'autorisation"
-          grant_type: 'Grant type'
-          hostname: 'Domaine'
-          port: 'Port'
-          protocol: 'Protocole'
-          realm: 'realm'
         name: 'Nom'
         service: 'Service'
         service_id: 'Service'
         user: 'Créateur'
         user_id: 'Créateur'
       proxy_parameter:
+        authorization_mode: "Mode d'autorisation"
+        authorization_url: "URL d'autorisation"
+        follow_redirection: 'Nombre de redirections maximum'
+        follow_url: "Suivre l'URL"
+        grant_type: 'Grant type'
+        hostname: 'Domaine'
+        port: 'Port'
+        protocol: 'Protocole'
+        realm: 'realm'
+      proxy_parameter_test:
         authorization_mode: "Mode d'autorisation"
         authorization_url: "URL d'autorisation"
         follow_redirection: 'Nombre de redirections maximum'
@@ -86,6 +93,7 @@ fr:
     models:
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
+      documentation: 'Documentation'
       identifier: 'Identifiant'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
