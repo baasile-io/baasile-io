@@ -34,6 +34,10 @@ class User < ApplicationRecord
     self.has_role?(:superadmin) || self.has_role?(:commercial, :any)
   end
 
+  def is_commercial_to_create?
+    self.has_role?(:superadmin) || self.has_role?(:commercial)
+  end
+
   def is_admin_of?(obj)
     self.has_role?(:superadmin) || self.has_role?(:admin, obj)
   end

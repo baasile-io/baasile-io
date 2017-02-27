@@ -27,4 +27,15 @@ class Contract < ApplicationRecord
     user.has_role?(:commercial)
   end
 
+  def is_commercial_client?(user)
+    user.has_role?(:commercial, self.client)
+  end
+
+  def is_commercial_startup?(user)
+    user.has_role?(:commercial, self.startup)
+  end
+
+  def is_commercial_company?(user)
+    user.has_role?(:commercial, self.company)
+  end
 end

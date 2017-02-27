@@ -1,10 +1,12 @@
 <% content_for(:page_title) { t('.title') } %>
-<% if !current_company.nil? %>
-  <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_path(current_company), class: 'btn btn-primary' } %>
-<% elsif !current_service.nil? %>
-  <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_path(current_service), class: 'btn btn-primary' } %>
-<% else %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_contract_path, class: 'btn btn-primary' } %>
+<% if current_user.is_commercial_to_create? %>
+  <% if !current_company.nil? %>
+    <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_path(current_company), class: 'btn btn-primary' } %>
+  <% elsif !current_service.nil? %>
+    <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_path(current_service), class: 'btn btn-primary' } %>
+  <% else %>
+      <% content_for(:page_controls) { link_to t('actions.new'), new_contract_path, class: 'btn btn-primary' } %>
+  <% end %>
 <% end %>
 <div class="b-io-content--secondary">
   <div class="container-fluid">
