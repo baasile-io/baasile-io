@@ -5,7 +5,7 @@ fr:
     edit:
       title: 'Modifier la route'
     form:
-      default_protocol: "Par défaut (%{protocol})"
+      default_value: "Par défaut (%{value})"
     index:
       title: 'Routes'
     new:

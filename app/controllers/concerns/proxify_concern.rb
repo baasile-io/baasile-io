@@ -50,12 +50,13 @@ module ProxifyConcern
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil
     @current_proxy_parameter = current_proxy.proxy_parameter_test #TODO: production when contract is activated
+    @current_route_uri = current_route.uri_test #TODO: production when contract is activated
     @current_proxy_cache_token = current_proxy.cache_token
   end
 
   def proxy_request
     proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
-    proxy_prepare_request "#{current_route.uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", request.GET
+    proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", request.GET
     proxy_send_request
   end
 

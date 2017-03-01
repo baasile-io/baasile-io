@@ -5,7 +5,7 @@ en:
     edit:
       title: 'Edit route'
     form:
-      default_protocol: "Default (%{protocol})"
+      default_value: "Default (%{value})"
     index:
       title: 'List of routes'
     new:

@@ -66,7 +66,7 @@ class RoutesController < DashboardController
   end
 
   def route_params
-    params.require(:route).permit(:name, :description, :url, :protocol, :hostname, :port, allowed_methods: [])
+    params.require(:route).permit(:name, :description, :url, :protocol, :hostname, :port, :protocol_test, :hostname_test, :port_test, allowed_methods: [])
   end
 
   def load_route

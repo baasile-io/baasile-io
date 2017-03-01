@@ -7,9 +7,19 @@
   <%= f.input :url %>
   <%= f.input :allowed_methods, as: :check_boxes, collection: Route::ALLOWED_METHODS %>
 
-  <%= f.input :protocol, as: :select, collection: format_protocols_for_select, include_blank: t('.default_protocol', protocol: t("types.protocols.#{current_proxy.proxy_parameter.protocol}")) %>
-  <%= f.input :hostname, placeholder: current_proxy.proxy_parameter.hostname %>
-  <%= f.input :port, placeholder: current_proxy.proxy_parameter.port.to_s %>
+  <hr>
+  <h5>Paramètres de test</h5>
+  <p><%= t('proxies.form.tabs.proxy_authorization_test.hint') %></p>
+  <%= f.input :protocol_test, as: :select, collection: format_protocols_for_select, include_blank: t('.default_value', value: t("types.protocols.#{current_proxy.proxy_parameter_test.protocol}")) %>
+  <%= f.input :hostname_test, placeholder: t('.default_value', value: current_proxy.proxy_parameter_test.hostname) %>
+  <%= f.input :port_test, placeholder: t('.default_value', value: current_proxy.proxy_parameter_test.port.to_s) %>
+
+  <hr>
+  <h5>Paramètres de production</h5>
+  <p><%= t('proxies.form.tabs.proxy_authorization.hint') %></p>
+  <%= f.input :protocol, as: :select, collection: format_protocols_for_select, include_blank: t('.default_value', value: t("types.protocols.#{current_proxy.proxy_parameter.protocol}")) %>
+  <%= f.input :hostname, placeholder: t('.default_value', value: current_proxy.proxy_parameter.hostname) %>
+  <%= f.input :port, placeholder: t('.default_value', value: current_proxy.proxy_parameter.port.to_s) %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

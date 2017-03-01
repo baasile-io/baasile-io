@@ -11,7 +11,8 @@ class Route < ApplicationRecord
   has_one :service, through: :proxy
   belongs_to :user
   has_many :query_parameters
-  validates :hostname, hostname: true
+  validates :hostname, hostname: true, if: Proc.new { hostname.present? }
+  validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
@@ -44,5 +45,9 @@ class Route < ApplicationRecord
 
   def uri
     "#{protocol || proxy.proxy_parameter.protocol}://#{hostname.present? ? hostname : proxy.proxy_parameter.hostname}:#{port.present? ? port : proxy.proxy_parameter.port}#{url}"
+  end
+
+  def uri_test
+    "#{protocol_test || proxy.proxy_parameter_test.protocol}://#{hostname_test.present? ? hostname_test : proxy.proxy_parameter_test.hostname}:#{port_test.present? ? port_test : proxy.proxy_parameter_test.port}#{url}"
   end
 end
