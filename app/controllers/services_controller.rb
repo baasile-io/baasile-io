@@ -19,6 +19,9 @@ class ServicesController < ApplicationController
 
   def index
     @collection = Service.authorized(current_user)
+    if @collection.size == 0
+      redirect_to new_service_path
+    end
   end
 
   def show

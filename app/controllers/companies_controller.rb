@@ -5,6 +5,9 @@ class CompaniesController < ApplicationController
 
   def index
     @collection = Company.authorized(current_user)
+    if @collection.size == 0
+      redirect_to new_company_path
+    end
   end
 
   def show

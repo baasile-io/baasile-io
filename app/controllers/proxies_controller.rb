@@ -13,6 +13,9 @@ class ProxiesController < DashboardController
 
   def index
     @collection = current_service.proxies.authorized(current_user)
+    if @collection.size == 0
+      redirect_to new_service_proxy_path
+    end
   end
 
   def new
