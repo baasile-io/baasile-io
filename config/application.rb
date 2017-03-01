@@ -18,6 +18,7 @@ module BaasileIo
     config.active_job.queue_adapter = :sidekiq
 
     # Security
+    config.middleware.use Airbrake::Rack::Middleware
     config.middleware.use ::ApiAuthMiddleware
     config.middleware.use Rack::Attack
     config.middleware.use I18n::JS::Middleware
