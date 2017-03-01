@@ -3,7 +3,9 @@ class Route < ApplicationRecord
   after_create :assign_default_user_role
 
   PROTOCOLS = {https: 1, http: 2}
-  enum protocol: PROTOCOLS
+  PROTOCOLS_TEST = {https: 1, http: 2}
+  enum protocol: PROTOCOLS, _prefix: true
+  enum protocol_test: PROTOCOLS_TEST, _prefix: true
 
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 
