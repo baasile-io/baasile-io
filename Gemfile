@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Monitoring
 gem 'newrelic_rpm'
+gem 'airbrake'
 
 # Databases
 gem 'pg', '~>0.19'
