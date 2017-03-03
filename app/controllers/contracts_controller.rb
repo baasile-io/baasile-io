@@ -76,18 +76,6 @@ class ContractsController < ApplicationController
   end
 
   def commercial_validation
-    logger.info "@@@@@@@@@@@@@@@"
-    logger.info Contract.statuses[@contract.status].inspect
-    logger.info "@@@@@@@@@@@@@@@"
-    logger.info Contract.statuses[@contract.status] % 2
-    logger.info "@@@@@@@@@@@@@@@"
-    if @contract.is_commercial_client?(current_user)
-      logger.info "client com ok"
-    else
-      logger.info "client com not ok"
-    end
-
-    logger.info "@@@@@@@@@@@@@@@"
     if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
       if @contract.is_commercial_client?(current_user)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
