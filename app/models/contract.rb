@@ -1,7 +1,7 @@
 class Contract < ApplicationRecord
 
-  CONTRACT_STATUS = {creation: 1, validation_sp: 2, validation_client_final: 3,  attente_modification_sp: 4, tarifs_valides: 5, facturation: 6, Validation: 7, actif: 8, wait_to_pay: 9}
-  enum contract_status: CONTRACT_STATUS
+  CONTRACT_STATUS = {creation: 1, commercial_validation_sp: 2, commercial_validation_client: 3,  billing_validation_sp: 4, billing_validation_client: 5, Validation: 6}
+  enum status: CONTRACT_STATUS
 
   belongs_to :user
   belongs_to :company
@@ -11,6 +11,7 @@ class Contract < ApplicationRecord
   validates :name, presence: true
   validates :startup_id, presence:true
   validates :client_id, presence:true
+  validates :startup_id, uniqueness: {scope: [:client_id]}
 
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
@@ -24,18 +25,30 @@ class Contract < ApplicationRecord
   end
 
   def authorized_to_create?(user)
-    user.has_role?(:commercial)
+    user.has_role?(:superadmin) || user.has_role?(:commercial)
+  end
+
+  def is_accounting_startup?(user)
+    user.has_role?(:superadmin) || user.has_role?(:accounting, self.startup)
+  end
+
+  def is_accounting_client?(user)
+    user.has_role?(:superadmin) || user.has_role?(:accounting, self.client)
+  end
+
+  def is_accounting_company?(user)
+    user.has_role?(:superadmin) || user.has_role?(:accounting, self.company)
   end
 
   def is_commercial_client?(user)
-    user.has_role?(:commercial, self.client)
+    user.has_role?(:superadmin) || user.has_role?(:commercial, self.client)
   end
 
   def is_commercial_startup?(user)
-    user.has_role?(:commercial, self.startup)
+    user.has_role?(:superadmin) || user.has_role?(:commercial, self.startup)
   end
 
   def is_commercial_company?(user)
-    user.has_role?(:commercial, self.company)
+    user.has_role?(:superadmin) || user.has_role?(:commercial, self.company)
   end
 end

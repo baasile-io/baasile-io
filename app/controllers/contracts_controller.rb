@@ -3,7 +3,7 @@ class ContractsController < ApplicationController
   before_action :is_commercial?
   before_action :load_company
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -38,6 +38,7 @@ class ContractsController < ApplicationController
     @contract = Contract.new
     @contract.user = current_user
     @contract.assign_attributes(contract_params)
+    @contract.status = 1
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
@@ -50,6 +51,9 @@ class ContractsController < ApplicationController
   end
 
   def update
+    if @contract.status >= 2
+      @contract.status -= 1
+    end
     @contract.assign_attributes(contract_params)
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
@@ -60,7 +64,6 @@ class ContractsController < ApplicationController
   end
 
   def show
-
   end
 
   def destroy
@@ -70,6 +73,62 @@ class ContractsController < ApplicationController
     else
       render :show
     end
+  end
+
+  def commercial_validation
+    logger.info "@@@@@@@@@@@@@@@"
+    logger.info Contract.statuses[@contract.status].inspect
+    logger.info "@@@@@@@@@@@@@@@"
+    logger.info Contract.statuses[@contract.status] % 2
+    logger.info "@@@@@@@@@@@@@@@"
+    if @contract.is_commercial_client?(current_user)
+      logger.info "client com ok"
+    else
+      logger.info "client com not ok"
+    end
+
+    logger.info "@@@@@@@@@@@@@@@"
+    if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
+      if @contract.is_commercial_client?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+      end
+    elsif Contract.statuses[@contract.status] < 4
+      if @contract.is_commercial_startup?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+      end
+    elsif Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] >= 4
+      if @contract.is_accounting_client?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+      end
+    elsif Contract.statuses[@contract.status] >= 4
+      if @contract.is_accounting_startup?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+      end
+    end
+    @contract.save
+    redirect_to_show
+  end
+
+  def commercial_reject
+    if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
+      if @contract.is_commercial_client?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+      end
+    elsif Contract.statuses[@contract.status] < 4
+      if @contract.is_commercial_startup?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+      end
+    elsif Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] >= 4
+      if @contract.is_accounting_client?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+      end
+    elsif Contract.statuses[@contract.status] >= 4
+      if @contract.is_accounting_startup?(current_user)
+        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+      end
+    end
+    @contract.save
+    redirect_to_show
   end
 
   private

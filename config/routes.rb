@@ -18,10 +18,16 @@ Rails.application.routes.draw do
   get '/service_book', to: "pages#service_book"
   get '/profile', to: 'users#profile'
 
-  resources :contracts
+  resources :contracts do
+    post :commercial_validation
+    post :commercial_reject
+  end
 
   resources :companies do
-    resources :contracts
+    resources :contracts do
+      post :commercial_validation
+      post :commercial_reject
+    end
     member do
       get :clients
       get :startups
@@ -35,7 +41,10 @@ Rails.application.routes.draw do
   resources :documentations
   
   resources :services do
-    resources :contracts
+    resources :contracts do
+      post :commercial_validation
+      post :commercial_reject
+    end
     member do
       post :public_set
       post :public_unset

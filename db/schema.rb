@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20170222134923) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.boolean  "activate",   default: true
-    t.integer  "status",     default: 0
+    t.integer  "status",     default: 1
     t.index ["client_id", "startup_id"], name: "index_contracts_on_client_id_and_startup_id", unique: true, using: :btree
   end
 
