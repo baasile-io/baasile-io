@@ -3,7 +3,7 @@ class ContractsController < ApplicationController
   before_action :is_commercial?
   before_action :load_company
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject, :toogle_activate]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -115,6 +115,12 @@ class ContractsController < ApplicationController
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
       end
     end
+    @contract.save
+    redirect_to_show
+  end
+
+  def toogle_activate
+    @contract.activate = !@contract.activate
     @contract.save
     redirect_to_show
   end

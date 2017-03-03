@@ -21,12 +21,14 @@ Rails.application.routes.draw do
   resources :contracts do
     post :commercial_validation
     post :commercial_reject
+    post :toogle_activate
   end
 
   resources :companies do
     resources :contracts do
       post :commercial_validation
       post :commercial_reject
+      post :toogle_activate
     end
     member do
       get :clients
@@ -44,6 +46,7 @@ Rails.application.routes.draw do
     resources :contracts do
       post :commercial_validation
       post :commercial_reject
+      post :toogle_activate
     end
     member do
       post :public_set

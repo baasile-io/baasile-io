@@ -86,5 +86,24 @@
           <%= button_to t('actions.destroy'), contract_path(@contract), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
       <% end %>
     <% end %>
+    <% if current_user.is_admin? || @contract.user == current_user %>
+        <% if @contract.activate %>
+            <% if !current_company.nil? %>
+                <%= button_to t('actions.deactivate'), company_contract_toogle_activate_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+            <% elsif !current_service.nil? %>
+                <%= button_to t('actions.deactivate'), service_contract_toogle_activate_path(current_service, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+            <% else %>
+                <%= button_to t('actions.deactivate'), contract_toogle_activate_path(@contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+            <% end %>
+        <% else %>
+            <% if !current_company.nil? %>
+                <%= button_to t('actions.activate'), company_contract_toogle_activate_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+            <% elsif !current_service.nil? %>
+                <%= button_to t('actions.activate'), service_contract_toogle_activate_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+            <% else %>
+                <%= button_to t('actions.activate'), contract_toogle_activate_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+            <% end %>
+            <% end %>
+    <% end %>
     </div>
 </div>
