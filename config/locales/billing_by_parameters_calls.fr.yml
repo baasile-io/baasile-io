@@ -1,0 +1,24 @@
+fr:
+  billing_by_parameters_calls:
+    edit:
+      title: 'Paramètres'
+    index:
+      title: 'Parametre de billings en fonction des appels'
+    new:
+      title: 'Créer un nouveau billing appels'
+    show:
+      title: 'Tableau de bord'
+    update:
+      title: 'Paramètres'
+  back_office:
+    billing_by_parameters_calls:
+      edit:
+        title: 'Paramètres'
+      index:
+        title: 'Parametre de billings en fonction des appels'
+      new:
+        title: 'Créer un nouveau billing appels'
+      show:
+        title: 'Tableau de bord'
+      update:
+        title: 'Paramètres'

@@ -17,13 +17,16 @@ ActiveRecord::Schema.define(version: 20170303160639) do
 
   create_table "billing_by_parameters_calls", force: :cascade do |t|
     t.string   "name"
-    t.integer  "billing_id"
     t.string   "parameter"
     t.integer  "free_call",               default: 0
     t.integer  "periode_by_h_reset_free"
     t.decimal  "cost_by_call",            default: "0.0"
+    t.integer  "user_id"
+    t.boolean  "activate",                default: true
+    t.integer  "billing_id"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+    t.index ["billing_id"], name: "index_billing_by_parameters_calls_on_billing_id", using: :btree
   end
 
   create_table "billings", force: :cascade do |t|

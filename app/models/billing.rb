@@ -2,7 +2,7 @@ class Billing < ApplicationRecord
 
   belongs_to :service
   belongs_to :user
-  has_many :BillingByParametersCall
+  has_many :BillingByParametersCalls
 
   validates :name, presence: true
   validates :user, presence: true

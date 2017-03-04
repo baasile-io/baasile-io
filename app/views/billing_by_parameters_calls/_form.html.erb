@@ -1,0 +1,13 @@
+<%= simple_form_for [current_service, @billing, @billing_by_parameters_call] do |f| %>
+  <%= error_messages_for(@billing_by_parameters_call) %>
+  <%= f.input :name %>
+  <%= f.input :parameter %>
+  <%= f.input :free_call %>
+  <%= f.input :periode_by_h_reset_free %>
+  <%= f.input :cost_by_call %>
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+<% end %>

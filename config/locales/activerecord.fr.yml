@@ -6,6 +6,13 @@ fr:
         base_cost: 'Prix fix'
         free_hour: "Nombres d'heures gratuites"
         cost_by_time: 'Prix par heures'
+      billing_by_parameters_call:
+        name: 'Nom'
+        parameter: 'Parametre'
+        free_call: "Nombres d'appels gratuits"
+        periode_by_h_reset_free: 'remise a 0 des appels gratuit'
+        cost_by_call: 'cout par appels'
+        billing: 'billing'
       company:
         name: 'Nom'
       contact_detail:
@@ -115,6 +122,7 @@ fr:
         phone: 'Téléphone'
     models:
       billing: 'Billing'
+      billing_by_parameters_call: 'parametre de billing en fonction des appels'
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'

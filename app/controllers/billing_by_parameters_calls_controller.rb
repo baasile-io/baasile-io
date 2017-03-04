@@ -1,4 +1,4 @@
-class BillingByParametersCalls < ApplicationController
+class BillingByParametersCallsController < ApplicationController
   before_action :authenticate_user!
   before_action :is_commercial?
   before_action :load_service_and_authorize!
@@ -14,15 +14,15 @@ class BillingByParametersCalls < ApplicationController
   end
 
   def index
-    @collection = Billing_by_parameters_call.where(billing: @billing)
+    @collection = BillingByParametersCall.where(billing: @billing)
   end
 
   def new
-    @billing_by_parameters_call = Billing_by_parameters_call.new
+    @billing_by_parameters_call = BillingByParametersCall.new
   end
 
   def create
-    @billing_by_parameters_call = Billing_by_parameters_call.new
+    @billing_by_parameters_call = BillingByParametersCall.new
     @billing_by_parameters_call.user = current_user
     @billing_by_parameters_call.billing = current_billing
     @billing_by_parameters_call.assign_attributes(billing_by_parameters_call_params)
@@ -68,18 +68,19 @@ class BillingByParametersCalls < ApplicationController
   private
 
   def redirect_to_index
-    return redirect_to service_billing_by_parameters_calls_path(current_service)
+    return redirect_to service_billing_path(current_service, @billing)
+    #return redirect_to service_billing_billing_by_parameters_calls_path(current_service)
   end
 
   def redirect_to_show
-    return redirect_to service_billing_by_parameters_call_path(current_service, @billing)
+    return redirect_to service_billing_path(current_service, @billing)
   end
 
   def load_billing_by_parameters_call
-    @billing_by_parameters_call = Billing_by_parameters_call.find(params[:id])
+    @billing_by_parameters_call = BillingByParametersCall.find(params[:id])
   end
 
-  def load_billing_and_authorize
+  def load_billing_and_authorize!
     if params.key?(:billing_id)
       @billing = Billing.find(params[:billing_id])
     else
@@ -101,7 +102,7 @@ class BillingByParametersCalls < ApplicationController
   end
 
   def billing_by_parameters_call_params
-    allowed_parameters = [:name]
+    allowed_parameters = [:name, :parameter, :free_call, :periode_by_h_reset_free, :cost_by_call]
     params.require(:billing_by_parameters_call).permit(allowed_parameters)
   end
 

@@ -49,6 +49,9 @@ Rails.application.routes.draw do
       post :toogle_activate
     end
     resources :billings do
+      resources :billing_by_parameters_calls do
+        post :toogle_activate
+      end
       post :toogle_activate
     end
     member do

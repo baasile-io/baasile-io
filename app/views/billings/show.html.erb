@@ -1,4 +1,17 @@
 <% content_for(:page_title) { @billing.name } %>
+<% if current_user.is_admin? || @billing.user == current_user %>
+    <%= content_for(:page_controls) { link_to t('actions.destroy'), service_billing_path(current_service, @billing), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete } %>
+<% end %>
+<% if current_user.is_admin? || @billing.user == current_user %>
+    <% if @billing.activate %>
+        <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% else %>
+        <%= content_for(:page_controls) { link_to t('actions.activate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% end %>
+<% end %>
+<% if current_user.is_commercial_to_create? %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_service_billing_billing_by_parameters_call_path(current_service, @billing), class: 'btn btn-primary' } %>
+<% end %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -19,15 +32,6 @@
       </tr>
       </tbody>
     </table>
-    <% if current_user.is_admin? || @billing.user == current_user %>
-      <%= button_to t('actions.destroy'), service_billing_path(current_service, @billing), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
-    <% end %>
-    <% if current_user.is_admin? || @billing.user == current_user %>
-      <% if @billing.activate %>
-        <%= button_to t('actions.deactivate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-      <% else %>
-        <%= button_to t('actions.activate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
-      <% end %>
-    <% end %>
+    <%= render 'show_billing_by_parameters_calls' %>
   </div>
 </div>

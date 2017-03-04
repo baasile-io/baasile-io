@@ -6,6 +6,13 @@ en:
         base_cost: 'Fixed prices'
         free_hour: 'Free using hours'
         cost_by_time: 'Hours prices'
+      billing_by_parameters_call:
+        name: 'Name'
+        parameter: 'parameter'
+        free_call: 'Free calls'
+        periode_by_h_reset_free: 'reset periode'
+        cost_by_call: 'calls prices'
+        billing: 'billing'
       company:
         name: 'Name'
       contact_detail:
@@ -110,6 +117,7 @@ en:
         phone: 'Phone Number'
     models:
       billing: 'Billing'
+      billing_by_parameters_call: 'billings parameters by calls'
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'

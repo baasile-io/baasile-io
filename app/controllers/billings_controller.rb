@@ -3,6 +3,7 @@ class BillingsController < ApplicationController
   before_action :is_commercial?
   before_action :load_service_and_authorize!
   before_action :load_billing, only: [:show, :edit, :update, :destroy]
+  before_action :load_billing_by_parameters_calls, only: [:show]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -65,6 +66,10 @@ class BillingsController < ApplicationController
   end
 
   private
+
+  def load_billing_by_parameters_calls
+    @billing_by_parameters_calls = BillingByParametersCall.where(billing_id: @billing.id)
+  end
 
   def redirect_to_index
     return redirect_to service_billings_path(current_service)

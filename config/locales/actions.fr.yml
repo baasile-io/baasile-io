@@ -1,6 +1,7 @@
 fr:
   actions:
     activate: 'Activer'
+    add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
     admin_list: 'liste des administrateurs'
     back: '<< Retour'
