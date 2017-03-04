@@ -28,27 +28,11 @@ class Contract < ApplicationRecord
     user.has_role?(:superadmin) || user.has_role?(:commercial)
   end
 
-  def is_accounting_startup?(user)
-    user.has_role?(:superadmin) || user.has_role?(:accounting, self.startup)
+  def is_accounting?(user, scope = :client)
+    user.has_role?(:superadmin) || user.has_role?(:accounting, self.send(scope))
   end
 
-  def is_accounting_client?(user)
-    user.has_role?(:superadmin) || user.has_role?(:accounting, self.client)
-  end
-
-  def is_accounting_company?(user)
-    user.has_role?(:superadmin) || user.has_role?(:accounting, self.company)
-  end
-
-  def is_commercial_client?(user)
-    user.has_role?(:superadmin) || user.has_role?(:commercial, self.client)
-  end
-
-  def is_commercial_startup?(user)
-    user.has_role?(:superadmin) || user.has_role?(:commercial, self.startup)
-  end
-
-  def is_commercial_company?(user)
-    user.has_role?(:superadmin) || user.has_role?(:commercial, self.company)
+  def is_commercial?(user, scope = :client)
+    user.has_role?(:superadmin) || user.has_role?(:commercial, self.send(scope))
   end
 end

@@ -77,19 +77,19 @@ class ContractsController < ApplicationController
 
   def commercial_validation
     if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
-      if @contract.is_commercial_client?(current_user)
+      if @contract.is_commercial?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
     elsif Contract.statuses[@contract.status] < 4
-      if @contract.is_commercial_startup?(current_user)
+      if @contract.is_commercial?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
     elsif Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] >= 4
-      if @contract.is_accounting_client?(current_user)
+      if @contract.is_accounting?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
     elsif Contract.statuses[@contract.status] >= 4
-      if @contract.is_accounting_startup?(current_user)
+      if @contract.is_accounting?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
     end
