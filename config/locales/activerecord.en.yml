@@ -1,6 +1,8 @@
 en:
   activerecord:
     attributes:
+      billing:
+        name: 'Name'
       company:
         name: 'Name'
       contact_detail:
@@ -104,6 +106,7 @@ en:
         password_confirmation: 'Password confirmation'
         phone: 'Phone Number'
     models:
+      billing: 'Billing'
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'

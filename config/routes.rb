@@ -48,6 +48,9 @@ Rails.application.routes.draw do
       post :commercial_reject
       post :toogle_activate
     end
+    resources :billings do
+      post :toogle_activate
+    end
     member do
       post :public_set
       post :public_unset

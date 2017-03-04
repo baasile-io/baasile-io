@@ -109,6 +109,7 @@ fr:
         password_confirmation: 'Confirmation du mot de passe'
         phone: 'Téléphone'
     models:
+      billing: 'Billing'
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'

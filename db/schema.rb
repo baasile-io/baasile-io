@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222134923) do
+ActiveRecord::Schema.define(version: 20170303160639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "billing_by_parameters_calls", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "billing_id"
+    t.string   "parameter"
+    t.integer  "free_call",               default: 0
+    t.integer  "periode_by_h_reset_free"
+    t.decimal  "cost_by_call",            default: "0.0"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
+
+  create_table "billings", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "base_cost",    default: "0.0"
+    t.integer  "free_hour",    default: 0
+    t.decimal  "cost_by_time", default: "0.0"
+    t.integer  "user_id"
+    t.boolean  "activate",     default: true
+    t.integer  "service_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["service_id"], name: "index_billings_on_service_id", using: :btree
+  end
 
   create_table "companies", force: :cascade do |t|
     t.integer  "parent_id"

@@ -1,0 +1,22 @@
+<% content_for(:page_title) { @contract.name } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <%= link_to t('actions.edit'), edit_service_contract_path(current_service, @billing), class: 'btn btn-secondary' %>
+    <table class="table">
+      <tbody>
+
+      </tbody>
+    </table>
+    <% if current_user.is_admin? || @contract.user == current_user %>
+      <%= button_to t('actions.destroy'), service_billing_path(current_service, @billing), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+    <% end %>
+    <% if current_user.is_admin? || @contract.user == current_user %>
+      <% if @contract.activate %>
+        <%= button_to t('actions.deactivate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+      <% else %>
+        <%= button_to t('actions.activate'), service_billing_toogle_activate_path(current_service, @billing, id: @billing.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

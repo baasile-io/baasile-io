@@ -1,0 +1,24 @@
+fr:
+  billings:
+    edit:
+      title: 'Paramètres'
+    index:
+      title: 'Billings'
+    new:
+      title: 'Créer un nouveau billing'
+    show:
+      title: 'Tableau de bord'
+    update:
+      title: 'Paramètres'
+  back_office:
+    billings:
+      edit:
+        title: 'Paramètres'
+      index:
+        title: 'Billings'
+      new:
+        title: 'Créer un nouveau billing'
+      show:
+        title: 'Tableau de bord'
+      update:
+        title: 'Paramètres'
