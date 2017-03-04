@@ -40,7 +40,7 @@
       </tbody>
     </table>
     <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < 6 %>
-      <% if @contract.is_commercial_client?(current_user) %>
+      <% if @contract.is_commercial?(current_user, :client) %>
         <% if !current_company.nil? %>
           <%= button_to t("types.contract_status.#{@contract.status}"), company_contract_commercial_validation_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
         <% elsif !current_service.nil? %>
@@ -59,7 +59,7 @@
       <% end %>
     <% end %>
     <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < 6 && Contract.statuses[@contract.status] > 1 %>
-      <% if @contract.is_commercial_client?(current_user) %>
+      <% if @contract.is_commercial?(current_user, :client) %>
         <% if !current_company.nil? %>
           <%= button_to t("types.contract_unset_status.#{@contract.status}"), company_contract_commercial_reject_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
         <% elsif !current_service.nil? %>
