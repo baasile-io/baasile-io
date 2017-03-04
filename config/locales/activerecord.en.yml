@@ -8,11 +8,11 @@ en:
         cost_by_time: 'Hours prices'
       billing_by_parameters_call:
         name: 'Name'
-        parameter: 'parameter'
+        parameter: 'Parameter'
         free_call: 'Free calls'
-        periode_by_h_reset_free: 'reset periode'
-        cost_by_call: 'calls prices'
-        billing: 'billing'
+        periode_by_h_reset_free: 'Reset periode'
+        cost_by_call: 'Calls prices'
+        billing: 'Billing'
       company:
         name: 'Name'
       contact_detail:
@@ -117,7 +117,7 @@ en:
         phone: 'Phone Number'
     models:
       billing: 'Billing'
-      billing_by_parameters_call: 'billings parameters by calls'
+      billing_by_parameters_call: 'Billings parameters by calls'
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'
