@@ -2,7 +2,7 @@ class BillingByParametersCalls < ApplicationController
   before_action :authenticate_user!
   before_action :is_commercial?
   before_action :load_service_and_authorize!
-  before_action :load_billing_and_authorize
+  before_action :load_billing_and_authorize!
   before_action :load_billing_by_parameters_call, only: [:show, :edit, :update, :destroy]
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -90,9 +90,14 @@ class BillingByParametersCalls < ApplicationController
   def load_service_and_authorize!
     if params.key?(:service_id)
       @service = Service.find(params[:service_id])
+      return head(:forbidden) unless is_commercial_of_current_service?
     else
       return head(:forbidden)
     end
+  end
+
+  def is_commercial_of_current_service?
+    current_user.has_role?(:superadmin) || current_user.has_role?( :commercial, current_service)
   end
 
   def billing_by_parameters_call_params

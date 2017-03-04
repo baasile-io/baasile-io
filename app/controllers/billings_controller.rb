@@ -81,9 +81,14 @@ class BillingsController < ApplicationController
   def load_service_and_authorize!
     if params.key?(:service_id)
       @service = Service.find(params[:service_id])
+      return head(:forbidden) unless is_commercial_of_current_service?
     else
       return head(:forbidden)
     end
+  end
+
+  def is_commercial_of_current_service?
+    current_user.has_role?(:superadmin) || current_user.has_role?( :commercial, current_service)
   end
 
   def billing_params
