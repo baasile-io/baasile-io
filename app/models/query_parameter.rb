@@ -1,7 +1,9 @@
 class QueryParameter < ApplicationRecord
-
   MODES = {optional: 1, mandatory: 2, forbidden: 3}
   enum mode: MODES
+
+  # Versioning
+  has_paper_trail
 
   belongs_to :route
   belongs_to :user

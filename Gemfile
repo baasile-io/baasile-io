@@ -34,6 +34,7 @@ gem 'airbrake'
 
 # Databases
 gem 'pg', '~>0.19'
+gem 'paper_trail'
 
 # Cache store
 gem 'redis-rails'

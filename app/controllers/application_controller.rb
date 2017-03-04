@@ -1,8 +1,11 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+
   # reset captcha code after each request for security
   after_action :reset_last_captcha_code!
 
-  protect_from_forgery with: :exception
+  # Versioning
+  before_action :set_paper_trail_whodunnit
 
   helper_method :current_company
   helper_method :current_service

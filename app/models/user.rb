@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # Versioning
+  has_paper_trail
+
   # Include default devise modules. Others available are:
   #  :omniauthable :password_archivable
   devise :database_authenticatable, :registerable, :timeoutable,

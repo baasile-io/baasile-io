@@ -3,6 +3,9 @@ class Proxy < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
+  # Versioning
+  has_paper_trail
+
   belongs_to :service
   belongs_to :user
 
