@@ -2,10 +2,21 @@
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <%= link_to t('actions.edit'), edit_service_contract_path(current_service, @billing), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.edit'), edit_service_billing_path(current_service, @billing), class: 'btn btn-secondary' %>
     <table class="table">
       <tbody>
-
+      <tr>
+        <td><%= t('activerecord.attributes.billing.base_cost') %></td>
+        <td><%= @billing.base_cost %></td>
+      </tr>
+      <tr>
+        <td><%= t('activerecord.attributes.billing.free_hour') %></td>
+        <td><%= @billing.free_hour %></td>
+      </tr>
+      <tr>
+        <td><%= t('activerecord.attributes.billing.cost_by_time') %></td>
+        <td><%= @billing.cost_by_time %></td>
+      </tr>
       </tbody>
     </table>
     <% if current_user.is_admin? || @billing.user == current_user %>

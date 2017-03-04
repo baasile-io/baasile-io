@@ -1,6 +1,11 @@
 fr:
   activerecord:
     attributes:
+      billing:
+        name: 'Nom'
+        base_cost: 'Prix fix'
+        free_hour: "Nombres d'heures gratuites"
+        cost_by_time: 'Prix par heures'
       company:
         name: 'Nom'
       contact_detail:

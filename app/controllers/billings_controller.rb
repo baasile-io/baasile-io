@@ -87,7 +87,7 @@ class BillingsController < ApplicationController
   end
 
   def billing_params
-    allowed_parameters = [:name]
+    allowed_parameters = [:name, :base_cost, :free_hour, :cost_by_time]
     params.require(:billing).permit(allowed_parameters)
   end
 

@@ -3,6 +3,9 @@ en:
     attributes:
       billing:
         name: 'Name'
+        base_cost: 'Fixed prices'
+        free_hour: 'Free using hours'
+        cost_by_time: 'Hours prices'
       company:
         name: 'Name'
       contact_detail:
