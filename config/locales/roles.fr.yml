@@ -1,20 +1,25 @@
 fr:
   roles:
+    accountant:
+      description: 'Un comptable peut voir les contrats et gérer les paiements.'
+      icon: 'fa fa-fw fa-credit-card'
+      title: 'Comptable'
+      title_long: 'Comptable'
     admin:
-      description: 'Un administrateur de compagnie peut créer des compagnies et administrer des clients.'
+      description: 'Un administrateur peut créer des compagnies, des utilisateurs et administrer des clients.'
       icon: 'fa fa-fw fa-user-circle'
       title: 'Administrateur'
-      title_long: 'Administrateur de compagnie'
+      title_long: 'Administrateur'
     commercial:
       description: 'Un commercial peut créer des contrats pour le compte de ses clients ou startups.'
       icon: 'fa fa-fw fa-handshake-o'
       title: 'Commercial'
       title_long: 'Commercial'
     developer:
-      description: 'Un startuper peut créer des startups et configurer leurs APIs.'
+      description: 'Un technicien peut créer des startups et configurer leurs APIs.'
       icon: 'fa fa-fw fa-user'
-      title: 'Startuper'
-      title_long: 'Startuper'
+      title: 'Technicien'
+      title_long: 'Technicien'
     superadmin:
       description: 'Un Super-Administrateur de la plateforme a accès à tout en lecture et écriture.'
       icon: 'fa fa-fw fa-star'

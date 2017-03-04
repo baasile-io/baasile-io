@@ -10,37 +10,31 @@
 
 <body>
 
-  <div class="container-fluid">
-
-    <div class="b-io-topbar">
-      <div class="container-fluid">
-        <%= render 'shared/topbar' %>
-      </div>
+  <div class="b-io-topbar">
+    <div class="container-fluid">
+      <%= render 'shared/topbar' %>
     </div>
+  </div>
 
-    <%= render 'shared/header' %>
+  <%= render 'shared/header' %>
+
+  <div class="container">
     <%= render 'shared/flash' %>
 
     <div class="b-io-main-container">
 
-      <% unless current_proxy.nil? %>
-        <div class="b-io-menu">
-          <%= render 'shared/menu' %>
-        </div>
-      <% end %>
-
-      <div class="b-io-content <%= 'b-io-content--with-menu' unless current_proxy.nil? %>">
+      <div class="b-io-content">
         <div class="b-io-content--header">
           <div class="container-fluid">
             <% if content_for?(:page_controls) %>
               <div class="b-io-content--header--controls"><%= content_for(:page_controls) %></div>
             <% end %>
-            <h3>
+            <h4>
               <% if content_for?(:page_back) %>
                 <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
               <% end %>
               <%= content_for(:page_title) %>
-            </h3>
+            </h4>
             <% if content_for?(:page_description) %>
               <p><%= content_for(:page_description) %></p>
             <% end %>
@@ -50,8 +44,13 @@
         <%= yield %>
       </div>
     </div>
+
   </div>
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script type="text/javascript">
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
+
 </body>
 </html>

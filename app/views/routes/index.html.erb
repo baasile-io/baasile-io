@@ -4,21 +4,33 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-hover table-sm">
+    <table class="table table-hover table-sm table-link">
       <thead>
       <tr>
-        <th><%= t('activerecord.attributes.route.name') %></th>
+        <th colspan="2" class="width-40"><%= t('activerecord.attributes.route.name') %></thcolspan>
+        <th><%= t('activerecord.attributes.route.url_test') %></th>
         <th><%= t('activerecord.attributes.route.url') %></th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |route| %>
-        <tr>
-          <td><%= route.name %></td>
-          <td><%= route.url %></td>
+        <tr data-link="<%= service_proxy_route_path(current_service, route.proxy, route) %>">
+          <td class="width-3">
+            <i class="fa fa-fw fa-2x fa-sitemap"></i>
+          </td>
+          <td>
+            <strong><%= route.name %></strong><br />
+            <small class="text-muted"><%= route.description %></small>
+          </td>
+          <td>
+            <input type="text" class="form-control form-control-sm" readonly="readonly" value="<%= route.uri_test %>">
+          </td>
+          <td>
+            <input type="text" class="form-control form-control-sm" readonly="readonly" value="<%= route.uri %>">
+          </td>
           <td class="text-right">
-            <%= link_to t('misc.dashboard'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-sm btn-secondary' %>
+            <%= link_to t('actions.configure'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>
           </td>
         </tr>
       <% end %>

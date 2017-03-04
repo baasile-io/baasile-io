@@ -1,18 +1,26 @@
 fr:
   actions:
     activate: 'Activer'
+    add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
+    add_association: 'Ajouter une association'
     admin_list: 'liste des administrateurs'
+    associate: 'Associer'
     back: '<< Retour'
     change_password: 'Changer de mot de passe'
     configure: 'Configurer'
+    confirm_email: "Confirmer l'adresse E-Mail"
+    create_client: 'Créer un nouveau compte client'
+    create_startup: 'Créer une nouvelle compte startup'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
+    disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
     infos: 'Infos'
     new: 'Créer'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
+    reset_identifiers: 'Réinitialiser les identifiants de connexion'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
     return: 'Retour'
@@ -24,6 +32,7 @@ fr:
     set_admin: "Ajouter les droits admin"
     unset_admin: "Enlever les droits admin"
     sign_in: 'Se connecter'
+    sign_in_as: 'Se connecter en tant que...'
     signin_in: 'Connexion...'
     sign_out: 'Se déconnecter'
     sign_up: "S'inscrire"

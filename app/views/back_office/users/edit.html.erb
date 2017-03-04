@@ -1,16 +1,19 @@
 <% content_for(:back_link) { back_office_users_path } %>
 <% content_for(:page_back) { back_office_users_path } %>
-<% content_for(:page_title) { @page_title } %>
+<% content_for(:page_title) { @page_title.html_safe } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" href="#">Modifier</a>
+        <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%= permissions_back_office_user_path(@user) %>">Permissions</a>
+        <a class="nav-link" href="<%= permissions_back_office_user_path(@user) %>"><%= t('misc.permissions') %></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= audit_back_office_user_path(@user) %>"><%= t('misc.audit') %></a>
       </li>
     </ul>
 

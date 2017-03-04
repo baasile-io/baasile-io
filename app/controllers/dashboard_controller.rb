@@ -1,7 +1,9 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_schema
-  before_action :authorize_user
+
+  # Authorization
+  before_action :authorize_action
 
   def authenticate_schema
     if current_service.nil? || !current_service.is_activated?
@@ -14,11 +16,11 @@ class DashboardController < ApplicationController
     @current_service ||= Service.find(params[:service_id])
   end
 
-  def authorize_user
-    return head(:forbidden) unless current_user.has_role?(:superadmin) || current_user.has_role?(:developer, current_service)
-  end
-
   def current_module
     'dashboard'
+  end
+
+  def current_authorized_resource
+    current_service
   end
 end

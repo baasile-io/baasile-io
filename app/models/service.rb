@@ -1,26 +1,39 @@
 class Service < ApplicationRecord
+  # Versioning
+  has_paper_trail
+
   # User rights
   resourcify
-  after_create :assign_default_user_role
+  after_save :create_default_user_association
+  after_save :assign_default_user_roles
+
+  # Ancestry
+  has_ancestry orphan_strategy: :adopt
 
   # Service rights
   rolify strict: true, role_join_table_name: 'public.services_roles'
 
-  SERVICE_TYPES = {startup: {index: 1}, client: {index: 2}}
+  SERVICE_TYPES = {startup: {index: 1}, client: {index: 2}, company: {index: 3}}
   SERVICE_TYPES_ENUM = SERVICE_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum service_type: SERVICE_TYPES_ENUM
 
   belongs_to :user
   belongs_to :company
+  belongs_to :main_commercial, class_name: 'User', foreign_key: 'main_commercial_id'
+  belongs_to :main_accountant, class_name: 'User', foreign_key: 'main_accountant_id'
+  belongs_to :main_developer, class_name: 'User', foreign_key: 'main_developer_id'
   has_many :proxies
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens
 
+  has_many :user_associations, as: :associable
+  has_many :users, through: :user_associations
+
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
-  validates :description, presence: true
+  validates :description, presence: true, if: Proc.new{ self.public }
 
   validates :service_type, presence: true
   before_save :public_validation
@@ -28,7 +41,7 @@ class Service < ApplicationRecord
   validates :website, url: true, allow_blank: true
 
   validates :subdomain, presence: true, if: :is_activated?
-  validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { !subdomain.nil? }
+  validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
@@ -39,15 +52,17 @@ class Service < ApplicationRecord
                             presence: true,
                             if: :confirmed_at?
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
+  validate :company_ancestry_validation
+
   scope :owned, ->(user) { where(user: user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
   scope :associated, ->(company) { where(company: company) }
+  scope :companies, -> { where(service_type: SERVICE_TYPES[:company][:index]) }
 
   scope :published, -> { where('confirmed_at IS NOT NULL AND public = true') }
 
   def authorized?(user)
-    user.is_superadmin? || (self.company && user.is_admin_of?(self.company)) || user.has_role?(:developer, self)
+    user.is_superadmin? || (self.company && user.is_admin_of?(self.company)) || user.services.exists?(self)
   end
 
   def associated?(user)
@@ -65,7 +80,7 @@ class Service < ApplicationRecord
   end
 
   def is_activated?
-    !self.confirmed_at.nil?
+    !self.confirmed_at.nil? && self.is_activable?
   end
 
   def is_activable?
@@ -82,8 +97,18 @@ class Service < ApplicationRecord
     end
   end
 
-  def assign_default_user_role
-    self.user.add_role(:developer, self)
+  def create_default_user_association
+    self.user.user_associations.first_or_create(associable: self) if self.user
+    self.main_commercial.user_associations.first_or_create(associable: self) if self.main_commercial
+    self.main_accountant.user_associations.first_or_create(associable: self) if self.main_accountant
+    self.main_developer.user_associations.first_or_create(associable: self) if self.main_developer
+  end
+
+  def assign_default_user_roles
+    self.user.add_role(:admin, self) unless self.user.has_role?(:admin, self) if self.user
+    self.main_commercial.add_role(:commercial, self) if self.main_commercial && !self.main_commercial.has_role?(:commercial, self)
+    self.main_accountant.add_role(:commercial, self) if self.main_accountant && !self.main_accountant.has_role?(:commercial, self)
+    self.main_developer.add_role(:commercial, self) if self.main_developer && !self.main_developer.has_role?(:commercial, self)
   end
 
   def activate
@@ -95,6 +120,12 @@ class Service < ApplicationRecord
     end
   end
 
+  def reset_identifiers
+    self.generate_client_id!
+    self.generate_client_secret!
+    self.save!
+  end
+
   def deactivate
     self.confirmed_at = nil
     self.save
@@ -104,5 +135,34 @@ class Service < ApplicationRecord
     if self.is_client?
       self.public = false
     end
+  end
+
+  def to_s
+    name
+  end
+
+  def company_ancestry_validation
+    if self.service_type.to_sym == :company
+      if self.parent_id.present?
+        self.errors.add(:service_type, I18n.t('activerecord.validations.service.company_must_be_root'))
+        self.errors.add(:parent_id, I18n.t('activerecord.validations.service.company_must_not_depend_on_company'))
+      end
+    else
+      if self.has_children?
+        self.errors.add(:service_type, I18n.t('activerecord.validations.service.root_must_be_company'))
+      end
+    end
+  end
+
+  def clients
+    self.children.where(service_type: SERVICE_TYPES[:client][:index])
+  end
+
+  def startups
+    self.children.where(service_type: SERVICE_TYPES[:startup][:index])
+  end
+
+  def is_company?
+    self.service_type.to_s == 'company'
   end
 end

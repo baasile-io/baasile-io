@@ -3,9 +3,15 @@ class Company < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
+  # Versioning
+  has_paper_trail
+
   belongs_to :user
   has_many :services
   has_one :contact_detail, as: :contactable, dependent: :destroy
+
+  has_many :user_associations, as: :associable
+  has_many :users, through: :user_associations
 
   after_destroy :remove_services_associations
 

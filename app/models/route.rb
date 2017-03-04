@@ -1,4 +1,7 @@
 class Route < ApplicationRecord
+  # Versioning
+  has_paper_trail
+
   resourcify
   after_create :assign_default_user_role
 
@@ -20,6 +23,7 @@ class Route < ApplicationRecord
 
   validates :name, uniqueness: {scope: :proxy_id}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
+  validates :url, format: {with: /\A\//}, presence: true
   validate :validate_methods
 
   def validate_methods
@@ -51,5 +55,9 @@ class Route < ApplicationRecord
 
   def uri_test
     "#{protocol_test || proxy.proxy_parameter_test.protocol}://#{hostname_test.present? ? hostname_test : proxy.proxy_parameter_test.hostname}:#{port_test.present? ? port_test : proxy.proxy_parameter_test.port}#{url}"
+  end
+
+  def to_s
+    name
   end
 end

@@ -1,0 +1,46 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th colspan="2"><%= t('activerecord.attributes.user.full_name') %></th>
+        <th><%= t('activerecord.attributes.user.phone') %></th>
+        <th><%= t('activerecord.attributes.user.last_activity_at') %></th>
+        <% Role::USER_ROLES.each do |scope| %>
+          <th class="text-right width-5"><i class="<%= t("roles.#{scope}.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.#{scope}.title") %>"></i></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td class="width-3">
+            <i class="fa fa-fw fa-user fa-2x"></i>
+          </td>
+          <td>
+            <strong><%= user.full_name %></strong><br />
+            <small class="text-muted"><%= "<i class=\"fa fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i>".html_safe if user.confirmed_at.nil? %> <%= user.email %></small>
+          </td>
+          <td>
+            <small><%= user.phone.present? ? user.phone : '---' %></small>
+          </td>
+          <td>
+            <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small>
+          </td>
+          <% Role::USER_ROLES.each do |scope| %>
+            <td class="text-right">
+              <% if user.has_role?(scope, current_service) %>
+                <i class="fa fa-fw <%= t("roles.#{scope}.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.#{scope}.title") %>"></i>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

@@ -7,13 +7,32 @@ fr:
       mandatory: 'obligatoire'
       optional: 'optionnel'
       forbidden: 'interdit'
+    query_parameter_types:
+      body:
+        icon: ''
+        title: 'BODY'
+      get:
+        icon: ''
+        title: 'GET'
+      header:
+        icon: ''
+        title: 'HEADER'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
     genders:
-      male: 'Monsieur'
-      female: 'Madame'
+      male: 'M.'
+      female: 'Mme'
     service_types:
-      service: 'Service'
-      startup: 'Startup'
-      client: 'Client'
+      startup:
+        class: 'text-danger'
+        icon: 'fa fa-fw fa-cube text-danger'
+        title: 'Startup'
+      client:
+        class: 'text-info'
+        icon: 'fa fa-fw fa-cube text-info'
+        title: 'Client'
+      company:
+        class: ''
+        icon: 'fa fa-fw fa-cubes'
+        title: 'Compagnie'

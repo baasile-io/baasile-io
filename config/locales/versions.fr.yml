@@ -1,0 +1,8 @@
+fr:
+  shared:
+    versions:
+      audit: 'Historique'
+      events:
+        create: 'Création'
+        destroy: 'Suppression'
+        update: 'Modification'

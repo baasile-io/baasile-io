@@ -1,8 +1,11 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+
   # reset captcha code after each request for security
   after_action :reset_last_captcha_code!
 
-  protect_from_forgery with: :exception
+  # Versioning
+  before_action :set_paper_trail_whodunnit
 
   helper_method :current_company
   helper_method :current_service
@@ -54,5 +57,20 @@ class ApplicationController < ActionController::Base
 
   def add_breadcrumb_current_action
     add_breadcrumb I18n.t("#{controller_name}.#{action_name}.title")
+  end
+
+  # Authorization
+  def authorized_roles(controller_name, action_name)
+    Role::CONTROLLER_AUTHORIZATIONS[controller_name.to_sym][action_name.to_sym] || []
+  end
+  helper_method :authorized_roles
+
+  def authorize_action
+    if current_authorized_resource
+      roles = authorized_roles(controller_name, action_name)
+      unless current_user.has_role?(:superadmin) || (current_authorized_resource.users.exists?(current_user) && current_user.has_role?(roles, current_authorized_resource))
+        return head(:forbidden)
+      end
+    end
   end
 end

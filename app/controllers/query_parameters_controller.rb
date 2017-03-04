@@ -1,7 +1,6 @@
 class QueryParametersController < DashboardController
-  before_action :authorize_proxy
   before_action :load_query_parameter, only: [:show, :edit, :update, :destroy]
-  before_action :load_collection, only: [:index, :create]
+  before_action :load_query_parameters, only: [:index, :create]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:index, :show]
@@ -14,10 +13,6 @@ class QueryParametersController < DashboardController
     add_breadcrumb I18n.t('routes.index.title'), :service_proxy_routes_path
     add_breadcrumb current_route.name, service_proxy_route_path(current_service, current_proxy, current_route)
     add_breadcrumb I18n.t('query_parameters.index.title'), :service_proxy_route_query_parameters_path
-  end
-
-  def authorize_proxy
-    return head(:forbidden) unless current_proxy.authorized?(current_user)
   end
 
   def new
@@ -59,9 +54,8 @@ class QueryParametersController < DashboardController
   end
 
   def query_parameter_params
-    params.require(:query_parameter).permit(:name, :mode)
+    params.require(:query_parameter).permit(:name, :description, :mode, :query_parameter_type)
   end
-
 
   def load_query_parameter
     @query_parameter = QueryParameter.find_by_id(params[:id])
@@ -76,7 +70,7 @@ class QueryParametersController < DashboardController
     @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
   end
 
-  def load_collection
+  def load_query_parameters
     @collection = current_route.query_parameters
   end
 end

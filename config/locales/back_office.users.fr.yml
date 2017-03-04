@@ -9,6 +9,8 @@ fr:
         title: 'Modifier'
       form:
         hints:
+          confirm_email: "Cochez la case pour confirmer l'adresse E-Mail de l'utilisateur."
+          parent_id: "Un responsable peut gérer les permissions de l'utilisateur."
           send_reset_password: "Cochez la case pour réinitialiser le mot de passe et envoyer les instructions par E-Mail."
           send_welcome_instructions: "Cochez la case pour envoyer un courriel de bienvenue contenant un mot de passe temporaire et inviter l'utilisateur à choisir son propre mot de passe lors de sa première connexion."
           skip_confirmation: "Cochez la case pour valider l'adresse E-Mail et ne pas envoyer le courriel de validation."

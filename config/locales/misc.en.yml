@@ -1,6 +1,8 @@
 en:
   misc:
+    activated: "Activated"
     advanced_permissions: 'Advanced permissions'
+    authentification_identifiers: 'Login credentials'
     back_office: 'Back Office'
     captcha: 'Verification code'
     captcha_hint: 'Please copy the verification code.'
@@ -11,7 +13,14 @@ en:
     locales:
       en: 'English'
       fr: 'French'
-    parameters: 'Parameters'
+    my_services: 'My services'
+    none: 'None'
+    none_feminized: 'None'
+    nothing_to_display: "Nothing to show in this section."
+    overview: 'Overview'
+    parameters: 'Settings'
     permissions: 'Permissions'
     profile: 'Profile'
+    role: 'Role'
     roles: 'Roles'
+    unconfirmed: 'Not active'
