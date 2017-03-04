@@ -18,14 +18,13 @@ class BillingsController < ApplicationController
 
   def new
     @billing = Billing.new
-    @billing.service = current_service
   end
 
   def create
     @billing = Billing.new
     @billing.user = current_user
+    @billing.service = current_service
     @billing.assign_attributes(billing_params)
-    @billing.status = 1
     if @billing.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.billing'))
       redirect_to_show
@@ -88,7 +87,7 @@ class BillingsController < ApplicationController
   end
 
   def billing_params
-    allowed_parameters = [:name, :service]
+    allowed_parameters = [:name]
     params.require(:billing).permit(allowed_parameters)
   end
 
