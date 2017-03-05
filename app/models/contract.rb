@@ -7,6 +7,7 @@ class Contract < ApplicationRecord
   belongs_to :company
   belongs_to :client, class_name: "Service"
   belongs_to :startup, class_name: "Service"
+  belongs_to :billing
 
   validates :name, presence: true
   validates :startup_id, presence:true

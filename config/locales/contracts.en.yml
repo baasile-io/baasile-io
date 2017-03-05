@@ -6,6 +6,8 @@ en:
       title: 'List of contracts'
     new:
       title: 'Create a new contract'
+    set_billing:
+      title: 'set billing'
     show:
       title: 'Dashboard'
     update:
@@ -18,6 +20,8 @@ en:
         title: 'List of contracts'
       new:
         title: 'Create a new contract'
+      set_billing:
+        title: 'set billing'
       show:
         title: 'Dashboard'
       update:

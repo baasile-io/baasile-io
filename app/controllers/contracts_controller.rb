@@ -4,9 +4,11 @@ class ContractsController < ApplicationController
   before_action :load_company
   before_action :load_service
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject, :toogle_activate]
+  before_action :load_contract_with_contract_id, only: [:set_billing, :update_billing]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
+  before_action :load_billing_associate_startup, only: [:show, :set_billing]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -125,7 +127,24 @@ class ContractsController < ApplicationController
     redirect_to_show
   end
 
+  def set_billing
+  end
+
+  def update_billing
+    @contract.assign_attributes(contract_params_billing)
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      redirect_to_show
+    else
+      render :set_billing
+    end
+  end
+
   private
+
+  def load_billing_associate_startup
+    @billings = Billing.where(service_id: @contract.startup_id)
+  end
 
   def redirect_to_index
     return redirect_to company_contracts_path(current_company) unless current_company.nil?
@@ -141,6 +160,10 @@ class ContractsController < ApplicationController
 
   def load_contract
     @contract = Contract.find(params[:id])
+  end
+
+  def load_contract_with_contract_id
+    @contract = Contract.find(params[:contract_id])
   end
 
   def load_active_services
@@ -169,6 +192,11 @@ class ContractsController < ApplicationController
     else
       @service = nil
     end
+  end
+
+  def contract_params_billing
+    allowed_parameters = [:billing_id]
+    params.require(:contract).permit(allowed_parameters)
   end
 
   def contract_params

@@ -4,10 +4,13 @@
   <div class="container-fluid">
     <% if !current_company.nil? %>
         <%= link_to t('actions.edit'), edit_company_contract_path(current_company, @contract), class: 'btn btn-secondary' %>
+        <%= link_to t('contracts.set_billing.title'), company_contract_set_billing_path(current_company, @contract), class: 'btn btn-secondary' %>
     <% elsif !current_service.nil? %>
         <%= link_to t('actions.edit'), edit_service_contract_path(current_service, @contract), class: 'btn btn-secondary' %>
+        <%= link_to t('contracts.set_billing.title'), service_contract_set_billing_path(current_service, @contract), class: 'btn btn-secondary' %>
     <% else %>
         <%= link_to t('actions.edit'), edit_contract_path(@contract), class: 'btn btn-secondary' %>
+        <%= link_to t('contracts.set_billing.title'), contract_set_billing_path(@contract), class: 'btn btn-secondary' %>
     <% end %>
     <table class="table">
       <tbody>
