@@ -45,4 +45,8 @@ class User < ApplicationRecord
     self.first_name.present? && self.last_name.present? ? "#{self.first_name} #{self.last_name}" : self.email
   end
 
+  def to_s
+    full_name
+  end
+
 end

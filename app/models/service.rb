@@ -108,4 +108,8 @@ class Service < ApplicationRecord
       self.public = false
     end
   end
+
+  def to_s
+    name
+  end
 end

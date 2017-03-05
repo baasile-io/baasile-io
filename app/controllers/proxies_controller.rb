@@ -90,7 +90,7 @@ class ProxiesController < DashboardController
   end
 
   def load_proxy_and_authorize
-    @proxy = Proxy.includes(:proxy_parameter, :proxy_parameter_test, {:proxy_parameter => :identifier}).find_by_id(params[:id])
+    @proxy = Proxy.includes(:proxy_parameter, :proxy_parameter_test, {:proxy_parameter => :identifier}, {:proxy_parameter_test => :identifier}).find_by_id(params[:id])
     return redirect_to services_path if @proxy.nil?
     unless @proxy.authorized?(current_user)
       return head(:forbidden)

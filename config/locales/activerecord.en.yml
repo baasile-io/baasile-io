@@ -39,14 +39,6 @@ en:
         port: 'Port'
         protocol: 'Protocol'
         realm: 'realm'
-      proxy_parameter_test:
-        authorization_mode: 'Authorization mode'
-        authorization_url: 'Authorization URL'
-        grant_type: 'Grant type'
-        hostname: 'Hostname'
-        port: 'Port'
-        protocol: 'Protocol'
-        realm: 'realm'
       query_parameter:
         name: 'Name'
         mode: 'Mode'
@@ -88,6 +80,11 @@ en:
         password: 'Password'
         password_confirmation: 'Password confirmation'
         phone: 'Phone Number'
+      versions:
+        created_at: 'Date'
+        event: 'Event'
+        object: 'Object'
+        whodunnit: 'Author'
     models:
       company: 'Company'
       contact_detail: 'Contact Detail'
@@ -99,6 +96,7 @@ en:
       route: 'Route'
       service: 'Service'
       user: 'User'
+      version: 'Version'
     validations:
       service:
         missing_subdomain: "The public identifier can't be blank"

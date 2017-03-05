@@ -42,4 +42,8 @@ class Proxy < ApplicationRecord
   def has_get_context?
     self.routes.where(name: 'getContext').count == 1
   end
+
+  def to_s
+    name
+  end
 end

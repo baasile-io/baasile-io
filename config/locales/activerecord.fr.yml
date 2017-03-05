@@ -42,16 +42,6 @@ fr:
         port: 'Port'
         protocol: 'Protocole'
         realm: 'realm'
-      proxy_parameter_test:
-        authorization_mode: "Mode d'autorisation"
-        authorization_url: "URL d'autorisation"
-        follow_redirection: 'Nombre de redirections maximum'
-        follow_url: "Suivre l'URL"
-        grant_type: 'Grant type'
-        hostname: 'Domaine'
-        port: 'Port'
-        protocol: 'Protocole'
-        realm: 'realm'
       query_parameter:
         name: 'Nom'
         mode: 'Mode'
@@ -93,6 +83,11 @@ fr:
         password: 'Mot de passe'
         password_confirmation: 'Confirmation du mot de passe'
         phone: 'Téléphone'
+      versions:
+        created_at: 'Date'
+        event: 'Evènement'
+        object: 'Objet'
+        whodunnit: 'Auteur'
     models:
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
@@ -104,6 +99,7 @@ fr:
       route: 'Route'
       service: 'Service'
       user: 'Utilisateur'
+      version: 'Version'
     validations:
       service:
         missing_subdomain: "L'identifiant publique doit être renseigné"
