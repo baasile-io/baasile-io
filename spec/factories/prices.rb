@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :billing_by_parameters_call do
+  factory :price do
     name "MyString"
   end
 end

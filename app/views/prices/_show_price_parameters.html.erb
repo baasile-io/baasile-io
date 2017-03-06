@@ -1,0 +1,43 @@
+
+<% @price_parameters.each do |price_parameter| %>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <h4><%= price_parameter.name %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <%= link_to t('actions.edit'), edit_service_price_price_parameter_path(current_service, @price, price_parameters), class: 'btn btn-secondary' %>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.parameter') %></td>
+          <td><%= price_parameter.parameter %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.free_call') %></td>
+          <td><%= price_parameter.free_call %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.periode_by_h_reset_free') %></td>
+          <td><%= price_parameter.periode_by_h_reset_free %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.cost_by_call') %></td>
+          <td><%= price_parameter.cost_by_call %></td>
+        </tr>
+        </tbody>
+      </table>
+      <% if current_user.is_admin? || price_parameter.user == current_user %>
+          <%= button_to t('actions.destroy'), service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
+      <% end %>
+      <% if current_user.is_admin? || price_parameter.user == current_user %>
+          <% if price_parameter.activate %>
+              <%= button_to t('actions.deactivate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+          <% else %>
+              <%= button_to t('actions.activate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

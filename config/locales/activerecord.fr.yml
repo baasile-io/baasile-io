@@ -1,18 +1,18 @@
 fr:
   activerecord:
     attributes:
-      billing:
+      price:
         name: 'Nom'
         base_cost: 'Prix fix'
         free_hour: "Nombres d'heures gratuites"
         cost_by_time: 'Prix par heures'
-      billing_by_parameters_call:
+      price_parameter:
         name: 'Nom'
         parameter: 'Parametre'
         free_call: "Nombres d'appels gratuits"
         periode_by_h_reset_free: 'Remise a 0 des appels gratuit'
         cost_by_call: 'Cout par appels'
-        billing: 'Billing'
+        price: 'Price'
       company:
         name: 'Nom'
       contact_detail:
@@ -121,8 +121,8 @@ fr:
         password_confirmation: 'Confirmation du mot de passe'
         phone: 'Téléphone'
     models:
-      billing: 'Billing'
-      billing_by_parameters_call: 'Parametre de billing en fonction des appels'
+      price: 'Price'
+      price_parameter: 'Parametre de price en fonction des appels'
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'

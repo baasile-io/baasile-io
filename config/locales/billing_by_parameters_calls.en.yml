@@ -1,23 +1,23 @@
 en:
-  billings:
+  prices:
     edit:
       title: 'Parameters'
     index:
-      title: 'List of billings by calls'
+      title: 'List of prices by calls'
     new:
-      title: 'Create a new billing by calls'
+      title: 'Create a new price by calls'
     show:
       title: 'Dashboard'
     update:
       title: 'Parameters'
   back_office:
-    billings:
+    prices:
       edit:
         title: 'Parameters'
       index:
-        title: 'List of billings by calls'
+        title: 'List of prices by calls'
       new:
-        title: 'Create a new billing by calls'
+        title: 'Create a new price by calls'
       show:
         title: 'Dashboard'
       update:

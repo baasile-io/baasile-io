@@ -6,8 +6,8 @@ fr:
       title: 'Contracts'
     new:
       title: 'Créer un nouveau contract'
-    set_billing:
-      title: 'set billing'
+    set_price:
+      title: 'set price'
     show:
       title: 'Tableau de bord'
     update:
@@ -20,8 +20,8 @@ fr:
         title: 'Contracts'
       new:
         title: 'Créer un nouveau contract'
-      set_billing:
-        title: 'set billing'
+      set_price:
+        title: 'set price'
       show:
         title: 'Tableau de bord'
       update:

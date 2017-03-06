@@ -1,8 +1,8 @@
-class Billing < ApplicationRecord
+class Price < ApplicationRecord
 
   belongs_to :service
   belongs_to :user
-  has_many :BillingByParametersCalls
+  has_many :PriceParameters
   has_many :contracts
 
   validates :name, presence: true

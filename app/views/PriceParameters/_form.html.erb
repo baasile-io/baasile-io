@@ -1,5 +1,5 @@
-<%= simple_form_for [current_service, @billing, @billing_by_parameters_call] do |f| %>
-  <%= error_messages_for(@billing_by_parameters_call) %>
+<%= simple_form_for [current_service, @price, @price_parameter] do |f| %>
+  <%= error_messages_for(@price_parameter) %>
   <%= f.input :name %>
   <%= f.input :parameter %>
   <%= f.input :free_call %>

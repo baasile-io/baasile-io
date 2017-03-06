@@ -15,33 +15,6 @@ ActiveRecord::Schema.define(version: 20170305122219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "billing_by_parameters_calls", force: :cascade do |t|
-    t.string   "name"
-    t.string   "parameter"
-    t.integer  "free_call",               default: 0
-    t.integer  "periode_by_h_reset_free"
-    t.decimal  "cost_by_call",            default: "0.0"
-    t.integer  "user_id"
-    t.boolean  "activate",                default: true
-    t.integer  "billing_id"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.index ["billing_id"], name: "index_billing_by_parameters_calls_on_billing_id", using: :btree
-  end
-
-  create_table "billings", force: :cascade do |t|
-    t.string   "name"
-    t.decimal  "base_cost",    default: "0.0"
-    t.integer  "free_hour",    default: 0
-    t.decimal  "cost_by_time", default: "0.0"
-    t.integer  "user_id"
-    t.boolean  "activate",     default: true
-    t.integer  "service_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.index ["service_id"], name: "index_billings_on_service_id", using: :btree
-  end
-
   create_table "companies", force: :cascade do |t|
     t.integer  "parent_id"
     t.integer  "uuid"
@@ -117,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170305122219) do
     t.datetime "updated_at",                null: false
     t.boolean  "activate",   default: true
     t.integer  "status",     default: 1
-    t.integer  "billing_id"
+    t.integer  "price_id"
     t.index ["client_id", "startup_id"], name: "index_contracts_on_client_id_and_startup_id", unique: true, using: :btree
   end
 
@@ -140,6 +113,34 @@ ActiveRecord::Schema.define(version: 20170305122219) do
     t.integer  "password_archivable_id",   null: false
     t.datetime "created_at"
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable", using: :btree
+  end
+
+  create_table "price_parameters", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "price_parameters_type",  default: 0
+    t.string   "parameter"
+    t.integer  "nb_free",                default: 0
+    t.integer  "reset_free_perode_hour"
+    t.decimal  "cost",                   default: "0.0"
+    t.integer  "user_id"
+    t.boolean  "activate",               default: true
+    t.integer  "price_id"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["price_id"], name: "index_price_parameters_on_price_id", using: :btree
+  end
+
+  create_table "prices", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "base_cost",    default: "0.0"
+    t.integer  "free_hour",    default: 0
+    t.decimal  "cost_by_time", default: "0.0"
+    t.integer  "user_id"
+    t.boolean  "activate",     default: true
+    t.integer  "service_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["service_id"], name: "index_prices_on_service_id", using: :btree
   end
 
   create_table "proxies", force: :cascade do |t|

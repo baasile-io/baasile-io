@@ -1,18 +1,18 @@
 en:
   activerecord:
     attributes:
-      billing:
+      price:
         name: 'Name'
         base_cost: 'Fixed prices'
         free_hour: 'Free using hours'
         cost_by_time: 'Hours prices'
-      billing_by_parameters_call:
+      price_parameter:
         name: 'Name'
         parameter: 'Parameter'
         free_call: 'Free calls'
         periode_by_h_reset_free: 'Reset periode'
         cost_by_call: 'Calls prices'
-        billing: 'Billing'
+        price: 'Price'
       company:
         name: 'Name'
       contact_detail:
@@ -116,8 +116,8 @@ en:
         password_confirmation: 'Password confirmation'
         phone: 'Phone Number'
     models:
-      billing: 'Billing'
-      billing_by_parameters_call: 'Billings parameters by calls'
+      price: 'Price'
+      price_parameter: 'Prices parameters by calls'
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'

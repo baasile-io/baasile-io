@@ -1,13 +1,13 @@
 class Contract < ApplicationRecord
 
-  CONTRACT_STATUS = {creation: 1, commercial_validation_sp: 2, commercial_validation_client: 3,  billing_validation_sp: 4, billing_validation_client: 5, Validation: 6}
+  CONTRACT_STATUS = {creation: 1, commercial_validation_sp: 2, commercial_validation_client: 3,  price_validation_sp: 4, price_validation_client: 5, Validation: 6}
   enum status: CONTRACT_STATUS
 
   belongs_to :user
   belongs_to :company
   belongs_to :client, class_name: "Service"
   belongs_to :startup, class_name: "Service"
-  belongs_to :billing
+  belongs_to :price
 
   validates :name, presence: true
   validates :startup_id, presence:true

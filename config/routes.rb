@@ -22,8 +22,8 @@ Rails.application.routes.draw do
     post :commercial_validation
     post :commercial_reject
     post :toogle_activate
-    get :set_billing
-    post :update_billing
+    get :set_price
+    post :update_price
   end
 
   resources :companies do
@@ -31,8 +31,8 @@ Rails.application.routes.draw do
       post :commercial_validation
       post :commercial_reject
       post :toogle_activate
-      get :set_billing
-      post :update_billing
+      get :set_price
+      post :update_price
     end
     member do
       get :clients
@@ -51,11 +51,11 @@ Rails.application.routes.draw do
       post :commercial_validation
       post :commercial_reject
       post :toogle_activate
-      get :set_billing
-      post :update_billing
+      get :set_price
+      post :update_price
     end
-    resources :billings do
-      resources :billing_by_parameters_calls do
+    resources :prices do
+      resources :price_parameters do
         post :toogle_activate
       end
       post :toogle_activate

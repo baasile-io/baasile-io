@@ -36,7 +36,7 @@
               </li>
               <% if !current_service.is_client? %>
                 <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'billings' %>" href="<%= service_billings_path(current_service) %>"><i class="fa fa-fw fa-money"></i> <%= t('activerecord.models.billing').pluralize %></a>
+                  <a class="nav-link <%= 'active' if controller_name == 'prices' %>" href="<%= service_prices_path(current_service) %>"><i class="fa fa-fw fa-money"></i> <%= t('activerecord.models.price').pluralize %></a>
                 </li>
               <% end %>
             <% end %>

@@ -16,8 +16,8 @@ class User < ApplicationRecord
   has_many :proxies
   has_many :routes
   has_many :query_parameters
-  has_many :billings
-  has_many :billing_by_parameters_calls
+  has_many :prices
+  has_many :price_parameters
 
   validates :email, presence: true, uniqueness: true
   validates :gender, presence: true

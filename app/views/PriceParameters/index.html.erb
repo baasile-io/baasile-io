@@ -1,6 +1,6 @@
 <% content_for(:page_title) { t('.title') } %>
 <% if current_user.is_commercial_to_create? %>
-  <% content_for(:page_controls) { link_to t('actions.new'), new_service_billing_path(current_service), class: 'btn btn-primary' } %>
+  <% content_for(:page_controls) { link_to t('actions.new'), new_service_price_price_parameter_path(current_service), class: 'btn btn-primary' } %>
 <% end %>
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -12,11 +12,11 @@
       </tr>
       </thead>
       <tbody>
-      <% @collection.each do |billing| %>
+      <% @collection.each do |price_parameter| %>
         <tr>
-          <td><%= billing.name %></td>
+          <td><%= price_parameter.name %></td>
           <td class="text-right">
-            <%= link_to t('misc.dashboard'), service_billing_path(current_service, billing), class: 'btn btn-secondary' %>
+            <%= link_to t('misc.dashboard'), service_price_price_parameter_path(current_service, price_parameter), class: 'btn btn-secondary' %>
           </td>
         </tr>
       <% end %>

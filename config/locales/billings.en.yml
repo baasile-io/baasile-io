@@ -1,23 +1,23 @@
 en:
-  billings:
+  prices:
     edit:
       title: 'Parameters'
     index:
-      title: 'List of billings'
+      title: 'List of prices'
     new:
-      title: 'Create a new billing'
+      title: 'Create a new prix'
     show:
       title: 'Dashboard'
     update:
       title: 'Parameters'
   back_office:
-    billings:
+    prices:
       edit:
         title: 'Parameters'
       index:
-        title: 'List of billings'
+        title: 'List of prices'
       new:
-        title: 'Create a new billing'
+        title: 'Create a new price'
       show:
         title: 'Dashboard'
       update:

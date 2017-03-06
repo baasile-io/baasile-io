@@ -1,6 +1,6 @@
-class CreateBillings < ActiveRecord::Migration[5.0]
+class CreatePrices < ActiveRecord::Migration[5.0]
   def change
-    create_table :billings do |t|
+    create_table :prices do |t|
       t.string :name
       t.decimal :base_cost, default: 0
       t.integer :free_hour, default: 0

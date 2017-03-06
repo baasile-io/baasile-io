@@ -1,23 +1,23 @@
 fr:
-  billings:
+  prices:
     edit:
       title: 'Paramètres'
     index:
-      title: 'Billings'
+      title: 'prix'
     new:
-      title: 'Créer un nouveau billing'
+      title: 'Créer un nouveau prix'
     show:
       title: 'Tableau de bord'
     update:
       title: 'Paramètres'
   back_office:
-    billings:
+    prices:
       edit:
         title: 'Paramètres'
       index:
-        title: 'Billings'
+        title: 'Prix'
       new:
-        title: 'Créer un nouveau billing'
+        title: 'Créer un nouveau prix'
       show:
         title: 'Tableau de bord'
       update:

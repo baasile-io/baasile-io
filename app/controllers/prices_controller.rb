@@ -1,9 +1,9 @@
-class BillingsController < ApplicationController
+class PricesController < ApplicationController
   before_action :authenticate_user!
   before_action :is_commercial?
   before_action :load_service_and_authorize!
-  before_action :load_billing, only: [:show, :edit, :update, :destroy]
-  before_action :load_billing_by_parameters_calls, only: [:show]
+  before_action :load_price, only: [:show, :edit, :update, :destroy]
+  before_action :load_price_parameters, only: [:show]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -14,20 +14,20 @@ class BillingsController < ApplicationController
   end
 
   def index
-    @collection = Billing.where(service: current_service)
+    @collection = Price.where(service: current_service)
   end
 
   def new
-    @billing = Billing.new
+    @price = Price.new
   end
 
   def create
-    @billing = Billing.new
-    @billing.user = current_user
-    @billing.service = current_service
-    @billing.assign_attributes(billing_params)
-    if @billing.save
-      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.billing'))
+    @price = Price.new
+    @price.user = current_user
+    @price.service = current_service
+    @price.assign_attributes(price_params)
+    if @price.save
+      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.price'))
       redirect_to_show
     else
       render :new
@@ -38,9 +38,9 @@ class BillingsController < ApplicationController
   end
 
   def update
-    @billing.assign_attributes(billing_params)
-    if @billing.save
-      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.billing'))
+    @price.assign_attributes(price_params)
+    if @price.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.price'))
       redirect_to_show
     else
       render :edit
@@ -51,8 +51,8 @@ class BillingsController < ApplicationController
   end
 
   def destroy
-    if @billing.destroy
-      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.billing'))
+    if @price.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.price'))
       redirect_to_index
     else
       render :show
@@ -60,27 +60,27 @@ class BillingsController < ApplicationController
   end
 
   def toogle_activate
-    @billing.activate = !@billing.activate
-    @billing.save
+    @price.activate = !@price.activate
+    @price.save
     redirect_to_show
   end
 
   private
 
-  def load_billing_by_parameters_calls
-    @billing_by_parameters_calls = BillingByParametersCall.where(billing_id: @billing.id)
+  def load_price_parameters
+    @price_parameters = PriceParameter.where(price_id: @price.id)
   end
 
   def redirect_to_index
-    return redirect_to service_billings_path(current_service)
+    return redirect_to service_prices_path(current_service)
   end
 
   def redirect_to_show
-    return redirect_to service_billing_path(current_service, @billing)
+    return redirect_to service_price_path(current_service, @price)
   end
 
-  def load_billing
-    @billing = Billing.find(params[:id])
+  def load_price
+    @price = Price.find(params[:id])
   end
 
   def load_service_and_authorize!
@@ -96,9 +96,9 @@ class BillingsController < ApplicationController
     current_user.has_role?(:superadmin) || current_user.has_role?( :commercial, current_service)
   end
 
-  def billing_params
+  def price_params
     allowed_parameters = [:name, :base_cost, :free_hour, :cost_by_time]
-    params.require(:billing).permit(allowed_parameters)
+    params.require(:price).permit(allowed_parameters)
   end
 
   def is_commercial?
