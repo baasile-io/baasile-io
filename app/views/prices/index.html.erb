@@ -1,7 +1,15 @@
 <% content_for(:page_title) { t('.title') } %>
 <% if current_user.is_commercial_to_create? %>
-  <% content_for(:page_controls) { link_to t('actions.new'), new_service_price_path(current_service), class: 'btn btn-primary' } %>
-<% end %>
+    <% if @contract.nil? %>
+        <% content_for(:page_controls) { link_to t('actions.new'), new_service_price_path(current_service), class: 'btn btn-primary' } %>
+    <% elsif !@company.nil? %>
+        <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_price_path(@company, @contract), class: 'btn btn-primary' } %>
+    <% elsif !@service.nil? %>
+        <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_price_path(current_service, @contract), class: 'btn btn-primary' } %>
+    <% else %>
+        <% content_for(:page_controls) { link_to t('actions.new'), new_contract_price_path(@contract), class: 'btn btn-primary' } %>
+    <% end %>
+  <% end %>
 <div class="b-io-content--secondary">
   <div class="container-fluid">
     <table class="table">
@@ -16,8 +24,16 @@
         <tr>
           <td><%= price.name %></td>
           <td class="text-right">
-            <%= link_to t('misc.dashboard'), service_price_path(current_service, price), class: 'btn btn-secondary' %>
-          </td>
+            <% if @contract.nil? %>
+                <%= link_to t('misc.dashboard'), service_price_path(current_service, price), class: 'btn btn-secondary' %>
+            <% elsif !@company.nil? %>
+                <%= link_to t('misc.dashboard'), service_price_path(@company, @contract, price), class: 'btn btn-secondary' %>
+            <% elsif !@service.nil? %>
+                <%= link_to t('misc.dashboard'), service_price_path(current_service, @contract, price), class: 'btn btn-secondary' %>
+            <% else %>
+                <%= link_to t('misc.dashboard'), service_price_path(@contract, price), class: 'btn btn-secondary' %>
+            <% end %>
+            </td>
         </tr>
       <% end %>
       </tbody>

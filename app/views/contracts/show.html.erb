@@ -108,5 +108,31 @@
         <% end %>
       <% end %>
     <% end %>
+    <% unless @contract.price.nil? %>
+      <% if !@company.nil? %>
+        <%= link_to t('actions.edit'), edit_company_contract_price_path(@company, @contract, @price), class: 'btn btn-secondary' %>
+      <% elsif !@service.nil? %>
+        <%= link_to t('actions.edit'), edit_service_contract_price_path(current_service, @contract, @price), class: 'btn btn-secondary' %>
+      <% else %>
+        <%= link_to t('actions.edit'), edit_contract_price_path(@contract, @price), class: 'btn btn-secondary' %>
+      <% end %>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td><%= t('activerecord.attributes.price.base_cost') %></td>
+          <td><%= @price.base_cost %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price.free_hour') %></td>
+          <td><%= @price.free_hour %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price.cost_by_time') %></td>
+          <td><%= @price.cost_by_time %></td>
+        </tr>
+        </tbody>
+      </table>
+      <%= render 'show_price_parameters' %>
+    <% end %>
   </div>
 </div>

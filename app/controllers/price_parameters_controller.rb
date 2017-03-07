@@ -1,6 +1,9 @@
 class PriceParametersController < ApplicationController
   before_action :authenticate_user!
+  before_action :init
+  before_action :load_contract
   before_action :is_commercial?
+  before_action :load_company
   before_action :load_service_and_authorize!
   before_action :load_price_and_authorize!
   before_action :load_price_parameter, only: [:show, :edit, :update, :destroy, :toogle_activate]
@@ -67,13 +70,24 @@ class PriceParametersController < ApplicationController
 
   private
 
+  def init
+    @contract = nil
+    @company = nil
+    @service = nil
+  end
+
   def redirect_to_index
-    return redirect_to service_price_path(current_service, @price)
-    #return redirect_to service_price_price_parameters_path(current_service)
+    return redirect_to service_price_path(current_service, @price) if @contract.nil?
+    return redirect_to company_contract_price_path(current_company, @contract, @price) unless @companie.nil?
+    return redirect_to service_contract_price_path(current_service, @contract, @price) unless @service.nil?
+    return redirect_to contract_price_path(@contract, @price) unless @service.nil?
   end
 
   def redirect_to_show
-    return redirect_to service_price_path(current_service, @price)
+    return redirect_to service_price_path(current_service, @price) if @contract.nil?
+    return redirect_to company_contract_price_path(current_company, @contract, @price) unless @companie.nil?
+    return redirect_to service_contract_price_path(current_service, @contract, @price) unless @service.nil?
+    return redirect_to contract_price_path(@contract, @price) unless @service.nil?
   end
 
   def load_price_parameter
@@ -89,11 +103,19 @@ class PriceParametersController < ApplicationController
   end
 
   def load_service_and_authorize!
-    if params.key?(:service_id)
-      @service = Service.find(params[:service_id])
-      return head(:forbidden) unless is_commercial_of_current_service?
+    unless @contract.nil?
+      if params.key?(:service_id)
+        @service = Service.find(params[:service_id])
+      else
+        @service = nil
+      end
     else
-      return head(:forbidden)
+      if params.key?(:service_id)
+        @service = Service.find(params[:service_id])
+        return head(:forbidden) unless is_commercial_of_current_service?
+      else
+        return head(:forbidden)
+      end
     end
   end
 
@@ -119,12 +141,38 @@ class PriceParametersController < ApplicationController
     @service
   end
 
+  def load_company
+    unless @contract.nil?
+      if params.key?(:company_id)
+        @company = Company.find(params[:company_id])
+      else
+        @company = nil
+      end
+    end
+  end
+
+  def load_contract
+    if params.key?(:contract_id)
+      @contract = Contract.find(params[:contract_id])
+    else
+      @contract = nil
+    end
+  end
+
   def current_price
     return nil unless params[:price_id]
     @price
   end
 
   def current_module
-      'dashboard'
+    def current_module
+      if !@company.nil?
+        'companies'
+      elsif !@service.nil?
+        'dashboard'
+      else
+        'contract'
+      end
+    end
   end
 end

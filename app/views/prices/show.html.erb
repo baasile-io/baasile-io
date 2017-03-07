@@ -1,21 +1,61 @@
 <% content_for(:page_title) { @price.name } %>
 <% if current_user.is_admin? || @price.user == current_user %>
-    <%= content_for(:page_controls) { link_to t('actions.destroy'), service_price_path(current_service, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
+  <% if @contract.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.destroy'), service_price_path(current_service, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
+  <% elsif !@company.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.destroy'), company_contract_price_path(@company, @contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
+  <% elsif !@service.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.destroy'), service_contract_price_path(current_service, @contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
+  <% else %>
+      <%= content_for(:page_controls) { link_to t('actions.destroy'), contract_price_path(@contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
+  <% end %>
 <% end %>
 <% if current_user.is_admin? || @price.user == current_user %>
-    <% if @price.activate %>
-        <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_price_toogle_activate_path(current_service, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+  <% if @price.activate %>
+    <% if @contract.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_price_toogle_activate_path(current_service, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% elsif !@company.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.deactivate'), company_contract_price_toogle_activate_path(@company, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% elsif !@service.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_contract_price_toogle_activate_path(current_service, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
     <% else %>
-        <%= content_for(:page_controls) { link_to t('actions.activate'), service_price_toogle_activate_path(current_service, @price, id: @price.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post } %>
+      <%= content_for(:page_controls) { link_to t('actions.deactivate'), contract_price_toogle_activate_path(@contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
     <% end %>
+  <% else %>
+    <% if @contract.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.activate'), service_price_toogle_activate_path(current_service, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% elsif !@company.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.activate'), company_contract_price_toogle_activate_path(@company, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% elsif !@service.nil? %>
+      <%= content_for(:page_controls) { link_to t('actions.activate'), service_contract_price_toogle_activate_path(current_service, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% else %>
+      <%= content_for(:page_controls) { link_to t('actions.activate'), contract_price_toogle_activate_path(@contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
+    <% end %>
+  <% end %>
 <% end %>
 <% if current_user.is_commercial_to_create? %>
+  <% if @contract.nil? %>
     <% content_for(:page_controls) { link_to t('actions.add'), new_service_price_price_parameter_path(current_service, @price), class: 'btn btn-primary' } %>
+  <% elsif !@company.nil? %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract, @price), class: 'btn btn-primary' } %>
+  <% elsif !@service.nil? %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_service_contract_price_price_parameter_path(current_service, @contract, @price), class: 'btn btn-primary' } %>
+  <% else %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_contract_price_price_parameter_path(@contract, @price), class: 'btn btn-primary' } %>
+  <% end %>
 <% end %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <%= link_to t('actions.edit'), edit_service_price_path(current_service, @price), class: 'btn btn-secondary' %>
+    <% if @contract.nil? %>
+        <%= link_to t('actions.edit'), edit_service_price_path(current_service, @price), class: 'btn btn-secondary' %>
+    <% elsif !@company.nil? %>
+        <%= link_to t('actions.edit'), edit_company_contract_price_path(@company, @contract, @price), class: 'btn btn-secondary' %>
+    <% elsif !@service.nil? %>
+        <%= link_to t('actions.edit'), edit_service_contract_price_path(current_service, @contract, @price), class: 'btn btn-secondary' %>
+    <% else %>
+        <%= link_to t('actions.edit'), edit_contract_price_path(@contract, @price), class: 'btn btn-secondary' %>
+    <% end %>
     <table class="table">
       <tbody>
       <tr>

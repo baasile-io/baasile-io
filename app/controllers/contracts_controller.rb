@@ -149,6 +149,13 @@ class ContractsController < ApplicationController
 
   private
 
+  def load_price
+    unless @contract.price.nil?
+      @price = @contract.price
+      @price_parameters = PriceParameter.where(price: @price)
+    end
+  end
+
   def destroy_price_param(price_params)
     price_params.each do |price_param|
       price_param.destroy

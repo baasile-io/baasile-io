@@ -7,9 +7,7 @@
   </div>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
-      <% if @contract.nil? %>
-        <%= link_to t('actions.edit'), edit_service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-secondary' %>
-      <% elsif !@company.nil? %>
+      <% if !@company.nil? %>
         <%= link_to t('actions.edit'), edit_company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-secondary' %>
       <% elsif !@service.nil? %>
         <%= link_to t('actions.edit'), edit_service_contract_price_price_parameter_path(current_service, @contract, @price, price_parameter), class: 'btn btn-secondary' %>
@@ -41,9 +39,7 @@
         </tbody>
       </table>
       <% if current_user.is_admin? || price_parameter.user == current_user %>
-        <% if @contract.nil? %>
-          <%= button_to t('actions.destroy'), service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
-        <% elsif !@company.nil? %>
+        <% if !@company.nil? %>
           <%= button_to t('actions.destroy'), company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
         <% elsif !@service.nil? %>
           <%= button_to t('actions.destroy'), service_contract_price_price_parameter_path(current_service, @contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
@@ -53,9 +49,7 @@
       <% end %>
       <% if current_user.is_admin? || price_parameter.user == current_user %>
         <% if price_parameter.activate %>
-          <% if @contract.nil? %>
-            <%= button_to t('actions.deactivate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@company.nil? %>
+          <% if !@company.nil? %>
             <%= button_to t('actions.deactivate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@service.nil? %>
             <%= button_to t('actions.deactivate'), service_contract_price_price_parameter_toogle_activate_path(current_service, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
@@ -63,9 +57,7 @@
             <%= button_to t('actions.deactivate'), contract_price_price_parameter_toogle_activate_path(@contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% end %>
         <% else %>
-          <% if @contract.nil? %>
-            <%= button_to t('actions.activate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@company.nil? %>
+          <% if !@company.nil? %>
             <%= button_to t('actions.activate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@service.nil? %>
             <%= button_to t('actions.activate'), service_contract_price_price_parameter_toogle_activate_path(current_service, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
