@@ -7,6 +7,9 @@ en:
       mandatory: 'mandatory'
       optional: 'optional'
       forbidden: 'forbidden'
+    price_parameters_types:
+      per_call: 'Per call'
+      per_params: 'Per parameters'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'

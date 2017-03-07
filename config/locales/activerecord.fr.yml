@@ -8,11 +8,11 @@ fr:
         cost_by_time: 'Prix par heures'
       price_parameter:
         name: 'Nom'
-        parameter: 'Parametre'
-        free_call: "Nombres d'appels gratuits"
-        periode_by_h_reset_free: 'Remise a 0 des appels gratuit'
-        cost_by_call: 'Cout par appels'
-        price: 'Price'
+        price_parameters_type: 'type'
+        nb_free: "Nombre d'heures gratuites"
+        reset_free_perode_hour: 'période en heure de restoration des heures gratuites'
+        cost: 'cout'
+        price: 'prix'
       company:
         name: 'Nom'
       contact_detail:

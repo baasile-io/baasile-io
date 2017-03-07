@@ -7,24 +7,28 @@
   </div>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
-      <%= link_to t('actions.edit'), edit_service_price_price_parameter_path(current_service, @price, price_parameters), class: 'btn btn-secondary' %>
+      <%= link_to t('actions.edit'), edit_service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-secondary' %>
       <table class="table">
         <tbody>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.parameter') %></td>
+          <td><%= price_parameter.price_parameters_type %></td>
+        </tr>
         <tr>
           <td><%= t('activerecord.attributes.price_parameter.parameter') %></td>
           <td><%= price_parameter.parameter %></td>
         </tr>
         <tr>
-          <td><%= t('activerecord.attributes.price_parameter.free_call') %></td>
-          <td><%= price_parameter.free_call %></td>
+          <td><%= t('activerecord.attributes.price_parameter.nb_free') %></td>
+          <td><%= price_parameter.nb_free %></td>
         </tr>
         <tr>
-          <td><%= t('activerecord.attributes.price_parameter.periode_by_h_reset_free') %></td>
-          <td><%= price_parameter.periode_by_h_reset_free %></td>
+          <td><%= t('activerecord.attributes.price_parameter.reset_free_perode_hour') %></td>
+          <td><%= price_parameter.reset_free_perode_hour %></td>
         </tr>
         <tr>
-          <td><%= t('activerecord.attributes.price_parameter.cost_by_call') %></td>
-          <td><%= price_parameter.cost_by_call %></td>
+          <td><%= t('activerecord.attributes.price_parameter.cost') %></td>
+          <td><%= price_parameter.cost %></td>
         </tr>
         </tbody>
       </table>

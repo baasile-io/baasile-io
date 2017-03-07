@@ -7,6 +7,7 @@ class CreatePrices < ActiveRecord::Migration[5.0]
       t.decimal :cost_by_time, default: 0
       t.integer :user_id
       t.boolean :activate, default: true
+      t.boolean :attached, default: false
 
       t.belongs_to :service
 

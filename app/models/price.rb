@@ -11,4 +11,14 @@ class Price < ApplicationRecord
 
   scope :owned, ->(user) { where(user: user) }
 
+  def dup_attached(current_price)
+    unless current_price.nil?
+      current_price.destroy
+    end
+    new_price = self.dup
+    new_price.attached = true
+    new_price.save
+    return new_price
+  end
+
 end

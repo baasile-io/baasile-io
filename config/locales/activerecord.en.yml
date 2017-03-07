@@ -9,9 +9,10 @@ en:
       price_parameter:
         name: 'Name'
         parameter: 'Parameter'
-        free_call: 'Free calls'
-        periode_by_h_reset_free: 'Reset periode'
-        cost_by_call: 'Calls prices'
+        price_parameters_type: 'Type of price parameters'
+        nb_free: 'Number of free'
+        reset_free_perode_hour: 'Reset periode by hours'
+        cost: 'Cost'
         price: 'Price'
       company:
         name: 'Name'

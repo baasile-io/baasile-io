@@ -2,7 +2,7 @@ class PricesController < ApplicationController
   before_action :authenticate_user!
   before_action :is_commercial?
   before_action :load_service_and_authorize!
-  before_action :load_price, only: [:show, :edit, :update, :destroy]
+  before_action :load_price, only: [:show, :edit, :update, :destroy, :toogle_activate]
   before_action :load_price_parameters, only: [:show]
 
   before_action :add_breadcrumb_parent
@@ -14,7 +14,7 @@ class PricesController < ApplicationController
   end
 
   def index
-    @collection = Price.where(service: current_service)
+    @collection = Price.where(service: current_service, attached: false)
   end
 
   def new
@@ -68,7 +68,7 @@ class PricesController < ApplicationController
   private
 
   def load_price_parameters
-    @price_parameters = PriceParameter.where(price_id: @price.id)
+    @price_parameters = PriceParameter.where(price_id: @price.id, attached: false)
   end
 
   def redirect_to_index

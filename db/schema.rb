@@ -117,13 +117,14 @@ ActiveRecord::Schema.define(version: 20170305122219) do
 
   create_table "price_parameters", force: :cascade do |t|
     t.string   "name"
-    t.integer  "price_parameters_type",  default: 0
+    t.integer  "price_parameters_type",  default: 1
     t.string   "parameter"
     t.integer  "nb_free",                default: 0
     t.integer  "reset_free_perode_hour"
     t.decimal  "cost",                   default: "0.0"
     t.integer  "user_id"
     t.boolean  "activate",               default: true
+    t.boolean  "attached",               default: false
     t.integer  "price_id"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
@@ -137,6 +138,7 @@ ActiveRecord::Schema.define(version: 20170305122219) do
     t.decimal  "cost_by_time", default: "0.0"
     t.integer  "user_id"
     t.boolean  "activate",     default: true
+    t.boolean  "attached",     default: false
     t.integer  "service_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false

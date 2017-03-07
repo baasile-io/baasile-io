@@ -131,7 +131,14 @@ class ContractsController < ApplicationController
   end
 
   def update_price
-    @contract.assign_attributes(contract_params_price)
+    #@contract.assign_attributes(contract_params_price)
+    price = Price.find_by_id(contract_params_price[:price_id])
+    price.dup_attached(@contract.price)
+    price_params = PriceParameter.where(price: @contract.price)
+    destroy_price_param(price_params)
+    price_params = PriceParameter.where(price_id: contract_params_price[:price_id])
+    dup_price_param(price_params, price)
+    @contract.price = price
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
@@ -142,8 +149,20 @@ class ContractsController < ApplicationController
 
   private
 
+  def destroy_price_param(price_params)
+    price_params.each do |price_param|
+      price_param.destroy
+    end
+  end
+
+  def dup_price_param(price_params, price)
+    price_params.each do |price_param|
+      price_param.dup_attached(price)
+    end
+  end
+
   def load_price_associate_startup
-    @prices = Price.where(service_id: @contract.startup_id)
+    @prices = Price.where(service_id: @contract.startup_id, attached: false)
   end
 
   def redirect_to_index

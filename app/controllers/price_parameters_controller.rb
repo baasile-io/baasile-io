@@ -3,7 +3,7 @@ class PriceParametersController < ApplicationController
   before_action :is_commercial?
   before_action :load_service_and_authorize!
   before_action :load_price_and_authorize!
-  before_action :load_price_parameter, only: [:show, :edit, :update, :destroy]
+  before_action :load_price_parameter, only: [:show, :edit, :update, :destroy, :toogle_activate]
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
 
@@ -14,7 +14,7 @@ class PriceParametersController < ApplicationController
   end
 
   def index
-    @collection = PriceParameter.where(price: @price)
+    @collection = PriceParameter.where(price: @price, attached: false)
   end
 
   def new
@@ -102,7 +102,7 @@ class PriceParametersController < ApplicationController
   end
 
   def price_parameter_params
-    allowed_parameters = [:name, :parameter, :free_call, :periode_by_h_reset_free, :cost_by_call]
+    allowed_parameters = [:name, :price_parameters_type, :parameter, :nb_free, :reset_free_perode_hour, :cost]
     params.require(:price_parameter).permit(allowed_parameters)
   end
 
