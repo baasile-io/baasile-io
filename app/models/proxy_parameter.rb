@@ -8,9 +8,6 @@ class ProxyParameter < ApplicationRecord
   PROTOCOLS_ENUM = PROTOCOLS.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum protocol: PROTOCOLS_ENUM
 
-  # Versioning
-  has_paper_trail
-
   has_one :proxy, dependent: :destroy
   has_one :identifier, as: :identifiable, dependent: :destroy
 

@@ -1,7 +1,4 @@
 class Identifier < ApplicationRecord
-  # Versioning
-  has_paper_trail
-
   attr_accessor :client_secret
 
   belongs_to :identifiable, polymorphic: true

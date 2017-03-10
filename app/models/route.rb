@@ -1,7 +1,4 @@
 class Route < ApplicationRecord
-  # Versioning
-  has_paper_trail
-
   resourcify
   after_create :assign_default_user_role
 

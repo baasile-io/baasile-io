@@ -1,7 +1,4 @@
 class Service < ApplicationRecord
-  # Versioning
-  has_paper_trail
-
   # User rights
   resourcify
   after_create :assign_default_user_role
