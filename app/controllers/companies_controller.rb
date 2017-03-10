@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
-  before_action :load_company_and_authorize_superadmin, only: [:admin_list, :destroy, :set_admin, :unset_admin, :add_admin]
-  before_action :load_company_and_authorize_admin, only: [:startups, :clients, :show, :edit, :update, :activate, :deactivate]
+  before_action :load_company_and_authorize_superadmin, only: [:destroy, :set_admin, :unset_admin, :add_admin]
+  before_action :load_company_and_authorize_admin, only: [:users, :startups, :clients, :show, :edit, :update, :activate, :deactivate]
   before_action :authorize_admin!
 
   def index
@@ -52,11 +52,11 @@ class CompaniesController < ApplicationController
   end
 
   def startups
-    @services = @company.services.where(service_type: :startup)
+    @collection = @company.services.where(service_type: :startup)
   end
 
   def clients
-    @services = @company.services.where(service_type: :client)
+    @collection = @company.services.where(service_type: :client)
   end
 
 
@@ -64,8 +64,8 @@ class CompaniesController < ApplicationController
     'companies'
   end
 
-  def admin_list
-    @collection = User.all.reject { |user| !user.has_role?(:admin, @company) }
+  def users
+    @collection = @company.users
   end
 
   def set_admin
@@ -73,7 +73,7 @@ class CompaniesController < ApplicationController
     unless user.nil?
       user.add_role(:admin, @company)
     end
-    redirect_to admin_list_company_path(@company.id)
+    redirect_to users_company_path(@company.id)
   end
 
   def unset_admin
@@ -81,7 +81,7 @@ class CompaniesController < ApplicationController
     unless user.nil?
       user.remove_role(:admin, @company)
     end
-    redirect_to admin_list_company_path(@company.id)
+    redirect_to users_company_path(@company.id)
   end
 
   def add_admin

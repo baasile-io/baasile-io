@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     member do
       get :clients
       get :startups
-      get :admin_list
+      get :users
       get :add_admin
       post :unset_admin
       post :set_admin

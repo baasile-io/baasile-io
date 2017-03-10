@@ -11,15 +11,15 @@
       </tr>
       </thead>
       <tbody>
-      <% @collection.each do |user| %>
+        <% @collection.each do |user| %>
           <tr>
             <td><%= user.email %></td>
             <td>
               <%= link_to t('actions.unset_admin'), unset_admin_company_path(company_id: @company.id, user_id: user.id), method: :post, class: 'btn btn-secondary' %>
             </td>
           </tr>
-      <% end %>
-        </tbody>
+        <% end %>
+      </tbody>
     </table>
     <%= link_to t('actions.add_admin'), add_admin_company_path, class: 'btn btn-secondary' %>
 

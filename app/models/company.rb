@@ -10,6 +10,9 @@ class Company < ApplicationRecord
   has_many :services
   has_one :contact_detail, as: :contactable, dependent: :destroy
 
+  has_many :user_associations, as: :associable
+  has_many :users, through: :user_associations
+
   after_destroy :remove_services_associations
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true

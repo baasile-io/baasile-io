@@ -67,14 +67,14 @@
               <a class="nav-link <%= 'active' if controller_name == 'companies' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_company_path(current_company) %>"><%= t('misc.parameters') %></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'startups' %>" href="<%= startups_company_path(current_company) %>">Startups</a>
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'startups' %>" href="<%= startups_company_path(current_company) %>"><%= t('types.service_types.startup').pluralize %></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>">Clients</a>
+              <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>"><%= t('types.service_types.client').pluralize %></a>
             </li>
-            <% if current_user.is_superadmin? %>
+            <% if current_user.is_admin? %>
               <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'companies' && ['admin_list', 'add_admin'].include?(action_name) %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> Users</a>
+                <a class="nav-link <%= 'active' if controller_name == 'companies' && ['users', 'add_admin'].include?(action_name) %>" href="<%= users_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> <%= t('companies.users.title') %></a>
               </li>
             <% end %>
           </ul>

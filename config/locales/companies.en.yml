@@ -2,8 +2,6 @@ en:
   companies:
     add_admin:
       title: 'Add an administrator'
-    admin_list:
-      title: 'Administrators list'
     clients:
       title: 'Clients'
     index:
@@ -12,3 +10,5 @@ en:
       title: 'Create a new company'
     startups:
       title: 'Startups'
+    users:
+      title: 'Utilisateurs'
