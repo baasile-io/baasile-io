@@ -137,13 +137,27 @@ module ProxifyConcern
     http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
     http.use_ssl = @current_proxy_uri_object.scheme == 'https'
 
-    Rails.logger.info "Proxy Request: #{@current_proxy_uri_object}"
+    Rails.logger.info "Proxy Request: #{limit} #{@current_proxy_uri_object}"
     res = http.request @current_proxy_send_request
 
+
     case res
-      when Net::HTTPUnauthorized  then proxy_authenticate_after_unauthorized; proxy_send_request(limit - 1)
-      when Net::HTTPRedirection   then limit -= 1; if limit == -1 then raise(ProxyRedirectionError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body}) else proxy_prepare_request(res['location']); proxy_send_request(limit) end
-      when Net::HTTPSuccess       then res
+      when Net::HTTPUnauthorized
+        if @current_proxy_parameter.authorization_mode != 'null' && limit > -1
+          proxy_authenticate_after_unauthorized
+          proxy_send_request(limit - 1)
+        else
+          raise ProxyRequestError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body}
+        end
+      when Net::HTTPRedirection
+        if limit <= -1
+          raise(ProxyRedirectionError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body})
+        else
+          proxy_prepare_request(res['location'])
+          proxy_send_request(limit - 1)
+        end
+      when Net::HTTPSuccess
+        res
       else
         raise ProxyRequestError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: res.code, body: res.body}
     end
