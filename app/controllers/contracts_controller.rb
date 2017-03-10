@@ -5,10 +5,11 @@ class ContractsController < ApplicationController
   before_action :load_service
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject, :toogle_activate]
   before_action :load_contract_with_contract_id, only: [:set_price, :update_price]
+  before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
-  before_action :load_price_associate_startup, only: [:show, :set_price]
+  before_action :load_price_associate_startup, only: [:set_price]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -133,7 +134,7 @@ class ContractsController < ApplicationController
   def update_price
     #@contract.assign_attributes(contract_params_price)
     price = Price.find_by_id(contract_params_price[:price_id])
-    price.dup_attached(@contract.price)
+    price = price.dup_attached(@contract.price)
     price_params = PriceParameter.where(price: @contract.price)
     destroy_price_param(price_params)
     price_params = PriceParameter.where(price_id: contract_params_price[:price_id])
