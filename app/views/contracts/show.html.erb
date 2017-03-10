@@ -110,6 +110,13 @@
     <% end %>
     <% unless @contract.price.nil? %>
       <% if !@company.nil? %>
+        <%= link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract, @price), class: 'btn btn-primary' %>
+      <% elsif !@service.nil? %>
+        <%= link_to t('actions.add'), new_service_contract_price_price_parameter_path(current_service, @contract, @price), class: 'btn btn-primary' %>
+      <% else %>
+        <%= link_to t('actions.add'), new_contract_price_price_parameter_path(@contract, @price), class: 'btn btn-primary' %>
+      <% end %>
+      <% if !@company.nil? %>
         <%= link_to t('actions.edit'), edit_company_contract_price_path(@company, @contract, @price), class: 'btn btn-secondary' %>
       <% elsif !@service.nil? %>
         <%= link_to t('actions.edit'), edit_service_contract_price_path(current_service, @contract, @price), class: 'btn btn-secondary' %>
