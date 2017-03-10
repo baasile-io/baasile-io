@@ -1,4 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
+  skip_before_filter :set_paper_trail_whodunnit
+
 # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
