@@ -8,15 +8,17 @@ class CreateUserAssociations < ActiveRecord::Migration[5.0]
 
     add_index :user_associations, [:user_id, :associable_type, :associable_id], name: "id_userassociations_user_associable"
 
+    add_column :users, :ancestry, :string
+
     reversible do |direction|
       direction.up {
         [Company, Service].each do |collection|
           collection.all.each do |company|
             User.with_role(:admin, company).each do |u|
-              UserAssociation.find_or_create(associable: company, user: u)
+              UserAssociation.first_or_create(associable: company, user: u)
             end
             User.with_role(:commercial, company).each do |u|
-              UserAssociation.find_or_create(associable: company, user: u)
+              UserAssociation.first_or_create(associable: company, user: u)
             end
           end
         end

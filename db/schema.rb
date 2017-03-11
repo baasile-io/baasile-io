@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303144608) do
+ActiveRecord::Schema.define(version: 20170307142828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,17 @@ ActiveRecord::Schema.define(version: 20170303144608) do
     t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
   end
 
+  create_table "user_associations", force: :cascade do |t|
+    t.string   "associable_type"
+    t.integer  "associable_id"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["associable_type", "associable_id"], name: "index_user_associations_on_associable_type_and_associable_id", using: :btree
+    t.index ["user_id", "associable_type", "associable_id"], name: "id_userassociations_user_associable", using: :btree
+    t.index ["user_id"], name: "index_user_associations_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                             default: "",    null: false
     t.string   "encrypted_password",                default: "",    null: false
@@ -218,6 +229,7 @@ ActiveRecord::Schema.define(version: 20170303144608) do
     t.integer  "gender"
     t.string   "phone"
     t.boolean  "is_active",                         default: false
+    t.string   "ancestry"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree
     t.index ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree

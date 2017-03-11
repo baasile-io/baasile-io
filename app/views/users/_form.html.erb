@@ -1,0 +1,73 @@
+<%
+  namespace = []
+  namespace << current_module.singularize.to_sym
+  namespace << @user
+%>
+<%= simple_form_for namespace do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :parent_id, as: :select, collection: @parent_users.to_a, allow_blank: current_user.is_superadmin?, include_blank: current_user.is_superadmin? ? t('none') : false, input_html: {class: 'select2'} %>
+
+  <%= f.input :email %>
+
+  <%= f.input :gender, as: :select, collection: format_gender_for_select %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+
+  <%= f.input :phone %>
+
+  <% if current_user.is_superadmin? %>
+    <%= f.input :is_active, as: :radio_buttons %>
+  <% end %>
+
+  <% if !f.object.persisted? %>
+
+    <% if current_user.is_superadmin? %>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="skip_confirmation"></label>
+        <div class="col-md-9">
+          <label>
+            <%= check_box_tag :skip_confirmation, 'true', params[:skip_confirmation].present? %>
+            <%= t('actions.skip_confirmation') %>
+          </label>
+          <small class="form-text text-muted"><%= t('.hints.skip_confirmation') %></small>
+        </div>
+      </div>
+    <% end %>
+
+    <% if current_user.is_superadmin? %>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="send_welcome_instructions"></label>
+        <div class="col-md-9">
+          <label>
+            <%= check_box_tag :send_welcome_instructions, 'true', params[:send_welcome_instructions].present? %>
+            <%= t('actions.send_welcome_instructions') %>
+          </label>
+          <small class="form-text text-muted"><%= t('.hints.send_welcome_instructions') %></small>
+        </div>
+      </div>
+    <% end %>
+
+  <% else %>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="send_reset_password"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :send_reset_password, 'true', params[:send_reset_password].present? %>
+          <%= t('actions.send_reset_password') %>
+        </label>
+        <small class="form-text text-muted"><%= t('.hints.send_reset_password') %></small>
+      </div>
+    </div>
+
+  <% end %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

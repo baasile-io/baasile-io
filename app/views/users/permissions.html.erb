@@ -1,4 +1,4 @@
-<% content_for(:page_back) { back_office_users_path } %>
+<% content_for(:page_back) { users_path } %>
 <% content_for(:page_title) { @user.full_name } %>
 
 <div class="b-io-content--secondary">
@@ -6,7 +6,7 @@
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link" href="<%= edit_back_office_user_path(@user) %>">Modifier</a>
+        <a class="nav-link" href="<%= edit_user_path(@user) %>">Modifier</a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="#">Permissions</a>
@@ -48,7 +48,7 @@
 
     <table class="table table-sm">
       <tbody>
-      <% Role::ROLES.each do |scope| %>
+      <% Role::ROLES.reject {|role| role == :superadmin}.each do |scope| %>
         <tr>
           <td>
             <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />

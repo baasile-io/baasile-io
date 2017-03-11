@@ -19,4 +19,8 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
+  $('select.select2').select2({
+    language: I18n.locale
+  });
+
 });

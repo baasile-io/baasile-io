@@ -1,11 +1,19 @@
 en:
   services:
-    index:
-      title: 'List of services'
+    edit:
+      title: 'Parameters'
     form:
       hints:
         subdomain: "Must be lower case and contain alphanumeric and minus characters only"
         website: 'Example : "http://www.google.fr"'
+    index:
+      title: 'List of services'
     new:
       title: 'Create a new service'
+    show:
+      title: 'Dashboard'
+    update:
+      title: 'Parameters'
+    users:
+      title: 'Utilisateurs'
 

@@ -5,6 +5,8 @@ en:
     confirmations:
       new:
         title: 'Confirmation instructions'
+    create:
+      title: 'New user'
     index:
       title: 'Users'
     mailer:
@@ -16,6 +18,8 @@ en:
         subject: "Unlock instructions"
       password_change:
         subject: "Password Changed"
+    new:
+      title: 'New user'
     passwords:
       edit:
         title: 'Change password'

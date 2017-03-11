@@ -20,6 +20,11 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><%= t('misc.parameters') %></a>
             </li>
+            <% if current_user.is_admin? %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'services' && ['users', 'add_admin'].include?(action_name) %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-user fa-fw"></i> <%= t('services.users.title') %></a>
+              </li>
+            <% end %>
             <% if current_service.is_activated? && !current_service.is_client? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['proxies', 'routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>

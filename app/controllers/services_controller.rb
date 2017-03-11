@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
+  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset, :users]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
@@ -99,6 +99,10 @@ class ServicesController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
     end
     redirect_to service_path(@service)
+  end
+
+  def users
+    @users = current_service.users
   end
 
   private

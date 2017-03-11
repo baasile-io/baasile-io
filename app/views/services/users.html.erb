@@ -1,0 +1,30 @@
+<% content_for(:page_controls) { link_to t('actions.new'), new_service_user_path(current_service), class: 'btn btn-primary' } %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @users.size == 0 %>
+      <%= t('misc.nothing_to_display') %>
+    <% else %>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>email</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.full_name %></td>
+              <td><%= user.email %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    <% end %>
+
+  </div>
+</div>

@@ -13,6 +13,9 @@ class Service < ApplicationRecord
   SERVICE_TYPES_ENUM = SERVICE_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum service_type: SERVICE_TYPES_ENUM
 
+  has_many :user_associations, as: :associable
+  has_many :users, through: :user_associations
+
   belongs_to :user
   belongs_to :company
   has_many :proxies

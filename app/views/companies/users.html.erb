@@ -1,3 +1,4 @@
+<% content_for(:page_controls) { link_to t('actions.new'), new_user_path(company_id: current_company), class: 'btn btn-primary' } %>
 <% content_for(:page_title) { t('.title') } %>
 
 <div class="b-io-content--secondary">
@@ -21,6 +22,7 @@
         <% end %>
       </tbody>
     </table>
+
     <%= link_to t('actions.add_admin'), add_admin_company_path, class: 'btn btn-secondary' %>
 
   </div>

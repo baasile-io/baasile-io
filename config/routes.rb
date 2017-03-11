@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   
   resources :services do
     member do
+      get :users
       post :public_set
       post :public_unset
       post :activate
@@ -49,6 +50,12 @@ Rails.application.routes.draw do
     post '/permissions/unset_right_route', to: 'permissions#unset_right_route'
     post '/permissions/set_right', to: 'permissions#set_right'
     post '/permissions/unset_right', to: 'permissions#unset_right'
+
+    resources :users do
+      member do
+        get :permissions
+      end
+    end
 
     resources :proxies do
       resources :identifiers

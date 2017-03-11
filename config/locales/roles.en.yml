@@ -1,18 +1,27 @@
 en:
   roles:
+    accountant:
+      description: 'An Accountant can see contracts and manage billing.'
+      icon: 'fa fa-fw fa-credit-card'
+      title: 'Accountant'
+      title_long: 'Accountant'
     admin:
       description: 'A Company Administrator can create companies and manage them.'
+      icon: 'fa fa-fw fa-user-circle'
       title: 'Administrator'
       title_long: 'Company Administrator'
     commercial:
       description: 'A Company Commercial can create contracts and on behalf of his clients.'
+      icon: 'fa fa-fw fa-handshake-o'
       title: 'Commercial'
       title_long: 'Company Commercial'
     developer:
-      description: 'A startuper can create startups and manage their APIs.'
-      title: 'Startuper'
-      title_long: 'Startuper'
+      description: 'A technician can create startups and manage their APIs.'
+      icon: 'fa fa-fw fa-user'
+      title: 'Technician'
+      title_long: 'Technician'
     superadmin:
       description: 'A Super-Administrator can do everything on the platform.'
+      icon: 'fa fa-fw fa-star'
       title: 'Super-Administrator'
       title_long: 'Super-Administrator'

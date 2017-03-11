@@ -1,0 +1,19 @@
+<% content_for(:page_back) { users_path } %>
+<% content_for(:page_title) { @user.full_name } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Modifier</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= permissions_user_path(@user) %>">Permissions</a>
+      </li>
+    </ul>
+
+    <%= render partial: 'form' %>
+
+  </div>
+</div>
