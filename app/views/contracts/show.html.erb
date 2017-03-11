@@ -108,6 +108,25 @@
         <% end %>
       <% end %>
     <% end %>
+    <% if Contract.statuses[@contract.status] == Contract.statuses[:Validation] && @contract.is_commercial?(current_user, :startup) %>
+      <% unless @contract.production %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.set_production'), company_contract_toogle_production_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.set_production'), service_contract_toogle_production_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.set_production'), contract_toogle_production_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% else %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.unset_production'), company_contract_toogle_production_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.unset_production'), service_contract_toogle_production_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.unset_production'), contract_toogle_production_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% end %>
+    <% end %>
     <% unless @contract.price.nil? %>
       <% if !@company.nil? %>
         <%= link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract, @price), class: 'btn btn-primary' %>

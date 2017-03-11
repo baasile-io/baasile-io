@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     post :toogle_activate
     get :set_price
     post :update_price
+    post :toogle_production
     resources :prices do
       resources :price_parameters do
         post :toogle_activate
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
       post :toogle_activate
       get :set_price
       post :update_price
+      post :toogle_production
       resources :prices do
         resources :price_parameters do
           post :toogle_activate
@@ -65,6 +67,7 @@ Rails.application.routes.draw do
       post :toogle_activate
       get :set_price
       post :update_price
+      post :toogle_production
       resources :prices do
         resources :price_parameters do
           post :toogle_activate
