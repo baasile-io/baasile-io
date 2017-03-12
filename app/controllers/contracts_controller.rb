@@ -32,7 +32,6 @@ class ContractsController < ApplicationController
 
   def new
     @contract = Contract.new
-    @contract.company = current_company if !current_company.nil?
     @contract.client = current_service if !current_service.nil? && current_service.is_client?
     @contract.startup = current_service if !current_service.nil? && !current_service.is_client?
   end
@@ -41,7 +40,8 @@ class ContractsController < ApplicationController
     @contract = Contract.new
     @contract.user = current_user
     @contract.assign_attributes(contract_params)
-    @contract.status = 1
+    @contract.company = @contract.client.company unless @contract.client.company.nil?
+    @contract.status = Contract.statuses[:creation]
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
@@ -54,8 +54,8 @@ class ContractsController < ApplicationController
   end
 
   def update
-    if @contract.status >= 2
-      @contract.status -= 1
+    if @contract.status >= Contract.statuses[:commercial_validation_sp]
+      @contract.status -= Contract.offset
     end
     @contract.assign_attributes(contract_params)
     if @contract.save
@@ -79,19 +79,19 @@ class ContractsController < ApplicationController
   end
 
   def commercial_validation
-    if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
+    if Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
       if @contract.is_commercial?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
-    elsif Contract.statuses[@contract.status] < 4
+    elsif Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
       if @contract.is_commercial?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
-    elsif Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] >= 4
+    elsif Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
       if @contract.is_accounting?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
-    elsif Contract.statuses[@contract.status] >= 4
+    elsif Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
       if @contract.is_accounting?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
       end
@@ -101,19 +101,19 @@ class ContractsController < ApplicationController
   end
 
   def commercial_reject
-    if Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] < 4
+    if Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
       if @contract.is_commercial?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
       end
-    elsif Contract.statuses[@contract.status] < 4
+    elsif Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
       if @contract.is_commercial?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
       end
-    elsif Contract.statuses[@contract.status] %2 == 1 && Contract.statuses[@contract.status] >= 4
+    elsif Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
       if @contract.is_accounting?(current_user, :client)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
       end
-    elsif Contract.statuses[@contract.status] >= 4
+    elsif Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
       if @contract.is_accounting?(current_user, :startup)
         @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
       end
@@ -135,6 +135,9 @@ class ContractsController < ApplicationController
   end
 
   def set_price
+    unless Contract.statuses[@contract.status] == Contract.statuses[:creation]
+      redirect_to_show
+    end
   end
 
   def update_price

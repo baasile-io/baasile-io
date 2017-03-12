@@ -1,7 +1,9 @@
 class Contract < ApplicationRecord
 
-  CONTRACT_STATUS = {creation: 1, commercial_validation_sp: 2, commercial_validation_client: 3,  price_validation_sp: 4, price_validation_client: 5, Validation: 6}
+  CONTRACT_STATUS = {creation: 1, commercial_validation_sp: 4, commercial_validation_client: 7,  price_validation_sp: 10, price_validation_client: 13, Validation: 16}
   enum status: CONTRACT_STATUS
+
+  integer offset: 3
 
   belongs_to :user
   belongs_to :company
