@@ -75,12 +75,6 @@ Rails.application.routes.draw do
         post :toogle_activate
       end
     end
-    resources :prices do
-      resources :price_parameters do
-        post :toogle_activate
-      end
-      post :toogle_activate
-    end
     member do
       post :public_set
       post :public_unset
@@ -103,6 +97,12 @@ Rails.application.routes.draw do
       resources :identifiers
       resources :routes do
         resources :query_parameters
+      end
+      resources :prices do
+        resources :price_parameters do
+          post :toogle_activate
+        end
+        post :toogle_activate
       end
     end
   end

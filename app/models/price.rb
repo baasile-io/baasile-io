@@ -1,5 +1,6 @@
 class Price < ApplicationRecord
 
+  belongs_to :proxy
   belongs_to :service
   belongs_to :user
   has_many :PriceParameters
@@ -19,6 +20,10 @@ class Price < ApplicationRecord
     new_price.attached = true
     new_price.save
     return new_price
+  end
+
+  def full_name
+    self.service.name + ' - ' + self.name
   end
 
 end

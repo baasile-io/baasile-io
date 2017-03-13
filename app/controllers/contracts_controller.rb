@@ -55,7 +55,7 @@ class ContractsController < ApplicationController
 
   def update
     if @contract.status >= Contract.statuses[:commercial_validation_sp]
-      @contract.status -= Contract.offset
+      @contract.status -= Contract.OFFSET
     end
     @contract.assign_attributes(contract_params)
     if @contract.save

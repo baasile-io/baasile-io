@@ -34,11 +34,6 @@
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
               </li>
-              <% if !current_service.is_client? %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'prices' %>" href="<%= service_prices_path(current_service) %>"><i class="fa fa-fw fa-money"></i> <%= t('activerecord.models.price').pluralize %></a>
-                </li>
-              <% end %>
             <% end %>
           </ul>
         </div>

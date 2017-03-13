@@ -8,7 +8,7 @@
   <div class="b-io-content--secondary">
     <div class="container-fluid">
       <% if @contract.nil? %>
-        <%= link_to t('actions.edit'), edit_service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-secondary' %>
+        <%= link_to t('actions.edit'), edit_service_proxy_price_price_parameter_path(current_service, current_proxy, @price, price_parameter), class: 'btn btn-secondary' %>
       <% elsif !@company.nil? %>
         <%= link_to t('actions.edit'), edit_company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-secondary' %>
       <% elsif !@service.nil? %>
@@ -27,14 +27,6 @@
           <td><%= price_parameter.parameter %></td>
         </tr>
         <tr>
-          <td><%= t('activerecord.attributes.price_parameter.nb_free') %></td>
-          <td><%= price_parameter.nb_free %></td>
-        </tr>
-        <tr>
-          <td><%= t('activerecord.attributes.price_parameter.reset_free_perode_hour') %></td>
-          <td><%= price_parameter.reset_free_perode_hour %></td>
-        </tr>
-        <tr>
           <td><%= t('activerecord.attributes.price_parameter.cost') %></td>
           <td><%= price_parameter.cost %></td>
         </tr>
@@ -42,7 +34,7 @@
       </table>
       <% if current_user.is_admin? || price_parameter.user == current_user %>
         <% if @contract.nil? %>
-          <%= button_to t('actions.destroy'), service_price_price_parameter_path(current_service, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
+          <%= button_to t('actions.destroy'), service_proxy_price_price_parameter_path(current_service, current_proxy, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
         <% elsif !@company.nil? %>
           <%= button_to t('actions.destroy'), company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
         <% elsif !@service.nil? %>
@@ -54,7 +46,7 @@
       <% if current_user.is_admin? || price_parameter.user == current_user %>
         <% if price_parameter.activate %>
           <% if @contract.nil? %>
-            <%= button_to t('actions.deactivate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+            <%= button_to t('actions.deactivate'), service_proxy_price_price_parameter_toogle_activate_path(current_service, current_proxy, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@company.nil? %>
             <%= button_to t('actions.deactivate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@service.nil? %>
@@ -64,7 +56,7 @@
           <% end %>
         <% else %>
           <% if @contract.nil? %>
-            <%= button_to t('actions.activate'), service_price_price_parameter_toogle_activate_path(current_service, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+            <%= button_to t('actions.activate'), service_proxy_price_price_parameter_toogle_activate_path(current_service, current_proxy, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@company.nil? %>
             <%= button_to t('actions.activate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
           <% elsif !@service.nil? %>

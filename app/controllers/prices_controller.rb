@@ -5,6 +5,7 @@ class PricesController < ApplicationController
   before_action :is_commercial?
   before_action :load_company
   before_action :load_service_and_authorize!
+  before_action :load_proxy
   before_action :load_price, only: [:show, :edit, :update, :destroy, :toogle_activate]
   before_action :load_price_parameters, only: [:show]
 
@@ -14,6 +15,9 @@ class PricesController < ApplicationController
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
     add_breadcrumb current_service.name, service_path(current_service)
+    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
+    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) if current_proxy
+
   end
 
   def index
@@ -28,6 +32,7 @@ class PricesController < ApplicationController
     @price = Price.new
     @price.user = current_user
     @price.service = current_service
+    @price.proxy = current_proxy
     @price.assign_attributes(price_params)
     if @price.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.price'))
@@ -75,14 +80,14 @@ class PricesController < ApplicationController
   end
 
   def redirect_to_index
-    return redirect_to service_prices_path(current_service) if @contract.nil?
+    return redirect_to service_proxy_prices_path(current_service, current_proxy) if @contract.nil?
     return redirect_to company_contract_prices_path(current_company, @contract) unless @companie.nil?
     return redirect_to service_contract_prices_path(current_service, @contract) unless @service.nil?
     return redirect_to contract_prices_path(@contract) unless @service.nil?
   end
 
   def redirect_to_show
-    return redirect_to service_price_path(current_service, @price) if @contract.nil?
+    return redirect_to service_proxy_price_path(current_service, current_proxy, @price) if @contract.nil?
     return redirect_to company_contract_price_path(current_company, @contract, @price) unless @companie.nil?
     return redirect_to service_contract_price_path(current_service, @contract, @price) unless @service.nil?
     return redirect_to contract_price_path(@contract, @price) unless @service.nil?
@@ -109,6 +114,14 @@ class PricesController < ApplicationController
     end
   end
 
+  def load_proxy
+    if params.key?(:proxy_id)
+      @proxy = Proxy.find(params[:proxy_id])
+    else
+      @proxy = nil
+    end
+  end
+
   def is_commercial_of_current_service?
     current_user.has_role?(:superadmin) || current_user.has_role?( :commercial, current_service)
   end
@@ -122,6 +135,7 @@ class PricesController < ApplicationController
     @contract = nil
     @company = nil
     @service = nil
+    @proxy = nil
   end
 
   def is_commercial?
@@ -138,6 +152,11 @@ class PricesController < ApplicationController
   def current_service
     return nil unless params[:service_id]
     @service
+  end
+
+  def current_proxy
+    return nil unless params[:proxy_id]
+    @proxy
   end
 
   def load_company

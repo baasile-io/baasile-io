@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <% if !current_company.nil? %>
       <%= simple_form_for( [current_company, @contract], url: company_contract_update_price_path, method: :post ) do |f| %>
-        <%= f.input :price_id, collection: @prices %>
+        <%= f.input :price_id, collection: @prices.map { |a| [ a.full_name, a.id ] } %>
         <div class="row">
           <div class="actions col-md-9 offset-md-3">
             <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
@@ -13,7 +13,7 @@
       <% end %>
     <% elsif !current_service.nil? %>
       <%= simple_form_for( [current_service, @contract], url: service_contract_update_price_path, method: :post ) do |f| %>
-        <%= f.input :price_id, collection: @prices %>
+        <%= f.input :price_id, collection: @prices.map { |a| [ a.full_name, a.id ] } %>
         <div class="row">
           <div class="actions col-md-9 offset-md-3">
             <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
@@ -22,7 +22,7 @@
       <% end %>
     <% else %>
       <%= simple_form_for( [@contract], url: contract_update_price_path, method: :post ) do |f| %>
-        <%= f.input :price_id, collection: @prices %>
+        <%= f.input :price_id, collection: @prices.map { |a| [ a.full_name, a.id ] } %>
         <div class="row">
           <div class="actions col-md-9 offset-md-3">
             <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>

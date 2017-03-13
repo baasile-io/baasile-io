@@ -1,11 +1,9 @@
 <% if @contract.nil? %>
-  <%= simple_form_for [current_service, @price, @price_parameter] do |f| %>
+  <%= simple_form_for [current_service, current_proxy, @price, @price_parameter] do |f| %>
     <%= error_messages_for(@price_parameter) %>
     <%= f.input :name %>
     <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
     <%= f.input :parameter %>
-    <%= f.input :nb_free %>
-    <%= f.input :reset_free_perode_hour %>
     <%= f.input :cost %>
 
     <div class="row">
@@ -20,8 +18,6 @@
     <%= f.input :name %>
     <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
     <%= f.input :parameter %>
-    <%= f.input :nb_free %>
-    <%= f.input :reset_free_perode_hour %>
     <%= f.input :cost %>
 
     <div class="row">
@@ -36,8 +32,6 @@
     <%= f.input :name %>
     <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
     <%= f.input :parameter %>
-    <%= f.input :nb_free %>
-    <%= f.input :reset_free_perode_hour %>
     <%= f.input :cost %>
 
     <div class="row">
@@ -52,8 +46,6 @@
     <%= f.input :name %>
     <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
     <%= f.input :parameter %>
-    <%= f.input :nb_free %>
-    <%= f.input :reset_free_perode_hour %>
     <%= f.input :cost %>
 
     <div class="row">
