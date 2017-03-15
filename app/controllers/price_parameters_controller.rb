@@ -82,16 +82,16 @@ class PriceParametersController < ApplicationController
 
   def redirect_to_index
     return redirect_to service_proxy_price_path(current_service, current_proxy, @price) if @contract.nil?
-    return redirect_to company_contract_price_path(current_company, @contract, @price) unless @companie.nil?
-    return redirect_to service_contract_price_path(current_service, @contract, @price) unless @service.nil?
-    return redirect_to contract_price_path(@contract, @price) unless @service.nil?
+    return redirect_to company_contract_path(current_company, @contract) unless @companie.nil?
+    return redirect_to service_contract_path(current_service, @contract) unless @service.nil?
+    return redirect_to contract_path(@contract)
   end
 
   def redirect_to_show
     return redirect_to service_proxy_price_path(current_service, current_proxy, @price) if @contract.nil?
-    return redirect_to company_contract_price_path(current_company, @contract, @price) unless @companie.nil?
-    return redirect_to service_contract_price_path(current_service, @contract, @price) unless @service.nil?
-    return redirect_to contract_price_path(@contract, @price) unless @service.nil?
+    return redirect_to company_contract_path(current_company, @contract) unless @companie.nil?
+    return redirect_to service_contract_path(current_service, @contract) unless @service.nil?
+    return redirect_to contract_path(@contract)
   end
 
   def load_price_parameter
