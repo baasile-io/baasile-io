@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170311034045) do
+ActiveRecord::Schema.define(version: 20170320114113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,9 @@ ActiveRecord::Schema.define(version: 20170311034045) do
     t.integer  "status",     default: 1
     t.integer  "price_id"
     t.boolean  "production", default: false
-    t.index ["client_id", "startup_id"], name: "index_contracts_on_client_id_and_startup_id", unique: true, using: :btree
+    t.integer  "proxy_id"
+    t.string   "code"
+    t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
   create_table "measurements", force: :cascade do |t|
@@ -117,11 +119,13 @@ ActiveRecord::Schema.define(version: 20170311034045) do
   end
 
   create_table "price_parameters", force: :cascade do |t|
-    t.string   "name"
     t.integer  "price_parameters_type", default: 1
     t.string   "parameter"
     t.decimal  "cost",                  default: "0.0"
+    t.integer  "free_count"
     t.integer  "user_id"
+    t.integer  "route_id"
+    t.integer  "query_parameter_id"
     t.boolean  "activate",              default: true
     t.boolean  "attached",              default: false
     t.integer  "price_id"
