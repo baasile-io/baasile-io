@@ -10,6 +10,7 @@ class ContractsController < ApplicationController
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
   before_action :load_price_associate_startup, only: [:set_price]
+  before_action :load_active_proxies_and_authorize, only: [:new, :edit]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -33,13 +34,15 @@ class ContractsController < ApplicationController
   def new
     @contract = Contract.new
     @contract.client = current_service if !current_service.nil? && current_service.is_client?
-    @contract.startup = current_service if !current_service.nil? && !current_service.is_client?
+    @contract.startup = current_service if !current_service.nil? && current_service.is_startup?
+    define_form_value
   end
 
   def create
     @contract = Contract.new
     @contract.user = current_user
     @contract.assign_attributes(contract_params)
+    @contract.startup = @contract.proxy.service
     @contract.company = @contract.client.company unless @contract.client.company.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
@@ -51,13 +54,14 @@ class ContractsController < ApplicationController
   end
 
   def edit
+    define_form_value
   end
 
   def update
-    if @contract.status >= Contract.statuses[:commercial_validation_sp]
-      @contract.status -= Contract.OFFSET
-    end
+    @contract.status = Contract.statuses[:creation]
     @contract.assign_attributes(contract_params)
+    @contract.startup = @contract.proxy.service
+    @contract.company = @contract.client.company unless @contract.client.company.nil?
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
@@ -79,46 +83,41 @@ class ContractsController < ApplicationController
   end
 
   def commercial_validation
-    if Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
-      if @contract.is_commercial?(current_user, :client)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+
+    if Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'commercial'
+      if @contract.is_commercial?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
+        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
+        if @contract.save
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+        end
       end
-    elsif Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
-      if @contract.is_commercial?(current_user, :startup)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
-      end
-    elsif Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
-      if @contract.is_accounting?(current_user, :client)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
-      end
-    elsif Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
-      if @contract.is_accounting?(current_user, :startup)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status]]
+    elsif Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'accounting'
+      if @contract.is_accounting?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
+        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
+        if @contract.save
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+        end
       end
     end
-    @contract.save
     redirect_to_show
   end
 
   def commercial_reject
-    if Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
-      if @contract.is_commercial?(current_user, :client)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+    if Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'commercial'
+      if @contract.is_commercial?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
+        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev].nil?
+        if @contract.save
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+        end
       end
-    elsif Contract.statuses[@contract.status] < Contract.statuses[:price_validation_sp]
-      if @contract.is_commercial?(current_user, :startup)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
-      end
-    elsif Contract.statuses[@contract.status] %2 == Contract.statuses[:creation] && Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
-      if @contract.is_accounting?(current_user, :client)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
-      end
-    elsif Contract.statuses[@contract.status] >= Contract.statuses[:price_validation_sp]
-      if @contract.is_accounting?(current_user, :startup)
-        @contract.status = Contract.statuses.keys[Contract.statuses[@contract.status] - 2]
+    elsif Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'accounting'
+      if @contract.is_accounting?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
+        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev].nil?
+        if @contract.save
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+        end
       end
     end
-    @contract.save
     redirect_to_show
   end
 
@@ -141,14 +140,7 @@ class ContractsController < ApplicationController
   end
 
   def update_price
-    #@contract.assign_attributes(contract_params_price)
-    price = Price.find_by_id(contract_params_price[:price_id])
-    price = price.dup_attached(@contract.price)
-    price_params = PriceParameter.where(price: @contract.price)
-    destroy_price_param(price_params)
-    price_params = PriceParameter.where(price_id: contract_params_price[:price_id])
-    dup_price_param(price_params, price)
-    @contract.price = price
+    @contract.set_dup_price(contract_params_price[:price_id])
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
@@ -157,24 +149,22 @@ class ContractsController < ApplicationController
     end
   end
 
+  def define_form_value
+    @form_values = get_for_values
+  end
+
   private
+
+  def get_for_values
+    return [current_company, @contract] unless current_company.nil?
+    return [current_service, @contract] unless current_service.nil?
+    return [@contract]
+  end
 
   def load_price
     unless @contract.price.nil?
       @price = @contract.price
       @price_parameters = PriceParameter.where(price: @price)
-    end
-  end
-
-  def destroy_price_param(price_params)
-    price_params.each do |price_param|
-      price_param.destroy
-    end
-  end
-
-  def dup_price_param(price_params, price)
-    price_params.each do |price_param|
-      price_param.dup_attached(price)
     end
   end
 
@@ -210,6 +200,18 @@ class ContractsController < ApplicationController
     @clients = Service.activated_clients()
   end
 
+  def load_active_proxies_and_authorize
+    @proxies = []
+    @services.each do |service|
+      service.proxies.each do |proxy|
+        @proxies << proxy
+      end
+    end
+    if @proxies.count == 0
+      redirect_to_index
+    end
+  end
+
   def load_active_companies
     @companies = Company.all
   end
@@ -236,7 +238,7 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    allowed_parameters = [:name, :start_date, :company_id, :startup_id, :client_id]
+    allowed_parameters = [:code, :name, :start_date, :company_id, :proxy_id, :client_id]
     params.require(:contract).permit(allowed_parameters)
   end
 

@@ -14,6 +14,8 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>client</th>
+        <th>startup/proxy</th>
         <th></th>
       </tr>
       </thead>
@@ -21,6 +23,8 @@
       <% @collection.each do |contract| %>
         <tr>
           <td><%= contract.name %></td>
+          <td><%= contract.client.name %></td>
+          <td><%= contract.startup.name + '/' + contract.proxy.name %></td>
           <% if !current_company.nil? %>
             <td class="text-right">
               <%= link_to t('misc.dashboard'), company_contract_path(current_company, contract), class: 'btn btn-secondary' %>
