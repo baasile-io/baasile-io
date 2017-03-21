@@ -2,11 +2,6 @@
 <% @price_parameters.each do |price_parameter| %>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
-      <h4><%= price_parameter.name %></h4>
-    </div>
-  </div>
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
       <% if @contract.nil? %>
         <%= link_to t('actions.edit'), edit_service_proxy_price_price_parameter_path(current_service, current_proxy, @price, price_parameter), class: 'btn btn-secondary' %>
       <% elsif !@company.nil? %>

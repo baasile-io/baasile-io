@@ -10,7 +10,7 @@ class ContractsController < ApplicationController
   before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
   before_action :load_price_associate_startup, only: [:set_price]
-  before_action :load_active_proxies_and_authorize, only: [:new, :edit]
+  before_action :load_active_proxies_and_authorize, only: [:new, :edit, :update, :create]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -42,13 +42,14 @@ class ContractsController < ApplicationController
     @contract = Contract.new
     @contract.user = current_user
     @contract.assign_attributes(contract_params)
-    @contract.startup = @contract.proxy.service
-    @contract.company = @contract.client.company unless @contract.client.company.nil?
+    @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
+    @contract.company = @contract.client.company unless @contract.client.company.nil?  unless @contract.client.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
+      define_form_value
       render :new
     end
   end
@@ -60,12 +61,13 @@ class ContractsController < ApplicationController
   def update
     @contract.status = Contract.statuses[:creation]
     @contract.assign_attributes(contract_params)
-    @contract.startup = @contract.proxy.service
-    @contract.company = @contract.client.company unless @contract.client.company.nil?
+    @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
+    @contract.company = @contract.client.company unless @contract.client.company.nil? unless @contract.client.nil?
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
+      define_form_value
       render :edit
     end
   end

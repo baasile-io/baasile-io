@@ -10,12 +10,12 @@ class PriceParametersController < ApplicationController
   before_action :load_price_parameter, only: [:show, :edit, :update, :destroy, :toogle_activate]
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
-  before_action :load_route_and_query_parameters, only: [:new, :edit]
+  before_action :load_route_and_query_parameters, only: [:new, :edit, :update, :create]
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service)
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
+    add_breadcrumb current_service.name, service_path(current_service) unless current_service.nil?
+    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path unless current_service.nil?
     add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) unless current_proxy.nil?
     add_breadcrumb current_price.name, service_proxy_price_path(current_service, current_proxy, current_price) unless current_proxy.nil?
   end
@@ -39,15 +39,16 @@ class PriceParametersController < ApplicationController
         flash[:fail] = I18n.t('actions.destroy')
         return render :new
       end
-      @price_parameter.parameter = @price_parameter.route.name + " - " + @price_parameter.query_parameter.name
+      @price_parameter.parameter = @price_parameter.route.name + " - " + @price_parameter.query_parameter.name unless @price_parameter.route.nil?
     else
-      @price_parameter.parameter = @price_parameter.route.name + " - all"
+      @price_parameter.parameter = @price_parameter.route.name + " - all" unless @price_parameter.route.nil?
     end
     ##logger.info price_parameter_params[:query_parameter_id]
     if @price_parameter.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.@price_parameter'))
       redirect_to_show
     else
+      @form_values = get_form_values
       render :new
     end
   end
@@ -62,6 +63,7 @@ class PriceParametersController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.@price_parameter'))
       redirect_to_show
     else
+      @form_values = get_form_values
       render :edit
     end
   end

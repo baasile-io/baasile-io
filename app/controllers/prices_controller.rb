@@ -6,7 +6,7 @@ class PricesController < ApplicationController
   before_action :load_company
   before_action :load_service_and_authorize!
   before_action :load_proxy
-  before_action :load_price, only: [:show, :edit, :update, :destroy, :toogle_activate]
+  before_action :load_price, only: [:show, :edit, :update, :create, :destroy, :toogle_activate]
   before_action :load_price_parameters, only: [:show]
 
   before_action :add_breadcrumb_parent
@@ -14,8 +14,8 @@ class PricesController < ApplicationController
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service)
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
+    add_breadcrumb current_service.name, service_path(current_service) unless current_service.nil?
+    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path unless current_service.nil?
     add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) if current_proxy
 
   end
@@ -26,6 +26,7 @@ class PricesController < ApplicationController
 
   def new
     @price = Price.new
+    @form_values = get_form_values
   end
 
   def create
@@ -38,11 +39,13 @@ class PricesController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.price'))
       redirect_to_show
     else
+      @form_values = get_form_values
       render :new
     end
   end
 
   def edit
+    @form_values = get_form_values
   end
 
   def update
@@ -51,6 +54,7 @@ class PricesController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.price'))
       redirect_to_show
     else
+      @form_values = get_form_values
       render :edit
     end
   end
@@ -75,6 +79,13 @@ class PricesController < ApplicationController
 
   private
 
+  def get_form_values
+    return [current_service, current_proxy, @price] if @contract.nil?
+    return [@company, @contract, @price] unless @company.nil?
+    return [current_service, @contract, @price] unless @service.nil?
+    return [@contract, @price]
+  end
+
   def load_price_parameters
     @price_parameters = PriceParameter.where(price_id: @price.id, attached: false)
   end
@@ -94,7 +105,11 @@ class PricesController < ApplicationController
   end
 
   def load_price
-    @price = Price.find(params[:id])
+    if params.key?(:id)
+      @price = Price.find(params[:id])
+    else
+      @price = nil
+    end
   end
 
   def load_service_and_authorize!

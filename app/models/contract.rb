@@ -33,13 +33,15 @@ class Contract < ApplicationRecord
   scope :owned, ->(user) { where(user: user) }
 
   def set_dup_price(price_id)
-    price_temp = Price.find(price_id)
-    price_params_old = PriceParameter.where(price: self.price)
-    destroy_price_param(price_params_old)
-    price = price_temp.dup_attached(self.price)
-    price_params = PriceParameter.where(price_id: price_id)
-    dup_price_param(price_params, price)
-    self.price = price
+    unless price_id.empty?
+      price_temp = Price.find(price_id)
+      price_params_old = PriceParameter.where(price: self.price)
+      destroy_price_param(price_params_old)
+      price = price_temp.dup_attached(self.price)
+      price_params = PriceParameter.where(price_id: price_id)
+      dup_price_param(price_params, price)
+      self.price = price
+    end
   end
 
   def destroy_price_param(price_params)
