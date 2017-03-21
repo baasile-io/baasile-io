@@ -1,58 +1,13 @@
-<% if @contract.nil? %>
-  <%= simple_form_for [current_service, current_proxy, @price, @price_parameter] do |f| %>
-    <%= error_messages_for(@price_parameter) %>
-    <%= f.input :name %>
-    <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
-    <%= f.input :parameter %>
-    <%= f.input :cost %>
+<%= simple_form_for @form_values do |f| %>
+  <%= error_messages_for(@price_parameter) %>
+  <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
+  <%= f.input :parameter %>
+  <%= f.input :cost %>
+  <%= f.input :free_count %>
 
-    <div class="row">
-      <div class="actions col-md-9 offset-md-3">
-        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-      </div>
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
     </div>
-  <% end %>
-<% elsif !@companie.nil? %>
-  <%= simple_form_for [@company, @contract, @price, @price_parameter] do |f| %>
-    <%= error_messages_for(@price_parameter) %>
-    <%= f.input :name %>
-    <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
-    <%= f.input :parameter %>
-    <%= f.input :cost %>
-
-    <div class="row">
-      <div class="actions col-md-9 offset-md-3">
-        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-      </div>
-    </div>
-  <% end %>
-<% elsif !@service.nil? %>
-  <%= simple_form_for [current_service, @contract, @price, @price_parameter] do |f| %>
-    <%= error_messages_for(@price_parameter) %>
-    <%= f.input :name %>
-    <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
-    <%= f.input :parameter %>
-    <%= f.input :cost %>
-
-    <div class="row">
-      <div class="actions col-md-9 offset-md-3">
-        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-      </div>
-    </div>
-  <% end %>
-<% else %>
-  <%= simple_form_for [@contract, @price, @price_parameter] do |f| %>
-    <%= error_messages_for(@price_parameter) %>
-    <%= f.input :name %>
-    <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
-    <%= f.input :parameter %>
-    <%= f.input :cost %>
-
-    <div class="row">
-      <div class="actions col-md-9 offset-md-3">
-        <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-      </div>
-    </div>
-  <% end %>
+  </div>
 <% end %>
-

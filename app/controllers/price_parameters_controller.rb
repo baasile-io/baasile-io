@@ -25,6 +25,7 @@ class PriceParametersController < ApplicationController
 
   def new
     @price_parameter = PriceParameter.new
+    @form_values = get_form_values
   end
 
   def create
@@ -41,6 +42,7 @@ class PriceParametersController < ApplicationController
   end
 
   def edit
+    @form_values = get_form_values
   end
 
   def update
@@ -72,6 +74,13 @@ class PriceParametersController < ApplicationController
   end
 
   private
+
+  def get_form_values
+    return [current_service, current_proxy, @price, @price_parameter] if @contract.nil?
+    return [@company, @contract, @price, @price_parameter] unless @company.nil?
+    return [current_service, @contract, @price, @price_parameter] unless @service.nil?
+    return [@contract, @price, @price_parameter]
+  end
 
   def init
     @contract = nil

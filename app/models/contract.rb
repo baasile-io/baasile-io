@@ -1,8 +1,8 @@
 class Contract < ApplicationRecord
 
-  CONTRACT_STATUS = {creation: {index: 1, scope: 'comercial', can_edit: 'client', next: :commercial_validation_sp, prev: nil},
-                     commercial_validation_sp: {index: 4, scope: 'comercial', can_edit: 'startup', next: :commercial_validation_client, prev: :creation},
-                     commercial_validation_client: {index: 7, scope: 'comercial', can_edit: 'client', next: :price_validation_sp, prev: :commercial_validation_sp},
+  CONTRACT_STATUS = {creation: {index: 1, scope: 'commercial', can_edit: 'client', next: :commercial_validation_sp, prev: nil},
+                     commercial_validation_sp: {index: 4, scope: 'commercial', can_edit: 'startup', next: :commercial_validation_client, prev: :creation},
+                     commercial_validation_client: {index: 7, scope: 'commercial', can_edit: 'client', next: :price_validation_sp, prev: :commercial_validation_sp},
                      price_validation_sp: {index: 10, scope: 'accounting', can_edit: 'startup', next: :price_validation_client, prev: :commercial_validation_client},
                      price_validation_client: {index: 13, scope: 'accounting', can_edit: 'client', next: :Validation, prev: :price_validation_sp},
                      Validation: {index: 16, scope: 'comercial', can_edit: 'client', next: nil, prev: :price_validation_client}}
@@ -34,10 +34,10 @@ class Contract < ApplicationRecord
 
   def set_dup_price(price_id)
     price_temp = Price.find(price_id)
-    price_params_old = PriceParameter.where(price: @contract.price)
+    price_params_old = PriceParameter.where(price: self.price)
     destroy_price_param(price_params_old)
     price = price_temp.dup_attached(self.price)
-    price_params = PriceParameter.where(price_id: contract_params_price[:price_id])
+    price_params = PriceParameter.where(price_id: price_id)
     dup_price_param(price_params, price)
     self.price = price
   end
