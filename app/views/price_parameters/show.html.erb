@@ -14,12 +14,20 @@
     <table class="table">
       <tbody>
       <tr>
+        <td><%= t('activerecord.attributes.price_parameter.price_parameters_type') %></td>
+        <td><%= @price_parameter.price_parameters_type %></td>
+      </tr>
+      <tr>
         <td><%= t('activerecord.attributes.price_parameter.parameter') %></td>
         <td><%= @price_parameter.parameter %></td>
       </tr>
       <tr>
-        <td><%= t('activerecord.attributes.price_parameter.cost_by_call') %></td>
-        <td><%= @price_parameter.cost_by_call %></td>
+        <td><%= t('activerecord.attributes.price_parameter.cost') %></td>
+        <td><%= @price_parameter.cost %></td>
+      </tr>
+      <tr>
+        <td><%= t('activerecord.attributes.price_parameter.free_count') %></td>
+        <td><%= @price_parameter.free_count %></td>
       </tr>
       </tbody>
     </table>

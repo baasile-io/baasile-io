@@ -10,6 +10,7 @@ class PriceParametersController < ApplicationController
   before_action :load_price_parameter, only: [:show, :edit, :update, :destroy, :toogle_activate]
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
+  before_action :load_route_and_query_parameters, only: [:new, :edit]
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
@@ -33,6 +34,16 @@ class PriceParametersController < ApplicationController
     @price_parameter.user = current_user
     @price_parameter.price = current_price
     @price_parameter.assign_attributes(price_parameter_params)
+    unless @price_parameter.query_parameter_id.nil?
+      if @price_parameter.query_parameter.route_id != @price_parameter.route_id
+        flash[:fail] = I18n.t('actions.destroy')
+        return render :new
+      end
+      @price_parameter.parameter = @price_parameter.route.name + " - " + @price_parameter.query_parameter.name
+    else
+      @price_parameter.parameter = @price_parameter.route.name + " - all"
+    end
+    ##logger.info price_parameter_params[:query_parameter_id]
     if @price_parameter.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.@price_parameter'))
       redirect_to_show
@@ -103,6 +114,25 @@ class PriceParametersController < ApplicationController
     return redirect_to contract_path(@contract)
   end
 
+  def load_route_and_query_parameters
+    @query_parameters = []
+    @routes = []
+    @proxy.routes.each do |route|
+      tabr = []
+      tabr[0] = route.name
+      tabr[1] = route.id
+      @routes << tabr
+      if route.query_parameters.count > 0
+        route.query_parameters.each do |qp|
+          tab = []
+          tab[0] = route.name + " - " + qp.name
+          tab[1] = qp.id
+          @query_parameters << tab
+        end
+      end
+    end
+  end
+
   def load_price_parameter
     @price_parameter = PriceParameter.find(params[:id])
   end
@@ -133,10 +163,14 @@ class PriceParametersController < ApplicationController
   end
 
   def load_proxy
-    if params.key?(:proxy_id)
-      @proxy = Proxy.find(params[:proxy_id])
+    if @contract.nil?
+      if params.key?(:proxy_id)
+       @proxy = Proxy.find(params[:proxy_id])
+      else
+       @proxy = nil
+      end
     else
-      @proxy = nil
+      @proxy = @contract.proxy
     end
   end
 
@@ -145,7 +179,7 @@ class PriceParametersController < ApplicationController
   end
 
   def price_parameter_params
-    allowed_parameters = [:name, :price_parameters_type, :parameter, :nb_free, :reset_free_perode_hour, :cost]
+    allowed_parameters = [:route_id, :query_parameter_id, :price_parameters_type, :free_count, :cost]
     params.require(:price_parameter).permit(allowed_parameters)
   end
 

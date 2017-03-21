@@ -5,8 +5,9 @@ class PriceParameter < ApplicationRecord
 
   belongs_to :price
   belongs_to :user
+  belongs_to :route
 
-  validates :name, presence: true
+  validates :route_id, presence: true
   validates :price, presence: true
 
   def dup_attached(current_price)

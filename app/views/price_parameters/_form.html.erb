@@ -1,7 +1,8 @@
 <%= simple_form_for @form_values do |f| %>
   <%= error_messages_for(@price_parameter) %>
   <%= f.input :price_parameters_type , collection: format_price_parameters_type_for_select %>
-  <%= f.input :parameter %>
+  <%= f.input :route_id , collection: @routes %>
+  <%= f.input :query_parameter_id , collection: @query_parameters , include_blank: "All"%>
   <%= f.input :cost %>
   <%= f.input :free_count %>
 

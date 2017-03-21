@@ -30,6 +30,10 @@
           <td><%= t('activerecord.attributes.price_parameter.cost') %></td>
           <td><%= price_parameter.cost %></td>
         </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price_parameter.free_count') %></td>
+          <td><%= price_parameter.free_count %></td>
+        </tr>
         </tbody>
       </table>
       <% if current_user.is_admin? || price_parameter.user == current_user %>
