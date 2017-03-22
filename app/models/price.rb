@@ -3,7 +3,7 @@ class Price < ApplicationRecord
   belongs_to :proxy
   belongs_to :service
   belongs_to :user
-  has_many :PriceParameters
+  has_many :price_parameters
   has_many :contracts
 
   validates :name, presence: true
