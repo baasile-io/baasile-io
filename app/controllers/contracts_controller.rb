@@ -85,13 +85,8 @@ class ContractsController < ApplicationController
   end
 
   def commercial_validation
-    logger.info "@@@@@"
     if Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'commercial'
       if @contract.is_commercial?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        logger.info @contract.status.inspect
-        logger.info "#####"
-        logger.info Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].inspect
-        logger.info "&&&&&"
         @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
         logger.info @contract.status.inspect
         if @contract.save
@@ -102,10 +97,7 @@ class ContractsController < ApplicationController
       end
     elsif Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'accounting'
       if @contract.is_accounting?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        logger.info @contract.status.inspect
-        logger.info "#####"
         @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
-        logger.info @contract.status.inspect
         if @contract.save
           flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
         end
@@ -113,7 +105,6 @@ class ContractsController < ApplicationController
         flash[:success] = I18n.t('actions.back', resource: t('activerecord.models.contract'))
       end
     end
-    logger.info "@@@@@"
     redirect_to_show
   end
 

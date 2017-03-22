@@ -37,6 +37,7 @@ class PriceParametersController < ApplicationController
     unless @price_parameter.query_parameter_id.nil?
       if @price_parameter.query_parameter.route_id != @price_parameter.route_id
         flash[:fail] = I18n.t('actions.destroy')
+        @form_values = get_form_values
         return render :new
       end
       @price_parameter.parameter = @price_parameter.route.name + " - " + @price_parameter.query_parameter.name unless @price_parameter.route.nil?

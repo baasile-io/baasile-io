@@ -6,6 +6,7 @@ class PriceParameter < ApplicationRecord
   belongs_to :price
   belongs_to :user
   belongs_to :route
+  belongs_to :query_parameter
 
   validates :route_id, presence: true
   validates :price, presence: true
