@@ -14,6 +14,7 @@ class Price < ApplicationRecord
 
   def dup_attached(current_price)
     unless current_price.nil?
+      current_price.price_parameters.destroy_all
       current_price.destroy
     end
     new_price = self.dup

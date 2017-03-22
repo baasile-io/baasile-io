@@ -35,8 +35,6 @@ class Contract < ApplicationRecord
   def set_dup_price(price_id)
     unless price_id.empty?
       price_temp = Price.find(price_id)
-      price_params_old = PriceParameter.where(price: self.price)
-      destroy_price_param(price_params_old)
       price = price_temp.dup_attached(self.price)
       price_params = PriceParameter.where(price_id: price_id)
       dup_price_param(price_params, price)
