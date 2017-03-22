@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :proxies
   has_many :routes
   has_many :query_parameters
+  has_many :prices
+  has_many :price_parameters
 
   validates :email, presence: true, uniqueness: true
   validates :gender, presence: true
@@ -31,6 +33,10 @@ class User < ApplicationRecord
   end
 
   def is_commercial?
+    self.has_role?(:superadmin) || self.has_role?(:commercial, :any)
+  end
+
+  def is_commercial_to_create?
     self.has_role?(:superadmin) || self.has_role?(:commercial)
   end
 

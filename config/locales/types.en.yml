@@ -7,6 +7,9 @@ en:
       mandatory: 'mandatory'
       optional: 'optional'
       forbidden: 'forbidden'
+    price_parameters_types:
+      per_call: 'Per call'
+      per_params: 'Per parameters'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
@@ -17,3 +20,17 @@ en:
       service: 'Service'
       startup: 'Startup'
       client: 'Client'
+    contract_status:
+      creation: 'Creation'
+      commercial_validation_sp: 'Commercial validation startup'
+      commercial_validation_client: 'Commercial validation client'
+      price_validation_sp: 'Price validation startup'
+      price_validation_client: 'Price validation client'
+      Validation: 'Validation'
+    contract_unset_status:
+      creation: 'Delete'
+      commercial_validation_sp: 'Reject startup'
+      commercial_validation_client: 'Reject client'
+      price_validation_sp: 'Reject startup price'
+      price_validation_client: 'Reject client price'
+      Validation: 'Desactivate'

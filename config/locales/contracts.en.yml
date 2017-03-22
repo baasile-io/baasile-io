@@ -1,0 +1,28 @@
+en:
+  contracts:
+    edit:
+      title: 'Parameters'
+    index:
+      title: 'List of contracts'
+    new:
+      title: 'Create a new contract'
+    set_price:
+      title: 'set price'
+    show:
+      title: 'Dashboard'
+    update:
+      title: 'Parameters'
+  back_office:
+    contracts:
+      edit:
+        title: 'Parameters'
+      index:
+        title: 'List of contracts'
+      new:
+        title: 'Create a new contract'
+      set_price:
+        title: 'set price'
+      show:
+        title: 'Dashboard'
+      update:
+        title: 'Parameters'

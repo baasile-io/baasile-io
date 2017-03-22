@@ -1,6 +1,7 @@
 en:
   actions:
     activate: 'Activate'
+    add: 'Add'
     add_admin: 'Add an administrator'
     admin_list: 'administrator list'
     back: '<< Back'
@@ -28,6 +29,7 @@ en:
     sign_out: 'Sign out'
     sign_up: 'Sign up'
     signin_up: 'Signin up..'
+    status: 'Status'
     success:
       created: '%{resource} was successfuly created'
       destroyed: '%{resource} was successfuly deleted'

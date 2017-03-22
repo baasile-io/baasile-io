@@ -1,6 +1,18 @@
 fr:
   activerecord:
     attributes:
+      price:
+        name: 'Nom'
+        base_cost: 'Prix fix'
+        free_hour: "Nombres d'heures gratuites"
+        cost_by_time: 'Prix par heures'
+      price_parameter:
+        name: 'Nom'
+        price_parameters_type: 'type'
+        nb_free: "Nombre d'heures gratuites"
+        reset_free_perode_hour: 'période en heure de restoration des heures gratuites'
+        cost: 'cout'
+        price: 'prix'
       company:
         name: 'Nom'
       contact_detail:
@@ -24,9 +36,24 @@ fr:
         encrypted_secret: 'Clé secrète cryptée'
         proxy: 'Fonctionnalité'
         user: 'Créateur'
+      contract:
+        name: 'Nom'
+        startup: 'Startup'
+        client: 'Client'
+        company: 'Compagnie'
       proxy:
         alias: 'Alias'
         description: 'Description'
+        proxy_parameter:
+          authentication_mode: "Mode d'authentification"
+          authentication_url: "URL d'authentification"
+          client_id: 'CLIENT ID'
+          client_secret: 'CLIENT SECRET'
+          grant_type: 'Grant type'
+          hostname: 'Domaine'
+          port: 'Port'
+          protocol: 'Protocole'
+          realm: 'Realm'
         name: 'Nom'
         service: 'Service'
         service_id: 'Service'
@@ -51,7 +78,7 @@ fr:
         hostname: 'Domaine'
         port: 'Port'
         protocol: 'Protocole'
-        realm: 'realm'
+        realm: 'Realm'
       query_parameter:
         name: 'Nom'
         mode: 'Mode'
@@ -94,10 +121,13 @@ fr:
         password_confirmation: 'Confirmation du mot de passe'
         phone: 'Téléphone'
     models:
+      price: 'Price'
+      price_parameter: 'Parametre de price en fonction des appels'
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'
       identifier: 'Identifiant'
+      contract: 'Contrat'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'

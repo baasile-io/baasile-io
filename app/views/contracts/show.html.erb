@@ -1,0 +1,162 @@
+<% content_for(:page_title) { @contract.name } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <% if Contract.statuses[@contract.status] == Contract.statuses[:creation] %>
+      <% if !current_company.nil? %>
+          <%= link_to t('actions.edit'), edit_company_contract_path(current_company, @contract), class: 'btn btn-secondary' %>
+          <%= link_to t('contracts.set_price.title'), company_contract_set_price_path(current_company, @contract), class: 'btn btn-secondary' %>
+      <% elsif !current_service.nil? %>
+          <%= link_to t('actions.edit'), edit_service_contract_path(current_service, @contract), class: 'btn btn-secondary' %>
+          <%= link_to t('contracts.set_price.title'), service_contract_set_price_path(current_service, @contract), class: 'btn btn-secondary' %>
+      <% else %>
+          <%= link_to t('actions.edit'), edit_contract_path(@contract), class: 'btn btn-secondary' %>
+          <%= link_to t('contracts.set_price.title'), contract_set_price_path(@contract), class: 'btn btn-secondary' %>
+      <% end %>
+    <% end %>
+    <table class="table">
+      <tbody>
+        <% unless @contract.company.nil? %>
+          <tr>
+            <td><%= t('actions.activate') %></td>
+            <td><%= @contract.activate %></td>
+          </tr>
+          <tr>
+            <td><%= t('actions.status') %></td>
+            <td><%= t("types.contract_status.#{@contract.status}") %></td>
+          </tr>
+          <tr>
+            <td><%= t('activerecord.attributes.contract.company') %></td>
+            <td><%= @contract.company.name %></td>
+          </tr>
+        <% end %>
+        <% unless @contract.startup.nil? %>
+          <tr>
+            <td><%= t('activerecord.attributes.contract.startup') %></td>
+            <td><%= @contract.startup.name %></td>
+          </tr>
+        <% end %>
+        <% unless @contract.client.nil? %>
+          <tr>
+            <td><%= t('activerecord.attributes.contract.client') %></td>
+            <td class="text-left"><%= @contract.client.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:validation] %>
+      <% if @contract.is_commercial?(current_user, :client) %>
+        <% if !current_company.nil? %>
+          <%= button_to t("types.contract_status.#{@contract.status}"), company_contract_commercial_validation_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t("types.contract_status.#{@contract.status}"), service_contract_commercial_validation_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t("types.contract_status.#{@contract.status}"), contract_commercial_validation_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% end %>
+    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:validation] %>
+      <% if !current_company.nil? %>
+        <%= button_to t("types.contract_status.#{@contract.status}"), company_contract_commercial_validation_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+      <% elsif !current_service.nil? %>
+        <%= button_to t("types.contract_status.#{@contract.status}"), service_contract_commercial_validation_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+      <% else %>
+        <%= button_to t("types.contract_status.#{@contract.status}"), contract_commercial_validation_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+      <% end %>
+    <% end %>
+    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:validation] && Contract.statuses[@contract.status] > Contract.statuses[:creation] %>
+      <% if @contract.is_commercial?(current_user, :client) %>
+        <% if !current_company.nil? %>
+          <%= button_to t("types.contract_unset_status.#{@contract.status}"), company_contract_commercial_reject_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t("types.contract_unset_status.#{@contract.status}"), service_contract_commercial_reject_path(current_service, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t("types.contract_unset_status.#{@contract.status}"), contract_commercial_reject_path(@contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% end %>
+    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:validation] && Contract.statuses[@contract.status] > Contract.statuses[:validation]%>
+      <% if !current_company.nil? %>
+        <%= button_to t("types.contract_unset_status.#{@contract.status}"), company_contract_commercial_reject_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+      <% elsif !current_service.nil? %>
+        <%= button_to t("types.contract_unset_status.#{@contract.status}"), service_contract_commercial_reject_path(current_service, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+      <% else %>
+        <%= button_to t("types.contract_unset_status.#{@contract.status}"), contract_commercial_reject_path(@contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+      <% end %>
+    <% end %>
+    <% if current_user.is_admin? || @contract.user == current_user %>
+      <% if !current_company.nil? %>
+        <%= button_to t('actions.destroy'), company_contract_path(current_company, @contract), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+      <% elsif !current_service.nil? %>
+        <%= button_to t('actions.destroy'), service_contract_path(current_service, @contract), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+      <% else %>
+        <%= button_to t('actions.destroy'), contract_path(@contract), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+      <% end %>
+    <% end %>
+    <% if current_user.is_admin? || @contract.user == current_user %>
+      <% if @contract.activate %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.deactivate'), company_contract_toogle_activate_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.deactivate'), service_contract_toogle_activate_path(current_service, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.deactivate'), contract_toogle_activate_path(@contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% else %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.activate'), company_contract_toogle_activate_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.activate'), service_contract_toogle_activate_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.activate'), contract_toogle_activate_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if Contract.statuses[@contract.status] == Contract.statuses[:validation] && @contract.is_commercial?(current_user, :startup) %>
+      <% unless @contract.production %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.set_production'), company_contract_toogle_production_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.set_production'), service_contract_toogle_production_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.set_production'), contract_toogle_production_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% else %>
+        <% if !current_company.nil? %>
+          <%= button_to t('actions.unset_production'), company_contract_toogle_production_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% elsif !current_service.nil? %>
+          <%= button_to t('actions.unset_production'), service_contract_toogle_production_path(current_service, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% else %>
+          <%= button_to t('actions.unset_production'), contract_toogle_production_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% unless @contract.price.nil? %>
+      <% if !@company.nil? %>
+        <%= link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract, @price), class: 'btn btn-primary' %>
+      <% elsif !@service.nil? %>
+        <%= link_to t('actions.add'), new_service_contract_price_price_parameter_path(current_service, @contract, @price), class: 'btn btn-primary' %>
+      <% else %>
+        <%= link_to t('actions.add'), new_contract_price_price_parameter_path(@contract, @price), class: 'btn btn-primary' %>
+      <% end %>
+      <% if !@company.nil? %>
+        <%= link_to t('actions.edit'), edit_company_contract_price_path(@company, @contract, @price), class: 'btn btn-secondary' %>
+      <% elsif !@service.nil? %>
+        <%= link_to t('actions.edit'), edit_service_contract_price_path(current_service, @contract, @price), class: 'btn btn-secondary' %>
+      <% else %>
+        <%= link_to t('actions.edit'), edit_contract_price_path(@contract, @price), class: 'btn btn-secondary' %>
+      <% end %>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td><%= t('activerecord.attributes.price.base_cost') %></td>
+          <td><%= @price.base_cost %></td>
+        </tr>
+        <tr>
+          <td><%= t('activerecord.attributes.price.cost_by_time') %></td>
+          <td><%= @price.cost_by_time %></td>
+        </tr>
+        </tbody>
+      </table>
+      <%= render 'show_price_parameters' %>
+    <% end %>
+  </div>
+</div>
