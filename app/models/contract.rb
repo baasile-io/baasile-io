@@ -5,7 +5,7 @@ class Contract < ApplicationRecord
                      commercial_validation_client: {index: 7, scope: 'commercial', can_edit: 'client', next: :price_validation_sp, prev: :commercial_validation_sp},
                      price_validation_sp: {index: 10, scope: 'accounting', can_edit: 'startup', next: :price_validation_client, prev: :commercial_validation_client},
                      price_validation_client: {index: 13, scope: 'accounting', can_edit: 'client', next: :Validation, prev: :price_validation_sp},
-                     Validation: {index: 16, scope: 'comercial', can_edit: 'client', next: nil, prev: :price_validation_client}}
+                     validation: {index: 16, scope: 'commercial', can_edit: 'client', next: nil, prev: :price_validation_client}}
   CONTRACT_STATUS_ENUM = CONTRACT_STATUS.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum status: CONTRACT_STATUS_ENUM
 
