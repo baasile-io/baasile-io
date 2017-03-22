@@ -44,7 +44,7 @@
         <% end %>
       </tbody>
     </table>
-    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:Validation] %>
+    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:validation] %>
       <% if @contract.is_commercial?(current_user, :client) %>
         <% if !current_company.nil? %>
           <%= button_to t("types.contract_status.#{@contract.status}"), company_contract_commercial_validation_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
@@ -54,7 +54,7 @@
           <%= button_to t("types.contract_status.#{@contract.status}"), contract_commercial_validation_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
         <% end %>
       <% end %>
-    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:Validation] %>
+    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:validation] %>
       <% if !current_company.nil? %>
         <%= button_to t("types.contract_status.#{@contract.status}"), company_contract_commercial_validation_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
       <% elsif !current_service.nil? %>
@@ -63,7 +63,7 @@
         <%= button_to t("types.contract_status.#{@contract.status}"), contract_commercial_validation_path(@contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
       <% end %>
     <% end %>
-    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:Validation] && Contract.statuses[@contract.status] > Contract.statuses[:creation] %>
+    <% if Contract.statuses[@contract.status] % 2 == 0 && Contract.statuses[@contract.status] < Contract.statuses[:validation] && Contract.statuses[@contract.status] > Contract.statuses[:creation] %>
       <% if @contract.is_commercial?(current_user, :client) %>
         <% if !current_company.nil? %>
           <%= button_to t("types.contract_unset_status.#{@contract.status}"), company_contract_commercial_reject_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
@@ -73,7 +73,7 @@
           <%= button_to t("types.contract_unset_status.#{@contract.status}"), contract_commercial_reject_path(@contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
         <% end %>
       <% end %>
-    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:Validation] && Contract.statuses[@contract.status] > Contract.statuses[:Validation]%>
+    <% elsif Contract.statuses[@contract.status] < Contract.statuses[:validation] && Contract.statuses[@contract.status] > Contract.statuses[:validation]%>
       <% if !current_company.nil? %>
         <%= button_to t("types.contract_unset_status.#{@contract.status}"), company_contract_commercial_reject_path(current_company, @contract, id: @contract.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
       <% elsif !current_service.nil? %>
@@ -110,7 +110,7 @@
         <% end %>
       <% end %>
     <% end %>
-    <% if Contract.statuses[@contract.status] == Contract.statuses[:Validation] && @contract.is_commercial?(current_user, :startup) %>
+    <% if Contract.statuses[@contract.status] == Contract.statuses[:validation] && @contract.is_commercial?(current_user, :startup) %>
       <% unless @contract.production %>
         <% if !current_company.nil? %>
           <%= button_to t('actions.set_production'), company_contract_toogle_production_path(current_company, @contract, id: @contract.id), class: 'btn btn-primary', data: { confirm: "Are you sure?" }, method: :post %>
