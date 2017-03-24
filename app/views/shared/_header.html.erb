@@ -16,7 +16,6 @@
       </div>
       <hr>
       <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
-      <%# if current_proxy.nil? %>
       <div class="row">
         <div class="col-12">
           <ul class="nav nav-pills" style="font-size:110%">
@@ -30,7 +29,7 @@
             <% end %>
             <% if current_service.is_activated? && !current_service.is_client? %>
               <li class="nav-item">
-                <a class="nav-link <%= 'active' if ['proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
+                <a class="nav-link <%= 'active' if ['prices', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
               </li>
             <% end %>
             <li class="nav-item">
@@ -42,7 +41,6 @@
           </ul>
         </div>
       </div>
-      <%# end %>
     </div>
   </div>
 
@@ -73,6 +71,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-sitemap fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'prices' %>" href="<%= service_proxy_prices_path(current_service, current_proxy) %>"><i class="fa fa-money fa-fw"></i> <%= t('activerecord.models.price').pluralize %></a>
               </li>
             </ul>
           </div>
@@ -134,9 +135,9 @@
               <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>">Clients</a>
             </li>
             <% if current_user.is_commercial? %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= company_contracts_path(current_company) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
-                </li>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= company_contracts_path(current_company) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+              </li>
             <% end %>
             <% if current_user.is_superadmin? %>
               <li class="nav-item">
@@ -178,9 +179,9 @@
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('misc.my_services') %></a>
             </li>
             <% if current_user.is_commercial? %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
-                </li>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+              </li>
             <% end %>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><%= t('misc.profile') %></a>

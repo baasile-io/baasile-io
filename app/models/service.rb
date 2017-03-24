@@ -19,10 +19,11 @@ class Service < ApplicationRecord
 
   belongs_to :user
   belongs_to :company
-  belongs_to :main_commercial, class_name: 'User', foreign_key: 'main_commercial_id'
-  belongs_to :main_accountant, class_name: 'User', foreign_key: 'main_accountant_id'
-  belongs_to :main_developer, class_name: 'User', foreign_key: 'main_developer_id'
+  belongs_to :main_commercial, class_name: User.name, foreign_key: 'main_commercial_id'
+  belongs_to :main_accountant, class_name: User.name, foreign_key: 'main_accountant_id'
+  belongs_to :main_developer, class_name: User.name, foreign_key: 'main_developer_id'
   has_many :proxies
+  has_many :contracts, class_name: Contract.name, foreign_key: 'client_id'
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens

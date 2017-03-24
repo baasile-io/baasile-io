@@ -19,8 +19,8 @@
         </div>
       <% end %>
       <div class="col-6 col-sm-2">
-        <h4><i class="fa fa-fw fa-edit"></i> 0</h4>
-        <div class="text-muted"><%#= t('activerecord.models.contract').pluralize %>Contracts</div>
+        <h4><i class="fa fa-fw fa-edit"></i> <%= current_service.contracts.count %></h4>
+        <div class="text-muted"><%= t('activerecord.models.contract').pluralize %></div>
       </div>
     </section>
 
