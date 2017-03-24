@@ -76,12 +76,9 @@ Rails.application.routes.draw do
       end
     end
     member do
-      post :public_set
-      post :public_unset
-      post :activate
-      post :deactivate
       post :set_right
       post :unset_right
+      get :users
     end
 
     get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'
@@ -111,12 +108,23 @@ Rails.application.routes.draw do
   namespace :back_office do
     resources :users do
       member do
+        get :audit
         get :permissions
         put :toggle_is_active
         put :toggle_role
         put :toggle_object_role
+        put :associate
+        delete :disassociate
+        put :sign_in_as
       end
     end
+
+    resources :services do
+      member do
+        get :audit
+      end
+    end
+
     resources :documentations
   end
 

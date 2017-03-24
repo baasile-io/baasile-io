@@ -33,26 +33,32 @@
 </ul>
 
 <%= simple_form_for @service  do |f| %>
-  <%= error_messages_for(@service) %>
+  <%= error_messages_for(f.object) %>
 
   <div class="tab-content">
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_main %>" id="service_main">
 
-      <%= f.input :service_type, collection: format_service_types_for_select %>
-      <% if current_user.is_admin? %>
-        <%= f.input :company_id, collection: @companies %>
+      <%= f.input :service_type, collection: format_service_types_for_select, input_html: {class: 'select2'} %>
+
+      <% if @companies.size > 0 %>
+        <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
       <% end %>
+
+      <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t("back_office.services.form.hints.user_id") %>
+      <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
       <%= f.input :description, as: :text, input_html: {rows: 5} %>
-      <% unless @service.is_client? %>
+      <% unless f.object.is_client? %>
           <%= f.input :website, hint: t('.hints.website') %>
       <% end %>
       <% if current_user.is_superadmin? %>
-        <%= f.input :subdomain, disabled: @service.is_activated?, hint: t('.hints.subdomain') %>
+        <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
 
-        <% unless @service.is_client? %>
+        <% unless f.object.is_client? %>
           <%= f.input :public, as: :radio_buttons %>
         <% end %>
       <% end %>

@@ -3,11 +3,14 @@ class Proxy < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
+  # Versioning
+  has_paper_trail
+
   belongs_to :service
   belongs_to :user
 
   belongs_to :proxy_parameter
-  belongs_to :proxy_parameter_test, class_name: ProxyParameter.name
+  belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
   has_many :routes
   has_one :identifier, as: :identifiable, through: :proxy_parameter
 
@@ -43,5 +46,9 @@ class Proxy < ApplicationRecord
 
   def has_get_context?
     self.routes.where(name: 'getContext').count == 1
+  end
+
+  def to_s
+    name
   end
 end

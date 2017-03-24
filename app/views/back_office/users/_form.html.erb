@@ -2,6 +2,8 @@
 
   <%= error_messages_for(@user) %>
 
+  <%= f.input :parent_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none'), hint: t('.hints.parent_id') %>
+
   <%= f.input :email %>
 
   <%= f.input :gender, as: :select, collection: format_gender_for_select %>
@@ -12,7 +14,7 @@
 
   <%= f.input :is_active, as: :radio_buttons %>
 
-  <% if !f.object.persisted? %>
+  <% unless f.object.persisted? %>
 
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="skip_confirmation"></label>
@@ -37,6 +39,19 @@
     </div>
 
   <% else %>
+
+    <% unless f.object.confirmed_at %>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="confirm_email"></label>
+        <div class="col-md-9">
+          <label>
+            <%= check_box_tag :skip_confirmation, 'true', params[:skip_confirmation].present? %>
+            <%= t('actions.confirm_email') %>
+          </label>
+          <small class="form-text text-muted"><%= t('.hints.confirm_email') %></small>
+        </div>
+      </div>
+    <% end %>
 
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="send_reset_password"></label>

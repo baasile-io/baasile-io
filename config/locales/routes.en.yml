@@ -6,6 +6,8 @@ en:
       title: 'Edit route'
     form:
       default_value: "Default (%{value})"
+      hints:
+        url: "URL must start with a slash."
     index:
       title: 'List of routes'
     new:

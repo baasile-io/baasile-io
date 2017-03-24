@@ -1,5 +1,5 @@
 class ProxiesController < DashboardController
-  before_action :load_proxy_and_authorize, only: [:show, :edit, :update, :destroy]
+  before_action :load_proxy, only: [:show, :edit, :update, :destroy]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:index, :show]
@@ -49,6 +49,15 @@ class ProxiesController < DashboardController
   end
 
   def edit
+    @proxy.build_proxy_parameter unless @proxy.proxy_parameter
+    @proxy.build_proxy_parameter_test unless @proxy.build_proxy_parameter_test
+
+    if @proxy.proxy_parameter.authorization_required?
+      @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
+    end
+    if @proxy.proxy_parameter_test.authorization_required?
+      @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
+    end
   end
 
   def update
@@ -89,12 +98,8 @@ class ProxiesController < DashboardController
                                   proxy_parameter_test_attributes: [:id, :follow_url, :follow_redirection, :authorization_mode, :protocol, :hostname, :port, :authorization_url, :realm, :grant_type, scopes: [], identifier_attributes: [:id, :client_id, :client_secret]])
   end
 
-  def load_proxy_and_authorize
-    @proxy = Proxy.includes(:proxy_parameter, :proxy_parameter_test, {:proxy_parameter => :identifier}).find_by_id(params[:id])
-    return redirect_to services_path if @proxy.nil?
-    unless @proxy.authorized?(current_user)
-      return head(:forbidden)
-    end
+  def load_proxy
+    @proxy = Proxy.includes(:proxy_parameter, :proxy_parameter_test, {:proxy_parameter => :identifier}, {:proxy_parameter_test => :identifier}).find(params[:id])
   end
 
   def current_proxy

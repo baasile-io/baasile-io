@@ -1,10 +1,12 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service_and_authorize_with_admin_company, only: [:activate, :deactivate]
-  before_action :load_service_and_authorize, only: [:show, :edit, :update, :destroy, :public_set, :public_unset]
+  before_action :load_service, only: [:show, :edit, :update, :destroy, :toggle_public, :users, :services]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
-  before_action :admin_superadmin_authorize, only: [:activate, :deactivate]
+  before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
+
+  # Authorization
+  before_action :authorize_action
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:show]
@@ -18,20 +20,24 @@ class ServicesController < ApplicationController
   end
 
   def index
-    @collection = Service.authorized(current_user)
+    @collection = current_user.services
     if @collection.size == 0
       redirect_to new_service_path
     end
   end
 
   def show
+    children = current_service.children
+    @clients = children.select {|c| c.service_type == 'client'}
+    @startups = children.select {|c| c.service_type == 'startup'}
   end
 
   def new
     @service = Service.new
-    @service.company_id = params[:company_id]
+    @service.parent_id = params[:parent_id].to_i if params[:parent_id]
     @service.service_type = params[:service_type].to_i if params[:service_type]
     @service.build_contact_detail
+    @service.user = current_user
   end
 
   def create
@@ -69,65 +75,30 @@ class ServicesController < ApplicationController
     end
   end
 
-  def activate
-    unless @service.activate
-      flash[:error] = I18n.t('activerecord.validations.service.missing_subdomain')
-    else
-      ServiceNotifier.send_validation(@service).deliver_now
-    end
-    redirect_back fallback_location: service_path(@service)
-  end
-
-  def deactivate
-    unless @service.deactivate
-      flash[:error] = I18n.t('errors.an_error_occured')
-    end
-    redirect_back fallback_location: service_path(@service)
-  end
-
-  def public_set
-    @service.public = true
-    if @service.save
-      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
-    end
-    redirect_to service_path(@service)
-  end
-
-  def public_unset
-    @service.public = false
-    if @service.save
-      flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
-    end
-    redirect_to service_path(@service)
+  def users
+    @users = current_service.users
   end
 
   private
 
   def service_params
-    allowed_parameters = [:name, :service_type, :description, :website, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
-    allowed_parameters += [:company_id] if current_user.is_admin_of?(Company.find_by_id(params['service[company_id]']))
+    allowed_parameters = [:name, :service_type, :description, :website, :parent_id, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
     allowed_parameters += [:subdomain, :public] if current_user.is_superadmin?
     params.require(:service).permit(allowed_parameters)
   end
 
   def load_companies
-    @companies = Company.authorized(current_user)
+    @companies = current_user.services.companies.reject {|s| s.id == current_service.try(:id)}
   end
 
-  def load_service_and_authorize
-    @service = Service.find_by_id(params[:id])
-    return redirect_to services_path if @service.nil?
-    unless @service.authorized?(current_user)
-      return head(:forbidden)
-    end
+  def load_users
+    @users = current_user.subtree
+    @users += current_service.users if current_service
+    @users.uniq!
   end
 
-  def load_service_and_authorize_with_admin_company
-    @service = Service.find_by_id(params[:id])
-    return redirect_to services_path if @service.nil?
-    unless @service.associated?(current_user) || @service.authorized?(current_user)
-      return head(:forbidden)
-    end
+  def load_service
+    @service = Service.find(params[:id])
   end
 
   def current_service
@@ -144,12 +115,12 @@ class ServicesController < ApplicationController
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end
 
-  def admin_superadmin_authorize
-    return head(:forbidden) unless current_user.is_superadmin? || current_user.has_role?(:admin, @service.company)
-  end
-
   def current_module
     'dashboard'
+  end
+
+  def current_authorized_resource
+    current_service
   end
 
 end

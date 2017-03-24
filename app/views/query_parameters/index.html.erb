@@ -3,34 +3,45 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table">
-      <thead>
-      <tr>
-        <th><%= t('activerecord.attributes.route.name') %></th>
-        <th><%= t('activerecord.attributes.route.mode') %></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |query_param| %>
-          <tr>
-            <td><%= query_param.name %></td>
-            <td><%= query_param.mode %></td>
-            <td class="text-right">
-              <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <br />
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th colspan="2" class="width-40"><%= t('activerecord.attributes.query_parameter.name') %></th>
+          <th><%= t('activerecord.attributes.query_parameter.query_parameter_type') %></th>
+          <th><%= t('activerecord.attributes.query_parameter.mode') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+          <% @collection.each do |query_param| %>
+            <tr data-link="<%= edit_service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param) %>">
+              <td class="width-3">
+                <i class="fa-2x fa fa-fw fa-list"></i>
+              </td>
+              <td>
+                <strong><%= query_param.name %></strong><br />
+                <small class="text-muted"><%= query_param.description %></small>&nbsp;
+              </td>
+              <td><%= t("types.query_parameter_types.#{query_param.query_parameter_type}.title") %></td>
+              <td><%= query_param.mode %></td>
+              <td class="text-right">
+                <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
 
   </div>
 </div>
 
 <div class="b-io-content--header">
   <div class="container-fluid">
-    <h3><%= t('query_parameters.new.title') %></h3>
+    <h4><%= t('query_parameters.new.title') %></h4>
   </div>
 </div>
 

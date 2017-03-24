@@ -5,21 +5,25 @@
 <div class="b-io-content--secondary">
 
   <div class="container-fluid">
-    <table class="table">
-      <thead class="">
+    <table class="table table-sm table-hover table-link">
+      <thead>
       <tr>
-        <th><%= t('activerecord.attributes.proxy.name') %></th>
-        <th><%= t('activerecord.attributes.proxy.description') %></th>
+        <th colspan="2" class="width-40"><%= t('activerecord.attributes.proxy.name') %></th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |proxy| %>
-        <tr>
-          <td><i class="fa fa-server"></i> <%= proxy.name %></td>
-          <td><%= proxy.description %></td>
+        <tr data-link="<%= service_proxy_path(current_service, proxy) %>">
+          <td class="width-3">
+            <i class="fa fa-fw fa-2x fa-server"></i>
+          </td>
+          <td>
+            <strong><%= proxy.name %></strong><br />
+            <small class="text-muted"><%= proxy.description %></small>
+          </td>
           <td class="text-right">
-            <%= link_to t('misc.dashboard'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>
+            <%= link_to t('actions.configure'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>
           </td>
         </tr>
       <% end %>

@@ -9,6 +9,8 @@ en:
         title: 'Edit'
       form:
         hints:
+          confirm_email: "Check the box to confirm the email address of the user."
+          parent_id: "An owner can manage the user permissions."
           send_reset_password: "Check the box to reset user's password and send instructions by email."
           send_welcome_instructions: "Check the box to send an email containing a temporary password and prompt the user to choose his / her own password the first time he / she logs in."
           skip_confirmation: "Check the box to confirm the email address and do not send the validation email."

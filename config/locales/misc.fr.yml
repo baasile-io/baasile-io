@@ -1,6 +1,8 @@
 fr:
   misc:
+    activated: "Activé"
     advanced_permissions: 'Permissions avancées'
+    authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
@@ -11,7 +13,14 @@ fr:
     locales:
       en: 'Anglais'
       fr: 'Français'
-    parameters: 'Paramètres'
+    my_services: 'Mes entreprises'
+    none: 'Aucun'
+    none_feminized: 'Aucune'
+    nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
+    overview: "Vue d'ensemble"
+    parameters: 'Configuration'
     permissions: 'Permissions'
     profile: 'Profil'
+    role: 'Rôle'
     roles: 'Rôles'
+    unconfirmed: 'Inactif'

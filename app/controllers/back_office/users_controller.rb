@@ -1,6 +1,7 @@
 module BackOffice
   class UsersController < BackOfficeController
     before_action :load_user, except: [:index, :new, :create]
+    before_action :load_other_users, only: [:new, :edit, :update, :create]
 
     add_breadcrumb I18n.t('back_office.users.index.title'), :back_office_users_path
     before_action :add_breadcrumb_current_action, except: [:index]
@@ -33,6 +34,7 @@ module BackOffice
     def update
       @page_title = @user.full_name
       generate_random_password if params[:send_reset_password]
+      @user.skip_confirmation! if params[:skip_confirmation]
       if @user.update(user_params)
         if params[:send_reset_password]
           UserNotifier.send_reset_password(@user, @user.password).deliver_now
@@ -58,11 +60,34 @@ module BackOffice
     end
 
     def edit
-      @page_title = @user.full_name
+      @page_title = "#{'<i class="fa fa-fw fa-lock"></i> ' unless @user.confirmed_at}#{@user.full_name}"
     end
 
     def permissions
-      @services = Service.includes(:company).order('companies.name ASC NULLS FIRST')
+      @user_services = @user.services.order('ancestry ASC NULLS FIRST')
+      @other_services = Service.where.not(id: @user_services.pluck(:id)).order('services.name ASC')
+    end
+
+    def associate
+      service = Service.find(params[:user][:service_id])
+      role = params[:user][:role].to_sym
+      if Role::USER_ROLES.include?(role) && UserAssociation.create(user: @user, associable: service)
+        @user.add_role(role, service)
+        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.user_association'))
+      end
+      redirect_to permissions_back_office_user_path(@user)
+    end
+
+    def disassociate
+      service = Service.find(params[:service_id])
+      if service.user_id == @user.id
+        flash[:error] = "You can't remove association because the user is the owner"
+      else
+        if UserAssociation.where(user: @user, associable: service).destroy_all
+          flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.user_association'))
+        end
+      end
+      redirect_to permissions_back_office_user_path(@user)
     end
 
     def toggle_role
@@ -70,7 +95,9 @@ module BackOffice
       if current_user == @user
         flash[:error] = "You can't remove your own role"
       else
-        @user.send(@user.has_role?(scope) ? :remove_role : :add_role, scope)
+        if @user.send(@user.has_role?(scope) ? :remove_role : :add_role, scope)
+          flash[:success] = I18n.t('actions.success.updated', resource: t('misc.role'))
+        end
       end
 
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
@@ -82,7 +109,15 @@ module BackOffice
       object_id = params[:object_id]
 
       object = object_type.constantize.find(object_id)
-      @user.send(@user.has_role?(scope, object) ? :remove_role : :add_role, scope, object)
+      if @user.has_role?(scope, object)
+        if object.user_id == @user.id && scope.to_sym == :admin
+          flash[:error] = "You can't remove administrator role from an object's owner"
+        else
+          @user.remove_role(scope, object)
+        end
+      else
+        @user.add_role(scope, object)
+      end
 
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
     end
@@ -97,12 +132,23 @@ module BackOffice
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
     end
 
+    def sign_in_as
+      sign_in(@user, event: :authentication)
+      redirect_to root_url
+    end
+
+    private
+
     def load_user
       @user = User.find(params[:id])
     end
 
+    def load_other_users
+      @users = User.all.reject {|u| u.id == @user.try(:id)}
+    end
+
     def user_params
-      allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :is_active]
+      allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :is_active, :parent_id]
       params.require(:user).permit(allowed_parameters)
     end
 

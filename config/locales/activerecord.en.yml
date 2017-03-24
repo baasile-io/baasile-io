@@ -45,18 +45,8 @@ en:
         alias: 'Alias'
         description: 'Description'
         name: 'Name'
-        proxy_parameter:
-          authentication_mode: 'Authentication mode'
-          authentication_url: 'Authenticiation URL'
-          client_id: 'CLIENT ID'
-          client_secret: 'CLIENT SECRET'
-          grant_type: 'Grant type'
-          hostname: 'Hostname'
-          port: 'Port'
-          protocol: 'Protocol'
-          realm: 'Realm'
-        service: 'Service'
-        service_id: 'Service'
+        service: 'Enterprise'
+        service_id: 'Enterprise'
         user: 'Creator'
         user_id: 'Creator'
       proxy_parameter:
@@ -67,15 +57,8 @@ en:
         port: 'Port'
         protocol: 'Protocol'
         realm: 'realm'
-      proxy_parameter_test:
-        authorization_mode: 'Authorization mode'
-        authorization_url: 'Authorization URL'
-        grant_type: 'Grant type'
-        hostname: 'Hostname'
-        port: 'Port'
-        protocol: 'Protocol'
-        realm: 'realm'
       query_parameter:
+        query_parameter_type: 'Type'
         name: 'Name'
         mode: 'Mode'
       route:
@@ -87,23 +70,33 @@ en:
         port_test: 'Port (test)'
         protocol: 'Protocol'
         protocol_test: 'Protocol (test)'
-        proxy: 'Proxy'
-        proxy_id: 'Proxy'
+        proxy: 'Functionality'
+        proxy_id: 'Functionality'
         url: 'URL'
+        url_test: 'URL (test)'
         user: 'Creator'
         user_id: 'Creator'
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
+        confirmed_at: 'Active?'
         company: 'Company'
         company_id: 'Company'
         description: 'Description'
         service_type: 'Type'
         subdomain: 'Public identifier'
+        main_accountant: 'Main accoutant'
+        main_accountant_id: 'Main accoutant'
+        main_commercial: 'Main commercial'
+        main_commercial_id: 'Main commercial'
+        main_developer: 'Main technical'
+        main_developer_id: 'Main technical'
         name: 'Name'
+        parent: 'Company'
+        parent_id: 'Company'
         public: 'Publish in catalog'
-        user: 'Creator'
-        user_id: 'Creator'
+        user: 'Administrator'
+        user_id: 'Administrator'
         website: 'Website'
       user:
         current_password: 'Current password'
@@ -112,10 +105,18 @@ en:
         full_name: 'Full name'
         gender: 'Gender'
         is_active: 'Active ?'
+        last_activity_at: 'Last activity'
         last_name: 'Last name'
+        parent: 'Owner'
+        parent_id: 'Owner'
         password: 'Password'
         password_confirmation: 'Password confirmation'
         phone: 'Phone Number'
+      versions:
+        created_at: 'Date'
+        event: 'Event'
+        object: 'Object'
+        whodunnit: 'Author'
     models:
       price: 'Price'
       price_parameter: 'Prices parameters by calls'
@@ -128,10 +129,15 @@ en:
       proxy: 'Proxy'
       proxy_parameter: 'Proxy parameter'
       route: 'Route'
-      service: 'Service'
+      service: 'Enterprise'
       user: 'User'
+      user_association: 'Association'
+      version: 'Version'
     validations:
       service:
+        company_must_be_root: "can't be set as \"Company\" when depending on a company"
+        company_must_not_depend_on_company: "can't be set when type is set to \"Company\""
         missing_subdomain: "The public identifier can't be blank"
-        subdomain_changed_disallowed: "The public identifier can't be changed because service is active"
+        root_must_be_company: "must be \"Company\" when having children enterprises"
+        subdomain_changed_disallowed: "The public identifier can't be changed because the enterprise is active"
 

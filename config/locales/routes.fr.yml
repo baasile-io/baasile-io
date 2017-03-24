@@ -6,6 +6,8 @@ fr:
       title: 'Modifier la route'
     form:
       default_value: "Par défaut (%{value})"
+      hints:
+        url: "L'URL doit commencer par un slash."
     index:
       title: 'Routes'
     new:

@@ -1,0 +1,15 @@
+fr:
+  back_office:
+    services:
+      create:
+        title: 'Créer une entreprise'
+      edit:
+        title: 'Modifier'
+      form:
+        hints:
+          reset_identifiers: 'Cochez la case pour générer de nouveaux identifiants (Attention, cette action est irréversible)'
+          user_id: "L'utilisateur sera associé en tant qu'administrateur de l'entreprise."
+      index:
+        title: 'Entreprises'
+      new:
+        title: 'Créer une entreprise'

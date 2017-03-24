@@ -44,19 +44,9 @@ fr:
       proxy:
         alias: 'Alias'
         description: 'Description'
-        proxy_parameter:
-          authentication_mode: "Mode d'authentification"
-          authentication_url: "URL d'authentification"
-          client_id: 'CLIENT ID'
-          client_secret: 'CLIENT SECRET'
-          grant_type: 'Grant type'
-          hostname: 'Domaine'
-          port: 'Port'
-          protocol: 'Protocole'
-          realm: 'Realm'
         name: 'Nom'
-        service: 'Service'
-        service_id: 'Service'
+        service: 'Entreprise'
+        service_id: 'Entreprise'
         user: 'Créateur'
         user_id: 'Créateur'
       proxy_parameter:
@@ -80,6 +70,7 @@ fr:
         protocol: 'Protocole'
         realm: 'Realm'
       query_parameter:
+        query_parameter_type: 'Type'
         name: 'Nom'
         mode: 'Mode'
       route:
@@ -91,23 +82,33 @@ fr:
         port_test: 'Port (test)'
         protocol: 'Protocole'
         protocol_test: 'Protocole (test)'
-        proxy: 'Proxy'
-        proxy_id: 'Proxy'
+        proxy: 'Fonctionnalité'
+        proxy_id: 'Fonctionnalité'
         url: 'URL'
+        url_test: 'URL (test)'
         user: 'Créateur'
         user_id: 'Créateur'
       service:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
+        confirmed_at: 'Actif ?'
         company: 'Compagnie'
         company_id: 'Compagnie'
         description: 'Description'
         service_type: 'Type'
         subdomain: 'Identifiant publique'
+        main_accountant: 'Responsable comptable'
+        main_accountant_id: 'Responsable comptable'
+        main_commercial: 'Responsable commercial'
+        main_commercial_id: 'Responsable commercial'
+        main_developer: 'Responsable technique'
+        main_developer_id: 'Responsable technique'
         name: 'Nom'
+        parent: 'Compagnie'
+        parent_id: 'Compagnie'
         public: 'Référencer dans le catalogue'
-        user: 'Créateur'
-        user_id: 'Créateur'
+        user: 'Administrateur'
+        user_id: 'Administrator'
         website: 'Site Internet'
       user:
         current_password: 'Mot de passe actuel'
@@ -116,10 +117,18 @@ fr:
         full_name: 'Nom complet'
         gender: 'Civilité'
         is_active: 'Actif ?'
+        last_activity_at: 'Dernière connexion'
         last_name: 'Nom'
+        parent: 'Responsable'
+        parent_id: 'Responsable'
         password: 'Mot de passe'
         password_confirmation: 'Confirmation du mot de passe'
         phone: 'Téléphone'
+      versions:
+        created_at: 'Date'
+        event: 'Evènement'
+        object: 'Objet'
+        whodunnit: 'Auteur'
     models:
       price: 'Price'
       price_parameter: 'Parametre de price en fonction des appels'
@@ -132,9 +141,14 @@ fr:
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'
       route: 'Route'
-      service: 'Service'
+      service: 'Entreprise'
       user: 'Utilisateur'
+      user_association: 'Association'
+      version: 'Version'
     validations:
       service:
+        company_must_be_root: "ne peut pas être \"Compagnie\" si l'objet dépend d'une compagnie"
+        company_must_not_depend_on_company: "ne peut pas être défini si l'objet est de type \"Compagnie\""
         missing_subdomain: "L'identifiant publique doit être renseigné"
-        subdomain_changed_disallowed: "L'identifiant publique ne peut pas être modifié car le service est actif"
+        root_must_be_company: "doit être \"Compagnie\" puisque l'objet a des entreprises enfant"
+        subdomain_changed_disallowed: "L'identifiant publique ne peut pas être modifié car l'entreprise est active"

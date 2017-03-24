@@ -4,4 +4,12 @@ module UsersHelper
       ["#{I18n.t("types.genders.#{key}")}", key]
     end
   end
+
+  def format_users_for_select(users)
+    users.map do |u|
+      user_main_role = :superadmin if u.has_role?(:superadmin)
+      user_main_role ||= :admin if u.has_role?(:admin)
+      [u.full_name, u.id, {'data-icon': I18n.t("roles.#{user_main_role}.icon"), 'data-text-right': (I18n.t("roles.#{user_main_role}.title") if user_main_role)}]
+    end
+  end
 end

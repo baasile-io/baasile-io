@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320114113) do
+ActiveRecord::Schema.define(version: 20170320174722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
-    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -76,6 +75,7 @@ ActiveRecord::Schema.define(version: 20170320114113) do
   create_table "identifiers", force: :cascade do |t|
     t.string   "client_id"
     t.string   "encrypted_secret"
+    t.datetime "expires_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "identifiable_type"
@@ -170,9 +170,11 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.integer  "mode"
     t.integer  "route_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name", "route_id"], name: "index_query_parameters_on_name_and_route_id", unique: true, using: :btree
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "query_parameter_type", default: 1
+    t.string   "description"
+    t.index ["name", "query_parameter_type", "route_id"], name: "name_query_parameter_type_route_index", unique: true, using: :btree
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
     t.index ["user_id"], name: "index_query_parameters_on_user_id", using: :btree
   end
@@ -217,7 +219,7 @@ ActiveRecord::Schema.define(version: 20170320114113) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name",               limit: 255
     t.string   "alias"
     t.string   "description"
     t.string   "website"
@@ -225,13 +227,20 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.string   "client_secret"
     t.integer  "user_id"
     t.datetime "confirmed_at"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "subdomain"
-    t.boolean  "public",                    default: false
     t.integer  "company_id"
-    t.integer  "service_type",              default: 1
-    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
+    t.boolean  "public",                         default: false
+    t.integer  "service_type",                   default: 1
+    t.string   "ancestry"
+    t.integer  "main_commercial_id"
+    t.integer  "main_developer_id"
+    t.integer  "main_accountant_id"
+    t.index ["ancestry"], name: "index_services_on_ancestry", using: :btree
+    t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
+    t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree
+    t.index ["main_developer_id"], name: "index_services_on_main_developer_id", using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -240,13 +249,24 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
   end
 
+  create_table "user_associations", force: :cascade do |t|
+    t.string   "associable_type"
+    t.integer  "associable_id"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["associable_type", "associable_id"], name: "index_user_associations_on_associable_type_and_associable_id", using: :btree
+    t.index ["user_id", "associable_type", "associable_id"], name: "id_userassociations_user_associable", using: :btree
+    t.index ["user_id"], name: "index_user_associations_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",   null: false
-    t.string   "encrypted_password",                default: "",   null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,    null: false
+    t.integer  "sign_in_count",                     default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -255,20 +275,22 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,    null: false
+    t.integer  "failed_attempts",                   default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "gender"
-    t.string   "phone"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.datetime "password_changed_at"
     t.string   "unique_session_id",      limit: 20
     t.datetime "last_activity_at"
     t.datetime "expired_at"
-    t.boolean  "is_active",                         default: true
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "gender"
+    t.string   "phone"
+    t.boolean  "is_active",                         default: false
+    t.string   "ancestry"
+    t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree
     t.index ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree
@@ -280,6 +302,16 @@ ActiveRecord::Schema.define(version: 20170320114113) do
     t.integer "user_id"
     t.integer "role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
 end

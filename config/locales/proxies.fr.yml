@@ -11,8 +11,8 @@ fr:
         hostname: 'Exemple : "api.google.fr".'
       tabs:
         proxy_authorization:
-          hint: "Les paramètres de production prennent effet en phase de production d'un contrat."
-          title: 'Paramètres de production'
+          hint: "Les paramètres d'exploitation prennent effet en phase d'exploitation d'un contrat."
+          title: "Paramètres d'exploitation"
         proxy_authorization_test:
           hint: "Les paramètres de test sont utilisés par défaut par la plateforme."
           title: 'Paramètres de test'

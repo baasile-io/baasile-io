@@ -39,6 +39,9 @@
             <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
           </div>
           <div class="list-group">
+            <%= link_to t('activerecord.models.service').pluralize, back_office_services_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'services'}" %>
+          </div>
+          <div class="list-group">
             <%= link_to t('activerecord.models.documentation').pluralize, back_office_documentations_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'documentations'}" %>
           </div>
         </div>
@@ -65,6 +68,14 @@
         </div>
 
         <%= yield %>
+
+        <footer class="text-muted">
+          <div class="container">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </div>
+        </footer>
       </div>
     </div>
   </div>

@@ -1,0 +1,15 @@
+en:
+  back_office:
+    services:
+      create:
+        title: 'New Enterprise'
+      edit:
+        title: 'Edit'
+      form:
+        hints:
+          reset_identifiers: 'Check the box to generate new credentials (Please note that this action is irreversible)'
+          user_id: 'The user will be associated as Administrator of the enterprise.'
+      index:
+        title: 'Enterprises'
+      new:
+        title: 'New Enterprise'

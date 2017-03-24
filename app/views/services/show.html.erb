@@ -1,55 +1,81 @@
-<% content_for(:page_title) { @service.name } %>
+<% content_for(:page_title) { t('misc.overview') } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <h5>Identifiants</h5>
 
-    <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">CLIENT_ID</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" readonly="readonly" value="<%= @service.client_id %>">
+    <section class="row text-left">
+      <div class="col-6 col-sm-2">
+        <h4><i class="fa fa-fw fa-users"></i> <%= current_service.users.count %></h4>
+        <div class="text-muted"><%= t('activerecord.models.user').pluralize %></div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">CLIENT_SECRET</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" readonly="readonly" value="<%= @service.client_secret %>">
+      <% if current_service.is_company? %>
+        <div class="col-6 col-sm-2">
+          <h4><i class="<%= t('types.service_types.client.icon') %>"></i> <%= current_service.clients.count %></h4>
+          <div class="text-muted"><%= t('types.service_types.client.title').pluralize %></div>
+        </div>
+        <div class="col-6 col-sm-2">
+          <h4><i class="<%= t('types.service_types.startup.icon') %>"></i> <%= current_service.startups.count %></h4>
+          <div class="text-muted"><%= t('types.service_types.startup.title').pluralize %></div>
+        </div>
+      <% end %>
+      <div class="col-6 col-sm-2">
+        <h4><i class="fa fa-fw fa-edit"></i> <%= current_service.contracts.count %></h4>
+        <div class="text-muted"><%= t('activerecord.models.contract').pluralize %></div>
       </div>
-    </div>
+    </section>
 
     <% if @service.is_activated? %>
+      <h5>Identifiants</h5>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">CLIENT_ID</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" readonly="readonly" value="<%= @service.client_id %>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">CLIENT_SECRET</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" readonly="readonly" value="<%= @service.client_secret %>">
+        </div>
+      </div>
+
       <hr>
       <h5>API</h5>
       <div class="form-group row">
-        <label for="inputEmail3" class="col-sm-2 col-form-label">URI</label>
+        <label class="col-sm-2 col-form-label">URI</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" readonly="readonly" value="<%= current_host %>/api/v1/<%= @service.subdomain %>">
+          <input type="text" class="form-control" readonly="readonly" value="<%= current_host %>/api/v1/<%= @service.subdomain %>">
         </div>
       </div>
-    <% end %>
-
-    <% if current_user.has_role?(:superadmin) %>
-      <hr>
-      <h5>Fonctionalités admin</h5>
-      <%= button_to t('actions.destroy'), service_path, class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
-      <% unless @service.is_activated? %>
-        <%= link_to t('actions.activate'), activate_service_path, method: :post, class: 'btn btn-primary' %>
-      <% else %>
-        <%= link_to t('actions.deactivate'), deactivate_service_path, method: :post, class: 'btn btn-primary' %>
-      <% end %>
-
-      <% unless @service.is_client? %>
-        <hr>
-        <h5>Catalogue de startups</h5>
-        <% unless @service.public %>
-            <%= link_to t('actions.public_set'), public_set_service_path, method: :post, class: 'btn btn-secondary'%>
-        <% else %>
-            <%= link_to t('actions.public_unset'), public_unset_service_path, method: :post, class: 'btn btn-secondary' %>
-        <% end %>
-      <% end %>
     <% end %>
 
     <%= render 'shared/measurement' %>
 
   </div>
 </div>
+
+<% if current_service.service_type == 'company' %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"><%= link_to t('actions.create_client'), new_service_path(parent_id: current_service.id, service_type: Service::SERVICE_TYPES[:client][:index]), class: 'btn btn-primary' %></div>
+      <h4><%= t('types.service_types.client.title').pluralize %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <%= render partial: 'list_services', locals: {collection: @clients} %>
+    </div>
+  </div>
+
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"><%= link_to t('actions.create_startup'), new_service_path(parent_id: current_service.id, service_type: Service::SERVICE_TYPES[:startup][:index]), class: 'btn btn-primary' %></div>
+      <h4><%= t('types.service_types.startup.title').pluralize %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <%= render partial: 'list_services', locals: {collection: @startups} %>
+    </div>
+  </div>
+<% end %>

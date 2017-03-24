@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # Versioning
+  has_paper_trail
+
   # Include default devise modules. Others available are:
   #  :omniauthable :password_archivable
   devise :database_authenticatable, :registerable, :timeoutable,
@@ -11,6 +14,9 @@ class User < ApplicationRecord
   # User rights
   rolify strict: true, role_join_table_name: 'public.users_roles'
 
+  # Ancestry
+  has_ancestry orphan_strategy: :adopt
+
   has_many :companies
   has_many :services
   has_many :proxies
@@ -18,6 +24,10 @@ class User < ApplicationRecord
   has_many :query_parameters
   has_many :prices
   has_many :price_parameters
+
+  has_many :user_associations
+  has_many :services, through: :user_associations, source: :associable, source_type: Service.name
+  has_many :companies, through: :user_associations, source: :associable, source_type: Company.name
 
   validates :email, presence: true, uniqueness: true
   validates :gender, presence: true
@@ -45,7 +55,11 @@ class User < ApplicationRecord
   end
 
   def full_name
-    self.first_name.present? && self.last_name.present? ? "#{self.first_name} #{self.last_name}" : self.email
+    self.first_name.present? && self.last_name.present? ? "#{I18n.t("types.genders.#{self.gender}")} #{self.first_name} #{self.last_name}" : self.email
+  end
+
+  def to_s
+    full_name
   end
 
 end

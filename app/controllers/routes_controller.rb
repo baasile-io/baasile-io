@@ -1,5 +1,4 @@
 class RoutesController < DashboardController
-  before_action :authorize_proxy
   before_action :load_route, only: [:show, :edit, :update, :destroy]
 
   before_action :add_breadcrumb_parent
@@ -12,10 +11,6 @@ class RoutesController < DashboardController
     add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy)
     add_breadcrumb I18n.t('routes.index.title'), :service_proxy_routes_path
     add_breadcrumb current_route.name, service_proxy_route_path(current_service, current_proxy, current_route) if current_route
-  end
-
-  def authorize_proxy
-    return head(:forbidden) unless current_proxy.authorized?(current_user)
   end
 
   def index

@@ -6,34 +6,37 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-sm">
-      <thead>
-      <tr>
-        <th class="width-50"><%= t('activerecord.attributes.identifier.client_id') %></th>
-        <th class="width-50"><%= t('activerecord.attributes.identifier.client_secret') %></th>
-      </tr>
-      </thead>
-      <tbody>
-        <% @collection.each do |identifier| %>
-          <tr>
-            <td>
-              <%= text_field_tag '', identifier.client_id, class: 'form-control' %>
-            </td>
-            <td>
-              <% if show_secret %>
-                <%= text_field_tag '', identifier.client_secret, class: 'form-control' %>
-              <% else %>
-                <%= text_field_tag '', '[ENCRYPTED]', class: 'form-control', disabled: true %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <div class="text-right">
-      <%= link_to t(".#{show_secret ? 'hide' : 'show'}_secret"), service_proxy_identifiers_path(current_service, current_proxy, show_secret: !show_secret), class: 'btn btn-link' %>
-    </div>
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm">
+        <thead>
+        <tr>
+          <th class="width-50"><%= t('activerecord.attributes.identifier.client_id') %></th>
+          <th class="width-50"><%= t('activerecord.attributes.identifier.client_secret') %></th>
+        </tr>
+        </thead>
+        <tbody>
+          <% @collection.each do |identifier| %>
+            <tr>
+              <td>
+                <%= text_field_tag '', identifier.client_id, class: 'form-control' %>
+              </td>
+              <td>
+                <% if show_secret %>
+                  <%= text_field_tag '', identifier.client_secret, class: 'form-control' %>
+                <% else %>
+                  <%= text_field_tag '', '[ENCRYPTED]', class: 'form-control', disabled: true %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <%= link_to t(".#{show_secret ? 'hide' : 'show'}_secret"), service_proxy_identifiers_path(current_service, current_proxy, show_secret: !show_secret), class: 'btn btn-link' %>
+      </div>
+    <% end %>
 
   </div>
 </div>

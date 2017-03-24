@@ -7,6 +7,16 @@ en:
       mandatory: 'mandatory'
       optional: 'optional'
       forbidden: 'forbidden'
+    query_parameter_types:
+      body:
+        icon: ''
+        title: 'BODY'
+      get:
+        icon: ''
+        title: 'GET'
+      header:
+        icon: ''
+        title: 'HEADER'
     price_parameters_types:
       per_call: 'Per call'
       per_params: 'Per parameters'
@@ -17,9 +27,15 @@ en:
       male: 'Mr.'
       female: 'Ms.'
     service_types:
-      service: 'Service'
-      startup: 'Startup'
-      client: 'Client'
+      startup:
+        icon: 'fa fa-fw fa-cube'
+        title: 'Startup'
+      client:
+        icon: 'fa fa-fw fa-cube'
+        title: 'Client'
+      company:
+        icon: 'fa fa-fw fa-bank'
+        title: 'Company'
     contract_status:
       creation: 'Creation'
       commercial_validation_sp: 'Commercial validation startup'

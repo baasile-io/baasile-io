@@ -1,13 +1,8 @@
-<% if current_user.nil? %>
-  <div class="b-io-menu--secondary b-io-menu--tertiary">
-    <img class="img-fluid" src="/dashboard/basilio-little-spaceman.png">
-  </div>
-<% else %>
-  <% unless current_service.nil? %>
-    <% if current_proxy.nil? %>
+<% unless current_service.nil? %>
+  <% unless current_proxy.nil? %>
+    <% if current_route.nil? %>
     <% else %>
-
-      <div class="b-io-menu--secondary <% unless current_route.nil? %>b-io-menu--tertiary<% end %>">
+      <div class="b-io-menu--secondary">
         <ul class="list-group">
           <a class="list-group-item" href="<%= service_proxy_path(current_service, current_proxy) %>"><%= t('misc.dashboard') %></a>
           <a class="list-group-item" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><%= t('misc.parameters') %></a>
@@ -17,18 +12,6 @@
           <a class="list-group-item" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-road fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
         </ul>
       </div>
-
-      <% if current_route.nil? %>
-      <% else %>
-        <div class="b-io-menu--secondary">
-          <h4><i class="fa fa-road"></i> <%= current_route.name %></h4>
-          <ul class="list-group">
-            <a class="list-group-item" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('misc.dashboard') %></a>
-            <a class="list-group-item" href="<%= edit_service_proxy_route_path(current_service, current_proxy, current_route) %>"><%= t('actions.edit') %></a>
-            <a class="list-group-item" href="<%= service_proxy_route_query_parameters_path(current_service, current_proxy, current_route) %>"><%= t('activerecord.models.query_parameter').pluralize %></a>
-          </ul>
-        </div>
-      <% end %>
     <% end %>
   <% end %>
 <% end %>
