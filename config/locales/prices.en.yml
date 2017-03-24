@@ -1,0 +1,24 @@
+en:
+  prices:
+    edit:
+      title: 'Parameters'
+    index:
+      title: 'List of prices'
+    new:
+      title: 'Create a new prix'
+    show:
+      title: 'Dashboard'
+    update:
+      title: 'Parameters'
+  back_office:
+    prices:
+      edit:
+        title: 'Parameters'
+      index:
+        title: 'List of prices'
+      new:
+        title: 'Create a new price'
+      show:
+        title: 'Dashboard'
+      update:
+        title: 'Parameters'

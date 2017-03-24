@@ -56,6 +56,9 @@ class Service < ApplicationRecord
 
   scope :owned, ->(user) { where(user: user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
+  scope :activated_startups, -> {  where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:startup]) }
+  scope :activated_clients, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:client]) }
+  scope :activated_companies, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:company]) }
   scope :associated, ->(company) { where(company: company) }
   scope :companies, -> { where(service_type: SERVICE_TYPES[:company][:index]) }
 
@@ -89,6 +92,10 @@ class Service < ApplicationRecord
 
   def is_client?
     self.service_type.to_s == 'client'
+  end
+
+  def is_startup?
+    self.service_type.to_s == 'startup'
   end
 
   def subdomain_changed_disallowed

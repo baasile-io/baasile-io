@@ -36,6 +36,9 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -130,6 +133,11 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'companies' && action_name == 'clients' %>" href="<%= clients_company_path(current_company) %>">Clients</a>
             </li>
+            <% if current_user.is_commercial? %>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if controller_name == 'contracts' %>" href="<%= company_contracts_path(current_company) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+                </li>
+            <% end %>
             <% if current_user.is_superadmin? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'companies' && ['admin_list', 'add_admin'].include?(action_name) %>" href="<%= admin_list_company_path(current_company) %>"><i class="fa fa-user fa-fw"></i> <%= t('activerecord.models.user').pluralize %></a>
@@ -169,6 +177,11 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('misc.my_services') %></a>
             </li>
+            <% if current_user.is_commercial? %>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+                </li>
+            <% end %>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><%= t('misc.profile') %></a>
             </li>

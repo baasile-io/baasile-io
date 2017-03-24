@@ -1,0 +1,28 @@
+fr:
+  contracts:
+    edit:
+      title: 'Paramètres'
+    index:
+      title: 'Contracts'
+    new:
+      title: 'Créer un nouveau contract'
+    set_price:
+      title: 'set price'
+    show:
+      title: 'Tableau de bord'
+    update:
+      title: 'Paramètres'
+  back_office:
+    contracts:
+      edit:
+        title: 'Paramètres'
+      index:
+        title: 'Contracts'
+      new:
+        title: 'Créer un nouveau contract'
+      set_price:
+        title: 'set price'
+      show:
+        title: 'Tableau de bord'
+      update:
+        title: 'Paramètres'

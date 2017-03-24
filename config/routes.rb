@@ -18,7 +18,36 @@ Rails.application.routes.draw do
   get '/service_book', to: "pages#service_book"
   get '/profile', to: 'users#profile'
 
+  resources :contracts do
+    post :commercial_validation
+    post :commercial_reject
+    post :toogle_activate
+    get :set_price
+    post :update_price
+    post :toogle_production
+    resources :prices do
+      resources :price_parameters do
+        post :toogle_activate
+      end
+      post :toogle_activate
+    end
+  end
+
   resources :companies do
+    resources :contracts do
+      post :commercial_validation
+      post :commercial_reject
+      post :toogle_activate
+      get :set_price
+      post :update_price
+      post :toogle_production
+      resources :prices do
+        resources :price_parameters do
+          post :toogle_activate
+        end
+        post :toogle_activate
+      end
+    end
     member do
       get :clients
       get :startups
@@ -32,6 +61,20 @@ Rails.application.routes.draw do
   resources :documentations
   
   resources :services do
+    resources :contracts do
+      post :commercial_validation
+      post :commercial_reject
+      post :toogle_activate
+      get :set_price
+      post :update_price
+      post :toogle_production
+      resources :prices do
+        resources :price_parameters do
+          post :toogle_activate
+        end
+        post :toogle_activate
+      end
+    end
     member do
       post :set_right
       post :unset_right
@@ -51,6 +94,12 @@ Rails.application.routes.draw do
       resources :identifiers
       resources :routes do
         resources :query_parameters
+      end
+      resources :prices do
+        resources :price_parameters do
+          post :toogle_activate
+        end
+        post :toogle_activate
       end
     end
   end

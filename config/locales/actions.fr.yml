@@ -30,14 +30,17 @@ fr:
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
-    unset_admin: "Enlever les droits admin"
+    set_production: 'mettre en production'
     sign_in: 'Se connecter'
     sign_in_as: 'Se connecter en tant que...'
     signin_in: 'Connexion...'
     sign_out: 'Se déconnecter'
     sign_up: "S'inscrire"
     signin_up: 'Inscription..'
+    status: 'Status'
     success:
       created: '%{resource} a été créé avec succès'
       destroyed: '%{resource} a été supprimé avec succès'
       updated: '%{resource} a été mis à jour avec succès'
+    unset_admin: "Enlever les droits admin"
+    unset_production: 'enlever de la production'

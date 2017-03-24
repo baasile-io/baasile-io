@@ -1,6 +1,18 @@
 fr:
   activerecord:
     attributes:
+      price:
+        name: 'Nom'
+        base_cost: 'Prix fix'
+        free_hour: "Nombres d'heures gratuites"
+        cost_by_time: 'Prix par heures'
+      price_parameter:
+        name: 'Nom'
+        price_parameters_type: 'type'
+        nb_free: "Nombre d'heures gratuites"
+        reset_free_perode_hour: 'période en heure de restoration des heures gratuites'
+        cost: 'cout'
+        price: 'prix'
       company:
         name: 'Nom'
       contact_detail:
@@ -24,6 +36,11 @@ fr:
         encrypted_secret: 'Clé secrète cryptée'
         proxy: 'Fonctionnalité'
         user: 'Créateur'
+      contract:
+        name: 'Nom'
+        startup: 'Startup'
+        client: 'Client'
+        company: 'Compagnie'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -42,6 +59,16 @@ fr:
         port: 'Port'
         protocol: 'Protocole'
         realm: 'realm'
+      proxy_parameter_test:
+        authorization_mode: "Mode d'autorisation"
+        authorization_url: "URL d'autorisation"
+        follow_redirection: 'Nombre de redirections maximum'
+        follow_url: "Suivre l'URL"
+        grant_type: 'Grant type'
+        hostname: 'Domaine'
+        port: 'Port'
+        protocol: 'Protocole'
+        realm: 'Realm'
       query_parameter:
         query_parameter_type: 'Type'
         name: 'Nom'
@@ -103,10 +130,13 @@ fr:
         object: 'Objet'
         whodunnit: 'Auteur'
     models:
+      price: 'Price'
+      price_parameter: 'Parametre de price en fonction des appels'
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'
       identifier: 'Identifiant'
+      contract: 'Contrat'
       query_parameter: 'Paramètre de requête'
       proxy: 'Fonctionnalité'
       proxy_parameter: 'Paramètres de fonctionnalité'

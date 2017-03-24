@@ -1,6 +1,19 @@
 en:
   activerecord:
     attributes:
+      price:
+        name: 'Name'
+        base_cost: 'Fixed prices'
+        free_hour: 'Free using hours'
+        cost_by_time: 'Hours prices'
+      price_parameter:
+        name: 'Name'
+        parameter: 'Parameter'
+        price_parameters_type: 'Type of price parameters'
+        nb_free: 'Number of free'
+        reset_free_perode_hour: 'Reset periode by hours'
+        cost: 'Cost'
+        price: 'Price'
       company:
         name: 'Name'
       contact_detail:
@@ -23,6 +36,11 @@ en:
         client_secret: 'Secret Key'
         encrypted_secret: 'Encrypted Secret Key'
         user: 'Creator'
+      contract:
+        name: 'Name'
+        startup: 'Startup'
+        client: 'Client'
+        company: 'Company'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -100,10 +118,13 @@ en:
         object: 'Object'
         whodunnit: 'Author'
     models:
+      price: 'Price'
+      price_parameter: 'Prices parameters by calls'
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'
       identifier: 'Credential'
+      contract: 'Contract'
       query_parameter: 'Query parameter'
       proxy: 'Proxy'
       proxy_parameter: 'Proxy parameter'
