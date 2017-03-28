@@ -156,7 +156,7 @@ class Service < ApplicationRecord
         self.errors.add(:parent_id, I18n.t('activerecord.validations.service.company_must_not_depend_on_company'))
       end
     else
-      if self.has_children?
+      if self.persisted? && self.has_children?
         self.errors.add(:service_type, I18n.t('activerecord.validations.service.root_must_be_company'))
       end
     end
