@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170320174722) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
+    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -75,7 +76,6 @@ ActiveRecord::Schema.define(version: 20170320174722) do
   create_table "identifiers", force: :cascade do |t|
     t.string   "client_id"
     t.string   "encrypted_secret"
-    t.datetime "expires_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "identifiable_type"
@@ -230,8 +230,8 @@ ActiveRecord::Schema.define(version: 20170320174722) do
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
     t.string   "subdomain"
-    t.integer  "company_id"
     t.boolean  "public",                         default: false
+    t.integer  "company_id"
     t.integer  "service_type",                   default: 1
     t.string   "ancestry"
     t.integer  "main_commercial_id"
@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(version: 20170320174722) do
     t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
     t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree
     t.index ["main_developer_id"], name: "index_services_on_main_developer_id", using: :btree
+    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -261,12 +262,12 @@ ActiveRecord::Schema.define(version: 20170320174722) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",   null: false
+    t.string   "encrypted_password",                default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -275,20 +276,20 @@ ActiveRecord::Schema.define(version: 20170320174722) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,     null: false
+    t.integer  "failed_attempts",                   default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.datetime "password_changed_at"
-    t.string   "unique_session_id",      limit: 20
-    t.datetime "last_activity_at"
-    t.datetime "expired_at"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
-    t.boolean  "is_active",                         default: false
+    t.datetime "password_changed_at"
+    t.string   "unique_session_id",      limit: 20
+    t.datetime "last_activity_at"
+    t.datetime "expired_at"
+    t.boolean  "is_active",                         default: true
     t.string   "ancestry"
     t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
