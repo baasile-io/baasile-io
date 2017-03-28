@@ -3,33 +3,33 @@
   <div class="b-io-content--secondary">
     <div class="container-fluid">
 
-      <% if @service.persisted? %>
+      <% if f.object.persisted? %>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<%= audit_back_office_service_path(@service) %>"><%= t('misc.audit') %></a>
+            <a class="nav-link" href="<%= audit_back_office_service_path(f.object) %>"><%= t('misc.audit') %></a>
           </li>
         </ul>
       <% end %>
 
-      <%= error_messages_for(@service) %>
+      <%= error_messages_for(f.object) %>
 
       <%= f.input :service_type, collection: format_service_types_for_select, include_blank: false, input_html: {class: 'select2'} %>
 
       <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
 
-      <%= f.input :user_id, collection: @users, input_html: {class: 'select2'}, include_blank: false, hint: t(".hints.user_id") %>
+      <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t(".hints.user_id") %>
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
       <%= f.input :description, as: :text, input_html: {rows: 5} %>
 
-      <% unless @service.is_client? %>
+      <% unless f.object.is_client? %>
         <%= f.input :website, hint: t('services.form.hints.website') %>
       <% end %>
 
-      <% unless @service.is_client? %>
+      <% unless f.object.is_client? %>
         <%= f.input :public, as: :radio_buttons %>
       <% end %>
 
@@ -47,35 +47,33 @@
 
       <%= f.input :subdomain, hint: t('services.form.hints.subdomain') %>
 
-      <% if @service.is_activated? %>
-        <fieldset>
-          <legend><%= t('misc.authentification_identifiers') %></legend>
-          <%= f.input :client_id, readonly: true %>
-          <%= f.input :client_secret, readonly: true %>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="activate"></label>
+        <div class="col-md-9">
+          <label>
+            <%= check_box_tag :activate, 'true', f.object.confirmed_at.present? %>
+            <%= t('misc.activated') %>
+          </label>
+          <small class="form-text text-muted"><%= t('.hints.activate') %></small>
+        </div>
+      </div>
 
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="reset_identifiers"></label>
-            <div class="col-md-9">
-              <label>
-                <%= check_box_tag :reset_identifiers, 'true', params[:reset_identifiers].present? %>
-                <%= t('actions.reset_identifiers') %>
-              </label>
-              <small class="form-text text-muted"><%= t('.hints.reset_identifiers') %></small>
-            </div>
-          </div>
-        </fieldset>
-      <% else %>
+      <fieldset>
+        <legend><%= t('misc.authentification_identifiers') %></legend>
+        <%= f.input :client_id, readonly: true %>
+        <%= f.input :client_secret, readonly: true %>
+
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="activate"></label>
+          <label class="col-md-3 col-form-label" for="reset_identifiers"></label>
           <div class="col-md-9">
             <label>
-              <%= check_box_tag :activate, 'true', params[:activate].present? %>
-              <%= t('actions.activate') %>
+              <%= check_box_tag :reset_identifiers, 'true', params[:reset_identifiers].present? %>
+              <%= t('actions.reset_identifiers') %>
             </label>
-            <small class="form-text text-muted"><%= t('.hints.activate') %></small>
+            <small class="form-text text-muted"><%= t('.hints.reset_identifiers') %></small>
           </div>
         </div>
-      <% end %>
+      </fieldset>
 
     </div>
   </div>

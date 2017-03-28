@@ -7,7 +7,8 @@ fr:
         title: 'Modifier'
       form:
         hints:
-          reset_identifiers: 'Cochez la case pour générer de nouveaux identifiants (Attention, cette action est irréversible)'
+          activate: "Cochez la case pour autoriser le service sur la plateforme."
+          reset_identifiers: 'Cochez la case pour générer de nouveaux identifiants (Attention, cette action est irréversible).'
           user_id: "L'utilisateur sera associé en tant qu'administrateur de l'entreprise."
       index:
         title: 'Entreprises'

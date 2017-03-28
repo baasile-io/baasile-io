@@ -33,6 +33,8 @@ class Service < ApplicationRecord
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
+  before_validation :generate_identifiers
+
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true, if: Proc.new{ self.public }
 
@@ -48,14 +50,12 @@ class Service < ApplicationRecord
   validates :client_id,     uniqueness: true,
                             format: { with: /\A[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\z/i },
                             presence: true,
-                            if: :is_activated?
+                            if: Proc.new { self.is_activated? && !self.errors.has_key?(:subdomain) }
   validates :client_secret, format: { with: /\A[a-z0-9]{64}\z/i },
                             presence: true,
-                            if: :is_activated?
+                            if: Proc.new { self.is_activated? && !self.errors.has_key?(:subdomain) }
 
   validate :company_ancestry_validation
-
-  before_save :generate_identifiers, if: :is_activated?
 
   scope :owned, ->(user) { where(user: user) }
   scope :activated, -> { where.not(confirmed_at: nil) }

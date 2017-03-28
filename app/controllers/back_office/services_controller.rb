@@ -9,7 +9,7 @@ module BackOffice
     before_action :add_breadcrumb_current_action, except: [:index]
 
     def index
-      @collection = Service.includes(:users).all
+      @collection = Service.includes(:users).all.order(updated_at: :desc)
     end
 
     def new
@@ -34,8 +34,13 @@ module BackOffice
 
     def update
       @page_title = @service.name
-      @service.confirmed_at = DateTime.now if params[:activate]
-      if @service.update(service_params)
+      @service.assign_attributes(service_params)
+      if params[:activate].present?
+        @service.confirmed_at = DateTime.now if @service.confirmed_at.nil?
+      else
+        @service.confirmed_at = nil
+      end
+      if @service.save
         @service.reset_identifiers if params[:reset_identifiers]
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
         redirect_to back_office_services_path

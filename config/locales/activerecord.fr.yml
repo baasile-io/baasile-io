@@ -108,7 +108,7 @@ fr:
         parent_id: 'Compagnie'
         public: 'Référencer dans le catalogue'
         user: 'Administrateur'
-        user_id: 'Administrator'
+        user_id: 'Administrateur'
         website: 'Site Internet'
       user:
         current_password: 'Mot de passe actuel'
