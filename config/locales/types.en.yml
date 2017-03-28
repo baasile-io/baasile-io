@@ -35,18 +35,47 @@ en:
         title: 'Client'
       company:
         icon: 'fa fa-fw fa-bank'
-        title: 'Company'
-    contract_status:
-      creation: 'Creation'
-      commercial_validation_sp: 'Commercial validation startup'
-      commercial_validation_client: 'Commercial validation client'
-      price_validation_sp: 'Price validation startup'
-      price_validation_client: 'Price validation client'
-      Validation: 'Validation'
+        title: 'Aggregator'
+    contract_statuses:
+      creation:
+        class: 'text-muted'
+        description: "The contract is at the draft stage. Only the client can access it."
+        icon: 'fa fa-fw fa-pencil text-muted'
+        title: 'Creation'
+      commercial_validation_sp:
+        class: 'text-danger'
+        description: "The supplier must validate the dates of the contract."
+        icon: 'fa fa-fw fa-thumbs-o-up text-danger'
+        title: 'Startup validation'
+      commercial_validation_client:
+        class: 'text-info'
+        description: "The client must validate the dates of the contract."
+        icon: 'fa fa-fw fa-thumbs-o-up text-info'
+        title: 'Client Validation'
+      deletion:
+        class: 'text-muted'
+        description: "The contract is cancelled"
+        icon: 'fa fa-fw fa-trash text-muted'
+        title: 'Canceled'
+      price_validation_sp:
+        class: 'text-danger'
+        description: "The supplier must propose a commercial rate."
+        icon: 'fa fa-fw fa-thumbs-up text-danger'
+        title: 'Startup pricing validation'
+      price_validation_client:
+        class: 'text-info'
+        description: "The client must accept the rates."
+        icon: 'fa fa-fw fa-thumbs-up text-info'
+        title: 'Client pricing validation'
+      validation:
+        class: 'text-success'
+        description: "The client must validate the rates proposed by the supplier."
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Validated'
     contract_unset_status:
       creation: 'Delete'
       commercial_validation_sp: 'Reject startup'
       commercial_validation_client: 'Reject client'
       price_validation_sp: 'Reject startup price'
       price_validation_client: 'Reject client price'
-      Validation: 'Desactivate'
+      validation: 'Desactivate'

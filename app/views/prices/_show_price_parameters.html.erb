@@ -1,70 +1,86 @@
+<% if price_parameters.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <% price_parameters.each.with_index(1) do |price_parameter, index| %>
+    <div class="card">
+      <div class="card-header">
+        <%= t('activerecord.models.price_parameter') %> #<%= index %>
+      </div>
+      <div class="card-block">
 
-<% @price_parameters.each do |price_parameter| %>
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-      <% if @contract.nil? %>
-        <%= link_to t('actions.edit'), edit_service_proxy_price_price_parameter_path(current_service, current_proxy, @price, price_parameter), class: 'btn btn-secondary' %>
-      <% elsif !@company.nil? %>
-        <%= link_to t('actions.edit'), edit_company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-secondary' %>
-      <% elsif !@service.nil? %>
-        <%= link_to t('actions.edit'), edit_service_contract_price_price_parameter_path(current_service, @contract, @price, price_parameter), class: 'btn btn-secondary' %>
-      <% else %>
-        <%= link_to t('actions.edit'), edit_contract_price_price_parameter_path(@contract, @price, price_parameter), class: 'btn btn-secondary' %>
-      <% end %>
-      <table class="table">
-        <tbody>
-        <tr>
-          <td><%= t('activerecord.attributes.price_parameter.price_parameters_type') %></td>
-          <td><%= price_parameter.price_parameters_type %></td>
-        </tr>
-        <tr>
-          <td><%= t('activerecord.attributes.price_parameter.parameter') %></td>
-          <td><%= price_parameter.parameter %></td>
-        </tr>
-        <tr>
-          <td><%= t('activerecord.attributes.price_parameter.cost') %></td>
-          <td><%= price_parameter.cost %></td>
-        </tr>
-        <tr>
-          <td><%= t('activerecord.attributes.price_parameter.free_count') %></td>
-          <td><%= price_parameter.free_count %></td>
-        </tr>
-        </tbody>
-      </table>
-      <% if current_user.is_admin? || price_parameter.user == current_user %>
-        <% if @contract.nil? %>
-          <%= button_to t('actions.destroy'), service_proxy_price_price_parameter_path(current_service, current_proxy, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
-        <% elsif !@company.nil? %>
-          <%= button_to t('actions.destroy'), company_contract_price_price_parameter_path(@company, @contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
-        <% elsif !@service.nil? %>
-          <%= button_to t('actions.destroy'), service_contract_price_price_parameter_path(current_service, @contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
-        <% else %>
-          <%= button_to t('actions.destroy'), contract_price_price_parameter_path(@contract, @price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
+        <div class="row">
+          <div class="col-3 text-right">
+            <strong><%= t('activerecord.attributes.price_parameter.price_parameters_type') %></strong>
+          </div>
+          <div class="col-5">
+            <%= t("types.price_parameters_types.#{price_parameter.price_parameters_type}.title") %><br />
+            <small class="text-muted"><%= t("types.price_parameters_types.#{price_parameter.price_parameters_type}.description") %></small>
+          </div>
+          <div class="col-4 text-right">
+            <% if current_contract.nil? %>
+              <%= link_to t('actions.edit'), edit_service_proxy_price_price_parameter_path(current_service, current_proxy, current_price, price_parameter), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.destroy'), service_proxy_price_price_parameter_path(current_service, current_proxy, current_price, price_parameter), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
+            <% else %>
+              <% if current_contract.can?(current_user, :prices) %>
+                <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_price_price_parameter_path(current_contract, current_contract.price, price_parameter) : edit_service_contract_price_price_parameter_path(current_service, current_contract, current_contract.price, price_parameter)), class: 'btn btn-secondary' %>
+                <%= link_to t('actions.destroy'), (@service.nil? ? contract_price_price_parameter_path(current_contract, current_contract.price, price_parameter) : service_contract_price_price_parameter_path(current_service, current_contract, current_contract.price, price_parameter)), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-4 text-right">
+            <strong><%= t('activerecord.attributes.price_parameter.route') %></strong>
+          </div>
+          <div class="col-8">
+            <%= price_parameter.route || t('misc.all_feminized') %>
+          </div>
+        </div>
+
+        <% if price_parameter.query_parameter %>
+          <div class="row">
+            <div class="col-4 text-right">
+              <strong><%= t('activerecord.attributes.price_parameter.query_parameter') %></strong>
+            </div>
+            <div class="col-8">
+              <%= price_parameter.query_parameter %>
+            </div>
+          </div>
         <% end %>
-      <% end %>
-      <% if current_user.is_admin? || price_parameter.user == current_user %>
-        <% if price_parameter.activate %>
-          <% if @contract.nil? %>
-            <%= button_to t('actions.deactivate'), service_proxy_price_price_parameter_toogle_activate_path(current_service, current_proxy, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@company.nil? %>
-            <%= button_to t('actions.deactivate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@service.nil? %>
-            <%= button_to t('actions.deactivate'), service_contract_price_price_parameter_toogle_activate_path(current_service, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% else %>
-            <%= button_to t('actions.deactivate'), contract_price_price_parameter_toogle_activate_path(@contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% end %>
-        <% else %>
-          <% if @contract.nil? %>
-            <%= button_to t('actions.activate'), service_proxy_price_price_parameter_toogle_activate_path(current_service, current_proxy, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@company.nil? %>
-            <%= button_to t('actions.activate'), company_contract_price_price_parameter_toogle_activate_path(@company, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% elsif !@service.nil? %>
-            <%= button_to t('actions.activate'), service_contract_price_price_parameter_toogle_activate_path(current_service, @contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% else %>
-            <%= button_to t('actions.activate'), contract_price_price_parameter_toogle_activate_path(@contract, @price, price_parameter, id: price_parameter.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post %>
-          <% end %>
+
+        <div class="row">
+          <div class="col-4 text-right">
+            <strong><%= t('activerecord.attributes.price_parameter.free_count') %></strong>
+          </div>
+          <div class="col-8">
+            <%= price_parameter.free_count %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 text-right">
+            <strong><%= t('activerecord.attributes.price_parameter.deny_after_free_count') %></strong>
+          </div>
+          <div class="col-8">
+            <%= t("misc.#{price_parameter.deny_after_free_count}") %>
+          </div>
+        </div>
+
+        <% if price_parameter.cost > 0.0 %>
+          <div class="row">
+            <div class="col-4 text-right">
+              <strong><%= t('activerecord.attributes.price_parameter.cost') %></strong>
+            </div>
+            <div class="col-8">
+              <%= price_parameter.cost %> &euro;
+            </div>
+          </div>
         <% end %>
-      <% end %>
+
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

@@ -1,22 +1,14 @@
 en:
   activerecord:
     attributes:
-      price:
-        name: 'Name'
-        base_cost: 'Fixed prices'
-        free_hour: 'Free using hours'
-        cost_by_time: 'Hours prices'
-      price_parameter:
-        name: 'Name'
-        parameter: 'Parameter'
-        price_parameters_type: 'Type of price parameters'
-        nb_free: 'Number of free'
-        reset_free_perode_hour: 'Reset periode by hours'
-        cost: 'Cost'
-        price: 'Price'
       category:
         name: 'Name'
         description: 'Description'
+      comment:
+        body: 'Message'
+        deleted: 'Hidden'
+        user: 'User'
+        user_id: 'User'
       company:
         name: 'Name'
       contact_detail:
@@ -41,10 +33,46 @@ en:
         encrypted_secret: 'Encrypted Secret Key'
         user: 'Creator'
       contract:
-        name: 'Name'
-        startup: 'Startup'
+        activate: 'Active'
         client: 'Client'
-        company: 'Company'
+        client_id: 'Client'
+        code: 'Code'
+        company: 'Aggregator'
+        company_id: 'Aggregator'
+        contract_duration: 'Contract duration'
+        end_date: 'End date'
+        expected_contract_duration: 'Expected contract duration'
+        expected_end_date: 'Expected end date'
+        expected_start_date: 'Expected start date'
+        is_evergreen: 'Automatically renewed'
+        name: 'Title'
+        price: 'Pricing'
+        price_id: 'Pricing'
+        production: "Production mode"
+        proxy: 'Product'
+        proxy_id: 'Product'
+        start_date: 'Start date'
+        startup: 'Supplier'
+        startup_id: 'Supplier'
+        status: 'Status'
+      price:
+        name: 'Name'
+        base_cost: 'Subscription price'
+        free_hour: 'Free using hours'
+        cost_by_time: 'Price per hour'
+        price_parameters: 'Pricing criteria'
+      price_parameter:
+        cost: 'Cost'
+        query_parameter: 'Monitored parameter'
+        query_parameter_id: 'Monitored parameter'
+        price_parameters_type: 'Type of price parameters'
+        free_count: 'Included requests in the basic rate'
+        deny_after_free_count: "Deny requests after limit"
+        price: 'Price'
+        price_id: 'Price'
+        reset_free_perode_hour: 'Reset periode by hours'
+        route: 'Monitored route'
+        route_id: 'Monitored route'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -76,8 +104,8 @@ en:
         port_test: 'Port (test)'
         protocol: 'Protocol'
         protocol_test: 'Protocol (test)'
-        proxy: 'Functionality'
-        proxy_id: 'Functionality'
+        proxy: 'Product'
+        proxy_id: 'Product'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Creator'
@@ -86,8 +114,8 @@ en:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
         confirmed_at: 'Active?'
-        company: 'Company'
-        company_id: 'Company'
+        company: 'Aggregator'
+        company_id: 'Aggregator'
         description: 'Description'
         service_type: 'Type'
         subdomain: 'Public identifier'
@@ -98,8 +126,8 @@ en:
         main_developer: 'Main technical'
         main_developer_id: 'Main technical'
         name: 'Name'
-        parent: 'Company'
-        parent_id: 'Company'
+        parent: 'Aggregator'
+        parent_id: 'Aggregator'
         public: 'Publish in catalog'
         user: 'Administrator'
         user_id: 'Administrator'
@@ -124,15 +152,16 @@ en:
         object: 'Object'
         whodunnit: 'Author'
     models:
-      price: 'Price'
-      price_parameter: 'Prices parameters by calls'
       category: "Category"
-      company: 'Company'
+      comment: 'Comment'
+      company: 'Aggregator'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'
       identifier: 'Credential'
       contract: 'Contract'
       query_parameter: 'Query parameter'
+      price: 'Price'
+      price_parameter: 'Price criteria'
       proxy: 'Proxy'
       proxy_parameter: 'Proxy parameter'
       route: 'Route'
@@ -142,9 +171,9 @@ en:
       version: 'Version'
     validations:
       service:
-        company_must_be_root: "can't be set as \"Company\" when depending on a company"
-        company_must_not_depend_on_company: "can't be set when type is set to \"Company\""
+        company_must_be_root: "can't be set as \"Aggregator\" when depending on an aggregator"
+        company_must_not_depend_on_company: "can't be set when type is set to \"Aggregator\""
         missing_subdomain: "The public identifier can't be blank"
-        root_must_be_company: "must be \"Company\" when having children enterprises"
+        root_must_be_company: "must be \"Aggregator\" when having children enterprises"
         subdomain_changed_disallowed: "The public identifier can't be changed because the enterprise is active"
 

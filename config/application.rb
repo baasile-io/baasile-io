@@ -32,5 +32,8 @@ module BaasileIo
 
     # add custom validators path
     config.autoload_paths += %W["#{config.root}/app/validators/"]
+
+    # add custom inputs
+    config.autoload_paths += %W["#{config.root}/app/inputs/"]
   end
 end

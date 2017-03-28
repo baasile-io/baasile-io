@@ -21,6 +21,9 @@
       <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
 
       <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t(".hints.user_id") %>
+      <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
       <%= f.input :description, as: :text, input_html: {rows: 5} %>
@@ -30,7 +33,7 @@
       <% end %>
 
       <% unless f.object.is_client? %>
-        <%= f.input :public, as: :radio_buttons %>
+        <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
       <% end %>
 
     </div>

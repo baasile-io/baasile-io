@@ -1,28 +1,19 @@
 fr:
   contracts:
+    comments:
+      title: 'Commentaires'
     edit:
       title: 'Paramètres'
+    form:
+      hints:
+        expected_contract_duration: 'Durée du contrat en mois.'
     index:
-      title: 'Contracts'
+      title: 'Contrats'
     new:
-      title: 'Créer un nouveau contract'
-    set_price:
-      title: 'set price'
+      title: 'Créer un nouveau contrat'
+    prices:
+      title: 'Tarifs'
     show:
       title: 'Tableau de bord'
     update:
       title: 'Paramètres'
-  back_office:
-    contracts:
-      edit:
-        title: 'Paramètres'
-      index:
-        title: 'Contracts'
-      new:
-        title: 'Créer un nouveau contract'
-      set_price:
-        title: 'set price'
-      show:
-        title: 'Tableau de bord'
-      update:
-        title: 'Paramètres'

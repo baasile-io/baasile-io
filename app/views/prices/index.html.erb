@@ -1,42 +1,43 @@
 <% content_for(:page_title) { t('.title') } %>
-<% if current_user.is_commercial_to_create? %>
-    <% if @contract.nil? %>
-        <% content_for(:page_controls) { link_to t('actions.new'), new_service_proxy_price_path(current_service, current_proxy), class: 'btn btn-primary' } %>
-    <% elsif !@company.nil? %>
-        <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_price_path(@company, @contract), class: 'btn btn-primary' } %>
-    <% elsif !@service.nil? %>
-        <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_price_path(current_service, @contract), class: 'btn btn-primary' } %>
-    <% else %>
-        <% content_for(:page_controls) { link_to t('actions.new'), new_contract_price_path(@contract), class: 'btn btn-primary' } %>
-    <% end %>
-  <% end %>
+
+<% if current_user.is_commercial_of?(current_service) %>
+  <% content_for(:page_controls) { link_to t('actions.new'), new_service_proxy_price_path(current_service, current_proxy), class: 'btn btn-primary' } %>
+<% end %>
+
+
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |price| %>
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+
+      <table class="table table-sm table-hover table-condensed table-link">
+        <thead>
         <tr>
-          <td><%= price.name %></td>
-          <td class="text-right">
-            <% if @contract.nil? %>
-                <%= link_to t('misc.dashboard'), service_proxy_price_path(current_service, current_proxy, price), class: 'btn btn-secondary' %>
-            <% elsif !@company.nil? %>
-                <%= link_to t('misc.dashboard'), service_price_path(@company, @contract, price), class: 'btn btn-secondary' %>
-            <% elsif !@service.nil? %>
-                <%= link_to t('misc.dashboard'), service_price_path(current_service, @contract, price), class: 'btn btn-secondary' %>
-            <% else %>
-                <%= link_to t('misc.dashboard'), service_price_path(@contract, price), class: 'btn btn-secondary' %>
-            <% end %>
-            </td>
+          <th colspan="2"><%= t('activerecord.attributes.price.name') %></th>
+          <th></th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% @collection.each do |price| %>
+          <tr data-link="<%= service_proxy_price_path(current_service, current_proxy, price) %>">
+            <td class="width-3">
+              <i class="fa fa-fw fa-2x fa-money"></i>
+            </td>
+            <td>
+              <strong><%= price.name %></strong><br />
+              &nbsp;
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.edit'), service_proxy_price_path(current_service, current_proxy, price), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    <% end %>
+
   </div>
 </div>

@@ -33,7 +33,38 @@ class Role < ApplicationRecord
       edit: [:admin, :developer],
       update: [:admin, :developer]
     },
-    permissions: {}
+    permissions: {},
+    contracts: {
+      index: [:admin, :commercial, :accountant],
+      prices: [:admin, :commercial, :accountant],
+      select_price: [:admin, :commercial],
+      new: [:admin, :commercial],
+      show: [:admin, :commercial, :accountant],
+      edit: [:admin, :commercial, :accountant],
+      update: [:admin, :commercial, :accountant],
+      comments: [:admin, :commercial, :accountant],
+      reject: [:admin, :commercial, :accountant],
+      validate: [:admin, :commercial, :accountant],
+      cancel: [:admin]
+    },
+    prices: {
+      index: [:admin, :commercial],
+      show: [:admin, :commercial],
+      new: [:admin, :commercial],
+      create: [:admin, :commercial],
+      edit: [:admin, :commercial],
+      update: [:admin, :commercial],
+      destroy: [:admin, :commercial]
+    },
+    price_parameters: {
+      index: [:admin, :commercial],
+      show: [:admin, :commercial],
+      new: [:admin, :commercial],
+      create: [:admin, :commercial],
+      edit: [:admin, :commercial],
+      update: [:admin, :commercial],
+      destroy: [:admin, :commercial]
+    }
   }.freeze
 
   has_and_belongs_to_many :users, :join_table => :users_roles

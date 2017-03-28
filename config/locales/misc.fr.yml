@@ -1,26 +1,42 @@
 fr:
   misc:
+    actions: 'Actions'
     activated: "Activé"
     advanced_permissions: 'Permissions avancées'
+    all: 'Tous'
+    all_feminized: 'Toutes'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
     dashboard: 'Tableau de bord'
+    destroyed: 'Supprimé'
     documentation: 'Documentation'
+    'false': 'Non'
+    included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
+    last_comment: 'Dernier commentaire'
     locales:
       en: 'Anglais'
       fr: 'Français'
+    month:
+      one: 'mois'
+      other: 'mois'
     my_services: 'Mes entreprises'
+    no: 'No'
     none: 'Aucun'
     none_feminized: 'Aucune'
+    not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
     overview: "Vue d'ensemble"
     parameters: 'Configuration'
     permissions: 'Permissions'
+    pricing: 'Tarification'
     profile: 'Profil'
     role: 'Rôle'
     roles: 'Rôles'
+    'true': 'Oui'
     unconfirmed: 'Inactif'
+    waiting_for_validation: 'En attente de validation'
+    yes: 'Oui'

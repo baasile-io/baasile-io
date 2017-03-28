@@ -12,7 +12,7 @@
 
   <%= f.input :phone, hint: t('users.form.hints.phone')%>
 
-  <%= f.input :is_active, as: :radio_buttons %>
+  <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
   <% unless f.object.persisted? %>
 

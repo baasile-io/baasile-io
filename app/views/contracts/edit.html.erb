@@ -7,3 +7,6 @@
 
   </div>
 </div>
+
+
+<%= render partial: 'shared/versions', locals: {objects: [@contract] + @contract.comments.to_a + [@contract.price]} %>

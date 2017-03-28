@@ -1,46 +1,68 @@
 <% content_for(:page_title) { t('.title') } %>
-<% if current_user.is_commercial_to_create? %>
-  <% if !current_company.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_path(current_company), class: 'btn btn-primary' } %>
-  <% elsif !current_service.nil? %>
+
+<% unless current_service.nil? %>
+  <% if current_user.is_commercial_of?(current_service) %>
     <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_path(current_service), class: 'btn btn-primary' } %>
-  <% else %>
-      <% content_for(:page_controls) { link_to t('actions.new'), new_contract_path, class: 'btn btn-primary' } %>
+  <% end %>
+<% else %>
+  <% if current_user.is_commercial? %>
+    <% content_for(:page_controls) { link_to t('actions.new'), new_contract_path, class: 'btn btn-primary' } %>
   <% end %>
 <% end %>
+
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>client</th>
-        <th>startup/proxy</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |contract| %>
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
         <tr>
-          <td><%= contract.name %></td>
-          <td><%= contract.client.name %></td>
-          <td><%= contract.startup.name + '/' + contract.proxy.name %></td>
-          <% if !current_company.nil? %>
-            <td class="text-right">
-              <%= link_to t('misc.dashboard'), company_contract_path(current_company, contract), class: 'btn btn-secondary' %>
-            </td>
-          <% elsif !current_service.nil? %>
-            <td class="text-right">
-              <%= link_to t('misc.dashboard'), service_contract_path(current_service, contract), class: 'btn btn-secondary' %>
-            </td>
-          <% else %>
-              <td class="text-right">
-                <%= link_to t('misc.dashboard'), contract_path(contract), class: 'btn btn-secondary' %>
-              </td>
-          <% end %>
+          <th colspan="2"><%= t('activerecord.attributes.contract.name') %> / <%= t('activerecord.attributes.contract.code') %></th>
+          <th><%= t('activerecord.attributes.contract.status') %></th>
+          <th><%= t('activerecord.attributes.contract.client') %></th>
+          <th><%= t('activerecord.attributes.contract.startup') %></th>
+          <th><%= t('activerecord.attributes.contract.proxy') %></th>
+          <th></th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% @collection.each do |contract|
+            link = (current_service.nil? ? contract_path(contract) : service_contract_path(current_service, contract))
+        %>
+          <tr data-link="<%= link %>">
+            <td class="width-3">
+              <i class="fa-2x fa-edit fa fa-fw"></i>
+            </td>
+            <td>
+              <%= contract.name %><br />
+              <small class="text-muted"><%= contract.code %></small>&nbsp;
+            </td>
+            <td>
+              <i class="<%= t("types.contract_statuses.#{contract.status}.icon") %>"></i>
+              <span class="<%= t("types.contract_statuses.#{contract.status}.class") %>"><%= t("types.contract_statuses.#{contract.status}.title") %></span>
+            </td>
+            <td>
+              <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
+              <span class="<%= t("types.service_types.#{contract.client.service_type}.class") %>"><%= contract.client.name %></span>
+            </td>
+            <td>
+              <i class="<%= t("types.service_types.#{contract.startup.service_type}.icon") %>"></i>
+              <span class="<%= t("types.service_types.#{contract.startup.service_type}.class") %>"><%= contract.startup.name %></span>
+            </td>
+            <td>
+              <i class="fa fa-fw fa-sitemap"></i>
+              <%= contract.proxy.name %>
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.edit'), link, class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
   </div>
 </div>

@@ -45,12 +45,16 @@ $(document).ready(function(e) {
     var icon = el.data('icon');
     var type_class = el.data('class');
     var text_right = el.data('text-right');
+    var description = el.data('description');
     var template = '';
     if (typeof text_right != 'undefined')
       template = template + '<span class="float-right text-muted">' + text_right + '</span>';
     if (typeof icon != 'undefined')
       template = template + '<i class="' + icon + '"></i> ';
-    return template + '<span class="' + type_class + '">' + s.text + '</span>';
+    template = template + '<span class="' + type_class + '">' + s.text + '</span>';
+    if (typeof description != 'undefined')
+      template = template + ' / <small>' + description + '</small>';
+    return template;
   }
 
   $('select.select2').select2({
@@ -62,13 +66,13 @@ $(document).ready(function(e) {
 
   function format_service_select2_option(s) {
     if (!s.id)
-      return s.text;
+      return '<span class="text-muted">' + s.text + '</span>';
     var el = $(s.element);
     var type = el.data('type');
     var parent_service = el.data('parent');
     var type_class = el.data('class');
     var parent_service_type = el.data('parent-type');
-    var template = '<span class="' + type_class + '"><span class="float-right text-muted">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
+    var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
     if (typeof parent_service != 'undefined')
       template = '<small class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></small> ' + template;
     return template + '</span>';
@@ -80,5 +84,24 @@ $(document).ready(function(e) {
     templateSelection: format_service_select2_option,
     escapeMarkup: function (markup) { return markup; }
   });
+
+  $(document).on("focus", ".date-picker", function(e) {
+    $(this).datepicker({
+      format: "yyyy-mm-dd",
+      weekStart: 1,
+      autoclose: true,
+      language: I18n.locale
+    });
+  });
+
+  $.extend($.fn.autoNumeric.defaults, {
+    digitGroupSeparator: ' ',
+    decimalCharacter: '.',
+    currencySymbol: ' €',
+    currencySymbolPlacement: 's',
+    unformatOnSubmit: true
+  });
+
+  $('input.autonumeric').autoNumeric('init');
 
 });

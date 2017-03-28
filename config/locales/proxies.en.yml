@@ -1,9 +1,9 @@
 en:
   proxies:
     create:
-      title: 'New functionality'
+      title: 'New product'
     edit:
-      title: 'Edit functionality'
+      title: 'Edit product'
     form:
       hints:
         authorization_url: "Authorisation URL must start with a slash. Example : \"/api/oauth/token\"."
@@ -21,10 +21,10 @@ en:
       description: 'Manage your APIs and provide data to the clients'
       title: 'Functionalities'
     new:
-      title: 'New functionality'
+      title: 'New product'
     proxy_parameters_form:
       select_authorization_mode: 'Select an authorization mode...'
     show:
-      title: 'Functionality'
+      title: 'Product'
     update:
-      title: 'Edit functionality'
+      title: 'Edit product'

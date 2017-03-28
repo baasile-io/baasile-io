@@ -176,8 +176,20 @@ class Service < ApplicationRecord
     self.service_type.to_s == 'company'
   end
 
+  def company
+    @company ||= self.parent
+  end
+
   def generate_identifiers
     self.generate_client_id! unless self.client_id.present?
     self.generate_client_secret! unless self.client_secret.present?
+  end
+
+  def can?(user, controller_name, action_name)
+    roles = Role::CONTROLLER_AUTHORIZATIONS[controller_name.to_sym][action_name.to_sym] || []
+    roles.each do |role|
+      return true if user.send("is_#{role}_of?", self)
+    end
+    false
   end
 end

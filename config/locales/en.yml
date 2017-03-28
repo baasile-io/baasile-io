@@ -38,6 +38,7 @@ en:
     - Friday
     - Saturday
     formats:
+      datepicker: '%Y-%m-%d'
       default: "%Y-%m-%d"
       long: "%B %d, %Y"
       short: "%b %d"

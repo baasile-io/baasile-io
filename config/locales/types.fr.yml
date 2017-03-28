@@ -18,8 +18,12 @@ fr:
         icon: ''
         title: 'HEADER'
     price_parameters_types:
-      per_call: 'Par requetes'
-      per_params: 'Par paramètres'
+      per_call:
+        description: "La mesure s'effectue sur le nombre d'appels."
+        title: 'Par requête'
+      per_params:
+        description: "La mesure s'effectue sur le nombre d'apparition d'un paramètre."
+        title: 'Par paramètre'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
@@ -38,18 +42,47 @@ fr:
       company:
         class: ''
         icon: 'fa fa-fw fa-cubes'
-        title: 'Compagnie'
-    contract_status:
-      creation: 'Créate'
-      commercial_validation_sp: 'Validate startup'
-      commercial_validation_client: 'Validate client'
-      price_validation_sp: 'Validate startup price'
-      price_validation_client: 'Validate client price'
-      Validation: 'Activate'
+        title: 'Aggrétateur'
+    contract_statuses:
+      creation:
+        class: 'text-muted'
+        description: "Le contrat est au stade de brouillon. Seule le client peut y accéder."
+        icon: 'fa fa-fw fa-pencil text-muted'
+        title: 'Création'
+      commercial_validation_sp:
+        class: 'text-danger'
+        description: "Le fournisseur doit valider les dates du contrat."
+        icon: 'fa fa-fw fa-thumbs-o-up text-danger'
+        title: 'Validation commercial startup'
+      commercial_validation_client:
+        class: 'text-info'
+        description: "Le client doit valider les dates du contrat."
+        icon: 'fa fa-fw fa-thumbs-o-up text-info'
+        title: 'Validation commercial client'
+      deletion:
+        class: 'text-muted'
+        description: "Le contrat est annulé."
+        icon: 'fa fa-fw fa-trash text-muted'
+        title: 'Annulé'
+      price_validation_sp:
+        class: 'text-danger'
+        description: "Le fournisseur doit faire une proposition tarifaire."
+        icon: 'fa fa-fw fa-thumbs-up text-danger'
+        title: 'Validation tarif startup'
+      price_validation_client:
+        class: 'text-info'
+        description: "Le client doit valider les tarifs proposés par le fournisseur."
+        icon: 'fa fa-fw fa-thumbs-up text-info'
+        title: 'Validation tarif client'
+      validation:
+        class: 'text-success'
+        description: "Le contrat est validé par les deux parties. La phase de test peut démarrer en attendant le début du contrat."
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Validé'
     contract_unset_status:
       creation: 'Suppression'
       commercial_validation_sp: 'Reject startup'
       commercial_validation_client: 'Reject client'
       price_validation_sp: 'Reject startup price'
       price_validation_client: 'Reject client price'
-      Validation: 'Desactivate'
+      validation: 'Desactivate'

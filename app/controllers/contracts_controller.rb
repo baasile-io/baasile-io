@@ -1,37 +1,34 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
-  before_action :is_commercial?
-  before_action :load_company
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :commercial_validation, :commercial_reject, :toogle_activate, :toogle_production]
-  before_action :load_contract_with_contract_id, only: [:set_price, :update_price]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
-  before_action :load_active_companies, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
-  before_action :load_price_associate_startup, only: [:set_price]
   before_action :load_active_proxies_and_authorize, only: [:new, :edit, :update, :create]
+
+  # Authorization
+  before_action :authorize_action
+  before_action :authorize_contract_action
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
 
   def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service) if current_service
+    add_breadcrumb I18n.t('contracts.index.title'), :contracts_path
+    #add_breadcrumb current_service.name, contract_path(curr) if current_service
   end
 
   def index
-    if !current_company.nil?
-      @collection = Contract.associated_companies(current_company)
-    elsif !current_service.nil?
-      @collection = Contract.associated_startups_clients(current_service)
+    unless current_service.nil?
+      @collection = Contract.associated_service(current_service).order(status: :asc)
     else
-      @collection = Contract.all
+      @collection = Contract.associated_user(current_user).order(status: :asc)
     end
-    @collection = @collection.reject { |contract| !contract.authorized_to_act?(current_user) }
   end
 
   def new
+    @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
     @contract.client = current_service if !current_service.nil? && current_service.is_client?
     @contract.startup = current_service if !current_service.nil? && current_service.is_startup?
@@ -39,9 +36,10 @@ class ContractsController < ApplicationController
   end
 
   def create
+    @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
     @contract.user = current_user
-    @contract.assign_attributes(contract_params)
+    @contract.assign_attributes(contract_params(:creation))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.company = @contract.client.company unless @contract.client.company.nil?  unless @contract.client.nil?
     @contract.status = Contract.statuses[:creation]
@@ -59,8 +57,7 @@ class ContractsController < ApplicationController
   end
 
   def update
-    @contract.status = Contract.statuses[:creation]
-    @contract.assign_attributes(contract_params)
+    @contract.assign_attributes(contract_params(@contract.status))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.company = @contract.client.company unless @contract.client.company.nil? unless @contract.client.nil?
     if @contract.save
@@ -84,85 +81,82 @@ class ContractsController < ApplicationController
     end
   end
 
-  def commercial_validation
-    if Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'commercial'
-      if @contract.is_commercial?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
-        logger.info @contract.status.inspect
-        if @contract.save
-          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-        end
-      else
-        flash[:success] = I18n.t('actions.back', resource: t('activerecord.models.contract'))
-      end
-    elsif Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'accounting'
-      if @contract.is_accounting?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:next] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:next].nil?
-        if @contract.save
-          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-        end
-      else
-        flash[:success] = I18n.t('actions.back', resource: t('activerecord.models.contract'))
-      end
-    end
-    redirect_to_show
-  end
-
-  def commercial_reject
-    if Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'commercial'
-      if @contract.is_commercial?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev].nil?
-        if @contract.save
-          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-        end
-      end
-    elsif Contract::CONTRACT_STATUS[@contract.status.to_sym][:scope] == 'accounting'
-      if @contract.is_accounting?(current_user, Contract::CONTRACT_STATUS[@contract.status.to_sym][:can_edit])
-        @contract.status = Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev] unless Contract::CONTRACT_STATUS[@contract.status.to_sym][:prev].nil?
-        if @contract.save
-          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-        end
-      end
-    end
-    redirect_to_show
-  end
-
-  def toogle_activate
-    @contract.activate = !@contract.activate
-    @contract.save
-    redirect_to_show
-  end
-
-  def toogle_production
-    @contract.production = !@contract.production
-    @contract.save
-    redirect_to_show
-  end
-
-  def set_price
-    unless Contract.statuses[@contract.status] == Contract.statuses[:creation]
-      redirect_to_show
-    end
-  end
-
-  def update_price
-    @contract.set_dup_price(contract_params_price[:price_id])
+  def validate
+    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    @contract.status = status[:next] unless status[:next].nil?
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-      redirect_to_show
-    else
-      render :set_price
     end
+    redirect_to_show
+  end
+
+  def reject
+    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    @contract.status = status[:prev] unless status[:prev].nil?
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      unless @contract.can?(current_user, :show)
+        return redirect_to_index
+      end
+    end
+    redirect_to_show
+  end
+
+  def toggle_production
+    if @contract.can?(current_user, :toggle_production)
+      @contract.production = !@contract.production
+      if @contract.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      end
+    else
+      flash[:error] = I18n.t('misc.not_authorized')
+    end
+    redirect_to_show
+  end
+
+  def cancel
+    @contract.status = :deletion
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      return redirect_to_index
+    end
+    redirect_to_show
+  end
+
+  def prices
+    @price_templates = Price.templates(@contract.proxy)
+  end
+
+  def select_price
+    @contract.price.try(:destroy)
+
+    price_id = params[:price_id]
+    if price_id
+      @contract.set_dup_price(price_id)
+    else
+      @contract.create_price(user: current_user)
+    end
+
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    end
+
+    return redirect_to prices_service_contract_path(current_service, @contract) unless current_service.nil?
+    redirect_to prices_contract_path(@contract)
   end
 
   def define_form_value
     @form_values = get_for_values
   end
 
+  def comments
+    @comments = Comment.where(commentable: @contract).order(created_at: :desc)
+    @comment = Comment.new(commentable: @contract)
+  end
+
   private
 
   def get_for_values
-    return [current_company, @contract] unless current_company.nil?
     return [current_service, @contract] unless current_service.nil?
     return [@contract]
   end
@@ -174,28 +168,19 @@ class ContractsController < ApplicationController
     end
   end
 
-  def load_price_associate_startup
-    @prices = Price.where(service_id: @contract.startup_id, attached: false)
-  end
-
   def redirect_to_index
-    return redirect_to company_contracts_path(current_company) unless current_company.nil?
     return redirect_to service_contracts_path(current_service) unless current_service.nil?
     return redirect_to contracts_path
   end
 
   def redirect_to_show
-    return redirect_to company_contract_path(current_company, @contract) unless current_company.nil?
     return redirect_to service_contract_path(current_service, @contract) unless current_service.nil?
     return redirect_to contract_path(@contract)
   end
 
   def load_contract
     @contract = Contract.find(params[:id])
-  end
-
-  def load_contract_with_contract_id
-    @contract = Contract.find(params[:contract_id])
+    @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 
   def load_active_services
@@ -218,18 +203,6 @@ class ContractsController < ApplicationController
     end
   end
 
-  def load_active_companies
-    @companies = Company.all
-  end
-
-  def load_company
-    if params.key?(:company_id)
-      @company = Company.find(params[:company_id])
-    else
-      @company = nil
-    end
-  end
-
   def load_service
     if params.key?(:service_id)
       @service = Service.find(params[:service_id])
@@ -243,22 +216,13 @@ class ContractsController < ApplicationController
     params.require(:contract).permit(allowed_parameters)
   end
 
-  def contract_params
-    allowed_parameters = [:code, :name, :start_date, :company_id, :proxy_id, :client_id]
+  def contract_params(status)
+    allowed_parameters = Contract::CONTRACT_STATUSES[status.to_sym][:allowed_parameters]
     params.require(:contract).permit(allowed_parameters)
-  end
-
-  def is_commercial?
-    current_user.is_commercial?
   end
 
   def add_breadcrumb_current_action
     add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
-  end
-
-  def current_company
-    return nil unless params[:company_id]
-    @company
   end
 
   def current_service
@@ -266,13 +230,29 @@ class ContractsController < ApplicationController
     @service
   end
 
+  def current_contract
+    return nil unless params[:id]
+    @contract
+  end
+
   def current_module
-    if !@company.nil?
-      'companies'
-    elsif !@service.nil?
+    unless @service.nil?
       'dashboard'
     else
       'contract'
+    end
+  end
+
+  def current_authorized_resource
+    current_service
+  end
+
+  def authorize_contract_action
+    unless current_contract.nil?
+      unless @contract.can?(current_user, action_name.to_sym)
+        flash[:error] = I18n.t('misc.not_authorized')
+        return (@contract.can?(current_user, :show) ? redirect_to_show : redirect_to_index)
+      end
     end
   end
 

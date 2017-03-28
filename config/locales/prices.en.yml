@@ -3,22 +3,10 @@ en:
     edit:
       title: 'Parameters'
     index:
-      title: 'List of prices'
+      title: 'Pricing templates'
     new:
-      title: 'Create a new prix'
+      title: 'Create a new pricing template'
     show:
       title: 'Dashboard'
     update:
       title: 'Parameters'
-  back_office:
-    prices:
-      edit:
-        title: 'Parameters'
-      index:
-        title: 'List of prices'
-      new:
-        title: 'Create a new price'
-      show:
-        title: 'Dashboard'
-      update:
-        title: 'Parameters'

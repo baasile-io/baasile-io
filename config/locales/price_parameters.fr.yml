@@ -2,23 +2,16 @@ fr:
   price_parameters:
     edit:
       title: 'Paramètres'
+    form:
+      hints:
+        cost: "Prix unitaire d'une requête au delà de la limite incluse."
+        deny_after_free_count: "Bloquer les requêtes lorsque la limite de requêtes autorisées est atteinte."
+        free_count: 'Nombre de requêtes autorisées dans le prix de base.'
     index:
-      title: 'Parametre de prix en fonction appels'
+      title: 'Critères de tarification'
     new:
-      title: 'Créer un nouveau prix'
+      title: 'Créer un nouveau critère'
     show:
       title: 'Tableau de bord'
     update:
       title: 'Paramètres'
-  back_office:
-    price_parameters:
-      edit:
-        title: 'Paramètres'
-      index:
-        title: 'Parametre de prix en fonction des appels'
-      new:
-        title: 'Créer un nouveau prix appels'
-      show:
-        title: 'Tableau de bord'
-      update:
-        title: 'Paramètres'

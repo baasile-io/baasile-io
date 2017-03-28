@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329171019) do
+ActiveRecord::Schema.define(version: 20170403214658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["name"], name: "index_categories_on_name", unique: true, using: :btree
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "commentable_type"
+    t.integer  "commentable_id"
+    t.integer  "user_id"
+    t.text     "body"
+    t.boolean  "deleted",          default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
   create_table "companies", force: :cascade do |t|
@@ -51,7 +63,6 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.datetime "updated_at",                      null: false
     t.string   "chamber_of_commerce", limit: 255
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
-    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -62,14 +73,18 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.integer  "company_id"
     t.integer  "startup_id"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "activate",   default: true
-    t.integer  "status",     default: 1
-    t.integer  "price_id"
-    t.boolean  "production", default: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "activate",                   default: true
+    t.integer  "status",                     default: 1
+    t.boolean  "production",                 default: false
     t.integer  "proxy_id"
     t.string   "code"
+    t.integer  "contract_duration"
+    t.date     "expected_start_date"
+    t.date     "expected_end_date"
+    t.integer  "expected_contract_duration", default: 1
+    t.boolean  "is_evergreen",               default: false
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
@@ -86,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170329171019) do
   create_table "identifiers", force: :cascade do |t|
     t.string   "client_id"
     t.string   "encrypted_secret"
+    t.datetime "expires_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "identifiable_type"
@@ -119,7 +135,7 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.integer  "price_parameters_type", default: 1
     t.string   "parameter"
     t.decimal  "cost",                  default: "0.0"
-    t.integer  "free_count"
+    t.integer  "free_count",            default: 0
     t.integer  "user_id"
     t.integer  "route_id"
     t.integer  "query_parameter_id"
@@ -128,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.integer  "price_id"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "deny_after_free_count", default: true
     t.index ["price_id"], name: "index_price_parameters_on_price_id", using: :btree
   end
 
@@ -137,11 +154,12 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.decimal  "cost_by_time", default: "0.0"
     t.integer  "user_id"
     t.boolean  "activate",     default: true
-    t.boolean  "attached",     default: false
     t.integer  "proxy_id"
     t.integer  "service_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "contract_id"
+    t.index ["contract_id"], name: "index_prices_on_contract_id", using: :btree
     t.index ["proxy_id"], name: "index_prices_on_proxy_id", using: :btree
     t.index ["service_id"], name: "index_prices_on_service_id", using: :btree
   end
@@ -241,8 +259,8 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
     t.string   "subdomain"
-    t.boolean  "public",                         default: false
     t.integer  "company_id"
+    t.boolean  "public",                         default: false
     t.integer  "service_type",                   default: 1
     t.string   "ancestry"
     t.integer  "main_commercial_id"
@@ -252,7 +270,6 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
     t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree
     t.index ["main_developer_id"], name: "index_services_on_main_developer_id", using: :btree
-    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -273,12 +290,12 @@ ActiveRecord::Schema.define(version: 20170329171019) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",   null: false
-    t.string   "encrypted_password",                default: "",   null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,    null: false
+    t.integer  "sign_in_count",                     default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -287,20 +304,20 @@ ActiveRecord::Schema.define(version: 20170329171019) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,    null: false
+    t.integer  "failed_attempts",                   default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "gender"
-    t.string   "phone"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.datetime "password_changed_at"
     t.string   "unique_session_id",      limit: 20
     t.datetime "last_activity_at"
     t.datetime "expired_at"
-    t.boolean  "is_active",                         default: true
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "gender"
+    t.string   "phone"
+    t.boolean  "is_active",                         default: false
     t.string   "ancestry"
     t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree

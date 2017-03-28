@@ -4,33 +4,41 @@ fr:
     add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
     add_association: 'Ajouter une association'
+    add_price_parameter: 'Ajouter un critère de tarification'
     admin_list: 'liste des administrateurs'
     associate: 'Associer'
     back: '<< Retour'
+    cancel: 'Annuler'
+    cancel_contract: 'Annuler le contrat'
     change_password: 'Changer de mot de passe'
     configure: 'Configurer'
     confirm_email: "Confirmer l'adresse E-Mail"
-    create_client: 'Créer un nouveau compte client'
-    create_startup: 'Créer une nouvelle compte startup'
+    create_client: "Créer un compte client"
+    create_startup: "Créer un compte startup"
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
+    edit_price: 'Éditer la tarification'
     infos: 'Infos'
     new: 'Créer'
+    next_step: "Valider"
+    reject: 'Rejeter'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
     reset_identifiers: 'Réinitialiser les identifiants de connexion'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
+    reset_prices: 'Réinitialiser les tarifs'
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    select: 'Sélectionner...'
     send_reset_password: 'Réinitialiser le mot de passe'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
-    set_production: 'mettre en production'
+    set_production: "Activer la phase d'exploitation"
     sign_in: 'Se connecter'
     sign_in_as: 'Se connecter en tant que...'
     signin_in: 'Connexion...'
@@ -43,4 +51,4 @@ fr:
       destroyed: '%{resource} a été supprimé avec succès'
       updated: '%{resource} a été mis à jour avec succès'
     unset_admin: "Enlever les droits admin"
-    unset_production: 'enlever de la production'
+    unset_production: "Désactiver la phase d'exploitation"

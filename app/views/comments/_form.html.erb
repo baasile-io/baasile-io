@@ -1,0 +1,15 @@
+<%= simple_form_for object do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= hidden_field :comment, :commentable_type, value: f.object.commentable_type %>
+  <%= hidden_field :comment, :commentable_id, value: f.object.commentable_id %>
+
+  <%= f.input :body, as: :text, input_html: {rows: 5} %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+<% end %>

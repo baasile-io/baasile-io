@@ -7,8 +7,8 @@ fr:
     clients:
       title: 'Clients'
     index:
-      title: 'Compagnies'
+      title: 'Aggrégateurs'
     new:
-      title: 'Créer une nouvelle compagnie'
+      title: 'Créer un nouvel aggrégateur'
     startups:
       title: 'Startups'

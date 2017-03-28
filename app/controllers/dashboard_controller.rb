@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   before_action :authorize_action
 
   def authenticate_schema
-    if current_service.nil? || !current_service.is_activated?
+    if current_service.nil?
       redirect_to root_path
       return false
     end

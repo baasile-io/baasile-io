@@ -1,0 +1,11 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'comments/form', locals: {object: @comment} %>
+
+    <%= render partial: 'comments/list', locals: {comments: @comments} %>
+
+  </div>
+</div>
