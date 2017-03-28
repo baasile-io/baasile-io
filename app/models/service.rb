@@ -108,10 +108,10 @@ class Service < ApplicationRecord
   end
 
   def create_default_user_association
-    self.user.user_associations.first_or_create(associable: self) if self.user
-    self.main_commercial.user_associations.first_or_create(associable: self) if self.main_commercial
-    self.main_accountant.user_associations.first_or_create(associable: self) if self.main_accountant
-    self.main_developer.user_associations.first_or_create(associable: self) if self.main_developer
+    self.user.user_associations.where(associable: self).first_or_create if self.user
+    self.main_commercial.user_associations.where(associable: self).first_or_create if self.main_commercial
+    self.main_accountant.user_associations.where(associable: self).first_or_create if self.main_accountant
+    self.main_developer.user_associations.where(associable: self).first_or_create if self.main_developer
   end
 
   def assign_default_user_roles
