@@ -4,7 +4,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-sm table-hover table-link">
+    <table class="table table-sm table-hover">
       <thead>
       <tr>
         <th colspan="2"></th>
@@ -16,7 +16,7 @@
       </thead>
       <tbody>
       <% @collection.each do |user| %>
-      <tr data-link="<%= edit_back_office_user_path(user) %>">
+      <tr>
         <td class="width-3">
           <i class="fa fa-fw fa-user fa-2x"></i>
         </td>

@@ -41,19 +41,21 @@ class Service < ApplicationRecord
 
   validates :website, url: true, allow_blank: true
 
-  validates :subdomain, presence: true, if: :is_activated?
+  validates :subdomain, presence: true, if: :confirmed_at?
   validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
                             format: { with: /\A[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\z/i },
                             presence: true,
-                            if: :confirmed_at?
+                            if: :is_activated?
   validates :client_secret, format: { with: /\A[a-z0-9]{64}\z/i },
                             presence: true,
-                            if: :confirmed_at?
+                            if: :is_activated?
 
   validate :company_ancestry_validation
+
+  before_save :generate_identifiers, if: :is_activated?
 
   scope :owned, ->(user) { where(user: user) }
   scope :activated, -> { where.not(confirmed_at: nil) }
@@ -100,7 +102,7 @@ class Service < ApplicationRecord
   end
 
   def subdomain_changed_disallowed
-    if self.persisted? && subdomain_changed? && self.is_activated?
+    if self.persisted? && (subdomain_changed? && !confirmed_at_changed?) && self.is_activated?
       errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
     end
   end
@@ -172,5 +174,10 @@ class Service < ApplicationRecord
 
   def is_company?
     self.service_type.to_s == 'company'
+  end
+
+  def generate_identifiers
+    self.generate_client_id! unless self.client_id.present?
+    self.generate_client_secret! unless self.client_secret.present?
   end
 end

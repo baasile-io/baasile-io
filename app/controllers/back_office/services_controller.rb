@@ -34,6 +34,7 @@ module BackOffice
 
     def update
       @page_title = @service.name
+      @service.confirmed_at = DateTime.now if params[:activate]
       if @service.update(service_params)
         @service.reset_identifiers if params[:reset_identifiers]
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
@@ -51,6 +52,7 @@ module BackOffice
     end
 
     def edit
+      @service.build_contact_detail if @service.contact_detail.nil?
       @page_title = @service.name
     end
 

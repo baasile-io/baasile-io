@@ -4,7 +4,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-sm table-hover table-link">
+    <table class="table table-sm table-hover">
       <thead>
       <tr>
         <th colspan="2"></th>
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
       <% @collection.each do |service| %>
-      <tr data-link="<%= edit_back_office_service_path(service) %>">
+      <tr>
         <td class="width-3">
           <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
         </td>

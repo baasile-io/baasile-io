@@ -64,6 +64,17 @@
             </div>
           </div>
         </fieldset>
+      <% else %>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="activate"></label>
+          <div class="col-md-9">
+            <label>
+              <%= check_box_tag :activate, 'true', params[:activate].present? %>
+              <%= t('actions.activate') %>
+            </label>
+            <small class="form-text text-muted"><%= t('.hints.activate') %></small>
+          </div>
+        </div>
       <% end %>
 
     </div>
