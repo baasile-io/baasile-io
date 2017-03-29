@@ -14,6 +14,7 @@ fr:
           send_reset_password: "Cochez la case pour réinitialiser le mot de passe et envoyer les instructions par E-Mail."
           send_welcome_instructions: "Cochez la case pour envoyer un courriel de bienvenue contenant un mot de passe temporaire et inviter l'utilisateur à choisir son propre mot de passe lors de sa première connexion."
           skip_confirmation: "Cochez la case pour valider l'adresse E-Mail et ne pas envoyer le courriel de validation."
+          phone: 'Format international requis : "+33 6 12 34 56 78".'
       index:
         title: 'Utilisateurs'
       new:

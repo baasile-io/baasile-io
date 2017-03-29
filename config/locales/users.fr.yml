@@ -7,6 +7,9 @@ fr:
         title: 'Instructions de confirmation'
     index:
       title: 'Utilisateurs'
+    form:
+      hints:
+        phone: 'Format international requis : "+33 6 12 34 56 78".'
     mailer:
       confirmation_instructions:
         subject: "Instructions de confirmation"

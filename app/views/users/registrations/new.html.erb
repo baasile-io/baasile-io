@@ -12,7 +12,7 @@
       <%= f.input :first_name %>
       <%= f.input :last_name %>
 
-      <%= f.input :phone %>
+      <%= f.input :phone, hint: t('users.form.hints.phone') %>
 
       <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, required: true %>

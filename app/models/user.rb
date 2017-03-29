@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :services, through: :user_associations, source: :associable, source_type: Service.name
   has_many :companies, through: :user_associations, source: :associable, source_type: Company.name
 
+  validates :phone, phone: true
   validates :email, presence: true, uniqueness: true
   validates :gender, presence: true
   validates :first_name, presence: true
