@@ -14,6 +14,9 @@ en:
         reset_free_perode_hour: 'Reset periode by hours'
         cost: 'Cost'
         price: 'Price'
+      category:
+        name: 'Name'
+        description: 'Description'
       company:
         name: 'Name'
       contact_detail:
@@ -120,6 +123,7 @@ en:
     models:
       price: 'Price'
       price_parameter: 'Prices parameters by calls'
+      category: "Category"
       company: 'Company'
       contact_detail: 'Contact Detail'
       documentation: 'Documentation'

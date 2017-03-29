@@ -1,0 +1,11 @@
+en:
+  back_office:
+    categories:
+      create:
+        title: 'New Category'
+      edit:
+        title: 'Edit'
+      index:
+        title: 'Categories'
+      new:
+        title: 'New Category'

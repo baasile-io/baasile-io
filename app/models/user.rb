@@ -17,6 +17,7 @@ class User < ApplicationRecord
   # Ancestry
   has_ancestry orphan_strategy: :adopt
 
+  has_many :categories
   has_many :companies
   has_many :services
   has_many :proxies
