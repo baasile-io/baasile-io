@@ -52,6 +52,8 @@ fr:
         service_id: 'Entreprise'
         user: 'Créateur'
         user_id: 'Créateur'
+        category: 'Catégorie'
+        category_id: 'Catégorie'
       proxy_parameter:
         authorization_mode: "Mode d'autorisation"
         authorization_url: "URL d'autorisation"
@@ -135,7 +137,7 @@ fr:
     models:
       price: 'Price'
       price_parameter: 'Parametre de price en fonction des appels'
-      category: "Categorie"
+      category: "Catégorie"
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'

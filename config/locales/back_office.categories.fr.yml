@@ -2,10 +2,10 @@ fr:
   back_office:
     categories:
       create:
-        title: 'Créer une categorie'
+        title: 'Créer une Catégorie'
       edit:
         title: 'Modifier'
       index:
-        title: 'Categories'
+        title: 'Catégories'
       new:
-        title: 'Créer une categorie'
+        title: 'Créer une Catégorie'
