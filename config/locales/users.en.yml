@@ -9,7 +9,7 @@ en:
       title: 'Users'
     form:
       hints:
-        phone: 'international Format needed : "+33 6 12 34 56 78".'
+        phone: 'International format needed : "+33 6 12 34 56 78".'
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
