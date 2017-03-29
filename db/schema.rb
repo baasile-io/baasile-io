@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170328154813) do
     t.datetime "updated_at",                          null: false
     t.integer  "proxy_parameter_id"
     t.integer  "proxy_parameter_test_id"
+    t.integer  "category_id"
     t.index ["service_id"], name: "index_proxies_on_service_id", using: :btree
     t.index ["user_id"], name: "index_proxies_on_user_id", using: :btree
   end

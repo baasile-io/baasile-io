@@ -9,5 +9,7 @@ class CreateCategories < ActiveRecord::Migration[5.0]
     end
 
     add_index :categories, :name, unique: true
+
+    add_column :proxies, :category_id, :integer, default: nil
   end
 end
