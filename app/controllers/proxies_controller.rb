@@ -50,7 +50,7 @@ class ProxiesController < DashboardController
 
   def edit
     @proxy.build_proxy_parameter unless @proxy.proxy_parameter
-    @proxy.build_proxy_parameter_test unless @proxy.build_proxy_parameter_test
+    @proxy.build_proxy_parameter_test unless @proxy.proxy_parameter_test
 
     if @proxy.proxy_parameter.authorization_required?
       @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
