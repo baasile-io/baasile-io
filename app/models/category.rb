@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  # Versioning
+  has_paper_trail
 
   belongs_to :user
   has_many :proxies, dependent: :nullify

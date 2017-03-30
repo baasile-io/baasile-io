@@ -7,8 +7,11 @@
     <table class="table table-sm table-hover">
       <thead>
       <tr>
+        <th colspan="2">
+          <%= t('activerecord.attributes.category.name') %>
+        </th>
         <th>
-          <%= t('activerecord.models.category').pluralize %>
+          <%= t('activerecord.attributes.category.description') %>
         </th>
         <th></th>
       </tr>
@@ -16,8 +19,14 @@
       <tbody>
       <% @collection.each do |category| %>
       <tr>
+        <td class="width-3">
+          <i class="fa-2x fa fa-fw fa-folder-open"></i>
+        </td>
         <td>
           <%= category.name %>
+        </td>
+        <td>
+          <small class="text-muted"><%= category.description %></small>
         </td>
         <td class="text-right">
           <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_category_path(category), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>

@@ -19,7 +19,26 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
-  function format_select2_option(s) {
+  function format_select2_result(s) {
+    if (!s.id)
+      return s.text;
+    var el = $(s.element);
+    var icon = el.data('icon');
+    var type_class = el.data('class');
+    var text_right = el.data('text-right');
+    var description = el.data('description');
+    var template = '';
+    if (typeof text_right != 'undefined')
+      template = template + '<span class="float-right text-muted">' + text_right + '</span>';
+    if (typeof icon != 'undefined')
+      template = template + '<i class="' + icon + '"></i> ';
+    template = template + '<span class="' + type_class + '">' + s.text + '</span>';
+    if (typeof description != 'undefined')
+      template = template + '<br /><small>' + description + '</small>';
+    return template;
+  }
+
+  function format_select2_selection(s) {
     if (!s.id)
       return s.text;
     var el = $(s.element);
@@ -36,8 +55,8 @@ $(document).ready(function(e) {
 
   $('select.select2').select2({
     language: I18n.locale,
-    templateResult: format_select2_option,
-    templateSelection: format_select2_option,
+    templateResult: format_select2_result,
+    templateSelection: format_select2_selection,
     escapeMarkup: function (markup) { return markup; }
   });
 
