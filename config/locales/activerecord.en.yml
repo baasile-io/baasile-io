@@ -23,6 +23,7 @@ en:
         address_line1: "Address"
         address_line2: "Address (line 2)"
         address_line3: "Address (line 3)"
+        chamber_of_commerce: "Chambre of commerce"
         city: "City"
         country: "Country"
         name: "Address Name"

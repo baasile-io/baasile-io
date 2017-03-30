@@ -93,7 +93,7 @@ class CompaniesController < ApplicationController
   private
 
   def company_params
-    allowed_parameters = [:name, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
+    allowed_parameters = [:name, contact_detail_attributes: [:name, :siret, :chamber_of_commerce, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
     allowed_parameters << :subdomain if current_user.has_role?(:superadmin)
     params.require(:company).permit(allowed_parameters)
   end
