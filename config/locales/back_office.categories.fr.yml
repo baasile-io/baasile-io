@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    categories:
+      create:
+        title: 'Créer une Catégorie'
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Catégories'
+      new:
+        title: 'Créer une Catégorie'

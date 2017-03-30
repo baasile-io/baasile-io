@@ -1,7 +1,7 @@
 <%
   tab_active = nil
   tab_attributes = {
-    proxy_main: [:name, :alias, :description],
+    proxy_main: [:name, :alias, :description, :category_id],
     proxy_authorization: [:'proxy_parameter.authorization_mode', :'proxy_parameter.authorization_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.identifier.client_id', :'proxy_parameter.identifier.encrypted_secret', :'proxy_parameter.scope', :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
     proxy_authorization_test: [:'proxy_parameter_test.authorization_mode', :'proxy_parameter_test.authorization_url', :'proxy_parameter_test.realm', :'proxy_parameter_test.grant_type', :'proxy_parameter_test.identifier.client_id', :'proxy_parameter_test.identifier.encrypted_secret', :'proxy_parameter_test.scope', :'proxy_parameter_test.follow_url', :'proxy_parameter_test.follow_redirection', :'proxy_parameter_test.protocol', :'proxy_parameter_test.hostname', :'proxy_parameter_test.port']
   }
@@ -45,6 +45,7 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_main %>" id="proxy_main">
       <%= f.input :name, required: true %>
+      <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
       <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
     </div>
 

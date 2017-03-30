@@ -8,6 +8,7 @@ class Proxy < ApplicationRecord
 
   belongs_to :service
   belongs_to :user
+  belongs_to :category
 
   belongs_to :proxy_parameter
   belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'

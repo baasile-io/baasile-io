@@ -126,6 +126,7 @@ Rails.application.routes.draw do
     end
 
     resources :documentations
+    resources :categories
   end
 
   namespace :api do

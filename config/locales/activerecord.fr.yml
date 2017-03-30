@@ -13,6 +13,9 @@ fr:
         reset_free_perode_hour: 'période en heure de restoration des heures gratuites'
         cost: 'cout'
         price: 'prix'
+      category:
+        name: 'Nom'
+        description: 'Description'
       company:
         name: 'Nom'
       contact_detail:
@@ -49,6 +52,8 @@ fr:
         service_id: 'Entreprise'
         user: 'Créateur'
         user_id: 'Créateur'
+        category: 'Catégorie'
+        category_id: 'Catégorie'
       proxy_parameter:
         authorization_mode: "Mode d'autorisation"
         authorization_url: "URL d'autorisation"
@@ -132,6 +137,7 @@ fr:
     models:
       price: 'Price'
       price_parameter: 'Parametre de price en fonction des appels'
+      category: "Catégorie"
       company: 'Compagnie'
       contact_detail: 'Coordonnée'
       documentation: 'Documentation'

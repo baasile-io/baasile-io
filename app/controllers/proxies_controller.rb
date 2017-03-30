@@ -1,5 +1,6 @@
 class ProxiesController < DashboardController
   before_action :load_proxy, only: [:show, :edit, :update, :destroy]
+  before_action :load_categories, only: [:new, :edit, :update, :create]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:index, :show]
@@ -93,13 +94,17 @@ class ProxiesController < DashboardController
   end
 
   def proxy_params
-    params.require(:proxy).permit(:name, :description, :alias,
+    params.require(:proxy).permit(:name, :category_id, :description, :alias,
                                   proxy_parameter_attributes: [:id, :follow_url, :follow_redirection, :authorization_mode, :protocol, :hostname, :port, :authorization_url, :realm, :grant_type, scopes: [], identifier_attributes: [:id, :client_id, :client_secret]],
                                   proxy_parameter_test_attributes: [:id, :follow_url, :follow_redirection, :authorization_mode, :protocol, :hostname, :port, :authorization_url, :realm, :grant_type, scopes: [], identifier_attributes: [:id, :client_id, :client_secret]])
   end
 
   def load_proxy
     @proxy = Proxy.includes(:proxy_parameter, :proxy_parameter_test, {:proxy_parameter => :identifier}, {:proxy_parameter_test => :identifier}).find(params[:id])
+  end
+
+  def load_categories
+    @categories = Category.all.order(name: :asc)
   end
 
   def current_proxy
