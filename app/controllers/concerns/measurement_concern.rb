@@ -27,22 +27,34 @@ module MeasurementConcern
       contract = contracts.first
     end
 
-    contract.price.price_parameters.each do |price_parameter|
-      logger.info "check: " + price_parameter.query_parameter.name.inspect
-      if @tab_headers.key?(price_parameter.query_parameter.name)
-        #todo make hash parameters match
-      end
-    end
-
     date_start = Time.now.change(min: 0, sec: 0)
     date_end = date_start + 1.hour
 
-    measure = Measurement.get_identical(contract, authenticated_service, current_service, current_proxy, current_route, date_start, date_end)
-    if measure.nil?
-      measure = Measurement.new(contract_id: contract.id, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id)
+    unless contract.price.price_parameters.nil?
+      @tab_headers = {}
+      @res.header.each_header do |key,value|
+        @tab_headers[key] = value
+      end
+      contract.price.price_parameters.each do |price_parameter|
+        logger.info "check: " + price_parameter.query_parameter.name.inspect
+        if @tab_headers.key?(price_parameter.query_parameter.name)
+          #### todo make meusure by param not like bellow
+          measure = Measurement.get_identical(contract, authenticated_service, current_service, current_proxy, current_route, date_start, date_end)
+          if measure.nil?
+            measure = Measurement.new(contract_id: contract.id, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id)
+          end
+          measure.increment_call
+          measure.save
+          ####
+        end
+      end
+    else
+      measure = Measurement.get_identical(contract, authenticated_service, current_service, current_proxy, current_route, date_start, date_end)
+      if measure.nil?
+        measure = Measurement.new(contract_id: contract.id, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id)
+      end
+      measure.increment_call
+      measure.save
     end
-    measure.increment_call
-    measure.save
   end
-
 end
