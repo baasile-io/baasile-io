@@ -15,8 +15,13 @@ class Measurement < ApplicationRecord
   end
 
   class << self # Class methods
-    def get_identical(client, service, proxy, route, date_start, date_end)
-      Measurement.where(client_id: client.id, service_id: service.id, proxy_id: proxy.id, route_id: route.id, created_at: date_start..date_end).first
+    def get_identical(contract, client, service, proxy, route, date_start, date_end)
+      unless contract.nil?
+        Measurement.where(contract_id: contract.id, client_id: client.id, service_id: service.id, proxy_id: proxy.id, route_id: route.id, created_at: date_start..date_end).first
+      else
+        Measurement.where(contract_id: nil, client_id: client.id, service_id: service.id, proxy_id: proxy.id, route_id: route.id, created_at: date_start..date_end).first
+      end
+
     end
   end
 

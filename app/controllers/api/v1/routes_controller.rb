@@ -13,7 +13,11 @@ module Api
 
       def process_request
         begin
+          @tab_headers = {}
           res = proxy_request
+          res.header.each_header do |key,value|
+            @tab_headers[key] = value
+          end
           render status: res.code, plain: res.body
         rescue ProxyInitializationError
           render status: :bad_gateway, json: {
