@@ -12,4 +12,17 @@ fr:
         subject: 'Réinitialisation de votre mot de passe'
       send_welcome_email:
         subject: 'Bienvenue'
-
+    contract_notifier:
+      send_by_status:
+        creation:
+          subject: "Création d'un contrat"
+        commercial_validation_sp:
+          subject: 'Validation commercial startup du contrat'
+        commercial_validation_client:
+          subject: 'Validation commercial client du contrat'
+        price_validation_sp:
+          subject: 'Validation comptable startup du contrat'
+        price_validation_client:
+          subject: 'Validation comptable client du contrat'
+        Validation:
+          subject: 'Validation final du contrat'

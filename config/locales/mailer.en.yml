@@ -12,4 +12,17 @@ en:
         subject: 'Reset your password'
       send_welcome_email:
         subject: 'Welcome'
-
+    contract_notifier:
+      send_by_status:
+        creation:
+          subject: "Contract creation"
+        commercial_validation_sp:
+          subject: 'Contract commercial startup validation'
+        commercial_validation_client:
+          subject: 'Contract commercial client validation'
+        price_validation_sp:
+          subject: 'Contract accounting startup validation'
+        price_validation_client:
+          subject: 'Contract accounting client validation'
+        Validation:
+          subject: 'Contract final validation'
