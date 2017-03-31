@@ -1,3 +1,5 @@
 <h1><%= I18n.t("mailer.contract_notifier.send_by_status.#{@staging_name}.subject") %></h1>
+
 <p><%= I18n.t("mailer.contract_notifier.send_by_status.#{@staging_name}.text", name: @contract.name, code: @contract.code) %></p>
+
 <p><%= I18n.t('mailer.shared.best_regard') %></p>
