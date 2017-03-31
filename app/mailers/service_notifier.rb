@@ -1,5 +1,4 @@
 class ServiceNotifier < ApplicationMailer
-
   def send_validation(service)
     @service = service
     #users = User.find_as(:developer, @service)

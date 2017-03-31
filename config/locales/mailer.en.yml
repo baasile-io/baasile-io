@@ -16,13 +16,19 @@ en:
       send_by_status:
         creation:
           subject: "Contract creation"
+          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         commercial_validation_sp:
           subject: 'Contract commercial startup validation'
+          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         commercial_validation_client:
           subject: 'Contract commercial client validation'
+          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         price_validation_sp:
           subject: 'Contract accounting startup validation'
+          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         price_validation_client:
           subject: 'Contract accounting client validation'
+          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         Validation:
           subject: 'Contract final validation'
+          text: 'the contract %{name} with the code %{code} is now validate.'

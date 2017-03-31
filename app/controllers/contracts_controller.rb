@@ -44,6 +44,7 @@ class ContractsController < ApplicationController
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
+      ContractNotifier.send_by_status(@contract, Contract::CONTRACT_STATUS[@contract.status.to_sym], @contract.status.to_s).deliver_now
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -60,6 +61,7 @@ class ContractsController < ApplicationController
     @contract.assign_attributes(contract_params(@contract.status))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     if @contract.save
+      ContractNotifier.send_by_status(@contract, Contract::CONTRACT_STATUS[@contract.status.to_sym], @contract.status.to_s).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -84,6 +86,7 @@ class ContractsController < ApplicationController
     status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
     @contract.status = status[:next] unless status[:next].nil?
     if @contract.save
+      ContractNotifier.send_by_status(@contract, Contract::CONTRACT_STATUS[@contract.status.to_sym], last_status.to_s).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
     redirect_to_show

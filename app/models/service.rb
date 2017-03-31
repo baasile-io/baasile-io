@@ -87,7 +87,7 @@ class Service < ApplicationRecord
   def user_by_scope(scope)
     users = User.all
     users.reject do |user|
-      !(user.has_role("superadmin") || user.has_role("admin", self) || user.has_role(scope, self))
+      !(user.has_role?("superadmin") || user.has_role?("admin", self) || user.has_role?(scope, self))
     end
   end
 
