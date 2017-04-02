@@ -25,14 +25,16 @@ class Service < ApplicationRecord
   belongs_to :main_commercial, class_name: User.name, foreign_key: 'main_commercial_id'
   belongs_to :main_accountant, class_name: User.name, foreign_key: 'main_accountant_id'
   belongs_to :main_developer, class_name: User.name, foreign_key: 'main_developer_id'
-  has_many :proxies
-  has_many :contracts, class_name: Contract.name, foreign_key: 'client_id'
-  has_many :routes, through: :proxies
-  has_one :contact_detail, as: :contactable, dependent: :destroy
-  has_many :refresh_tokens
 
-  has_many :user_associations, as: :associable
-  has_many :users, through: :user_associations
+  has_many  :Measurements
+  has_many  :proxies
+  has_many  :contracts, class_name: Contract.name, foreign_key: 'client_id'
+  has_many  :routes, through: :proxies
+  has_one   :contact_detail, as: :contactable, dependent: :destroy
+  has_many  :refresh_tokens
+
+  has_many  :user_associations, as: :associable
+  has_many  :users, through: :user_associations
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 

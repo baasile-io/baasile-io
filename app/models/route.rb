@@ -15,7 +15,10 @@ class Route < ApplicationRecord
   belongs_to :proxy
   has_one :service, through: :proxy
   belongs_to :user
-  has_many :query_parameters
+
+  has_many  :Measurements
+  has_many  :query_parameters
+
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
   validates :subdomain, uniqueness: {scope: :proxy_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}

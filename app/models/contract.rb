@@ -189,6 +189,8 @@ class Contract < ApplicationRecord
 
   before_validation :set_expected_end_date
 
+  has_many  :Measurements
+
   validates :name, presence: true
   validates :startup_id, presence:true
   validates :client_id, presence:true

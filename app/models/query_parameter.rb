@@ -11,6 +11,8 @@ class QueryParameter < ApplicationRecord
   belongs_to :route
   belongs_to :user
 
+  has_many  :Measurements
+
   validates :name, presence: true, uniqueness: {scope: [:query_parameter_type, :route_id]}
   validates :mode, presence: true
   validates :query_parameter_type, presence: true
