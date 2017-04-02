@@ -24,10 +24,10 @@ en:
           subject: 'Contract commercial client validation'
           text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         price_validation_sp:
-          subject: 'Contract accounting startup validation'
+          subject: 'Contract accountant startup validation'
           text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         price_validation_client:
-          subject: 'Contract accounting client validation'
+          subject: 'Contract accountant client validation'
           text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
         Validation:
           subject: 'Contract final validation'
