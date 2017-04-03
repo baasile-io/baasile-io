@@ -112,12 +112,14 @@ ActiveRecord::Schema.define(version: 20170403214658) do
 
   create_table "measurements", force: :cascade do |t|
     t.integer  "client_id"
-    t.integer  "requests_count", default: 0, null: false
+    t.integer  "requests_count",     default: 0, null: false
     t.integer  "service_id"
     t.integer  "proxy_id"
     t.integer  "route_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "contract_id"
+    t.integer  "query_parameter_id"
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
@@ -266,6 +268,7 @@ ActiveRecord::Schema.define(version: 20170403214658) do
     t.integer  "main_commercial_id"
     t.integer  "main_developer_id"
     t.integer  "main_accountant_id"
+    t.text     "description_long"
     t.index ["ancestry"], name: "index_services_on_ancestry", using: :btree
     t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
     t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree

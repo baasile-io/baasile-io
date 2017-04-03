@@ -1,0 +1,51 @@
+<% content_for(:page_title) { @startup.name } %>
+
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading"><%= @startup.name %></h1>
+    <% unless @startup.website.nil? %>
+        <%= link_to image_tag(asset_path('no-image.png'), class: 'img-fluid'), @startup.website %>
+    <% else %>
+        <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
+    <% end %>
+    <% unless @startup.description_long.nil? %>
+      <p class="lead text-muted"><%= @startup.description_long %></p>
+    <% else %>
+      <p class="lead text-muted"><%= @startup.description %></p>
+    <% end %>
+  </div>
+</section>
+
+
+<% unless @startup.proxies.nil? %>
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h3 class="jumbotron-heading"><%= t('activerecord.models.proxy') %></h3>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th class="text-left"><%= t('activerecord.attributes.proxy.name') %></th>
+          <th class="text-center"><%= t('activerecord.attributes.proxy.category') %></th>
+          <th class="text-right"><%= t('activerecord.attributes.proxy.description') %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @startup.proxies.each do |proxy| %>
+            <tr>
+              <td class="text-left">
+                <i class="fa fa-fw fa-server"></i>
+                <strong><%= proxy.name %></strong>
+              </td>
+              <td class="text-center">
+                <p ><%= proxy.category.name %></p>
+              </td>
+              <td class="text-right">
+                <p ><%= proxy.description %></p>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<% end %>

@@ -82,7 +82,7 @@ class ServicesController < ApplicationController
   private
 
   def service_params
-    allowed_parameters = [:name, :service_type, :description, :website, :parent_id, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id, contact_detail_attributes: [:name, :siret, :chamber_of_commerce, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
+    allowed_parameters = [:name, :service_type, :description, :description_long, :website, :parent_id, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id, contact_detail_attributes: [:name, :siret, :chamber_of_commerce, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
     allowed_parameters += [:subdomain, :public] if current_user.is_superadmin?
     params.require(:service).permit(allowed_parameters)
   end

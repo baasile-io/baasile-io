@@ -129,6 +129,7 @@ fr:
         company: 'Aggrétateur'
         company_id: 'Aggrétateur'
         description: 'Description'
+        description_long: 'Advanced description'
         service_type: 'Type'
         subdomain: 'Identifiant publique'
         main_accountant: 'Responsable comptable'

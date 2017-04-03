@@ -26,6 +26,9 @@
               <%= service.description %>
             </p>
           </div>
+          <div>
+            <%= link_to t('.startup_infos'), startup_path(service.id), class: 'btn btn-secondary' %>
+          </div>
         </div>
       <% end %>
 

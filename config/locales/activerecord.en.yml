@@ -117,6 +117,7 @@ en:
         company: 'Aggregator'
         company_id: 'Aggregator'
         description: 'Description'
+        description_long: 'Descrition longue'
         service_type: 'Type'
         subdomain: 'Public identifier'
         main_accountant: 'Main accoutant'

@@ -14,8 +14,9 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  root to: "pages#root"
-  get '/service_book', to: "pages#service_book"
+  root to: 'pages#root'
+  get '/service_book', to: 'pages#service_book'
+  get '/startup/:id', to: 'pages#startup', as: 'startup'
   get '/profile', to: 'users#profile'
 
   resources :contracts do

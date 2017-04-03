@@ -5,3 +5,4 @@ en:
     service_book:
       title: 'Startup Book'
       description: 'The catalog of startups providing APIs on the marketplace'
+      startup_infos: 'Infos'
