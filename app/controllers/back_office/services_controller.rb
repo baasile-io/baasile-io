@@ -80,7 +80,7 @@ module BackOffice
     end
 
     def service_params
-      allowed_parameters = [:user_id, :name, :service_type, :description, :website, :parent_id, :subdomain, :public, contact_detail_attributes: [:name, :siret, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
+      allowed_parameters = [:user_id, :name, :service_type, :description, :website, :parent_id, :subdomain, :public, contact_detail_attributes: [:name, :siret, :chamber_of_commerce, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]
       params.require(:service).permit(allowed_parameters)
     end
 
