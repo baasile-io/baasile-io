@@ -202,7 +202,8 @@ class Contract < ApplicationRecord
   scope :associated_startups, ->(startup) { where(startup: startup) }
   scope :associated_service, ->(service) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: service.subtree_ids) }
   scope :associated_user, ->(user) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
-
+  scope :associated_startups_clients, ->(cur_service) { where('startup_id=? OR client_id=?',cur_service.id, cur_service.id) }
+  scope :activated, ->{ where(activate: true) }
   scope :owned, ->(user) { where(user: user) }
 
   def set_dup_price(price_id)
@@ -268,5 +269,16 @@ class Contract < ApplicationRecord
 
   def set_expected_end_date
     self.expected_end_date = (self.expected_start_date + self.expected_contract_duration.months - 1.day) if self.expected_start_date && self.expected_contract_duration.months
+  end
+
+  class << self # Class methods
+    def send_notification
+      contracts = Contract.activated
+      contracts.each do |contract|
+        if DateTime.now > contract.end_date.days_ago(contract.notification_day_left)
+
+        end
+      end
+    end
   end
 end
