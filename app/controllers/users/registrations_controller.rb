@@ -3,9 +3,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    super do
+      resource.language = I18n.locale
+    end
+  end
 
   # POST /resource
   # def create
@@ -39,7 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def extra_params
-    [:gender, :first_name, :last_name, :phone]
+    [:gender, :first_name, :last_name, :phone, :language]
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -63,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(resource)
-    profile_path
+    profile_path(locale: resource.language)
   end
 
   def current_module

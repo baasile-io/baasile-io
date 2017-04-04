@@ -1,4 +1,4 @@
-<% content_for(:page_title) { current_user.email } %>
+<% content_for(:page_title) { current_user.full_name } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -13,34 +13,38 @@
     <table class="table">
       <thead>
       <tr>
-        <th><% if current_user.is_superadmin? %>
-              Admin user
-          <% else %>
-              Normal user
-          <% end %></th>
+        <th>
+          <% if current_user.is_superadmin? %>
+            <%= t("roles.superadmin.title_long")%>
+          <% end %>
+        </th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td>email:</td>
+        <td><%= t("activerecord.attributes.user.email")%>:</td>
         <td><%= current_user.email %></td>
       </tr>
       <tr>
-        <td>first name:</td>
+        <td><%= t("activerecord.attributes.user.first_name")%>:</td>
         <td><%= current_user.first_name %></td>
       </tr>
       <tr>
-        <td>last name:</td>
+        <td><%= t("activerecord.attributes.user.last_name")%>:</td>
         <td><%= current_user.last_name %></td>
       </tr>
       <tr>
-        <td>gender:</td>
+        <td><%= t("activerecord.attributes.user.gender")%></td>
         <td><%= t("types.genders.#{current_user.gender}") unless current_user.gender.nil? %></td>
       </tr>
       <tr>
-        <td>phone:</td>
+        <td><%= t("activerecord.attributes.user.phone")%>:</td>
         <td><%= current_user.phone %></td>
+      </tr>
+      <tr>
+        <td><%= t("activerecord.attributes.user.language")%>:</td>
+        <td><%= t("misc.locales.#{current_user.language}") unless current_user.language.nil? %></td>
       </tr>
       </tbody>
     </table>

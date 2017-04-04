@@ -14,7 +14,7 @@ en:
           description: 'Description'
           title: 'Main'
     index:
-      title: 'List of enterprises'
+      title: 'Enterprises'
     new:
       title: 'Create a new enterprise'
     show:
@@ -22,5 +22,5 @@ en:
     update:
       title: 'Parameters'
     users:
-      title: 'Utilisateurs'
+      title: 'Users'
 

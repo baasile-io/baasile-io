@@ -8,7 +8,7 @@ en:
     index:
       title: 'Users'
     edit:
-      title: "Create new user"
+      title: "Edit user"
     form:
       hints:
         phone: 'International format needed : "+33 6 12 34 56 78".'
@@ -22,7 +22,7 @@ en:
       password_change:
         subject: "Password Changed"
     new:
-      title: "Edit user"
+      title: "Create user"
     passwords:
       edit:
         title: 'Change password'

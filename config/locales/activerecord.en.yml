@@ -149,6 +149,7 @@ en:
         full_name: 'Full name'
         gender: 'Gender'
         is_active: 'Active ?'
+        language: 'Plateform language'
         last_activity_at: 'Last activity'
         last_name: 'Last name'
         parent: 'Owner'
