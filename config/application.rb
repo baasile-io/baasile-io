@@ -17,6 +17,13 @@ module BaasileIo
     # Background jobs
     config.active_job.queue_adapter = :sidekiq
 
+    # Public API headers
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Allow-Methods' => 'POST, PUT, DELETE, GET, OPTIONS, PATCH, HEAD',
+      'Access-Control-Request-Method' => 'POST, PUT, DELETE, GET, OPTIONS, PATCH, HEAD'
+    }
+
     # Security
     config.middleware.use Airbrake::Rack::Middleware
     config.middleware.use ::ApiAuthMiddleware

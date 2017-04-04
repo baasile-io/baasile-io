@@ -10,7 +10,7 @@ class Route < ApplicationRecord
   enum protocol: PROTOCOLS, _prefix: true
   enum protocol_test: PROTOCOLS_TEST, _prefix: true
 
-  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
   belongs_to :proxy
   has_one :service, through: :proxy
