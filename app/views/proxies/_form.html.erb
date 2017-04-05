@@ -55,7 +55,7 @@
         <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
         <%= f2.input :hostname, hint: t('.hints.hostname') %>
         <%= f2.input :port %>
-        <%= f2.input :follow_url, as: :radio_buttons %>
+        <%= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
         <%= f2.input :follow_redirection %>
 
         <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select %>
@@ -77,7 +77,7 @@
         <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
         <%= f2.input :hostname, hint: t('.hints.hostname') %>
         <%= f2.input :port %>
-        <%= f2.input :follow_url, as: :radio_buttons %>
+        <%= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
         <%= f2.input :follow_redirection %>
 
         <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select %>

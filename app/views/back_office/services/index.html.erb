@@ -32,7 +32,9 @@
           <span class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
         </td>
         <td>
-          <%= "<i class=\"fa fa-fw fa-users\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.users.map {|u| "#{u.full_name} (#{u.email})" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.users.count %>
+          <% if service.users.size > 0 %>
+            <%= "<i class=\"fa fa-fw fa-users\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.users.map {|u| "#{u.full_name} (#{u.email})" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.users.count %>
+          <% end %>
         </td>
         <td class="text-right">
           <%= link_to t('misc.dashboard'), service_path(service), class: 'btn btn-secondary btn-sm' %>

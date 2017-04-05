@@ -6,7 +6,7 @@ fr:
       title: 'Comptable'
       title_long: 'Comptable'
     admin:
-      description: 'Un administrateur peut créer des compagnies, des utilisateurs et administrer des clients.'
+      description: 'Un administrateur peut créer des aggrégateurs, des utilisateurs et administrer des clients.'
       icon: 'fa fa-fw fa-user-circle'
       title: 'Administrateur'
       title_long: 'Administrateur'

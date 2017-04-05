@@ -14,6 +14,7 @@ class Proxy < ApplicationRecord
   belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
   has_many :routes
   has_one :identifier, as: :identifiable, through: :proxy_parameter
+  has_many :query_parameters, through: :routes
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test

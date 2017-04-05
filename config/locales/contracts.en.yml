@@ -1,28 +1,19 @@
 en:
   contracts:
+    comments:
+      title: 'Comments'
     edit:
       title: 'Parameters'
+    form:
+      hints:
+        expected_contract_duration: 'Contract duration in months.'
     index:
       title: 'List of contracts'
     new:
       title: 'Create a new contract'
-    set_price:
-      title: 'set price'
+    prices:
+      title: 'Prices'
     show:
       title: 'Dashboard'
     update:
       title: 'Parameters'
-  back_office:
-    contracts:
-      edit:
-        title: 'Parameters'
-      index:
-        title: 'List of contracts'
-      new:
-        title: 'Create a new contract'
-      set_price:
-        title: 'set price'
-      show:
-        title: 'Dashboard'
-      update:
-        title: 'Parameters'

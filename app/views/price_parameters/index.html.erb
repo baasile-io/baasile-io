@@ -1,42 +1,52 @@
 <% content_for(:page_title) { t('.title') } %>
-<% if current_user.is_commercial_to_create? %>
+
+<% if current_user.is_commercial? %>
   <% if @contract.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_service_proxy_price_price_parameter_path(current_service, current_proxy), class: 'btn btn-primary' } %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_service_proxy_price_price_parameter_path(current_service, current_proxy), class: 'btn btn-primary' } %>
   <% elsif !@companie.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_company_contract_price_price_parameter_path(@company, @contract), class: 'btn btn-primary' } %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract), class: 'btn btn-primary' } %>
   <% elsif !@service.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_service_contract_price_price_parameter_path(current_service, @contract), class: 'btn btn-primary' } %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_service_contract_price_price_parameter_path(current_service, @contract), class: 'btn btn-primary' } %>
   <% else %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_contract_price_price_parameter_path(@contract), class: 'btn btn-primary' } %>
+    <% content_for(:page_controls) { link_to t('actions.add'), new_contract_price_price_parameter_path(@contract), class: 'btn btn-primary' } %>
   <% end %>
 <% end %>
+
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |price_parameter| %>
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
         <tr>
-          <td><%= price_parameter.name %></td>
-          <td class="text-right">
-            <% if @contract.nil? %>
-              <%= link_to t('misc.dashboard'), service_proxy_price_price_parameter_path(current_service, current_proxy, price_parameter), class: 'btn btn-secondary' %>
-            <% elsif !@companie.nil? %>
-              <%= link_to t('misc.dashboard'), company_contract_price_price_parameter_path(@company, @contract, price_parameter), class: 'btn btn-secondary' %>
-            <% elsif !@service.nil? %>
-              <%= link_to t('misc.dashboard'), service_contract_price_price_parameter_path(current_service, @contract, price_parameter), class: 'btn btn-secondary' %>
-            <% else %>
-              <%= link_to t('misc.dashboard'), contract_price_price_parameter_path(@contract, price_parameter), class: 'btn btn-secondary' %>
-            <% end %>
-          </td>
+          <th><%= t('activerecord.attributes.price_parameter.price_parameters_type') %></th>
+          <th><%= t('activerecord.attributes.price_parameter.route') %></th>
+          <th><%= t('activerecord.attributes.price_parameter.query_parameter') %></th>
+          <th><%= t('activerecord.attributes.price_parameter.cost') %></th>
+          <th><%= t('activerecord.attributes.price_parameter.free_count') %></th>
+          <th></th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% @collection.each do |price_parameter| %>
+          <tr data-link="<%= edit_service_proxy_price_price_parameter_path(current_service, current_proxy, current_price, price_parameter) %>">
+            <td>
+              <%= t("types.price_parameters_types.#{price_parameter.price_parameters_type}.title") %>
+            </td>
+            <td><%= price_parameter.route || t('misc.all_feminized') %></td>
+            <td><%= price_parameter.query_parameter || t('misc.none') %></td>
+            <td><%= price_parameter.cost %> &euro;</td>
+            <td><%= price_parameter.free_count %></td>
+            <td class="text-right">
+              <%= link_to t('actions.edit'), edit_service_proxy_price_price_parameter_path(current_service, current_proxy, current_price, price_parameter), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
   </div>
 </div>

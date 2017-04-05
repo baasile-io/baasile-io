@@ -1,21 +1,14 @@
 fr:
   activerecord:
     attributes:
-      price:
-        name: 'Nom'
-        base_cost: 'Prix fix'
-        free_hour: "Nombres d'heures gratuites"
-        cost_by_time: 'Prix par heures'
-      price_parameter:
-        name: 'Nom'
-        price_parameters_type: 'type'
-        nb_free: "Nombre d'heures gratuites"
-        reset_free_perode_hour: 'période en heure de restoration des heures gratuites'
-        cost: 'cout'
-        price: 'prix'
       category:
         name: 'Nom'
         description: 'Description'
+      comment:
+        body: 'Message'
+        deleted: 'Invisible'
+        user: 'Utilisateur'
+        user_id: 'Utilisateur'
       company:
         name: 'Nom'
       contact_detail:
@@ -38,13 +31,48 @@ fr:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'
         encrypted_secret: 'Clé secrète cryptée'
-        proxy: 'Fonctionnalité'
+        proxy: 'Produit'
         user: 'Créateur'
       contract:
-        name: 'Nom'
-        startup: 'Startup'
+        activate: 'Actif'
         client: 'Client'
-        company: 'Compagnie'
+        client_id: 'Client'
+        code: 'Code'
+        company: 'Aggrétateur'
+        company_id: 'Aggrétateur'
+        contract_duration: 'Durée du contrat'
+        end_date: 'Date de fin'
+        expected_contract_duration: 'Durée du contrat souhaitée'
+        expected_end_date: 'Date de fin souhaitée'
+        expected_start_date: 'Date de début souhaitée'
+        is_evergreen: 'Reconduction automatique'
+        name: 'Intitulé'
+        price: 'Tarif'
+        price_id: 'Tarif'
+        production: "Phase d'exploitation"
+        proxy: 'Produit'
+        proxy_id: 'Produit'
+        start_date: 'Date de début'
+        startup: 'Fournisseur'
+        startup_id: 'Fournisseur'
+        status: 'Statut'
+      price:
+        name: 'Nom'
+        base_cost: 'Prix à la souscription'
+        free_hour: "Nombres d'heures gratuites"
+        cost_by_time: 'Prix par heure'
+        price_parameters: 'Critères de tarification'
+      price_parameter:
+        cost: 'Coût unitaire au delà'
+        query_parameter: 'Paramètre mesuré'
+        query_parameter_id: 'Paramètre mesuré'
+        free_count: "Nombre de requêtes incluses"
+        deny_after_free_count: "Bloquer les requêtes après la limite"
+        price: 'Tarif'
+        price_id: 'Tarif'
+        price_parameters_type: 'Type'
+        route: 'Route mesurée'
+        route_id: 'Route mesurée'
       proxy:
         alias: 'Alias'
         description: 'Description'
@@ -88,8 +116,8 @@ fr:
         port_test: 'Port (test)'
         protocol: 'Protocole'
         protocol_test: 'Protocole (test)'
-        proxy: 'Fonctionnalité'
-        proxy_id: 'Fonctionnalité'
+        proxy: 'Produit'
+        proxy_id: 'Produit'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Créateur'
@@ -98,8 +126,8 @@ fr:
         client_id: 'CLIENT_ID'
         client_secret: 'CLIENT_SECRET'
         confirmed_at: 'Actif ?'
-        company: 'Compagnie'
-        company_id: 'Compagnie'
+        company: 'Aggrétateur'
+        company_id: 'Aggrétateur'
         description: 'Description'
         service_type: 'Type'
         subdomain: 'Identifiant publique'
@@ -110,8 +138,8 @@ fr:
         main_developer: 'Responsable technique'
         main_developer_id: 'Responsable technique'
         name: 'Nom'
-        parent: 'Compagnie'
-        parent_id: 'Compagnie'
+        parent: 'Aggrégateur'
+        parent_id: 'Aggrégateur'
         public: 'Référencer dans le catalogue'
         user: 'Administrateur'
         user_id: 'Administrateur'
@@ -136,17 +164,18 @@ fr:
         object: 'Objet'
         whodunnit: 'Auteur'
     models:
-      price: 'Price'
-      price_parameter: 'Parametre de price en fonction des appels'
       category: "Catégorie"
-      company: 'Compagnie'
-      contact_detail: 'Coordonnée'
+      comment: 'Commentaire'
+      company: 'Aggrétateur'
+      contact_detail: 'Coordonnées'
       documentation: 'Documentation'
       identifier: 'Identifiant'
       contract: 'Contrat'
       query_parameter: 'Paramètre de requête'
-      proxy: 'Fonctionnalité'
-      proxy_parameter: 'Paramètres de fonctionnalité'
+      price: 'Tarif'
+      price_parameter: 'Critère de tarification'
+      proxy: 'Produit'
+      proxy_parameter: 'Paramètres de produit'
       route: 'Route'
       service: 'Entreprise'
       user: 'Utilisateur'
@@ -154,8 +183,8 @@ fr:
       version: 'Version'
     validations:
       service:
-        company_must_be_root: "ne peut pas être \"Compagnie\" si l'objet dépend d'une compagnie"
-        company_must_not_depend_on_company: "ne peut pas être défini si l'objet est de type \"Compagnie\""
+        company_must_be_root: "ne peut pas être \"Aggrétateur\" si l'objet dépend d'un aggrégateur"
+        company_must_not_depend_on_company: "ne peut pas être défini si l'objet est de type \"Aggrétateur\""
         missing_subdomain: "L'identifiant publique doit être renseigné"
-        root_must_be_company: "doit être \"Compagnie\" puisque l'objet a des entreprises enfant"
+        root_must_be_company: "doit être \"Aggrétateur\" puisque l'objet a des entreprises enfant"
         subdomain_changed_disallowed: "L'identifiant publique ne peut pas être modifié car l'entreprise est active"

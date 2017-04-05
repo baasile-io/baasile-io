@@ -1,3 +1,12 @@
+<% content_for(:page_back) {
+  unless current_contract.nil?
+    if current_service.nil?
+      contract_prices_path(current_contract)
+    else
+      service_contract_prices_path(current_service, current_contract)
+    end
+  end
+} %>
 <% content_for(:page_title) { t('.title') } %>
 
 <div class="b-io-content--secondary">

@@ -1,0 +1,6 @@
+<% comments.each do |comment| %>
+  <% if !comment.deleted || current_user.is_superadmin? %>
+    <hr>
+    <%= render partial: 'comments/comment', locals: {comment: comment} %>
+  <% end %>
+<% end %>

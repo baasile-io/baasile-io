@@ -2,12 +2,19 @@ en:
   errors:
     an_error_occured: 'An error occured'
     messages:
+      aftet: 'is too old'
       blank: "can't be blank"
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
+      not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'
+    models:
+      price_parameter:
+        deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'
+        undefined_cost_and_free_count: 'You must at least specify one value (number of authorized requests or unit price).'
+
 

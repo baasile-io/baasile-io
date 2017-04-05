@@ -2,23 +2,16 @@ en:
   prices:
     edit:
       title: 'Parameters'
+    form:
+      hints:
+        cost: "Unit price per request after the included limit."
+        deny_after_free_count: "Deny requests after the limit of authorized requests is reached."
+        free_count: 'Number of authorized requests included in base price.'
     index:
-      title: 'List of prices by calls'
+      title: 'Pricing criteria'
     new:
-      title: 'Create a new price by calls'
+      title: 'Create a new criteria'
     show:
       title: 'Dashboard'
     update:
       title: 'Parameters'
-  back_office:
-    prices:
-      edit:
-        title: 'Parameters'
-      index:
-        title: 'List of prices by calls'
-      new:
-        title: 'Create a new price by calls'
-      show:
-        title: 'Dashboard'
-      update:
-        title: 'Parameters'

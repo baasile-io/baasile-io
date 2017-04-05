@@ -18,14 +18,21 @@
           <div class="text-muted"><%= t('types.service_types.startup.title').pluralize %></div>
         </div>
       <% end %>
+      <% if current_service.is_startup? %>
+        <div class="col-6 col-sm-2">
+          <h4><i class="fa fa-fw fa-sitemap"></i> <%= current_service.proxies.count %></h4>
+          <div class="text-muted"><%= t('activerecord.models.proxy').pluralize %></div>
+        </div>
+      <% end %>
       <div class="col-6 col-sm-2">
-        <h4><i class="fa fa-fw fa-edit"></i> <%= current_service.contracts.count %></h4>
+        <h4><i class="fa fa-fw fa-edit"></i> <%= Contract.associated_service(current_service).count %></h4>
         <div class="text-muted"><%= t('activerecord.models.contract').pluralize %></div>
       </div>
     </section>
 
     <% if @service.is_activated? %>
-      <h5>Identifiants</h5>
+      <hr />
+      <h5><%= t('activerecord.models.identifier').pluralize %></h5>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">CLIENT_ID</label>
         <div class="col-sm-10">

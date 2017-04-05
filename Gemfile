@@ -58,6 +58,7 @@ gem 'rack-attack'
 
 # Front
 gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'bootstrap-datepicker-rails'
 gem "select2-rails"
 gem "i18n-js", ">= 3.0.0.rc15"
 gem 'font-awesome-sass'

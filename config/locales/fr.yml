@@ -38,6 +38,7 @@ fr:
     - vendredi
     - samedi
     formats:
+      datepicker: '%Y-%m-%d'
       default: "%d/%m/%Y"
       short: "%e %b"
       long: "%e %B %Y"

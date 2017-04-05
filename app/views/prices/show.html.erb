@@ -1,73 +1,28 @@
-<% content_for(:page_title) { @price.name } %>
-<% if current_user.is_admin? || @price.user == current_user %>
-  <% if @contract.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.destroy'), service_proxy_price_path(current_service, current_proxy, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
-  <% elsif !@company.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.destroy'), company_contract_price_path(@company, @contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
-  <% elsif !@service.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.destroy'), service_contract_price_path(current_service, @contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
-  <% else %>
-      <%= content_for(:page_controls) { link_to t('actions.destroy'), contract_price_path(@contract, @price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
-  <% end %>
-<% end %>
-<% if current_user.is_admin? || @price.user == current_user %>
-  <% if @price.activate %>
-    <% if @contract.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_proxy_price_toogle_activate_path(current_service, current_proxy, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% elsif !@company.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.deactivate'), company_contract_price_toogle_activate_path(@company, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% elsif !@service.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.deactivate'), service_contract_price_toogle_activate_path(current_service, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% else %>
-      <%= content_for(:page_controls) { link_to t('actions.deactivate'), contract_price_toogle_activate_path(@contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% end %>
-  <% else %>
-    <% if @contract.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.activate'), service_proxy_price_toogle_activate_path(current_service, current_proxy, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% elsif !@company.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.activate'), company_contract_price_toogle_activate_path(@company, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% elsif !@service.nil? %>
-      <%= content_for(:page_controls) { link_to t('actions.activate'), service_contract_price_toogle_activate_path(current_service, @contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% else %>
-      <%= content_for(:page_controls) { link_to t('actions.activate'), contract_price_toogle_activate_path(@contract, @price, id: @price.id), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :post } %>
-    <% end %>
-  <% end %>
-<% end %>
-<% if current_user.is_commercial_to_create? %>
-  <% if @contract.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.add'), new_service_proxy_price_price_parameter_path(current_service, current_proxy, @price), class: 'btn btn-primary' } %>
-  <% elsif !@company.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.add'), new_company_contract_price_price_parameter_path(@company, @contract, @price), class: 'btn btn-primary' } %>
-  <% elsif !@service.nil? %>
-    <% content_for(:page_controls) { link_to t('actions.add'), new_service_contract_price_price_parameter_path(current_service, @contract, @price), class: 'btn btn-primary' } %>
-  <% else %>
-    <% content_for(:page_controls) { link_to t('actions.add'), new_contract_price_price_parameter_path(@contract, @price), class: 'btn btn-primary' } %>
-  <% end %>
-<% end %>
+<% content_for(:page_title) { current_price.name } %>
+
+<%= content_for(:page_controls) { link_to t('actions.destroy'), service_proxy_price_path(current_service, current_proxy, current_price), class: 'btn btn-danger', data: {confirm: "Are you sure?" }, method: :delete } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <% if @contract.nil? %>
-        <%= link_to t('actions.edit'), edit_service_proxy_price_path(current_service, current_proxy, @price), class: 'btn btn-secondary' %>
-    <% elsif !@company.nil? %>
-        <%= link_to t('actions.edit'), edit_company_contract_price_path(@company, @contract, @price), class: 'btn btn-secondary' %>
-    <% elsif !@service.nil? %>
-        <%= link_to t('actions.edit'), edit_service_contract_price_path(current_service, @contract, @price), class: 'btn btn-secondary' %>
-    <% else %>
-        <%= link_to t('actions.edit'), edit_contract_price_path(@contract, @price), class: 'btn btn-secondary' %>
-    <% end %>
-    <table class="table">
-      <tbody>
-      <tr>
-        <td><%= t('activerecord.attributes.price.base_cost') %></td>
-        <td><%= @price.base_cost %></td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.attributes.price.cost_by_time') %></td>
-        <td><%= @price.cost_by_time %></td>
-      </tr>
-      </tbody>
-    </table>
-    <%= render 'show_price_parameters' %>
+
+    <%= render partial: 'form', locals: {object: [current_service, current_proxy, current_price]} %>
+
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls">
+      <%= link_to t('actions.add'), new_service_proxy_price_price_parameter_path(current_service, current_proxy, current_price), class: 'btn btn-primary' %>
+    </div>
+    <h4><%= t('activerecord.attributes.price.price_parameters') %></h4>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'show_price_parameters', locals: {price_parameters: current_price.price_parameters} %>
+
   </div>
 </div>

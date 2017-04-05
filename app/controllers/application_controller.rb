@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_proxy
   helper_method :current_route
   helper_method :current_module
+  helper_method :current_contract
+  helper_method :current_price
   helper_method :current_host
 
   def after_sign_in_path_for(resource)
@@ -51,6 +53,14 @@ class ApplicationController < ActionController::Base
     nil
   end
 
+  def current_contract
+    nil
+  end
+
+  def current_price
+    nil
+  end
+
   def current_host
     "#{request.protocol}#{request.host_with_port}"
   end
@@ -60,17 +70,22 @@ class ApplicationController < ActionController::Base
   end
 
   # Authorization
-  def authorized_roles(controller_name, action_name)
-    Role::CONTROLLER_AUTHORIZATIONS[controller_name.to_sym][action_name.to_sym] || []
-  end
-  helper_method :authorized_roles
-
   def authorize_action
     if current_authorized_resource
-      roles = authorized_roles(controller_name, action_name)
-      unless current_user.has_role?(:superadmin) || (current_authorized_resource.users.exists?(current_user) && current_user.has_role?(roles, current_authorized_resource))
-        return head(:forbidden)
+      unless current_user.has_role?(:superadmin) || current_authorized_resource.can?(current_user, controller_name, action_name)
+        flash[:error] = I18n.t('misc.not_authorized')
+        return redirect_back fallback_location: services_path
       end
     end
   end
+
+  def authorize_contract_set_prices
+    unless current_contract.nil?
+      unless @contract.can?(current_user, :prices)
+        flash[:error] = I18n.t('misc.not_authorized')
+        return redirect_back fallback_location: (current_service.nil? ? contract_path(current_contract) : service_contract_path(current_service, current_contract))
+      end
+    end
+  end
+
 end

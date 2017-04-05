@@ -3,22 +3,10 @@ fr:
     edit:
       title: 'Paramètres'
     index:
-      title: 'prix'
+      title: 'Modèles de tarification'
     new:
-      title: 'Créer un nouveau prix'
+      title: 'Créer un nouveau modèle de tarification'
     show:
       title: 'Tableau de bord'
     update:
       title: 'Paramètres'
-  back_office:
-    prices:
-      edit:
-        title: 'Paramètres'
-      index:
-        title: 'Prix'
-      new:
-        title: 'Créer un nouveau prix'
-      show:
-        title: 'Tableau de bord'
-      update:
-        title: 'Paramètres'

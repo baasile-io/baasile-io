@@ -1,9 +1,24 @@
-<% content_for(:page_title) { t('misc.parameters') } %>
+<% content_for(:page_back) {
+  unless current_contract.nil?
+    if current_service.nil?
+      contract_prices_path(current_contract)
+    else
+      service_contract_prices_path(current_service, current_contract)
+    end
+  end
+} %>
+<% content_for(:page_title) {
+  unless current_contract.nil?
+    t('actions.edit')
+  else
+    t('misc.parameters')
+  end
+} %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render 'form' %>
+    <%= render partial: 'form', locals: {object: @form_values} %>
 
   </div>
 </div>

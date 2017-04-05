@@ -3,7 +3,7 @@ fr:
     create:
       title: 'Nouvelle fonctionalité'
     edit:
-      title: 'Modifier la fonctionnalité'
+      title: 'Modifier le produit'
     form:
       hints:
         authorization_url: "L'URL d'autorisation doit commencer par un slash. Exemple : \"/api/oauth/token\"."
@@ -19,7 +19,7 @@ fr:
         general: 'Général'
     index:
       description: 'Paramétrez vos APIs afin de fournir des données à des clients'
-      title: 'Fonctionnalités'
+      title: 'Produits'
     new:
       title: 'Nouvelle fonctionalité'
     proxy_parameters_form:
@@ -27,4 +27,4 @@ fr:
     show:
       title: 'Fonctionnalité'
     update:
-      title: 'Modifier la fonctionnalité'
+      title: 'Modifier le produit'

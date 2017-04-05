@@ -19,42 +19,18 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#profile'
 
   resources :contracts do
-    post :commercial_validation
-    post :commercial_reject
-    post :toogle_activate
-    get :set_price
-    post :update_price
-    post :toogle_production
-    resources :prices do
-      resources :price_parameters do
-        post :toogle_activate
-      end
-      post :toogle_activate
-    end
-  end
-
-  resources :companies do
-    resources :contracts do
-      post :commercial_validation
-      post :commercial_reject
-      post :toogle_activate
-      get :set_price
-      post :update_price
-      post :toogle_production
-      resources :prices do
-        resources :price_parameters do
-          post :toogle_activate
-        end
-        post :toogle_activate
-      end
-    end
     member do
-      get :clients
-      get :startups
-      get :admin_list
-      get :add_admin
-      post :unset_admin
-      post :set_admin
+      get :comments
+      post :create_comment
+      post :validate
+      post :reject
+      get :prices
+      get :select_price
+      post :toggle_production
+      post :cancel
+    end
+    resources :prices do
+      resources :price_parameters
     end
   end
 
@@ -62,17 +38,18 @@ Rails.application.routes.draw do
   
   resources :services do
     resources :contracts do
-      post :commercial_validation
-      post :commercial_reject
-      post :toogle_activate
-      get :set_price
-      post :update_price
-      post :toogle_production
+      member do
+        get :comments
+        post :create_comment
+        post :validate
+        post :reject
+        get :prices
+        get :select_price
+        post :toggle_production
+        post :cancel
+      end
       resources :prices do
-        resources :price_parameters do
-          post :toogle_activate
-        end
-        post :toogle_activate
+        resources :price_parameters
       end
     end
     member do
@@ -101,6 +78,12 @@ Rails.application.routes.draw do
         end
         post :toogle_activate
       end
+    end
+  end
+
+  resources :comments do
+    member do
+      put :hide
     end
   end
 

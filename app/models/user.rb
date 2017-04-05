@@ -45,15 +45,35 @@ class User < ApplicationRecord
   end
 
   def is_commercial?
-    self.has_role?(:superadmin) || self.has_role?(:commercial, :any)
+    self.has_role?(:superadmin) || self.has_role?(:admin, :any) || self.has_role?(:commercial, :any)
   end
 
-  def is_commercial_to_create?
-    self.has_role?(:superadmin) || self.has_role?(:commercial)
+  def is_developer_of?(service)
+    return true if self.has_role?(:superadmin)
+    return true if service.users.exists?(self) && (self.has_role?(:developer, service) || service.main_developer == self)
+    return true if service.company && service.company.users.exists?(self) && (self.has_role?(:developer, service.company) || service.company.main_developer == self)
+    self.is_admin_of?(service)
   end
 
-  def is_admin_of?(obj)
-    self.has_role?(:superadmin) || self.has_role?(:admin, obj)
+  def is_accountant_of?(service)
+    return true if self.has_role?(:superadmin)
+    return true if service.users.exists?(self) && (self.has_role?(:accountant, service) || service.main_accountant == self)
+    return true if service.company && service.company.users.exists?(self) && (self.has_role?(:accountant, service.company) || service.company.main_accountant == self)
+    self.is_admin_of?(service)
+  end
+
+  def is_commercial_of?(service)
+    return true if self.has_role?(:superadmin)
+    return true if service.users.exists?(self) && (self.has_role?(:commercial, service) || service.main_commercial == self)
+    return true if service.company && service.company.users.exists?(self) && (self.has_role?(:commercial, service.company) || service.company.main_commercial == self)
+    self.is_admin_of?(service)
+  end
+
+  def is_admin_of?(service)
+    return true if self.has_role?(:superadmin)
+    return true if service.users.exists?(self) && (self.has_role?(:admin, service) || service.user == self)
+    return true if service.company && service.company.users.exists?(self) && (self.has_role?(:admin, service.company) || service.company.user == self)
+    false
   end
 
   def full_name

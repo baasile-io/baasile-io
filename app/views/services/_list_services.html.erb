@@ -17,14 +17,18 @@
           <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
         </td>
         <td>
-          <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe if service.confirmed_at.nil? %>
+          <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-2x fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe if service.confirmed_at.nil? %>
           <strong class="<%= I18n.t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></strong><br />
           <%= "<small class=\"text-muted\"><i class=\"#{t("types.service_types.#{service.parent.service_type}.icon")}\"></i> #{service.parent}</small>".html_safe if service.parent %>&nbsp;
         </td>
         <td>
           <span class="<%= I18n.t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
         </td>
-        <td><%= service.public %></td>
+        <td>
+          <% if service.is_startup? %>
+            <%= t("misc.#{service.public}") %>
+          <% end %>
+        </td>
         <td class="text-right">
           <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-secondary' %>
         </td>
