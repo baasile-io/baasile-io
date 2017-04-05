@@ -39,6 +39,7 @@ class Role < ApplicationRecord
       prices: [:admin, :commercial, :accountant],
       select_price: [:admin, :commercial],
       new: [:admin, :commercial],
+      create: [:admin, :commercial],
       show: [:admin, :commercial, :accountant],
       edit: [:admin, :commercial, :accountant],
       update: [:admin, :commercial, :accountant],
