@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!(opts={})
     super(opts)
-    if !current_user.nil? || !current_user.is_active
+    if !current_user.nil? && !current_user.is_active
       return head(:forbidden)
     end
   end
