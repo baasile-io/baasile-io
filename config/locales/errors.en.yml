@@ -12,7 +12,7 @@ en:
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'
-      not_a_subdomain: 'must be lower case and contain alphanumeric and minus characters only'
+      not_a_subdomain: 'must contain alphanumeric and minus characters only'
     models:
       price_parameter:
         deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'

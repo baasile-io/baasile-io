@@ -12,7 +12,7 @@ fr:
       record_invalid: "L'objet de peut être enregistré car il est invalide"
       taken: 'est déjà utilisé'
       too_short: 'est trop court'
-      not_a_subdomain: "doit être en minuscule et ne peut contenir que des caractères alpha-numériques et le trait d'union."
+      not_a_subdomain: "ne peut contenir que des caractères alpha-numériques et le trait d'union"
     models:
       price_parameter:
         deny_after_free_count_validity: 'Si vous paramétrez le déni de service, vous devez spécifier un minimum de requêtes autorisées et supprimer le prix unitaire.'
