@@ -45,6 +45,7 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_main %>" id="proxy_main">
       <%= f.input :name, required: true %>
+      <%= f.input :subdomain, required: true %>
       <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
       <%= f.input :description, as: :text, required: true, input_html: {rows: 5} %>
     </div>
