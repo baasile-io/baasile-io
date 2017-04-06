@@ -27,7 +27,7 @@
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
       <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('services.form.hints.description') %>
-      <%= f.input :description_long, as: :trix_editor, hint: t('services.form.hints.description_long') %>
+      <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('services.form.hints.description_long') %>
 
       <% unless f.object.is_client? %>
         <%= f.input :website, hint: t('services.form.hints.website') %>
