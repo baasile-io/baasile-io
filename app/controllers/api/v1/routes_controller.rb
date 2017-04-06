@@ -69,13 +69,13 @@ module Api
       end
 
       def current_proxy
-        @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
+        @current_proxy ||= Proxy.where(subdomain: params[:proxy_subdomain]).or(where(id: params[:proxy_id])).first
       rescue
         nil
       end
 
       def current_route
-        @current_route ||= current_proxy.routes.find_by_id(params[:id])
+        @current_route ||= current_proxy.routes.where(subdomain: params[:route_subdomain]).or(where(id: params[:id])).first
       rescue
         nil
       end

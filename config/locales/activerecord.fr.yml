@@ -75,14 +75,15 @@ fr:
         route_id: 'Route mesurée'
       proxy:
         alias: 'Alias'
+        category: 'Catégorie'
+        category_id: 'Catégorie'
         description: 'Description'
         name: 'Nom'
         service: 'Entreprise'
         service_id: 'Entreprise'
+        subdomain: 'Identifiant publique'
         user: 'Créateur'
         user_id: 'Créateur'
-        category: 'Catégorie'
-        category_id: 'Catégorie'
       proxy_parameter:
         authorization_mode: "Mode d'autorisation"
         authorization_url: "URL d'autorisation"
@@ -118,6 +119,7 @@ fr:
         protocol_test: 'Protocole (test)'
         proxy: 'Produit'
         proxy_id: 'Produit'
+        subdomain: 'Identifiant publique'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Créateur'

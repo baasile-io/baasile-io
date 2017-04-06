@@ -12,7 +12,7 @@ module Api
       end
 
       def load_proxy_and_authorize
-        @proxy = Proxy.find_by_id(params[:id])
+        @proxy = Proxy.where(subdomain: params[:proxy_subdomain]).or(where(id: params[:id])).first
         if @proxy.nil?
           return head :not_found
         else
