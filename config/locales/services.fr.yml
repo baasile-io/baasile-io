@@ -4,8 +4,15 @@ fr:
       title: 'Paramètres'
     form:
       hints:
+        description: 'Description courte de votre entreprise affichée dans les pages du catalogue.'
+        description_long: 'Description avancée de votre entreprise et de ses activités affichéé sur une page dédiée du catalogue.'
         subdomain: "L'identifiant publique forme la base de l'URL de l'entreprise sur la plateforme. Il doit être en minuscule et ne peut contenir que des caractères alpha-numériques et le trait d'union."
         website: 'Exemple: "http://www.google.fr"'
+      tabs:
+        main:
+          contact_detail: 'Coordonnées'
+          description: 'Description'
+          title: 'Général'
     index:
       title: 'Entreprises'
     new:

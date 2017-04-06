@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 20170403214658) do
     t.integer  "main_commercial_id"
     t.integer  "main_developer_id"
     t.integer  "main_accountant_id"
+    t.text     "description_long"
     t.index ["ancestry"], name: "index_services_on_ancestry", using: :btree
     t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
     t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree

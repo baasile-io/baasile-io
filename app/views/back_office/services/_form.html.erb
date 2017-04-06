@@ -26,7 +26,8 @@
       <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
-      <%= f.input :description, as: :text, input_html: {rows: 5} %>
+      <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('services.form.hints.description') %>
+      <%= f.input :description_long, as: :trix_editor, hint: t('services.form.hints.description_long') %>
 
       <% unless f.object.is_client? %>
         <%= f.input :website, hint: t('services.form.hints.website') %>

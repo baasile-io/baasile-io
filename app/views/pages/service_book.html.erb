@@ -15,16 +15,15 @@
 
       <% @collection.each.with_index do |service, index| %>
         <div class="card">
-          <% unless service.website.nil? %>
-            <%= link_to image_tag(asset_path('no-image.png'), class: 'img-fluid'), service.website %>
-          <% else %>
-            <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
-          <% end %>
+          <%= link_to image_tag(asset_path('no-image.png'), class: 'img-fluid'), startup_path(service.id) %>
           <div class="card-text-container">
             <p class="card-text">
               <strong><%= service.name %></strong><br />
               <%= service.description %>
             </p>
+          </div>
+          <div>
+            <%= link_to t('.startup_infos'), startup_path(service.id), class: 'btn btn-secondary' %>
           </div>
         </div>
       <% end %>
