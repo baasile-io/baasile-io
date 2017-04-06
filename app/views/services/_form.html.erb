@@ -1,8 +1,9 @@
 <%
   tab_active = nil
   tab_attributes = {
-    service_main: [:name, :description, :company_id, :public, :subdomain, :service_type, :website, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id],
-    service_contact_detail: [:'contact_detail.name', :'contact_detail.siret', :'contact_detail.chamber_of_commerce', :'contact_detail.address_line1', :'contact_detail.address_line2', :'contact_detail.address_line3', :'contact_detail.zip', :'contact_detail.city', :'contact_detail.country', :'contact_detail.phone']
+    service_main: [:name, :company_id, :public, :subdomain, :service_type, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id],
+    service_contact_detail: [:'contact_detail.name', :'contact_detail.siret', :'contact_detail.chamber_of_commerce', :'contact_detail.address_line1', :'contact_detail.address_line2', :'contact_detail.address_line3', :'contact_detail.zip', :'contact_detail.city', :'contact_detail.country', :'contact_detail.phone'],
+    service_description: [:description, :description_long, :website]
   }
   tab_errors = {
     proxy_main: 0,
@@ -25,10 +26,13 @@
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab">Général</a>
+    <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab"><%= t('.tabs.main.title') %></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :service_contact_detail %> <%= 'has-danger' if tab_errors[:service_contact_detail] == 1 %>" data-toggle="tab" href="#service_contact_detail" role="tab">Coordonnées</a>
+    <a class="nav-link <%= 'active' if tab_active == :service_contact_detail %> <%= 'has-danger' if tab_errors[:service_contact_detail] == 1 %>" data-toggle="tab" href="#service_contact_detail" role="tab"><%= t('.tabs.main.contact_detail') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :service_description %> <%= 'has-danger' if tab_errors[:service_description] == 1 %>" data-toggle="tab" href="#service_description" role="tab"><%= t('.tabs.main.description') %></a>
   </li>
 </ul>
 
@@ -45,18 +49,13 @@
         <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
       <% end %>
 
+      <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
+
       <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t("back_office.services.form.hints.user_id") %>
       <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
       <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
       <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
-      <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
-      <%= f.input :description, as: :text, input_html: {rows: 5} %>
-      <%= f.input :description_long, as: :text, input_html: {rows: 5} %>
-
-      <% unless f.object.is_client? %>
-          <%= f.input :website, hint: t('.hints.website') %>
-      <% end %>
       <% if current_user.is_superadmin? %>
         <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
 
@@ -68,6 +67,16 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_contact_detail %>" id="service_contact_detail">
       <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_description %>" id="service_description">
+      <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('.hints.description') %>
+      <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('.hints.description_long'), limited: true %>
+
+      <% unless f.object.is_client? %>
+        <%= f.input :website, hint: t('.hints.website') %>
+      <% end %>
+
     </div>
 
   </div>

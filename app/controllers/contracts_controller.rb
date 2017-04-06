@@ -32,6 +32,7 @@ class ContractsController < ApplicationController
     @contract = Contract.new
     @contract.client = current_service if !current_service.nil? && current_service.is_client?
     @contract.startup = current_service if !current_service.nil? && current_service.is_startup?
+    @contract.proxy_id = params[:proxy_id] if params[:proxy_id].present?
     define_form_value
   end
 

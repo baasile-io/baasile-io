@@ -4,8 +4,15 @@ en:
       title: 'Parameters'
     form:
       hints:
+        description: 'Short description of your enterprise to be displayed in the catalog.'
+        description_long: 'Advanced description of your enterprise to be displayed on a dedicated web page.'
         subdomain: "The public identifier forms the base of the URL of the enterprise on the platform. It must be lower case and contain alphanumeric and minus characters only."
         website: 'Example : "http://www.google.fr"'
+      tabs:
+        main:
+          contact_detail: 'Contact details'
+          description: 'Description'
+          title: 'Main'
     index:
       title: 'List of enterprises'
     new:

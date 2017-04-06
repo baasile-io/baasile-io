@@ -8,6 +8,7 @@ fr:
     admin_list: 'liste des administrateurs'
     associate: 'Associer'
     back: '<< Retour'
+    buy: 'Acheter'
     cancel: 'Annuler'
     cancel_contract: 'Annuler le contrat'
     change_password: 'Changer de mot de passe'

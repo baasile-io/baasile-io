@@ -1,51 +1,57 @@
 <% content_for(:page_title) { @startup.name } %>
 
-<section class="jumbotron text-center">
-  <div class="container">
-    <h1 class="jumbotron-heading"><%= @startup.name %></h1>
-    <% unless @startup.website.nil? %>
-        <%= link_to image_tag(asset_path('no-image.png'), class: 'img-fluid'), @startup.website %>
-    <% else %>
-        <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
-    <% end %>
-    <% unless @startup.description_long.nil? %>
-      <p class="lead text-muted"><%= @startup.description_long %></p>
-    <% else %>
-      <p class="lead text-muted"><%= @startup.description %></p>
-    <% end %>
-  </div>
-</section>
+<div class="container">
 
+  <p style="margin-top: 15px;"><%= link_to 'Retourner au catalogue', service_book_url, class: 'btn btn-primary' %></p>
 
-<% unless @startup.proxies.nil? %>
-  <section class="jumbotron text-center">
-    <div class="container">
-      <h3 class="jumbotron-heading"><%= t('activerecord.models.proxy') %></h3>
-      <table class="table table-sm table-hover table-link">
-        <thead>
-        <tr>
-          <th class="text-left"><%= t('activerecord.attributes.proxy.name') %></th>
-          <th class="text-center"><%= t('activerecord.attributes.proxy.category') %></th>
-          <th class="text-right"><%= t('activerecord.attributes.proxy.description') %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @startup.proxies.each do |proxy| %>
-            <tr>
-              <td class="text-left">
-                <i class="fa fa-fw fa-server"></i>
-                <strong><%= proxy.name %></strong>
-              </td>
-              <td class="text-center">
-                <p ><%= proxy.category.name %></p>
-              </td>
-              <td class="text-right">
-                <p ><%= proxy.description %></p>
-              </td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
+  <hr />
+  <div class="row">
+    <div class="col-md-7">
+      <h2><%= @startup.name %></h2>
+      <p class="lead"><%= simple_format(@startup.description) %></p>
     </div>
-  </section>
-<% end %>
+    <div class="col-md-5">
+      <%= image_tag asset_path('no-image.png'), class: 'img-fluid mx-auto' %>
+    </div>
+  </div>
+
+  <% if @startup.description_long.present? %>
+    <hr style="margin-top: 55px; margin-bottom: 55px;">
+    <div class="trix-content">
+      <%= @startup.description_long.html_safe %>
+    </div>
+  <% end %>
+
+  <% unless @startup.proxies.count == 0 %>
+    <hr style="margin-top: 55px; margin-bottom: 55px;">
+    <h3><%= t('activerecord.models.proxy').pluralize %></h3>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.proxy.name') %></th>
+        <th><%= t('activerecord.attributes.proxy.category') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @startup.proxies.each do |proxy| %>
+          <tr>
+            <td class="text-left">
+              <i class="fa fa-fw fa-server"></i> <strong><%= proxy.name %></strong><br />
+              <span class="text-muted"><%= simple_format(proxy.description) %></span>
+            </td>
+            <td>
+              <%= proxy.category.try(:name) || '---' %>
+            </td>
+            <td class="text-right">
+              <% if current_user %>
+                <%= link_to t('actions.buy'), new_contract_path(proxy_id: proxy.id), class: 'btn btn-success' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+</div>
