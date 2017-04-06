@@ -44,7 +44,7 @@ class Service < ApplicationRecord
   validates :website, url: true, allow_blank: true
 
   validates :subdomain, presence: true, if: :confirmed_at?
-  validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
+  validates :subdomain, uniqueness: true, subdomain: true, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,

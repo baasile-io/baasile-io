@@ -18,7 +18,7 @@ class Route < ApplicationRecord
   has_many :query_parameters
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
-  validates :subdomain, uniqueness: {scope: :proxy_id}, presence: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}
+  validates :subdomain, uniqueness: {scope: :proxy_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
