@@ -9,6 +9,7 @@ en:
         authorization_url: "Authorisation URL must start with a slash. Example : \"/api/oauth/token\"."
         client_secret: "The secret key is encrypted on save. You are not required to fill it if you want to keep the actual value."
         hostname: 'Example: "api.google.fr".'
+        subdomain: "The public identifier forms the base of the URL of the product on the platform. It must contain alphanumeric and minus characters only."
       tabs:
         proxy_authorization:
           hint: "Production parameters are takes effect during production phase of contracts."

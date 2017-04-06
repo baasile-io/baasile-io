@@ -1,6 +1,15 @@
 module Api
   class ApiController < ActionController::Base
-    before_action :authenticate_schema
+    before_action :authenticate_schema, except: :not_found
+
+    def not_found
+      return render status: 404, json: {
+        errors: [{
+                   status: 404,
+                   title: 'Route not found'
+                 }]
+      }
+    end
 
     private
 
@@ -14,12 +23,28 @@ module Api
 
     def authenticate_schema
       if current_service.nil?
-        render nothing: true, status: :not_found
-        return false
+        return render status: 404, json: {
+          errors: [{
+                     status: 404,
+                     title: 'Service not found'
+                   }]
+        }
       end
-      unless @current_service.is_activated?
-        head :forbidden
-        return false
+      unless current_service.is_activated?
+        return render status: 403, json: {
+          errors: [{
+                     status: 403,
+                     title: 'Inactive service'
+                   }]
+        }
+      end
+      if !authenticated_scope.include?(current_service.subdomain) && current_service.id != authenticated_service.id && !(current_service.parent && !authenticated_scope.include?(current_service.parent.subdomain) && current_service.parent.id == authenticated_service.id)
+        return render status: 400, json: {
+          errors: [{
+                     status: 400,
+                     title: "Unknown/invalid scope(s): #{authenticated_scope.inspect}. Required scope: \"#{current_service.subdomain}\"."
+                   }]
+        }
       end
     end
 

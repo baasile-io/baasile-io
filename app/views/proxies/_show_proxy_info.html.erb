@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.proxy.name') %></strong>
+  </div>
+  <div class="col-9">
+    <strong><i class="fa fa-fw fa-sitemap"></i> <%= proxy.name %></strong><br />
+    <small class="text-muted"><%= simple_format(proxy.description) %></small>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.proxy.subdomain') %></strong>
+  </div>
+  <div class="col-9">
+    <%= proxy.subdomain %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.proxy.category') %></strong>
+  </div>
+  <div class="col-9">
+    <%= proxy.category.try(:name) || '---' %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.models.route').pluralize %></strong>
+  </div>
+  <div class="col-9">
+    <% proxy.routes.map do |route| %>
+      <p>
+        <%= route.subdomain %> <br />
+        <small class="text-muted"><%= route.local_url('v1') %></small>
+      </p>
+    <% end %>
+  </div>
+</div>

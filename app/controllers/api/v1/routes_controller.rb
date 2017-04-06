@@ -33,33 +33,70 @@ module Api
             status = 593
             title = 'The origin server cannot or will not process the request due to an apparent redirection error'
           end
-          render status: :bad_gateway, json: {
-            errors: [{
-              status: status,
-              title: title,
-              meta: {
-                request: {
-                  method: e.req.method,
-                  original_url: e.uri.to_s,
-                  headers: e.req.to_hash,
-                  body: e.req.body
-                },
-                response: {
-                  status: e.code,
-                  body: e.body.to_s.force_encoding('UTF-8')
+          if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
+            render status: :bad_gateway, json: {
+              errors: [
+                {
+                  status: status,
+                  title: title,
+                  meta: {
+                    request: {
+                      method: e.req.method,
+                      original_url: e.uri.to_s,
+                      headers: e.req.to_hash,
+                      body: e.req.body
+                    },
+                    response: {
+                      status: e.code,
+                      body: e.body.to_s.force_encoding('UTF-8')
+                    }
+                  }
                 }
-              }
-            }]
-          }
+              ]
+            }
+          else
+            render status: :bad_gateway, json: {
+              errors: [
+                {
+                  status: status,
+                  title: title,
+                  meta: {
+                    response: {
+                      status: e.code,
+                      body: e.body.to_s.force_encoding('UTF-8')
+                    }
+                  }
+                }
+              ]
+            }
+          end
         end
       end
 
       def index
-        render json: current_proxy.routes
+        render json: current_proxy.routes.map {|route|
+          {
+            id: route.subdomain,
+            type: route.class.name,
+            attributes: {
+              name: route.name,
+              request_url: route.local_url('v1'),
+              allowed_methods: route.allowed_methods
+            }
+          }
+        }
       end
 
       def show
-        render json: current_route
+        render json: {
+          id: current_route.subdomain,
+          type: current_route.class.name,
+          attributes: {
+            name: current_route.name,
+            request_url: current_route.local_url('v1'),
+            allowed_methods: current_route.allowed_methods
+          }
+        }
       end
 
       def load_route
@@ -69,32 +106,27 @@ module Api
       end
 
       def current_proxy
-        @current_proxy ||= Proxy.find_by_id(params[:proxy_id])
+        @current_proxy ||= Proxy.where("subdomain = :subdomain OR id = :id", subdomain: params[:proxy_id], id: params[:proxy_id].to_i).first
       rescue
         nil
       end
 
       def current_route
-        @current_route ||= current_proxy.routes.find_by_id(params[:id])
+        @current_route ||= current_proxy.routes.where("subdomain = :subdomain OR id = :id", subdomain: params[:id], id: params[:id].to_i).first
       rescue
         nil
       end
 
       def authorize_request!
-        status = 403
-        if authenticated_scope.include?(current_service.subdomain)
+        #TODO
+        return true
 
-          #TODO
+        if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
           return true
-
-          if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
-            return true
-          end
-          title = 'Client is not authorized to access this route'
-        else
-          status = 400
-          title = "Unknown/invalid scope(s): #{authenticated_scope.inspect}. Required scope: \"#{current_service.subdomain}\"."
         end
+        status = 403
+        title = 'Client is not authorized to access this route'
+
         render status: status, json: {
           errors: [{
             status: status,

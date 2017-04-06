@@ -3,6 +3,7 @@
     <strong><%= t('activerecord.attributes.service.name') %></strong>
   </div>
   <div class="col-9">
+    <%= "<span class=\"float-right\"><i class=\"fa fa-lock\"></i> #{t('misc.unconfirmed')}</span>".html_safe unless service.is_activated? %>
     <strong><i class="<%= t("types.service_types.#{service.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></span></strong>
   </div>
 </div>

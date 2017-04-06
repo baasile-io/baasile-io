@@ -4,22 +4,41 @@ module Api
       before_action :load_proxy_and_authorize, except: [:index]
 
       def show
-        render json: @proxy
+        render json: {
+          id: current_proxy.subdomain,
+          type: current_proxy.class.name,
+          attributes: {
+            name: current_proxy.name
+          }
+        }
       end
 
       def index
-        render json: current_service.proxies
+        render json: current_service.proxies.map {|proxy|
+          {
+            id: proxy.subdomain,
+            type: proxy.class.name,
+            attributes: {
+              name: proxy.name
+            }
+          }
+        }
       end
 
       def load_proxy_and_authorize
-        @proxy = Proxy.find_by_id(params[:id])
+        @proxy = current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:id], id: params[:id].to_i).first
         if @proxy.nil?
-          return head :not_found
-        else
-          if current_service.id != @proxy.service.id && !(current_service.has_role?(:get, @proxy) || current_service.has_role?(:get, @proxy.service))
-            return head :forbidden
-          end
+          return render status: 404, json: {
+            errors: [{
+                       status: 404,
+                       title: 'Proxy not found'
+                     }]
+          }
         end
+      end
+
+      def current_proxy
+        @proxy
       end
     end
   end

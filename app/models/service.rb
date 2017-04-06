@@ -37,6 +37,7 @@ class Service < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true, if: Proc.new{ self.public }
+  validates :description_long, presence: true, if: Proc.new{ self.public }
 
   validates :service_type, presence: true
   before_save :public_validation
@@ -44,7 +45,7 @@ class Service < ApplicationRecord
   validates :website, url: true, allow_blank: true
 
   validates :subdomain, presence: true, if: :confirmed_at?
-  validates :subdomain, uniqueness: true, format: {with: /\A[\-a-z0-9]*\z/}, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
+  validates :subdomain, uniqueness: true, subdomain: true, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
@@ -67,6 +68,10 @@ class Service < ApplicationRecord
 
   scope :published, -> { where('confirmed_at IS NOT NULL AND public = true') }
 
+  def associated_contracts
+    Contract.where('client_id = :service_id OR startup_id = :service_id', service_id: self.id)
+  end
+
   def authorized?(user)
     user.is_superadmin? || (self.company && user.is_admin_of?(self.company)) || user.services.exists?(self)
   end
@@ -86,7 +91,7 @@ class Service < ApplicationRecord
   end
 
   def is_activated?
-    !self.confirmed_at.nil? && self.is_activable?
+    !self.confirmed_at.nil? && self.is_activable? && (!self.parent || self.parent.is_activated?)
   end
 
   def is_activable?

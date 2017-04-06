@@ -18,6 +18,7 @@ class Route < ApplicationRecord
   has_many :query_parameters
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
+  validates :subdomain, uniqueness: {scope: :proxy_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
@@ -55,6 +56,10 @@ class Route < ApplicationRecord
 
   def uri_test
     "#{protocol_test || proxy.proxy_parameter_test.protocol}://#{hostname_test.present? ? hostname_test : proxy.proxy_parameter_test.hostname}:#{port_test.present? ? port_test : proxy.proxy_parameter_test.port}#{url}"
+  end
+
+  def local_url(version)
+    "/api/#{version}/#{self.proxy.service.subdomain}/proxies/#{self.proxy.subdomain}/routes/#{self.subdomain}/request"
   end
 
   def to_s

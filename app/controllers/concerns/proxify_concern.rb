@@ -89,7 +89,7 @@ module ProxifyConcern
     #  @current_proxy_send_request[name] = header[1]
     #end
 
-    @current_proxy_send_request[I18n.t('config.headers.proxy_callback')] = "#{current_host}/api/v1/#{current_service.subdomain}/proxies/#{current_proxy.id}/routes/#{current_route.id}/request"
+    @current_proxy_send_request[I18n.t('config.headers.proxy_callback')] = "#{current_host}#{current_route.local_url('v1')}"
 
     case @current_proxy_parameter.authorization_mode
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?

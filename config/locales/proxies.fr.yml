@@ -9,6 +9,7 @@ fr:
         authorization_url: "L'URL d'autorisation doit commencer par un slash. Exemple : \"/api/oauth/token\"."
         client_secret: "La clé secrète est encryptée à l'enregistrement. Ne la renseignez que si vous souhaitez modifier sa valeur."
         hostname: 'Exemple : "api.google.fr".'
+        subdomain: "L'identifiant publique forme la base de l'URL du produit sur la plateforme. Il peut contenir que des caractères alpha-numériques et le trait d'union."
       tabs:
         proxy_authorization:
           hint: "Les paramètres d'exploitation prennent effet en phase d'exploitation d'un contrat."
