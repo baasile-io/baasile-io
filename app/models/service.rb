@@ -68,6 +68,10 @@ class Service < ApplicationRecord
 
   scope :published, -> { where('confirmed_at IS NOT NULL AND public = true') }
 
+  def associated_contracts
+    Contract.where('client_id = :service_id OR startup_id = :service_id', service_id: self.id)
+  end
+
   def authorized?(user)
     user.is_superadmin? || (self.company && user.is_admin_of?(self.company)) || user.services.exists?(self)
   end

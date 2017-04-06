@@ -8,7 +8,8 @@ module Api
         services_restrict = services.map do |service|
           {
             id: service.client_id,
-            data: {
+            type: service.class.name,
+            attributes: {
               name: service.name,
               description: service.description,
               website: service.website,
@@ -22,7 +23,8 @@ module Api
       def show
         render json: {
           id: current_service.client_id,
-          data: {
+          type: current_service.class.name,
+          attributes: {
             name: current_service.name,
             description: current_service.description,
             website: current_service.website,

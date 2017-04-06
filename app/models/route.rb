@@ -58,6 +58,10 @@ class Route < ApplicationRecord
     "#{protocol_test || proxy.proxy_parameter_test.protocol}://#{hostname_test.present? ? hostname_test : proxy.proxy_parameter_test.hostname}:#{port_test.present? ? port_test : proxy.proxy_parameter_test.port}#{url}"
   end
 
+  def local_url(version)
+    "/api/#{version}/#{self.proxy.service.subdomain}/proxies/#{self.proxy.subdomain}/routes/#{self.subdomain}/request"
+  end
+
   def to_s
     name
   end
