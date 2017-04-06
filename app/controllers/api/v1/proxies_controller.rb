@@ -12,9 +12,9 @@ module Api
       end
 
       def load_proxy_and_authorize
-        @proxy = Proxy.where(subdomain: params[:proxy_subdomain]).or(where(id: params[:id])).first
+        @proxy = Proxy.where("subdomain = :subdomain OR id = :subdomain", subdomain: params[:id]).first
         if @proxy.nil?
-          return head :not_found
+          return render text:params[:id].inspect
         else
           if current_service.id != @proxy.service.id && !(current_service.has_role?(:get, @proxy) || current_service.has_role?(:get, @proxy.service))
             return head :forbidden
