@@ -14,7 +14,6 @@
 //= require i18n/translations
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require tether
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
