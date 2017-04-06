@@ -12,13 +12,14 @@ module Api
       end
 
       def load_proxy_and_authorize
-        @proxy = Proxy.where("subdomain = :subdomain OR id = :subdomain", subdomain: params[:id]).first
+        @proxy = current_service.where("subdomain = :subdomain OR id = :subdomain", subdomain: params[:id]).first
         if @proxy.nil?
-          return render text:params[:id].inspect
-        else
-          if current_service.id != @proxy.service.id && !(current_service.has_role?(:get, @proxy) || current_service.has_role?(:get, @proxy.service))
-            return head :forbidden
-          end
+          return render status: 404, json: {
+            errors: [{
+                       status: 404,
+                       title: 'Proxy not found'
+                     }]
+          }
         end
       end
     end

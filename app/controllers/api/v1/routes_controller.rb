@@ -81,20 +81,15 @@ module Api
       end
 
       def authorize_request!
-        status = 403
-        if authenticated_scope.include?(current_service.subdomain)
+        #TODO
+        return true
 
-          #TODO
+        if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
           return true
-
-          if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
-            return true
-          end
-          title = 'Client is not authorized to access this route'
-        else
-          status = 400
-          title = "Unknown/invalid scope(s): #{authenticated_scope.inspect}. Required scope: \"#{current_service.subdomain}\"."
         end
+        status = 403
+        title = 'Client is not authorized to access this route'
+
         render status: status, json: {
           errors: [{
             status: status,

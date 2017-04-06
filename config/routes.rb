@@ -121,6 +121,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :services, only: :index
       scope '/:current_subdomain' do
+        get '/' => 'services#show'
         resources :proxies do
           resources :routes, only: [:index, :show] do
             member do
@@ -131,5 +132,7 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    get "*any", via: :all, to: "api#not_found"
   end
 end

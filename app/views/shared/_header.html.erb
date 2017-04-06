@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-12">
           <h3>
-            <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe if current_service.confirmed_at.nil? %>
+            <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe unless current_service.is_activated? %>
             <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= I18n.t("types.service_types.#{current_service.service_type}.title") %></span>
             <span class="text-muted"><%= link_to t('misc.dashboard'), services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
             <% if current_service.parent %>

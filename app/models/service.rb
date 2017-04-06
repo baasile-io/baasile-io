@@ -37,6 +37,7 @@ class Service < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true, if: Proc.new{ self.public }
+  validates :description_long, presence: true, if: Proc.new{ self.public }
 
   validates :service_type, presence: true
   before_save :public_validation
@@ -86,7 +87,7 @@ class Service < ApplicationRecord
   end
 
   def is_activated?
-    !self.confirmed_at.nil? && self.is_activable?
+    !self.confirmed_at.nil? && self.is_activable? && (!self.parent || self.parent.is_activated?)
   end
 
   def is_activable?
