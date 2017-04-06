@@ -4,15 +4,29 @@ module Api
       before_action :load_proxy_and_authorize, except: [:index]
 
       def show
-        render json: @proxy
+        render json: {
+          id: current_proxy.subdomain,
+          type: current_proxy.class.name,
+          attributes: {
+            name: current_proxy.name
+          }
+        }
       end
 
       def index
-        render json: current_service.proxies
+        render json: current_service.proxies.map {|proxy|
+          {
+            id: proxy.subdomain,
+            type: proxy.class.name,
+            attributes: {
+              name: proxy.name
+            }
+          }
+        }
       end
 
       def load_proxy_and_authorize
-        @proxy = current_service.where("subdomain = :subdomain OR id = :subdomain", subdomain: params[:id]).first
+        @proxy = current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:id], id: params[:id].to_i).first
         if @proxy.nil?
           return render status: 404, json: {
             errors: [{
@@ -21,6 +35,10 @@ module Api
                      }]
           }
         end
+      end
+
+      def current_proxy
+        @proxy
       end
     end
   end

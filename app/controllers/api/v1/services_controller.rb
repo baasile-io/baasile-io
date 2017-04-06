@@ -13,7 +13,8 @@ module Api
               name: service.name,
               description: service.description,
               website: service.website,
-              identifier: service.subdomain
+              identifier: service.subdomain,
+              scope: service.subdomain
             }
           }
         end
@@ -28,7 +29,8 @@ module Api
             name: current_service.name,
             description: current_service.description,
             website: current_service.website,
-            identifier: current_service.subdomain
+            identifier: current_service.subdomain,
+            scope: current_service.subdomain
           }
         }
       end

@@ -37,20 +37,18 @@ module Api
                 }
               },
               product: {
-                id: contract.proxy.id.to_s,
+                id: contract.proxy.subdomain,
                 type: contract.proxy.class.name,
                 attributes: {
-                  name: contract.proxy.name,
-                  identifier: contract.proxy.subdomain
+                  name: contract.proxy.name
                 }
               },
               routes: contract.proxy.routes.map {|route|
                 {
-                  id: route.id.to_s,
+                  id: route.subdomain,
                   type: route.class.name,
                   attributes: {
                     name: route.name,
-                    identifier: route.subdomain,
                     request_url: route.local_url('v1')
                   }
                 }
