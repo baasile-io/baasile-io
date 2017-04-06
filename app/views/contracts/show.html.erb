@@ -145,3 +145,15 @@
     <%= render partial: 'services/show_service_info', locals: {service: @contract.startup} %>
   </div>
 </div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.attributes.contract.proxy') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <%= render partial: 'proxies/show_proxy_info', locals: {proxy: @contract.proxy} %>
+  </div>
+</div>
