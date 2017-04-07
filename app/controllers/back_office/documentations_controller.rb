@@ -59,7 +59,7 @@ module BackOffice
     end
 
     def documentation_params
-      allowed_parameters = [:parent_id, :locale, :title, :body]
+      allowed_parameters = [:parent_id, :documentation_type, :public]
       I18n.available_locales.each do |locale|
         dictionary_params = {}
         dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]

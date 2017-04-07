@@ -12,6 +12,9 @@
         <th>
           <%= t('activerecord.attributes.documentation.title') %>
         </th>
+        <th>
+          <%= t('activerecord.attributes.documentation.public') %>
+        </th>
         <th></th>
       </tr>
       </thead>
@@ -22,6 +25,9 @@
             <%= "#{'&nbsp;&nbsp;' * doc.depth}".html_safe %>
             <i class="<%= t("types.documentation_types.#{doc.documentation_type}.icon") %>"></i>
             <%= doc.title %>
+          </td>
+          <td>
+            <%= t("misc.#{doc.public}") %>
           </td>
           <td class="text-right">
             <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_back_office_documentation_path(doc), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>

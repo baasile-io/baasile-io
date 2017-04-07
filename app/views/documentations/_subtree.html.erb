@@ -1,9 +1,11 @@
-<div class="list-group">
+<ul class="list-unstyled">
   <% arrange_nested_resources_collection(collection).each do |page| %>
-    <a href="<%= documentation_path(page.id) %>" class="list-group-item">
+    <li>
       <%= "#{'&nbsp;&nbsp;' * page.depth}".html_safe %>
-      <i class="<%= t("types.documentation_types.#{page.documentation_type}.icon") %>"></i>
-      &nbsp;<%= page.send("dictionary_#{I18n.locale}").title %>
-    </a>
+      <a href="<%= documentation_path(page.id) %>" class="<%= 'active' if @documentation.try(:id) == page.id %>">
+        <i class="<%= t("types.documentation_types.#{page.documentation_type}.icon") %>"></i>
+        <%= page.send("dictionary_#{I18n.locale}").title %>
+      </a>
+    </li>
   <% end %>
-</div>
+</ul>
