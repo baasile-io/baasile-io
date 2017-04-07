@@ -12,7 +12,9 @@ module BackOffice
 
     def new
       @documentation = Documentation.new(documentation_type: Documentation::DOCUMENTATION_TYPES[:root][:index])
-      @documentation.locale = params[:documentation_locale]
+      I18n.available_locales.each do |locale|
+        @documentation.send("build_dictionary_#{locale}")
+      end
     end
 
     def create
@@ -27,6 +29,7 @@ module BackOffice
     end
 
     def update
+      Rails.logger.info documentation_params.inspect
       if @documentation.update(documentation_params)
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.documentation'))
         redirect_to back_office_documentations_path
@@ -43,6 +46,9 @@ module BackOffice
     end
 
     def edit
+      I18n.available_locales.each do |locale|
+        @documentation.send("build_dictionary_#{locale}") if @documentation.send("dictionary_#{locale}").nil?
+      end
     end
 
     def load_documentation
@@ -55,6 +61,11 @@ module BackOffice
 
     def documentation_params
       allowed_parameters = [:parent_id, :locale, :title, :body]
+      I18n.available_locales.each do |locale|
+        dictionary_params = {}
+        dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]
+        allowed_parameters << dictionary_params
+      end
       params.require(:documentation).permit(allowed_parameters)
     end
 

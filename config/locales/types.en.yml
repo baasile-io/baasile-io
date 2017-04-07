@@ -3,6 +3,13 @@ en:
     authorization_modes:
       'null': 'No authentication required'
       oauth2: 'OAuth 2.0 client credentials grant'
+    documentation_types:
+      category:
+        title: 'Category'
+      page:
+        title: 'Page'
+      root:
+        title: 'Root'
     query_parameter_modes:
       mandatory: 'mandatory'
       optional: 'optional'

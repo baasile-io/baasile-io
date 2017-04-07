@@ -1,12 +1,30 @@
-<%= simple_form_for [:back_office, @documentation] do |f| %>
+<%= simple_form_for object do |f| %>
 
-  <%= error_messages_for(@documentation) %>
+  <%= error_messages_for(f.object) %>
 
-  <%= f.input :locale, as: :hidden %>
+  <%= f.input :parent_id, as: :select, collection: @documentation_tree.select {|el| (f.object.persisted? ? (el.id != f.object.id && !f.object.descendant_ids.include?(el.id)) : true)} %>
 
-  <%= f.input :parent_id, as: :select, collection: @documentation_tree.select {|el| el.locale == f.object.locale && (f.object.persisted? ? (el.id != f.object.id && !f.object.descendant_ids.include?(el.id)) : true)} %>
-  <%= f.input :title %>
-  <%= f.input :body, input_html: {rows: 30} %>
+  <ul class="nav nav-tabs" role="tablist">
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <li class="nav-item">
+        <a class="nav-link <%= 'active' if index == 0 %>" data-toggle="tab" href="#documentation_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <div role="tabpanel" class="tab-pane <%= 'active' if index == 0 %>" id="documentation_<%= locale %>">
+        <%= f.simple_fields_for "dictionary_#{locale}".to_sym do |f2| %>
+          <%= f2.input :locale, as: :hidden %>
+          <%= f2.input :title, as: :string %>
+          <%= f2.input :body, as: :trix_editor %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

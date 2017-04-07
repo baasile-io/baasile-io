@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406093127) do
+ActiveRecord::Schema.define(version: 20170407062219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,14 +88,28 @@ ActiveRecord::Schema.define(version: 20170406093127) do
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
+  create_table "dictionaries", force: :cascade do |t|
+    t.string   "localizable_type"
+    t.integer  "localizable_id"
+    t.string   "locale",           default: "fr"
+    t.text     "title"
+    t.text     "subtitle"
+    t.text     "body"
+    t.text     "footer"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["localizable_type", "localizable_id", "locale"], name: "index_on_localizable_and_locale", using: :btree
+  end
+
   create_table "documentations", force: :cascade do |t|
     t.integer  "documentation_type", default: 1
     t.string   "ancestry"
-    t.string   "locale",                         null: false
+    t.string   "locale",                             null: false
     t.string   "title"
     t.text     "body"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "public",             default: false
   end
 
   create_table "identifiers", force: :cascade do |t|
