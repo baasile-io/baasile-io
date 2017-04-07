@@ -2,7 +2,10 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :parent_id, as: :select, collection: @documentation_tree.select {|el| (f.object.persisted? ? (el.id != f.object.id && !f.object.descendant_ids.include?(el.id)) : true)} %>
+  <%= f.input :documentation_type, as: :select, collection: format_documentation_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
+  <%= f.input :parent_id, as: :select, collection: format_nested_resources_for_select(@documentation_tree, f.object.id), input_html: {class: 'select2'}, include_blank: t('misc.none_feminized') %>
+
+  <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
   <ul class="nav nav-tabs" role="tablist">
     <% I18n.available_locales.each.with_index(0) do |locale, index| %>

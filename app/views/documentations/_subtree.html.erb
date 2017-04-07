@@ -1,0 +1,9 @@
+<div class="list-group">
+  <% arrange_nested_resources_collection(collection).each do |page| %>
+    <a href="<%= documentation_path(page.id) %>" class="list-group-item">
+      <%= "#{'&nbsp;&nbsp;' * page.depth}".html_safe %>
+      <i class="<%= t("types.documentation_types.#{page.documentation_type}.icon") %>"></i>
+      &nbsp;<%= page.send("dictionary_#{I18n.locale}").title %>
+    </a>
+  <% end %>
+</div>

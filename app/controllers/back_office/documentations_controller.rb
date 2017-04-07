@@ -7,18 +7,18 @@ module BackOffice
     before_action :add_breadcrumb_current_action, except: [:index]
 
     def index
-      @collection = Documentation.platform.order(updated_at: :desc)
+      @collection = Documentation.roots
     end
 
     def new
-      @documentation = Documentation.new(documentation_type: Documentation::DOCUMENTATION_TYPES[:root][:index])
+      @documentation = Documentation.new
       I18n.available_locales.each do |locale|
         @documentation.send("build_dictionary_#{locale}")
       end
     end
 
     def create
-      @documentation = Documentation.new(documentation_type: Documentation::DOCUMENTATION_TYPES[:root][:index])
+      @documentation = Documentation.new
       @documentation.assign_attributes(documentation_params)
       if @documentation.save
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.documentation'))
@@ -29,7 +29,6 @@ module BackOffice
     end
 
     def update
-      Rails.logger.info documentation_params.inspect
       if @documentation.update(documentation_params)
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.documentation'))
         redirect_to back_office_documentations_path
@@ -56,7 +55,7 @@ module BackOffice
     end
 
     def load_documentation_tree
-      @documentation_tree = Documentation.platform
+      @documentation_tree = Documentation.roots
     end
 
     def documentation_params

@@ -16,9 +16,11 @@
       </tr>
       </thead>
       <tbody>
-      <% @collection.each do |doc| %>
+      <% arrange_nested_resources_collection(@collection).each do |doc| %>
         <tr>
           <td>
+            <%= "#{'&nbsp;&nbsp;' * doc.depth}".html_safe %>
+            <i class="<%= t("types.documentation_types.#{doc.documentation_type}.icon") %>"></i>
             <%= doc.title %>
           </td>
           <td class="text-right">

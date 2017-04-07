@@ -3,7 +3,7 @@ class DocumentationsController < ApplicationController
   before_action :load_markdown_parser
 
   def index
-    @collection = Documentation.platform.where(locale: I18n.locale)
+    @collection = Documentation.roots
   end
 
   def show

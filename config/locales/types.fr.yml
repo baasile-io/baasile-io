@@ -5,11 +5,11 @@ fr:
       oauth2: 'OAuth 2.0 client credentials grant'
     documentation_types:
       category:
+        icon: 'fa fa-fw fa-folder-open'
         title: 'Category'
       page:
+        icon: 'fa fa-fw fa-file-o'
         title: 'Page'
-      root:
-        title: 'Root'
     query_parameter_modes:
       mandatory: 'obligatoire'
       optional: 'optionnel'

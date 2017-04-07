@@ -29,5 +29,9 @@ class CreateDictionaries < ActiveRecord::Migration[5.0]
         end
       }
     end
+
+    remove_column :documentations, :title
+    remove_column :documentations, :body
+    remove_column :documentations, :locale
   end
 end
