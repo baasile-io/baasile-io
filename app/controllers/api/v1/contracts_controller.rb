@@ -1,61 +1,72 @@
 module Api
   module V1
     class ContractsController < ApiController
-      before_action :load_contract_and_authorize, except: [:index]
+      before_action :authorize_owner
 
       def index
-        render json: current_service.subtree.map(&:associated_contracts).flatten.map {|contract|
-          {
-            id: contract.id.to_s,
-            type: contract.class.name,
-            attributes: {
-              code: contract.code,
-              name: contract.name,
-              status: contract.status,
-              expected_start_date: contract.expected_start_date,
-              expected_end_date: contract.expected_end_date,
-              is_evergreen: contract.is_evergreen,
-              production: contract.production,
-              start_date: contract.start_date,
-              end_date: contract.end_date,
-              client: {
-                id: contract.client.client_id,
-                type: contract.client.class.name,
-                attributes: {
-                  name: contract.client.name,
-                  identifier: contract.client.subdomain,
-                  scope: contract.client.subdomain
-                }
-              },
-              supplier: {
-                id: contract.startup.client_id,
-                type: contract.startup.class.name,
-                attributes: {
-                  name: contract.startup.name,
-                  identifier: contract.startup.subdomain,
-                  scope: contract.startup.subdomain
-                }
-              },
-              product: {
-                id: contract.proxy.subdomain,
-                type: contract.proxy.class.name,
-                attributes: {
-                  name: contract.proxy.name
-                }
-              },
-              routes: contract.proxy.routes.map {|route|
-                {
-                  id: route.subdomain,
-                  type: route.class.name,
+        render json: {
+          data: current_service.subtree.map(&:associated_contracts).flatten.map {|contract|
+            {
+              id: contract.id.to_s,
+              type: contract.class.name,
+              attributes: {
+                code: contract.code,
+                name: contract.name,
+                status: contract.status,
+                expected_start_date: contract.expected_start_date,
+                expected_end_date: contract.expected_end_date,
+                is_evergreen: contract.is_evergreen,
+                production: contract.production,
+                start_date: contract.start_date,
+                end_date: contract.end_date,
+                client: {
+                  id: contract.client.subdomain,
+                  type: contract.client.class.name,
                   attributes: {
-                    name: route.name,
-                    request_url: route.local_url('v1')
+                    name: contract.client.name
+                  }
+                },
+                supplier: {
+                  id: contract.startup.subdomain,
+                  type: contract.startup.class.name,
+                  attributes: {
+                    name: contract.startup.name
+                  }
+                },
+                proxy: {
+                  id: contract.proxy.subdomain,
+                  type: contract.proxy.class.name,
+                  attributes: {
+                    name: contract.proxy.name,
+                    description: contract.proxy.description,
+                    category: contract.proxy.category.try(:name)
+                  }
+                },
+                routes: contract.proxy.routes.map {|route|
+                  {
+                    id: route.subdomain,
+                    type: route.class.name,
+                    attributes: {
+                      name: route.name,
+                      request_url: route.local_url('v1')
+                    }
                   }
                 }
               }
             }
           }
         }
+      end
+
+      def authorize_owner
+        if current_service.id != authenticated_service.id && !(current_service.parent && current_service.parent.id == authenticated_service.id)
+          return render status: 403, json: {
+            errors: [{
+                       status: 403,
+                       title: 'Forbidden private API'
+                     }]
+          }
+        end
       end
     end
   end
