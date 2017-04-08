@@ -15,21 +15,6 @@ class CreateDictionaries < ActiveRecord::Migration[5.0]
 
     add_column :documentations, :public, :boolean, default: false
 
-    reversible do |direction|
-      direction.up {
-        Documentation.all.each do |doc|
-          Dictionary.create(
-            {
-              localizable: doc,
-              locale: doc.locale,
-              title: doc.title,
-              body: doc.body
-            }
-          )
-        end
-      }
-    end
-
     remove_column :documentations, :title
     remove_column :documentations, :body
     remove_column :documentations, :locale
