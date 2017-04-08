@@ -4,8 +4,24 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <div class="documentation_body">
-      <%= @markdown.render(@documentation.body).html_safe %>
+    <div class="row">
+      <div class="col-sm-4">
+        <small>
+          <%= render partial: 'subtree', locals: {collection: Documentation.roots.published} %>
+        </small>
+      </div>
+      <div class="col-sm-8">
+        <div class="documentation_body">
+          <small class="float-right text-right text-muted">
+            <%= t('misc.last_modified') %><br />
+            <%= l(@documentation.last_modified, format: :short) %>
+          </small>
+          <h2><%= @documentation.title %></h2>
+          <div class="trix-content">
+            <%= @documentation.body.html_safe %>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

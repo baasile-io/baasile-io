@@ -22,6 +22,12 @@ en:
         phone: "Phone Number"
         siret: "SIRET Number"
         zip: "Zip Code"
+      dictionary:
+        body: 'Body'
+        footer: 'Footer'
+        locale: 'Language'
+        subtitle: 'Sub title'
+        title: 'Titre'
       documentation:
         ancestry: 'Parent'
         body: 'Content'
@@ -159,6 +165,7 @@ en:
       comment: 'Comment'
       company: 'Aggregator'
       contact_detail: 'Contact Detail'
+      dictionary: 'Dictionary'
       documentation: 'Documentation'
       identifier: 'Credential'
       contract: 'Contract'

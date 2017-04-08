@@ -1,7 +1,7 @@
 class CreateDocumentations < ActiveRecord::Migration[5.0]
   def change
     create_table :documentations do |t|
-      t.integer :documentation_type, default: 1 # :root
+      t.integer :documentation_type, default: 1
       t.string :ancestry
       t.string :locale, null: false
       t.string :title

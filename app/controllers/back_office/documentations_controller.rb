@@ -7,16 +7,18 @@ module BackOffice
     before_action :add_breadcrumb_current_action, except: [:index]
 
     def index
-      @collection = Documentation.platform.order(updated_at: :desc)
+      @collection = Documentation.roots
     end
 
     def new
-      @documentation = Documentation.new(documentation_type: Documentation::DOCUMENTATION_TYPES[:root][:index])
-      @documentation.locale = params[:documentation_locale]
+      @documentation = Documentation.new
+      I18n.available_locales.each do |locale|
+        @documentation.send("build_dictionary_#{locale}")
+      end
     end
 
     def create
-      @documentation = Documentation.new(documentation_type: Documentation::DOCUMENTATION_TYPES[:root][:index])
+      @documentation = Documentation.new
       @documentation.assign_attributes(documentation_params)
       if @documentation.save
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.documentation'))
@@ -43,6 +45,9 @@ module BackOffice
     end
 
     def edit
+      I18n.available_locales.each do |locale|
+        @documentation.send("build_dictionary_#{locale}") if @documentation.send("dictionary_#{locale}").nil?
+      end
     end
 
     def load_documentation
@@ -50,11 +55,16 @@ module BackOffice
     end
 
     def load_documentation_tree
-      @documentation_tree = Documentation.platform
+      @documentation_tree = Documentation.roots
     end
 
     def documentation_params
-      allowed_parameters = [:parent_id, :locale, :title, :body]
+      allowed_parameters = [:parent_id, :documentation_type, :public]
+      I18n.available_locales.each do |locale|
+        dictionary_params = {}
+        dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]
+        allowed_parameters << dictionary_params
+      end
       params.require(:documentation).permit(allowed_parameters)
     end
 

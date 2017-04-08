@@ -80,6 +80,7 @@ module Api
           token_type: 'Bearer',
           expires_in: expires_in,
           auth_token: auth_token,
+          access_token: auth_token,
           refresh_token: @refresh_token.value,
           scope: @refresh_token.scope
         }

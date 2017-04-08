@@ -7,30 +7,50 @@ module Api
         services = Service.published
         services_restrict = services.map do |service|
           {
-            id: service.client_id,
+            id: service.subdomain,
             type: service.class.name,
             attributes: {
               name: service.name,
               description: service.description,
               website: service.website,
-              identifier: service.subdomain,
-              scope: service.subdomain
+              proxies: service.proxies.map {|proxy|
+                {
+                  id: proxy.subdomain,
+                  type: proxy.class.name,
+                  attributes: {
+                    name: proxy.name,
+                    description: proxy.description,
+                    category: proxy.category.try(:name)
+                  }
+                }
+              }
             }
           }
         end
-        render json: services_restrict
+        render json: {data: services_restrict}
       end
 
       def show
         render json: {
-          id: current_service.client_id,
-          type: current_service.class.name,
-          attributes: {
-            name: current_service.name,
-            description: current_service.description,
-            website: current_service.website,
-            identifier: current_service.subdomain,
-            scope: current_service.subdomain
+          data: {
+            id: current_service.subdomain,
+            type: current_service.class.name,
+            attributes: {
+              name: current_service.name,
+              description: current_service.description,
+              website: current_service.website,
+              proxies: current_service.proxies.map {|proxy|
+                {
+                  id: proxy.subdomain,
+                  type: proxy.class.name,
+                  attributes: {
+                    name: proxy.name,
+                    description: proxy.description,
+                    category: proxy.category.try(:name)
+                  }
+                }
+              }
+            }
           }
         }
       end

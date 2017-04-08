@@ -25,11 +25,16 @@ $(document).ready(function(e) {
     var el = $(s.element);
     var icon = el.data('icon');
     var type_class = el.data('class');
+    var depth = el.data('depth');
     var text_right = el.data('text-right');
     var description = el.data('description');
     var template = '';
     if (typeof text_right != 'undefined')
       template = template + '<span class="float-right text-muted">' + text_right + '</span>';
+    if (typeof depth != 'undefined' && depth != '0')
+      var i = parseInt(depth);
+    while (i-- >= 0)
+      template = template + '&nbsp;';
     if (typeof icon != 'undefined')
       template = template + '<i class="' + icon + '"></i> ';
     template = template + '<span class="' + type_class + '">' + s.text + '</span>';
@@ -45,15 +50,12 @@ $(document).ready(function(e) {
     var icon = el.data('icon');
     var type_class = el.data('class');
     var text_right = el.data('text-right');
-    var description = el.data('description');
     var template = '';
     if (typeof text_right != 'undefined')
       template = template + '<span class="float-right text-muted">' + text_right + '</span>';
     if (typeof icon != 'undefined')
       template = template + '<i class="' + icon + '"></i> ';
     template = template + '<span class="' + type_class + '">' + s.text + '</span>';
-    if (typeof description != 'undefined')
-      template = template + ' / <small>' + description + '</small>';
     return template;
   }
 

@@ -1,0 +1,11 @@
+<ul class="list-unstyled">
+  <% arrange_nested_resources_collection(collection, Proc.new {|page| page.public}).each do |page| %>
+    <li>
+      <%= "#{'&nbsp;&nbsp;' * page.depth}".html_safe %>
+      <a href="<%= documentation_path(page.id) %>" class="<%= 'active' if @documentation.try(:id) == page.id %>">
+        <i class="<%= t("types.documentation_types.#{page.documentation_type}.icon") %>"></i>
+        <%= page.send("dictionary_#{I18n.locale}").title %>
+      </a>
+    </li>
+  <% end %>
+</ul>

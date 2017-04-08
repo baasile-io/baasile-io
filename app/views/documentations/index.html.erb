@@ -3,13 +3,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <div class="list-group">
-      <% @collection.each do |page| %>
-        <a href="<%= documentation_path(page.id) %>" class="list-group-item">
-          <%= page.title %>
-        </a>
-      <% end %>
-    </div>
+    <%= render partial: 'subtree', locals: {collection: @collection} %>
 
   </div>
 </div>

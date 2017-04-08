@@ -22,6 +22,12 @@ fr:
         phone: "Numéro de téléphone"
         siret: "Numéro de SIRET"
         zip: "Code postal"
+      dictionary:
+        body: 'Corps'
+        footer: 'Pied de page'
+        locale: 'Langue'
+        subtitle: 'Sous-titre'
+        title: 'Titre'
       documentation:
         ancestry: 'Parent'
         body: 'Contenu'
@@ -171,6 +177,7 @@ fr:
       comment: 'Commentaire'
       company: 'Aggrétateur'
       contact_detail: 'Coordonnées'
+      dictionary: 'Dictionnaire'
       documentation: 'Documentation'
       identifier: 'Identifiant'
       contract: 'Contrat'

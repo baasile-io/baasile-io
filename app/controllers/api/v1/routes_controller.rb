@@ -74,14 +74,16 @@ module Api
       end
 
       def index
-        render json: current_proxy.routes.map {|route|
-          {
-            id: route.subdomain,
-            type: route.class.name,
-            attributes: {
-              name: route.name,
-              request_url: route.local_url('v1'),
-              allowed_methods: route.allowed_methods
+        render json: {
+          data: current_proxy.routes.map {|route|
+            {
+              id: route.subdomain,
+              type: route.class.name,
+              attributes: {
+                name: route.name,
+                request_url: route.local_url('v1'),
+                allowed_methods: route.allowed_methods
+              }
             }
           }
         }
@@ -89,12 +91,14 @@ module Api
 
       def show
         render json: {
-          id: current_route.subdomain,
-          type: current_route.class.name,
-          attributes: {
-            name: current_route.name,
-            request_url: current_route.local_url('v1'),
-            allowed_methods: current_route.allowed_methods
+          data: {
+            id: current_route.subdomain,
+            type: current_route.class.name,
+            attributes: {
+              name: current_route.name,
+              request_url: current_route.local_url('v1'),
+              allowed_methods: current_route.allowed_methods
+            }
           }
         }
       end

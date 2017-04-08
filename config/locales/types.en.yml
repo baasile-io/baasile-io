@@ -3,6 +3,16 @@ en:
     authorization_modes:
       'null': 'No authentication required'
       oauth2: 'OAuth 2.0 client credentials grant'
+    documentation_types:
+      article:
+        icon: 'fa fa-fw fa-file'
+        title: 'Article'
+      category:
+        icon: 'fa fa-fw fa-folder-open'
+        title: 'Category'
+      section:
+        icon: 'fa fa-fw fa-angle-right'
+        title: 'Section'
     query_parameter_modes:
       mandatory: 'mandatory'
       optional: 'optional'

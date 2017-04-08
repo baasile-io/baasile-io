@@ -17,6 +17,7 @@ en:
     included: 'included'
     invalid_fields: 'Invalid Fields'
     last_comment: 'Last comment'
+    last_modified: 'Last modified'
     locales:
       en: 'English'
       fr: 'French'
