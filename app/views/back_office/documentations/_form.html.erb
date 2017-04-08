@@ -3,7 +3,7 @@
   <%= error_messages_for(f.object) %>
 
   <%= f.input :documentation_type, as: :select, collection: format_documentation_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
-  <%= f.input :parent_id, as: :select, collection: format_nested_resources_for_select(@documentation_tree, f.object.id), input_html: {class: 'select2'}, include_blank: t('misc.none_feminized') %>
+  <%= f.input :parent_id, as: :select, collection: format_nested_documentations_for_select(@documentation_tree, f.object.id), input_html: {class: 'select2'}, include_blank: t('misc.none_feminized') %>
 
   <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
