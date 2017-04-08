@@ -68,7 +68,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
 gem "breadcrumbs_on_rails"
-gem 'redcarpet'
 
 # Background jobs
 #gem 'apartment-sidekiq'

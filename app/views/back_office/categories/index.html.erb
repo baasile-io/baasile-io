@@ -26,7 +26,7 @@
           <%= category.name %>
         </td>
         <td>
-          <small class="text-muted"><%= category.description %></small>
+          <small class="trix-content"><%= category.description.html_safe %></small>
         </td>
         <td class="text-right">
           <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_category_path(category), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>

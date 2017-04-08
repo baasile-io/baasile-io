@@ -17,6 +17,7 @@ fr:
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     last_comment: 'Dernier commentaire'
+    last_modified: 'Dernière modification'
     locales:
       en: 'Anglais'
       fr: 'Français'

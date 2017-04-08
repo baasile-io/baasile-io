@@ -5,21 +5,29 @@ module Api
 
       def show
         render json: {
-          id: current_proxy.subdomain,
-          type: current_proxy.class.name,
-          attributes: {
-            name: current_proxy.name
+          data: {
+            id: current_proxy.subdomain,
+            type: current_proxy.class.name,
+            attributes: {
+              name: current_proxy.name,
+              description: current_proxy.description,
+              category: current_proxy.category.try(:name)
+            }
           }
         }
       end
 
       def index
-        render json: current_service.proxies.map {|proxy|
-          {
-            id: proxy.subdomain,
-            type: proxy.class.name,
-            attributes: {
-              name: proxy.name
+        render json: {
+          data: current_service.proxies.map {|proxy|
+            {
+              id: proxy.subdomain,
+              type: proxy.class.name,
+              attributes: {
+                name: proxy.name,
+                description: proxy.description,
+                category: proxy.category.try(:name)
+              }
             }
           }
         }

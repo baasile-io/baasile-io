@@ -4,11 +4,14 @@ module BackOffice
     before_action :load_category, except: [:index, :new, :create]
 
     def index
-      @collection = Category.all.order(name: :asc)
+      @collection = Category.all
     end
 
     def new
       @category = Category.new
+      I18n.available_locales.each do |locale|
+        @category.send("build_dictionary_#{locale}")
+      end
     end
 
     def create
@@ -40,6 +43,9 @@ module BackOffice
 
     def edit
       @page_title = @category.name
+      I18n.available_locales.each do |locale|
+        @category.send("build_dictionary_#{locale}") if @category.send("dictionary_#{locale}").nil?
+      end
     end
 
     private
@@ -50,6 +56,11 @@ module BackOffice
 
     def category_params
       allowed_parameters = [:name, :description]
+      I18n.available_locales.each do |locale|
+        dictionary_params = {}
+        dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]
+        allowed_parameters << dictionary_params
+      end
       params.require(:category).permit(allowed_parameters)
     end
 
