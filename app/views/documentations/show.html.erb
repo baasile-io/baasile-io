@@ -16,11 +16,19 @@
             <%= t('misc.last_modified') %><br />
             <%= l(@documentation.last_modified, format: :short) %>
           </small>
+          <% unless @documentation.parent.nil? %>
+            <a href="<%= documentation_path(@documentation.parent) %>" class="btn btn-link btn-sm"><%= t('actions.back') %></a>
+          <% end %>
           <h2><%= @documentation.title %></h2>
           <div class="trix-content">
             <%= @documentation.body.html_safe %>
           </div>
         </div>
+
+        <% if @documentation.has_children? %>
+          <hr style="margin-top: 30px;margin-bottom: 30px;">
+          <%= render partial: 'subtree', locals: {collection: @documentation.children} %>
+        <% end %>
       </div>
     </div>
 
