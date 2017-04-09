@@ -83,6 +83,10 @@
     </div>
   </div>
 
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application' %>
+  <script type="text/javascript">
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
+
 </body>
 </html>

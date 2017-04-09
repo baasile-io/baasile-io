@@ -9,6 +9,8 @@
       <thead>
       <tr>
         <th colspan="2" class="width-40"><%= t('activerecord.attributes.proxy.name') %></th>
+        <th><%= t('activerecord.attributes.proxy.category') %></th>
+        <th><%= t('activerecord.attributes.proxy.public') %></th>
         <th></th>
       </tr>
       </thead>
@@ -20,7 +22,13 @@
           </td>
           <td>
             <strong><%= proxy.name %></strong><br />
-            <small class="text-muted"><%= proxy.description %></small>
+            <small class="text-muted"><%= simple_format(proxy.description) %></small>
+          </td>
+          <td>
+            <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %>
+          </td>
+          <td>
+            <%= t("misc.#{proxy.public}") %>
           </td>
           <td class="text-right">
             <%= link_to t('actions.configure'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>

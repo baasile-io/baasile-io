@@ -10,7 +10,7 @@ module ServicesHelper
 
   def format_service_types_for_select
     Service::SERVICE_TYPES.map do |key, _|
-      ["#{I18n.t("types.service_types.#{key}.title")}", key, {'data-class': "#{t("types.service_types.#{key}.class")}", 'data-icon': "#{I18n.t("types.service_types.#{key}.icon")}"}]
+      ["#{I18n.t("types.service_types.#{key}.title")}", key, {'data-class': "#{t("types.service_types.#{key}.class")}", 'data-icon': "#{I18n.t("types.service_types.#{key}.icon")}", 'data-description': "#{I18n.t("types.service_types.#{key}.description")}"}]
     end
   end
 

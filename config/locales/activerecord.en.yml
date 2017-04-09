@@ -85,6 +85,7 @@ en:
         category_id: 'Category'
         description: 'Description'
         name: 'Name'
+        public: 'Published on catalog'
         service: 'Enterprise'
         service_id: 'Enterprise'
         subdomain: 'Public identifier'

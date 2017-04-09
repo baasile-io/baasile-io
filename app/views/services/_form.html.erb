@@ -43,10 +43,10 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_main %>" id="service_main">
 
-      <%= f.input :service_type, collection: format_service_types_for_select, input_html: {class: 'select2'} %>
+      <%= f.input :service_type, collection: format_service_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
 
       <% if @companies.size > 0 %>
-        <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
+        <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none'), input_html: {class: 'services-select2'} %>
       <% end %>
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>

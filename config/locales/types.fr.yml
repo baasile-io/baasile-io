@@ -41,18 +41,21 @@ fr:
       male: 'M.'
       female: 'Mme'
     service_types:
-      startup:
-        class: 'text-danger'
-        icon: 'fa fa-fw fa-cube text-danger'
-        title: 'Startup'
       client:
         class: 'text-info'
+        description: 'Les comptes Client peuvent uniquement consommer les API.'
         icon: 'fa fa-fw fa-cube text-info'
         title: 'Client'
       company:
         class: ''
+        description: 'Les comptes Aggrégateur peuvent gérer de multiples comptes Client et Fournisseur.'
         icon: 'fa fa-fw fa-cubes'
         title: 'Aggrétateur'
+      startup:
+        class: 'text-danger'
+        description: 'Les comptes Fournisseur peuvent consommer et fournir des API.'
+        icon: 'fa fa-fw fa-cube text-danger'
+        title: 'Fournisseur'
     contract_statuses:
       creation:
         class: 'text-muted'

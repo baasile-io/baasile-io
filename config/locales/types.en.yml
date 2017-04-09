@@ -37,15 +37,21 @@ en:
       male: 'Mr.'
       female: 'Ms.'
     service_types:
-      startup:
-        icon: 'fa fa-fw fa-cube'
-        title: 'Startup'
       client:
+        class: 'text-info'
+        description: 'Client accounts can only access to API as consumer.'
         icon: 'fa fa-fw fa-cube'
         title: 'Client'
       company:
+        class: ''
+        description: 'Aggregator accounts can manage multiple Client and Service Provider accounts.'
         icon: 'fa fa-fw fa-bank'
         title: 'Aggregator'
+      startup:
+        class: ''
+        description: 'Service Provider accounts can consume and provide API.'
+        icon: 'fa fa-fw fa-cube'
+        title: 'Service Provider'
     contract_statuses:
       creation:
         class: 'text-muted'
