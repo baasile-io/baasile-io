@@ -49,11 +49,16 @@ class Contract < ApplicationRecord
     },
     commercial_validation_sp: {
       index: 4,
-      scope: 'commercial',
       can: {
         show: {
           client: ['commercial'],
           startup: ['commercial']
+        },
+        edit: {
+          client: ['commercial']
+        },
+        update: {
+          client: ['commercial']
         },
         validate: {
           startup: ['commercial']
@@ -75,7 +80,7 @@ class Contract < ApplicationRecord
       conditions: {
         validate: Proc.new {|c| true}
       },
-      allowed_parameters: [],
+      allowed_parameters: [:expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
       prev: :creation
     },

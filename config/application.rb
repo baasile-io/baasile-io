@@ -35,5 +35,8 @@ module BaasileIo
 
     # add custom inputs
     config.autoload_paths += %W["#{config.root}/app/inputs/"]
+
+    # add services path
+    config.autoload_paths += %W["#{config.root}/app/services/**/*"]
   end
 end

@@ -17,20 +17,24 @@ class User < ApplicationRecord
   # Ancestry
   has_ancestry orphan_strategy: :adopt
 
-  has_many :categories
-  has_many :companies
-  has_many :services
-  has_many :proxies
-  has_many :routes
-  has_many :query_parameters
-  has_many :prices
-  has_many :price_parameters
+  has_many :categories, dependent: :nullify
+  has_many :companies, dependent: :nullify
+  has_many :services, dependent: :nullify
+  has_many :proxies, dependent: :nullify
+  has_many :routes, dependent: :nullify
+  has_many :query_parameters, dependent: :nullify
+  has_many :prices, dependent: :nullify
+  has_many :price_parameters, dependent: :nullify
 
-  has_many :user_associations
+  has_many :user_associations, dependent: :destroy
   has_many :services, through: :user_associations, source: :associable, source_type: Service.name
   has_many :companies, through: :user_associations, source: :associable, source_type: Company.name
 
-  validates :phone, phone: true
+  has_many :services_as_main_commercial, class_name: Service.name, primary_key: 'main_commercial_id', dependent: :nullify
+  has_many :services_as_main_accountant, class_name: Service.name, primary_key: 'main_accountant_id', dependent: :nullify
+  has_many :services_as_main_developer, class_name: Service.name, primary_key: 'main_developer_id', dependent: :nullify
+
+  validates :phone, phone: true, if: Proc.new {self.phone.present?}
   validates :email, presence: true, uniqueness: true
   validates :gender, presence: true
   validates :first_name, presence: true

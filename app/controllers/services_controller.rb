@@ -75,10 +75,6 @@ class ServicesController < ApplicationController
     end
   end
 
-  def users
-    @users = current_service.users
-  end
-
   private
 
   def service_params

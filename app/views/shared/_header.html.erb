@@ -34,7 +34,7 @@
               </li>
             <% end %>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
+              <a class="nav-link <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
             </li>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if !current_contract.nil? || controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
@@ -212,6 +212,11 @@
             <% if current_user.is_commercial? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+              </li>
+            <% end %>
+            <% if current_user.is_admin? %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
               </li>
             <% end %>
             <li class="nav-item">

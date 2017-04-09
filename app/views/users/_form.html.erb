@@ -1,0 +1,36 @@
+<%= simple_form_for object do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :email, hint: (t('devise.registrations.pending_reconfirmation', email: f.object.unconfirmed_email) if f.object.pending_reconfirmation?) %>
+
+  <%= f.input :gender, as: :select, collection: format_gender_for_select, input_html: {class: 'col-sm-2'} %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+
+  <%= f.input :phone, hint: t('users.form.hints.phone')%>
+
+  <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
+
+  <% if f.object.persisted? %>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="send_reset_password"></label>
+      <div class="col-md-9">
+        <label>
+          <%= check_box_tag :send_reset_password, 'true', params[:send_reset_password].present? %>
+          <%= t('actions.send_reset_password') %>
+        </label>
+        <small class="form-text text-muted"><%= t('back_office.users.form.hints.send_reset_password') %></small>
+      </div>
+    </div>
+
+  <% end %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

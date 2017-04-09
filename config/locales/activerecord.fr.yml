@@ -150,7 +150,7 @@ fr:
         name: 'Nom'
         parent: 'Aggrégateur'
         parent_id: 'Aggrégateur'
-        public: 'Référencer dans le catalogue'
+        public: 'Publié dans le catalogue'
         user: 'Administrateur'
         user_id: 'Administrateur'
         website: 'Site Internet'

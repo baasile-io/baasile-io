@@ -39,5 +39,6 @@ fr:
     roles: 'Rôles'
     'true': 'Oui'
     unconfirmed: 'Inactif'
+    unknown_user: 'Utilisateur introuvable'
     waiting_for_validation: 'En attente de validation'
     yes: 'Oui'

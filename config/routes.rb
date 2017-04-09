@@ -36,7 +36,9 @@ Rails.application.routes.draw do
   end
 
   resources :documentations
-  
+
+  resources :users
+
   resources :services do
     resources :contracts do
       member do
@@ -51,6 +53,16 @@ Rails.application.routes.draw do
       end
       resources :prices do
         resources :price_parameters
+      end
+    end
+    resources :users do
+      member do
+        put :toggle_role
+        delete :disassociate
+      end
+      collection do
+        post :invite_by_email
+        post :invite_by_id
       end
     end
     member do

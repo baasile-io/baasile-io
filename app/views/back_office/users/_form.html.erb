@@ -6,7 +6,7 @@
 
   <%= f.input :email %>
 
-  <%= f.input :gender, as: :select, collection: format_gender_for_select %>
+  <%= f.input :gender, as: :select, collection: format_gender_for_select, input_html: {class: 'col-sm-2'} %>
   <%= f.input :first_name %>
   <%= f.input :last_name %>
 

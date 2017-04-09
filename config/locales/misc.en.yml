@@ -39,5 +39,6 @@ en:
     roles: 'Roles'
     'true': 'Yes'
     unconfirmed: 'Not active'
+    unknown_user: 'Unable to find user'
     waiting_for_validation: 'Waiting for validation'
     yes: 'Yes'

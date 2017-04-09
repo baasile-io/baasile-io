@@ -1,0 +1,10 @@
+<% content_for(:page_back) { service_users_path(current_service) } if current_service %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container">
+
+    <%= render partial: 'form', locals: {object: (current_service.nil? ? @user : [current_service, @user])} %>
+
+  </div>
+</div>

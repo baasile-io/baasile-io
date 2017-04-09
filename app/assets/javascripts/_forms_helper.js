@@ -76,7 +76,7 @@ $(document).ready(function(e) {
     var parent_service_type = el.data('parent-type');
     var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
     if (typeof parent_service != 'undefined')
-      template = '<small class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></small> ' + template;
+      template = '<span class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></span> ' + template;
     return template + '</span>';
   }
 

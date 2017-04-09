@@ -4,6 +4,7 @@ fr:
     add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
     add_association: 'Ajouter une association'
+    add_user: "Ajouter l'utilisateur"
     add_price_parameter: 'Ajouter un critère de tarification'
     admin_list: 'liste des administrateurs'
     associate: 'Associer'

@@ -5,6 +5,8 @@ fr:
     confirmations:
       new:
         title: 'Instructions de confirmation'
+    edit:
+      title: "Modifier l'utilisateur"
     index:
       title: 'Utilisateurs'
     form:
@@ -19,6 +21,8 @@ fr:
         subject: "Instructions pour déverrouiller le compte"
       password_change:
         subject: "Votre mot de passe a été modifié avec succés."
+    new:
+      title: "Créer un utilisateur"
     passwords:
       edit:
         title: 'Changer de mot de passe'

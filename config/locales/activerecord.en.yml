@@ -138,7 +138,7 @@ en:
         name: 'Name'
         parent: 'Aggregator'
         parent_id: 'Aggregator'
-        public: 'Publish in catalog'
+        public: 'Publish on catalog'
         user: 'Administrator'
         user_id: 'Administrator'
         website: 'Website'

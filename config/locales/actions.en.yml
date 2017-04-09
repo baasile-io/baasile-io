@@ -4,6 +4,7 @@ en:
     add: 'Add'
     add_admin: 'Add an administrator'
     add_association: 'Add an association'
+    add_user: 'Add user'
     add_price_parameter: 'Add pricing criteria'
     admin_list: 'administrator list'
     associate: 'Associate'

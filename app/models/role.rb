@@ -4,9 +4,13 @@ class Role < ApplicationRecord
   CONTROLLER_AUTHORIZATIONS = {
     services: {
       show: USER_ROLES.dup,
-      users: USER_ROLES.dup,
       edit: [:admin],
       update: [:admin]
+    },
+    users: {
+      index: USER_ROLES.dup,
+      new: [:admin],
+      create: [:admin]
     },
     proxies: {
       index: USER_ROLES.dup,

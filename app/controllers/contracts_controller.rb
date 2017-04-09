@@ -5,7 +5,7 @@ class ContractsController < ApplicationController
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
-  before_action :load_active_proxies_and_authorize, only: [:new, :edit, :update, :create]
+  before_action :load_active_proxies, only: [:new, :edit, :update, :create]
 
   # Authorization
   before_action :authorize_action
@@ -185,18 +185,22 @@ class ContractsController < ApplicationController
   end
 
   def load_active_services
-    @services = Service.activated_startups()
+    if current_contract && current_contract.persisted?
+      @services = [current_contract.startup]
+    else
+      @services = Service.activated_startups
+    end
   end
 
   def load_active_client
-    @clients = Service.activated_clients()
+    @clients = Service.activated_clients
   end
 
-  def load_active_proxies_and_authorize
+  def load_active_proxies
     @proxies = []
     @services.each do |service|
       service.proxies.each do |proxy|
-        @proxies << proxy
+        @proxies << proxy if proxy.public || proxy.service.id == current_service.id || (current_contract && current_contract.proxy_id == proxy.id)
       end
     end
     if @proxies.count == 0

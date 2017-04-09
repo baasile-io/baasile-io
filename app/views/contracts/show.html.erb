@@ -3,33 +3,6 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <section class="row text-left">
-      <div class="col-4">
-        <h4><i class="<%= t("types.service_types.#{@contract.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.client.service_type}.class") %>"><%= @contract.client.name %></span></h4>
-        <div class="text-muted"><%= t('activerecord.attributes.contract.client') %></div>
-      </div>
-      <div class="col-4">
-        <h4><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></h4>
-        <div class="text-muted"><%= t('activerecord.attributes.contract.startup') %></div>
-      </div>
-      <div class="col-4">
-        <h4><i class="fa fa-fw fa-sitemap"></i> <%= @contract.proxy.name %></h4>
-        <div class="text-muted"><%= t('activerecord.attributes.contract.proxy') %></div>
-      </div>
-    </section>
-
-  </div>
-</div>
-
-<div class="b-io-content--header">
-  <div class="container-fluid">
-    <div class="b-io-content--header--controls"></div>
-    <h4><%= t('activerecord.attributes.contract.status') %></h4>
-  </div>
-</div>
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
     <div class="row">
       <div class="col-3 text-right">
         <strong><%= t('activerecord.attributes.contract.status') %></strong>
@@ -37,6 +10,28 @@
       <div class="col-9">
         <strong><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></strong><br />
         <small class="text-muted"><%= t("types.contract_statuses.#{@contract.status}.description") %></small>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.startup') %></strong>
+      </div>
+      <div class="col-9">
+        <strong><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></span></strong><br />
+        <small class="text-muted"><%= simple_format(@contract.startup.description) %></small>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.proxy') %></strong>
+      </div>
+      <div class="col-9">
+        <i class="fa fa-fw fa-sitemap"></i> <strong><%= @contract.proxy.name %></strong><br />
+        <small class="text-muted"><%= simple_format(@contract.proxy.description) %></small>
       </div>
     </div>
 
@@ -96,6 +91,10 @@
           <div class="pull-right">
             <%= button_to t('actions.cancel_contract'), (current_service.nil? ? cancel_contract_path(@contract) : cancel_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
           </div>
+        <% end %>
+
+        <% if @contract.can?(current_user, :edit) %>
+          <%= link_to t('actions.edit'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
 
         <% if @contract.can?(current_user, :prices) %>
