@@ -10,7 +10,14 @@ class Role < ApplicationRecord
     users: {
       index: USER_ROLES.dup,
       new: [:admin],
-      create: [:admin]
+      create: [:admin],
+      edit: [:admin],
+      update: [:admin],
+      destroy: [:admin],
+      disassociate: [:admin],
+      toggle_role: [:admin],
+      invite_by_id: [:admin],
+      invite_by_email: [:admin]
     },
     proxies: {
       index: USER_ROLES.dup,
