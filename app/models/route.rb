@@ -24,7 +24,9 @@ class Route < ApplicationRecord
 
   validates :name, uniqueness: {scope: :proxy_id}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
-  validates :url, format: {with: /\A\//}, presence: true
+  validates :url, presence: true
+  validates :url, format: {with: /\A\//}
+  validates :url, format: {without: /\?/, message: I18n.t('errors.messages.parameters_not_allowed')}
   validate :validate_methods
 
   def validate_methods

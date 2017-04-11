@@ -10,6 +10,7 @@ en:
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"
+      parameters_not_allowed: 'must not contain params'
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'
