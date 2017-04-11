@@ -110,13 +110,13 @@ module Api
       end
 
       def current_proxy
-        @current_proxy ||= Proxy.where("subdomain = :subdomain OR id = :id", subdomain: params[:proxy_id], id: params[:proxy_id].to_i).first
+        @current_proxy ||= Proxy.where("subdomain = :subdomain OR id = :id", subdomain: params[:proxy_id].to_s, id: params[:proxy_id].to_i).first
       rescue
         nil
       end
 
       def current_route
-        @current_route ||= current_proxy.routes.where("subdomain = :subdomain OR id = :id", subdomain: params[:id], id: params[:id].to_i).first
+        @current_route ||= current_proxy.routes.where("subdomain = :subdomain OR id = :id", subdomain: params[:id].to_s, id: params[:id].to_i).first
       rescue
         nil
       end

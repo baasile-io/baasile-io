@@ -34,7 +34,7 @@ module Api
       end
 
       def load_proxy_and_authorize
-        @proxy = current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:id], id: params[:id].to_i).first
+        @proxy = current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:id].to_s, id: params[:id].to_i).first
         if @proxy.nil?
           return render status: 404, json: {
             errors: [{
