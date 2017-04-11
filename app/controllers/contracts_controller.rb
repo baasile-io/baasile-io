@@ -42,7 +42,6 @@ class ContractsController < ApplicationController
     @contract.user = current_user
     @contract.assign_attributes(contract_params(:creation))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
-    @contract.company = @contract.client.company unless @contract.client.company.nil?  unless @contract.client.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
@@ -60,7 +59,6 @@ class ContractsController < ApplicationController
   def update
     @contract.assign_attributes(contract_params(@contract.status))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
-    @contract.company = @contract.client.company unless @contract.client.company.nil? unless @contract.client.nil?
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show

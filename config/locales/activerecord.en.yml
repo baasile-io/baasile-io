@@ -135,7 +135,7 @@ en:
         main_commercial_id: 'Main commercial'
         main_developer: 'Main technical'
         main_developer_id: 'Main technical'
-        name: 'Name'
+        name: 'Enterprise Name'
         parent: 'Aggregator'
         parent_id: 'Aggregator'
         public: 'Publish on catalog'

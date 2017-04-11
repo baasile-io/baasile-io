@@ -147,7 +147,7 @@ fr:
         main_commercial_id: 'Responsable commercial'
         main_developer: 'Responsable technique'
         main_developer_id: 'Responsable technique'
-        name: 'Nom'
+        name: "Nom de l'entreprise"
         parent: 'Aggrégateur'
         parent_id: 'Aggrégateur'
         public: 'Publié dans le catalogue'
