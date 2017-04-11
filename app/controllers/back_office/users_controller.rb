@@ -48,7 +48,6 @@ module BackOffice
 
     def assign_random_password
       ::Users::UserPasswordsService.new(@user).assign_random_password
-      @user.password_confirmation = @user.password = temporary_password = (('a'..'k').to_a + ('L'..'Z').to_a + ('0'..'9').to_a + ['/', '.', '?', '%']).shuffle.join
     end
 
     def destroy

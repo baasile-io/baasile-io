@@ -10,14 +10,15 @@ module Users
     end
 
     def reset_password
-      begin
+      User.transaction do
         assign_random_password
         @user.save!
         UserNotifier.send_reset_password(@user, @user.password).deliver_now
-      rescue
-        return false
+        raise StandardError
       end
       true
+    rescue
+      false
     end
 
     def random_password

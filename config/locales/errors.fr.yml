@@ -1,6 +1,7 @@
 fr:
   errors:
     an_error_occured: 'Une erreur est survenue'
+    failed_to_reset_password: "Le mot de passe n'a pas pu être modifié."
     messages:
       after: "est trop ancienne"
       blank: 'doit être renseigné(e)'

@@ -1,6 +1,7 @@
 en:
   errors:
     an_error_occured: 'An error occured'
+    failed_to_reset_password: "The password cannot be changed due to an error."
     messages:
       aftet: 'is too old'
       blank: "can't be blank"
