@@ -8,7 +8,7 @@
       <%= devise_error_messages! %>
 
       <%= f.input :current_password, required: true %>
-      <%= f.input :password, required: true %>
+      <%= f.input :password, required: true, hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, required: true %>
 
       <div class="row">
