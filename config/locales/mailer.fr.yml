@@ -8,6 +8,8 @@ fr:
       hello: 'Bonjour,'
       best_regard: 'Cordialement.'
     user_notifier:
+      send_reset_password:
+        subject: 'Réinitialisation de votre mot de passe'
       send_welcome_email:
         subject: 'Bienvenue'
 
