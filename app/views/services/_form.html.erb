@@ -56,12 +56,10 @@
       <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
       <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
-      <% if current_user.is_superadmin? %>
-        <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
+      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
 
-        <% unless f.object.is_client? %>
-          <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
-        <% end %>
+      <% unless f.object.is_client? %>
+        <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
       <% end %>
     </div>
 
