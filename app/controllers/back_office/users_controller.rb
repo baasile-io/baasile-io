@@ -35,8 +35,11 @@ module BackOffice
       @user.skip_confirmation! if params[:skip_confirmation]
       if @user.update(user_params)
         if params[:send_reset_password]
-          ::Users::UserPasswordsService.new(@user).reset_password
-          flash[:success] = I18n.t('back_office.users.create.success_reset_password', pwd: @user.password)
+          unless ::Users::UserPasswordsService.new(@user).reset_password
+            flash[:error] = I18n.t('errors.failed_to_reset_password')
+          else
+            flash[:success] = I18n.t('back_office.users.create.success_reset_password', pwd: @user.password)
+          end
         else
           flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
         end
