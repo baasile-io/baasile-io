@@ -164,6 +164,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :general_conditions
       resources :documentations
       resources :categories
       resources :appconfigs do

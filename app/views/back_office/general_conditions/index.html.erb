@@ -1,0 +1,41 @@
+<% content_for(:page_controls) { link_to t('actions.new'), new_back_office_general_condition_path, class: 'btn btn-primary' } %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <table class="table table-sm table-hover">
+      <thead>
+      <tr>
+        <th colspan="2">
+          <%= t('activerecord.attributes.general_condition.title') %>
+        </th>
+        <th>
+          <%= t('activerecord.attributes.general_condition.body') %>
+        </th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |general_condition| %>
+      <tr>
+        <td class="width-3">
+          <i class="fa-2x fa fa-fw fa-folder-open"></i>
+        </td>
+        <td>
+          <%= general_condition.name %>
+        </td>
+        <td>
+          <small class="trix-content"><%= general_condition.body.html_safe %></small>
+        </td>
+        <td class="text-right">
+          <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_general_condition_path(general_condition), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_general_condition_path(general_condition), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
