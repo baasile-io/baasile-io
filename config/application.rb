@@ -3,6 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 require_relative '../lib/api_auth_middleware'
+require_relative '../lib/catch_json_parse_errors_middleware'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -25,6 +26,7 @@ module BaasileIo
     }
 
     # Security
+    config.middleware.use ::CatchJsonParseErrorsMiddleware
     config.middleware.use Airbrake::Rack::Middleware
     config.middleware.use ::ApiAuthMiddleware
     config.middleware.use Rack::Attack
