@@ -105,12 +105,17 @@ module Api
 
       def load_route
         if current_route.nil?
-          return head :not_found
+          return render status: 404, json: {
+            errors: [{
+                       status: 404,
+                       title: 'Route not found'
+                     }]
+          }
         end
       end
 
       def current_proxy
-        @current_proxy ||= Proxy.where("subdomain = :subdomain OR id = :id", subdomain: params[:proxy_id].to_s, id: params[:proxy_id].to_i).first
+        @current_proxy ||= current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:proxy_id].to_s, id: params[:proxy_id].to_i).first
       rescue
         nil
       end
