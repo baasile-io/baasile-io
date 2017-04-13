@@ -2,6 +2,9 @@ class Service < ApplicationRecord
   # Versioning
   has_paper_trail
 
+  include Trixable
+  has_trix_attributes_restricted :description_long
+
   # User rights
   resourcify
   after_save :create_default_user_association
@@ -60,6 +63,7 @@ class Service < ApplicationRecord
   validate :company_ancestry_validation
 
   scope :owned, ->(user) { where(user: user) }
+  scope :deactivated, -> { where(confirmed_at: nil) }
   scope :activated, -> { where.not(confirmed_at: nil) }
   scope :activated_startups, -> {  where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:startup]) }
   scope :activated_clients, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:client]) }

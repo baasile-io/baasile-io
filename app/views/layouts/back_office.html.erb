@@ -36,6 +36,9 @@
       <div class="b-io-menu">
         <div class="b-io-menu--secondary">
           <div class="list-group">
+            <%= link_to t('misc.back_office'), back_office_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office'}" %>
+          </div>
+          <div class="list-group">
             <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
           </div>
           <div class="list-group">

@@ -9,7 +9,7 @@ module UsersHelper
     users.map do |u|
       user_main_role = :superadmin if u.has_role?(:superadmin)
       user_main_role ||= :admin if u.has_role?(:admin)
-      [u.full_name, u.id, {'data-icon': I18n.t("roles.#{user_main_role}.icon"), 'data-text-right': (I18n.t("roles.#{user_main_role}.title") if user_main_role)}]
+      [u.full_name, u.id, {'data-icon': 'fa fa-fw fa-user', 'data-description': u.email, 'data-text-right': ("<i class=\"#{I18n.t("roles.#{user_main_role}.icon")}\"></i> #{I18n.t("roles.#{user_main_role}.title")}" if user_main_role)}]
     end
   end
 end

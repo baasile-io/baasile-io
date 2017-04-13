@@ -15,8 +15,8 @@ en:
     change_password: 'Change password'
     configure: 'Configurate'
     confirm_email: "Confirm email address"
-    create_client: "Create client account"
-    create_startup: "Create startup account"
+    create_client: "Create Client account"
+    create_startup: "Create Service Provider account"
     deactivate: 'Deactivate'
     destroy: 'Delete'
     disassociate: 'Remove association'

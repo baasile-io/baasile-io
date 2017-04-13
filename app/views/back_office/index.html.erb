@@ -1,1 +1,15 @@
 <% content_for(:page_title) { t('misc.back_office') } %>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <h3><%= t('misc.deactivated_services') %></h3>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'back_office/services/list', locals: {collection: @deactivated_services} %>
+
+  </div>
+</div>

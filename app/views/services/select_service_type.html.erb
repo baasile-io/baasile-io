@@ -1,0 +1,21 @@
+<% content_for(:page_title) { t('services.new.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <ul class="list-group">
+      <% Service::SERVICE_TYPES.each do |key, _| %>
+        <li class="list-group-item">
+          <div class="w-100">
+            <div class="float-right">
+              <%= link_to t('actions.new'), new_service_path(service_type: key), class: 'btn btn-primary' %>
+            </div>
+            <h5 class="<%= t("types.service_types.#{key}.class") %>"><i class="<%= t("types.service_types.#{key}.icon") %>"></i> <%= t("types.service_types.#{key}.title") %></h5>
+          </div>
+          <%= t("types.service_types.#{key}.description") %>
+        </li>
+      <% end %>
+    </ul>
+
+  </div>
+</div>

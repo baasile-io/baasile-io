@@ -19,6 +19,26 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
+  function matchStart (query, item) {
+    var term = query.term;
+    if (typeof term == 'undefined' || term == '')
+      return item;
+    var text = item.text;
+    if (text.toUpperCase().indexOf(term.toUpperCase()) != -1) {
+      return item;
+    }
+    var el = $(item.element);
+    var description = el.data('description') || '';
+    if (description.toUpperCase().indexOf(term.toUpperCase()) != -1) {
+      return item;
+    }
+    var parent = el.data('parent') || '';
+    if (parent.toUpperCase().indexOf(term.toUpperCase()) != -1) {
+      return item;
+    }
+    return null;
+  }
+
   function format_select2_result(s) {
     if (!s.id)
       return s.text;
@@ -63,7 +83,8 @@ $(document).ready(function(e) {
     language: I18n.locale,
     templateResult: format_select2_result,
     templateSelection: format_select2_selection,
-    escapeMarkup: function (markup) { return markup; }
+    escapeMarkup: function (markup) { return markup; },
+    matcher: matchStart
   });
 
   function format_service_select2_option(s) {
@@ -73,18 +94,23 @@ $(document).ready(function(e) {
     var type = el.data('type');
     var parent_service = el.data('parent');
     var type_class = el.data('class');
+    var description = el.data('description');
     var parent_service_type = el.data('parent-type');
     var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
     if (typeof parent_service != 'undefined')
       template = '<span class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></span> ' + template;
-    return template + '</span>';
+    template = template + '</span>';
+    if (typeof description != 'undefined')
+      template = template + '<br /><small>' + description + '</small>';
+    return template;
   }
 
   $('select.services-select2').select2({
     language: I18n.locale,
     templateResult: format_service_select2_option,
     templateSelection: format_service_select2_option,
-    escapeMarkup: function (markup) { return markup; }
+    escapeMarkup: function (markup) { return markup; },
+    matcher: matchStart
   });
 
   $(document).on("focus", ".date-picker", function(e) {

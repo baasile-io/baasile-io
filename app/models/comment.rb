@@ -2,6 +2,9 @@ class Comment < ApplicationRecord
   # Versioning
   has_paper_trail
 
+  include Trixable
+  has_trix_attributes :body
+
   belongs_to :commentable, polymorphic: true
   belongs_to :user
 

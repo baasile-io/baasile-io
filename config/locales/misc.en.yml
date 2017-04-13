@@ -11,6 +11,7 @@ en:
     captcha_hint: 'Please copy the verification code.'
     correct_errors: 'Correct the following errors and try again:'
     dashboard: 'Dashboard'
+    deactivated_services: 'Deactivated enterprises'
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
