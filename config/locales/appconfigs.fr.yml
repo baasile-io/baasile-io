@@ -1,0 +1,11 @@
+fr:
+  appconfigs:
+    api_access_token_duration:
+      name: "Durée d'un jeton de session"
+      description: "Durée d'un jeton de session en minutes"
+    api_refresh_token_duration:
+      name: "Durée d'un jeton de rafraichissement de session"
+      description: "Durée d'un jeton de rafraichissement de session en minutes"
+    api_max_requests_per_hour_contracts:
+      name: "Nombre max de requêtes sur l'API des Contrats"
+      description: "Nombre max de requêtes sur l'API des Contrats par heure"

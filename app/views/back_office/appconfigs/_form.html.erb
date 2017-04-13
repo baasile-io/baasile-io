@@ -1,0 +1,15 @@
+<%= simple_form_for [:back_office, @appconfig], url: update_back_office_appconfig_path(@appconfig_key), method: :post do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :name, as: :hidden %>
+
+  <%= f.input :value, placeholder: @default_appconfig[:value].to_s %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

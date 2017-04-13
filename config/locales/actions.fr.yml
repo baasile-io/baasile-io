@@ -28,6 +28,7 @@ fr:
     next_step: "Valider"
     reject: 'Rejeter'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
+    reset: 'Réinitialiser la valeur par défaut'
     reset_identifiers: 'Réinitialiser les identifiants de connexion'
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'

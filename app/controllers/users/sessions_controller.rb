@@ -24,7 +24,7 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # The path used after sign in.
-  def after_sign_in_path_for(resource)
-    services_path
-  end
+  # def after_sign_in_path_for(resource)
+  #   services_path
+  # end
 end

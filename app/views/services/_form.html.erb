@@ -81,7 +81,7 @@
       <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('.hints.description') %>
       <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('.hints.description_long'), limited: true %>
 
-      <% unless f.object.is_client? %>
+      <% if f.object.is_startup? %>
         <%= f.input :website, hint: t('.hints.website') %>
       <% end %>
 

@@ -1,0 +1,11 @@
+<% content_for(:page_back) { back_office_appconfigs_path } %>
+<% content_for(:page_title) { t("appconfigs.#{@appconfig_key}.name") } %>
+<% content_for(:page_description) { t("appconfigs.#{@appconfig_key}.description") } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'form' %>
+
+  </div>
+</div>

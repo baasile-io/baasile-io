@@ -4,11 +4,12 @@
 
   <%= f.input :email, hint: (t('devise.registrations.pending_reconfirmation', email: f.object.unconfirmed_email) if f.object.pending_reconfirmation?) %>
 
-  <%= f.input :gender, as: :select, collection: format_gender_for_select, input_html: {class: 'col-sm-2'} %>
+  <%= f.input :gender, as: :select, collection: format_genders_for_select, input_html: {class: 'col-sm-2'} %>
   <%= f.input :first_name %>
   <%= f.input :last_name %>
 
-  <%= f.input :phone, hint: t('users.form.hints.phone')%>
+  <%= f.input :phone, hint: t('users.form.hints.phone') %>
+  <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
   <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
 

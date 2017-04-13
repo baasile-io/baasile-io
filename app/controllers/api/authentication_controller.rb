@@ -73,7 +73,7 @@ module Api
     def payload
       @refresh_token ||= RefreshToken.find_or_initialize_by(service: @service, scope: @scope)
       if @refresh_token.save
-        expires_in = 1200
+        expires_in = Appconfig.get(:api_access_token_duration) * 60
         exp = Time.now.to_i + expires_in
         auth_token = JsonWebToken.encode({service_id: @service.id, scope: @refresh_token.scope, exp: exp})
         {

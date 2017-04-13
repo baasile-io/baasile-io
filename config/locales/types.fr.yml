@@ -56,6 +56,11 @@ fr:
         description: 'Les comptes Fournisseur peuvent consommer et fournir des API.'
         icon: 'fa fa-fw fa-cube text-danger'
         title: 'Fournisseur'
+    setting_types:
+      boolean: 'Booléen'
+      integer: 'Nombre entier'
+      numeric: 'Nombre flottant'
+      string: 'Chaîne de caractère'
     contract_statuses:
       creation:
         class: 'text-muted'

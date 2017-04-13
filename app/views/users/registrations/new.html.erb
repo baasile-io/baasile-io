@@ -8,11 +8,12 @@
 
       <%= f.input :email, required: true, autofocus: true %>
 
-      <%= f.input :gender, as: :select, collection: format_gender_for_select, input_html: {class: 'col-sm-2'} %>
+      <%= f.input :gender, as: :select, collection: format_genders_for_select, input_html: {class: 'col-sm-2'} %>
       <%= f.input :first_name %>
       <%= f.input :last_name %>
 
       <%= f.input :phone, hint: t('users.form.hints.phone') %>
+      <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
       <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, required: true %>
@@ -32,7 +33,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: "devise/shared/links" %>
+    <%= render partial: "users/shared/links" %>
 
   </div>
 </div>
