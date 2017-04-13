@@ -5,7 +5,8 @@ class Role < ApplicationRecord
     services: {
       show: USER_ROLES.dup,
       edit: [:admin],
-      update: [:admin]
+      update: [:admin],
+      logo: [:admin]
     },
     users: {
       index: USER_ROLES.dup,

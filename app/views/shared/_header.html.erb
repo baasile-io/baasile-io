@@ -27,6 +27,9 @@
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'services' && ['logo'].include?(action_name) %>" href="<%= logo_service_path(current_service) %>"><i class="fa fa-image fa-fw"></i> <%= t('misc.logotype') %></a>
+              </li>
             <% end %>
             <% if current_service.is_startup? %>
               <li class="nav-item">

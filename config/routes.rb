@@ -71,6 +71,9 @@ Rails.application.routes.draw do
       post :set_right
       post :unset_right
       get :users
+      get :logo
+      post :logo
+      get '/logo/image', to: 'services#logo_image'
     end
 
     get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'

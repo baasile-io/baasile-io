@@ -22,6 +22,7 @@ fr:
     locales:
       en: 'Anglais'
       fr: 'Français'
+    logotype: "Logo de l'entreprise"
     month:
       one: 'mois'
       other: 'mois'

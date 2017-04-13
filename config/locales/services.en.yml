@@ -23,4 +23,10 @@ en:
       title: 'Parameters'
     users:
       title: 'Utilisateurs'
-
+    logo:
+      deleted: 'Your logo was deleted.'
+      uploaded: 'Your new logo was successfully saved.'
+      upload_file: 'Upload file'
+      delete_file: 'Delete'
+      update_title: 'Update your logo'
+      delete_title: 'Delete your current logo'

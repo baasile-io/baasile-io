@@ -23,3 +23,10 @@ fr:
       title: 'Paramètres'
     users:
       title: 'Utilisateurs'
+    logo:
+      deleted: 'Votre logo a bien été supprimé.'
+      uploaded: 'Votre nouveau logo a bien été sauvegardé.'
+      upload_file: 'Sauvegarder'
+      delete_file: 'Supprimer'
+      update_title: 'Changer / ajouter le logo'
+      delete_title: 'Supprimer le logo'

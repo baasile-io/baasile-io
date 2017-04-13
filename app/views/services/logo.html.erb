@@ -1,0 +1,39 @@
+<% content_for(:page_title) { t('misc.logotype') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <section class="row text-left">
+      <div class="col-8">
+        <%= form_tag '', method: :post, multipart: true, class: 'form' do %>
+          <%= hidden_field_tag 'upload', 'true' %>
+          <fieldset>
+            <legend><%= t('services.logo.update_title') %></legend>
+            <div class="form-group">
+              <%= file_field_tag :file, required: true, class: 'form-control-file'  %>
+            </div>
+          </fieldset>
+          <div class="form-group">
+            <%= submit_tag t('services.logo.upload_file'), class: 'btn' %>
+          </div>
+        <% end %>
+
+        <% if @logo.exists? %>
+          <fieldset>
+            <legend><%= t('services.logo.delete_title') %></legend>
+            <%= form_tag '', method: :post, class: 'form' do %>
+              <%= hidden_field_tag 'delete', 'true' %>
+              <div class="form-group">
+                <%= submit_tag t('services.logo.delete_file'), class: 'btn' %>
+              </div>
+            <% end %>
+          </fieldset>
+        <% end %>
+      </div>
+      <div class="col-4">
+        <% if @logo.url(:normalize) %>
+          <img src="<%= @logo.url(:normalize) %>" class="img-fluid" alt="">
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

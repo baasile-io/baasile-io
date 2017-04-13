@@ -1,7 +1,15 @@
 fr:
   errors:
     an_error_occured: 'Une erreur est survenue'
+    aws:
+      s3:
+        multipart_upload_error: 'The file could not be uploaded (%{errors}).'
     failed_to_reset_password: "Le mot de passe n'a pas pu être modifié."
+    logotype:
+      bad_extension: "Format d'image non autorisé (Formats acceptés: %{extensions})."
+      missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Sauvegarder".'
+      unknown_error_while_uploading: "Une erreur est survenue durant le téléchargement de votre logo."
+      unknown_error_while_deleting: "Une erreur est survenue durant la suppression de votre logo."
     messages:
       after: "est trop ancienne"
       blank: 'doit être renseigné(e)'

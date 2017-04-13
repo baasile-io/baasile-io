@@ -37,6 +37,7 @@ PORT=3042
 BAASILE_IO_HOSTNAME=baasile-io-demo.net
 
 REDIS_PROVIDER=redis://redis:6379
+REDISCLOUD_URL=redis://redis:6379
 ```
 
 #### Set local hosts

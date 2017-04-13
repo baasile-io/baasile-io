@@ -22,6 +22,7 @@ en:
     locales:
       en: 'English'
       fr: 'French'
+    logotype: 'Company logo'
     month:
       one: 'month'
       other: 'months'

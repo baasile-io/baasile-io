@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service, only: [:show, :edit, :update, :destroy, :toggle_public, :users, :services]
+  before_action :load_service, only: [:show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo, :logo_image]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
@@ -76,6 +76,47 @@ class ServicesController < ApplicationController
     else
       render :show
     end
+  end
+
+  def logo
+    @logo = LogotypeService.new(@service.client_id)
+
+    if params[:delete] == 'true'
+
+      # deleting the image
+      status, error = @logo.delete
+      unless status
+        flash[:error] = error
+      else
+        flash[:success] = I18n.t('services.logo.deleted')
+      end
+      redirect_to logo_service_path(@service)
+
+    elsif params[:upload] == 'true'
+
+      # uploading the image
+      status, error = @logo.upload params[:file]
+      unless status
+        flash[:error] = error
+      else
+        flash[:success] = I18n.t('services.logo.uploaded')
+      end
+      redirect_to logo_service_path(@service)
+
+    else
+      render :logo
+    end
+  end
+
+  def logo_image
+    @logo = LogotypeService.new(@service.client_id)
+
+    response.headers['Content-Type'] = 'image/png'
+    response.headers['Content-Disposition'] = 'inline'
+
+    if params.has_key?(:width) then width = params[:width].to_i else width = nil end
+
+    render :text => @logo.image(width)
   end
 
   private

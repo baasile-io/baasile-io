@@ -52,6 +52,8 @@ gem 'activevalidators'
 
 # Data
 gem 'ancestry'
+gem 'aws-sdk-rails'
+gem 'rmagick'
 
 # Security
 gem 'rack-attack'
