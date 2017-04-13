@@ -120,12 +120,12 @@ ActiveRecord::Schema.define(version: 20170409115453) do
 
   create_table "measurements", force: :cascade do |t|
     t.integer  "client_id"
-    t.integer  "requests_count", default: 0, null: false
+    t.integer  "requests_count",     default: 0, null: false
     t.integer  "service_id"
     t.integer  "proxy_id"
     t.integer  "route_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
@@ -302,12 +302,12 @@ ActiveRecord::Schema.define(version: 20170409115453) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",   null: false
+    t.string   "encrypted_password",                default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -316,11 +316,11 @@ ActiveRecord::Schema.define(version: 20170409115453) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,     null: false
+    t.integer  "failed_attempts",                   default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.datetime "password_changed_at"
     t.string   "unique_session_id",      limit: 20
     t.datetime "last_activity_at"
@@ -329,8 +329,9 @@ ActiveRecord::Schema.define(version: 20170409115453) do
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
-    t.boolean  "is_active",                         default: false
+    t.boolean  "is_active",                         default: true
     t.string   "ancestry"
+    t.string   "language",                          default: "en"
     t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree

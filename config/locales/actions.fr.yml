@@ -40,12 +40,12 @@ fr:
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
-    set_production: "Activer la phase d'exploitation"
-    sign_in: 'Se connecter'
+    set_production: 'mettre en production'
+    sign_in: 'Connexion'
     sign_in_as: 'Se connecter en tant que...'
     signin_in: 'Connexion...'
     sign_out: 'Se déconnecter'
-    sign_up: "S'inscrire"
+    sign_up: "Créer un compte"
     signin_up: 'Inscription..'
     status: 'Status'
     success:

@@ -161,6 +161,7 @@ fr:
         full_name: 'Nom complet'
         gender: 'Civilité'
         is_active: 'Actif ?'
+        language: 'Langue de la plateforme'
         last_activity_at: 'Dernière connexion'
         last_name: 'Nom'
         parent: 'Responsable'
