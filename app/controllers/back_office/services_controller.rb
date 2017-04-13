@@ -24,6 +24,11 @@ module BackOffice
 
     def create
       @service = Service.new(service_params)
+      if params[:activate].present?
+        @service.confirmed_at = DateTime.now if @service.confirmed_at.nil?
+      else
+        @service.confirmed_at = nil
+      end
       if @service.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
         redirect_to back_office_services_path

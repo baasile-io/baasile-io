@@ -11,6 +11,7 @@ fr:
     captcha_hint: 'Veuillez recopier le code de vérification.'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
     dashboard: 'Tableau de bord'
+    deactivated_services: 'Entreprises non activées'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'

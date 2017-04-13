@@ -33,9 +33,12 @@ class ServicesController < ApplicationController
   end
 
   def new
+    unless params[:service_type]
+      return render :select_service_type
+    end
     @service = Service.new
     @service.parent_id = params[:parent_id].to_i if params[:parent_id]
-    @service.service_type = params[:service_type].to_i if params[:service_type]
+    @service.service_type = params[:service_type] if params[:service_type]
     @service.build_contact_detail
     @service.user = current_user
   end

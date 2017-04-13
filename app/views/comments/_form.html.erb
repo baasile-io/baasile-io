@@ -5,7 +5,7 @@
   <%= hidden_field :comment, :commentable_type, value: f.object.commentable_type %>
   <%= hidden_field :comment, :commentable_id, value: f.object.commentable_id %>
 
-  <%= f.input :body, as: :text, input_html: {rows: 5} %>
+  <%= f.input :body, as: :trix_editor, input_html: {rows: 5} %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

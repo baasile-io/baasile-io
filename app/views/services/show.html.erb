@@ -65,7 +65,7 @@
 
   <div class="b-io-content--header">
     <div class="container-fluid">
-      <div class="b-io-content--header--controls"><%= link_to t('actions.create_client'), new_service_path(parent_id: current_service.id, service_type: Service::SERVICE_TYPES[:client][:index]), class: 'btn btn-primary' %></div>
+      <div class="b-io-content--header--controls"><%= link_to t('actions.create_client'), new_service_path(parent_id: current_service.id, service_type: :client), class: 'btn btn-primary' %></div>
       <h4><%= t('types.service_types.client.title').pluralize %></h4>
     </div>
   </div>
@@ -77,7 +77,7 @@
 
   <div class="b-io-content--header">
     <div class="container-fluid">
-      <div class="b-io-content--header--controls"><%= link_to t('actions.create_startup'), new_service_path(parent_id: current_service.id, service_type: Service::SERVICE_TYPES[:startup][:index]), class: 'btn btn-primary' %></div>
+      <div class="b-io-content--header--controls"><%= link_to t('actions.create_startup'), new_service_path(parent_id: current_service.id, service_type: :startup), class: 'btn btn-primary' %></div>
       <h4><%= t('types.service_types.startup.title').pluralize %></h4>
     </div>
   </div>
