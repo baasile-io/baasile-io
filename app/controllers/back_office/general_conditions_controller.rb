@@ -50,7 +50,7 @@ module BackOffice
     private
 
     def general_condition_params
-      allowed_parameters = [:name, :description]
+      allowed_parameters = [:cg_version, :effective_start_date]
       I18n.available_locales.each do |locale|
         dictionary_params = {}
         dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]

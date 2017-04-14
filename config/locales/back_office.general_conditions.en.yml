@@ -1,0 +1,11 @@
+en:
+  back_office:
+    general_conditions:
+      create:
+        title: 'New General condition'
+      edit:
+        title: 'Edit'
+      index:
+        title: 'General conditions'
+      new:
+        title: 'New General condition'

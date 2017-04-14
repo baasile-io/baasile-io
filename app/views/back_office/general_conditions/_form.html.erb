@@ -2,7 +2,10 @@
 
   <%= error_messages_for(f.object) %>
 
-  <ul class="nav nav-tabs" role="tablist">
+  <%= f.input :cg_version %>
+  <%= f.input :effective_start_date, as: :string, input_html: {class: 'date-picker'} %>
+
+    <ul class="nav nav-tabs" role="tablist">
     <% I18n.available_locales.each.with_index(0) do |locale, index| %>
       <li class="nav-item">
         <a class="nav-link <%= 'active' if index == 0 %>" data-toggle="tab" href="#general_condition_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>

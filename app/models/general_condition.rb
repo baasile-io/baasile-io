@@ -6,6 +6,9 @@ class GeneralCondition < ApplicationRecord
 
   belongs_to :user
 
+  validates :cg_version, presence: true
+  validates :effective_start_date, presence: true
+
   def name
     self.title
   end

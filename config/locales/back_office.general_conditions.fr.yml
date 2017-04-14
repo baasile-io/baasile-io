@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    general_conditions:
+      create:
+        title: 'Créer une Condition général'
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Condition générals'
+      new:
+        title: 'Créer une Condition général'
