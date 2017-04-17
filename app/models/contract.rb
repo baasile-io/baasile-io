@@ -272,11 +272,15 @@ class Contract < ApplicationRecord
   end
 
   class << self # Class methods
-    def send_notification
+    def send_Daily_notification
       contracts = Contract.activated
       contracts.each do |contract|
-        if DateTime.now > ( dif_day = contract.end_date.days_ago(contract.notification_day_left) )
-          UserNotifier.send_notification(contract, dif_day.to_i).deliver_now
+        dif_day_fifteen = contract.end_date.days_ago(15)
+        dif_day_seven = contract.end_date.days_ago(7)
+        if DateTime.now == dif_day_fifteen
+          UserNotifier.send_Daily_notification(contract, 15).deliver_now
+        elseif DateTime.now == dif_day_seven
+          UserNotifier.send_Daily_notification(contract, 7).deliver_now
         end
       end
     end

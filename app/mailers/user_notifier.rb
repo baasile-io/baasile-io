@@ -12,7 +12,7 @@ class UserNotifier < ApplicationMailer
     mail(to: @user.email, subject: I18n.t('mailer.user_notifier.send_reset_password.subject'))
   end
 
-  def send_notification(contract, dayleft)
+  def send_Daily_notification(contract, dayleft)
     @dayleft = dayleft
     @contract = contract
     @service = contract.client

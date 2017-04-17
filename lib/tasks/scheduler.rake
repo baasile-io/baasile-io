@@ -6,5 +6,5 @@ task :update_feed => :environment do
 end
 
 task :send_user_notification => :environment do
-  Contract.send_notification
+  Contract.send_Daily_notification
 end
