@@ -12,7 +12,7 @@ fr:
         subject: 'Réinitialisation de votre mot de passe'
       send_welcome_email:
         subject: 'Bienvenue'
-      send_notification:
+      send_Daily_notification:
         service:
           subject: 'nous vous informons que votre contrat %{name} arrive a sa fin.'
 

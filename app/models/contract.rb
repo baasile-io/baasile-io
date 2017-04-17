@@ -275,12 +275,15 @@ class Contract < ApplicationRecord
     def send_Daily_notification
       contracts = Contract.activated
       contracts.each do |contract|
-        dif_day_fifteen = contract.end_date.days_ago(15)
-        dif_day_seven = contract.end_date.days_ago(7)
-        if DateTime.now == dif_day_fifteen
+        dif_day_fifteen = contract.expected_end_date.days_ago(15)
+        dif_day_seven = contract.expected_end_date.days_ago(7)
+        dif_day_zero = contract.expected_end_date.days_ago(1)
+        if DateTime.now.to_date == dif_day_fifteen
           UserNotifier.send_Daily_notification(contract, 15).deliver_now
-        elseif DateTime.now == dif_day_seven
+        elsif DateTime.now.to_date == dif_day_seven
           UserNotifier.send_Daily_notification(contract, 7).deliver_now
+        elsif DateTime.now.to_date == dif_day_zero
+          UserNotifier.send_Daily_notification(contract, 1).deliver_now
         end
       end
     end
