@@ -1,5 +1,7 @@
 en:
   pages:
+    not_found:
+      title: 'Page Not Found'
     root:
       title: 'Welcome to OpenRH'
     service_book:

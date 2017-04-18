@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#root'
+
+  resources :pages, only: [:not_found]
   get '/service_book', to: 'pages#service_book'
   get '/startup/:id', to: 'pages#startup', as: 'startup'
   get '/profile', to: 'users#profile'
@@ -148,4 +150,6 @@ Rails.application.routes.draw do
 
     get "*any", via: :all, to: "api#not_found"
   end
+
+  get "*any", via: :all, to: "pages#not_found"
 end
