@@ -16,6 +16,8 @@ en:
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       missing_file: 'Make sure you add a file before you hit "Upload file".'
+      missing_translation: 'Missing translation'
+      missing_translation_for_locale: 'Missing translation for the following language: %{current_locale}'
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"

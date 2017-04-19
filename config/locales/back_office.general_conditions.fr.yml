@@ -2,10 +2,10 @@ fr:
   back_office:
     general_conditions:
       create:
-        title: 'Créer une Condition général'
+        title: 'Créer de nouvelles Conditions Générales'
       edit:
         title: 'Modifier'
       index:
-        title: 'Condition générals'
+        title: 'Conditions Générales'
       new:
-        title: 'Créer une Condition général'
+        title: 'Créer de nouvelles Conditions Générales'

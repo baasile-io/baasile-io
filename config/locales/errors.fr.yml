@@ -15,6 +15,8 @@ fr:
       blank: 'doit être renseigné(e)'
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
+      missing_translation: 'Traduction manquante'
+      missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'
       not_a_date: 'doit être une date valide'
       not_a_number: 'doit être numérique'
       not_a_hostname: "doit être un domaine valide"

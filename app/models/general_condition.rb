@@ -3,6 +3,7 @@ class GeneralCondition < ApplicationRecord
   has_paper_trail
 
   include HasDictionaries
+  has_mandatory_dictionary_attributes :title, :body
 
   belongs_to :user
 
