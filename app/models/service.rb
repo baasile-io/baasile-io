@@ -41,6 +41,7 @@ class Service < ApplicationRecord
 
   validates :service_type, presence: true
   before_save :public_validation
+  before_save :activate_client
 
   validates :website, url: true, allow_blank: true
 
@@ -129,8 +130,7 @@ class Service < ApplicationRecord
   def activate
     if self.is_activable?
       self.confirmed_at = Date.new if self.confirmed_at.nil?
-      self.generate_client_id! unless self.client_id.present?
-      self.generate_client_secret! unless self.client_secret.present?
+      self.generate_identifiers
       self.save
     end
   end
@@ -144,6 +144,12 @@ class Service < ApplicationRecord
   def deactivate
     self.confirmed_at = nil
     self.save
+  end
+
+  def activate_client
+    if self.is_client?
+      self.confirmed_at = Date.today unless self.confirmed_at
+    end
   end
 
   def public_validation
