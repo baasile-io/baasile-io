@@ -65,6 +65,7 @@ Rails.application.routes.draw do
         post :validate
         post :validate_cgv
         post :reject_cgv
+        get :cgv
         post :reject
         get :prices
         get :select_price

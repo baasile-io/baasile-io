@@ -15,6 +15,7 @@ fr:
       blank: 'doit être renseigné(e)'
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
+      missing_general_condition: 'Conditions Générales manquante'
       missing_translation: 'Traduction manquante'
       missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'
       not_a_date: 'doit être une date valide'

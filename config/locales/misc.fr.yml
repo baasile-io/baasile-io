@@ -32,7 +32,7 @@ fr:
       one: 'mois'
       other: 'mois'
     my_services: 'Mes entreprises'
-    need_to_valide_general_condition: 'You need to valide general contion'
+    need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
     none: 'Aucun'
     none_feminized: 'Aucune'

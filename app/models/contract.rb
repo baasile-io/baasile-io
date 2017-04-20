@@ -9,6 +9,9 @@ class Contract < ApplicationRecord
         },
         validate: {
           client: ['admin']
+        },
+        cgv:{
+          client: ['admin']
         }
       },
       conditions: {
@@ -44,6 +47,10 @@ class Contract < ApplicationRecord
           client: ['commercial']
         },
         comments: {
+          startup: ['commercial']
+        },
+        cgv: {
+          client: ['commercial'],
           startup: ['commercial']
         }
       },
@@ -85,6 +92,10 @@ class Contract < ApplicationRecord
         comments: {
           client: ['commercial'],
           startup: ['commercial']
+        },
+        cgv: {
+          client: ['commercial'],
+          startup: ['commercial']
         }
       },
       conditions: {
@@ -117,6 +128,10 @@ class Contract < ApplicationRecord
           client: ['commercial']
         },
         comments: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        },
+        cgv: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         }
@@ -181,6 +196,10 @@ class Contract < ApplicationRecord
         },
         toggle_production: {
           startup: ['commercial']
+        },
+        cgv: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
         }
       },
       conditions: {
@@ -216,6 +235,7 @@ class Contract < ApplicationRecord
   belongs_to :client, class_name: Service.name
   belongs_to :startup, class_name: Service.name
   belongs_to :general_condition_validated_client, class_name: User.name
+  belongs_to :general_condition, class_name: GeneralCondition.name
 
   has_one :price
   has_many :comments, as: :commentable

@@ -98,7 +98,10 @@
       <div class="col-3 text-right">
         <strong><%= t('misc.general_condition_to_valide') %></strong>
       </div>
-      <div class="col-9">
+      <div class="col-2">
+        <%= link_to @contract.general_condition.name, (current_service.nil? ? cgv_contract_path(@contract) : cgv_service_contract_path(current_service, @contract)) %>
+      </div>
+      <div class="col-7 text-left">
         <% if @contract.can?(current_user, :validate_cgv) && @contract.general_condition_validated_client_id.nil? %>
           <%= button_to t('actions.accept'), (current_service.nil? ? validate_cgv_contract_path(@contract) : validate_cgv_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
         <% elsif @contract.can?(current_user, :validate_cgv) %>

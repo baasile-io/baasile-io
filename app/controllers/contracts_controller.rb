@@ -2,6 +2,7 @@ class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :reject_cgv, :validate_cgv, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
+  before_action :load_cgv, except: [:index]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -38,6 +39,7 @@ class ContractsController < ApplicationController
   def create
     @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
+    @contract.general_condition = @cgv
     @contract.user = current_user
     @contract.assign_attributes(contract_params(:creation))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
@@ -92,6 +94,9 @@ class ContractsController < ApplicationController
       flash[:error] = I18n.t('misc.allready_validate')
     end
     redirect_to_show
+  end
+
+  def cgv
   end
 
   def reject_cgv
@@ -184,6 +189,19 @@ class ContractsController < ApplicationController
   end
 
   private
+
+  def load_cgv
+    if @contract.nil? || @contract.general_condition.nil?
+      @cgv = GeneralCondition.all.order(effective_start_date: :desc).first
+      @contract.general_condition = @cgv unless @contract.nil?
+    else
+      @cgv = @contract.general_condition
+    end
+    if @cgv.nil?
+      flash[:error] = I18n.t('errors.messages.missing_general_condition')
+      return redirect_to_index
+    end
+  end
 
   def get_for_values
     return [current_service, @contract] unless current_service.nil?
