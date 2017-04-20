@@ -68,7 +68,7 @@
 
       <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
 
-      <% unless f.object.is_client? %>
+      <% if f.object.is_startup? %>
         <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
       <% end %>
     </div>
