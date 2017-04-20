@@ -1,0 +1,9 @@
+<% content_for(:page_title) { @general_condition.title } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <p>
+      <%= @general_condition.body.html_safe %>
+    </p>
+  </div>
+</div>

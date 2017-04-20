@@ -19,7 +19,7 @@ fr:
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
-    general_condition_to_valide: 'Validation des CGV'
+    general_condition_to_valide: 'Validation des Conditions Générales'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     last_comment: 'Dernier commentaire'

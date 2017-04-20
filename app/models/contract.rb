@@ -10,7 +10,7 @@ class Contract < ApplicationRecord
         validate: {
           client: ['admin']
         },
-        cgv:{
+        general_condition:{
           client: ['admin']
         }
       },
@@ -37,10 +37,10 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
-        reject_cgv: {
+        reject_general_condition: {
           client: ['commercial']
         },
-        validate_cgv: {
+        validate_general_condition: {
           client: ['commercial']
         },
         cancel: {
@@ -49,13 +49,14 @@ class Contract < ApplicationRecord
         comments: {
           startup: ['commercial']
         },
-        cgv: {
+        general_condition: {
           client: ['commercial'],
           startup: ['commercial']
         }
       },
       conditions: {
-        startup: Proc.new {|c| true}
+        startup: Proc.new {|c| true},
+        validate: Proc.new {|c| !c.general_condition_validated_client_id.nil?}
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -93,7 +94,7 @@ class Contract < ApplicationRecord
           client: ['commercial'],
           startup: ['commercial']
         },
-        cgv: {
+        general_condition: {
           client: ['commercial'],
           startup: ['commercial']
         }
@@ -118,10 +119,10 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
-        reject_cgv: {
+        reject_general_condition: {
           client: ['commercial']
         },
-        validate_cgv: {
+        validate_general_condition: {
           client: ['commercial']
         },
         reject: {
@@ -131,13 +132,13 @@ class Contract < ApplicationRecord
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         },
-        cgv: {
+        general_condition: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: Proc.new {|c| !c.general_condition_validated_client_id.nil?}
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -197,7 +198,7 @@ class Contract < ApplicationRecord
         toggle_production: {
           startup: ['commercial']
         },
-        cgv: {
+        general_condition: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         }

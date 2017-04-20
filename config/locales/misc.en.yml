@@ -19,7 +19,7 @@ en:
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
-    general_condition_to_valide: 'CGV validation'
+    general_condition_to_valide: 'General condition validation'
     included: 'included'
     invalid_fields: 'Invalid Fields'
     last_comment: 'Last comment'

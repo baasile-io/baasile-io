@@ -15,6 +15,7 @@ en:
       blank: "can't be blank"
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
+      is_used: 'is in use'
       missing_file: 'Make sure you add a file before you hit "Upload file".'
       missing_general_condition: 'Missing general conditions'
       missing_translation: 'Missing translation'

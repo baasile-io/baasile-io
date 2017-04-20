@@ -1,6 +1,7 @@
 module BackOffice
   class GeneralConditionsController < BackOfficeController
     before_action :load_general_condition, only: [:edit, :update, :destroy]
+    before_action :is_used, only: [:edit, :update, :destroy]
 
     def index
       @collection = GeneralCondition.all
@@ -48,6 +49,13 @@ module BackOffice
     end
 
     private
+
+    def is_used
+      if @general_condition.is_used?
+        flash[:error] = I18n.t('misc.is_used')
+        redirect_to back_office_general_conditions_path
+      end
+    end
 
     def general_condition_params
       allowed_parameters = [:cg_version, :effective_start_date]

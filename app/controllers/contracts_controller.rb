@@ -1,8 +1,8 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :reject_cgv, :validate_cgv, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
-  before_action :load_cgv, except: [:index]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :reject_general_condition, :validate_general_condition, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
+  before_action :load_general_condition, except: [:index]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -39,7 +39,7 @@ class ContractsController < ApplicationController
   def create
     @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
-    @contract.general_condition = @cgv
+    @contract.general_condition = @general_condition
     @contract.user = current_user
     @contract.assign_attributes(contract_params(:creation))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
@@ -83,7 +83,7 @@ class ContractsController < ApplicationController
     end
   end
 
-  def validate_cgv
+  def validate_general_condition
     status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
     if @contract.general_condition_validated_client_id.nil?
       @contract.general_condition_validated_client = current_user
@@ -96,10 +96,10 @@ class ContractsController < ApplicationController
     redirect_to_show
   end
 
-  def cgv
+  def general_condition
   end
 
-  def reject_cgv
+  def reject_general_condition
     status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
     unless @contract.general_condition_validated_client_id.nil?
       @contract.general_condition_validated_client = nil
@@ -190,14 +190,14 @@ class ContractsController < ApplicationController
 
   private
 
-  def load_cgv
+  def load_general_condition
     if @contract.nil? || @contract.general_condition.nil?
-      @cgv = GeneralCondition.all.order(effective_start_date: :desc).first
-      @contract.general_condition = @cgv unless @contract.nil?
+      @general_condition = GeneralCondition.all.order(effective_start_date: :desc).first
+      @contract.general_condition = @general_condition unless @contract.nil?
     else
-      @cgv = @contract.general_condition
+      @general_condition = @contract.general_condition
     end
-    if @cgv.nil?
+    if @general_condition.nil?
       flash[:error] = I18n.t('errors.messages.missing_general_condition')
       return redirect_to_index
     end

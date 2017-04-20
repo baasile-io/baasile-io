@@ -7,11 +7,17 @@ class GeneralCondition < ApplicationRecord
 
   belongs_to :user
 
+  has_many :contracts
+
   validates :cg_version, presence: true
   validates :effective_start_date, presence: true
 
   def name
     self.title
+  end
+
+  def is_used?
+    return self.contracts && self.contracts.count > 0
   end
 
 end

@@ -35,8 +35,10 @@
           <%= l(general_condition.effective_start_date, format: :long) %>
         </td>
         <td class="text-right">
-          <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_general_condition_path(general_condition), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_general_condition_path(general_condition), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+          <% unless general_condition.is_used? %>
+            <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_general_condition_path(general_condition), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+            <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_general_condition_path(general_condition), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+          <% end %>
         </td>
       </tr>
       <% end %>
