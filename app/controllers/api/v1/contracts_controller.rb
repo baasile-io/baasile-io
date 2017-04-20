@@ -46,7 +46,8 @@ module Api
                         type: route.class.name,
                         attributes: {
                           name: route.name,
-                          request_url: route.local_url('v1')
+                          request_url: route.local_url('v1'),
+                          allowed_methods: route.allowed_methods
                         }
                       }
                     }
