@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :reject_cgv, :validate_cgv, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -79,6 +79,30 @@ class ContractsController < ApplicationController
     else
       render :show
     end
+  end
+
+  def validate_cgv
+    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    if @contract.general_condition_validated_client_id.nil?
+      @contract.general_condition_validated_client = current_user
+      if @contract.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      end
+    else
+      flash[:error] = I18n.t('misc.allready_validate')
+    end
+    redirect_to_show
+  end
+
+  def reject_cgv
+    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    unless @contract.general_condition_validated_client_id.nil?
+      @contract.general_condition_validated_client = nil
+      if @contract.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      end
+    end
+    redirect_to_show
   end
 
   def validate

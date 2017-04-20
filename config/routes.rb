@@ -63,6 +63,8 @@ Rails.application.routes.draw do
         get :comments
         post :create_comment
         post :validate
+        post :validate_cgv
+        post :reject_cgv
         post :reject
         get :prices
         get :select_price
@@ -85,6 +87,8 @@ Rails.application.routes.draw do
           post :create_comment
           post :validate
           post :reject
+          post :validate_cgv
+          post :reject_cgv
           get :prices
           get :select_price
           post :toggle_production

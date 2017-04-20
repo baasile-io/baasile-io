@@ -96,6 +96,29 @@
     <hr>
     <div class="row">
       <div class="col-3 text-right">
+        <strong><%= t('misc.general_condition_to_valide') %></strong>
+      </div>
+      <div class="col-9">
+        <% if @contract.can?(current_user, :validate_cgv) && @contract.general_condition_validated_client_id.nil? %>
+          <%= button_to t('actions.accept'), (current_service.nil? ? validate_cgv_contract_path(@contract) : validate_cgv_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+        <% elsif @contract.can?(current_user, :validate_cgv) %>
+            <div class="pull-right">
+              <%= button_to t('actions.reject'), (current_service.nil? ? reject_cgv_contract_path(@contract) : reject_cgv_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+            </div>
+            <%= t('actions.accept_by') + ' ' + @contract.general_condition_validated_client.full_name%>
+        <% else %>
+          <% unless @contract.general_condition_validated_client_id.nil? %>
+            <%= t('actions.accept_by') + ' ' + @contract.general_condition_validated_client.full_name%>
+          <% else %>
+            <%= t('actions.not_accept_by') + ' ' + t('types.service_types.client.title')%>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-3 text-right">
         <strong><%= t('misc.actions') %></strong>
       </div>
       <div class="col-9">

@@ -1,5 +1,7 @@
 fr:
   actions:
+    accept: 'Accepté'
+    accept_by: 'Accepté par'
     activate: 'Activer'
     add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
@@ -27,6 +29,8 @@ fr:
     infos: 'Infos'
     new: 'Créer'
     next_step: "Valider"
+    not_accept: "N'a pas été accepté"
+    not_accept_by: "N'a pas encore été accepté par"
     reject: 'Rejeter'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
     reset: 'Réinitialiser la valeur par défaut'

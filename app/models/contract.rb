@@ -34,6 +34,12 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
+        reject_cgv: {
+          client: ['commercial']
+        },
+        validate_cgv: {
+          client: ['commercial']
+        },
         cancel: {
           client: ['commercial']
         },
@@ -99,6 +105,12 @@ class Contract < ApplicationRecord
           startup: ['commercial', 'accountant']
         },
         validate: {
+          client: ['commercial']
+        },
+        reject_cgv: {
+          client: ['commercial']
+        },
+        validate_cgv: {
           client: ['commercial']
         },
         reject: {
@@ -203,6 +215,7 @@ class Contract < ApplicationRecord
   belongs_to :company
   belongs_to :client, class_name: Service.name
   belongs_to :startup, class_name: Service.name
+  belongs_to :general_condition_validated_client, class_name: User.name
 
   has_one :price
   has_many :comments, as: :commentable

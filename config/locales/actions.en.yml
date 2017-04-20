@@ -1,5 +1,7 @@
 en:
   actions:
+    accept: 'Accept'
+    accept_by: 'Accept by'
     activate: 'Activate'
     add: 'Add'
     add_admin: 'Add an administrator'
@@ -27,6 +29,8 @@ en:
     infos: 'Infos'
     new: 'New'
     next_step: 'Validate'
+    not_accept: 'Not accepted'
+    not_accept_by: 'Not accepted yet by'
     reject: 'Reject'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
     reset: 'Reset to initial value'
