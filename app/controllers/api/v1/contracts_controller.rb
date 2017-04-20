@@ -39,16 +39,16 @@ module Api
                   attributes: {
                     name: contract.proxy.name,
                     description: contract.proxy.description,
-                    category: contract.proxy.category.try(:name)
-                  }
-                },
-                routes: contract.proxy.routes.map {|route|
-                  {
-                    id: route.subdomain,
-                    type: route.class.name,
-                    attributes: {
-                      name: route.name,
-                      request_url: route.local_url('v1')
+                    category: contract.proxy.category.try(:name),
+                    routes: contract.proxy.routes.map {|route|
+                      {
+                        id: route.subdomain,
+                        type: route.class.name,
+                        attributes: {
+                          name: route.name,
+                          request_url: route.local_url('v1')
+                        }
+                      }
                     }
                   }
                 }
