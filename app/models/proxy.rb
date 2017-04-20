@@ -29,10 +29,6 @@ class Proxy < ApplicationRecord
   scope :associated_service, ->(service) { where(service: service) }
   scope :published, -> { where(public: true) }
 
-  def service_proxy_name
-    return self.service.name + " - " + self.name
-  end
-
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
   end
