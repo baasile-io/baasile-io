@@ -13,22 +13,5 @@ en:
       send_welcome_email:
         subject: 'Welcome'
     contract_notifier:
-      send_by_status:
-        creation:
-          subject: "Contract creation"
-          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
-        commercial_validation_sp:
-          subject: 'Contract commercial startup validation'
-          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
-        commercial_validation_client:
-          subject: 'Contract commercial client validation'
-          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
-        price_validation_sp:
-          subject: 'Contract accountant startup validation'
-          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
-        price_validation_client:
-          subject: 'Contract accountant client validation'
-          text: 'You are notified that you can now check and validate the contract %{name} with the code %{code}.'
-        Validation:
-          subject: 'Contract final validation'
-          text: 'the contract %{name} with the code %{code} is now validate.'
+      send_validated_status_notification:
+        subject: "Your contract get \"%{status}\""

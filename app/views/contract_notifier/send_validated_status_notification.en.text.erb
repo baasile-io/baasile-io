@@ -1,0 +1,7 @@
+<%= I18n.t("mailer.contract_notifier.send_validated_status_notification.subject", status: @staging_name) %>
+
+Client: <%= @contract.client.name %>
+Supplier: <%= @contract.startup.name %>
+Product: <%= @contract.proxy.name %>
+
+Link to the contract: <%= contract_url(@contract) %>

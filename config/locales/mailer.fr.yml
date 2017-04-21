@@ -13,22 +13,5 @@ fr:
       send_welcome_email:
         subject: 'Bienvenue'
     contract_notifier:
-      send_by_status:
-        creation:
-          subject: "Création d'un contrat"
-          text: 'Vous pouvez vérifier et valider le contrat %{name} dont le code est %{code}.'
-        commercial_validation_sp:
-          subject: 'Validation commercial startup du contrat'
-          text: 'Vous pouvez vérifier et valider le contrat %{name} dont le code est %{code}.'
-        commercial_validation_client:
-          subject: 'Validation commercial client du contrat'
-          text: 'Vous pouvez vérifier et valider le contrat %{name} dont le code est %{code}.'
-        price_validation_sp:
-          subject: 'Validation comptable startup du contrat'
-          text: 'Vous pouvez vérifier et valider le contrat %{name} dont le code est %{code}.'
-        price_validation_client:
-          subject: 'Validation comptable client du contrat'
-          text: 'Vous pouvez vérifier et valider le contrat %{name} dont le code est %{code}.'
-        Validation:
-          subject: 'Validation final du contrat'
-          text: 'Le contrat %{name} dont le code est %{code} est validé.'
+      send_validated_status_notification:
+        subject: "Your contract has just passed the status \"%{status}\""

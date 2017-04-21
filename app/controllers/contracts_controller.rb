@@ -83,10 +83,11 @@ class ContractsController < ApplicationController
   end
 
   def validate
-    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    old_status_key = @contract.status.to_sym
+    status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:next] unless status[:next].nil?
     if @contract.save
-      ContractNotifier.send_by_status(@contract, Contract::CONTRACT_STATUS[@contract.status.to_sym], last_status.to_s).deliver_now
+      ContractNotifier.send_validated_status_notification(@contract, from_status: old_status_key).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
     redirect_to_show

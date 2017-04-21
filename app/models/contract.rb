@@ -14,6 +14,7 @@ class Contract < ApplicationRecord
       conditions: {
         validate: Proc.new {|c| true}
       },
+      notifications: {},
       allowed_parameters: [],
       next: :creation,
       prev: nil
@@ -41,7 +42,10 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        startup: Proc.new {|c| true}
+      },
+      notifications: {
+        startup: ['admin', 'commercial']
       },
       allowed_parameters: [:code, :name, :expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id, :client_id],
       next: :commercial_validation_sp,
@@ -80,6 +84,9 @@ class Contract < ApplicationRecord
       conditions: {
         validate: Proc.new {|c| true}
       },
+      notifications: {
+        client: ['admin', 'commercial']
+      },
       allowed_parameters: [:expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
       prev: :creation
@@ -104,6 +111,9 @@ class Contract < ApplicationRecord
       },
       conditions: {
         validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
+      },
+      notifications: {
+        startup: ['admin', 'commercial']
       },
       allowed_parameters: [],
       next: :validation,
@@ -164,6 +174,10 @@ class Contract < ApplicationRecord
       conditions: {
         set_production: Proc.new {|c| true},
         validate: Proc.new {|c| false}
+      },
+      notifications: {
+        client: ['admin', 'commercial'],
+        startup: ['admin', 'commercial']
       },
       allowed_parameters: [],
       next: nil,
