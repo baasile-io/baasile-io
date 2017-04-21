@@ -8,7 +8,7 @@ class Rack::Attack
   # whitelisting). It must implement .increment and .write like
   # ActiveSupport::Cache::Store
 
-  #Rack::Attack.cache.store = :redis_store
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisStore.new(ENV['REDISCLOUD_URL'], {expires_in: 480.minutes})
 
   ### Throttle Spammy Clients ###
 
@@ -57,6 +57,14 @@ class Rack::Attack
     if req.path == 'auth/sign_in' && req.post?
       # return the email if present, nil otherwise
       req.params['user[email]'].presence
+    end
+  end
+
+  # API Contracts
+  limit_proc = lambda {|_| Appconfig.get(:api_max_requests_per_hour_contracts)}
+  throttle("api/contracts", limit: limit_proc, period: 1.minute) do |req|
+    if req.path.match(/\A\/api\/v[0-9]*\/[A-Za-z0-9\-]*\/contracts/)
+      req.ip
     end
   end
 

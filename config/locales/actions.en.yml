@@ -28,6 +28,7 @@ en:
     next_step: 'Validate'
     reject: 'Reject'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
+    reset: 'Reset to initial value'
     reset_identifiers: 'Reset login credentials'
     reset_unlock_instructions: 'Resend unlock instructions'
     reset_password: 'Send password reset instructions'

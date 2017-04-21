@@ -149,7 +149,7 @@ module BackOffice
     end
 
     def user_params
-      allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :is_active, :parent_id]
+      allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :language, :is_active, :parent_id]
       params.require(:user).permit(allowed_parameters)
     end
 

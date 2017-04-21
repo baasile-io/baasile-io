@@ -1,5 +1,11 @@
 module UsersHelper
-  def format_gender_for_select
+  def format_languages_for_select
+    I18n.available_locales.map do |key|
+      ["#{I18n.t("misc.locales.#{key}")}", key]
+    end
+  end
+
+  def format_genders_for_select
     User::GENDERS.map do |key, _|
       ["#{I18n.t("types.genders.#{key}")}", key]
     end

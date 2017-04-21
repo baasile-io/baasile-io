@@ -40,7 +40,7 @@ en:
       client:
         class: 'text-info'
         description: 'Client accounts can only access to API as consumer.'
-        icon: 'fa fa-fw fa-cube'
+        icon: 'fa fa-fw fa-cube text-info'
         title: 'Client'
       company:
         class: ''
@@ -50,8 +50,13 @@ en:
       startup:
         class: ''
         description: 'Service Provider accounts can consume and provide API.'
-        icon: 'fa fa-fw fa-cube'
+        icon: 'fa fa-fw fa-cube text-danger'
         title: 'Service Provider'
+    setting_types:
+      boolean: 'Boolean'
+      integer: 'Integer'
+      numeric: 'Numeric'
+      string: 'Character string'
     contract_statuses:
       creation:
         class: 'text-muted'

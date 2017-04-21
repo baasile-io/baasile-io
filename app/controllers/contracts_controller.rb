@@ -198,7 +198,7 @@ class ContractsController < ApplicationController
     @proxies = []
     @services.each do |service|
       service.proxies.each do |proxy|
-        @proxies << proxy if proxy.public || proxy.service.id == current_service.id || (current_contract && current_contract.proxy_id == proxy.id)
+        @proxies << proxy if proxy.public || proxy.service.id == current_service.try(:id) || (current_contract && current_contract.proxy_id == proxy.id)
       end
     end
     if @proxies.count == 0

@@ -1,6 +1,10 @@
 fr:
   activerecord:
     attributes:
+      appconfig:
+        name: 'Nom'
+        setting_type: 'Type'
+        value: 'Valeur'
       category:
         name: 'Nom'
         description: 'Description'
@@ -176,6 +180,7 @@ fr:
         object: 'Objet'
         whodunnit: 'Auteur'
     models:
+      appconfig: 'Configuration'
       category: "Catégorie"
       comment: 'Commentaire'
       company: 'Aggrétateur'

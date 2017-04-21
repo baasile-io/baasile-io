@@ -6,7 +6,7 @@ class RefreshToken < ApplicationRecord
   around_create :generate_token
 
   def expires_token
-    self.expires_at = 2.hours.from_now
+    self.expires_at = Appconfig.get(:api_refresh_token_duration).minutes.from_now
   end
 
   def generate_token

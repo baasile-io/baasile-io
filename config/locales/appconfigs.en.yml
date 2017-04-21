@@ -1,0 +1,11 @@
+en:
+  appconfigs:
+    api_access_token_duration:
+      name: 'Duration of an access token'
+      description: 'Duration of an access token in minutes'
+    api_refresh_token_duration:
+      name: 'Duration of a refresh token'
+      description: 'Duration of a refresh token in minutes'
+    api_max_requests_per_hour_contracts:
+      name: 'Max number of API calls on Contracts'
+      description: 'Max number of API calls on Contracts per hour'

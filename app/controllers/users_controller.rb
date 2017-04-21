@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(parent_id: current_user.id, is_active: true, email: params[:email])
+    @user = User.new(parent_id: current_user.id, is_active: true, email: params[:email], language: I18n.locale)
   end
 
   def create
@@ -141,7 +141,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :gender, :first_name, :last_name, :phone, :is_active)
+    params.require(:user).permit(:email, :gender, :first_name, :last_name, :phone, :is_active, :language)
   end
 
   def load_user_and_authorize_service_admin

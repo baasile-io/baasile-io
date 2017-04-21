@@ -1,0 +1,36 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <table class="table table-sm table-condensed table-hover">
+      <thead>
+      <tr>
+        <th colspan="2"><%= t('activerecord.attributes.appconfig.name') %></th>
+        <th><%= t('activerecord.attributes.appconfig.setting_type') %></th>
+        <th><%= t('activerecord.attributes.appconfig.value') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @appconfigs.each do |appconfig_key, default_appconfig| %>
+        <tr>
+          <td class="width-3">
+            <i class="fa-2x fa fa-fw fa-cog"></i>
+          </td>
+          <td>
+            <%= t("appconfigs.#{appconfig_key}.name") %><br />
+            <small class="text-muted"><%= t("appconfigs.#{appconfig_key}.description") %></small>
+          </td>
+          <td><%= t("types.setting_types.#{default_appconfig[:setting_type]}") %></td>
+          <td><%= Appconfig.get(appconfig_key) %></td>
+          <td class="text-right">
+            <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_appconfig_path(appconfig_key), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+            <%= link_to '<i class="fa fa-fw fa-eraser"></i>'.html_safe, destroy_back_office_appconfig_path(appconfig_key), class: 'btn btn-danger btn-sm', title: t('actions.reset'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
