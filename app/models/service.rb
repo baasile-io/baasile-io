@@ -85,13 +85,6 @@ class Service < ApplicationRecord
     user.has_role?(:admin, self.company)
   end
 
-  def user_by_scope(scope)
-    users = User.all
-    users.reject do |user|
-      !(user.has_role?("superadmin") || user.has_role?("admin", self) || user.has_role?(scope, self))
-    end
-  end
-
   def generate_client_id!
     begin
       self.client_id = SecureRandom.uuid
