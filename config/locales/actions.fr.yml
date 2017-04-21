@@ -15,8 +15,8 @@ fr:
     change_password: 'Changer de mot de passe'
     configure: 'Configurer'
     confirm_email: "Confirmer l'adresse E-Mail"
-    create_client: "Créer un compte client"
-    create_startup: "Créer un compte startup"
+    create_client: "Créer un compte Client"
+    create_startup: "Créer un compte Fournisseur"
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     disassociate: "Supprimer l'association"

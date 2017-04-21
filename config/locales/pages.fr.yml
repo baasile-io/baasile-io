@@ -1,5 +1,7 @@
 fr:
   pages:
+    not_found:
+      title: "Cette page n'existe pas"
     root:
       title: 'Bienvenue sur OpenRH'
     service_book:

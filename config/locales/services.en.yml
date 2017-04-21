@@ -6,7 +6,7 @@ en:
       hints:
         description: 'Short description of your enterprise to be displayed in the catalog.'
         description_long: 'Advanced description of your enterprise to be displayed on a dedicated web page.'
-        subdomain: "The public identifier forms the base of the URL of the enterprise on the platform. It must contain alphanumeric and minus characters only."
+        subdomain: "The public identifier forms the base of the URL of the enterprise on the platform. It must contain alphanumeric and minus characters only. Warning: Once your account is activated on the platform, you will not be able to modify its value."
         website: 'Example : "http://www.google.fr"'
       tabs:
         main:
@@ -23,4 +23,10 @@ en:
       title: 'Parameters'
     users:
       title: 'Utilisateurs'
-
+    logo:
+      deleted: 'Your logo was deleted.'
+      uploaded: 'Your new logo was successfully saved.'
+      upload_file: 'Upload file'
+      delete_file: 'Delete'
+      update_title: 'Update your logo'
+      delete_title: 'Delete your current logo'

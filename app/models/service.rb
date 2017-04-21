@@ -2,6 +2,9 @@ class Service < ApplicationRecord
   # Versioning
   has_paper_trail
 
+  include Trixable
+  has_trix_attributes_restricted :description_long
+
   # User rights
   resourcify
   after_save :create_default_user_association
@@ -59,6 +62,7 @@ class Service < ApplicationRecord
   validate :company_ancestry_validation
 
   scope :owned, ->(user) { where(user: user) }
+  scope :deactivated, -> { where(confirmed_at: nil) }
   scope :activated, -> { where.not(confirmed_at: nil) }
   scope :activated_startups, -> {  where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:startup]) }
   scope :activated_clients, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:client]) }
@@ -108,7 +112,7 @@ class Service < ApplicationRecord
 
   def subdomain_changed_disallowed
     if self.persisted? && (subdomain_changed? && !confirmed_at_changed?) && self.is_activated?
-      errors.add(:subdomain, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
+      errors.add(:base, I18n.t('activerecord.validations.service.subdomain_changed_disallowed'))
     end
   end
 
@@ -129,8 +133,7 @@ class Service < ApplicationRecord
   def activate
     if self.is_activable?
       self.confirmed_at = Date.new if self.confirmed_at.nil?
-      self.generate_client_id! unless self.client_id.present?
-      self.generate_client_secret! unless self.client_secret.present?
+      self.generate_identifiers
       self.save
     end
   end

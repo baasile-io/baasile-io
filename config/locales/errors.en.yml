@@ -1,12 +1,21 @@
 en:
   errors:
     an_error_occured: 'An error occured'
+    aws:
+      s3:
+        multipart_upload_error: 'The file could not be uploaded (%{errors}).'
     failed_to_reset_password: "The password cannot be changed due to an error."
+    logotype:
+      bad_extension: 'Not allowed file format (Accepted formats: %{extensions}).'
+      missing_file: 'Please select your file before submitting the form.'
+      unknown_error_while_uploading: 'An error occured while uploading your logotype.'
+      unknown_error_while_deleting: 'An error occured while deleting your logotype.'
     messages:
       aftet: 'is too old'
       blank: "can't be blank"
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
+      missing_file: 'Make sure you add a file before you hit "Upload file".'
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"

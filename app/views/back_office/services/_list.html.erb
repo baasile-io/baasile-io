@@ -1,0 +1,53 @@
+<% if collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover">
+    <thead>
+    <tr>
+      <th colspan="2"></th>
+      <th>
+        <%= t('activerecord.attributes.service.service_type') %>
+      </th>
+      <th>
+        <%= t('activerecord.models.user').pluralize %>
+      </th>
+      <th>
+        <small><%= t('activerecord.attributes.service.created_at') %></small><br />
+        <%= t('activerecord.attributes.service.updated_at') %>
+      </th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% collection.each do |service| %>
+      <tr>
+        <td class="width-3">
+          <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
+        </td>
+        <td>
+          <%= "<span class=\"float-right\"><i class=\"fa fa-2x fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe if service.confirmed_at.nil? %>
+          <strong class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></strong><br />
+          <%= "<small class=\"text-muted\"><i class=\"#{t("types.service_types.#{service.parent.service_type}.icon")}\"></i> #{service.parent}</small>  ".html_safe if service.parent %>&nbsp;
+        </td>
+        <td>
+          <span class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
+        </td>
+        <td>
+          <% if service.users.size > 0 %>
+            <%= "<i class=\"fa fa-fw fa-users\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.users.map {|u| "#{u.full_name} (#{u.email})" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.users.count %>
+          <% end %>
+        </td>
+        <td>
+          <small class="text-muted"><%= l(service.created_at, format: :short) %></small><br />
+          <%= l(service.updated_at, format: :short) %>
+        </td>
+        <td class="text-right">
+          <%= link_to t('misc.dashboard'), service_path(service), class: 'btn btn-secondary btn-sm' %>
+          <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_service_path(service), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_service_path(service), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

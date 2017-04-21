@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:root, :service_book, :startup]
+  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found]
 
   layout 'public'
 
@@ -8,13 +8,17 @@ class PagesController < ApplicationController
   end
 
   def startup
-    @startup = Service.find(params[:id])
+    @startup = Service.find_by_id(params[:id])
     if @startup.nil? || !@startup.public
-      return head(:forbidden)
+      render :not_found, status: :not_found
     end
   end
 
   def root
+  end
+
+  def not_found
+    render status: :not_found
   end
 
   def current_module

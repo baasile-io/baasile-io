@@ -43,9 +43,19 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_main %>" id="service_main">
 
-      <%= f.input :service_type, collection: format_service_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
+      <% unless f.object.persisted? %>
+        <%= f.input :service_type, as: :hidden %>
+      <% end %>
 
-      <% if @companies.size > 0 %>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"><%= t('active_record.attributes.service.type') %></label>
+        <div class="col-md-9">
+          <h5 class="<%= t("types.service_types.#{f.object.service_type}.class") %>"><i class="<%= t("types.service_types.#{f.object.service_type}.icon") %>"></i> <%= t("types.service_types.#{f.object.service_type}.title") %></h5>
+          <%= t("types.service_types.#{f.object.service_type}.description") %>
+        </div>
+      </div>
+
+      <% if @companies.size > 0 && !f.object.is_company? %>
         <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none'), input_html: {class: 'services-select2'} %>
       <% end %>
 
@@ -56,12 +66,10 @@
       <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
       <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
-      <% if current_user.is_superadmin? %>
-        <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
+      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
 
-        <% unless f.object.is_client? %>
-          <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
-        <% end %>
+      <% if f.object.is_startup? %>
+        <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
       <% end %>
     </div>
 

@@ -7,6 +7,7 @@ class BackOfficeController < ApplicationController
   layout 'back_office'
 
   def index
+    @deactivated_services = Service.deactivated.order(updated_at: :desc)
   end
 
   def authorize_superadmin!

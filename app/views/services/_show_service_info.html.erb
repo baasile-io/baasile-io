@@ -8,39 +8,42 @@
   </div>
 </div>
 
-<hr>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.contact_detail.siret') %></strong>
-  </div>
-  <div class="col-9">
-    <%= service.contact_detail.siret.present? ? service.contact_detail.siret : '<span class="text-muted">---</span>'.html_safe %>
-  </div>
-</div>
+<% unless service.contact_detail.nil? %>
+  <hr>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.contact_detail.phone') %></strong>
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.contact_detail.siret') %></strong>
+    </div>
+    <div class="col-9">
+      <%= service.contact_detail.siret.present? ? service.contact_detail.siret : '<span class="text-muted">---</span>'.html_safe %>
+    </div>
   </div>
-  <div class="col-9">
-    <%= service.contact_detail.phone.present? ? service.contact_detail.phone : '<span class="text-muted">---</span>'.html_safe %>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.models.contact_detail') %></strong>
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.contact_detail.phone') %></strong>
+    </div>
+    <div class="col-9">
+      <%= service.contact_detail.phone.present? ? service.contact_detail.phone : '<span class="text-muted">---</span>'.html_safe %>
+    </div>
   </div>
-  <div class="col-9">
-    <%= "#{service.contact_detail.name}<br />".html_safe if service.contact_detail.name.present? && service.name != service.contact_detail.name %>
-    <%= "#{service.contact_detail.address_line1}<br />".html_safe if service.contact_detail.address_line1.present? %>
-    <%= "#{service.contact_detail.address_line2}<br />".html_safe if service.contact_detail.address_line2.present? %>
-    <%= "#{service.contact_detail.address_line3}<br />".html_safe if service.contact_detail.address_line3.present? %>
-    <%= "#{service.contact_detail.zip}<br />".html_safe if service.contact_detail.zip.present? %>
-    <%= "#{service.contact_detail.country}<br />".html_safe if service.contact_detail.country.present? %>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.models.contact_detail') %></strong>
+    </div>
+    <div class="col-9">
+      <%= "#{service.contact_detail.name}<br />".html_safe if service.contact_detail.name.present? && service.name != service.contact_detail.name %>
+      <%= "#{service.contact_detail.address_line1}<br />".html_safe if service.contact_detail.address_line1.present? %>
+      <%= "#{service.contact_detail.address_line2}<br />".html_safe if service.contact_detail.address_line2.present? %>
+      <%= "#{service.contact_detail.address_line3}<br />".html_safe if service.contact_detail.address_line3.present? %>
+      <%= "#{service.contact_detail.zip}<br />".html_safe if service.contact_detail.zip.present? %>
+      <%= "#{service.contact_detail.country}<br />".html_safe if service.contact_detail.country.present? %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <hr>
 

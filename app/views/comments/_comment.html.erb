@@ -11,7 +11,9 @@
       <% if comment.deleted %>
         <span class="badge badge-danger pull-right"><%= t('misc.destroyed') %></span>
       <% end %>
-      <%= simple_format(comment.body) %>
+      <div class="trix-content">
+        <%= comment.body.html_safe %>
+      </div>
     </div>
   </div>
 </div>
