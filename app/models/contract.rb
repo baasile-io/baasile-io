@@ -56,7 +56,10 @@ class Contract < ApplicationRecord
       },
       conditions: {
         startup: Proc.new {|c| true},
-        validate: Proc.new {|c| !c.general_condition_validated_client_id.nil?}
+        validate: [
+            Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]},
+            Proc.new {|c| true}
+        ]
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -138,7 +141,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| !c.general_condition_validated_client_id.nil?}
+        validate: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]}
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -302,10 +305,28 @@ class Contract < ApplicationRecord
     false
   end
 
+  def exec_condition(action_condition)
+    unless action_condition.kind_of?(Array)
+      status, error = action_condition.call(self)
+      return [false, [error]] unless status
+    else
+      g_status = true
+      errors = []
+      action_condition.each do |cond|
+        status, error = cond.call(self)
+        errors << error unless status
+        g_status = false unless status
+      end
+      return [false, errors] unless g_status
+    end
+    return true
+  end
+
   def can?(user, action)
     return false if status_config[:can].nil? || status_config[:can][action].nil?
     unless status_config[:conditions].nil? || status_config[:conditions][action].nil?
-      return false unless status_config[:conditions][action].call(self)
+      status, errors = exec_condition(status_config[:conditions][action])
+      return [false, errors] unless status
     end
     status_config[:can][action].each_pair do |scope, roles|
       roles.each do |role|

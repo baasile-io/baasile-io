@@ -126,34 +126,57 @@
       </div>
       <div class="col-9">
 
-        <% if @contract.can?(current_user, :cancel) %>
+        <% status, errors = @contract.can?(current_user, :cancel) %>
+        <% if status %>
           <div class="pull-right">
             <%= button_to t('actions.cancel_contract'), (current_service.nil? ? cancel_contract_path(@contract) : cancel_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
           </div>
         <% end %>
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
 
-        <% if @contract.can?(current_user, :edit) %>
+        <% status, errors = @contract.can?(current_user, :edit) %>
+        <% if status %>
           <%= link_to t('actions.edit'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
 
-        <% if @contract.can?(current_user, :prices) %>
+        <% status, errors = @contract.can?(current_user, :prices) %>
+        <% if status %>
           <%= link_to t('actions.edit_price'), (current_service.nil? ? prices_contract_path(@contract) : prices_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
 
-        <% if @contract.can?(current_user, :validate) %>
+        <% status, errors = @contract.can?(current_user, :validate) %>
+        <% if status %>
           <%= link_to t('actions.next_step'), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
         <% elsif !@contract.status_config[:next].nil?  %>
           <p><%= t('misc.waiting_for_validation') %></p>
         <% end %>
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
 
-        <% if @contract.can?(current_user, :toggle_production) %>
+        <% status, errors = @contract.can?(current_user, :toggle_production) %>
+        <% if status %>
           <%= link_to t("actions.#{'un' if @contract.production}set_production"), (current_service.nil? ? toggle_production_contract_path(@contract) : toggle_production_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post %>
         <% end %>
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
 
-        <% if @contract.can?(current_user, :reject) %>
+        <% status, errors = @contract.can?(current_user, :reject) %>
+        <% if status %>
           <%= link_to t('actions.reject'), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-danger', method: :post %>
         <% end %>
-
+        <% errors.each do |err| %>
+            <p><%= err %></p>
+        <% end if errors%>
       </div>
     </div>
 
