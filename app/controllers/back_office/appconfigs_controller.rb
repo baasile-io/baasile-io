@@ -11,7 +11,7 @@ module BackOffice
 
     def update
       @appconfig.assign_attributes(appconfig_params)
-      return destroy if convert_appconfig_value(Appconfig::APPCONFIGS[@appconfig.name.to_sym][:setting_type], @appconfig.value) == Appconfig::APPCONFIGS[@appconfig.name.to_sym][:value]
+      return destroy if @appconfig.value.blank? || convert_appconfig_value(Appconfig::APPCONFIGS[@appconfig.name.to_sym][:setting_type], @appconfig.value) == Appconfig::APPCONFIGS[@appconfig.name.to_sym][:value]
       if @appconfig.save
         redirect_to back_office_appconfigs_path
       else
