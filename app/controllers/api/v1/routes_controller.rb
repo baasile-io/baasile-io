@@ -13,8 +13,8 @@ module Api
 
       def process_request
         begin
-          res = proxy_request
-          render status: res.code, plain: res.body
+          @res = proxy_request
+          render status: @res.code, plain: @res.body
         rescue ProxyInitializationError
           render status: :bad_gateway, json: {
             errors: [{

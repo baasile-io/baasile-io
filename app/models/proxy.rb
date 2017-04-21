@@ -12,6 +12,7 @@ class Proxy < ApplicationRecord
 
   belongs_to :proxy_parameter
   belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
+  has_many :measurements
   has_many :routes
   has_one :identifier, as: :identifiable, through: :proxy_parameter
   has_many :query_parameters, through: :routes
@@ -27,10 +28,6 @@ class Proxy < ApplicationRecord
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
   scope :associated_service, ->(service) { where(service: service) }
   scope :published, -> { where(public: true) }
-
-  def service_proxy_name
-    return self.service.name + " - " + self.name
-  end
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self)
