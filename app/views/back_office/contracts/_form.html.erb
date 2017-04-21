@@ -22,6 +22,10 @@
       <%= f.input :expected_contract_duration, as: :integer, hint: t('.hints.expected_contract_duration') %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
+
+      <%= f.input :activate , as: :radio_buttons %>
+      <%= f.input :production , as: :radio_buttons %>
+
       <div class="row">
         <div class="actions col-md-9 offset-md-3">
           <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
