@@ -87,6 +87,7 @@ class ContractsController < ApplicationController
     status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
     if @contract.general_condition_validated_client_id.nil?
       @contract.general_condition_validated_client = current_user
+      @contract.validation_date = Time.now.to_date
       if @contract.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       end
@@ -103,6 +104,7 @@ class ContractsController < ApplicationController
     status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
     unless @contract.general_condition_validated_client_id.nil?
       @contract.general_condition_validated_client = nil
+      @contract.validation_date = nil
       if @contract.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       end

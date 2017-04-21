@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20170422071737) do
     t.integer  "contract_duration_type",     default: 0
     t.integer  "general_condition_id"
     t.integer  "general_condition_validated_client_id"
+    t.date     "validation_date"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 

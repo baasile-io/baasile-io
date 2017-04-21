@@ -56,6 +56,8 @@ class Contract < ApplicationRecord
       },
       conditions: {
         startup: Proc.new {|c| true},
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_id.nil? ) ? true : false},
+        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : false},
         validate: [
             Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]},
             Proc.new {|c| true}
@@ -141,6 +143,8 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_id.nil? ) ? true : false},
+        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : false},
         validate: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]}
       },
       notifications: {
