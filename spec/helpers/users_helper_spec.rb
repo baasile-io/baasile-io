@@ -15,7 +15,7 @@ RSpec.describe UsersHelper, type: :helper do
 
   describe "gender" do
      it "get_table" do
-      # expect(helper.format_gender_for_select()).to eq(1)
+      # expect(helper.format_genders_for_select()).to eq(1)
      end
   end
 

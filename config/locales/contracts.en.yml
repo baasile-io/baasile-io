@@ -8,7 +8,7 @@ en:
       hints:
         expected_contract_duration: 'Contract duration in months.'
     index:
-      title: 'List of contracts'
+      title: 'Contracts'
     new:
       title: 'Create a new contract'
     prices:

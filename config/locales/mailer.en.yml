@@ -12,4 +12,7 @@ en:
         subject: 'Reset your password'
       send_welcome_email:
         subject: 'Welcome'
+      send_Daily_notification:
+        service:
+          subject: 'Your are notified that your contract %{name} will ended.'
 

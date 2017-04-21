@@ -8,11 +8,13 @@
 
       <%= f.input :email, hint: (t('devise.registrations.pending_reconfirmation', email: resource.unconfirmed_email) if resource.pending_reconfirmation?) %>
 
-      <%= f.input :gender, as: :select, collection: format_gender_for_select, input_html: {class: 'col-sm-2'} %>
+      <%= f.input :gender, as: :select, collection: format_genders_for_select, input_html: {class: 'col-sm-2'} %>
+
       <%= f.input :first_name %>
       <%= f.input :last_name %>
 
       <%= f.input :phone, hint: t('users.form.hints.phone') %>
+      <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
       <%= f.input :password, autocomplete: "off", hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, autocomplete: "off" %>
