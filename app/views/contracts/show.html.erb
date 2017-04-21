@@ -105,7 +105,7 @@
 
         <% status, errors = @contract.can?(current_user, :validate_general_condition) %>
         <% if status %>
-          <%= button_to t('actions.accept'), (current_service.nil? ? validate_general_condition_contract_path(@contract) : validate_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+          <%= button_to t('actions.accept'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :get%>
         <% end %>
         <% errors.each do |err| %>
             <p><%= err %></p>

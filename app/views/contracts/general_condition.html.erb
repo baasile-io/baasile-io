@@ -1,3 +1,4 @@
+<% content_for(:page_back) { (current_service.nil? ? contract_path(@contract) : service_contract_path(current_service, @contract)) } %>
 <% content_for(:page_title) { @general_condition.title } %>
 
 <div class="b-io-content--secondary">
@@ -5,5 +6,35 @@
     <p>
       <%= @general_condition.body.html_safe %>
     </p>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+
+    <% status, errors = @contract.can?(current_user, :validate_general_condition) %>
+    <% if status %>
+        <%= button_to t('actions.accept'), (current_service.nil? ? validate_general_condition_contract_path(@contract) : validate_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+    <% end %>
+    <% errors.each do |err| %>
+        <p><%= err %></p>
+    <% end if errors %>
+    <% if !@contract.general_condition_validated_client_id.nil? %>
+        <%= t('actions.accept_by') + ' ' + @contract.general_condition_validated_client.full_name + ' ' + l(@contract.validation_date, format: :long) %>
+    <%  elsif !status %>
+        <%= t('actions.not_accept_by') + ' ' + t('types.service_types.client.title')%>
+    <% end %>
+
+    <% status, errors = @contract.can?(current_user, :reject_general_condition) %>
+    <% if status %>
+        <div class="pull-right">
+          <%= button_to t('actions.reject'), (current_service.nil? ? reject_general_condition_contract_path(@contract) : reject_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+        </div>
+    <% end %>
+    <% errors.each do |err| %>
+        <p><%= err %></p>
+    <% end if errors %>
+
   </div>
 </div>

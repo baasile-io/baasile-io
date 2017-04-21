@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :reject_general_condition, :validate_general_condition, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
+  before_action :load_contract, only: [:show, :general_condition, :edit, :update, :destroy, :reject_general_condition, :validate_general_condition, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
   before_action :load_general_condition, except: [:index]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
