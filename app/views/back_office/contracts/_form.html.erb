@@ -1,4 +1,4 @@
-<%= simple_form_for @contract do |f| %>
+<%= simple_form_for [:back_office, @contract] do |f| %>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
       <% if f.object.persisted? %>
@@ -13,33 +13,14 @@
       <% end %>
       <%= error_messages_for(f.object) %>
 
-      <% if @current_status[:allowed_parameters].include?(:code) %>
-        <%= f.input :code %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:name) %>
-        <%= f.input :name %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:client_id) %>
-        <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:proxy_id) %>
-        <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:expected_start_date) %>
-        <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:expected_contract_duration) %>
-        <%= f.input :expected_contract_duration, as: :integer, hint: t('.hints.expected_contract_duration') %>
-      <% end %>
-
-      <% if @current_status[:allowed_parameters].include?(:is_evergreen) %>
-        <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
-      <% end %>
+      <%= f.input :status, collection: format_contract_status_for_select %>
+      <%= f.input :code %>
+      <%= f.input :name %>
+      <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
+      <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
+      <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
+      <%= f.input :expected_contract_duration, as: :integer, hint: t('.hints.expected_contract_duration') %>
+      <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
       <div class="row">
         <div class="actions col-md-9 offset-md-3">

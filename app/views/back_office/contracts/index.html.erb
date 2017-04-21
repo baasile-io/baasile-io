@@ -10,6 +10,7 @@
         <thead>
         <tr>
           <th colspan="2"><%= t('activerecord.attributes.contract.name') %> / <%= t('activerecord.attributes.contract.code') %></th>
+          <th><%= t('activerecord.attributes.contract.status') %></th>
           <th><%= t('activerecord.attributes.contract.client') %></th>
           <th><%= t('activerecord.attributes.contract.startup') %></th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
@@ -25,6 +26,10 @@
             <td>
               <%= contract.name %><br />
               <small class="text-muted"><%= contract.code %></small>&nbsp;
+            </td>
+            <td>
+              <i class="<%= t("types.contract_statuses.#{contract.status}.icon") %>"></i>
+              <span class="<%= t("types.contract_statuses.#{contract.status}.class") %>"><%= t("types.contract_statuses.#{contract.status}.title") %></span>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
