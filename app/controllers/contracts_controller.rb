@@ -94,9 +94,11 @@ class ContractsController < ApplicationController
   end
 
   def reject
-    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    old_status_key = @contract.status.to_sym
+    status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:prev] unless status[:prev].nil?
     if @contract.save
+      ContractNotifier.send_rejected_status_notification(@contract, from_status: old_status_key).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       unless @contract.can?(current_user, :show)
         return redirect_to_index

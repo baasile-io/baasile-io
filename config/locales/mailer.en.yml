@@ -13,5 +13,7 @@ en:
       send_welcome_email:
         subject: 'Welcome'
     contract_notifier:
+      send_rejected_status_notification:
+        subject: "Your contract get a modification \"%{status}\""
       send_validated_status_notification:
-        subject: "Your contract get \"%{status}\""
+        subject: "Your contract has just passed the status \"%{status}\""
