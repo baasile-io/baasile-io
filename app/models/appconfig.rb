@@ -46,7 +46,7 @@ class Appconfig < ApplicationRecord
 
   def update_current_config
     appconfig_key = self.name.to_sym
-    Appconfig.actual_config[appconfig_key] = convert_value APPCONFIGS[appconfig_key][:setting_type], self.value
+    Appconfig.actual_config[appconfig_key] = convert_appconfig_value APPCONFIGS[appconfig_key][:setting_type], self.value
   end
 
   def reset_current_config
