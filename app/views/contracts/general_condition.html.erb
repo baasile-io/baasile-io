@@ -18,9 +18,7 @@
         <%= button_to t('actions.accept_general_conditions'), (current_service.nil? ? validate_general_condition_contract_path(@contract) : validate_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post, data: { confirm: "Are you sure?" } %>
       </div>
     <% end %>
-    <% errors.each do |err| %>
-      <p><%= err %></p>
-    <% end if errors %>
+    <%= show_contract_errors(errors) %>
 
     <% if !@contract.general_condition_validated_client_user_id.nil? %>
       <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.validation_date, format: :long)) %>

@@ -1,6 +1,6 @@
 module BackOffice
   class GeneralConditionsController < BackOfficeController
-    before_action :load_general_condition, only: [:edit, :update, :destroy]
+    before_action :load_general_condition, only: [:edit, :update, :destroy, :show]
     before_action :is_used, only: [:edit, :update, :destroy]
 
     def index
@@ -12,6 +12,9 @@ module BackOffice
       I18n.available_locales.each do |locale|
         @general_condition.send("build_dictionary_#{locale}")
       end
+    end
+
+    def show
     end
 
     def create

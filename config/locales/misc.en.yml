@@ -20,6 +20,7 @@ en:
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
+    general_condition_not_modifiable: 'These general conditions are not modifiable because they are already accepted'
     general_condition_validation: 'General condition validation'
     included: 'included'
     invalid_fields: 'Invalid Fields'

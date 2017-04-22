@@ -73,37 +73,44 @@ fr:
         class: 'text-muted'
         description: "Le contrat est au stade de brouillon. Seule le client peut y accéder."
         icon: 'fa fa-fw fa-pencil text-muted'
+        reject_label: 'Supprimer le contrat'
         title: 'Création'
+        validate_label: 'Créer et notifier le fournisseur'
       commercial_validation_sp:
         class: 'text-danger'
         description: "Le fournisseur doit valider les dates du contrat."
+        error: 'Seul un responsable commercial du fournisseur est habilité à valider cette étape.'
         icon: 'fa fa-fw fa-thumbs-o-up text-danger'
+        reject_label: 'Rejeter la proposition et notifier le client'
         title: 'Validation commercial startup'
+        validate_label: 'Valider et notifier le client'
       commercial_validation_client:
         class: 'text-info'
         description: "Le client doit valider les dates du contrat."
+        error: 'Seul un responsable commercial du client est habilité à valider cette étape.'
         icon: 'fa fa-fw fa-thumbs-o-up text-info'
+        reject_label: 'Rejeter les changements et notifier le fournisseur'
         title: 'Validation commercial client'
+        validate_label: 'Valider, notifier le fournisseur et lancer la phase de test'
       deletion:
         class: 'text-muted'
         description: "Le contrat est annulé."
         icon: 'fa fa-fw fa-trash text-muted'
         title: 'Annulé'
-      price_validation_sp:
-        class: 'text-danger'
-        description: "Le fournisseur doit faire une proposition tarifaire."
-        icon: 'fa fa-fw fa-thumbs-up text-danger'
-        title: 'Validation tarif startup'
-      price_validation_client:
-        class: 'text-info'
-        description: "Le client doit valider les tarifs proposés par le fournisseur."
-        icon: 'fa fa-fw fa-thumbs-up text-info'
-        title: 'Validation tarif client'
+        validate_label: 'Recréer le contrat'
       validation:
         class: 'text-success'
-        description: "Le contrat est validé par les deux parties. La phase de test peut démarrer en attendant le début du contrat."
+        description: "Le contrat est validé par les deux parties. La phase de test a démarré."
+        error: "Le contrat est en phase de test, veuillez contacter le fournisseur pour démarrer la phase d'exploitation."
         icon: 'fa fa-fw fa-check text-success'
-        title: 'Validé'
+        reject_label: 'Renégocier le contrat'
+        title: 'Validé (phase de test)'
+        validate_label: 'Démarrer la phase de production'
+      validation_production:
+        class: 'text-success'
+        description: "Le contrat est validé par les deux parties. La phase de production a démarré."
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Validé (phase de production)'
     contract_unset_status:
       creation: 'Suppression'
       commercial_validation_sp: 'Reject startup'

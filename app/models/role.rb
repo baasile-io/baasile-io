@@ -58,6 +58,7 @@ class Role < ApplicationRecord
       comments: [:admin, :commercial, :accountant],
       reject: [:admin, :commercial, :accountant],
       validate: [:admin, :commercial, :accountant],
+      general_condition: [:admin, :commercial, :accountant],
       cancel: [:admin]
     },
     prices: {

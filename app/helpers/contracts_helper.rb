@@ -10,4 +10,9 @@ module ContractsHelper
       ["#{I18n.t("types.contract_duration_types.#{key}.title")}", key]
     end
   end
+  
+  def show_contract_errors(errors)
+    return if errors.blank?
+    errors.join(', ')
+  end
 end

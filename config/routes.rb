@@ -68,7 +68,6 @@ Rails.application.routes.draw do
         post :reject
         get :prices
         get :select_price
-        post :toggle_production
         post :cancel
       end
       resources :prices do
@@ -91,7 +90,6 @@ Rails.application.routes.draw do
           get :general_condition
           get :prices
           get :select_price
-          post :toggle_production
           post :cancel
         end
         resources :prices do

@@ -38,6 +38,7 @@ en:
     return: 'Return'
     save: 'Save'
     save_in_progress: 'Save in progress...'
+    see: 'See'
     see_and_add_comments: 'See/add comments'
     see_general_conditions: 'See General Conditions'
     select: 'Select...'

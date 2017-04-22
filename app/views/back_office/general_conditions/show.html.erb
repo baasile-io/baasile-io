@@ -1,0 +1,13 @@
+<% content_for(:page_back) { back_office_general_conditions_path } %>
+<% content_for(:page_title) { @general_condition.title } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <div class="alert alert-danger">
+      <%= t('misc.general_condition_not_modifiable') %>
+    </div>
+    <div class="trix-content">
+      <%= @general_condition.body.html_safe %>
+    </div>
+  </div>
+</div>

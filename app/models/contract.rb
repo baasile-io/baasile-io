@@ -97,8 +97,11 @@ class Contract < ApplicationRecord
           startup: ['commercial']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.commercial_validation_sp.error')
+      },
       conditions: {
-        validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
+        validate: Proc.new {|c| (!c.price.nil? && c.price.persisted?) ? true : [false, I18n.t('errors.messages.missing_contract_prices')]}
       },
       notifications: {
         client: ['admin', 'commercial']
@@ -135,9 +138,11 @@ class Contract < ApplicationRecord
           startup: ['commercial', 'accountant']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.commercial_validation_client.error')
+      },
       conditions: {
         validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
-        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : false},
         validate: Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : [false, I18n.t('errors.messages.general_condition_not_validated')]}
       },
       notifications: {
@@ -161,7 +166,7 @@ class Contract < ApplicationRecord
           client: ['commercial'],
           startup: ['commercial']
         },
-        toggle_production: {
+        reject: {
           startup: ['commercial']
         },
         general_condition: {
@@ -169,8 +174,38 @@ class Contract < ApplicationRecord
           startup: ['commercial', 'accountant']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.validation.error')
+      },
       conditions: {
-        toggle_production: Proc.new {|c| true},
+        validate: Proc.new {|c| true}
+      },
+      notifications: {
+        client: ['admin', 'commercial'],
+        startup: ['admin', 'commercial']
+      },
+      allowed_parameters: [],
+      next: :validation_production,
+      prev: :commercial_validation_client
+    },
+    validation_production: {
+      index: 20,
+      can: {
+        show: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        },
+        comments: {
+          client: ['commercial'],
+          startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        }
+      },
+      show_error: {},
+      conditions: {
         validate: Proc.new {|c| false}
       },
       notifications: {
@@ -296,6 +331,7 @@ class Contract < ApplicationRecord
         return true if self.send("is_#{role}?", user, scope)
       end
     end
+    return [false, [status_config[:show_error][action]]] if status_config[:show_error]
     false
   end
 

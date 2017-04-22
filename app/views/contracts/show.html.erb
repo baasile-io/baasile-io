@@ -100,7 +100,11 @@
       </div>
       <div class="col-9 text-left">
 
-        <%= link_to t('actions.see_general_conditions'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
+        <% status, errors = @contract.can?(current_user, :general_condition) %>
+        <% if status %>
+          <%= link_to t('actions.see_general_conditions'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
+        <% end %>
+        <%= show_contract_errors(errors) %>
 
         <% if !@contract.general_condition_validated_client_user_id.nil? %>
           <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.validation_date, format: :long)) %>
@@ -112,7 +116,6 @@
 
     <div class="row">
       <div class="col-3 text-right">
-        <strong><%= t('misc.actions') %></strong>
       </div>
       <div class="col-9">
 
@@ -122,41 +125,25 @@
             <%= button_to t('actions.cancel_contract'), (current_service.nil? ? cancel_contract_path(@contract) : cancel_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
           </div>
         <% end %>
-        <% errors.each do |err| %>
-          <p><%= err %></p>
-        <% end if errors%>
+        <%= show_contract_errors(errors) %>
 
         <% status, errors = @contract.can?(current_user, :edit) %>
         <% if status %>
           <%= link_to t('actions.edit'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
-        <% errors.each do |err| %>
-          <p><%= err %></p>
-        <% end if errors%>
+        <%= show_contract_errors(errors) %>
 
         <% status, errors = @contract.can?(current_user, :prices) %>
         <% if status %>
           <%= link_to t('actions.edit_price'), (current_service.nil? ? prices_contract_path(@contract) : prices_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
-        <% errors.each do |err| %>
-          <p><%= err %></p>
-        <% end if errors%>
+        <%= show_contract_errors(errors) %>
 
         <% status, errors = @contract.can?(current_user, :reject) %>
         <% if status %>
-          <%= link_to t('actions.reject'), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-danger', method: :post %>
+          <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-danger', method: :post %>
         <% end %>
-        <% errors.each do |err| %>
-          <p><%= err %></p>
-        <% end if errors%>
-
-        <% status, errors = @contract.can?(current_user, :toggle_production) %>
-        <% if status %>
-          <%= link_to t("actions.#{'un' if @contract.production}set_production"), (current_service.nil? ? toggle_production_contract_path(@contract) : toggle_production_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post %>
-        <% end %>
-        <% errors.each do |err| %>
-          <p><%= err %></p>
-        <% end if errors%>
+        <%= show_contract_errors(errors) %>
       </div>
     </div>
 
@@ -169,11 +156,9 @@
         <div class="col-9">
           <% status, errors = @contract.can?(current_user, :validate) %>
           <% if status %>
-            <%= link_to t('actions.next_step'), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
+            <%= link_to t("types.contract_statuses.#{@contract.status}.validate_label"), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
           <% end %>
-          <% errors.each do |err| %>
-            <p><%= err %></p>
-          <% end if errors%>
+          <%= show_contract_errors(errors) %>
         </div>
       </div>
     <% end %>

@@ -38,6 +38,7 @@ fr:
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    see: 'Voir'
     see_and_add_comments: 'Voir/ajouter des commentaires'
     see_general_conditions: 'Voir les Conditions Générales'
     select: 'Sélectionner...'
