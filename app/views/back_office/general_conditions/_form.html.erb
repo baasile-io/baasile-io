@@ -1,0 +1,36 @@
+<%= simple_form_for [:back_office, @general_condition] do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :gc_version %>
+  <%= f.input :effective_start_date, as: :string, input_html: {class: 'date-picker'} %>
+
+    <ul class="nav nav-tabs" role="tablist">
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <li class="nav-item">
+        <a class="nav-link <%= 'active' if index == 0 %>" data-toggle="tab" href="#general_condition_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <div role="tabpanel" class="tab-pane <%= 'active' if index == 0 %>" id="general_condition_<%= locale %>">
+        <%= f.simple_fields_for "dictionary_#{locale}".to_sym do |f2| %>
+          <%= f2.input :locale, as: :hidden %>
+          <%= f2.input :title, as: :string, required: true %>
+          <%= f2.input :body, as: :trix_editor, required: true %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

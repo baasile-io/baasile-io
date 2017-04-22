@@ -1,10 +1,12 @@
 fr:
   misc:
+    accepted_by: 'Acceptées par %{user} le %{date}'
     actions: 'Actions'
     activated: "Activé"
     advanced_permissions: 'Permissions avancées'
     all: 'Tous'
     all_feminized: 'Toutes'
+    already_accepted: 'Déjà validées'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
     captcha: 'Code de vérification'
@@ -18,6 +20,8 @@ fr:
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
+    general_condition_not_modifiable: 'Ces Conditions Générales ne sont pas modifiables car elles ont déjà été acceptées'
+    general_condition_validation: 'Validation des Conditions Générales'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     last_comment: 'Dernier commentaire'
@@ -30,6 +34,8 @@ fr:
       one: 'mois'
       other: 'mois'
     my_services: 'Mes entreprises'
+    next_step: 'Étape suivante'
+    need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
     none: 'Aucun'
     none_feminized: 'Aucune'

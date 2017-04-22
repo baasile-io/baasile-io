@@ -1,10 +1,12 @@
 en:
   misc:
+    accepted_by: 'Accepted by %{user} on %{date}'
     actions: 'Actions'
     activated: "Activated"
     advanced_permissions: 'Advanced permissions'
     all: 'All'
     all_feminized: 'All'
+    already_accepted: 'Already accepted'
     authentification_identifiers: 'Login credentials'
     back_office: 'Back Office'
     captcha: 'Verification code'
@@ -18,6 +20,8 @@ en:
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
+    general_condition_not_modifiable: 'These general conditions are not modifiable because they are already accepted'
+    general_condition_validation: 'General condition validation'
     included: 'included'
     invalid_fields: 'Invalid Fields'
     last_comment: 'Last comment'
@@ -30,6 +34,8 @@ en:
       one: 'month'
       other: 'months'
     my_services: 'My services'
+    need_to_valide_general_condition: 'You need to valide general contions'
+    next_step: 'Next step'
     no: 'Non'
     none: 'None'
     none_feminized: 'None'

@@ -9,6 +9,9 @@ class Contract < ApplicationRecord
         },
         validate: {
           client: ['admin']
+        },
+        general_condition:{
+          client: ['admin']
         }
       },
       conditions: {
@@ -34,15 +37,24 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
+        validate_general_condition: {
+          client: ['commercial']
+        },
         cancel: {
           client: ['commercial']
         },
         comments: {
           startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial']
         }
       },
       conditions: {
-        startup: Proc.new {|c| true}
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
+        validate: [
+            Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : [false, I18n.t('errors.messages.general_condition_not_validated')]}
+        ]
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -79,10 +91,17 @@ class Contract < ApplicationRecord
         comments: {
           client: ['commercial'],
           startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial'],
+          startup: ['commercial']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.commercial_validation_sp.error')
+      },
       conditions: {
-        validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
+        validate: Proc.new {|c| (!c.price.nil? && c.price.persisted?) ? true : [false, I18n.t('errors.messages.missing_contract_prices')]}
       },
       notifications: {
         client: ['admin', 'commercial']
@@ -101,16 +120,30 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
+        reject_general_condition: {
+          client: ['commercial']
+        },
+        validate_general_condition: {
+          client: ['commercial']
+        },
         reject: {
           client: ['commercial']
         },
         comments: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        general_condition: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.commercial_validation_client.error')
+      },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
+        validate: Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : [false, I18n.t('errors.messages.general_condition_not_validated')]}
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -119,40 +152,6 @@ class Contract < ApplicationRecord
       next: :validation,
       prev: :commercial_validation_sp
     },
-=begin
-    price_validation_sp: {
-      index: 10,
-      scope: 'accounting',
-      roles: ['admin', 'commercial'],
-      can: {
-        see: ['client', 'startup']
-      },
-      can_validate: 'startup',
-      can_reject: 'startup',
-      can_edit: 'startup',
-      can_set_price: 'startup',
-      allowed_parameters: [],
-      next: :price_validation_client,
-      next_condition: Proc.new {|c| !c.price.nil? && c.price.persisted?},
-      prev: :commercial_validation_client
-    },
-    price_validation_client: {
-      index: 13,
-      scope: 'accounting',
-      roles: ['admin', 'commercial'],
-      can: {
-        see: ['client', 'startup']
-      },
-      can_validate: 'client',
-      can_reject: 'client',
-      can_edit: 'client',
-      can_set_price: nil,
-      allowed_parameters: [],
-      next: :validation,
-      next_condition: Proc.new {|c| true},
-      prev: :price_validation_sp
-    },
-=end
     validation: {
       index: 16,
       can: {
@@ -167,12 +166,46 @@ class Contract < ApplicationRecord
           client: ['commercial'],
           startup: ['commercial']
         },
-        toggle_production: {
+        reject: {
           startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
         }
       },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.validation.error')
+      },
       conditions: {
-        toggle_production: Proc.new {|c| true},
+        validate: Proc.new {|c| true}
+      },
+      notifications: {
+        client: ['admin', 'commercial'],
+        startup: ['admin', 'commercial']
+      },
+      allowed_parameters: [],
+      next: :validation_production,
+      prev: :commercial_validation_client
+    },
+    validation_production: {
+      index: 20,
+      can: {
+        show: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        },
+        comments: {
+          client: ['commercial'],
+          startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        }
+      },
+      show_error: {},
+      conditions: {
         validate: Proc.new {|c| false}
       },
       notifications: {
@@ -203,6 +236,8 @@ class Contract < ApplicationRecord
   belongs_to :company
   belongs_to :client, class_name: Service.name
   belongs_to :startup, class_name: Service.name
+  belongs_to :general_condition_validated_client_user, class_name: User.name
+  belongs_to :general_condition, class_name: GeneralCondition.name
 
   has_one :price
   has_many :comments, as: :commentable
@@ -268,16 +303,35 @@ class Contract < ApplicationRecord
     false
   end
 
+  def exec_condition(action_condition)
+    unless action_condition.kind_of?(Array)
+      status, error = action_condition.call(self)
+      return [false, [error]] unless status
+    else
+      g_status = true
+      errors = []
+      action_condition.each do |cond|
+        status, error = cond.call(self)
+        errors << error unless status
+        g_status = false unless status
+      end
+      return [false, errors] unless g_status
+    end
+    return true
+  end
+
   def can?(user, action)
     return false if status_config[:can].nil? || status_config[:can][action].nil?
     unless status_config[:conditions].nil? || status_config[:conditions][action].nil?
-      return false unless status_config[:conditions][action].call(self)
+      status, errors = exec_condition(status_config[:conditions][action])
+      return [false, errors] unless status
     end
     status_config[:can][action].each_pair do |scope, roles|
       roles.each do |role|
         return true if self.send("is_#{role}?", user, scope)
       end
     end
+    return [false, [status_config[:show_error][action]]] if status_config[:show_error]
     false
   end
 

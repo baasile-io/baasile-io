@@ -63,10 +63,11 @@ Rails.application.routes.draw do
         get :comments
         post :create_comment
         post :validate
+        post :validate_general_condition
+        get :general_condition
         post :reject
         get :prices
         get :select_price
-        post :toggle_production
         post :cancel
       end
       resources :prices do
@@ -85,9 +86,10 @@ Rails.application.routes.draw do
           post :create_comment
           post :validate
           post :reject
+          post :validate_general_condition
+          get :general_condition
           get :prices
           get :select_price
-          post :toggle_production
           post :cancel
         end
         resources :prices do
@@ -164,6 +166,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :general_conditions
       resources :documentations
       resources :categories
       resources :appconfigs do

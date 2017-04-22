@@ -1,7 +1,8 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :toogle_activate, :toggle_production, :comments, :prices, :select_price, :cancel]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel]
+  before_action :load_general_condition, except: [:index]
   before_action :load_price, only: [:show]
   before_action :load_active_services, only: [:new, :edit, :create, :update]
   before_action :load_active_client, only: [:new, :edit, :create, :update]
@@ -38,6 +39,7 @@ class ContractsController < ApplicationController
   def create
     @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
+    @contract.general_condition = @general_condition
     @contract.user = current_user
     @contract.assign_attributes(contract_params(:creation))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
@@ -81,6 +83,22 @@ class ContractsController < ApplicationController
     end
   end
 
+  def validate_general_condition
+    if @contract.general_condition_validated_client_user_id.nil?
+      @contract.general_condition_validated_client_user = current_user
+      @contract.general_condition_validated_client_datetime = DateTime.now
+      if @contract.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      end
+    else
+      flash[:error] = I18n.t('misc.already_accepted')
+    end
+    redirect_to_show
+  end
+
+  def general_condition
+  end
+
   def validate
     old_status_key = @contract.status.to_sym
     status = Contract::CONTRACT_STATUSES[old_status_key]
@@ -102,18 +120,6 @@ class ContractsController < ApplicationController
       unless @contract.can?(current_user, :show)
         return redirect_to_index
       end
-    end
-    redirect_to_show
-  end
-
-  def toggle_production
-    if @contract.can?(current_user, :toggle_production)
-      @contract.production = !@contract.production
-      if @contract.save
-        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-      end
-    else
-      flash[:error] = I18n.t('misc.not_authorized')
     end
     redirect_to_show
   end
@@ -160,6 +166,19 @@ class ContractsController < ApplicationController
   end
 
   private
+
+  def load_general_condition
+    if @contract.nil? || @contract.general_condition.nil?
+      @general_condition = GeneralCondition.effective_now
+      @contract.general_condition = @general_condition unless @contract.nil?
+    else
+      @general_condition = @contract.general_condition
+    end
+    if @general_condition.nil?
+      flash[:error] = I18n.t('errors.messages.missing_general_condition')
+      return redirect_to_index
+    end
+  end
 
   def get_for_values
     return [current_service, @contract] unless current_service.nil?

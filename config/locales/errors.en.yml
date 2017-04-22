@@ -13,9 +13,16 @@ en:
     messages:
       aftet: 'is too old'
       blank: "can't be blank"
+      general_condition_is_used: "General conditions are already accepted on the platform and can't be modified"
+      general_condition_not_validated: 'General conditions must be accepted'
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
+      is_used: 'is in use'
+      missing_contract_prices: "Supplier must set the contract's pricing to continue."
       missing_file: 'Make sure you add a file before you hit "Upload file".'
+      missing_general_condition: 'There is no effective general condition on the platform. Please contact an administrator.'
+      missing_translation: 'Missing translation'
+      missing_translation_for_locale: 'Missing translation for the following language: %{current_locale}'
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"

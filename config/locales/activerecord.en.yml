@@ -61,6 +61,9 @@ en:
         body: 'Content'
         locale: 'Language'
         title: 'Title'
+      general_condition:
+        effective_start_date: 'Effective date'
+        gc_version: 'Version'
       identifier:
         client_id: 'Public Key'
         client_secret: 'Secret Key'
@@ -176,6 +179,7 @@ en:
       contact_detail: 'Contact Detail'
       dictionary: 'Dictionary'
       documentation: 'Documentation'
+      general_condition: 'General Conditions'
       identifier: 'Credential'
       contract: 'Contract'
       query_parameter: 'Query parameter'

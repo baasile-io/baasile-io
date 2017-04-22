@@ -69,37 +69,43 @@ en:
         class: 'text-muted'
         description: "The contract is at the draft stage. Only the client can access it."
         icon: 'fa fa-fw fa-pencil text-muted'
+        reject_label: 'Delete contract'
         title: 'Creation'
+        validate_label: 'Create and notify supplier'
       commercial_validation_sp:
         class: 'text-danger'
         description: "The supplier must validate the dates of the contract."
+        error: 'Only a commercial of the supplier is authorized to validate this step.'
         icon: 'fa fa-fw fa-thumbs-o-up text-danger'
+        reject_label: 'Reject proposal and notify client'
         title: 'Startup validation'
+        validate_label: 'Validate and notify client'
       commercial_validation_client:
         class: 'text-info'
         description: "The client must validate the dates of the contract."
+        error: 'Only a commercial of the client is authorized to validate this step.'
         icon: 'fa fa-fw fa-thumbs-o-up text-info'
+        reject_label: 'Reject changes and notify supplier'
         title: 'Client Validation'
+        validate_label: 'Validate, notify supplier and launch test phase'
       deletion:
         class: 'text-muted'
         description: "The contract is cancelled"
         icon: 'fa fa-fw fa-trash text-muted'
         title: 'Canceled'
-      price_validation_sp:
-        class: 'text-danger'
-        description: "The supplier must propose a commercial rate."
-        icon: 'fa fa-fw fa-thumbs-up text-danger'
-        title: 'Startup pricing validation'
-      price_validation_client:
-        class: 'text-info'
-        description: "The client must accept the rates."
-        icon: 'fa fa-fw fa-thumbs-up text-info'
-        title: 'Client pricing validation'
+        validate_label: 'Recreate'
       validation:
         class: 'text-success'
-        description: "The client must validate the rates proposed by the supplier."
+        description: "Contract is validated. The test phase has started."
         icon: 'fa fa-fw fa-check text-success'
-        title: 'Validated'
+        reject_label: 'Renegociate contract'
+        title: 'Validated (test phase)'
+        validate_label: 'Launch production phase'
+      validation_production:
+        class: 'text-success'
+        description: "Contract is validated. The production phase has started"
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Validated (production phase)'
     contract_unset_status:
       creation: 'Delete'
       commercial_validation_sp: 'Reject startup'

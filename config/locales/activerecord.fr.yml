@@ -61,6 +61,9 @@ fr:
         body: 'Contenu'
         locale: 'Langue'
         title: 'Titre'
+      general_condition:
+        effective_start_date: "Date d'effectivité"
+        gc_version: 'Version'
       identifier:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'
@@ -188,6 +191,7 @@ fr:
       contact_detail: 'Coordonnées'
       dictionary: 'Dictionnaire'
       documentation: 'Documentation'
+      general_condition: 'Conditions Générales'
       identifier: 'Identifiant'
       contract: 'Contrat'
       query_parameter: 'Paramètre de requête'
