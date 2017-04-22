@@ -20,4 +20,8 @@ class GeneralCondition < ApplicationRecord
     return self.contracts && self.contracts.count > 0
   end
 
+  def self.effective_now
+    self.where('effective_start_date <= ?', Date.today).order(effective_start_date: :desc).first
+  end
+
 end

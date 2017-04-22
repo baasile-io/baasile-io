@@ -19,8 +19,8 @@
       <div role="tabpanel" class="tab-pane <%= 'active' if index == 0 %>" id="general_condition_<%= locale %>">
         <%= f.simple_fields_for "dictionary_#{locale}".to_sym do |f2| %>
           <%= f2.input :locale, as: :hidden %>
-          <%= f2.input :title, as: :string %>
-          <%= f2.input :body, as: :trix_editor %>
+          <%= f2.input :title, as: :string, required: true %>
+          <%= f2.input :body, as: :trix_editor, required: true %>
         <% end %>
       </div>
     <% end %>

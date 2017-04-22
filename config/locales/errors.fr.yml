@@ -16,7 +16,7 @@ fr:
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
       is_used: "est en cours d'utilisation"
-      missing_general_condition: 'Conditions Générales manquante'
+      missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur."
       missing_translation: 'Traduction manquante'
       missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'
       not_a_date: 'doit être une date valide'

@@ -194,7 +194,7 @@ class ContractsController < ApplicationController
 
   def load_general_condition
     if @contract.nil? || @contract.general_condition.nil?
-      @general_condition = GeneralCondition.all.order(effective_start_date: :desc).first
+      @general_condition = GeneralCondition.effective_now
       @contract.general_condition = @general_condition unless @contract.nil?
     else
       @general_condition = @contract.general_condition
