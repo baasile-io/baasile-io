@@ -82,7 +82,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
       },
       notifications: {
         client: ['admin', 'commercial']
@@ -110,7 +110,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
+        validate: Proc.new {|c| true}
       },
       notifications: {
         startup: ['admin', 'commercial']
