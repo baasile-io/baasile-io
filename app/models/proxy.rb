@@ -15,6 +15,7 @@ class Proxy < ApplicationRecord
   has_many :routes
   has_one :identifier, as: :identifiable, through: :proxy_parameter
   has_many :query_parameters, through: :routes
+  has_many :prices
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test
@@ -26,7 +27,16 @@ class Proxy < ApplicationRecord
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
   scope :associated_service, ->(service) { where(service: service) }
-  scope :published, -> { where(public: true) }
+  scope :published, -> { where(public: true).reject {|p| !p.has_correct_prices?} }
+
+  def has_correct_prices?
+    return false if self.prices.count == 0
+    self.prices.each do |p|
+      status, error = p.is_correct?
+      return false if !status
+    end
+    return true
+  end
 
   def service_proxy_name
     return self.service.name + " - " + self.name

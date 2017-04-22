@@ -11,6 +11,8 @@ class PagesController < ApplicationController
     @startup = Service.find_by_id(params[:id])
     if @startup.nil? || !@startup.public
       render :not_found, status: :not_found
+    else
+      @proxies = @startup.proxies.published
     end
   end
 

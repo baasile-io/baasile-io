@@ -22,7 +22,7 @@
     </div>
   <% end %>
 
-  <% unless @startup.proxies.count == 0 %>
+  <% unless @proxies.count == 0 %>
     <hr style="margin-top: 55px; margin-bottom: 55px;">
     <h3><%= t('activerecord.models.proxy').pluralize %></h3>
     <table class="table table-hover">
@@ -34,7 +34,7 @@
       </tr>
       </thead>
       <tbody>
-        <% @startup.proxies.each do |proxy| %>
+        <% @proxies.each do |proxy| %>
           <tr>
             <td class="text-left">
               <i class="fa fa-fw fa-server"></i> <strong><%= proxy.name %></strong><br />

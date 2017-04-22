@@ -41,7 +41,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: Proc.new {|c| false}
       },
       allowed_parameters: [:code, :name, :expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id, :client_id],
       next: :commercial_validation_sp,
@@ -78,7 +78,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: Proc.new {|c| c.has_correct_price?}
       },
       allowed_parameters: [:expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
@@ -247,6 +247,16 @@ class Contract < ApplicationRecord
     return true if user.has_role?(:superadmin)
     return true if user.is_admin_of?(self.send(scope))
     false
+  end
+
+  def has_correct_price?
+    unless self.price.nil?
+      status, error = self.price.is_correct?
+      return status
+    else
+      return false
+      #return [false, I18n.t("activerecord.models.price") + ' ' + I18n.t("errors.messages.not_found")]
+    end
   end
 
   def can?(user, action)
