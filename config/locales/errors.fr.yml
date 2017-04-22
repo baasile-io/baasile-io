@@ -13,6 +13,7 @@ fr:
     messages:
       after: "est trop ancienne"
       blank: 'doit être renseigné(e)'
+      general_condition_is_used: "Les Conditions Générales ont été validées sur la plateforme et ne peuvent donc être modifiées."
       general_condition_not_validated: 'Les conditions générales doivent être acceptées'
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'

@@ -1,7 +1,7 @@
 module BackOffice
   class GeneralConditionsController < BackOfficeController
     before_action :load_general_condition, only: [:edit, :update, :destroy, :show]
-    before_action :is_used, only: [:edit, :update, :destroy]
+    before_action :check_if_general_condition_is_used, only: [:edit, :update, :destroy]
 
     def index
       @collection = GeneralCondition.all
@@ -53,9 +53,9 @@ module BackOffice
 
     private
 
-    def is_used
+    def check_if_general_condition_is_used
       if @general_condition.is_used?
-        flash[:error] = I18n.t('misc.is_used')
+        flash[:error] = I18n.t('errors.messages.general_condition_is_used')
         redirect_to back_office_general_conditions_path
       end
     end
