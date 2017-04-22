@@ -44,6 +44,7 @@ class ContractsController < ApplicationController
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
+      Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
