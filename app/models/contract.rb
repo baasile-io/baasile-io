@@ -250,12 +250,12 @@ class Contract < ApplicationRecord
   end
 
   def has_correct_price?
-    logger.info "# has_correct_price? : " + self.price.inspect
     unless self.price.nil?
-      status = self.price.is_correct?
-      return status, errors
+      status, error = self.price.is_correct?
+      return status
     else
-      return [false, I18n.t("activerecord.models.price") + ' ' + I18n.t("errors.messages.not_found")]
+      return false
+      #return [false, I18n.t("activerecord.models.price") + ' ' + I18n.t("errors.messages.not_found")]
     end
   end
 
