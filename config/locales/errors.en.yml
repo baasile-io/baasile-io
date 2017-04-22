@@ -13,6 +13,7 @@ en:
     messages:
       aftet: 'is too old'
       blank: "can't be blank"
+      general_condition_not_validated: 'General conditions must be accepted'
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       is_used: 'is in use'

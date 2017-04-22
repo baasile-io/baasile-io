@@ -64,7 +64,6 @@ Rails.application.routes.draw do
         post :create_comment
         post :validate
         post :validate_general_condition
-        post :reject_general_condition
         get :general_condition
         post :reject
         get :prices
@@ -89,7 +88,6 @@ Rails.application.routes.draw do
           post :validate
           post :reject
           post :validate_general_condition
-          post :reject_general_condition
           get :general_condition
           get :prices
           get :select_price

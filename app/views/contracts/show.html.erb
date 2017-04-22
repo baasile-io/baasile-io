@@ -96,35 +96,15 @@
     <hr>
     <div class="row">
       <div class="col-3 text-right">
-        <strong><%= t('misc.general_condition_to_valide') %></strong>
+        <strong><%= t('misc.general_condition_validation') %></strong>
       </div>
-      <div class="col-2">
-        <%= link_to @contract.general_condition.name, (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)) %>
-      </div>
-      <div class="col-7 text-left">
+      <div class="col-9 text-left">
 
-        <% status, errors = @contract.can?(current_user, :validate_general_condition) %>
-        <% if status %>
-          <%= button_to t('actions.accept'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :get%>
-        <% end %>
-        <% errors.each do |err| %>
-            <p><%= err %></p>
-        <% end if errors %>
-        <% if !@contract.general_condition_validated_client_id.nil? %>
-          <%= t('actions.accept_by') + ' ' + @contract.general_condition_validated_client.full_name + ' ' + l(@contract.validation_date, format: :long) %>
-        <%  elsif !status %>
-          <%= t('actions.not_accept_by') + ' ' + t('types.service_types.client.title')%>
-        <% end %>
+        <%= link_to t('actions.see_general_conditions'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
 
-        <% status, errors = @contract.can?(current_user, :reject_general_condition) %>
-        <% if status %>
-          <div class="pull-right">
-            <%= button_to t('actions.reject'), (current_service.nil? ? reject_general_condition_contract_path(@contract) : reject_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
-          </div>
+        <% if !@contract.general_condition_validated_client_user_id.nil? %>
+          <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.validation_date, format: :long)) %>
         <% end %>
-        <% errors.each do |err| %>
-            <p><%= err %></p>
-        <% end if errors %>
 
       </div>
     </div>
@@ -143,7 +123,7 @@
           </div>
         <% end %>
         <% errors.each do |err| %>
-            <p><%= err %></p>
+          <p><%= err %></p>
         <% end if errors%>
 
         <% status, errors = @contract.can?(current_user, :edit) %>
@@ -151,7 +131,7 @@
           <%= link_to t('actions.edit'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
         <% errors.each do |err| %>
-            <p><%= err %></p>
+          <p><%= err %></p>
         <% end if errors%>
 
         <% status, errors = @contract.can?(current_user, :prices) %>
@@ -159,25 +139,7 @@
           <%= link_to t('actions.edit_price'), (current_service.nil? ? prices_contract_path(@contract) : prices_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
         <% end %>
         <% errors.each do |err| %>
-            <p><%= err %></p>
-        <% end if errors%>
-
-        <% status, errors = @contract.can?(current_user, :validate) %>
-        <% if status %>
-          <%= link_to t('actions.next_step'), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
-        <% elsif !@contract.status_config[:next].nil?  %>
-          <p><%= t('misc.waiting_for_validation') %></p>
-        <% end %>
-        <% errors.each do |err| %>
-            <p><%= err %></p>
-        <% end if errors%>
-
-        <% status, errors = @contract.can?(current_user, :toggle_production) %>
-        <% if status %>
-          <%= link_to t("actions.#{'un' if @contract.production}set_production"), (current_service.nil? ? toggle_production_contract_path(@contract) : toggle_production_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post %>
-        <% end %>
-        <% errors.each do |err| %>
-            <p><%= err %></p>
+          <p><%= err %></p>
         <% end if errors%>
 
         <% status, errors = @contract.can?(current_user, :reject) %>
@@ -185,10 +147,36 @@
           <%= link_to t('actions.reject'), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-danger', method: :post %>
         <% end %>
         <% errors.each do |err| %>
-            <p><%= err %></p>
+          <p><%= err %></p>
+        <% end if errors%>
+
+        <% status, errors = @contract.can?(current_user, :toggle_production) %>
+        <% if status %>
+          <%= link_to t("actions.#{'un' if @contract.production}set_production"), (current_service.nil? ? toggle_production_contract_path(@contract) : toggle_production_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post %>
+        <% end %>
+        <% errors.each do |err| %>
+          <p><%= err %></p>
         <% end if errors%>
       </div>
     </div>
+
+    <% unless Contract::CONTRACT_STATUSES[@contract.status.to_sym][:next].nil? %>
+      <hr />
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('misc.next_step') %></strong>
+        </div>
+        <div class="col-9">
+          <% status, errors = @contract.can?(current_user, :validate) %>
+          <% if status %>
+            <%= link_to t('actions.next_step'), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
+          <% end %>
+          <% errors.each do |err| %>
+            <p><%= err %></p>
+          <% end if errors%>
+        </div>
+      </div>
+    <% end %>
 
   </div>
 </div>

@@ -62,8 +62,8 @@ fr:
         locale: 'Langue'
         title: 'Titre'
       general_condition:
-        cg_version: 'Version'
         effective_start_date: "Date d'effectivité"
+        gc_version: 'Version'
       identifier:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'

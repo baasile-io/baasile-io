@@ -3,38 +3,28 @@
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <p>
+    <div class="trix-content">
       <%= @general_condition.body.html_safe %>
-    </p>
+    </div>
   </div>
 </div>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-
     <% status, errors = @contract.can?(current_user, :validate_general_condition) %>
     <% if status %>
-        <%= button_to t('actions.accept'), (current_service.nil? ? validate_general_condition_contract_path(@contract) : validate_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+      <div class="text-right">
+        <%= button_to t('actions.accept_general_conditions'), (current_service.nil? ? validate_general_condition_contract_path(@contract) : validate_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post, data: { confirm: "Are you sure?" } %>
+      </div>
     <% end %>
     <% errors.each do |err| %>
-        <p><%= err %></p>
+      <p><%= err %></p>
     <% end if errors %>
-    <% if !@contract.general_condition_validated_client_id.nil? %>
-        <%= t('actions.accept_by') + ' ' + @contract.general_condition_validated_client.full_name + ' ' + l(@contract.validation_date, format: :long) %>
-    <%  elsif !status %>
-        <%= t('actions.not_accept_by') + ' ' + t('types.service_types.client.title')%>
-    <% end %>
 
-    <% status, errors = @contract.can?(current_user, :reject_general_condition) %>
-    <% if status %>
-        <div class="pull-right">
-          <%= button_to t('actions.reject'), (current_service.nil? ? reject_general_condition_contract_path(@contract) : reject_general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
-        </div>
+    <% if !@contract.general_condition_validated_client_user_id.nil? %>
+      <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.validation_date, format: :long)) %>
     <% end %>
-    <% errors.each do |err| %>
-        <p><%= err %></p>
-    <% end if errors %>
 
   </div>
 </div>

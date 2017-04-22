@@ -9,7 +9,7 @@ class GeneralCondition < ApplicationRecord
 
   has_many :contracts
 
-  validates :cg_version, presence: true
+  validates :gc_version, presence: true
   validates :effective_start_date, presence: true
 
   def name

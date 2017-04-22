@@ -1,7 +1,6 @@
 en:
   actions:
-    accept: 'Accept'
-    accept_by: 'Accept by'
+    accept_general_conditions: 'Accept General Conditions'
     activate: 'Activate'
     add: 'Add'
     add_admin: 'Add an administrator'
@@ -29,8 +28,6 @@ en:
     infos: 'Infos'
     new: 'New'
     next_step: 'Validate'
-    not_accept: 'Not accepted'
-    not_accept_by: 'Not accepted yet by'
     reject: 'Reject'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
     reset: 'Reset to initial value'
@@ -42,6 +39,7 @@ en:
     save: 'Save'
     save_in_progress: 'Save in progress...'
     see_and_add_comments: 'See/add comments'
+    see_general_conditions: 'See General Conditions'
     select: 'Select...'
     send_reset_password: 'Reset password'
     send_welcome_instructions: 'Send welcome instructions by email'

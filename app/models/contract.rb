@@ -37,9 +37,6 @@ class Contract < ApplicationRecord
         validate: {
           client: ['commercial']
         },
-        reject_general_condition: {
-          client: ['commercial']
-        },
         validate_general_condition: {
           client: ['commercial']
         },
@@ -50,17 +47,13 @@ class Contract < ApplicationRecord
           startup: ['commercial']
         },
         general_condition: {
-          client: ['commercial'],
-          startup: ['commercial']
+          client: ['commercial']
         }
       },
       conditions: {
-        startup: Proc.new {|c| true},
-        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_id.nil? ) ? true : false},
-        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : false},
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
         validate: [
-            Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]},
-            Proc.new {|c| true}
+            Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : [false, I18n.t('errors.messages.general_condition_not_validated')]}
         ]
       },
       notifications: {
@@ -143,9 +136,9 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_id.nil? ) ? true : false},
-        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : false},
-        validate: Proc.new {|c| ( !c.general_condition_validated_client_id.nil? ) ? true : [false, I18n.t('errors.messages.missing_general_condition')]}
+        validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
+        reject_general_condition: Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : false},
+        validate: Proc.new {|c| ( !c.general_condition_validated_client_user_id.nil? ) ? true : [false, I18n.t('errors.messages.general_condition_not_validated')]}
       },
       notifications: {
         startup: ['admin', 'commercial']
@@ -154,40 +147,6 @@ class Contract < ApplicationRecord
       next: :validation,
       prev: :commercial_validation_sp
     },
-=begin
-    price_validation_sp: {
-      index: 10,
-      scope: 'accounting',
-      roles: ['admin', 'commercial'],
-      can: {
-        see: ['client', 'startup']
-      },
-      can_validate: 'startup',
-      can_reject: 'startup',
-      can_edit: 'startup',
-      can_set_price: 'startup',
-      allowed_parameters: [],
-      next: :price_validation_client,
-      next_condition: Proc.new {|c| !c.price.nil? && c.price.persisted?},
-      prev: :commercial_validation_client
-    },
-    price_validation_client: {
-      index: 13,
-      scope: 'accounting',
-      roles: ['admin', 'commercial'],
-      can: {
-        see: ['client', 'startup']
-      },
-      can_validate: 'client',
-      can_reject: 'client',
-      can_edit: 'client',
-      can_set_price: nil,
-      allowed_parameters: [],
-      next: :validation,
-      next_condition: Proc.new {|c| true},
-      prev: :price_validation_sp
-    },
-=end
     validation: {
       index: 16,
       can: {
@@ -242,7 +201,7 @@ class Contract < ApplicationRecord
   belongs_to :company
   belongs_to :client, class_name: Service.name
   belongs_to :startup, class_name: Service.name
-  belongs_to :general_condition_validated_client, class_name: User.name
+  belongs_to :general_condition_validated_client_user, class_name: User.name
   belongs_to :general_condition, class_name: GeneralCondition.name
 
   has_one :price

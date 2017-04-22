@@ -13,9 +13,11 @@ fr:
     messages:
       after: "est trop ancienne"
       blank: 'doit être renseigné(e)'
+      general_condition_not_validated: 'Les conditions générales doivent être acceptées'
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
       is_used: "est en cours d'utilisation"
+      missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer".'
       missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur."
       missing_translation: 'Traduction manquante'
       missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'

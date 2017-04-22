@@ -1,7 +1,6 @@
 fr:
   actions:
-    accept: 'Accepté'
-    accept_by: 'Accepté par'
+    accept_general_conditions: 'Accepter les Conditions Générales'
     activate: 'Activer'
     add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
@@ -29,8 +28,6 @@ fr:
     infos: 'Infos'
     new: 'Créer'
     next_step: "Valider"
-    not_accept: "N'a pas été accepté"
-    not_accept_by: "N'a pas encore été accepté par"
     reject: 'Rejeter'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
     reset: 'Réinitialiser la valeur par défaut'
@@ -42,6 +39,7 @@ fr:
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
     see_and_add_comments: 'Voir/ajouter des commentaires'
+    see_general_conditions: 'Voir les Conditions Générales'
     select: 'Sélectionner...'
     send_reset_password: 'Réinitialiser le mot de passe'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
