@@ -25,6 +25,7 @@ class Price < ApplicationRecord
   def dup_attached(current_price)
     current_price.try(:destroy)
     new_price = self.dup
+    new_price.proxy = nil
     new_price.save
     return new_price
   end
