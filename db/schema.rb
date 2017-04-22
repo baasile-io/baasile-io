@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413164055) do
+ActiveRecord::Schema.define(version: 20170418205257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,18 +77,21 @@ ActiveRecord::Schema.define(version: 20170413164055) do
     t.integer  "company_id"
     t.integer  "startup_id"
     t.integer  "user_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.boolean  "activate",                   default: true
-    t.integer  "status",                     default: 1
-    t.boolean  "production",                 default: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.boolean  "activate",                              default: true
+    t.integer  "status",                                default: 1
+    t.boolean  "production",                            default: false
     t.integer  "proxy_id"
     t.string   "code"
     t.integer  "contract_duration"
     t.date     "expected_start_date"
     t.date     "expected_end_date"
-    t.integer  "expected_contract_duration", default: 1
-    t.boolean  "is_evergreen",               default: false
+    t.integer  "expected_contract_duration",            default: 1
+    t.boolean  "is_evergreen",                          default: false
+    t.integer  "general_condition_id"
+    t.integer  "general_condition_validated_client_id"
+    t.date     "validation_date"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
@@ -111,6 +114,14 @@ ActiveRecord::Schema.define(version: 20170413164055) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.boolean  "public",             default: false
+  end
+
+  create_table "general_conditions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "cg_version"
+    t.date     "effective_start_date"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "identifiers", force: :cascade do |t|
@@ -309,12 +320,12 @@ ActiveRecord::Schema.define(version: 20170413164055) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",   null: false
+    t.string   "encrypted_password",                default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -323,11 +334,11 @@ ActiveRecord::Schema.define(version: 20170413164055) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,     null: false
+    t.integer  "failed_attempts",                   default: 0,    null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.datetime "password_changed_at"
     t.string   "unique_session_id",      limit: 20
     t.datetime "last_activity_at"
@@ -336,8 +347,9 @@ ActiveRecord::Schema.define(version: 20170413164055) do
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
-    t.boolean  "is_active",                         default: false
+    t.boolean  "is_active",                         default: true
     t.string   "ancestry"
+    t.string   "language",                          default: "en"
     t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["expired_at"], name: "index_users_on_expired_at", using: :btree

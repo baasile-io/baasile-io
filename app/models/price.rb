@@ -29,6 +29,39 @@ class Price < ApplicationRecord
     return new_price
   end
 
+  def is_correct?
+    tab_check_param = []
+    self.price_parameters.each do |p_p|
+      if p_p.price_parameters_type == "per_params"
+        if p_p.query_parameter_id.nil?
+          tselected_only_param = tab_check_param.select { |qp| qp > 0 }
+          if !tab_check_param.include?(-1) && tselected_only_param.count == 0
+            tab_check_param << -1
+          else
+            return false
+            #return [false, I18n.t("misc.all") + " " + I18n.t("errors.messages.used_multiple_time")]
+          end
+        elsif !tab_check_param.include?(p_p.query_parameter_id) && !tab_check_param.include?(-1)
+          tab_check_param << p_p.query_parameter_id
+        else
+          return false
+          #return [false, p_p.query_parameter.name + " " + I18n.t("misc.all") + I18n.t("errors.messages.invalid")] if tab_check_param.include?(-1)
+          #return [false, p_p.query_parameter.name + " " + I18n.t("errors.messages.used_multiple_time")]
+        end
+      elsif p_p.price_parameters_type == "per_call"
+        if !tab_check_param.include?(-2)
+          tab_check_param << -2
+        else
+          return false
+          #return [false, I18n.t("types.price_parameters_types.per_call") + " " + I18n.t("errors.messages.used_multiple_time")]
+        end
+      else
+        return false
+      end
+    end
+    return true
+  end
+
   def full_name
     self.service.name + ' - ' + self.name
   end

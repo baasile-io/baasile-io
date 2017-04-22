@@ -19,11 +19,12 @@ en:
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"
+      not_a_subdomain: 'must contain alphanumeric and minus characters only'
       parameters_not_allowed: 'must not contain params'
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'
-      not_a_subdomain: 'must contain alphanumeric and minus characters only'
+      used_multiple_time: "is used multiple time"
     models:
       price_parameter:
         deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'
