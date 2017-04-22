@@ -343,16 +343,16 @@ class Contract < ApplicationRecord
     case self.contract_duration_type.to_sym
       when :monthly
         if self.expected_start_date
-          self.expected_end_date = (self.expected_start_date + 1.month - 1.day)
-          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1
+          self.expected_end_date = self.expected_start_date + 1.month
+          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i
         end
       when :yearly
         if self.expected_start_date
-          self.expected_end_date = (self.expected_start_date + 1.year - 1.day)
-          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1
+          self.expected_end_date = self.expected_start_date + 1.year
+          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i
         end
       else
-        self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1 if self.expected_start_date && self.expected_end_date
+        self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i if self.expected_start_date && self.expected_end_date
     end
   end
 end

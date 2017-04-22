@@ -46,24 +46,46 @@
     </div>
 
     <hr>
-    <div class="row">
-      <div class="col-3 text-right">
-        <strong><%= t('activerecord.attributes.contract.expected_start_date') %></strong>
-      </div>
-      <div class="col-9">
-        <%= l(@contract.expected_start_date, format: :long) %>
-      </div>
-    </div>
 
-    <hr>
-    <div class="row">
-      <div class="col-3 text-right">
-        <strong><%= t('activerecord.attributes.contract.expected_end_date') %></strong>
+    <% if @contract.start_date.nil? %>
+
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.expected_start_date') %></strong>
+        </div>
+        <div class="col-9">
+          <%= l(@contract.expected_start_date, format: :long) %>
+        </div>
       </div>
-      <div class="col-9">
-        <%= l(@contract.expected_end_date, format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.expected_end_date') %></strong>
+        </div>
+        <div class="col-9">
+          <%= l((@contract.expected_end_date - 1.day), format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
+        </div>
       </div>
-    </div>
+
+    <% else %>
+
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.start_date') %></strong>
+        </div>
+        <div class="col-9">
+          <%= l(@contract.start_date, format: :long) %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.end_date') %></strong>
+        </div>
+        <div class="col-9">
+          <%= l((@contract.end_date - 1.day), format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.contract_duration} #{t('misc.day', count: @contract.contract_duration)}" %>)
+        </div>
+      </div>
+
+    <% end %>
 
     <hr>
     <div class="row">

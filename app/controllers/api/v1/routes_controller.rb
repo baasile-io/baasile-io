@@ -2,7 +2,9 @@ module Api
   module V1
     class RoutesController < ApiController
       before_action :load_route, except: [:index]
+      before_action :load_contract, except: [:show, :index]
       before_action :authorize_request!
+      before_action :authorize_request_by_contract, except: [:show, :index]
 
       # allow proxy functionality
       include RedisStoreConcern
@@ -126,23 +128,31 @@ module Api
         nil
       end
 
+      def load_contract
+        @contract = Contract.where(client: authenticated_service, proxy: current_proxy).first
+      end
+
       def authorize_request!
         #TODO
-        return true
 
-        if current_service == authenticated_service || authenticated_service.has_role?(:all, current_service) || authenticated_service.has_role?(:all, current_proxy) || authenticated_service.has_role?(:all, current_route)
+        return true
+        if current_service == authenticated_service || authorize_request_by_contract
           return true
         end
-        status = 403
-        title = 'Client is not authorized to access this route'
+      end
 
-        render status: status, json: {
+      def authorize_request_by_contract
+        status, error = Contracts::ContractValidationService.new(@contract, current_route).authorize_request
+        return true if status
+
+        error_status = 403
+        render status: error_status, json: {
           errors: [{
-            status: status,
-            title: title
-          }]
+                     status: error_status,
+                     title: error
+                   }]
         }
-        return false
+        false
       end
 
     end
