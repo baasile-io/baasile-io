@@ -266,7 +266,12 @@ class Contract < ApplicationRecord
     name
   end
 
+  def calcul_duration(start_date, end_date)
+    return nil if start_date.to_date >= end_date.to_date
+    return (end_date - start_date).to_i
+  end
+
   def set_expected_end_date
-    self.expected_end_date = (self.expected_start_date + self.expected_contract_duration.months - 1.day) if self.expected_start_date && self.expected_contract_duration.months
+    self.expected_contract_duration = calcul_duration(self.expected_start_date, self.expected_end_date) if self.expected_start_date && self.expected_end_date
   end
 end
