@@ -4,4 +4,4 @@ Client: <%= @contract.client.name %>
 Supplier: <%= @contract.startup.name %>
 Product: <%= @contract.proxy.name %>
 
-Link to the contract: <%= contract_url(@contract) %>
+Link to the contract: <%= contract_url(@contract, locale: @user_locale) %>

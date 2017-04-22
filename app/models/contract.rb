@@ -167,12 +167,12 @@ class Contract < ApplicationRecord
           client: ['commercial'],
           startup: ['commercial']
         },
-        set_production: {
+        toggle_production: {
           startup: ['commercial']
         }
       },
       conditions: {
-        set_production: Proc.new {|c| true},
+        toggle_production: Proc.new {|c| true},
         validate: Proc.new {|c| false}
       },
       notifications: {
@@ -248,19 +248,16 @@ class Contract < ApplicationRecord
   end
 
   def is_developer?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_developer_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end
 
   def is_accountant?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_accountant_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end
 
   def is_commercial?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_commercial_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end

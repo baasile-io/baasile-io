@@ -120,7 +120,7 @@
           <p><%= t('misc.waiting_for_validation') %></p>
         <% end %>
 
-        <% if @contract.can?(current_user, :set_production) %>
+        <% if @contract.can?(current_user, :toggle_production) %>
           <%= link_to t("actions.#{'un' if @contract.production}set_production"), (current_service.nil? ? toggle_production_contract_path(@contract) : toggle_production_service_contract_path(current_service, @contract)), class: 'btn btn-primary btn-lg', method: :post %>
         <% end %>
 
