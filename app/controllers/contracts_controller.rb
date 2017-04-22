@@ -86,7 +86,7 @@ class ContractsController < ApplicationController
   def validate_general_condition
     if @contract.general_condition_validated_client_user_id.nil?
       @contract.general_condition_validated_client_user = current_user
-      @contract.validation_date = Time.now.to_date
+      @contract.general_condition_validated_client_datetime = DateTime.now
       if @contract.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       end
@@ -120,18 +120,6 @@ class ContractsController < ApplicationController
       unless @contract.can?(current_user, :show)
         return redirect_to_index
       end
-    end
-    redirect_to_show
-  end
-
-  def toggle_production
-    if @contract.can?(current_user, :toggle_production)
-      @contract.production = !@contract.production
-      if @contract.save
-        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-      end
-    else
-      flash[:error] = I18n.t('misc.not_authorized')
     end
     redirect_to_show
   end

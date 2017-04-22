@@ -21,7 +21,7 @@
     <%= show_contract_errors(errors) %>
 
     <% if !@contract.general_condition_validated_client_user_id.nil? %>
-      <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.validation_date, format: :long)) %>
+      <%= t('misc.accepted_by', user: @contract.general_condition_validated_client_user.full_name, date: l(@contract.general_condition_validated_client_datetime, format: :long)) %>
     <% end %>
 
   </div>
