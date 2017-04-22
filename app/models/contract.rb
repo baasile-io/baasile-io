@@ -78,7 +78,7 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| c.has_correct_price?}
+        validate: Proc.new {|c| c.has_correct_price? && c.proxy.has_correct_prices?}
       },
       allowed_parameters: [:expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
