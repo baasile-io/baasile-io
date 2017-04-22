@@ -38,7 +38,8 @@ module Api
                    }]
         }
       end
-      if !(authenticated_scope.include?(current_service.subdomain) || current_service.id == authenticated_service.id) && !(current_service.parent && (authenticated_scope.include?(current_service.parent.subdomain) || current_service.parent.id == authenticated_service.id))        return render status: 400, json: {
+      if !(authenticated_scope.include?(current_service.subdomain) || current_service.id == authenticated_service.id) && !(current_service.parent && (authenticated_scope.include?(current_service.parent.subdomain) || current_service.parent.id == authenticated_service.id))
+        return render status: 400, json: {
           errors: [{
                      status: 400,
                      title: "Unknown/invalid scope(s): #{authenticated_scope.inspect}. Required scope: \"#{current_service.subdomain}\"."
