@@ -6,7 +6,7 @@ fr:
       title: 'Paramètres'
     form:
       hints:
-        expected_contract_duration: 'Durée du contrat en mois.'
+        expected_contract_duration: 'Durée du contrat en nombre de jours.'
     index:
       title: 'Contrats'
     new:

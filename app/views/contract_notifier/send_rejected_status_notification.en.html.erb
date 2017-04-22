@@ -1,0 +1,11 @@
+<h1><%= I18n.t("mailer.contract_notifier.send_rejected_status_notification.subject", status: @staging_name) %></h1>
+
+<p>
+  <strong>Client:</strong> <%= @contract.client.name %><br />
+  <strong>Supplier:</strong> <%= @contract.startup.name %><br />
+  <strong>Product:</strong> <%= @contract.proxy.name %>
+</p>
+
+<p>
+  <a href="<%= contract_url(@contract, locale: @user_locale) %>">Go to contract</a>
+</p>

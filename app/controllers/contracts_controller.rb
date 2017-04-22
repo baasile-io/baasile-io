@@ -31,7 +31,6 @@ class ContractsController < ApplicationController
     @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
     @contract.client = current_service if !current_service.nil? && current_service.is_client?
-    @contract.startup = current_service if !current_service.nil? && current_service.is_startup?
     @contract.proxy_id = params[:proxy_id] if params[:proxy_id].present?
     define_form_value
   end
@@ -44,6 +43,7 @@ class ContractsController < ApplicationController
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
+      Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -60,6 +60,7 @@ class ContractsController < ApplicationController
     @contract.assign_attributes(contract_params(@contract.status))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     if @contract.save
+      Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -81,18 +82,22 @@ class ContractsController < ApplicationController
   end
 
   def validate
-    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    old_status_key = @contract.status.to_sym
+    status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:next] unless status[:next].nil?
     if @contract.save
+      ContractNotifier.send_validated_status_notification(@contract, from_status: old_status_key).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
     redirect_to_show
   end
 
   def reject
-    status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
+    old_status_key = @contract.status.to_sym
+    status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:prev] unless status[:prev].nil?
     if @contract.save
+      ContractNotifier.send_rejected_status_notification(@contract, from_status: old_status_key).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       unless @contract.can?(current_user, :show)
         return redirect_to_index
@@ -146,6 +151,7 @@ class ContractsController < ApplicationController
 
   def define_form_value
     @form_values = get_for_values
+    @new_comment = Comment.new(body: params[:new_comment])
   end
 
   def comments

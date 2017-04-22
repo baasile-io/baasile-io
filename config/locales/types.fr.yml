@@ -3,6 +3,13 @@ fr:
     authorization_modes:
       'null': 'Autorisation non requise'
       oauth2: 'OAuth 2.0 client credentials grant'
+    contract_duration_types:
+      custom:
+        title: 'Personnalisé'
+      monthly:
+        title: 'Mensuel'
+      yearly:
+        title: 'Annuel'
     documentation_types:
       article:
         icon: 'fa fa-fw fa-file-o'

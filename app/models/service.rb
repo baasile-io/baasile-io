@@ -22,6 +22,7 @@ class Service < ApplicationRecord
 
   belongs_to :user
   belongs_to :company
+  belongs_to :main_admin, class_name: User.name, foreign_key: 'user_id'
   belongs_to :main_commercial, class_name: User.name, foreign_key: 'main_commercial_id'
   belongs_to :main_accountant, class_name: User.name, foreign_key: 'main_accountant_id'
   belongs_to :main_developer, class_name: User.name, foreign_key: 'main_developer_id'

@@ -14,6 +14,7 @@ class Contract < ApplicationRecord
       conditions: {
         validate: Proc.new {|c| true}
       },
+      notifications: {},
       allowed_parameters: [],
       next: :creation,
       prev: nil
@@ -41,9 +42,12 @@ class Contract < ApplicationRecord
         }
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        startup: Proc.new {|c| true}
       },
-      allowed_parameters: [:code, :name, :expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id, :client_id],
+      notifications: {
+        startup: ['admin', 'commercial']
+      },
+      allowed_parameters: [:code, :name, :contract_duration_type, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id],
       next: :commercial_validation_sp,
       prev: nil
     },
@@ -80,7 +84,10 @@ class Contract < ApplicationRecord
       conditions: {
         validate: Proc.new {|c| true}
       },
-      allowed_parameters: [:expected_start_date, :expected_end_date, :expected_contract_duration, :is_evergreen, :proxy_id],
+      notifications: {
+        client: ['admin', 'commercial']
+      },
+      allowed_parameters: [:contract_duration_type, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
       prev: :creation
     },
@@ -104,6 +111,9 @@ class Contract < ApplicationRecord
       },
       conditions: {
         validate: Proc.new {|c| !c.price.nil? && c.price.persisted?}
+      },
+      notifications: {
+        startup: ['admin', 'commercial']
       },
       allowed_parameters: [],
       next: :validation,
@@ -157,13 +167,17 @@ class Contract < ApplicationRecord
           client: ['commercial'],
           startup: ['commercial']
         },
-        set_production: {
+        toggle_production: {
           startup: ['commercial']
         }
       },
       conditions: {
-        set_production: Proc.new {|c| true},
+        toggle_production: Proc.new {|c| true},
         validate: Proc.new {|c| false}
+      },
+      notifications: {
+        client: ['admin', 'commercial'],
+        startup: ['admin', 'commercial']
       },
       allowed_parameters: [],
       next: nil,
@@ -172,6 +186,14 @@ class Contract < ApplicationRecord
   }
   CONTRACT_STATUSES_ENUM = CONTRACT_STATUSES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum status: CONTRACT_STATUSES_ENUM
+
+  CONTRACT_DURATION_TYPES = {
+    custom:  { index: 0 },
+    monthly: { index: 1 },
+    yearly:  { index: 2 }
+  }
+  CONTRACT_DURATION_TYPES_ENUM = CONTRACT_DURATION_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
+  enum contract_duration_type: CONTRACT_DURATION_TYPES_ENUM
 
   # Versioning
   has_paper_trail
@@ -187,7 +209,7 @@ class Contract < ApplicationRecord
 
   accepts_nested_attributes_for :price
 
-  before_validation :set_expected_end_date
+  before_validation :set_expected_end_date_and_expected_contract_duration
 
   validates :name, presence: true
   validates :startup_id, presence:true
@@ -226,19 +248,16 @@ class Contract < ApplicationRecord
   end
 
   def is_developer?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_developer_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end
 
   def is_accountant?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_accountant_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end
 
   def is_commercial?(user, scope)
-    return true if user.has_role?(:superadmin)
     return true if user.is_commercial_of?(self.send(scope))
     return self.is_admin?(user, scope)
   end
@@ -266,7 +285,20 @@ class Contract < ApplicationRecord
     name
   end
 
-  def set_expected_end_date
-    self.expected_end_date = (self.expected_start_date + self.expected_contract_duration.months - 1.day) if self.expected_start_date && self.expected_contract_duration.months
+  def set_expected_end_date_and_expected_contract_duration
+    case self.contract_duration_type.to_sym
+      when :monthly
+        if self.expected_start_date
+          self.expected_end_date = (self.expected_start_date + 1.month - 1.day)
+          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1
+        end
+      when :yearly
+        if self.expected_start_date
+          self.expected_end_date = (self.expected_start_date + 1.year - 1.day)
+          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1
+        end
+      else
+        self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i + 1 if self.expected_start_date && self.expected_end_date
+    end
   end
 end
