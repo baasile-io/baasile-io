@@ -27,8 +27,8 @@
       <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:expected_contract_duration) %>
-      <%= f.input :expected_contract_duration, as: :integer, hint: t('.hints.expected_contract_duration') %>
+    <% if @current_status[:allowed_parameters].include?(:expected_end_date) %>
+      <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
     <% end %>
 
     <% if @current_status[:allowed_parameters].include?(:is_evergreen) %>

@@ -51,7 +51,7 @@
         <strong><%= t('activerecord.attributes.contract.expected_end_date') %></strong>
       </div>
       <div class="col-9">
-        <%= l(@contract.expected_end_date, format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.month', count: @contract.expected_contract_duration)}" %>)
+        <%= l(@contract.expected_end_date, format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
       </div>
     </div>
 
