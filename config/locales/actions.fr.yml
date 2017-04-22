@@ -4,6 +4,7 @@ fr:
     add: 'Ajouter'
     add_admin: 'Ajouter un administrateur'
     add_association: 'Ajouter une association'
+    add_comment: 'Ajouter un commentaire'
     add_user: "Ajouter l'utilisateur"
     add_price_parameter: 'Ajouter un critère de tarification'
     admin_list: 'liste des administrateurs'
@@ -36,6 +37,7 @@ fr:
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    see_and_add_comments: 'Voir/ajouter des commentaires'
     select: 'Sélectionner...'
     send_reset_password: 'Réinitialiser le mot de passe'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"

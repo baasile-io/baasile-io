@@ -38,6 +38,16 @@
     <hr>
     <div class="row">
       <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.contract_duration_type') %></strong>
+      </div>
+      <div class="col-9">
+        <%= t("types.contract_duration_types.#{@contract.contract_duration_type}.title") %>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
         <strong><%= t('activerecord.attributes.contract.expected_start_date') %></strong>
       </div>
       <div class="col-9">
@@ -51,7 +61,7 @@
         <strong><%= t('activerecord.attributes.contract.expected_end_date') %></strong>
       </div>
       <div class="col-9">
-        <%= l(@contract.expected_end_date, format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.month', count: @contract.expected_contract_duration)}" %>)
+        <%= l(@contract.expected_end_date, format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
       </div>
     </div>
 
@@ -74,6 +84,9 @@
           <strong><%= t('misc.last_comment') %></strong>
         </div>
         <div class="col-9">
+          <div class="float-right">
+            <%= link_to "<i class=\"fa fa-fw fa-comments\"></i> #{t('actions.see_and_add_comments').pluralize}".html_safe, (current_service.nil? ? comments_contract_path(@contract) : comments_service_contract_path(current_service, @contract)), class: 'btn btn-sm btn-secondary' %>
+          </div>
           <%= render partial: 'comments/comment', locals: {comment: @contract.comments.active.last, mode: :inline} %>
         </div>
       </div>

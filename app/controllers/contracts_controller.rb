@@ -60,6 +60,7 @@ class ContractsController < ApplicationController
     @contract.assign_attributes(contract_params(@contract.status))
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     if @contract.save
+      Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -150,6 +151,7 @@ class ContractsController < ApplicationController
 
   def define_form_value
     @form_values = get_for_values
+    @new_comment = Comment.new(body: params[:new_comment])
   end
 
   def comments
