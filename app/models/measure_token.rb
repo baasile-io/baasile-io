@@ -4,9 +4,8 @@ class MeasureToken < ApplicationRecord
   belongs_to  :contract
   before_save :is_unique?
 
-  scope :by_token, ->(token) { where(value: token) }
-  scope :unique_token, ->(token, contract, status) { where(value: token, contract: contract, contract_status: status).first }
-  scope :by_contract_status, ->(contract, status) { where(contract: contract, contract_status: status) }
+  scope :by_token, ->(token_value) { where(value: token_value) }
+  scope :by_contract_status, ->(contract) { where(contract: contract, contract_status: contract.status) }
 
   def generate_token
     begin

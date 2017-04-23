@@ -19,18 +19,20 @@ module MeasurementConcern
     measure.save
   end
 
-  def check_create_token(token, contract)
-    return false unless check_measure_token_error(token, contract)
-    measure_token = MeasureToken.new(value: token, contract: contract, contract_status: contract.status)
-    if token.blank? || !measure_token.already_exist?
+  def find_or_create_token(token_value, contract)
+    return false unless check_measure_token_error(token_value, contract)
+    measure_token = MeasureToken.new(value: token_value, contract: contract, contract_status: contract.status)
+    if measure_token.already_exist?
+      measure_token = MeasureToken.where(value: token_value, contract: contract, contract_status: contract.status).first
+    elsif token.blank?
       measure_token.generate_token
       measure_token.save
     end
-    return true
+    return measure_token
   end
 
-  def check_measure_token_error(token, contract)
-    return true if !contract.nil? && ( !MeasureToken.by_token(token).nil? || token.blank?)
+  def check_measure_token_error(token_value, contract)
+    return true if !contract.nil? && ( !MeasureToken.by_token(token_value).nil? || token_value.blank?)
     return false
   end
 
