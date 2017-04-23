@@ -42,36 +42,7 @@
   <div class="b-io-content--secondary">
     <div class="container-fluid">
 
-      <div class="row">
-        <div class="col-4 text-right">
-          <strong><%= t('activerecord.attributes.price.pricing_type') %></strong>
-        </div>
-        <div class="col-8">
-          <%= t("types.pricing_types.#{@contract.price.pricing_type}.name") %><br />
-          <span class="text-muted"><%= t("types.pricing_types.#{@contract.price.pricing_type}.description") %></span>
-        </div>
-      </div>
-
-      <hr />
-      <div class="row">
-        <div class="col-4 text-right">
-          <strong><%= t('activerecord.attributes.price.pricing_duration_type') %></strong>
-        </div>
-        <div class="col-8">
-          <%= t("types.pricing_duration_types.#{@contract.price.pricing_duration_type}.name") %><br />
-          <span class="text-muted"><%= t("types.pricing_duration_types.#{@contract.price.pricing_duration_type}.description") %></span>
-        </div>
-      </div>
-
-      <hr />
-      <div class="row">
-        <div class="col-4 text-right">
-          <strong><%= t('activerecord.attributes.price.base_cost') %></strong>
-        </div>
-        <div class="col-8">
-          <%= @contract.price.base_cost %> &euro;
-        </div>
-      </div>
+      <%= render partial: 'prices/show_price_info', locals: {price: @contract.price} %>
 
       <hr>
       <div class="row">
