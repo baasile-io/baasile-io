@@ -22,7 +22,7 @@ module MeasurementConcern
   def check_create_token(token, contract)
     return false unless check_measure_token_error(token, contract)
     measure_token = MeasureToken.new(value: token, contract: contract, contract_status: contract.status)
-    if token.blank? || !measure_token.is_unique?
+    if token.blank? || !measure_token.already_exist?
       measure_token.generate_token
       measure_token.save
     end

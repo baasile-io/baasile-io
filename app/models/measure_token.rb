@@ -15,7 +15,7 @@ class MeasureToken < ApplicationRecord
     yield
   end
 
-  def is_unique?
+  def already_exist?
     return true if MeasureToken.where(value: self.value, contract: self.contract, contract_status: self.contract_status).nil?
     return false
   end
