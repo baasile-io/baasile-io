@@ -4,7 +4,7 @@ module Api
       before_action :load_route, except: [:index]
       before_action :load_contract, except: [:show, :index]
       before_action :authorize_request!
-      before_action :authorize_request_by_contract, except: [:show, :index]
+      before_action :authorize_request_by_contract, only: [:process_request]
 
       # allow proxy functionality
       include RedisStoreConcern

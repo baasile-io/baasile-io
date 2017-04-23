@@ -125,6 +125,7 @@ en:
         name: 'Name'
         hostname: 'Hostname'
         hostname_test: 'Hostname (test)'
+        measure_token_activated: 'MeasureToken activated'
         port: 'Port'
         port_test: 'Port (test)'
         protocol: 'Protocol'

@@ -7,6 +7,7 @@ en:
     form:
       default_value: "Default (%{value})"
       hints:
+        measure_token_activated: "The MeasureToken ables you to apply the pricing \"Per parameter\"."
         subdomain: "The public identifier forms the base of the URL of the route on the platform. It must contain alphanumeric and minus characters only."
         url: "URL must start with a slash."
     index:

@@ -137,6 +137,7 @@ fr:
         name: 'Nom'
         hostname: 'Domaine'
         hostname_test: 'Domaine (test)'
+        measure_token_activated: 'MeasureToken activé'
         port: 'Port'
         port_test: 'Port (test)'
         protocol: 'Protocole'

@@ -3,7 +3,6 @@ $(document).ready(function(e) {
   if ($('form.edit_price').length > 0) {
     var price_pricing_type_input = $('#price_pricing_type');
     var price_route_id_input = $('#price_route_id');
-    var price_query_parameter_id_input = $('#price_query_parameter_id');
     var price_free_count_input = $('#price_free_count');
     var price_deny_after_free_count_true_input = $('#price_deny_after_free_count_true');
     var price_deny_after_free_count_false_input = $('#price_deny_after_free_count_false');
@@ -12,7 +11,6 @@ $(document).ready(function(e) {
     function price_update_form_state() {
       if (price_pricing_type_input.val() == 'subscription') {
         toggle_input(price_route_id_input, true);
-        toggle_input(price_query_parameter_id_input, true);
         toggle_input(price_free_count_input, true);
         toggle_input(price_deny_after_free_count_true_input, true);
         toggle_input(price_deny_after_free_count_false_input, true);
@@ -20,10 +18,8 @@ $(document).ready(function(e) {
       } else {
         if (price_pricing_type_input.val() == 'per_call') {
           toggle_input(price_route_id_input, false);
-          toggle_input(price_query_parameter_id_input, true);
         } else if (price_pricing_type_input.val() == 'per_parameter') {
           toggle_input(price_route_id_input, true);
-          toggle_input(price_query_parameter_id_input, false);
         }
 
         toggle_input(price_free_count_input, false);

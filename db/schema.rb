@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170423094155) do
+ActiveRecord::Schema.define(version: 20170423150259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,13 +277,14 @@ ActiveRecord::Schema.define(version: 20170423094155) do
     t.string   "url"
     t.integer  "proxy_id"
     t.integer  "user_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.text     "allowed_methods", default: [],              array: true
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.text     "allowed_methods",         default: [],                 array: true
     t.integer  "protocol_test"
     t.string   "hostname_test"
     t.string   "port_test"
     t.string   "subdomain"
+    t.boolean  "measure_token_activated", default: false
     t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end

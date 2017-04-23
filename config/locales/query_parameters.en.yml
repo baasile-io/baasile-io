@@ -7,6 +7,7 @@ en:
     form:
       default_mode: "DEFAULT"
     index:
+      description: "Describe your API parameters requirements (optional)."
       title: 'Query parameters'
     new:
       title: 'New query parameter'

@@ -72,6 +72,11 @@ class Price < ApplicationRecord
           self.errors.add(:unit_cost, I18n.t('errors.messages.blank'))
         end
     end
+    if self.pricing_type.to_sym == :per_parameter
+      unless self.proxy.routes.exists?(measure_token_activated: true)
+        self.errors.add(:base, I18n.t('errors.messages.missing_measure_token_activated_route'))
+      end
+    end
   end
 
 end

@@ -7,6 +7,7 @@
   <%= f.input :description, as: :text, input_html: {rows: 5} %>
   <%= f.input :url, hint: t('.hints.url') %>
   <%= f.input :allowed_methods, as: :check_boxes, required: true, collection: Route::ALLOWED_METHODS %>
+  <%= f.input :measure_token_activated, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.measure_token_activated') %>
 
   <hr>
   <h5><%= t('proxies.form.tabs.proxy_authorization_test.title') %></h5>

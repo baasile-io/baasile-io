@@ -57,7 +57,7 @@ en:
         name: 'Per call'
       per_parameter:
         description: ''
-        name: 'Per parameter'
+        name: 'Per parameter MeasureToken'
       subscription:
         description: ''
         name: 'Subscription'

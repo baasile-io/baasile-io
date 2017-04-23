@@ -7,8 +7,9 @@ fr:
     form:
       default_value: "Par défaut (%{value})"
       hints:
-        url: "L'URL doit commencer par un slash."
+        measure_token_activated: "Le MeasureToken permet d'appliquer une tarification \"Par paramètre\"."
         subdomain: "L'identifiant publique forme la base de l'URL de la route sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union."
+        url: "L'URL doit commencer par un slash."
     index:
       title: 'Routes'
     new:
