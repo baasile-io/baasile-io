@@ -35,12 +35,11 @@ class Price < ApplicationRecord
   validates :service, presence: true
   validates :proxy, presence: true
 
-  validates :base_cost, presence: true, numericality: {greater_than_or_equal_to: 0}
+  validates :base_cost, presence: true, numericality: {greater_than: 0}
   validates :cost, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :unit_cost, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :free_count, presence: true, numericality: {greater_than: 0}, if: Proc.new {self.pricing_type.to_sym != :subscription}
   validates :deny_after_free_count, inclusion: {in: [true, false]}, if: Proc.new {self.pricing_type.to_sym != :subscription}
-  validates :query_parameter_id, presence: true, if: Proc.new {self.pricing_type.to_sym == :per_parameter}
   validate :price_options_consistency
 
   scope :owned, ->(user) { where(user: user) }

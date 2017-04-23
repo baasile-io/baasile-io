@@ -12,7 +12,8 @@ en:
     new:
       title: 'Create a new contract'
     prices:
-      title: 'Prices'
+      description: 'Select and edit a template price.'
+      title: 'Pricing'
     show:
       title: 'Dashboard'
     update:

@@ -1,6 +1,6 @@
 $(document).ready(function(e) {
 
-  if ($('form.edit_price').length > 0) {
+  if ($('form.edit_price, form#new_price').length > 0) {
     var price_pricing_type_input = $('#price_pricing_type');
     var price_route_id_input = $('#price_route_id');
     var price_free_count_input = $('#price_free_count');

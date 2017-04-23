@@ -1,7 +1,7 @@
 en:
   prices:
     edit:
-      title: 'Parameters'
+      title: 'Edit pricing'
     form:
       hints:
         cost: "Unit price per request after the included limit."
@@ -14,4 +14,4 @@ en:
     show:
       title: 'Dashboard'
     update:
-      title: 'Parameters'
+      title: 'Edit pricing'

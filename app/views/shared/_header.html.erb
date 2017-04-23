@@ -257,7 +257,7 @@
               <% end %>
               <% if current_contract.can?(current_user, :prices) %>
                 <li class="nav-item">
-                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('actions.edit_price') %></a>
+                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
                 </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>

@@ -1,7 +1,7 @@
 fr:
   prices:
     edit:
-      title: 'Paramètres'
+      title: 'Éditer la tarification'
     form:
       hints:
         cost: "Prix unitaire d'une requête au delà de la limite incluse."
@@ -14,4 +14,4 @@ fr:
     show:
       title: 'Tableau de bord'
     update:
-      title: 'Paramètres'
+      title: 'Éditer la tarification'

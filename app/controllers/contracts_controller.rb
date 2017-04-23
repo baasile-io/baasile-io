@@ -142,10 +142,8 @@ class ContractsController < ApplicationController
 
     price_id = params[:price_id]
     if price_id
-      new_price = Price.find(price_id).dup
-      new_price.save
-      Rails.logger.info "------------------------"
-      Rails.logger.info new_price.errors.inspect
+      new_price = @contract.proxy.prices.find(price_id).dup
+      new_price.save!
       @contract.price = new_price
     else
       @contract.create_price(user: current_user)
@@ -155,8 +153,8 @@ class ContractsController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
 
-    return redirect_to prices_service_contract_path(current_service, @contract) unless current_service.nil?
-    redirect_to prices_contract_path(@contract)
+    return redirect_to edit_service_contract_price_path(current_service, @contract, @contract.price) unless current_service.nil?
+    redirect_to edit_contract_price_path(@contract, @contract.price)
   end
 
   def define_form_value

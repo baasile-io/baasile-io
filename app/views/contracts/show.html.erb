@@ -188,6 +188,20 @@
   </div>
 </div>
 
+<% unless @contract.price.nil? %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t('activerecord.attributes.contract.price') %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <%= render partial: 'prices/show_price_info', locals: {price: @contract.price} %>
+    </div>
+  </div>
+<% end %>
+
 <div class="b-io-content--header">
   <div class="container-fluid">
     <div class="b-io-content--header--controls"></div>

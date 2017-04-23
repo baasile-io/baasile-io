@@ -12,7 +12,8 @@ fr:
     new:
       title: 'Créer un nouveau contrat'
     prices:
-      title: 'Tarifs'
+      description: 'Sélectionnez et éditez un modèle de tarif.'
+      title: 'Tarification'
     show:
       title: 'Tableau de bord'
     update:

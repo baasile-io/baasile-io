@@ -1,3 +1,4 @@
+<% content_for(:page_description) { t('.description') } %>
 <% content_for(:page_title) { t('.title') } %>
 
 <% if @contract.price.nil? %>
@@ -5,34 +6,27 @@
   <div class="b-io-content--secondary">
     <div class="container-fluid">
 
-      <p>Sélectionnez un modèle de tarif existant ou créez-le à partir d'un modèle vierge.</p>
-      <%
-        @price_templates.each do |price_template|
-          url = (!current_service.nil? ? select_price_service_contract_path(current_service, @contract, price_id: price_template.id) : select_price_contract_path(@contract, price_id: price_template.id))
-      %>
-        <hr>
-        <div class="row">
-          <div class="col-3 text-right">
-            <strong><%= price_template.name %></strong>
+      <% if @price_templates.size == 0 %>
+        <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+      <% else %>
+        <%
+          @price_templates.each.with_index do |price_template, index|
+            url = (!current_service.nil? ? select_price_service_contract_path(current_service, @contract, price_id: price_template.id) : select_price_contract_path(@contract, price_id: price_template.id))
+        %>
+          <%= '<hr>' if index > 0 %>
+          <div class="row">
+            <div class="col-md-3 text-md-right">
+              <h4><%= price_template.name %></h4>
+            </div>
+            <div class="col-md-6">
+              <%= render partial: 'prices/show_price_info', locals: {price: price_template} %>
+            </div>
+            <div class="col-md-3">
+              <%= link_to t('actions.select'), url, class: 'btn btn-primary btn-lg btn-block' %>
+            </div>
           </div>
-          <div class="col-9">
-            <%= link_to t('actions.select'), url, class: 'btn btn-primary' %>
-          </div>
-        </div>
+        <% end %>
       <% end %>
-
-      <%
-        url = (!current_service.nil? ? select_price_service_contract_path(current_service, @contract) : select_price_contract_path(@contract))
-      %>
-      <hr>
-      <div class="row">
-        <div class="col-3 text-right">
-          <strong>Tarif vierge</strong>
-        </div>
-        <div class="col-9">
-          <%= link_to t('actions.new'), url, class: 'btn btn-primary' %>
-        </div>
-      </div>
 
     </div>
   </div>

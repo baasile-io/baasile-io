@@ -41,8 +41,8 @@ fr:
         expected_start_date: 'Date de début souhaitée'
         is_evergreen: 'Reconduction automatique'
         name: 'Intitulé'
-        price: 'Tarif'
-        price_id: 'Tarif'
+        price: 'Tarification'
+        price_id: 'Tarification'
         production: "Phase d'exploitation"
         proxy: 'Produit'
         proxy_id: 'Produit'

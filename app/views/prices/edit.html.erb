@@ -9,7 +9,7 @@
 } %>
 <% content_for(:page_title) {
   unless current_contract.nil?
-    t('actions.edit')
+    t('.title')
   else
     t('misc.parameters')
   end

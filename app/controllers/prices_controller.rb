@@ -116,9 +116,7 @@ class PricesController < ApplicationController
   end
 
   def load_price
-    if params.key?(:id)
-      @price = Price.find(params[:id])
-    end
+    @price = (current_contract.nil? ? current_proxy : current_contract.proxy).prices.find(params[:id])
   end
 
   def load_route_and_query_parameters
