@@ -35,6 +35,7 @@ fr:
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
     reset_prices: 'Réinitialiser les tarifs'
+    reset_pricing: 'Réinitialiser la tarification'
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'

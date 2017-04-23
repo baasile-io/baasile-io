@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422153630) do
+ActiveRecord::Schema.define(version: 20170423094155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,17 +179,26 @@ ActiveRecord::Schema.define(version: 20170422153630) do
 
   create_table "prices", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "base_cost",    default: "0.0"
-    t.decimal  "cost_by_time", default: "0.0"
+    t.decimal  "base_cost",             default: "0.0"
+    t.decimal  "cost",                  default: "0.0"
     t.integer  "user_id"
-    t.boolean  "activate",     default: true
+    t.boolean  "activate",              default: true
     t.integer  "proxy_id"
     t.integer  "service_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "contract_id"
+    t.integer  "pricing_duration_type", default: 0
+    t.integer  "pricing_type",          default: 0
+    t.integer  "free_count",            default: 0
+    t.boolean  "deny_after_free_count", default: true
+    t.decimal  "unit_cost",             default: "0.0"
+    t.integer  "route_id"
+    t.integer  "query_parameter_id"
     t.index ["contract_id"], name: "index_prices_on_contract_id", using: :btree
     t.index ["proxy_id"], name: "index_prices_on_proxy_id", using: :btree
+    t.index ["query_parameter_id"], name: "index_prices_on_query_parameter_id", using: :btree
+    t.index ["route_id"], name: "index_prices_on_route_id", using: :btree
     t.index ["service_id"], name: "index_prices_on_service_id", using: :btree
   end
 

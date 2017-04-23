@@ -2,6 +2,11 @@ en:
   prices:
     edit:
       title: 'Parameters'
+    form:
+      hints:
+        cost: "Unit price per request after the included limit."
+        deny_after_free_count: "Deny requests when the limit of included units is reached."
+        free_count: 'Number of authorized requests included in base price.'
     index:
       title: 'Pricing templates'
     new:

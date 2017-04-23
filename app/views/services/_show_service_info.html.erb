@@ -23,6 +23,15 @@
 
   <div class="row">
     <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.contact_detail.chamber_of_commerce') %></strong>
+    </div>
+    <div class="col-9">
+      <%= service.contact_detail.chamber_of_commerce.present? ? service.contact_detail.chamber_of_commerce : '<span class="text-muted">---</span>'.html_safe %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3 text-right">
       <strong><%= t('activerecord.attributes.contact_detail.phone') %></strong>
     </div>
     <div class="col-9">

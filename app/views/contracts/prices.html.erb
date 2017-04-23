@@ -44,6 +44,28 @@
 
       <div class="row">
         <div class="col-4 text-right">
+          <strong><%= t('activerecord.attributes.price.pricing_type') %></strong>
+        </div>
+        <div class="col-8">
+          <%= t("types.pricing_types.#{@contract.price.pricing_type}.name") %><br />
+          <span class="text-muted"><%= t("types.pricing_types.#{@contract.price.pricing_type}.description") %></span>
+        </div>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col-4 text-right">
+          <strong><%= t('activerecord.attributes.price.pricing_duration_type') %></strong>
+        </div>
+        <div class="col-8">
+          <%= t("types.pricing_duration_types.#{@contract.price.pricing_duration_type}.name") %><br />
+          <span class="text-muted"><%= t("types.pricing_duration_types.#{@contract.price.pricing_duration_type}.description") %></span>
+        </div>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col-4 text-right">
           <strong><%= t('activerecord.attributes.price.base_cost') %></strong>
         </div>
         <div class="col-8">
@@ -53,40 +75,13 @@
 
       <hr>
       <div class="row">
-        <div class="col-4 text-right">
-          <strong><%= t('activerecord.attributes.price.cost_by_time') %></strong>
-        </div>
-        <div class="col-8">
-          <%= @contract.price.cost_by_time %> &euro;
-        </div>
-      </div>
-
-      <hr>
-      <div class="row">
         <div class="col-4">
         </div>
         <div class="col-8">
           <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_price_path(@contract, @contract.price) : edit_service_contract_price_path(current_service, @contract, @contract.price)), class: 'btn btn-secondary' %>
-          <%= link_to t('actions.reset_prices'), (@service.nil? ? contract_price_path(@contract, @contract.price) : service_contract_price_path(current_service, @contract, @contract.price)), class: 'btn btn-danger', method: :delete %>
+          <%= link_to t('actions.reset_pricing'), (@service.nil? ? contract_price_path(@contract, @contract.price) : service_contract_price_path(current_service, @contract, @contract.price)), class: 'btn btn-danger', method: :delete %>
         </div>
       </div>
-
-    </div>
-  </div>
-
-  <div class="b-io-content--header">
-    <div class="container-fluid">
-      <div class="b-io-content--header--controls">
-        <%= link_to t('actions.add_price_parameter'), (@service.nil? ? new_contract_price_price_parameter_path(@contract, @contract.price) : new_service_contract_price_price_parameter_path(current_service, @contract, @contract.price)), class: 'btn btn-primary' %>
-      </div>
-      <h4><%= t('activerecord.attributes.price.price_parameters') %></h4>
-    </div>
-  </div>
-
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-
-      <%= render partial: 'prices/show_price_parameters', locals: {price_parameters: @contract.price.price_parameters} %>
 
     </div>
   </div>

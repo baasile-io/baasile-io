@@ -4,6 +4,7 @@ class PricesController < ApplicationController
   before_action :load_contract
   before_action :load_proxy
   before_action :load_price, except: [:new, :create, :index]
+  before_action :load_route_and_query_parameters, only: [:show, :new, :edit, :update, :create]
   before_action :load_price_parameters, only: [:show]
 
   # Authorization
@@ -120,8 +121,14 @@ class PricesController < ApplicationController
     end
   end
 
+  def load_route_and_query_parameters
+    proxy = current_contract.nil? ? current_proxy : current_contract.proxy
+    @routes = proxy.routes
+    @query_parameters = proxy.query_parameters
+  end
+
   def price_params
-    allowed_parameters = [:name, :base_cost, :free_hour, :cost_by_time]
+    allowed_parameters = [:name, :base_cost, :pricing_type, :pricing_duration_type, :free_count, :deny_after_free_count, :unit_cost, :route_id, :query_parameter_id]
     params.require(:price).permit(allowed_parameters)
   end
 

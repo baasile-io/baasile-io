@@ -142,7 +142,11 @@ class ContractsController < ApplicationController
 
     price_id = params[:price_id]
     if price_id
-      @contract.set_dup_price(price_id)
+      new_price = Price.find(price_id).dup
+      new_price.save
+      Rails.logger.info "------------------------"
+      Rails.logger.info new_price.errors.inspect
+      @contract.price = new_price
     else
       @contract.create_price(user: current_user)
     end

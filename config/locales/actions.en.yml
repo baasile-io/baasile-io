@@ -35,6 +35,7 @@ en:
     reset_unlock_instructions: 'Resend unlock instructions'
     reset_password: 'Send password reset instructions'
     reset_prices: 'Reset prices'
+    reset_pricing: 'Reset pricing'
     return: 'Return'
     save: 'Save'
     save_in_progress: 'Save in progress...'

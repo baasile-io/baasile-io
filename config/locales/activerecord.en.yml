@@ -70,11 +70,20 @@ en:
         encrypted_secret: 'Encrypted Secret Key'
         user: 'Creator'
       price:
-        name: 'Name'
+        cost: 'Price'
         base_cost: 'Subscription price'
+        deny_after_free_count: "Deny requests after limit"
+        free_count: 'Included Units'
         free_hour: 'Free using hours'
-        cost_by_time: 'Price per hour'
+        name: 'Pricing Name'
+        pricing_duration_type: 'Pricing option'
+        pricing_type: 'Pricing type'
         price_parameters: 'Pricing criteria'
+        query_parameter: 'Monitored parameter'
+        query_parameter_id: 'Monitored parameter'
+        route: 'Monitored route'
+        route_id: 'Monitored route'
+        unit_cost: 'Unit price after limit'
       price_parameter:
         cost: 'Cost'
         query_parameter: 'Monitored parameter'

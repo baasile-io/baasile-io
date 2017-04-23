@@ -41,6 +41,26 @@ fr:
       per_params:
         description: "La mesure s'effectue sur le nombre d'apparition d'un paramètre."
         title: 'Par paramètre'
+    pricing_duration_types:
+      monthly:
+        description: 'Le coût de base est une mensualité.'
+        name: 'Souscription mensuelle'
+      prepaid:
+        description: 'Le coût de base est appliqué une seule fois durant toute la durée du contrat.'
+        name: 'Prépayé'
+      yearly:
+        description: 'Le coût de base est une annuité.'
+        name: 'Souscription annuelle'
+    pricing_types:
+      per_call:
+        description: "Le critère de tarification s'applique sur le nombre de requêtes."
+        name: 'Par requête'
+      per_parameter:
+        description: "Le critère de tarification s'applique sur le nombre de valeurs distinctes d'un paramètre."
+        name: 'Par paramètre'
+      subscription:
+        description: "Le critère de tarification est la durée du contrat."
+        name: 'Souscription'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'
