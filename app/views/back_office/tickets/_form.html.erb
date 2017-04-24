@@ -1,14 +1,21 @@
-<%= simple_form_for [@ticket] do |f| %>
+<%= simple_form_for [:back_office, @ticket] do |f| %>
 
   <%= error_messages_for(f.object) %>
 
   <%= f.input :subject %>
   <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select %>
-
-  <%= f.simple_fields_for @new_comment do |f2| %>
-      <%= f2.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
-  <% end %>
-
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <%= t("activerecord.attributes.ticket.ticket_status") %>
+          </td>
+          <td>
+            <%= t("types.ticket_status.#{@ticket.ticket_status}")  %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   <div class="row">
     <div class="actions col-md-9 offset-md-3">
       <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>

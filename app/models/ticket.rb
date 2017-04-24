@@ -3,7 +3,7 @@ class Ticket < ApplicationRecord
   has_paper_trail
 
   TICKET_TYPES = {activation_demand: 1, bug: 2, user_right_demand: 3, info_demand: 4}
-  TICKET_STATUSES = {to_do: 1, in_progress: 2, done: 3, reject: 4}
+  TICKET_STATUSES = {opened: 1, in_progress: 2, closed: 3}
   enum ticket_type: TICKET_TYPES
   enum ticket_status: TICKET_STATUSES
 
@@ -20,6 +20,6 @@ class Ticket < ApplicationRecord
   scope :owned, ->(user) { where(user: user) }
   scope :by_type, ->(ticket_type) { where(ticket_type: ticket_type) }
   scope :owned_by_type, ->(user, ticket_type) { where(user: user, ticket_type: ticket_type) }
-
+  scope :not_closed, -> { where.not(ticket_status: :closed) }
 
 end

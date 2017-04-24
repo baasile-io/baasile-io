@@ -1,0 +1,19 @@
+en:
+  back_office:
+    tickets:
+      comments:
+        title: 'Comments'
+      edit:
+        title: 'Parameters'
+      form:
+        hints:
+      index:
+        title: 'Tickets'
+      new:
+        title: 'Create a new ticket'
+      create:
+        title: 'Create a new ticket'
+      show:
+        title: 'ticket'
+      update:
+        title: 'Parameters'

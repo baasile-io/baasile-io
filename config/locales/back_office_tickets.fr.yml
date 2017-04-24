@@ -1,0 +1,19 @@
+fr:
+  back_office:
+    tickets:
+      comments:
+        title: 'Commentaires'
+      edit:
+        title: 'Paramètres'
+      form:
+        hints:
+      index:
+        title: 'Billets'
+      new:
+        title: 'Créer un nouveau Billet'
+      create:
+        title: 'Créer un nouveau Billet'
+      show:
+        title: 'Billet'
+      update:
+        title: 'Paramètres'

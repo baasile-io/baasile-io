@@ -18,6 +18,7 @@ fr:
     configure: 'Configurer'
     confirm_email: "Confirmer l'adresse E-Mail"
     contractualize: 'Contractualiser'
+    close: 'Fermer'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
     deactivate: 'Désactiver'

@@ -1,5 +1,5 @@
 module TicketsHelper
-  def format_ticket_type_for_select
+  def format_ticket_types_for_select
     Ticket::TICKET_TYPES.map do |key, _|
       ["#{I18n.t("types.ticket_types.#{key}")}", key]
     end

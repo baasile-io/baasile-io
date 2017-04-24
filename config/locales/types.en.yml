@@ -89,10 +89,9 @@ en:
       numeric: 'Numeric'
       string: 'Character string'
     ticket_statuses:
-      to_do: 'To do'
+      opened: 'Opened'
       in_progress: 'Work in progress'
-      done: 'Done'
-      reject: 'Reject'
+      closed: 'Closed'
     ticket_types:
       activation_demand: 'Activation demand'
       bug: 'Bug'
