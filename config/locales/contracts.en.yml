@@ -1,5 +1,8 @@
 en:
   contracts:
+    catalog:
+      description: 'Select a product to contractualize.'
+      title: 'Startups Book'
     comments:
       title: 'Comments'
     edit:
@@ -12,7 +15,10 @@ en:
     new:
       title: 'Create a new contract'
     prices:
-      title: 'Prices'
+      description: 'Select and edit a template price.'
+      title: 'Pricing'
+    select_client:
+      title: 'Select a Client account'
     show:
       title: 'Dashboard'
     update:

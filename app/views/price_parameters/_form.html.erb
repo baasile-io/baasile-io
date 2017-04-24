@@ -5,9 +5,9 @@
   <%= f.input :price_parameters_type, collection: format_price_parameter_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
   <%= f.input :route_id, collection: format_routes_for_select(@routes), input_html: {class: 'select2'}, include_blank: t('misc.all_feminized') %>
   <%= f.input :query_parameter_id, collection: format_query_parameters_for_select(@query_parameters), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-  <%= f.input :free_count, hint: t('.hints.free_count') %>
+  <%= f.input :free_count, hint: t('.hints.free_count'), input_html: {class: 'col-sm-3'} %>
   <%= f.input :deny_after_free_count, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.deny_after_free_count') %>
-  <%= f.input :cost, as: :string, input_html: {class: 'autonumeric'}, hint: t('.hints.cost') %>
+  <%= f.input :cost, as: :string, input_html: {class: 'autonumeric col-sm-3'}, hint: t('.hints.cost') %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

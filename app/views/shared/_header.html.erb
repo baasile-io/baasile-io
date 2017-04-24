@@ -172,9 +172,6 @@
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if controller_name == 'prices' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_price_path(current_service, current_proxy, current_price) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'price_parameters' %>" href="<%= service_proxy_price_price_parameters_path(current_service, current_proxy, current_price) %>"><i class="fa fa-superscript fa-fw"></i> <%= t('activerecord.attributes.price.price_parameters') %></a>
-                </li>
               </ul>
             </div>
           </div>
@@ -260,7 +257,7 @@
               <% end %>
               <% if current_contract.can?(current_user, :prices) %>
                 <li class="nav-item">
-                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('actions.edit_price') %></a>
+                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
                 </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>

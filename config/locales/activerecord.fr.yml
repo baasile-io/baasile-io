@@ -41,8 +41,8 @@ fr:
         expected_start_date: 'Date de début souhaitée'
         is_evergreen: 'Reconduction automatique'
         name: 'Intitulé'
-        price: 'Tarif'
-        price_id: 'Tarif'
+        price: 'Tarification'
+        price_id: 'Tarification'
         production: "Phase d'exploitation"
         proxy: 'Produit'
         proxy_id: 'Produit'
@@ -71,11 +71,20 @@ fr:
         proxy: 'Produit'
         user: 'Créateur'
       price:
-        name: 'Nom'
-        base_cost: 'Prix à la souscription'
-        free_hour: "Nombres d'heures gratuites"
-        cost_by_time: 'Prix par heure'
-        price_parameters: 'Critères de tarification'
+        cost: 'Coût'
+        base_cost: 'Coût de base'
+        deny_after_free_count: "Bloquer les requêtes au delà de la limite"
+        free_count: "Unités incluses"
+        free_hour: 'Free using hours'
+        name: 'Nom du tarif'
+        pricing_duration_type: 'Option de tarification'
+        pricing_type: 'Type de tarification'
+        price_parameters: 'Critère de tarification'
+        query_parameter: 'Paramètre mesuré'
+        query_parameter_id: 'Paramètre mesuré'
+        route: 'Route mesurée'
+        route_id: 'Route mesurée'
+        unit_cost: 'Coût unitaire au delà'
       price_parameter:
         cost: 'Coût unitaire au delà'
         query_parameter: 'Paramètre mesuré'
@@ -128,6 +137,7 @@ fr:
         name: 'Nom'
         hostname: 'Domaine'
         hostname_test: 'Domaine (test)'
+        measure_token_activated: 'MeasureToken activé'
         port: 'Port'
         port_test: 'Port (test)'
         protocol: 'Protocole'

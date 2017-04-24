@@ -79,12 +79,12 @@ class ServicesController < ApplicationController
   end
 
   def logo
-    @logo = LogotypeService.new(@service.client_id)
+    @logotype_service = LogotypeService.new
 
     if params[:delete] == 'true'
 
       # deleting the image
-      status, error = @logo.delete
+      status, error = @logotype_service.delete(@service.client_id)
       unless status
         flash[:error] = error
       else
@@ -95,7 +95,7 @@ class ServicesController < ApplicationController
     elsif params[:upload] == 'true'
 
       # uploading the image
-      status, error = @logo.upload params[:file]
+      status, error = @logotype_service.upload(@service.client_id, params[:file])
       unless status
         flash[:error] = error
       else
@@ -109,14 +109,14 @@ class ServicesController < ApplicationController
   end
 
   def logo_image
-    @logo = LogotypeService.new(@service.client_id)
+    @logotype_service = LogotypeService.new
 
     response.headers['Content-Type'] = 'image/png'
     response.headers['Content-Disposition'] = 'inline'
 
     if params.has_key?(:width) then width = params[:width].to_i else width = nil end
 
-    render :text => @logo.image(width)
+    render :text => @logotype_service.image(@service.client_id, width)
   end
 
   private

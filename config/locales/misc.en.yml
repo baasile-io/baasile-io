@@ -33,6 +33,7 @@ en:
     month:
       one: 'month'
       other: 'months'
+    more_info: 'More info'
     my_services: 'My services'
     need_to_valide_general_condition: 'You need to valide general contions'
     next_step: 'Next step'
@@ -40,6 +41,7 @@ en:
     none: 'None'
     none_feminized: 'None'
     not_authorized: 'You are not authorized to process this action.'
+    not_included: 'not included'
     nothing_to_display: "Nothing to show in this section."
     overview: 'Overview'
     parameters: 'Settings'

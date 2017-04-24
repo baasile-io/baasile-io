@@ -8,22 +8,21 @@
   </div>
 </section>
 
-<div class="album text-muted">
+<div class="album">
   <div class="container">
 
     <div class="row">
 
       <% @collection.each.with_index do |service, index| %>
-        <div class="card">
-          <%= link_to image_tag(asset_path('no-image.png'), class: 'img-fluid'), startup_path(service.id) %>
-          <div class="card-text-container">
-            <p class="card-text">
-              <strong><%= service.name %></strong><br />
-              <%= service.description %>
-            </p>
-          </div>
-          <div>
-            <%= link_to t('.startup_infos'), startup_path(service.id), class: 'btn btn-secondary' %>
+        <% image = @logotype_service.url(service.client_id, :thumb_normalize) %>
+        <div class="col-sm-4">
+          <div class="card text-center mb-4">
+            <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= service.name %>">
+            <div class="card-block">
+              <h4 class="card-title"><%= service.name %></h4>
+              <p class="card-text"><%= simple_format(service.description).html_safe %></p>
+              <a href="<%= startup_path(service.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+            </div>
           </div>
         </div>
       <% end %>

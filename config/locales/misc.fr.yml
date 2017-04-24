@@ -33,6 +33,7 @@ fr:
     month:
       one: 'mois'
       other: 'mois'
+    more_info: "Plus d'infos"
     my_services: 'Mes entreprises'
     next_step: 'Étape suivante'
     need_to_valide_general_condition: 'You need to valide general contions'
@@ -40,6 +41,7 @@ fr:
     none: 'Aucun'
     none_feminized: 'Aucune'
     not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
+    not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
     overview: "Vue d'ensemble"
     parameters: 'Configuration'

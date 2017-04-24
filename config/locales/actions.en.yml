@@ -17,6 +17,7 @@ en:
     change_password: 'Change password'
     configure: 'Configurate'
     confirm_email: "Confirm email address"
+    contractualize: 'Contractualize'
     create_client: "Create Client account"
     create_startup: "Create Service Provider account"
     deactivate: 'Deactivate'
@@ -35,6 +36,7 @@ en:
     reset_unlock_instructions: 'Resend unlock instructions'
     reset_password: 'Send password reset instructions'
     reset_prices: 'Reset prices'
+    reset_pricing: 'Reset pricing'
     return: 'Return'
     save: 'Save'
     save_in_progress: 'Save in progress...'

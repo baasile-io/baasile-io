@@ -1,7 +1,12 @@
 fr:
   prices:
     edit:
-      title: 'Paramètres'
+      title: 'Éditer la tarification'
+    form:
+      hints:
+        cost: "Prix unitaire d'une requête au delà de la limite incluse."
+        deny_after_free_count: "Bloquer les requêtes lorsque la limite d'unités incluses est atteinte."
+        free_count: 'Nombre de requêtes autorisées dans le prix de base.'
     index:
       title: 'Modèles de tarification'
     new:
@@ -9,4 +14,4 @@ fr:
     show:
       title: 'Tableau de bord'
     update:
-      title: 'Paramètres'
+      title: 'Éditer la tarification'

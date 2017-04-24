@@ -4,6 +4,7 @@ class Measurement < ApplicationRecord
   belongs_to  :service
   belongs_to  :proxy
   belongs_to  :route
+  belongs_to  :measure_token
 
   scope :by_client, ->(client) { where(client_id: client.id).order(created_at: :desc) }
   scope :by_startup, ->(startup) { where(service_id: startup.id).order(created_at: :desc) }

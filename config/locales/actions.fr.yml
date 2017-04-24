@@ -17,6 +17,7 @@ fr:
     change_password: 'Changer de mot de passe'
     configure: 'Configurer'
     confirm_email: "Confirmer l'adresse E-Mail"
+    contractualize: 'Contractualiser'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
     deactivate: 'Désactiver'
@@ -35,6 +36,7 @@ fr:
     reset_unlock_instructions: 'Renvoyer les instructions pour activer mon compte'
     reset_password: 'Recevoir les instructions pour changer de mot de passe'
     reset_prices: 'Réinitialiser les tarifs'
+    reset_pricing: 'Réinitialiser la tarification'
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'

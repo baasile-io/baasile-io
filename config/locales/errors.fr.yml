@@ -21,6 +21,7 @@ fr:
       missing_contract_prices: "Le fournisseur doit fixer la tarification avant de pouvoir continuer."
       missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer".'
       missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur."
+      missing_measure_token_activated_route: "Votre API ne comporte aucune route dont l'option MeasureToken est activée."
       missing_translation: 'Traduction manquante'
       missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'
       not_a_date: 'doit être une date valide'

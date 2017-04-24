@@ -1,0 +1,94 @@
+<%
+  pricing_type = price.pricing_type.to_sym
+%>
+
+<div class="row">
+  <div class="col-4 text-right">
+    <strong><%= t('activerecord.attributes.price.pricing_type') %></strong>
+  </div>
+  <div class="col-8">
+    <%= t("types.pricing_types.#{pricing_type}.name") %><br />
+    <span class="text-muted"><%= t("types.pricing_types.#{pricing_type}.description") %></span>
+  </div>
+</div>
+
+<hr />
+<div class="row">
+  <div class="col-4 text-right">
+    <strong><%= t('activerecord.attributes.price.pricing_duration_type') %></strong>
+  </div>
+  <div class="col-8">
+    <%= t("types.pricing_duration_types.#{price.pricing_duration_type}.name") %><br />
+    <span class="text-muted"><%= t("types.pricing_duration_types.#{price.pricing_duration_type}.description") %></span>
+  </div>
+</div>
+
+<hr />
+<div class="row">
+  <div class="col-4 text-right">
+    <strong><%= t('activerecord.attributes.price.base_cost') %></strong>
+  </div>
+  <div class="col-8">
+    <%= price.base_cost %> &euro;
+  </div>
+</div>
+
+<% if pricing_type != :subscription %>
+
+  <% if pricing_type == :per_call %>
+    <hr />
+    <div class="row">
+      <div class="col-4 text-right">
+        <strong><%= t('activerecord.attributes.price.route') %></strong>
+      </div>
+      <div class="col-8">
+        <%= price.route || t('misc.all_feminized') %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if pricing_type == :per_parameter %>
+    <hr />
+    <div class="row">
+      <div class="col-4 text-right">
+        <strong><%= t('activerecord.attributes.price.query_parameter') %></strong>
+      </div>
+      <div class="col-8">
+        <%= price.query_parameter || t('misc.all_feminized') %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr />
+  <div class="row">
+    <div class="col-4 text-right">
+      <strong><%= t('activerecord.attributes.price.free_count') %></strong>
+    </div>
+    <div class="col-8">
+      <%= price.free_count %>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
+    <div class="col-4 text-right">
+      <strong><%= t('activerecord.attributes.price.deny_after_free_count') %></strong>
+    </div>
+    <div class="col-8">
+      <%= t("misc.#{price.deny_after_free_count}") %>
+    </div>
+  </div>
+
+  <% unless price.deny_after_free_count %>
+    <hr />
+    <div class="row">
+      <div class="col-4 text-right">
+        <strong><%= t('activerecord.attributes.price.unit_cost') %></strong>
+      </div>
+      <div class="col-8">
+        <%= price.unit_cost %> &euro;
+      </div>
+    </div>
+  <% end %>
+
+<% end %>

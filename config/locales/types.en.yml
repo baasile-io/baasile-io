@@ -35,8 +35,32 @@ en:
         icon: ''
         title: 'HEADER'
     price_parameters_types:
-      per_call: 'Per call'
-      per_params: 'Per parameters'
+      per_call:
+        description: "La mesure s'effectue sur le nombre d'appels."
+        title: 'Per request'
+      per_params:
+        description: "La mesure s'effectue sur le nombre d'apparition d'un paramètre."
+        title: 'Per parameter'
+    pricing_duration_types:
+      monthly:
+        description: 'The base cost is applied monthly.'
+        name: 'Monthly subscription'
+      prepaid:
+        description: 'The base cost is applied only once for the duration of the contract.'
+        name: 'Prepaid'
+      yearly:
+        description: 'The base cost is applied yearly.'
+        name: 'Yearly subscription'
+    pricing_types:
+      per_call:
+        description: ''
+        name: 'Per call'
+      per_parameter:
+        description: ''
+        name: 'Per parameter MeasureToken'
+      subscription:
+        description: ''
+        name: 'Subscription'
     protocols:
       http: 'HTTP'
       https: 'HTTPS'

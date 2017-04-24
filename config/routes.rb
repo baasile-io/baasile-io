@@ -70,6 +70,10 @@ Rails.application.routes.draw do
         get :select_price
         post :cancel
       end
+      collection do
+        get :catalog
+        get :select_client
+      end
       resources :prices do
         resources :price_parameters
       end
@@ -91,6 +95,10 @@ Rails.application.routes.draw do
           get :prices
           get :select_price
           post :cancel
+        end
+        collection do
+          get :catalog
+          get :select_client
         end
         resources :prices do
           resources :price_parameters

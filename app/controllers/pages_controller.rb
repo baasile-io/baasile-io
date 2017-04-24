@@ -1,10 +1,11 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found]
+  before_action :load_logotype_service, only: [:service_book, :startup]
 
   layout 'public'
 
   def service_book
-    @collection = Service.published
+    @collection = Service.activated_startups.published
   end
 
   def startup
@@ -23,5 +24,9 @@ class PagesController < ApplicationController
 
   def current_module
     'service_book'
+  end
+
+  def load_logotype_service
+    @logotype_service = LogotypeService.new
   end
 end

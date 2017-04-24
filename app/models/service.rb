@@ -68,10 +68,10 @@ class Service < ApplicationRecord
   scope :activated_startups, -> {  where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:startup]) }
   scope :activated_clients, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:client]) }
   scope :activated_companies, -> { where('confirmed_at IS NOT NULL AND service_type = ?', SERVICE_TYPES_ENUM[:company]) }
+  scope :clients_or_startups, -> {  where(service_type: [SERVICE_TYPES_ENUM[:startup], SERVICE_TYPES_ENUM[:client]]) }
   scope :associated, ->(company) { where(company: company) }
   scope :companies, -> { where(service_type: SERVICE_TYPES[:company][:index]) }
-
-  scope :published, -> { where('confirmed_at IS NOT NULL AND public = true') }
+  scope :published, -> { where(public: true) }
 
   def associated_contracts
     Contract.where('client_id = :service_id OR startup_id = :service_id', service_id: self.id)

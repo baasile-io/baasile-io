@@ -1,5 +1,7 @@
 <% content_for(:page_title) { @startup.name } %>
 
+<% image = @logotype_service.url(@startup.client_id, :thumb_normalize) %>
+
 <div class="container">
 
   <p style="margin-top: 15px;"><%= link_to 'Retourner au catalogue', service_book_url, class: 'btn btn-primary' %></p>
@@ -7,11 +9,11 @@
   <hr />
   <div class="row">
     <div class="col-md-7">
-      <h2><%= @startup.name %></h2>
+      <h1><%= @startup.name %></h1>
       <p class="lead"><%= simple_format(@startup.description) %></p>
     </div>
     <div class="col-md-5">
-      <%= image_tag asset_path('no-image.png'), class: 'img-fluid mx-auto' %>
+      <%= image_tag image, class: 'img-fluid mx-auto' %>
     </div>
   </div>
 
@@ -30,7 +32,6 @@
       <tr>
         <th><%= t('activerecord.attributes.proxy.name') %></th>
         <th><%= t('activerecord.attributes.proxy.category') %></th>
-        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -42,11 +43,6 @@
             </td>
             <td>
               <%= proxy.category.try(:name) || '---' %>
-            </td>
-            <td class="text-right">
-              <% if current_user %>
-                <%= link_to t('actions.buy'), new_contract_path(proxy_id: proxy.id), class: 'btn btn-success' %>
-              <% end %>
             </td>
           </tr>
         <% end %>

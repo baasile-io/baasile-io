@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422124839) do
+ActiveRecord::Schema.define(version: 20170424063417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(version: 20170422124839) do
 
   create_table "contracts", force: :cascade do |t|
     t.string   "name"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.date     "start_date"
+    t.date     "end_date"
     t.integer  "client_id"
     t.integer  "company_id"
     t.integer  "startup_id"
@@ -137,16 +137,25 @@ ActiveRecord::Schema.define(version: 20170422124839) do
     t.index ["identifiable_type", "identifiable_id"], name: "identifiable_type_id", using: :btree
   end
 
+  create_table "measure_tokens", force: :cascade do |t|
+    t.string   "value"
+    t.string   "contract_status"
+    t.integer  "contract_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["value", "contract_status", "contract_id"], name: "value_status_contract_index", unique: true, using: :btree
+  end
+
   create_table "measurements", force: :cascade do |t|
     t.integer  "client_id"
-    t.integer  "requests_count",     default: 0, null: false
+    t.integer  "requests_count",   default: 0, null: false
     t.integer  "service_id"
     t.integer  "proxy_id"
     t.integer  "route_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "contract_id"
-    t.integer  "query_parameter_id"
+    t.integer  "measure_token_id"
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
@@ -179,17 +188,26 @@ ActiveRecord::Schema.define(version: 20170422124839) do
 
   create_table "prices", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "base_cost",    default: "0.0"
-    t.decimal  "cost_by_time", default: "0.0"
+    t.decimal  "base_cost",             default: "0.0"
+    t.decimal  "cost",                  default: "0.0"
     t.integer  "user_id"
-    t.boolean  "activate",     default: true
+    t.boolean  "activate",              default: true
     t.integer  "proxy_id"
     t.integer  "service_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "contract_id"
+    t.integer  "pricing_duration_type", default: 0
+    t.integer  "pricing_type",          default: 0
+    t.integer  "free_count",            default: 0
+    t.boolean  "deny_after_free_count", default: true
+    t.decimal  "unit_cost",             default: "0.0"
+    t.integer  "route_id"
+    t.integer  "query_parameter_id"
     t.index ["contract_id"], name: "index_prices_on_contract_id", using: :btree
     t.index ["proxy_id"], name: "index_prices_on_proxy_id", using: :btree
+    t.index ["query_parameter_id"], name: "index_prices_on_query_parameter_id", using: :btree
+    t.index ["route_id"], name: "index_prices_on_route_id", using: :btree
     t.index ["service_id"], name: "index_prices_on_service_id", using: :btree
   end
 
@@ -268,13 +286,14 @@ ActiveRecord::Schema.define(version: 20170422124839) do
     t.string   "url"
     t.integer  "proxy_id"
     t.integer  "user_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.text     "allowed_methods", default: [],              array: true
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.text     "allowed_methods",         default: [],                 array: true
     t.integer  "protocol_test"
     t.string   "hostname_test"
     t.string   "port_test"
     t.string   "subdomain"
+    t.boolean  "measure_token_activated", default: false
     t.index ["proxy_id"], name: "index_routes_on_proxy_id", using: :btree
     t.index ["user_id"], name: "index_routes_on_user_id", using: :btree
   end
