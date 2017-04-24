@@ -15,6 +15,7 @@ en:
     cancel: 'Cancel'
     cancel_contract: 'Cancel contract'
     change_password: 'Change password'
+    close: 'Close'
     configure: 'Configurate'
     confirm_email: "Confirm email address"
     contractualize: 'Contractualize'

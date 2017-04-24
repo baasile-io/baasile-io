@@ -1,12 +1,30 @@
-<% content_for(:page_title, t('.title')) %>
+<% content_for(:page_title, @ticket.subject) %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <h5><%= @ticket.subject %></h5>
-    <%= @ticket.user.full_name %>
 
-    <%= render partial: 'comments' %>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <%= t("activerecord.attributes.ticket.ticket_status") + ' :' %>
+          </td>
+          <td>
+            <%= t("types.ticket_status.#{@ticket.ticket_status}")  %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= t("activerecord.attributes.ticket.ticket_type") + ' :' %>
+          </td>
+          <td>
+            <%= t("types.ticket_types.#{@ticket.ticket_type}")  %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="text-sm-right">
       <%= link_to t('actions.edit'), edit_ticket_path(@ticket), method: :get, class: 'btn btn-secondary' %>
@@ -14,6 +32,7 @@
   </div>
 </div>
 
+<%= render partial: 'comments' %>
 
 <%= render partial: 'shared/versions', locals: {objects: [@ticket]} %>
 

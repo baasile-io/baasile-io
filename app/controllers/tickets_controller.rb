@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :load_ticket, only: [:show, :edit, :update, :destroy, :comments]
+  before_action :load_ticket, only: [:show, :edit, :update, :destroy]
 
 
   def index
@@ -22,13 +22,16 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new
     @ticket.user = current_user
-    @ticket.ticket_status = Ticket::TICKET_STATUSES[:to_do]
+    @ticket.ticket_status = Ticket::TICKET_STATUSES[:opened]
     @ticket.assign_attributes(ticket_params)
-    if @ticket.save
-      Comment.create(commentable: @ticket, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+    begin
+      Ticket.transaction do
+        @ticket.save!
+        Comment.create(commentable: @ticket, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+      end
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
       redirect_to_show
-    else
+    rescue
       @new_comment = Comment.new(body: params[:new_comment])
       render :new
     end
@@ -40,12 +43,15 @@ class TicketsController < ApplicationController
 
   def update
     @ticket.assign_attributes(ticket_params)
-    @ticket.ticket_status = Ticket::TICKET_STATUSES[:to_do]
-    if @ticket.save
-      Comment.create(commentable: @ticket, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+    @ticket.ticket_status = Ticket::TICKET_STATUSES[:opened]
+    begin
+      Ticket.transaction do
+        @ticket.save!
+        Comment.create(commentable: @ticket, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+      end
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
       redirect_to_show
-    else
+    rescue
       @new_comment = Comment.new(body: params[:new_comment])
       render :edit
     end

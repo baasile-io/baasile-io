@@ -175,6 +175,11 @@ Rails.application.routes.draw do
           get :audit
         end
       end
+      resources :tickets do
+        member do
+          post :closed
+        end
+      end
 
       resources :general_conditions
       resources :documentations

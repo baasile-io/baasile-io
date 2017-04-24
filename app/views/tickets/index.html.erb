@@ -7,27 +7,30 @@
     <table class="table table-hover table-sm table-link">
       <thead>
       <tr>
-        <th colspan="2" class="width-40"><%= t('activerecord.attributes.route.name') %></th>
+        <th><%= t('activerecord.attributes.ticket.subject') %></th>
         <th></th>
+        <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |ticket| %>
-        <tr data-link="<%= ticket_path(ticket) %>">
-          <td class="width-3">
-            <i class="fa fa-fw fa-2x fa-sitemap"></i>
-          </td>
-          <td>
-            <strong><%= ticket.subject %></strong><br />
-            <small class="text-muted"><%= ticket.ticket_status %></small>
-          </td>
-          <td class="text-right">
-            <%= link_to t('actions.see'), ticket_path(ticket), class: 'btn btn-secondary' %>
-          </td>
-        </tr>
+          <tr data-link="<%= ticket_path(ticket) %>">
+            <td class="width-3">
+              <i class="fa fa-fw fa-2x fa-sitemap"></i>
+            </td>
+            <td>
+              <strong><%= ticket.subject %></strong><br />
+              <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
+            </td>
+            <td>
+              <%=  t("types.ticket_status.#{ticket.ticket_status}") %>
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.see'), ticket_path(ticket), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
       <% end %>
       </tbody>
     </table>
-
   </div>
 </div>

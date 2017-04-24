@@ -89,10 +89,9 @@ fr:
       numeric: 'Nombre flottant'
       string: 'Chaîne de caractère'
     ticket_statuses:
-      to_do: 'A traiter'
+      opened: 'Ouvert'
       in_progress: 'En cours de traitement'
-      done: 'Traité'
-      reject: 'Rejeter'
+      closed: 'Fermé'
     ticket_types:
       activation_demand: "Demande d'activation"
       bug: 'Bug'
