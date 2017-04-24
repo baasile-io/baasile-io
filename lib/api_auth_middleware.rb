@@ -17,7 +17,7 @@ class ApiAuthMiddleware
         auth_token = JsonWebToken.decode(http_token)
         raise ServiceIdInTokenError unless auth_token[:service_id].to_i
         env[:authenticated_service] = Service.find(auth_token[:service_id])
-        env[:authenticated_scope] = auth_token[:scope]
+        env[:authenticated_scope] = auth_token[:scope] || ''
       rescue OptionsRequest
         allowed_headers = env.fetch('HTTP_ACCESS_CONTROL_REQUEST_HEADERS', 'Origin, Authorization, Accept, Content-Type')
         return [200, {'Content-Type' => 'plain/text',
