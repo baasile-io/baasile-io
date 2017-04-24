@@ -61,6 +61,7 @@ class Role < ApplicationRecord
       reject: [:admin, :commercial, :accountant],
       validate: [:admin, :commercial, :accountant],
       general_condition: [:admin, :commercial, :accountant],
+      validate_general_condition: [:admin, :commercial],
       cancel: [:admin]
     },
     prices: {
