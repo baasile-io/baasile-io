@@ -83,6 +83,8 @@ Rails.application.routes.draw do
 
     resources :users
 
+    resources :tickets
+
     resources :services do
       resources :contracts do
         member do

@@ -88,6 +88,16 @@ fr:
       integer: 'Nombre entier'
       numeric: 'Nombre flottant'
       string: 'Chaîne de caractère'
+    ticket_statuses:
+      to_do: 'A traiter'
+      in_progress: 'En cours de traitement'
+      done: 'Traité'
+      reject: 'Rejeter'
+    ticket_types:
+      activation_demand: "Demande d'activation"
+      bug: 'Bug'
+      user_right_demand: 'demande de droits utilisateur'
+      info_demand: "demande d'informations"
     contract_statuses:
       creation:
         class: 'text-muted'

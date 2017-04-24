@@ -1,0 +1,19 @@
+<% content_for(:page_title, t('.title')) %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <h5><%= @ticket.subject %></h5>
+    <%= @ticket.user.full_name %>
+
+    <%= render partial: 'comments' %>
+
+    <div class="text-sm-right">
+      <%= link_to t('actions.edit'), edit_ticket_path(@ticket), method: :get, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+</div>
+
+
+<%= render partial: 'shared/versions', locals: {objects: [@ticket]} %>
+

@@ -44,7 +44,9 @@ fr:
     see_and_add_comments: 'Voir/ajouter des commentaires'
     see_general_conditions: 'Voir les Conditions Générales'
     select: 'Sélectionner...'
+    send_in_progress: 'Envoie en cours...'
     send_reset_password: 'Réinitialiser le mot de passe'
+    send_ticket: 'Envoyer le billet'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     set_admin: "Ajouter les droits admin"
