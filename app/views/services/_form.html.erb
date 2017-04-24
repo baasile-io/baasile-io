@@ -66,7 +66,7 @@
       <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
       <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
-      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain') %>
+      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain'), input_html: {class: 'col-sm-5'} %>
 
       <% if f.object.is_startup? %>
         <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
