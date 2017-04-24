@@ -17,6 +17,7 @@ class User < ApplicationRecord
   # Ancestry
   has_ancestry orphan_strategy: :adopt
 
+  has_many :tickets
   has_many :categories, dependent: :nullify
   has_many :companies, dependent: :nullify
   has_many :services, dependent: :nullify

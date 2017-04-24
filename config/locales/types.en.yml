@@ -88,6 +88,16 @@ en:
       integer: 'Integer'
       numeric: 'Numeric'
       string: 'Character string'
+    ticket_statuses:
+      to_do: 'To do'
+      in_progress: 'Work in progress'
+      done: 'Done'
+      reject: 'Reject'
+    ticket_types:
+      activation_demand: 'Activation demand'
+      bug: 'Bug'
+      user_right_demand: 'User right demand'
+      info_demand: 'Infos demand'
     contract_statuses:
       creation:
         class: 'text-muted'

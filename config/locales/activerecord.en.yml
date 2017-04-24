@@ -162,6 +162,14 @@ en:
         user: 'Administrator'
         user_id: 'Administrator'
         website: 'Website'
+      ticket:
+        service: 'Enterprise'
+        service_id: 'Enterprise'
+        subject: 'Subject'
+        ticket_status: 'Status'
+        ticket_type: 'Type'
+        user: 'Creator'
+        user_id: 'Creator'
       user:
         current_password: 'Current password'
         email: 'Email'
@@ -199,6 +207,7 @@ en:
       proxy_parameter: 'Proxy parameter'
       route: 'Route'
       service: 'Enterprise'
+      ticket: 'Ticket'
       user: 'User'
       user_association: 'Association'
       version: 'Version'

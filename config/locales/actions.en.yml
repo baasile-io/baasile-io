@@ -44,7 +44,9 @@ en:
     see_and_add_comments: 'See/add comments'
     see_general_conditions: 'See General Conditions'
     select: 'Select...'
+    send_in_progress: 'Send in progress...'
     send_reset_password: 'Reset password'
+    send_ticket: 'Send ticket'
     send_welcome_instructions: 'Send welcome instructions by email'
     skip_confirmation: "Skip email address confirmation"
     set_admin: 'Set admin'
