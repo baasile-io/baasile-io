@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170423152213) do
+ActiveRecord::Schema.define(version: 20170424063417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,10 +89,10 @@ ActiveRecord::Schema.define(version: 20170423152213) do
     t.date     "expected_end_date"
     t.integer  "expected_contract_duration",                  default: 1
     t.boolean  "is_evergreen",                                default: false
+    t.integer  "contract_duration_type",                      default: 0
     t.integer  "general_condition_id"
     t.integer  "general_condition_validated_client_user_id"
     t.datetime "general_condition_validated_client_datetime"
-    t.integer  "contract_duration_type",                      default: 0
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
@@ -148,12 +148,14 @@ ActiveRecord::Schema.define(version: 20170423152213) do
 
   create_table "measurements", force: :cascade do |t|
     t.integer  "client_id"
-    t.integer  "requests_count", default: 0, null: false
+    t.integer  "requests_count",   default: 0, null: false
     t.integer  "service_id"
     t.integer  "proxy_id"
     t.integer  "route_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "contract_id"
+    t.integer  "measure_token_id"
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
