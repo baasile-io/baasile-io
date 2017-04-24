@@ -7,20 +7,30 @@
   <%= simple_form_for @form_values do |f| %>
     <%= error_messages_for(f.object) %>
 
+    <%= f.input :proxy_id, as: :hidden %>
+    <%= f.input :client_id, as: :hidden %>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label"><%= t('active_record.attributes.contract.client') %></label>
+      <div class="col-md-9">
+        <h5 class="<%= t("types.service_types.#{f.object.client.service_type}.class") %>"><i class="<%= t("types.service_types.#{f.object.client.service_type}.icon") %>"></i> <%= f.object.client.name %></h5>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label"><%= t('active_record.attributes.contract.proxy') %></label>
+      <div class="col-md-9">
+        <h5><i class="fa fa-fw fa-sitemap"></i> <%= f.object.proxy.name %></h5>
+        <%= f.object.proxy.description %>
+      </div>
+    </div>
+
     <% if @current_status[:allowed_parameters].include?(:code) %>
-      <%= f.input :code %>
+      <%= f.input :code, input_html: {class: 'col-sm-3'} %>
     <% end %>
 
     <% if @current_status[:allowed_parameters].include?(:name) %>
       <%= f.input :name %>
-    <% end %>
-
-    <% if @current_status[:allowed_parameters].include?(:client_id) %>
-      <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
-    <% end %>
-
-    <% if @current_status[:allowed_parameters].include?(:proxy_id) %>
-      <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
     <% end %>
 
     <% if @current_status[:allowed_parameters].include?(:contract_duration_type) %>

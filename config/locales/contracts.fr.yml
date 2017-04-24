@@ -1,5 +1,8 @@
 fr:
   contracts:
+    catalog:
+      description: 'Choisissez un produit à contractualiser.'
+      title: 'Catalogue des startups'
     comments:
       title: 'Commentaires'
     edit:
@@ -14,6 +17,8 @@ fr:
     prices:
       description: 'Sélectionnez et éditez un modèle de tarif.'
       title: 'Tarification'
+    select_client:
+      title: 'Sélectionnez un client'
     show:
       title: 'Tableau de bord'
     update:

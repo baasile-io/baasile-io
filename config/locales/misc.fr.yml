@@ -33,6 +33,7 @@ fr:
     month:
       one: 'mois'
       other: 'mois'
+    more_info: "Plus d'infos"
     my_services: 'Mes entreprises'
     next_step: 'Étape suivante'
     need_to_valide_general_condition: 'You need to valide general contions'

@@ -17,6 +17,7 @@ en:
     change_password: 'Change password'
     configure: 'Configurate'
     confirm_email: "Confirm email address"
+    contractualize: 'Contractualize'
     create_client: "Create Client account"
     create_startup: "Create Service Provider account"
     deactivate: 'Deactivate'

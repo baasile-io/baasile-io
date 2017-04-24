@@ -4,7 +4,7 @@ module Api
       skip_before_action  :authenticate_schema, only: :index
 
       def index
-        services = Service.published
+        services = Service.activated_startups.published
         services_restrict = services.map do |service|
           {
             id: service.subdomain,

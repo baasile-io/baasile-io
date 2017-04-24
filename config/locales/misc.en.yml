@@ -33,6 +33,7 @@ en:
     month:
       one: 'month'
       other: 'months'
+    more_info: 'More info'
     my_services: 'My services'
     need_to_valide_general_condition: 'You need to valide general contions'
     next_step: 'Next step'

@@ -1,0 +1,29 @@
+<% content_for(:page_description) { t('.description') } %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <div class="row">
+      <% @proxies.each do |proxy| %>
+        <% image = @logotype_service.url(proxy.service.client_id, :thumb_normalize) %>
+        <div class="col-sm-4">
+          <div class="card text-center mb-4">
+            <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.service.name %>">
+            <div class="card-block">
+              <h4 class="card-title"><%= proxy.name %></h4>
+              <p class="card-text text-muted"><%= proxy.category.try(:name) %></p>
+              <p class="card-text"><%= simple_format(proxy.description).html_safe %></p>
+              <a href="<%= startup_path(proxy.service.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+              <a href="<%= new_service_contract_path(current_service, proxy_id: proxy.id) %>" class="btn btn-success"><%= t('actions.contractualize') %></a>
+            </div>
+            <div class="card-footer text-muted">
+              <%= proxy.service.name %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

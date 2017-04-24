@@ -2,11 +2,9 @@ class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel]
-  before_action :load_general_condition, except: [:index]
+  before_action :load_general_condition, only: [:general_condition]
   before_action :load_price, only: [:show]
-  before_action :load_active_services, only: [:new, :edit, :create, :update]
-  before_action :load_active_client, only: [:new, :edit, :create, :update]
-  before_action :load_active_proxies, only: [:new, :edit, :update, :create]
+  before_action :load_active_proxies, only: [:catalog]
 
   # Authorization
   before_action :authorize_action
@@ -28,11 +26,27 @@ class ContractsController < ApplicationController
     end
   end
 
+  def select_client
+    @clients = (current_service.nil? ? current_user.services.clients_or_startups : current_service.children.clients_or_startups)
+  end
+
+  def catalog
+    @logotype_service = LogotypeService.new
+  end
+
   def new
+    return redirect_to (current_service.nil? ? select_client_contracts_path : select_client_service_contracts_path(current_service)) if current_service.nil? || current_service.is_company?
+    return redirect_to (current_service.nil? ? catalog_contracts_path : catalog_service_contracts_path(current_service)) unless params[:proxy_id].present?
+
+    existing_contract = current_service.contracts.where(proxy_id: params[:proxy_id]).first
+    if existing_contract
+      return redirect_to (current_service.nil? ? contract_path(existing_contract) : service_contract_path(current_service, existing_contract))
+    end
+
     @current_status = Contract::CONTRACT_STATUSES[:creation]
     @contract = Contract.new
-    @contract.client = current_service if !current_service.nil? && current_service.is_client?
-    @contract.proxy_id = params[:proxy_id] if params[:proxy_id].present?
+    @contract.client = current_service if !current_service.nil?
+    @contract.proxy = Proxy.find(params[:proxy_id])
     define_form_value
   end
 
@@ -209,23 +223,11 @@ class ContractsController < ApplicationController
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 
-  def load_active_services
-    if current_contract && current_contract.persisted?
-      @services = [current_contract.startup]
-    else
-      @services = Service.activated_startups
-    end
-  end
-
-  def load_active_client
-    @clients = Service.activated_clients
-  end
-
   def load_active_proxies
     @proxies = []
-    @services.each do |service|
-      service.proxies.each do |proxy|
-        @proxies << proxy if proxy.public || proxy.service.id == current_service.try(:id) || (current_contract && current_contract.proxy_id == proxy.id)
+    Service.includes(:proxies).activated_startups.published.each do |service|
+      service.proxies.includes(:category).published.each do |proxy|
+        @proxies << proxy if (proxy.public && service.public) || proxy.service.id == current_service.try(:id)
       end
     end
     if @proxies.count == 0

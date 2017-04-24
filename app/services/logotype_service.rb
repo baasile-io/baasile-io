@@ -2,12 +2,15 @@ class LogotypeService
   class MissingFile < StandardError; end
   class BadExtension < StandardError; end
 
+  MISSING_IMAGE_URL = '/no-image.png'
+
   ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
   SIZES = {
     iconic:     {w:   24, h:  24},
     tiny:       {w:  100, h: 100},
     thumb:      {w:  280, h: 280},
     small:      {w:  280},
+    thumb_normalize: {w:  540, h: 448},
     normalize:  {w:  540},
     big:        {w:  720},
     huge:       {w:  960},
@@ -15,14 +18,13 @@ class LogotypeService
   }
   DEFAULT_SIZE = :small
 
-  def initialize client_id
-    @client_id = client_id
+  def initialize
     @aws_creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_KEY'])
     @aws_s3_client = Aws::S3::Client.new(region: ENV['AWS_S3_REGION'], credentials: @aws_creds)
     @aws_s3_bucket = Aws::S3::Bucket.new(ENV['AWS_S3_BUCKET'], client: @aws_s3_client)
   end
 
-  def upload file
+  def upload client_id, file
     # check if file is missing
     raise MissingFile if file.blank?
 
@@ -50,8 +52,8 @@ class LogotypeService
       temp_img.write temp.path
 
       # uploaded the PNG file to S3
-      aws_s3_object(size_name).delete
-      aws_s3_object(size_name).upload_file(temp.path, acl: 'public-read', content_type: 'image/png')
+      aws_s3_object(client_id, size_name).delete
+      aws_s3_object(client_id, size_name).upload_file(temp.path, acl: 'public-read', content_type: 'image/png')
 
       # clean up
       temp.unlink
@@ -68,9 +70,9 @@ class LogotypeService
     [false, I18n.t('errors.logotype.unknown_error_while_uploading')]
   end
 
-  def delete
+  def delete client_id
     SIZES.each do |size_name|
-      aws_s3_object(size_name[0]).delete
+      aws_s3_object(client_id, size_name[0]).delete
     end
 
     true
@@ -78,35 +80,37 @@ class LogotypeService
     [false, I18n.t('errors.logotype.unknown_error_while_deleting')]
   end
 
-  def image size_name
+  def image client_id, size_name
     size_name = DEFAULT_SIZE unless SIZES.key?size_name
 
-    file = open(url size_name)
+    file = open(url client_id, size_name)
     blob = file.read
     file.close
 
     blob
   end
 
-  def exists? size_name = DEFAULT_SIZE
+  def exists? client_id, size_name = DEFAULT_SIZE
     size_name = DEFAULT_SIZE unless SIZES.key?size_name
 
-    aws_s3_object(size_name).exists?
+    aws_s3_object(client_id, size_name).exists?
   end
 
-  def url size_name
+  def url client_id, size_name
     size_name = DEFAULT_SIZE unless SIZES.key?size_name
 
-    if exists?(size_name)
-      aws_s3_object(size_name).public_url
+    if exists?(client_id, size_name)
+      aws_s3_object(client_id, size_name).public_url
     else
-      nil
+      MISSING_IMAGE_URL
     end
+  rescue Aws::S3::Errors::Forbidden
+    MISSING_IMAGE_URL
   end
 
   private
 
-  def aws_s3_object size_name
-    @aws_s3_bucket.object("#{ENV['AWS_S3_BUCKET_DIR_LOGOTYPES']}/#{@client_id}/#{size_name}")
+  def aws_s3_object client_id, size_name
+    @aws_s3_bucket.object("#{ENV['AWS_S3_BUCKET_DIR_LOGOTYPES']}/#{client_id}/#{size_name}")
   end
 end

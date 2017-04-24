@@ -17,7 +17,7 @@
           </div>
         <% end %>
 
-        <% if @logo.exists? %>
+        <% if @logotype_service.exists?(@service.client_id) %>
           <fieldset>
             <legend><%= t('services.logo.delete_title') %></legend>
             <%= form_tag '', method: :post, class: 'form' do %>
@@ -30,8 +30,8 @@
         <% end %>
       </div>
       <div class="col-4">
-        <% if @logo.url(:normalize) %>
-          <img src="<%= @logo.url(:normalize) %>" class="img-fluid" alt="">
+        <% if @logotype_service.url(@service.client_id, :normalize) %>
+          <img src="<%= @logotype_service.url(@service.client_id, :normalize) %>" class="img-fluid" alt="">
         <% end %>
       </div>
     </section>

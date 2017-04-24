@@ -1,0 +1,42 @@
+<% content_for(:page_back) { contracts_path } %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @clients.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th colspan="2" class="width-30"><%= t('activerecord.attributes.service.name') %></th>
+          <th class="width-10"><%= t('activerecord.attributes.service.service_type') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @clients.each do |service| %>
+          <tr data-link="<%= new_service_contract_path(service.id) %>">
+            <td class="width-3">
+              <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
+            </td>
+            <td>
+              <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-2x fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe unless service.is_activated? %>
+              <strong class="<%= I18n.t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></strong><br />
+              <%= "<small class=\"text-muted\"><i class=\"#{t("types.service_types.#{service.parent.service_type}.icon")}\"></i> #{service.parent}</small>".html_safe if service.parent %>&nbsp;
+            </td>
+            <td>
+              <span class="<%= I18n.t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.select'), new_service_contract_path(service.id), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

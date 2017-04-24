@@ -50,6 +50,8 @@ class Role < ApplicationRecord
       index: [:admin, :commercial, :accountant],
       prices: [:admin, :commercial, :accountant],
       select_price: [:admin, :commercial],
+      select_client: [:admin, :commercial],
+      catalog: [:admin, :commercial],
       new: [:admin, :commercial],
       create: [:admin, :commercial],
       show: [:admin, :commercial, :accountant],
