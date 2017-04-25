@@ -8,15 +8,17 @@
       <thead>
       <tr>
         <th><%= t('activerecord.attributes.ticket.subject') %></th>
-
+        <th></th>
         <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
       </tr>
       </thead>
       <tbody>
       <% @collection.each do |ticket| %>
         <tr data-link="<%= ticket_path(ticket) %>">
+          <td class="width-3">
+            <i class="fa fa-fw fa-2x fa-sitemap"></i>
+          </td>
           <td>
-            <i class="fa fa-fw fa-sitemap"></i>
             <strong><%= ticket.subject %></strong><br />
             <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
           </td>
