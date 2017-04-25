@@ -1,5 +1,6 @@
 <% content_for(:page_title, t('.title')) %>
 <% content_for(:page_controls) { link_to t('actions.new'), new_ticket_path, class: 'btn btn-primary' } %>
+<% content_for(:page_controls) { link_to t('actions.closed_ticket'), list_closed_tickets_path, class: 'btn btn-secondary' } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

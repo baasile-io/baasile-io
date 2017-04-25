@@ -2,10 +2,13 @@ class TicketsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :load_ticket, only: [:show, :edit, :update, :destroy]
+  before_action :load_tickets, only: [:index]
+  before_action :load_closed_tickets, only: [:list_closed]
 
+  def list_closed
+  end
 
   def index
-    @collection = current_user.tickets
   end
 
   def show
@@ -83,6 +86,14 @@ private
 
   def load_ticket
     @ticket = Ticket.find(params[:id])
+  end
+
+  def load_tickets
+    @collection = current_user.tickets.not_closed
+  end
+
+  def load_closed_tickets
+    @collection = current_user.tickets.closed
   end
 
 end

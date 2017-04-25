@@ -1,10 +1,14 @@
 module BackOffice
   class TicketsController < BackOfficeController
-    before_action :load_ticket, only: [:edit, :update, :destroy, :closed]
+    before_action :load_ticket, only: [:edit, :update, :destroy, :closed, :opened]
     before_action :set_ticket_in_progress, only: [:edit, :update, :destroy]
+    before_action :load_tickets, only: [:index]
+    before_action :load_closed_tickets, only: [:list_closed]
+
+    def list_closed
+    end
 
     def index
-      @collection = Ticket.not_closed
     end
 
     def edit
@@ -21,6 +25,18 @@ module BackOffice
       else
         @new_comment = Comment.new(body: params[:new_comment])
         render :edit
+      end
+    end
+
+    def opened
+      @ticket.ticket_status = Ticket::TICKET_STATUSES[:opened]
+      if @ticket.save
+        @ticket.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
+        redirect_to_index
+      else
+        flash[:fails] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+        redirect_to_index
       end
     end
 
@@ -69,6 +85,14 @@ module BackOffice
 
     def load_ticket
       @ticket = Ticket.find(params[:id])
+    end
+
+    def load_tickets
+      @collection = Ticket.not_closed
+    end
+
+    def load_closed_tickets
+      @collection = Ticket.closed
     end
 
   end

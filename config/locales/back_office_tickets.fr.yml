@@ -9,6 +9,8 @@ fr:
         hints:
       index:
         title: 'Billets'
+      list_closed:
+        title: 'Billets fermé'
       new:
         title: 'Créer un nouveau Billet'
       create:

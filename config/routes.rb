@@ -83,7 +83,11 @@ Rails.application.routes.draw do
 
     resources :users
 
-    resources :tickets
+    resources :tickets do
+      collection do
+        get :list_closed
+      end
+    end
 
     resources :services do
       resources :contracts do
@@ -176,8 +180,12 @@ Rails.application.routes.draw do
         end
       end
       resources :tickets do
+        collection do
+          get :list_closed
+        end
         member do
           post :closed
+          post :opened
         end
       end
 
