@@ -8,7 +8,7 @@ module Tickets
       begin
         Ticket.transaction do
           @ticket.save!
-          #send_notification(:open)
+          send_notification(:open)
         end
         true
       rescue
@@ -21,7 +21,7 @@ module Tickets
         Ticket.transaction do
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          #send_notification(:edit)
+          send_notification(:edit)
         end
         true
       rescue
@@ -34,7 +34,7 @@ module Tickets
         Ticket.transaction do
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          #send_notification(:create)
+          send_action_notification(:create)
         end
         true
       rescue
@@ -46,7 +46,7 @@ module Tickets
       begin
         Ticket.transaction do
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          #send_notification(:comment)
+          send_notification(:comment)
         end
         true
       rescue
@@ -58,7 +58,7 @@ module Tickets
       begin
         Ticket.transaction do
           @ticket.save!
-          #send_notification(:close)
+          send_notification(:close)
         end
         true
       rescue
@@ -68,8 +68,9 @@ module Tickets
 
     private
 
-    def send_notification(action)
-      TicketNotifier.send_ticket_notification(@ticket, status: Ticket::TICKET_STATUSES[:@ticket.ticket_status], action: action).deliver_now
+    def send_action_notification(action)
+      list_user = Ticket::TICKET_STATUSES[@ticket.ticket_status.to_sym][:notifications]
+      TicketNotifier.send_ticket_notification(@ticket, action, list_user).deliver_now
     end
   end
 end
