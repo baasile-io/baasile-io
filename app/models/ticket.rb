@@ -2,10 +2,25 @@ class Ticket < ApplicationRecord
   # Versioning
   has_paper_trail
 
+  TICKET_STATUSES = {
+    opened: {
+      index: 1,
+      notifications: ['user']
+    },
+    in_progress: {
+      index: 2,
+      notifications: ['user']
+    },
+    closed: {
+      index: 3,
+      notifications: ['user']
+    },
+  }
+
+  TICKET_STATUSES_ENUM = TICKET_STATUSES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   TICKET_TYPES = {activation_demand: 1, bug: 2, user_right_demand: 3, info_demand: 4}
-  TICKET_STATUSES = {opened: 1, in_progress: 2, closed: 3}
   enum ticket_type: TICKET_TYPES
-  enum ticket_status: TICKET_STATUSES
+  enum ticket_status: TICKET_STATUSES_ENUM
 
   belongs_to  :user
   belongs_to  :service
