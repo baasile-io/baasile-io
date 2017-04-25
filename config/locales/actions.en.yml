@@ -30,6 +30,8 @@ en:
     infos: 'Infos'
     new: 'New'
     next_step: 'Validate'
+    open: 'Ouvrir'
+    closed_ticket: 'Closed tikets'
     reject: 'Reject'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
     reset: 'Reset to initial value'

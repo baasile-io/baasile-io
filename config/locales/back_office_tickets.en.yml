@@ -9,6 +9,8 @@ en:
         hints:
       index:
         title: 'Tickets'
+      list_closed:
+        title: 'Closed tickets'
       new:
         title: 'Create a new ticket'
       create:

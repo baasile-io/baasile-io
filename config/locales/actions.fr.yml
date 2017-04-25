@@ -19,6 +19,7 @@ fr:
     confirm_email: "Confirmer l'adresse E-Mail"
     contractualize: 'Contractualiser'
     close: 'Fermer'
+    closed_ticket: 'Billets fermé'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
     deactivate: 'Désactiver'
@@ -30,6 +31,7 @@ fr:
     infos: 'Infos'
     new: 'Créer'
     next_step: "Valider"
+    open: 'Open'
     reject: 'Rejeter'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'
     reset: 'Réinitialiser la valeur par défaut'
