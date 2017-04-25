@@ -4,11 +4,25 @@ module Tickets
       @ticket = ticket
     end
 
+    def set_in_progress
+      if @ticket.ticket_status.to_sym == :opened
+        begin
+          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:in_progress]
+          @ticket.save
+          return true
+        rescue
+          return false
+        end
+      end
+      return false
+    end
+
     def open
       begin
         Ticket.transaction do
+          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
           @ticket.save!
-          send_notification(:open)
+          send_action_notification(:open)
         end
         true
       rescue
@@ -21,7 +35,7 @@ module Tickets
         Ticket.transaction do
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          send_notification(:edit)
+          send_action_notification(:edit)
         end
         true
       rescue
@@ -32,6 +46,7 @@ module Tickets
     def create(comment_body)
       begin
         Ticket.transaction do
+          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
           send_action_notification(:create)
@@ -46,7 +61,7 @@ module Tickets
       begin
         Ticket.transaction do
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          send_notification(:comment)
+          send_action_notification(:comment)
         end
         true
       rescue
@@ -57,8 +72,9 @@ module Tickets
     def close
       begin
         Ticket.transaction do
+          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:closed]
           @ticket.save!
-          send_notification(:close)
+          send_action_notification(:close)
         end
         true
       rescue
