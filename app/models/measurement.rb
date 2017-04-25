@@ -4,7 +4,10 @@ class Measurement < ApplicationRecord
   belongs_to  :service
   belongs_to  :proxy
   belongs_to  :route
+  belongs_to  :contract
   belongs_to  :measure_token
+
+  before_save :set_contract_status
 
   scope :by_client, ->(client) { where(client_id: client.id).order(created_at: :desc) }
   scope :by_startup, ->(startup) { where(service_id: startup.id).order(created_at: :desc) }
@@ -19,6 +22,10 @@ class Measurement < ApplicationRecord
     def get_identical(client, service, proxy, route, date_start, date_end)
       Measurement.where(client_id: client.id, service_id: service.id, proxy_id: proxy.id, route_id: route.id, created_at: date_start..date_end).first
     end
+  end
+
+  def set_contract_status
+    self.contract_status = self.contract.status.to_s
   end
 
 end

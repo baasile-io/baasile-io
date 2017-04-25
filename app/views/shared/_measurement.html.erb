@@ -1,21 +1,33 @@
 <% if @measures_input.size > 0 %>
   <hr>
-  <h5>Requêtes reçues</h5>
+  <h5>Requêtes envoyées</h5>
   <table class="table table-sm">
     <thead>
     <tr>
-      <th>Horaire</th>
+      <th>Date</th>
+      <th>Contrat</th>
       <th>Client</th>
+      <th>Produit</th>
       <th>Route</th>
+      <th>MeasureToken</th>
       <th>Nbre</th>
     </tr>
     </thead>
     <tbody>
     <% @measures_input.each do |m| %>
       <tr>
-        <td><%= m.created_at.strftime('%Y/%m/%d %Hh') %></td>
-        <td><%= m.service.name %></td>
+        <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
+        <td>
+          <%= m.contract.name %> <br />
+          <%= m.contract_status %>
+        </td>
+        <td><%= m.client.name %></td>
+        <td>
+          <%= m.service.name %><br />
+          <%= m.proxy.name %>
+        </td>
         <td><%= m.route.name %></td>
+        <td><%= m.measure_token.try(:value) %></td>
         <td><%= m.requests_count %></td>
       </tr>
     <% end %>
@@ -25,22 +37,34 @@
 
 <% if @measures_output.size > 0 %>
   <hr>
-  <h5>Requêtes envoyées</h5>
+  <h5>Requêtes reçues</h5>
   <table class="table table-sm">
     <thead>
     <tr>
-      <th>Horaire</th>
-      <th>Startup</th>
+      <th>Date</th>
+      <th>Contrat</th>
+      <th>Client</th>
+      <th>Produit</th>
       <th>Route</th>
+      <th>MeasureToken</th>
       <th>Nbre</th>
     </tr>
     </thead>
     <tbody>
     <% @measures_output.each do |m| %>
       <tr>
-        <td><%= m.created_at.strftime('%Y/%m/%d %Hh') %></td>
+        <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
+        <td>
+          <%= m.contract.name %> <br />
+          <%= m.contract_status %>
+        </td>
         <td><%= m.client.name %></td>
+        <td>
+          <%= m.service.name %><br />
+          <%= m.proxy.name %>
+        </td>
         <td><%= m.route.name %></td>
+        <td><%= m.measure_token.try(:value) %></td>
         <td><%= m.requests_count %></td>
       </tr>
     <% end %>
