@@ -7,8 +7,8 @@ module BackOffice
     before_action :load_comments, only: [:edit, :update, :destroy, :closed, :opened, :add_comment]
 
     def add_comment
-      @ticket_service = Tickets::TicketService.new(@ticket)
-      if @ticket_service.comment(params[:new_comment])
+      ticket_service = Tickets::TicketService.new(@ticket)
+      if ticket_service.comment(params[:new_comment])
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
       else
@@ -28,8 +28,8 @@ module BackOffice
 
     def update
       @ticket.assign_attributes(ticket_params)
-      @ticket_service = Tickets::TicketService.new(@ticket)
-      if @ticket_service.edit(params[:new_comment])
+      ticket_service = Tickets::TicketService.new(@ticket)
+      if ticket_service.edit(params[:new_comment])
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
       else
@@ -38,9 +38,8 @@ module BackOffice
     end
 
     def opened
-      @ticket_service = Tickets::TicketService.new(@ticket)
-      @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
-      if @ticket_service.open
+      ticket_service = Tickets::TicketService.new(@ticket)
+      if ticket_service.open
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_index
       else
@@ -50,9 +49,8 @@ module BackOffice
     end
 
     def closed
-      @ticket_service = Tickets::TicketService.new(@ticket)
-      @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:closed]
-      if @ticket_service.close
+      ticket_service = Tickets::TicketService.new(@ticket)
+      if ticket_service.close
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_index
       else
@@ -71,12 +69,8 @@ module BackOffice
   private
 
     def set_ticket_in_progress
-      logger.info "# status : " + @ticket.ticket_status.inspect
-      if @ticket.ticket_status.to_sym == :opened
-        @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:in_progress]
-        logger.info "# status change : " + @ticket.ticket_status.inspect
-        @ticket.save
-      end
+      ticket_service = Tickets::TicketService.new(@ticket)
+      ticket_service.set_in_progress
     end
 
     def redirect_to_edit
