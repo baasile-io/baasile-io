@@ -5,9 +5,9 @@ module BackOffice
     before_action :load_tickets, only: [:index]
     before_action :load_closed_tickets, only: [:list_closed]
     before_action :load_comments, only: [:edit, :update, :destroy, :closed, :opened, :add_comment]
-    before_action :ticket_service, except: [:index, :list_closed]
 
     def add_comment
+      @ticket_service = Tickets::TicketService.new(@ticket)
       if @ticket_service.comment(params[:new_comment])
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
@@ -28,6 +28,7 @@ module BackOffice
 
     def update
       @ticket.assign_attributes(ticket_params)
+      @ticket_service = Tickets::TicketService.new(@ticket)
       if @ticket_service.edit(params[:new_comment])
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
@@ -37,6 +38,7 @@ module BackOffice
     end
 
     def opened
+      @ticket_service = Tickets::TicketService.new(@ticket)
       @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
       if @ticket_service.open
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
@@ -48,6 +50,7 @@ module BackOffice
     end
 
     def closed
+      @ticket_service = Tickets::TicketService.new(@ticket)
       @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:closed]
       if @ticket_service.close
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
@@ -91,10 +94,6 @@ module BackOffice
 
     def load_ticket
       @ticket = Ticket.find(params[:id])
-    end
-
-    def ticket_service
-      @ticket_service = Tickets::TicketService.new(@ticket)
     end
 
     def load_tickets
