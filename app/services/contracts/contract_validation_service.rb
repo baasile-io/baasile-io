@@ -27,7 +27,7 @@ module Contracts
     rescue MissingContract
       [false, 'No subscription to this product']
     rescue NotValidatedContract
-      [false, 'No active subscription to this product']
+      [false, "No active subscription to this product (status: #{@contract.status})"]
     rescue MissingStartDateProductionPhase
       [false, "Production phase has no start date"]
     rescue NotStartedProductionPhase

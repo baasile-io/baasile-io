@@ -255,6 +255,7 @@ class Contract < ApplicationRecord
   validates :expected_start_date, presence: true, date: true
   validates :expected_end_date, presence: true, date: {after: Proc.new {|record| record.expected_start_date}}
 
+
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
   scope :associated_startups, ->(startup) { where(startup: startup) }

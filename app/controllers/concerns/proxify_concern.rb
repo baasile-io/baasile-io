@@ -46,11 +46,12 @@ module ProxifyConcern
   def proxy_initialize
     raise ProxyInitializationError if current_proxy.nil?
     raise ProxyInitializationError if current_route.nil?
+    raise ProxyInitializationError if current_contract.nil?
     @current_proxy_access_token = nil
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil
-    @current_proxy_parameter = current_proxy.proxy_parameter_test #TODO: production when contract is activated
-    @current_route_uri = current_route.uri_test #TODO: production when contract is activated
+    @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if current_contract_status != :validation_production}")
+    @current_route_uri = current_route.send("uri#{'_test' if current_contract_status != :validation_production}")
     @current_proxy_cache_token = current_proxy.cache_token
   end
 
@@ -89,7 +90,9 @@ module ProxifyConcern
     #  @current_proxy_send_request[name] = header[1]
     #end
 
-    @current_proxy_send_request[I18n.t('config.headers.proxy_callback')] = "#{current_host}#{current_route.local_url('v1')}"
+    @current_proxy_send_request[Appconfig.get(:api_client_token_id_name)] = authenticated_service.client_id
+    @current_proxy_send_request[Appconfig.get(:api_proxy_callback_uri_name)] = "#{current_host}#{current_route.local_url('v1')}"
+    @current_proxy_send_request[Appconfig.get(:api_measure_token_name)] = current_measure_token.value unless current_measure_token.nil?
 
     case @current_proxy_parameter.authorization_mode
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?

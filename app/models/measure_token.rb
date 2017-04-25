@@ -1,17 +1,16 @@
 class MeasureToken < ApplicationRecord
-  TOKEN_LABEL = "MeasureTokenID"
-
   belongs_to  :contract
-  before_save :is_unique?
+  before_save :generate_token_value, if: Proc.new { self.value.blank? }
 
-  scope :by_token, ->(token_value) { where(value: token_value) }
+  validates :contract_id, presence: true
+  validates :value, uniqueness: {scope: [:contract_id, :contract_status]}
+
   scope :by_contract_status, ->(contract) { where(contract: contract, contract_status: contract.status) }
 
-  def generate_token
+  def generate_token_value
     begin
       self.value = SecureRandom.uuid
-    end while self.class.exists?(value: value)
-    yield
+    end while self.class.exists?(value: self.value)
   end
 
   def already_exist?
