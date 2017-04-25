@@ -14,7 +14,7 @@ en:
         subject: 'Welcome'
     ticket_notifier:
       send_ticket_notification:
-        subject: "ticket \"%{action}\" with status: \"%{status}\""
+        subject: "ticket \"%{billet_name}\" %{action} with status: \"%{status}\""
     contract_notifier:
       send_rejected_status_notification:
         subject: "Your contract get a modification \"%{status}\""
