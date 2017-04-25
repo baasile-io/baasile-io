@@ -1,5 +1,16 @@
 fr:
   tickets:
+    actions:
+      close:
+        title: "est fermé"
+      comment:
+        title: "à reçut un nouveau commentaire"
+      create:
+        title: "vien d'être créé"
+      edit:
+        title: "vien d'être modifié"
+      open:
+        title: "vien d'être réouvert"
     comments:
       title: 'Commentaires'
     edit:

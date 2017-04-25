@@ -6,7 +6,7 @@ module TicketsHelper
   end
 
   def format_ticket_statuses_for_select
-    Ticket::TICKET_STATUSES.map do |key, _|
+    Ticket::TICKET_STATUSES_ENUM.map do |key, _|
       ["#{I18n.t("types.ticket_statuses.#{key}")}", key]
     end
   end

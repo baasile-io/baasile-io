@@ -47,6 +47,7 @@ fr:
     see_and_add_comments: 'Voir/ajouter des commentaires'
     see_general_conditions: 'Voir les Conditions Générales'
     select: 'Sélectionner...'
+    send: 'Envoie'
     send_in_progress: 'Envoie en cours...'
     send_reset_password: 'Réinitialiser le mot de passe'
     send_ticket: 'Envoyer le billet'

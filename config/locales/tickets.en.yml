@@ -1,5 +1,16 @@
 en:
   tickets:
+    actions:
+      close:
+        title: "is closed"
+      comment:
+        title: "receive a new comment"
+      create:
+        title: "is created"
+      edit:
+        title: "has been modified"
+      open:
+        title: "has been reopen"
     comments:
       title: 'Comments'
     edit:

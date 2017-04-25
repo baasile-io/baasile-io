@@ -87,6 +87,9 @@ Rails.application.routes.draw do
       collection do
         get :list_closed
       end
+      member do
+        post :add_comment
+      end
     end
 
     resources :services do
@@ -184,6 +187,7 @@ Rails.application.routes.draw do
           get :list_closed
         end
         member do
+          post :add_comment
           post :closed
           post :opened
         end
