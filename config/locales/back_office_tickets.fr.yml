@@ -1,0 +1,21 @@
+fr:
+  back_office:
+    tickets:
+      closed:
+        title: 'Tickets fermés'
+      comments:
+        title: 'Commentaires'
+      edit:
+        title: 'Paramètres'
+      form:
+        hints:
+      index:
+        title: 'Tickets'
+      new:
+        title: 'Créer un nouveau Ticket'
+      create:
+        title: 'Créer un nouveau Ticket'
+      show:
+        title: 'Ticket'
+      update:
+        title: 'Paramètres'

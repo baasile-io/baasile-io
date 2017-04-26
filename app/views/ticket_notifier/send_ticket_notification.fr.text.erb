@@ -1,0 +1,3 @@
+<%= I18n.t("mailer.ticket_notifier.send_ticket_notification.subject", status: @status_name, action: @action_name, ticket_name: @ticket.subject) %>
+
+Lien vers le ticket : <%= ticket_url(@ticket, locale: @user_locale) %>

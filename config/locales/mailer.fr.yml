@@ -1,5 +1,10 @@
 fr:
   mailer:
+    contract_notifier:
+      send_rejected_status_notification:
+        subject: "Your contract has received a change request for status \"%{status}\""
+      send_validated_status_notification:
+        subject: "Votre contrat vient de passer au status \"%{status}\""
     service_notifier:
       send_validation:
         subject: 'Votre entreprise a été activé'
@@ -7,13 +12,11 @@ fr:
     shared:
       hello: 'Bonjour,'
       best_regard: 'Cordialement.'
+    ticket_notifier:
+      send_ticket_notification:
+        subject: "Le ticket \"%{ticket_name}\" %{action} avec le statut: \"%{status}\""
     user_notifier:
       send_reset_password:
         subject: 'Réinitialisation de votre mot de passe'
       send_welcome_email:
         subject: 'Bienvenue'
-    contract_notifier:
-      send_rejected_status_notification:
-        subject: "Your contract has received a change request for status \"%{status}\""
-      send_validated_status_notification:
-        subject: "Votre contrat vient de passer au status \"%{status}\""

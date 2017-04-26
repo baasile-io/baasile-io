@@ -1,0 +1,48 @@
+<% content_for(:page_title, @ticket.subject) %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-3 text-sm-right">
+        <strong><%= t("activerecord.attributes.ticket.ticket_status") %></strong>
+      </div>
+      <div class="col-sm-9">
+        <%= t("types.ticket_statuses.#{@ticket.ticket_status}")  %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 text-sm-right">
+        <strong><%= t("activerecord.attributes.ticket.ticket_type") %></strong>
+      </div>
+      <div class="col-sm-9">
+        <%= t("types.ticket_types.#{@ticket.ticket_type}")  %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 text-sm-right">
+        <strong><%= t("activerecord.attributes.ticket.created_at") %></strong>
+      </div>
+      <div class="col-sm-9">
+        <%= t("types.ticket_types.#{@ticket.created_at}")  %>
+      </div>
+    </div>
+
+    <%= render partial: 'comments/list', locals: {comments: @comments} %>
+
+  </div>
+</div>
+
+<% if @ticket.ticket_status.to_sym != :closed %>
+
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+
+      <%= render partial: 'comments/form', locals: {object: @new_comment} %>
+
+    </div>
+  </div>
+
+<% end %>
+
+<%= render partial: 'shared/versions', locals: {objects: [@ticket] + @comments} %>

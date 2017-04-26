@@ -1,0 +1,5 @@
+<h1><%= I18n.t("mailer.ticket_notifier.send_ticket_notification.subject", status: @status_name, action: @action_name, ticket_name: @ticket.subject) %></h1>
+
+<p>
+  <a href="<%= ticket_url(@ticket, locale: @user_locale) %>">Voir le ticket</a>
+</p>

@@ -225,6 +225,9 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'registrations' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_user_registration_path %>"><%= t('actions.edit_account') %></a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
+            </li>
           </ul>
         </div>
       </div>

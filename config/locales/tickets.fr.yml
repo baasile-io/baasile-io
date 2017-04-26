@@ -1,0 +1,31 @@
+fr:
+  tickets:
+    actions:
+      close:
+        title: "est fermé"
+      comment:
+        title: "à reçu un nouveau commentaire"
+      create:
+        title: "vient d'être créé"
+      edit:
+        title: "vient d'être modifié"
+      open:
+        title: "vient d'être réouvert"
+    closed:
+      title: 'Tickets fermés'
+    comments:
+      title: 'Commentaires'
+    create:
+      title: 'Créer un nouveau ticket'
+    edit:
+      title: 'Paramètres'
+    form:
+      hints:
+    index:
+      title: 'Tickets'
+    new:
+      title: 'Créer un nouveau ticket'
+    show:
+      title: 'Ticket'
+    update:
+      title: 'Paramètres'

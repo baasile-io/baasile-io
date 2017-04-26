@@ -15,6 +15,7 @@ en:
     cancel: 'Cancel'
     cancel_contract: 'Cancel contract'
     change_password: 'Change password'
+    close: 'Close'
     configure: 'Configurate'
     confirm_email: "Confirm email address"
     contractualize: 'Contractualize'
@@ -29,6 +30,8 @@ en:
     infos: 'Infos'
     new: 'New'
     next_step: 'Validate'
+    open: 'Ouvrir'
+    closed_ticket: 'Closed tikets'
     reject: 'Reject'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
     reset: 'Reset to initial value'
@@ -44,7 +47,10 @@ en:
     see_and_add_comments: 'See/add comments'
     see_general_conditions: 'See General Conditions'
     select: 'Select...'
+    send: 'Send'
+    send_in_progress: 'Send in progress...'
     send_reset_password: 'Reset password'
+    send_ticket: 'Send ticket'
     send_welcome_instructions: 'Send welcome instructions by email'
     skip_confirmation: "Skip email address confirmation"
     set_admin: 'Set admin'

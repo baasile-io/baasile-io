@@ -1,0 +1,18 @@
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= simple_form_for @new_comment, url: add_comment_back_office_ticket_path(@ticket), method: :post  do |f| %>
+        <%= f.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
+
+        <div class="row">
+          <div class="actions col-md-9 offset-md-3">
+            <%= f.button :submit, value: I18n.t('actions.send'), data: { disable_with: t('actions.send_in_progress') } %>
+          </div>
+        </div>
+
+    <% end %>
+
+    <%= render partial: 'comments/list', locals: {comments: @comments} %>
+
+  </div>
+</div>

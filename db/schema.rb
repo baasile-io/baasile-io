@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424063417) do
+ActiveRecord::Schema.define(version: 20170425065424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170424063417) do
     t.datetime "updated_at",                   null: false
     t.integer  "contract_id"
     t.integer  "measure_token_id"
+    t.string   "contract_status"
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
@@ -328,6 +329,18 @@ ActiveRecord::Schema.define(version: 20170424063417) do
     t.integer "service_id"
     t.integer "role_id"
     t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.string   "subject"
+    t.integer  "ticket_type"
+    t.integer  "ticket_status"
+    t.integer  "user_id"
+    t.integer  "service_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["service_id"], name: "index_tickets_on_service_id", using: :btree
+    t.index ["user_id"], name: "index_tickets_on_user_id", using: :btree
   end
 
   create_table "user_associations", force: :cascade do |t|
