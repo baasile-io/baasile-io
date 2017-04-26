@@ -175,6 +175,7 @@ fr:
         user_id: 'Administrateur'
         website: 'Site Internet'
       ticket:
+        created_at: 'Date de création'
         service: 'Entreprise'
         service_id: 'Entreprise'
         subject: 'Sujet'
@@ -219,7 +220,7 @@ fr:
       proxy_parameter: 'Paramètres de produit'
       route: 'Route'
       service: 'Entreprise'
-      ticket: 'Billet'
+      ticket: 'Ticket'
       user: 'Utilisateur'
       user_association: 'Association'
       version: 'Version'

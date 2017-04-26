@@ -18,9 +18,10 @@ class Ticket < ApplicationRecord
   }
 
   TICKET_STATUSES_ENUM = TICKET_STATUSES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
-  TICKET_TYPES = {activation_demand: 1, bug: 2, user_right_demand: 3, info_demand: 4}
-  enum ticket_type: TICKET_TYPES
   enum ticket_status: TICKET_STATUSES_ENUM
+
+  TICKET_TYPES = {activation_request: 1, report_a_bug: 2, user_right_request: 3, info_request: 4}
+  enum ticket_type: TICKET_TYPES
 
   belongs_to  :user
   belongs_to  :service

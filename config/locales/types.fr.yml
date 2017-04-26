@@ -93,10 +93,10 @@ fr:
       in_progress: 'En cours de traitement'
       closed: 'Fermé'
     ticket_types:
-      activation_demand: "Demande d'activation"
-      bug: 'Bug'
-      user_right_demand: 'demande de droits utilisateur'
-      info_demand: "demande d'informations"
+      activation_request: "Demande d'activation d'un compte Entreprise"
+      info_request: "Demande d'informations"
+      report_a_bug: 'Signaler un bogue'
+      user_right_request: 'Demande de droits utilisateur'
     contract_statuses:
       creation:
         class: 'text-muted'

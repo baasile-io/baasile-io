@@ -4,23 +4,10 @@ module Tickets
       @ticket = ticket
     end
 
-    def set_in_progress
-      if @ticket.ticket_status.to_sym == :opened
-        begin
-          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:in_progress]
-          @ticket.save
-          return true
-        rescue
-          return false
-        end
-      end
-      return false
-    end
-
     def open
       begin
         Ticket.transaction do
-          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
+          @ticket.ticket_status = :opened
           @ticket.save!
           send_action_notification(:open)
         end
@@ -33,9 +20,11 @@ module Tickets
     def edit(comment_body)
       begin
         Ticket.transaction do
+          old_status = @ticket.ticket_status
+          set_in_progress
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
-          send_action_notification(:edit)
+          send_action_notification(:edit) if old_status != @ticket.ticket_status
         end
         true
       rescue
@@ -46,7 +35,7 @@ module Tickets
     def create(comment_body)
       begin
         Ticket.transaction do
-          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
+          @ticket.ticket_status = :opened
           @ticket.save!
           Comment.create!(commentable: @ticket, user: @ticket.user, body: comment_body) unless comment_body.blank?
           send_action_notification(:create)
@@ -72,7 +61,7 @@ module Tickets
     def close
       begin
         Ticket.transaction do
-          @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:closed]
+          @ticket.ticket_status = :closed
           @ticket.save!
           send_action_notification(:close)
         end
@@ -83,6 +72,10 @@ module Tickets
     end
 
     private
+
+    def set_in_progress
+      @ticket.ticket_status = :in_progress
+    end
 
     def send_action_notification(action)
       list_user = Ticket::TICKET_STATUSES[@ticket.ticket_status.to_sym][:notifications]

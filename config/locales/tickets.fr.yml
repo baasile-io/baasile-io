@@ -4,26 +4,28 @@ fr:
       close:
         title: "est fermé"
       comment:
-        title: "à reçut un nouveau commentaire"
+        title: "à reçu un nouveau commentaire"
       create:
-        title: "vien d'être créé"
+        title: "vient d'être créé"
       edit:
-        title: "vien d'être modifié"
+        title: "vient d'être modifié"
       open:
-        title: "vien d'être réouvert"
+        title: "vient d'être réouvert"
+    closed:
+      title: 'Tickets fermés'
     comments:
       title: 'Commentaires'
+    create:
+      title: 'Créer un nouveau ticket'
     edit:
       title: 'Paramètres'
     form:
       hints:
     index:
-      title: 'Billets'
+      title: 'Tickets'
     new:
-      title: 'Créer un nouveau Billet'
-    create:
-      title: 'Créer un nouveau Billet'
+      title: 'Créer un nouveau ticket'
     show:
-      title: 'Billet'
+      title: 'Ticket'
     update:
       title: 'Paramètres'

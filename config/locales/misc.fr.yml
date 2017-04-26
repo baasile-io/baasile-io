@@ -11,6 +11,7 @@ fr:
     back_office: "Administration"
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
+    closed_tickets: 'Tickets fermés'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
     dashboard: 'Tableau de bord'
     day:

@@ -1,37 +1,11 @@
 <% content_for(:page_title, t('.title')) %>
 <% content_for(:page_controls) { link_to t('actions.new'), new_ticket_path, class: 'btn btn-primary' } %>
-<% content_for(:page_controls) { link_to t('actions.closed_ticket'), list_closed_tickets_path, class: 'btn btn-secondary' } %>
+<% content_for(:page_controls) { link_to t('misc.closed_tickets'), closed_tickets_path, class: 'btn btn-secondary' } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-hover table-sm table-link">
-      <thead>
-      <tr>
-        <th><%= t('activerecord.attributes.ticket.subject') %></th>
-        <th></th>
-        <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |ticket| %>
-          <tr data-link="<%= ticket_path(ticket) %>">
-            <td class="width-3">
-              <i class="fa fa-fw fa-2x fa-sitemap"></i>
-            </td>
-            <td>
-              <strong><%= ticket.subject %></strong><br />
-              <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
-            </td>
-            <td>
-              <%=  t("types.ticket_statuses.#{ticket.ticket_status}") %>
-            </td>
-            <td class="text-right">
-              <%= link_to t('actions.see'), ticket_path(ticket), class: 'btn btn-secondary' %>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render partial: 'list_tickets', locals: {collection: @collection} %>
+
   </div>
 </div>

@@ -1,24 +1,29 @@
 <% content_for(:page_back) { back_office_tickets_path } %>
 <% content_for(:page_title) { @ticket.subject } %>
+<% content_for(:page_controls) {
+  if @ticket.ticket_status.to_sym != :closed
+    link_to t('actions.close'), close_back_office_ticket_path(@ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger'
+  else
+    link_to t('actions.open'), open_back_office_ticket_path(@ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger'
+  end + (link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_ticket_path(@ticket), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger')
+} %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= @ticket.user.full_name %>
-
     <%= render partial: 'form' %>
 
-    <% if @ticket.ticket_status.to_sym != :closed %>
-      <%= link_to t('actions.close'), closed_back_office_ticket_path(@ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
-    <% else %>
-        <%= link_to t('actions.open'), opened_back_office_ticket_path(@ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
-    <% end %>
-    <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_ticket_path(@ticket), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
-
+    <%= render partial: 'comments/list', locals: {comments: @comments} %>
 
   </div>
 </div>
 
-<%= render partial: 'comments' %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'comments/form', locals: {object: @new_comment} %>
+
+  </div>
+</div>
 
 <%= render partial: 'shared/versions', locals: {objects: [@ticket]} %>

@@ -1,6 +1,8 @@
 fr:
   back_office:
     tickets:
+      closed:
+        title: 'Tickets fermés'
       comments:
         title: 'Commentaires'
       edit:
@@ -8,14 +10,12 @@ fr:
       form:
         hints:
       index:
-        title: 'Billets'
-      list_closed:
-        title: 'Billets fermé'
+        title: 'Tickets'
       new:
-        title: 'Créer un nouveau Billet'
+        title: 'Créer un nouveau Ticket'
       create:
-        title: 'Créer un nouveau Billet'
+        title: 'Créer un nouveau Ticket'
       show:
-        title: 'Billet'
+        title: 'Ticket'
       update:
         title: 'Paramètres'

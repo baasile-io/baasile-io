@@ -1,4 +1,4 @@
-<% content_for(:page_controls) { link_to t('actions.closed_ticket'), list_closed_back_office_tickets_path, class: 'btn btn-secondary' } %>
+<% content_for(:page_controls) { link_to t('misc.closed_tickets'), closed_back_office_tickets_path, class: 'btn btn-secondary' } %>
 <% content_for(:page_title, t('.title')) %>
 
 <div class="b-io-content--secondary">
@@ -25,7 +25,7 @@
           </td>
           <td class="text-right">
             <%= link_to t('actions.edit'), edit_back_office_ticket_path(ticket), class: 'btn btn-secondary btn-sm' %>
-            <%= link_to t('actions.close'), closed_back_office_ticket_path(ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
+            <%= link_to t('actions.close'), close_back_office_ticket_path(ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
             <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_ticket_path(ticket), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
           </td>
         </tr>
