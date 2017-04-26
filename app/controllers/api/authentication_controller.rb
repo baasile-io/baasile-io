@@ -5,19 +5,20 @@ module Api
     def authenticate
       @scope = params.fetch(:scope, '').split.sort! {|a,b| a.downcase <=> b.downcase}.join(' ')
       return authenticate_by_refresh_token if params[:grant_type] == 'refresh_token'
-      @service = Service.find_by_client_id(params[:client_id])
-      if !@service.nil? && @service.client_secret == params[:client_secret]
-        check_service_activation
-      else
-        status = 400
-        title = 'Client authentication failed'
-        render status: status, json: {
-          errors: [{
-            status: status,
-            title: title
-          }]
-        }
+      if params[:client_id].present?
+        @service = Service.find_by_client_id(params[:client_id])
+        if !@service.nil? && @service.client_secret == params[:client_secret]
+          return check_service_activation
+        end
       end
+      status = 400
+      title = 'Client authentication failed'
+      render status: status, json: {
+        errors: [{
+          status: status,
+          title: title
+        }]
+      }
     end
 
     def authenticate_by_refresh_token

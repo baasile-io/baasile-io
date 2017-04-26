@@ -9,6 +9,7 @@ class Measurement < ApplicationRecord
 
   before_save :set_contract_status
 
+  scope :by_contract_status, ->(contract) { where(contract: contract, contract_status: contract.status) }
   scope :by_client, ->(client) { where(client_id: client.id).order(created_at: :desc) }
   scope :by_startup, ->(startup) { where(service_id: startup.id).order(created_at: :desc) }
   scope :by_proxy, ->(proxy) { where(proxy_id: proxy.id) }
