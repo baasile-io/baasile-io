@@ -1,0 +1,5 @@
+class AddUniqueIndexOnBillContract < ActiveRecord::Migration[5.0]
+  def change
+    add_index :bills, [:bill_month, :contract_id], :unique => true
+  end
+end

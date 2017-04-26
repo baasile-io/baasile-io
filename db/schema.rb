@@ -22,6 +22,25 @@ ActiveRecord::Schema.define(version: 20170429190709) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "bill_lines", force: :cascade do |t|
+    t.integer  "bill_id"
+    t.string   "title"
+    t.decimal  "unit_cost"
+    t.integer  "unit_num"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bill_id"], name: "index_bill_lines_on_bill_id", using: :btree
+  end
+
+  create_table "bills", force: :cascade do |t|
+    t.integer  "contract_id"
+    t.date     "bill_month"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
+    t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "created_at", null: false
@@ -411,4 +430,6 @@ ActiveRecord::Schema.define(version: 20170429190709) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
+  add_foreign_key "bill_lines", "bills"
+  add_foreign_key "bills", "contracts"
 end

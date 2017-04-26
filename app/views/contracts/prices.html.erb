@@ -13,7 +13,9 @@
           @price_templates.each.with_index do |price_template, index|
             url = (!current_service.nil? ? select_price_service_contract_path(current_service, @contract, price_id: price_template.id) : select_price_contract_path(@contract, price_id: price_template.id))
         %>
-          <%= '<hr>' if index > 0 %>
+          <% if index > 0 %>
+          <hr>
+          <% end %>
           <div class="row">
             <div class="col-md-3 text-md-right">
               <h4><%= price_template.name %></h4>

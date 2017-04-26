@@ -242,6 +242,7 @@ class Contract < ApplicationRecord
   has_one :price
   has_many :comments, as: :commentable
   has_many :measure_tokens
+  has_many :bills
 
   accepts_nested_attributes_for :price
 
