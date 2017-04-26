@@ -93,10 +93,10 @@ en:
       in_progress: 'Work in progress'
       closed: 'Closed'
     ticket_types:
-      activation_demand: 'Activation demand'
-      bug: 'Bug'
-      user_right_demand: 'User right demand'
-      info_demand: 'Infos demand'
+      activation_request: "Request for an Enterprise account activation"
+      info_request: 'Information request'
+      report_a_bug: 'Report a bug'
+      user_right_request: 'User rights request'
     contract_statuses:
       creation:
         class: 'text-muted'

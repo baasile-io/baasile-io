@@ -1,10 +1,9 @@
 module BackOffice
   class TicketsController < BackOfficeController
-    before_action :load_ticket, only: [:edit, :update, :destroy, :closed, :opened, :add_comment]
-    before_action :set_ticket_in_progress, only: [:edit, :update, :destroy]
+    before_action :load_ticket, only: [:edit, :update, :destroy, :close, :open, :add_comment]
     before_action :load_tickets, only: [:index]
-    before_action :load_closed_tickets, only: [:list_closed]
-    before_action :load_comments, only: [:edit, :update, :destroy, :closed, :opened, :add_comment]
+    before_action :load_closed_tickets, only: [:closed]
+    before_action :load_comments, only: [:edit, :update, :destroy, :close, :open, :add_comment]
 
     def add_comment
       ticket_service = Tickets::TicketService.new(@ticket)
@@ -17,7 +16,7 @@ module BackOffice
       end
     end
 
-    def list_closed
+    def closed
     end
 
     def index
@@ -37,25 +36,25 @@ module BackOffice
       end
     end
 
-    def opened
+    def open
       ticket_service = Tickets::TicketService.new(@ticket)
       if ticket_service.open
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_index
       else
-        flash[:fails] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
-        redirect_to_index
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+        redirect_to_edit
       end
     end
 
-    def closed
+    def close
       ticket_service = Tickets::TicketService.new(@ticket)
       if ticket_service.close
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_index
       else
-        flash[:fails] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
-        redirect_to_index
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+        redirect_to_edit
       end
     end
 
@@ -67,11 +66,6 @@ module BackOffice
     end
 
   private
-
-    def set_ticket_in_progress
-      ticket_service = Tickets::TicketService.new(@ticket)
-      ticket_service.set_in_progress
-    end
 
     def redirect_to_edit
       return redirect_to edit_back_office_ticket_path(@ticket)
@@ -91,7 +85,7 @@ module BackOffice
     end
 
     def load_tickets
-      @collection = Ticket.not_closed
+      @collection = Ticket.not_closed.order(updated_at: :desc)
     end
 
     def load_closed_tickets
@@ -100,7 +94,7 @@ module BackOffice
 
     def load_comments
       @comments = Comment.where(commentable: @ticket).order(created_at: :desc)
-      @new_comment = Comment.new(body: params[:new_comment])
+      @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
     end
 
   end

@@ -163,6 +163,7 @@ en:
         user_id: 'Administrator'
         website: 'Website'
       ticket:
+        created_at: 'Created at'
         service: 'Enterprise'
         service_id: 'Enterprise'
         subject: 'Subject'

@@ -1,6 +1,8 @@
 en:
   back_office:
     tickets:
+      closed:
+        title: 'Closed tickets'
       comments:
         title: 'Comments'
       edit:
@@ -9,8 +11,6 @@ en:
         hints:
       index:
         title: 'Tickets'
-      list_closed:
-        title: 'Closed tickets'
       new:
         title: 'Create a new ticket'
       create:

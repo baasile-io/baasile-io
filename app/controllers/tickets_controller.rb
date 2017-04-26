@@ -3,7 +3,7 @@ class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_ticket, only: [:show, :edit, :update, :destroy, :add_comment]
   before_action :load_tickets, only: [:index]
-  before_action :load_closed_tickets, only: [:list_closed]
+  before_action :load_closed_tickets, only: [:closed]
   before_action :load_comments, only: [:show, :edit, :update, :destroy, :add_comment]
 
   def add_comment
@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
     end
   end
 
-  def list_closed
+  def closed
   end
 
   def index
@@ -26,13 +26,13 @@ class TicketsController < ApplicationController
 
   def show
     @comments = Comment.where(commentable: @ticket).order(created_at: :desc)
-    @new_comment = Comment.new(body: params[:new_comment])
+    @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
   end
 
   def new
     @ticket = Ticket.new
     @ticket.user = current_user
-    @new_comment = Comment.new(body: params[:new_comment])
+    @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
   end
 
   def create
@@ -42,16 +42,12 @@ class TicketsController < ApplicationController
     ticket_service = Tickets::TicketService.new(@ticket)
     if ticket_service.create(params[:new_comment])
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
-      redirect_to_show
+      redirect_to_index
     else
       flash[:fails] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
-      @new_comment = Comment.new(body: params[:new_comment])
+      @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
       render :new
     end
-  end
-
-  def edit
-    @new_comment = Comment.new(body: params[:new_comment])
   end
 
   def update

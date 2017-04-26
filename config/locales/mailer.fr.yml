@@ -14,7 +14,7 @@ fr:
       best_regard: 'Cordialement.'
     ticket_notifier:
       send_ticket_notification:
-        subject: "le billet \"%{billet_name}\" %{action} avec le statut: \"%{status}\""
+        subject: "Le ticket \"%{ticket_name}\" %{action} avec le statut: \"%{status}\""
     user_notifier:
       send_reset_password:
         subject: 'Réinitialisation de votre mot de passe'

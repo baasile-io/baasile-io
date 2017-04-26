@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 
     resources :tickets do
       collection do
-        get :list_closed
+        get :closed
       end
       member do
         post :add_comment
@@ -184,12 +184,12 @@ Rails.application.routes.draw do
       end
       resources :tickets do
         collection do
-          get :list_closed
+          get :closed
         end
         member do
           post :add_comment
-          post :closed
-          post :opened
+          post :close
+          post :open
         end
       end
 

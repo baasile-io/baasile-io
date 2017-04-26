@@ -8,7 +8,7 @@ class TicketNotifier < ApplicationMailer
         @action_name = I18n.t("tickets.actions.#{action}.title")
         @status_name = I18n.t("types.ticket_statuses.#{ticket.ticket_status}")
         mail( to: user.email,
-              subject: I18n.t("mailer.ticket_notifier.send_ticket_notification.subject", status: @status_name, action: @action_name, billet_name: @ticket.subject) )
+              subject: I18n.t("mailer.ticket_notifier.send_ticket_notification.subject", status: @status_name, action: @action_name, ticket_name: @ticket.subject) )
       end
     end
   end
