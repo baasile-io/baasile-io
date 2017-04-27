@@ -25,6 +25,10 @@ class Appconfig < ApplicationRecord
     api_proxy_callback_uri_name: {
       setting_type: :string,
       value: 'OpenRH-Proxy-Callback-Uri'
+    },
+    max_requests_per_hour: {
+      setting_type: :integer,
+      value: 18000
     }
   }
 

@@ -7,12 +7,18 @@ module Api
       return authenticate_by_refresh_token if params[:grant_type] == 'refresh_token'
       if params[:client_id].present?
         @service = Service.find_by_client_id(params[:client_id])
-        if !@service.nil? && @service.client_secret == params[:client_secret]
+        if @service.nil?
+          title = 'Invalid client_id'
+        elsif params[:client_secret].blank?
+          title = 'Missing client_secret'
+        elsif @service.client_secret == params[:client_secret]
           return check_service_activation
         end
+      else
+        title = 'Missing client_id'
       end
       status = 400
-      title = 'Client authentication failed'
+      title ||= 'Client authentication failed'
       render status: status, json: {
         errors: [{
           status: status,
@@ -22,31 +28,30 @@ module Api
     end
 
     def authenticate_by_refresh_token
-      @refresh_token = RefreshToken.includes(:service).find_by(value: params[:refresh_token])
-      if !@refresh_token.nil?
-        if @refresh_token.expires_at >= DateTime.now
-          @service = @refresh_token.service
-          check_service_activation
-        else
-          status = 401
-          title = 'Token has expired'
-          render status: status, json: {
-            errors: [{
-              status: status,
-              title: title
-            }]
-          }
-        end
+      unless params[:refresh_token].present?
+        title = "Missing refresh_token"
       else
-        status = 400
-        title = 'Client authentication failed'
-        render status: status, json: {
-          errors: [{
-            status: status,
-            title: title
-          }]
-        }
+        @refresh_token = RefreshToken.includes(:service).find_by(value: params[:refresh_token])
+        if @refresh_token.nil?
+          title = 'Invalid refresh_token'
+        else
+          if @refresh_token.expires_at >= DateTime.now
+            @service = @refresh_token.service
+            return check_service_activation
+          else
+            status = 401
+            title = 'Token has expired'
+          end
+        end
       end
+      status ||= 400
+      title ||= 'Client authentication failed'
+      render status: status, json: {
+        errors: [{
+          status: status,
+          title: title
+        }]
+      }
     end
 
     def check_service_activation
