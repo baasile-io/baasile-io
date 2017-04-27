@@ -6,7 +6,8 @@ class Role < ApplicationRecord
       show: USER_ROLES.dup,
       edit: [:admin],
       update: [:admin],
-      logo: [:admin]
+      logo: [:admin],
+      activation_request: [:admin]
     },
     users: {
       index: USER_ROLES.dup,

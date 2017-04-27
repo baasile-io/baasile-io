@@ -4,7 +4,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-hover table-sm table-link">
+    <table class="table table-hover table-sm">
       <thead>
       <tr>
         <th><%= t('activerecord.attributes.ticket.subject') %></th>
@@ -14,10 +14,14 @@
       </thead>
       <tbody>
       <% @collection.each do |ticket| %>
-        <tr data-link="<%= edit_back_office_ticket_path(ticket) %>">
+        <tr>
           <td>
             <i class="fa fa-fw fa-sitemap"></i>
-            <strong><%= ticket.subject %></strong><br />
+            <strong><%= ticket.subject %></strong>
+            <% if !ticket.service.nil? && ticket.ticket_type.to_sym == :activation_request %>
+                <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_service_path(ticket.service), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
+            <% end %>
+            <br />
             <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
           </td>
           <td>
