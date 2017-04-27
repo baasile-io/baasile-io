@@ -135,6 +135,7 @@ class Service < ApplicationRecord
   def activate
     if self.is_activable?
       self.confirmed_at = Date.new if self.confirmed_at.nil?
+      Tickets::TicketService.new(nil).closed_tickets_by_activation(self)
       self.generate_identifiers
       self.save
     end
