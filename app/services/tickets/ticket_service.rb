@@ -71,7 +71,9 @@ module Tickets
       end
     end
 
-    def send_activation_request
+    def send_activation_request(user, service)
+      @ticket.user = user
+      @ticket.service = service
       @ticket.ticket_type = :activation_request
       @ticket.subject = I18n.t("tickets.default_subjects.activation_request", name: @ticket.service.name)
       create(I18n.t("tickets.default_subjects.activation_request", name: @ticket.service.name))

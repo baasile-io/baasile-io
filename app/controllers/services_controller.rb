@@ -122,10 +122,8 @@ class ServicesController < ApplicationController
   def activation_request
     if @service.confirmed_at.nil?
       ticket = Ticket.new
-      ticket.user = current_user
-      ticket.service = @service
       ticket_service = Tickets::TicketService.new(ticket)
-      if ticket_service.send_activation_request
+      if ticket_service.send_activation_request(current_user, @service)
         flash[:success] = I18n.t('actions.send_in_progress')
         return redirect_to ticket_path(ticket)
       else
