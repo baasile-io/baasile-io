@@ -77,6 +77,13 @@ module Tickets
       create(I18n.t("tickets.default_subjects.activation_request", name: @ticket.service.name))
     end
 
+    def closed_tickets_by_activation(service)
+      Ticket.activation_request_by_service(service).each do |ticket|
+        @ticket = ticket
+        close
+      end
+    end
+
     private
 
     def set_in_progress

@@ -127,6 +127,7 @@ class ServicesController < ApplicationController
       ticket_service = Tickets::TicketService.new(ticket)
       if ticket_service.send_activation_request
         flash[:success] = I18n.t('actions.send_in_progress')
+        return redirect_to ticket_path(ticket)
       else
         flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
       end

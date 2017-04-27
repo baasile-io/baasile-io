@@ -38,5 +38,6 @@ class Ticket < ApplicationRecord
   scope :owned_by_type, ->(user, ticket_type) { where(user: user, ticket_type: ticket_type) }
   scope :not_closed, -> { where.not(ticket_status: :closed) }
   scope :closed, -> { where(ticket_status: :closed) }
+  scope :activation_request_by_service, ->(service) { where(service: service, ticket_type: :activation_request) }
 
 end
