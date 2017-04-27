@@ -71,6 +71,12 @@ module Tickets
       end
     end
 
+    def send_activation_request
+      @ticket.ticket_type = :activation_request
+      @ticket.subject = I18n.t("tickets.default_subjects.activation_request", name: @ticket.service.name)
+      create(I18n.t("tickets.default_subjects.activation_request", name: @ticket.service.name))
+    end
+
     private
 
     def set_in_progress

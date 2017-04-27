@@ -54,6 +54,9 @@
           <input type="text" class="form-control" readonly="readonly" value="<%= current_host %>/api/v1/<%= @service.subdomain %>">
         </div>
       </div>
+    <% else %>
+        <hr />
+        <%= link_to t('types.ticket_types.activation_request'), activation_request_service_path(@service), method: :post, class: 'btn btn-primary' %>
     <% end %>
 
     <%= render partial: 'shared/measurement' %>

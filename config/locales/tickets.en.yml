@@ -17,6 +17,8 @@ en:
       title: 'Comments'
     create:
       title: 'Create a new ticket'
+    default_subjects:
+      activation_request: "The enterprise \"%{name}\" has requested an activation"
     edit:
       title: 'Parameters'
     form:

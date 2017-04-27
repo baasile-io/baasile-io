@@ -125,6 +125,7 @@ Rails.application.routes.draw do
       end
 
       member do
+        post :activation_request
         post :set_right
         post :unset_right
         get :users

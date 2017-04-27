@@ -11,7 +11,7 @@ module BackOffice
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
       else
-        flash[:fails] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
         render :edit
       end
     end
@@ -32,6 +32,7 @@ module BackOffice
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
         redirect_to_edit
       else
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
         render :edit
       end
     end

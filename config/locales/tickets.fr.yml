@@ -17,6 +17,8 @@ fr:
       title: 'Commentaires'
     create:
       title: 'Créer un nouveau ticket'
+    default_subjects:
+      activation_request: "L'entreprise \"%{name}\" a demandé une activation"
     edit:
       title: 'Paramètres'
     form:

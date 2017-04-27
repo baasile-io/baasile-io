@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service, only: [:show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo, :logo_image]
+  before_action :load_service, only: [:activation_request, :show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo, :logo_image]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
@@ -117,6 +117,21 @@ class ServicesController < ApplicationController
     if params.has_key?(:width) then width = params[:width].to_i else width = nil end
 
     render :text => @logotype_service.image(@service.client_id, width)
+  end
+
+  def activation_request
+    if @service.confirmed_at.nil?
+      ticket = Ticket.new
+      ticket.user = current_user
+      ticket.service = @service
+      ticket_service = Tickets::TicketService.new(ticket)
+      if ticket_service.send_activation_request
+        flash[:success] = I18n.t('actions.send_in_progress')
+      else
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      end
+    end
+    redirect_to service_path(@service)
   end
 
   private
