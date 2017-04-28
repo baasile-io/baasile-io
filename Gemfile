@@ -91,6 +91,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'capybara-screenshot'
+  gem 'webmock'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'factory_girl_rails'

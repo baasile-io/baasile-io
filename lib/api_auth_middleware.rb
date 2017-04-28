@@ -30,7 +30,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 400,
-                                                                    title: 'Missing authorization header.'
+                                                                    title: 'Missing authorization header'
                                                                   }
                                                                 ]
                                                               }.to_json]]
@@ -39,7 +39,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 403,
-                                                                    title: 'This authorization token has expired.'
+                                                                    title: 'This authorization token has expired'
                                                                   }
                                                                 ]
                                                               }.to_json]]
@@ -48,7 +48,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 403,
-                                                                    title: 'Signature verification failed.'
+                                                                    title: 'Signature verification failed'
                                                                   }
                                                                 ]
                                                               }.to_json]]
@@ -57,7 +57,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 403,
-                                                                    title: 'Failed to decode authorization token.'
+                                                                    title: 'Failed to decode authorization token'
                                                                   }
                                                                 ]
                                                               }.to_json]]
@@ -66,7 +66,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 403,
-                                                                    title: 'Client ID not found in database.'
+                                                                    title: 'Client ID not found in database'
                                                                   }
                                                                 ]
                                                               }.to_json]]
@@ -75,7 +75,7 @@ class ApiAuthMiddleware
                                                                 errors: [
                                                                   {
                                                                     status: 403,
-                                                                    title: 'Authorization failed due to an invalid token.'
+                                                                    title: 'Authorization failed due to an invalid token'
                                                                   }
                                                                 ]
                                                               }.to_json]]

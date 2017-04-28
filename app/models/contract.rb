@@ -245,6 +245,9 @@ class Contract < ApplicationRecord
 
   accepts_nested_attributes_for :price
 
+  # TODO remove association, and make it via ":through"
+  before_validation :set_startup_id
+
   before_validation :set_expected_end_date_and_expected_contract_duration
 
   validates :name, presence: true
@@ -339,6 +342,10 @@ class Contract < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def set_startup_id
+    self.startup_id = self.proxy.service.id if self.proxy
   end
 
   def set_expected_end_date_and_expected_contract_duration
