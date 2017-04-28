@@ -64,7 +64,7 @@ class QueryParametersController < DashboardController
   end
 
   def query_parameter_params
-    params.require(:query_parameter).permit(:name, :description, :mode, :query_parameter_type)
+    params.require(:query_parameter).permit(:name, :description, :mode, :query_parameter_type, :default_value)
   end
 
   def load_query_parameter

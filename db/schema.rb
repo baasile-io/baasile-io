@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425065424) do
+ActiveRecord::Schema.define(version: 20170428190233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,10 +89,10 @@ ActiveRecord::Schema.define(version: 20170425065424) do
     t.date     "expected_end_date"
     t.integer  "expected_contract_duration",                  default: 1
     t.boolean  "is_evergreen",                                default: false
-    t.integer  "contract_duration_type",                      default: 0
     t.integer  "general_condition_id"
     t.integer  "general_condition_validated_client_user_id"
     t.datetime "general_condition_validated_client_datetime"
+    t.integer  "contract_duration_type",                      default: 0
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
@@ -154,9 +154,7 @@ ActiveRecord::Schema.define(version: 20170425065424) do
     t.integer  "route_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.integer  "contract_id"
     t.integer  "measure_token_id"
-    t.string   "contract_status"
     t.index ["proxy_id"], name: "index_measurements_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_measurements_on_route_id", using: :btree
     t.index ["service_id"], name: "index_measurements_on_service_id", using: :btree
@@ -253,6 +251,7 @@ ActiveRecord::Schema.define(version: 20170425065424) do
     t.datetime "updated_at",                       null: false
     t.integer  "query_parameter_type", default: 1
     t.string   "description"
+    t.string   "default_value"
     t.index ["name", "query_parameter_type", "route_id"], name: "name_query_parameter_type_route_index", unique: true, using: :btree
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
     t.index ["user_id"], name: "index_query_parameters_on_user_id", using: :btree
