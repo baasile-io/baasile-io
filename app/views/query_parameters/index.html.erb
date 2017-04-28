@@ -30,6 +30,7 @@
               <td><%= query_param.mode %></td>
               <td class="text-right">
                 <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
+                <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger' %>
               </td>
             </tr>
           <% end %>
