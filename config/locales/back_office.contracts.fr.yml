@@ -5,6 +5,9 @@ fr:
         title: 'Créer un Contrat'
       edit:
         title: 'Modifier'
+      form:
+        hints:
+          activate: 'Cette option permet de désactiver temporairement un contrat en cas de force majeure (Par exemple : Litige entre le client et le fournisseur).'
       index:
         title: 'Contrats'
       new:
