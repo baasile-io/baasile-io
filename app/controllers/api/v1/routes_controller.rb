@@ -14,65 +14,70 @@ module Api
       include MeasurementConcern
 
       def process_request
-        begin
           @proxy_response = proxy_request
           render status: @proxy_response.code, plain: @proxy_response.body
-        rescue ProxyInitializationError
-          render status: :bad_gateway, json: {
-            errors: [{
-              status: 591,
-              title: 'The server cannot process the request due to a configuration error'
-           }]
-          }
-        rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
-          if e.code >= 500
-            status = 595
-            title = 'The origin server cannot or will not process the request due to an apparent internal error'
-          elsif e.code >= 400
-            status = 594
-            title = 'The origin server cannot or will not process the request due to an apparent client error'
-          else
-            status = 593
-            title = 'The origin server cannot or will not process the request due to an apparent redirection error'
-          end
-          if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
-            render status: :bad_gateway, json: {
-              errors: [
-                {
-                  status: status,
-                  title: title,
-                  meta: {
-                    request: {
-                      method: e.req.method,
-                      original_url: e.uri.to_s,
-                      headers: e.req.to_hash,
-                      body: e.req.body
-                    },
-                    response: {
-                      status: e.code,
-                      body: e.body.to_s.force_encoding('UTF-8')
-                    }
-                  }
-                }
-              ]
-            }
-          else
-            render status: :bad_gateway, json: {
-              errors: [
-                {
-                  status: status,
-                  title: title,
-                  meta: {
-                    response: {
-                      status: e.code,
-                      body: e.body.to_s.force_encoding('UTF-8')
-                    }
-                  }
-                }
-              ]
-            }
-          end
+      rescue ProxyInitializationError
+        render status: :bad_gateway, json: {
+          errors: [{
+            status: 591,
+            title: 'The server cannot process the request due to a configuration error'
+         }]
+        }
+      rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
+        if e.code >= 500
+          status = 595
+          title = 'The origin server cannot or will not process the request due to an apparent internal error'
+        elsif e.code >= 400
+          status = 594
+          title = 'The origin server cannot or will not process the request due to an apparent client error'
+        else
+          status = 593
+          title = 'The origin server cannot or will not process the request due to an apparent redirection error'
         end
+        if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
+          render status: :bad_gateway, json: {
+            errors: [
+              {
+                status: status,
+                title: title,
+                meta: {
+                  request: {
+                    method: e.req.method,
+                    original_url: e.uri.to_s,
+                    headers: e.req.to_hash,
+                    body: e.req.body
+                  },
+                  response: {
+                    status: e.code,
+                    body: e.body.to_s.force_encoding('UTF-8')
+                  }
+                }
+              }
+            ]
+          }
+        else
+          render status: :bad_gateway, json: {
+            errors: [
+              {
+                status: status,
+                title: title,
+                meta: {
+                  response: {
+                    status: e.code,
+                    body: e.body.to_s.force_encoding('UTF-8')
+                  }
+                }
+              }
+            ]
+          }
+        end
+      rescue ProxyMissingMandatoryQueryParameterError => e
+        return render status: 400, json: {
+          errors: [{
+                     status: 400,
+                     title: "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
+                   }]
+        }
       end
 
       def index

@@ -1,9 +1,9 @@
 class QueryParametersController < DashboardController
-  before_action :load_query_parameter, only: [:show, :edit, :update, :destroy]
+  before_action :load_query_parameter, only: [:edit, :update, :destroy]
   before_action :load_query_parameters, only: [:index, :create]
 
   before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action, except: [:index, :show]
+  before_action :add_breadcrumb_current_action, except: [:index]
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
@@ -27,7 +27,7 @@ class QueryParametersController < DashboardController
 
     if @query_parameter.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.query_parameter'))
-      redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
+      redirect_to_index
     else
       render :index
     end
@@ -37,8 +37,8 @@ class QueryParametersController < DashboardController
     @query_parameter.assign_attributes(query_parameter_params)
     if @query_parameter.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.query_parameter'))
-      redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
-    else
+      redirect_to_index
+      else
       render :edit
     end
   end
@@ -47,14 +47,24 @@ class QueryParametersController < DashboardController
   end
 
   def destroy
+    if @query_parameter.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.query_parameter'))
+    end
+    redirect_to_index
   end
 
   def index
     @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
   end
 
+  private
+
+  def redirect_to_index
+    redirect_to service_proxy_route_query_parameters_path(current_service, @query_parameter.route.proxy, @query_parameter.route)
+  end
+
   def query_parameter_params
-    params.require(:query_parameter).permit(:name, :description, :mode, :query_parameter_type)
+    params.require(:query_parameter).permit(:name, :description, :mode, :query_parameter_type, :default_value)
   end
 
   def load_query_parameter

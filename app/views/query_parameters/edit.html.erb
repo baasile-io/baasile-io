@@ -5,5 +5,8 @@
 
     <%= render partial: 'form' %>
 
+    <div class="col text-right">
+      <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, service_proxy_route_query_parameter_path(current_service, @query_parameter.route.proxy, @query_parameter.route, @query_parameter), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger' %>
+    </div>
   </div>
 </div>

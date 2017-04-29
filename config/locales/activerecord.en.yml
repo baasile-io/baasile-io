@@ -117,9 +117,10 @@ en:
         protocol: 'Protocol'
         realm: 'realm'
       query_parameter:
-        query_parameter_type: 'Type'
-        name: 'Name'
+        default_value: 'Default value'
         mode: 'Mode'
+        name: 'Name'
+        query_parameter_type: 'Type'
       route:
         description: 'Description'
         name: 'Name'

@@ -20,7 +20,7 @@
       <% end %>
       <% if current_service.is_startup? %>
         <div class="col-6 col-sm-2">
-          <h4><i class="fa fa-fw fa-sitemap"></i> <%= current_service.proxies.count %></h4>
+          <h4><i class="fa fa-fw fa-server"></i> <%= current_service.proxies.count %></h4>
           <div class="text-muted"><%= t('activerecord.models.proxy').pluralize %></div>
         </div>
       <% end %>

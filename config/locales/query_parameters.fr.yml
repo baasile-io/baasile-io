@@ -6,11 +6,13 @@ fr:
       title: 'Modifier'
     form:
       default_mode: "DEFAULT"
+      hints:
+        default_value: "En cas de paramètre obligatoire : La valeur par défaut n'est pas prise en compte. En cas de paramètre optionnel : La valeur par défaut n'est prise en compte qu'en cas d'absence du paramètre dans les requêtes. Enfin, en cas de paramètre interdit : Si la valeur par défaut est définie, le paramètre sera systématiquement intégré avec cette valeur."
     index:
       description: "Décrivez les paramètres de votre API (optionnel)."
       title: 'Paramètres de requête'
     new:
-      title: 'Ajouter'
+      title: 'Ajouter un paramètre'
     show:
       title: 'Paramètre de requête'
     update:
