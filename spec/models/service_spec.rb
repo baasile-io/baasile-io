@@ -79,7 +79,7 @@ RSpec.describe Service, type: :model do
 
   describe "user rights" do
     it "assigns :developer role to the creator" do
-      expect(@service.user.has_role?(:developer, @service)).to be_truthy
+      expect(@service.user.has_role?(:admin, @service)).to be_truthy
     end
   end
 end

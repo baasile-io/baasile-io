@@ -28,7 +28,8 @@ class Price < ApplicationRecord
 
   has_many :price_parameters, dependent: :destroy
 
-  before_validation :set_default_params_for_contract
+  # TODO remove association, and make it via ":through"
+  before_validation :set_default_params
 
   validates :name, presence: true, unless: :contract_id?
   validates :user, presence: true
@@ -56,10 +57,12 @@ class Price < ApplicationRecord
     self.service.name + ' - ' + self.name
   end
 
-  def set_default_params_for_contract
+  def set_default_params
     if self.contract
-      self.service = self.contract.startup
       self.proxy = self.contract.proxy
+      self.service = self.contract.proxy.service
+    else
+      self.service = self.proxy.service
     end
   end
 

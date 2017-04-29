@@ -103,6 +103,8 @@ GEM
     countries (1.2.5)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     credit_card_validations (3.4.0)
       activemodel (>= 3, <= 6)
       activesupport (>= 3, <= 6)
@@ -146,6 +148,7 @@ GEM
       sass (>= 3.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    hashdiff (0.3.2)
     i18n (0.7.0)
     i18n-js (3.0.0.rc15)
       i18n (~> 0.6, >= 0.6.6)
@@ -278,6 +281,7 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     rubyzip (1.2.0)
+    safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -334,6 +338,10 @@ GEM
       activemodel (>= 5.0)
       debug_inspector
       railties (>= 5.0)
+    webmock (3.0.1)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     websocket (1.2.3)
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
@@ -398,6 +406,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console
+  webmock
 
 RUBY VERSION
    ruby 2.3.1p112

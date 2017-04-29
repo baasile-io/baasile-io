@@ -6,8 +6,8 @@ module ShowMeasurementConcern
   end
 
   def init_measurement
-    @measures_output = Measurement.includes(:client, :route).by_startup(current_service)
-    @measures_input = Measurement.includes(:service, :route).by_client(current_service)
+    @measures_output = Measurement.includes(:contract, :client, :proxy, :route, :measure_token).by_startup(current_service)
+    @measures_input = Measurement.includes(:contract, :service, :proxy, :route, :measure_token).by_client(current_service)
   end
 
 end

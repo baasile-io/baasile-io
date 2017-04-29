@@ -18,6 +18,9 @@
           </li>
         <% end %>
         <li class="nav-item">
+          <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><%= t('activerecord.models.ticket').pluralize %></a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link <%= 'active' if current_module == 'documentation' %>" href="<%= documentations_path %>"><%= t('misc.documentation') %></a>
         </li>
         <% if current_user.is_superadmin? %>
@@ -25,9 +28,6 @@
             <a class="nav-link <%= 'active' if current_module == 'back_office' %>" href="<%= back_office_path %>"><%= t('misc.back_office') %></a>
           </li>
         <% end %>
-        <li class="nav-item">
-          <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><%= t('activerecord.models.ticket').pluralize %></a>
-        </li>
       <% end %>
     </ul>
     <div class="form-inline my-2 my-lg-0">

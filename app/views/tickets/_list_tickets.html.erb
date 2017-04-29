@@ -4,26 +4,34 @@
   <table class="table table-hover table-sm table-link">
     <thead>
     <tr>
-      <th><%= t('activerecord.attributes.ticket.subject') %></th>
+      <th colspan="2"><%= t('activerecord.attributes.ticket.subject') %></th>
+      <th><%= t("activerecord.attributes.ticket.ticket_status") %></th>
+      <th>
+        <small class="text-muted"><%= t("activerecord.attributes.ticket.created_at") %></small> <br />
+        <%= t("activerecord.attributes.ticket.updated_at") %>
+      </th>
       <th></th>
-      <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
     </tr>
     </thead>
     <tbody>
     <% collection.each do |ticket| %>
       <tr data-link="<%= ticket_path(ticket) %>">
         <td class="width-3">
-          <i class="fa fa-fw fa-2x fa-sitemap"></i>
+          <i class="fa fa-fw fa-2x fa-rss"></i>
         </td>
         <td>
-          <strong><%= ticket.subject %></strong><br />
-          <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
+          <strong><%= ticket.subject %></strong> <br />
+          <small class="text-muted"><%= t("types.ticket_types.#{ticket.ticket_type}") %></small>
         </td>
         <td>
-          <%=  t("types.ticket_statuses.#{ticket.ticket_status}") %>
+          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></
+        </td>
+        <td>
+          <small class="text-muted"><%= l(ticket.created_at, format: :short) %></small> <br />
+          <%= l(ticket.updated_at, format: :short) %>
         </td>
         <td class="text-right">
-          <%= link_to t('actions.see'), ticket_path(ticket), class: 'btn btn-secondary' %>
+          <%= link_to t('actions.see_ticket'), ticket_path(ticket), class: 'btn btn-secondary' %>
         </td>
       </tr>
     <% end %>

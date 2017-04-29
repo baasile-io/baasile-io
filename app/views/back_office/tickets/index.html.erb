@@ -4,38 +4,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-hover table-sm">
-      <thead>
-      <tr>
-        <th><%= t('activerecord.attributes.ticket.subject') %></th>
-
-        <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |ticket| %>
-        <tr>
-          <td>
-            <i class="fa fa-fw fa-sitemap"></i>
-            <strong><%= ticket.subject %></strong>
-            <% if !ticket.service.nil? && ticket.ticket_type.to_sym == :activation_request %>
-                <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_service_path(ticket.service), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-            <% end %>
-            <br />
-            <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small>
-          </td>
-          <td>
-            <%=  t("types.ticket_statuses.#{ticket.ticket_status}") %>
-          </td>
-          <td class="text-right">
-            <%= link_to t('actions.edit'), edit_back_office_ticket_path(ticket), class: 'btn btn-secondary btn-sm' %>
-            <%= link_to t('actions.close'), close_back_office_ticket_path(ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
-            <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_ticket_path(ticket), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render partial: 'list_tickets', locals: {collection: @collection} %>
 
   </div>
 </div>

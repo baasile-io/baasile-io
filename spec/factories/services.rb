@@ -7,6 +7,14 @@ FactoryGirl.define do
     sequence(:client_id)  {|i| "2d931510-#{i.to_s.rjust(4, '0')}-494a-8c67-87feb05e1594"}
     client_secret         'abcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghj'
     confirmed_at          Date.new
+
+    factory :client_service do
+      service_type          :client
+    end
+
+    factory :startup_service do
+      service_type          :client
+    end
   end
 
   factory :service_not_activated, class: Service do

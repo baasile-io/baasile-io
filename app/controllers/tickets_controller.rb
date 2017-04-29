@@ -44,7 +44,9 @@ class TicketsController < ApplicationController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
       redirect_to_index
     else
-      flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      if @ticket.errors.size == 0
+        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      end
       @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
       render :new
     end
@@ -85,7 +87,7 @@ private
   end
 
   def ticket_params
-    allowed_parameters = [:subject, :ticket_type, :service]
+    allowed_parameters = [:subject, :ticket_type, :service_id]
     params.require(:ticket).permit(allowed_parameters)
   end
 
@@ -94,11 +96,11 @@ private
   end
 
   def load_tickets
-    @collection = current_user.tickets.not_closed
+    @collection = current_user.tickets.not_closed.order(updated_at: :desc)
   end
 
   def load_closed_tickets
-    @collection = current_user.tickets.closed
+    @collection = current_user.tickets.closed.order(updated_at: :desc)
   end
 
 

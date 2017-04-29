@@ -89,9 +89,15 @@ en:
       numeric: 'Numeric'
       string: 'Character string'
     ticket_statuses:
-      opened: 'Opened'
-      in_progress: 'Work in progress'
-      closed: 'Closed'
+      opened:
+        class: 'text-success'
+        title: 'Opened'
+      in_progress:
+        class: 'text-info'
+        title: 'Work in progress'
+      closed:
+        class: 'text-danger'
+        title: 'Closed'
     ticket_types:
       activation_request: "Request for an Enterprise account activation"
       info_request: 'Information request'

@@ -178,9 +178,10 @@ fr:
         created_at: 'Date de création'
         service: 'Entreprise'
         service_id: 'Entreprise'
-        subject: 'Sujet'
+        subject: 'Sujet du ticket'
         ticket_status: 'Statut'
         ticket_type: 'Type'
+        updated_at: 'Date de dernière modification'
         user: 'Créateur'
         user_id: 'Créateur'
       user:

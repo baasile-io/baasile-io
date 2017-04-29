@@ -1,0 +1,49 @@
+<% if collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th colspan="2"><%= t('activerecord.attributes.ticket.subject') %></th>
+      <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
+      <th>
+        <small class="text-muted"><%= t("activerecord.attributes.ticket.created_at") %></small> <br />
+        <%= t("activerecord.attributes.ticket.updated_at") %>
+      </th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% collection.each do |ticket| %>
+      <tr>
+        <td class="width-3">
+          <i class="fa fa-fw fa-rss fa-2x"></i>
+        </td>
+        <td>
+          <strong><%= ticket.subject %></strong><br />
+          <small class="text-muted"><%=  t("types.ticket_types.#{ticket.ticket_type}") %></small><br />
+          <% if ticket.service %>
+            <%= link_to t('actions.edit_service'), back_office_service_path(ticket.service), class: 'btn btn-sm btn-secondary' %>
+          <% end %>
+        </td>
+        <td>
+          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></span>
+        </td>
+        <td>
+          <small class="text-muted"><%= l(ticket.created_at, format: :short) %></small> <br />
+          <%= l(ticket.updated_at, format: :short) %>
+        </td>
+        <td class="text-right">
+          <% if ticket.is_closed? %>
+            <%= link_to t('actions.reopen'), open_back_office_ticket_path(ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
+          <% else %>
+            <%= link_to t('actions.edit'), edit_back_office_ticket_path(ticket), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to t('actions.close'), close_back_office_ticket_path(ticket), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :post, class: 'btn btn-danger btn-sm' %>
+          <% end %>
+          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_ticket_path(ticket), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

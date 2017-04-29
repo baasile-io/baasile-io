@@ -6,6 +6,10 @@ class Appconfig < ApplicationRecord
       setting_type: :integer,
       value: 20
     },
+    api_client_token_id_name: {
+      setting_type: :string,
+      value: 'OpenRH-ClientTokenID'
+    },
     api_refresh_token_duration: {
       setting_type: :integer,
       value: 120
@@ -13,6 +17,18 @@ class Appconfig < ApplicationRecord
     api_max_requests_per_hour_contracts: {
       setting_type: :integer,
       value: 10
+    },
+    api_measure_token_name: {
+      setting_type: :string,
+      value: 'MeasureTokenID'
+    },
+    api_proxy_callback_uri_name: {
+      setting_type: :string,
+      value: 'OpenRH-Proxy-Callback-Uri'
+    },
+    max_requests_per_hour: {
+      setting_type: :integer,
+      value: 18000
     }
   }
 

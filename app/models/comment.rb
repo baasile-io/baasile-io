@@ -5,7 +5,7 @@ class Comment < ApplicationRecord
   include Trixable
   has_trix_attributes :body
 
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
   validates :user, presence: true

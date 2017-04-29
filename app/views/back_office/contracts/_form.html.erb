@@ -1,16 +1,19 @@
 <%= simple_form_for [:back_office, @contract] do |f| %>
+
   <div class="b-io-content--secondary">
     <div class="container-fluid">
+
       <% if f.object.persisted? %>
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="<%= audit_back_office_contract_path(@contract) %>"><%= t('misc.audit') %></a>
-            </li>
-          </ul>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= audit_back_office_contract_path(@contract) %>"><%= t('misc.audit') %></a>
+          </li>
+        </ul>
       <% end %>
+
       <%= error_messages_for(f.object) %>
 
       <%= f.input :status, collection: format_contract_status_for_select %>
@@ -18,13 +21,12 @@
       <%= f.input :name %>
       <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
       <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
+      <%= f.input :contract_duration_type, collection: format_contract_duration_types_for_select, input_html: {class: 'col-sm-3'}, include_blank: false %>
       <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
-      <%= f.input :expected_contract_duration, as: :integer, hint: t('.hints.expected_contract_duration') %>
+      <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
-
-      <%= f.input :activate , as: :radio_buttons %>
-      <%= f.input :production , as: :radio_buttons %>
+      <%= f.input :activate, as: :radio_buttons, hint: t('.hints.activate') %>
 
       <div class="row">
         <div class="actions col-md-9 offset-md-3">
@@ -33,4 +35,5 @@
       </div>
     </div>
   </div>
+
 <% end %>

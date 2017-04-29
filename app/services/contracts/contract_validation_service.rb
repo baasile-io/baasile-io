@@ -23,11 +23,16 @@ module Contracts
           raise NotValidatedContract
       end
 
+      case contract_pricing_type
+        when :per_call
+          authorize_request_per_call
+      end
+
       true
     rescue MissingContract
       [false, 'No subscription to this product']
     rescue NotValidatedContract
-      [false, 'No active subscription to this product']
+      [false, "No active subscription to this product (status: #{@contract.status})"]
     rescue MissingStartDateProductionPhase
       [false, "Production phase has no start date"]
     rescue NotStartedProductionPhase
@@ -50,8 +55,29 @@ module Contracts
       true
     end
 
+    def authorize_request_per_call
+      return unless contract_price_deny_after_free_count
+
+      case contract_pricing_duration_type
+        when :prepaid
+          MeasureToken.by_contract_status(@contract).first_or_create!
+      end
+    end
+
     def contract_status
       @contract.status.to_sym
+    end
+
+    def contract_pricing_type
+      @contract.price.pricing_type
+    end
+
+    def contract_pricing_duration_type
+      @contract.price.pricing_duration_type
+    end
+
+    def contract_price_deny_after_free_count
+      @contract.price.deny_after_free_count
     end
 
     def today

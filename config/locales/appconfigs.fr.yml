@@ -3,9 +3,21 @@ fr:
     api_access_token_duration:
       name: "Durée d'un jeton de session"
       description: "Durée d'un jeton de session en minutes"
+    api_client_token_id_name:
+      name: 'Nom du ClientToken'
+      description: "Le nom du paramètre ClientToken dans les headers envoyés aux fournisseurs"
     api_refresh_token_duration:
       name: "Durée d'un jeton de rafraichissement de session"
       description: "Durée d'un jeton de rafraichissement de session en minutes"
     api_max_requests_per_hour_contracts:
       name: "Nombre max de requêtes sur l'API des Contrats"
       description: "Nombre max de requêtes sur l'API des Contrats par heure"
+    api_measure_token_name:
+      name: 'Nom du MeasureToken'
+      description: "Le nom du paramètre MeasureToken dans les headers reçu par les clients et généré par la plateforme"
+    api_proxy_callback_uri_name:
+      name: "Nom du paramètre Callback URI"
+      description: "Le nom du paramètre Callback URI dans les headers envoyé aux fournisseurs permettant de construire les URL via la plateforme"
+    max_requests_per_hour:
+      name: 'Nombre maximum de requêtes par heure'
+      description: "Le nombre maximum de requêtes qu'une IP est autorisée à faire"

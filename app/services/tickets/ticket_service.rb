@@ -80,7 +80,7 @@ module Tickets
     end
 
     def closed_tickets_by_activation(service)
-      Ticket.activation_request_by_service(service).each do |ticket|
+      Ticket.activation_requests_by_service(service).each do |ticket|
         @ticket = ticket
         close
       end

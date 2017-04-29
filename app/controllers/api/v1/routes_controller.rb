@@ -15,8 +15,8 @@ module Api
 
       def process_request
         begin
-          res = proxy_request
-          render status: res.code, plain: res.body
+          @proxy_response = proxy_request
+          render status: @proxy_response.code, plain: @proxy_response.body
         rescue ProxyInitializationError
           render status: :bad_gateway, json: {
             errors: [{
@@ -128,6 +128,49 @@ module Api
         nil
       end
 
+      def current_contract
+        @contract ||= load_contract
+      end
+
+      def current_price
+        @price ||= current_contract.price
+      end
+
+      def current_contract_status
+        @current_contract_status ||= current_contract.status.to_sym
+      end
+
+      def current_contract_pricing_type
+        @current_contract_pricing_type ||= current_price.pricing_type.to_sym
+      end
+
+      def current_contract_pricing_duration_type
+        @current_contract_pricing_duration_type ||= current_price.pricing_duration_type.to_sym
+      end
+
+      def current_contract_price_request_limit
+        @current_contract_price_request_limit ||= case current_contract_pricing_type
+                                                    when :per_parameter
+                                                      if current_route.measure_token_activated
+                                                        if current_price.deny_after_free_count
+                                                          current_price.free_count
+                                                        else
+                                                          false
+                                                        end
+                                                      else
+                                                        false
+                                                      end
+                                                    when :per_call
+                                                      if current_price.deny_after_free_count
+                                                        current_price.free_count
+                                                      else
+                                                        false
+                                                      end
+                                                    else
+                                                      false
+                                                  end
+      end
+
       def load_contract
         @contract = Contract.where(client: authenticated_service, proxy: current_proxy).first
       end
@@ -142,7 +185,7 @@ module Api
       end
 
       def authorize_request_by_contract
-        status, error = Contracts::ContractValidationService.new(@contract, current_route).authorize_request
+        status, error = Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
         return true if status
 
         error_status = 403

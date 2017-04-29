@@ -42,6 +42,10 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :language, inclusion: {in: I18n.available_locales.map(&:to_s)}
 
+  def is_activated?
+    !self.confirmed_at.nil? && self.is_active
+  end
+
   def is_superadmin?
     self.has_role?(:superadmin)
   end

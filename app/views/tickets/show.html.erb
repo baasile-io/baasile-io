@@ -1,14 +1,26 @@
+<% content_for(:page_back) { tickets_path } %>
 <% content_for(:page_title, @ticket.subject) %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
+
+    <% if @ticket.service %>
+      <h4>
+        <%= "<span class=\"float-right\"><i class=\"fa fa-lock\"></i> #{t('misc.unconfirmed')}</span>".html_safe unless @ticket.service.is_activated? %>
+        <strong><i class="<%= t("types.service_types.#{@ticket.service.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@ticket.service.service_type}.class") %>"><%= @ticket.service.name %></span></strong> <br />
+      </h4>
+      <div class="text-right">
+        <%= link_to t('misc.dashboard'), service_path(@ticket.service), class: 'btn btn-primary' %>
+      </div>
+      <hr />
+    <% end %>
 
     <div class="row">
       <div class="col-sm-3 text-sm-right">
         <strong><%= t("activerecord.attributes.ticket.ticket_status") %></strong>
       </div>
       <div class="col-sm-9">
-        <%= t("types.ticket_statuses.#{@ticket.ticket_status}")  %>
+        <strong class="<%= t("types.ticket_statuses.#{@ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{@ticket.ticket_status}.title") %></strong>
       </div>
     </div>
     <div class="row">
