@@ -41,11 +41,10 @@ module BackOffice
       ticket_service = Tickets::TicketService.new(@ticket)
       if ticket_service.open
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
-        redirect_to_index
       else
         flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
-        redirect_to_edit
       end
+      redirect_to_edit
     end
 
     def close

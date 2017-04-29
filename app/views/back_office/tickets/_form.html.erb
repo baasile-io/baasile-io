@@ -2,6 +2,27 @@
 
   <%= error_messages_for(f.object) %>
 
+  <h4>
+    <%= "<span class=\"float-right\"><i class=\"fa fa-lock\"></i> #{t('misc.unconfirmed_email')}</span>".html_safe unless f.object.user.confirmed_at? %>
+    <%= "<span class=\"float-right\"><i class=\"fa fa-lock\"></i> #{t('misc.not_active')}</span>".html_safe unless f.object.user.is_active %>
+    <strong><i class="fa fa-fw fa-user"></i> <%= f.object.user %></strong>
+  </h4>
+  <div class="text-right">
+    <%= link_to t('actions.edit_user'), edit_back_office_user_path(f.object.user), class: 'btn btn-primary' %>
+  </div>
+  <hr />
+
+  <% if f.object.service %>
+    <h4>
+      <%= "<span class=\"float-right\"><i class=\"fa fa-lock\"></i> #{t('misc.unconfirmed')}</span>".html_safe unless f.object.service.is_activated? %>
+      <strong><i class="<%= t("types.service_types.#{f.object.service.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{f.object.service.service_type}.class") %>"><%= f.object.service.name %></span></strong> <br />
+    </h4>
+    <div class="text-right">
+        <%= link_to t('actions.edit_service'), edit_back_office_service_path(f.object.service), class: 'btn btn-primary' %>
+    </div>
+    <hr />
+  <% end %>
+
   <%= f.input :subject %>
   <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select %>
   <%= f.input :ticket_status, as: :select, collection: format_ticket_statuses_for_select %>

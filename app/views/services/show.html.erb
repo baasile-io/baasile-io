@@ -55,8 +55,18 @@
         </div>
       </div>
     <% else %>
-        <hr />
-        <%= link_to t('types.ticket_types.activation_request'), activation_request_service_path(@service), method: :post, class: 'btn btn-primary' %>
+      <hr />
+      <% activation_requests = Ticket.activation_requests_by_service(current_service).not_closed %>
+      <% if activation_requests.count > 0 %>
+        <div class="alert alert-info">
+          <%= t('misc.activation_request_already_sent') %><br />
+          <%= link_to t('actions.see_ticket'), ticket_path(activation_requests.last), class: 'btn btn-secondary' %>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <%= link_to t('types.ticket_types.activation_request'), activation_request_service_path(@service), method: :post, class: 'btn btn-primary btn-lg' %>
+        </div>
+      <% end %>
     <% end %>
 
     <%= render partial: 'shared/measurement' %>

@@ -94,11 +94,11 @@ private
   end
 
   def load_tickets
-    @collection = current_user.tickets.not_closed
+    @collection = current_user.tickets.not_closed.order(updated_at: :desc)
   end
 
   def load_closed_tickets
-    @collection = current_user.tickets.closed
+    @collection = current_user.tickets.closed.order(updated_at: :desc)
   end
 
 

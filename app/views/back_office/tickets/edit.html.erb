@@ -26,4 +26,4 @@
   </div>
 </div>
 
-<%= render partial: 'shared/versions', locals: {objects: [@ticket]} %>
+<%= render partial: 'shared/versions', locals: {objects: [@ticket] + @ticket.comments} %>

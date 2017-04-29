@@ -3,6 +3,7 @@ fr:
     accepted_by: 'Acceptées par %{user} le %{date}'
     actions: 'Actions'
     activated: "Activé"
+    activation_request_already_sent: "Une demande d'activation a été envoyée."
     advanced_permissions: 'Permissions avancées'
     all: 'Tous'
     all_feminized: 'Toutes'
@@ -42,6 +43,7 @@ fr:
     no_available_proxies: "Aucun produit n'est disponible"
     none: 'Aucun'
     none_feminized: 'Aucune'
+    not_active: 'Compte désactivé'
     not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
@@ -55,6 +57,7 @@ fr:
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     'true': 'Oui'
     unconfirmed: 'Inactif'
+    unconfirmed_email: 'Adresse E-Mail non confirmée'
     unknown_user: 'Utilisateur introuvable'
     waiting_for_validation: 'En attente de validation'
     yes: 'Oui'
