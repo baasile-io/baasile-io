@@ -20,7 +20,21 @@ module MeasurementConcern
     return unless current_contract_pricing_type == :per_parameter && current_route.measure_token_activated
 
     given_measure_token_value = request.headers[Appconfig.get(:api_measure_token_name)]
-    @measure_token = measure_token_first_or_create(given_measure_token_value)
+
+    if given_measure_token_value.blank?
+      create_measure_token
+    else
+      find_measure_token(given_measure_token_value)
+      if @measure_token.nil?
+        return render status: 403, json: {
+          errors: [{
+                     status: 403,
+                     title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
+                   }]
+        }
+      end
+    end
+
     response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value
   end
 
@@ -61,7 +75,11 @@ module MeasurementConcern
     @today ||= Date.today
   end
 
-  def measure_token_first_or_create(value)
-    MeasureToken.where(value: value, contract: current_contract, contract_status: current_contract_status).first_or_create!
+  def find_measure_token(value)
+    @measure_token = MeasureToken.where(value: value, contract: current_contract, contract_status: current_contract_status).first
+  end
+
+  def create_measure_token
+    @measure_token = MeasureToken.create!(contract: current_contract, contract_status: current_contract_status)
   end
 end

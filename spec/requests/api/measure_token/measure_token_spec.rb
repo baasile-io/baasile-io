@@ -28,8 +28,10 @@ describe "measure token", type: :request do
   end
 
   describe "authenticated" do
-    before do
-      post authentication_api_uri, {client_id: client.client_id, client_secret: client.client_secret, scope: startup.subdomain}
+    before :each do
+      route #create route in DB
+
+      post authentication_api_uri, {client_id: contract.client.client_id, client_secret: contract.client.client_secret, scope: contract.startup.subdomain}
 
       expect(response.status).to eq 200
       response_body = JSON.parse(response.body)
@@ -47,9 +49,6 @@ describe "measure token", type: :request do
 
     describe "subscribed" do
       before :each do
-        route #create route in DB
-        contract #create contract in DB
-
         stub_request(:get, route.uri_test).
           with(
             headers: {
@@ -62,12 +61,12 @@ describe "measure token", type: :request do
             body: "My body",
             headers: {}
           )
-
-        allow(SecureRandom).to receive(:uuid).and_return('my_measure_token_id')
       end
 
       describe "request" do
-        it "generates a new measure token" do
+        it "generates a new measure token", focus: true do
+          allow(SecureRandom).to receive(:uuid).and_return('my_measure_token_id').once
+
           get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
 
           expect(response.status).to eq 276

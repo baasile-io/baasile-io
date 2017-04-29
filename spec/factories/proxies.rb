@@ -7,5 +7,9 @@ FactoryGirl.define do
     association           :user
     association           :proxy_parameter
     association           :proxy_parameter_test, factory: :proxy_parameter
+
+    after :create do |proxy|
+      create_list(:route, 3, proxy: proxy)
+    end
   end
 end
