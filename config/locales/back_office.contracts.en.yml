@@ -1,0 +1,11 @@
+en:
+  back_office:
+    contracts:
+      create:
+        title: 'New Contract'
+      edit:
+        title: 'Edit'
+      index:
+        title: 'Contracts'
+      new:
+        title: 'New Contract'

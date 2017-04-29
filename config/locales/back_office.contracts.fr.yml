@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    contracts:
+      create:
+        title: 'Créer un Contrat'
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Contrats'
+      new:
+        title: 'Créer une Contrat'

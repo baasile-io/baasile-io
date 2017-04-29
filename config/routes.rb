@@ -195,6 +195,12 @@ Rails.application.routes.draw do
       end
 
       resources :general_conditions
+      resources :contracts do
+        member do
+          get :audit
+        end
+      end
+
       resources :documentations
       resources :categories
       resources :appconfigs do
