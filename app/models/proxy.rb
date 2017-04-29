@@ -24,8 +24,8 @@ class Proxy < ApplicationRecord
   validates :name, uniqueness: {scope: :service_id}
   validates :description, presence: true
   validates :subdomain, uniqueness: {scope: :service_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
-  validates :proxy_parameter_id, presence: true
-  validates :proxy_parameter_test_id, presence: true
+  validates :proxy_parameter, presence: true
+  validates :proxy_parameter_test, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
   scope :associated_service, ->(service) { where(service: service) }

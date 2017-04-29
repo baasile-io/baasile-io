@@ -1,6 +1,6 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service
+  before_action :load_service_and_authorize
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_price, only: [:show]
@@ -231,13 +231,18 @@ class ContractsController < ApplicationController
       end
     end
     if @proxies.count == 0
+      flash[:error] = I18n.t('misc.no_available_proxies')
       redirect_to_index
     end
   end
 
-  def load_service
+  def load_service_and_authorize
     if params.key?(:service_id)
       @service = Service.find(params[:service_id])
+      unless @service.is_activated?
+        flash[:error] = I18n.t('misc.service_not_activated')
+        redirect_to service_path(current_service)
+      end
     else
       @service = nil
     end

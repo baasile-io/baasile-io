@@ -39,6 +39,7 @@ fr:
     next_step: 'Étape suivante'
     need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
+    no_available_proxies: "Aucun produit n'est disponible"
     none: 'Aucun'
     none_feminized: 'Aucune'
     not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
@@ -51,6 +52,7 @@ fr:
     profile: 'Profil'
     role: 'Rôle'
     roles: 'Rôles'
+    service_not_activated: "Votre compte Entreprise n'est pas actif"
     'true': 'Oui'
     unconfirmed: 'Inactif'
     unknown_user: 'Utilisateur introuvable'
