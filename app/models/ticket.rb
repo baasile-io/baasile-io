@@ -20,7 +20,12 @@ class Ticket < ApplicationRecord
   TICKET_STATUSES_ENUM = TICKET_STATUSES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum ticket_status: TICKET_STATUSES_ENUM
 
-  TICKET_TYPES = {activation_request: 1, report_a_bug: 2, user_right_request: 3, info_request: 4}
+  TICKET_TYPES = {
+    activation_request: 1,
+    report_a_bug: 2,
+    user_right_request: 3,
+    info_request: 4
+  }
   enum ticket_type: TICKET_TYPES
 
   belongs_to  :user
@@ -32,6 +37,7 @@ class Ticket < ApplicationRecord
   validates :user, presence: true
   validates :ticket_type, presence: true
   validates :ticket_status, presence: true
+  validates :service_id, presence: true, if: Proc.new {self.ticket_type.to_sym == :activation_request}
 
   scope :owned, ->(user) { where(user: user) }
   scope :by_type, ->(ticket_type) { where(ticket_type: ticket_type) }

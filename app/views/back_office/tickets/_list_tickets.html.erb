@@ -6,6 +6,11 @@
     <tr>
       <th colspan="2"><%= t('activerecord.attributes.ticket.subject') %></th>
       <th><%=  t("activerecord.attributes.ticket.ticket_status") %></th>
+      <th>
+        <small class="text-muted"><%= t("activerecord.attributes.ticket.created_at") %></small> <br />
+        <%= t("activerecord.attributes.ticket.updated_at") %>
+      </th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +27,11 @@
           <% end %>
         </td>
         <td>
-          <%=  t("types.ticket_statuses.#{ticket.ticket_status}") %>
+          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></span>
+        </td>
+        <td>
+          <small class="text-muted"><%= l(ticket.created_at, format: :short) %></small> <br />
+          <%= l(ticket.updated_at, format: :short) %>
         </td>
         <td class="text-right">
           <% if ticket.is_closed? %>

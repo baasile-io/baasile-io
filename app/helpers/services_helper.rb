@@ -16,7 +16,7 @@ module ServicesHelper
 
   def format_services_for_select(services)
     services.map do |s|
-      [s.name, s.id, {'data-type': s.service_type, 'data-class': "#{t("types.service_types.#{s.service_type}.class")}", 'data-description': s.description, 'data-parent': s.parent, 'data-parent-type': s.parent.try(:service_type)}]
+      [s.name, s.id, {'data-type': s.service_type, 'data-class': "#{t("types.service_types.#{s.service_type}.class")}", 'data-description': s.description, 'data-parent': s.parent, 'data-parent-type': s.parent.try(:service_type), 'data-text-right': "#{" <i class=\"fa fa-lock\"></i> #{t('misc.unconfirmed')}</span>" unless s.is_activated?}"}]
     end
   end
 

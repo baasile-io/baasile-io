@@ -226,11 +226,9 @@ class ContractsController < ApplicationController
   def load_active_proxies
     @proxies = []
     Service.includes(:proxies).activated_startups.published.each do |service|
-      service.proxies.includes(:category).published.each do |proxy|
-        @proxies << proxy if (proxy.public && service.public) || proxy.service.id == current_service.try(:id)
-      end
+      @proxies += service.proxies.includes(:category).published.to_a
     end
-    if @proxies.count == 0
+    if @proxies.size == 0
       flash[:error] = I18n.t('misc.no_available_proxies')
       redirect_to_index
     end

@@ -92,11 +92,12 @@ $(document).ready(function(e) {
       return '<span class="text-muted">' + s.text + '</span>';
     var el = $(s.element);
     var type = el.data('type');
+    var text_right = el.data('text-right');
     var parent_service = el.data('parent');
     var type_class = el.data('class');
     var description = el.data('description');
     var parent_service_type = el.data('parent-type');
-    var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
+    var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + text_right + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
     if (typeof parent_service != 'undefined')
       template = '<span class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></span> ' + template;
     template = template + '</span>';
@@ -110,10 +111,11 @@ $(document).ready(function(e) {
       return '<span class="text-muted">' + s.text + '</span>';
     var el = $(s.element);
     var type = el.data('type');
+    var text_right = el.data('text-right');
     var parent_service = el.data('parent');
     var type_class = el.data('class');
     var parent_service_type = el.data('parent-type');
-    var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
+    var template = '<span class="' + type_class + '"><span class="float-right">' + I18n.t('types.service_types.' + type + '.title') + text_right + '</span><i class="' + I18n.t('types.service_types.' + type + '.icon') + '"></i> ' + s.text;
     if (typeof parent_service != 'undefined')
       template = '<span class="text-muted"><i class="' + I18n.t('types.service_types.' + parent_service_type + '.icon') + '"></i> ' + parent_service + ' <i class="fa fa-fw fa-caret-right"></i></span> ' + template;
     template = template + '</span>';

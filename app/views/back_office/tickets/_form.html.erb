@@ -24,8 +24,8 @@
   <% end %>
 
   <%= f.input :subject %>
-  <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select %>
-  <%= f.input :ticket_status, as: :select, collection: format_ticket_statuses_for_select %>
+  <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select, input_html: {class: 'select2'}, include_blank: false %>
+  <%= f.input :ticket_status, as: :select, collection: format_ticket_statuses_for_select, input_html: {class: 'select2'}, include_blank: false %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

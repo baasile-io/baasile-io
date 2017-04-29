@@ -24,14 +24,14 @@
           <small class="text-muted"><%= t("types.ticket_types.#{ticket.ticket_type}") %></small>
         </td>
         <td>
-          <%= t("types.ticket_statuses.#{ticket.ticket_status}") %>
+          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></
         </td>
         <td>
           <small class="text-muted"><%= l(ticket.created_at, format: :short) %></small> <br />
           <%= l(ticket.updated_at, format: :short) %>
         </td>
         <td class="text-right">
-          <%= link_to t('actions.see'), ticket_path(ticket), class: 'btn btn-secondary' %>
+          <%= link_to t('actions.see_ticket'), ticket_path(ticket), class: 'btn btn-secondary' %>
         </td>
       </tr>
     <% end %>
