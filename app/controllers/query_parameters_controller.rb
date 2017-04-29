@@ -1,9 +1,9 @@
 class QueryParametersController < DashboardController
-  before_action :load_query_parameter, only: [:show, :edit, :update, :destroy]
+  before_action :load_query_parameter, only: [:edit, :update, :destroy]
   before_action :load_query_parameters, only: [:index, :create]
 
   before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action, except: [:index, :show]
+  before_action :add_breadcrumb_current_action, except: [:index]
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
