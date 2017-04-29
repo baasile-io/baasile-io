@@ -29,19 +29,21 @@ module ProxifyConcern
     def uri
       @data[:uri]
     end
+
+    def parameter
+      @data[:parameter]
+    end
+
+    def query_parameter_type
+      @data[:query_parameter_type]
+    end
   end
 
-  class ProxyInitializationError < ProxyError
-  end
-
-  class ProxyAuthenticationError < ProxyError
-  end
-
-  class ProxyRedirectionError < ProxyError
-  end
-
-  class ProxyRequestError < ProxyError
-  end
+  class ProxyMissingMandatoryQueryParameterError < ProxyError; end
+  class ProxyInitializationError < ProxyError; end
+  class ProxyAuthenticationError < ProxyError; end
+  class ProxyRedirectionError < ProxyError; end
+  class ProxyRequestError < ProxyError; end
 
   def proxy_initialize
     raise ProxyInitializationError if current_proxy.nil?
@@ -57,8 +59,65 @@ module ProxifyConcern
 
   def proxy_request
     proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
-    proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", request.GET
+    proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", build_get_params
     proxy_send_request
+  end
+
+  def build_headers
+    received_headers = {}
+    request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
+      header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
+      received_headers[header_name] = header[1]
+    end
+
+    current_route.query_parameters.by_types(:header).each do |query_parameter|
+      @current_proxy_send_request[query_parameter.name] = received_headers[query_parameter.name.upcase.gsub(/_/, '-')]
+      transform_param(query_parameter, @current_proxy_send_request, query_parameter.name)
+    end
+  end
+
+  def build_get_params
+    return nil if request.GET.nil?
+
+    parameters = request.GET.deep_dup
+
+    current_route.query_parameters.by_types(:get).each do |query_parameter|
+      parse_get_param(
+        query_parameter,
+        Rack::Utils.parse_nested_query(query_parameter.name),
+        parameters
+      )
+    end
+
+    parameters
+  end
+
+  def parse_get_param(query_parameter, query_parameter_hash, parameters)
+    key, value = query_parameter_hash.first
+
+    if value.is_a?(Hash)
+      parameters[key] ||= {}
+      parse_get_param(query_parameter, value, parameters[key])
+    else
+      transform_param(query_parameter, parameters, key)
+    end
+  end
+
+  def transform_param(query_parameter, destination, key)
+    case query_parameter.mode.to_sym
+      when :forbidden
+        if query_parameter.default_value.present?
+          destination[key] = query_parameter.default_value
+        else
+          destination.delete(key)
+        end
+      when :optional
+        if destination[key].nil?
+          destination[key] = query_parameter.default_value unless query_parameter.default_value.blank?
+        end
+      when :mandatory
+        raise ProxyMissingMandatoryQueryParameterError, {query_parameter_type: query_parameter.query_parameter_type.to_sym, parameter: query_parameter.name} if destination[key].nil?
+    end
   end
 
   def proxy_prepare_request(uri, query = nil)
@@ -84,11 +143,7 @@ module ProxifyConcern
       end
     end
 
-    #headers = request.headers.env.select { |k, _| k =~ /^HTTP_(USER|ACCEPT)/ }
-    #headers.each do |header|
-    #  name = header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
-    #  @current_proxy_send_request[name] = header[1]
-    #end
+    build_headers
 
     @current_proxy_send_request[Appconfig.get(:api_client_token_id_name)] = authenticated_service.client_id
     @current_proxy_send_request[Appconfig.get(:api_proxy_callback_uri_name)] = "#{current_host}#{current_route.local_url('v1')}"

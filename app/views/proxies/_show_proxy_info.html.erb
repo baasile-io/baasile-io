@@ -3,7 +3,7 @@
     <strong><%= t('activerecord.attributes.proxy.name') %></strong>
   </div>
   <div class="col-9">
-    <strong><i class="fa fa-fw fa-sitemap"></i> <%= proxy.name %></strong><br />
+    <strong><i class="fa fa-fw fa-server"></i> <%= proxy.name %></strong><br />
     <small class="text-muted"><%= simple_format(proxy.description) %></small>
   </div>
 </div>
@@ -48,11 +48,13 @@
     <strong><%= t('activerecord.models.route').pluralize %></strong>
   </div>
   <div class="col-9">
-    <% proxy.routes.map do |route| %>
-      <p>
-        <%= route.subdomain %> <br />
-        <small class="text-muted"><%= route.local_url('v1') %></small>
-      </p>
-    <% end %>
+    <ul>
+      <% proxy.routes.map do |route| %>
+        <li>
+          <i class="fa fa-fw fa-sitemap"></i> <%= route.name %> <br />
+          <small class="text-muted"><%= route.local_url('v1') %></small>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>

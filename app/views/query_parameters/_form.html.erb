@@ -8,7 +8,7 @@
   <%= f.input :query_parameter_type, as: :radio_buttons, collection: format_query_parameter_types_for_select %>
   <%= f.input :mode, as: :radio_buttons, collection: format_query_parameter_modes_for_select %>
 
-  <%= f.input :default_value %>
+  <%= f.input :default_value, hint: t('.hints.default_value') %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">
