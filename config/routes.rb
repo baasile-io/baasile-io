@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         get :prices
         get :select_price
         post :cancel
+        get :print_current_month_consumption
       end
       collection do
         get :catalog
@@ -104,6 +105,7 @@ Rails.application.routes.draw do
           get :prices
           get :select_price
           post :cancel
+          get :print_current_month_consumption
         end
         collection do
           get :catalog

@@ -1,9 +1,8 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption]
   before_action :load_general_condition, only: [:general_condition]
-  before_action :load_price, only: [:show]
   before_action :load_active_proxies, only: [:catalog]
 
   # Authorization
@@ -86,6 +85,21 @@ class ContractsController < ApplicationController
   end
 
   def show
+    @current_month_consumption = BillingService.new.calculate(current_contract, Date.today)
+  end
+
+  def print_current_month_consumption
+    billing_service = BillingService.new
+    billing_service.calculate(current_contract, Date.today)
+    pdf_path = billing_service.generate_pdf
+
+    data = open(pdf_path)
+    send_data data.read,
+              disposition: 'attachment',
+              filename: "abc.pdf",
+              stream: 'true',
+              buffer_size: '4096',
+              type: 'application/pdf'
   end
 
   def destroy
@@ -201,13 +215,6 @@ class ContractsController < ApplicationController
     return [@contract]
   end
 
-  def load_price
-    unless @contract.price.nil?
-      @price = @contract.price
-      @price_parameters = PriceParameter.where(price: @price)
-    end
-  end
-
   def redirect_to_index
     return redirect_to service_contracts_path(current_service) unless current_service.nil?
     return redirect_to contracts_path
@@ -219,7 +226,7 @@ class ContractsController < ApplicationController
   end
 
   def load_contract
-    @contract = Contract.find(params[:id])
+    @contract = Contract.includes(:price, :client, :startup, :proxy).find(params[:id])
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 

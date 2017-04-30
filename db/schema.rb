@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429190709) do
+ActiveRecord::Schema.define(version: 20170430095423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,18 +25,25 @@ ActiveRecord::Schema.define(version: 20170429190709) do
   create_table "bill_lines", force: :cascade do |t|
     t.integer  "bill_id"
     t.string   "title"
-    t.decimal  "unit_cost"
-    t.integer  "unit_num"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "unit_cost",                default: "0.0"
+    t.integer  "unit_num",                 default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "line_type",                default: 0
+    t.decimal  "vat_rate",                 default: "0.0"
+    t.decimal  "total_cost",               default: "0.0"
+    t.decimal  "total_cost_including_vat", default: "0.0"
     t.index ["bill_id"], name: "index_bill_lines_on_bill_id", using: :btree
   end
 
   create_table "bills", force: :cascade do |t|
     t.integer  "contract_id"
     t.date     "bill_month"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.decimal  "total_cost",               default: "0.0"
+    t.decimal  "total_vat",                default: "0.0"
+    t.decimal  "total_cost_including_vat", default: "0.0"
     t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
     t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree
   end

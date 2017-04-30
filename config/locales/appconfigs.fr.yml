@@ -18,6 +18,12 @@ fr:
     api_proxy_callback_uri_name:
       name: "Nom du paramètre Callback URI"
       description: "Le nom du paramètre Callback URI dans les headers envoyé aux fournisseurs permettant de construire les URL via la plateforme"
+    platform_contribution_rate:
+      name: "Taux de contribution à la plateforme"
+      description: "Le taux de contribution au fonctionnement de la plateforme applicable aux montants facturés"
     max_requests_per_hour:
       name: 'Nombre maximum de requêtes par heure'
       description: "Le nombre maximum de requêtes qu'une IP est autorisée à faire"
+    vat_rate:
+      name: "Taux de TVA"
+      description: "Le taux de TVA applicable sur les factures"

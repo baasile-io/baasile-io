@@ -1,0 +1,51 @@
+<table class="table table-sm table-hover">
+  <thead>
+  <tr>
+    <th></th>
+    <th class="width-10 text-right">Unit cost</th>
+    <th class="width-10 text-right">Unit</th>
+    <th class="width-10 text-right">Total</th>
+    <th class="width-10 text-right">VAT rate</th>
+    <th class="width-10 text-right">Total (incl. VAT)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% bill.bill_lines.each do |bill_line| %>
+    <% if bill_line.line_type.to_sym == :amount %>
+      <tr>
+        <td><%= t(bill_line.title) %></td>
+        <td class="text-right"><%= format_amount bill_line.unit_cost %></td>
+        <td class="text-right"><%= bill_line.unit_num %></td>
+        <td class="text-right"><%= format_amount bill_line.total_cost %></td>
+        <td class="text-right"><%= format_rate bill_line.vat_rate %></td>
+        <td class="text-right"><%= format_amount bill_line.total_cost_including_vat %></td>
+      </tr>
+    <% elsif bill_line.line_type.to_sym == :subtotal %>
+      <tr>
+        <th class="text-right">Subtotal</th>
+        <th class="text-right"></th>
+        <th class="text-right"></th>
+        <th class="text-right"><%= format_amount bill_line.total_cost %></th>
+        <th class="text-right"></th>
+        <th class="text-right"><%= format_amount bill_line.total_cost_including_vat %></th>
+      </tr>
+    <% else %>
+      <tr>
+        <th colspan="6"><%= bill_line.title %></th>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th>Total</th>
+    <th class="text-right"></th>
+    <th class="text-right"></th>
+    <th class="text-right"><%= format_amount bill.total_cost %></th>
+    <th class="text-right"></th>
+    <th class="text-right"><%= format_amount bill.total_cost_including_vat %></th>
+  </tr>
+  </tfoot>
+</table>
+
+<%= link_to 'Print', print_current_month_consumption_contract_path(current_contract) %>

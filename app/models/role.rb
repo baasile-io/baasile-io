@@ -63,7 +63,8 @@ class Role < ApplicationRecord
       validate: [:admin, :commercial, :accountant],
       general_condition: [:admin, :commercial, :accountant],
       validate_general_condition: [:admin, :commercial],
-      cancel: [:admin]
+      cancel: [:admin],
+      print_current_month_consumption: [:admin, :accountant]
     },
     prices: {
       index: [:admin, :commercial],

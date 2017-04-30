@@ -29,6 +29,14 @@ class Appconfig < ApplicationRecord
     max_requests_per_hour: {
       setting_type: :integer,
       value: 18000
+    },
+    platform_contribution_rate: {
+      setting_type: :numeric,
+      value: 3.0
+    },
+    vat_rate: {
+      setting_type: :numeric,
+      value: 19.6
     }
   }
 

@@ -95,6 +95,10 @@ class Contract < ApplicationRecord
         general_condition: {
           client: ['commercial'],
           startup: ['commercial']
+        },
+        print_current_month_consumption: {
+          client: ['accountant'],
+          startup: ['accountant'],
         }
       },
       show_error: {
