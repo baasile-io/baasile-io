@@ -209,16 +209,16 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('misc.my_services') %></a>
             </li>
-            <% if current_user.is_commercial? %>
+            <%# if current_user.is_commercial? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
               </li>
-            <% end %>
-            <% if current_user.is_admin? %>
+            <%# end %>
+            <%# if current_user.is_admin? %>
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
               </li>
-            <% end %>
+            <%# end %>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
             </li>

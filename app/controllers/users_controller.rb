@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     email = params[:email]
     user = User.find_by_email(email)
     if user.nil?
-      flash[:error] = I18n.t('misc.unknown_user')
+      flash[:error] = I18n.t('misc.unknown_user_create_on')
       return redirect_to new_service_user_path(current_service, email: email) if email.present?
     else
       if ::Users::UserAssociationsService.new(user).create_association(current_service)

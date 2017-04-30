@@ -30,6 +30,7 @@ fr:
     edit_service: 'Modifier le compte Entreprise'
     edit_user: 'Modifier le compte Utilisateur'
     infos: 'Infos'
+    invite_user: "Inviter un utilisateur existant"
     new: 'Créer'
     next_step: "Valider"
     open: 'Open'

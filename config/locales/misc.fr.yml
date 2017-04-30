@@ -37,6 +37,7 @@ fr:
       other: 'mois'
     more_info: "Plus d'infos"
     my_services: 'Mes entreprises'
+    my_users: 'Mes utilisateurs'
     next_step: 'Étape suivante'
     need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
@@ -59,5 +60,6 @@ fr:
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'
     unknown_user: 'Utilisateur introuvable'
+    unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
     waiting_for_validation: 'En attente de validation'
     yes: 'Oui'

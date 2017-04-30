@@ -22,14 +22,14 @@
               <div class="input-group-addon">@</div>
               <input name="email" type="text" class="form-control" id="inlineFormInput" placeholder="<%= t('activerecord.attributes.user.email') %>" value="<%= params[:email] %>">
             </div>
-            <button type="submit" class="btn btn-primary"><%= t('actions.add_user') %></button>
+            <button type="submit" class="btn btn-primary"><%= t('actions.invite_user') %></button>
           <% end %>
         </div>
         <div class="col-sm-6">
           <% if @owned_users.size > 0 %>
             <%= simple_form_for User.new, url: invite_by_id_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do |f| %>
               <div class="select2-inline-container mb-2 mr-sm-2 mb-sm-0">
-                <%= f.input :id, as: :select, collection: format_users_for_select(@owned_users), label: false, input_html: {class: 'select2'}, include_blank: t('actions.select') %>
+                <%= f.input :id, as: :select, collection: format_users_for_select(@owned_users), label: false, input_html: {class: 'select2'}, include_blank: "#{t('misc.my_users')}..." %>
               </div>
               <button type="submit" class="btn btn-primary"><%= t('actions.add_user') %></button>
             <% end %>
@@ -88,10 +88,7 @@
                         <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !has_role ? '#' : toggle_role_service_user_path(current_service, user, scope: scope), method: :put, class: "btn btn-sm #{!user.has_role?(scope, current_service) ? 'btn-danger disabled' : 'btn-secondary'}" %>
                       </div>
                     <% else %>
-                      <div class="btn-group">
-                        <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, '#', class: "btn btn-sm btn-success disabled" %>
-                        <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, '#', class: "btn btn-sm btn-secondary disabled" %>
-                      </div>
+                      <i class="fa fa-fw fa-check"></i>
                     <% end %>
                   </td>
                 <% end %>
