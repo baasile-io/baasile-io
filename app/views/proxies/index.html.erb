@@ -28,7 +28,11 @@
             <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %>
           </td>
           <td>
-            <%= t("misc.#{proxy.public}") %>
+            <% unless current_service.public %>
+              <i class="fa fa-fw fa-lock"></i> <%= t('misc.service_not_published') %>
+            <% else %>
+              <%= t("misc.#{proxy.public}") %>
+            <% end %>
           </td>
           <td class="text-right">
             <%= link_to t('actions.configure'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>

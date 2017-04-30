@@ -56,6 +56,7 @@ fr:
     role: 'Rôle'
     roles: 'Rôles'
     service_not_activated: "Votre compte Entreprise n'est pas actif"
+    service_not_published: "L'entreprise n'est pas publiée"
     'true': 'Oui'
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'
