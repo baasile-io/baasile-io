@@ -25,16 +25,12 @@
       </div>
     </div>
 
-    <% if @current_status[:allowed_parameters].include?(:code) %>
-      <%= f.input :code, input_html: {class: 'col-sm-3'} %>
-    <% end %>
-
     <% if @current_status[:allowed_parameters].include?(:name) %>
       <%= f.input :name %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:contract_duration_type) %>
-      <%= f.input :contract_duration_type, collection: format_contract_duration_types_for_select, input_html: {class: 'col-sm-3'}, include_blank: false %>
+    <% if @current_status[:allowed_parameters].include?(:code) %>
+      <%= f.input :code, input_html: {class: 'col-sm-3'} %>
     <% end %>
 
     <% if @current_status[:allowed_parameters].include?(:expected_start_date) %>
@@ -45,12 +41,12 @@
       <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:expected_contract_duration) %>
-      <%= f.input :expected_contract_duration, as: :integer, input_html: {class: 'col-sm-3'}, hint: t('.hints.expected_contract_duration') %>
-    <% end %>
-
     <% if @current_status[:allowed_parameters].include?(:is_evergreen) %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
+    <% end %>
+
+    <% if @current_status[:allowed_parameters].include?(:expected_free_count) %>
+      <%= f.input :expected_free_count, as: :string, input_html: {class: 'col-sm-2'}, hint: t('.hints.expected_free_count') %>
     <% end %>
 
     <%= f.simple_fields_for @new_comment do |f2| %>

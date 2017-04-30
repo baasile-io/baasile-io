@@ -21,11 +21,13 @@ en:
     contractualize: 'Contractualize'
     create_client: "Create Client account"
     create_startup: "Create Service Provider account"
+    create_price_template: 'Create pricing template'
     deactivate: 'Deactivate'
     destroy: 'Delete'
     disassociate: 'Remove association'
     edit: 'Edit'
     edit_account: 'Edit account'
+    edit_contract: 'Edit contract'
     edit_price: 'Edit pricing'
     edit_service: 'Edit Enterprise account'
     edit_user: 'Edit User account'
@@ -34,6 +36,7 @@ en:
     new: 'New'
     next_step: 'Validate'
     open: 'Ouvrir'
+    print_consumption: 'Print current consumption'
     closed_ticket: 'Closed tikets'
     reject: 'Reject'
     reopen: 'Reopen'

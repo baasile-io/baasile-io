@@ -38,8 +38,13 @@ class PricesController < ApplicationController
     @price.assign_attributes(price_params)
     if @price.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.price'))
+      if params[:price][:from_contract].present?
+        return redirect_to (params[:price][:from_service].present? ? service_contract_prices_path(service_id: params[:price][:from_service], contract_id: params[:price][:from_contract]) : contract_prices_path(contract_id: params[:price][:from_contract]))
+      end
       redirect_to_show
     else
+      params[:from_contract] = params[:price][:from_contract]
+      params[:from_service] = params[:price][:from_service]
       @form_values = get_form_values
       render :new
     end
@@ -93,8 +98,8 @@ class PricesController < ApplicationController
 
   def redirect_to_show
     return redirect_to service_proxy_price_path(current_service, current_proxy, @price) if @contract.nil?
-    return redirect_to prices_service_contract_path(current_service, @contract) unless @service.nil?
-    return redirect_to prices_contract_path(@contract)
+    return redirect_to service_contract_path(current_service, @contract) unless @service.nil?
+    return redirect_to contract_path(@contract)
   end
 
   def load_service

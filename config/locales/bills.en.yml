@@ -1,0 +1,16 @@
+en:
+  bills:
+    invoice_attributes:
+      unit_cost: 'UP'
+      unit_num: 'Qty'
+      total_cost: 'Total'
+      total_cost_including_vat: 'Total (incl. VAT)'
+      vat_rate: 'VAT rate'
+    invoice_titles:
+      client: 'Client'
+      contract_title: 'Contract #%{contract_id}'
+      pdf_title: 'Consumption / %{month} %{year}'
+      platform_contribution: "Platform contribution (%{platform_contribution_rate}%)"
+      startup: 'Supplier'
+      subtotal: 'Subtotal'
+      total: 'Total (Euro)'

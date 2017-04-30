@@ -14,6 +14,7 @@ fr:
     captcha_hint: 'Veuillez recopier le code de vérification.'
     closed_tickets: 'Tickets fermés'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
+    current_month_consumption: 'Consommation sur le mois en cours (%{month})'
     dashboard: 'Tableau de bord'
     day:
       one: 'jour'
@@ -42,6 +43,7 @@ fr:
     need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
     no_available_proxies: "Aucun produit n'est disponible"
+    no_price_template: "Aucun modèle de tarification n'est disponible pour ce produit."
     none: 'Aucun'
     none_feminized: 'Aucune'
     not_active: 'Compte désactivé'

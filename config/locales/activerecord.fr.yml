@@ -34,10 +34,10 @@ fr:
         company: 'Aggrétateur'
         company_id: 'Aggrétateur'
         contract_duration: 'Durée du contrat'
-        contract_duration_type: 'Type de durée'
         end_date: 'Date de fin'
         expected_contract_duration: 'Durée du contrat souhaitée'
-        expected_end_date: 'Date de fin souhaitée'
+        expected_end_date: 'Date de fin souhaitée (non incluse)'
+        expected_free_count: 'Quantité souhaitée'
         expected_start_date: 'Date de début souhaitée'
         is_evergreen: 'Reconduction automatique'
         name: 'Intitulé'
@@ -76,7 +76,7 @@ fr:
         deny_after_free_count: "Bloquer les requêtes au delà de la limite"
         free_count: "Unités incluses"
         free_hour: 'Free using hours'
-        name: 'Nom du tarif'
+        name: 'Nom du modèle'
         pricing_duration_type: 'Option de tarification'
         pricing_type: 'Type de tarification'
         price_parameters: 'Critère de tarification'

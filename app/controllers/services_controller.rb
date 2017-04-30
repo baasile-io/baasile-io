@@ -122,7 +122,7 @@ class ServicesController < ApplicationController
   def activation_request
     if @service.confirmed_at.nil?
       ticket = Ticket.new
-      ticket_service = Tickets::TicketService.new(ticket)
+      ticket_service = Tickets::TicketService.new(ticket, current_user)
       if ticket_service.send_activation_request(current_user, @service)
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
       else

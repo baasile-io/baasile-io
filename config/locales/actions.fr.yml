@@ -21,11 +21,13 @@ fr:
     close: 'Fermer'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
+    create_price_template: 'Créer un modèle de tarification'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
+    edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
     edit_service: 'Modifier le compte Entreprise'
     edit_user: 'Modifier le compte Utilisateur'
@@ -34,6 +36,7 @@ fr:
     new: 'Créer'
     next_step: "Valider"
     open: 'Open'
+    print_consumption: 'Imprimer la consommation en cours'
     reject: 'Rejeter'
     reopen: 'Réouvrir'
     resend_confirmation_instructions: 'Renvoyer les instructions de confirmation par E-Mail'

@@ -4,16 +4,20 @@
 <div class="<%= 'alert alert-danger' if comment.deleted %>">
   <div class="row">
     <div class="<%= mode == :row ? 'col-3 text-right' : 'col-12' %>">
-      <i class="fa fa-fw fa-user"></i> <%= comment.user %><br />
-      <small class="text-muted"><%= l(comment.created_at, format: :short) %></small>
+      <strong><i class="fa fa-fw fa-user"></i> <%= comment.user %></strong><br />
+      <%= comment.user.email %><br />
+      <%= comment.user.phone %>
     </div>
-    <div class="<%= mode == :row ? 'col-9' : 'col-12' %>">
+    <div class="<%= mode == :row ? 'col-6' : 'col-12' %>">
       <% if comment.deleted %>
         <span class="badge badge-danger pull-right"><%= t('misc.destroyed') %></span>
       <% end %>
       <div class="trix-content">
         <%= comment.body.html_safe %>
       </div>
+    </div>
+    <div class="<%= mode == :row ? 'col-3 text-right' : 'col-12' %>">
+      <small class="text-muted"><%= l(comment.created_at, format: :short) %></small>
     </div>
   </div>
 </div>

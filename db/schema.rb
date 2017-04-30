@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430095423) do
+ActiveRecord::Schema.define(version: 20170430191935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20170430095423) do
     t.integer  "general_condition_id"
     t.integer  "general_condition_validated_client_user_id"
     t.datetime "general_condition_validated_client_datetime"
-    t.integer  "contract_duration_type",                      default: 0
+    t.integer  "expected_free_count"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 

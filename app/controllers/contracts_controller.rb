@@ -19,9 +19,9 @@ class ContractsController < ApplicationController
 
   def index
     unless current_service.nil?
-      @collection = Contract.associated_service(current_service).order(status: :asc)
+      @collection = Contract.associated_services(current_service).order(status: :asc)
     else
-      @collection = Contract.associated_user(current_user).order(status: :asc)
+      @collection = Contract.associated_users(current_user).order(status: :asc)
     end
   end
 
@@ -85,7 +85,13 @@ class ContractsController < ApplicationController
   end
 
   def show
-    @current_month_consumption = BillingService.new.calculate(current_contract, Date.today)
+    #begin
+      if current_contract.status.to_sym == :validation_production
+        @current_month_consumption = BillingService.new.calculate(current_contract, Date.today)
+      end
+    #rescue
+    #  nil
+    #end
   end
 
   def print_current_month_consumption

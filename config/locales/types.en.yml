@@ -3,13 +3,6 @@ en:
     authorization_modes:
       'null': 'No authentication required'
       oauth2: 'OAuth 2.0 client credentials grant'
-    contract_duration_types:
-      custom:
-        title: 'Custom'
-      monthly:
-        title: 'Monthly'
-      yearly:
-        title: 'Yearly'
     documentation_types:
       article:
         icon: 'fa fa-fw fa-file'
@@ -139,12 +132,19 @@ en:
         icon: 'fa fa-fw fa-check text-success'
         reject_label: 'Renegociate contract'
         title: 'Validated (test phase)'
-        validate_label: 'Launch production phase'
+        validate_label: 'Terminate test phase'
       validation_production:
         class: 'text-success'
         description: "Contract is validated. The production phase has started"
         icon: 'fa fa-fw fa-check text-success'
         title: 'Validated (production phase)'
+      waiting_for_production:
+        class: 'text-info'
+        description: "Contract is validated. The test phase is terminated, waiting for production phase."
+        icon: 'fa fa-fw fa-check text-info'
+        reject_label: 'Reopen test phase'
+        title: 'Validated (waiting for production)'
+        validate_label: 'Launch production phase'
     contract_unset_status:
       creation: 'Delete'
       commercial_validation_sp: 'Reject startup'

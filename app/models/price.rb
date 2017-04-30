@@ -1,9 +1,9 @@
 class Price < ApplicationRecord
 
   PRICING_DURATION_TYPES = {
-    prepaid: { index: 0 },
-    monthly: { index: 1 },
-    yearly:  { index: 2 }
+    monthly: { index: 0 },
+    yearly:  { index: 1 },
+    prepaid: { index: 2 }
   }
   PRICING_DURATION_TYPES_ENUM = PRICING_DURATION_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum pricing_duration_type: PRICING_DURATION_TYPES_ENUM
@@ -41,6 +41,7 @@ class Price < ApplicationRecord
   validates :unit_cost, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :free_count, presence: true, numericality: {greater_than: 0}, if: Proc.new {self.pricing_type.to_sym != :subscription}
   validates :deny_after_free_count, inclusion: {in: [true, false]}, if: Proc.new {self.pricing_type.to_sym != :subscription}
+  validates :pricing_duration_type, inclusion: {in: [:monthly, :yearly]}, if: Proc.new {self.pricing_type.to_sym == :subscription}
   validate :price_options_consistency
 
   scope :owned, ->(user) { where(user: user) }

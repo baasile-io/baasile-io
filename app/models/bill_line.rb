@@ -28,8 +28,8 @@ class BillLine < ApplicationRecord
 
   def calculate_computed_amounts
     if LINE_TYPES[self.line_type.to_sym][:computed_amounts]
-      self.total_cost = self.unit_num * self.unit_cost
-      self.total_cost_including_vat = self.total_cost + (self.total_cost * self.vat_rate / 100.0)
+      self.total_cost = self.unit_num * self.unit_cost.round(2)
+      self.total_cost_including_vat = (self.total_cost + (self.total_cost * self.vat_rate / 100.0)).round(2)
     end
   end
 end

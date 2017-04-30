@@ -28,7 +28,7 @@ class Proxy < ApplicationRecord
   validates :proxy_parameter_test, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
-  scope :associated_service, ->(service) { where(service: service) }
+  scope :associated_services, ->(service) { where(service: service) }
   scope :published, -> { where(public: true) }
 
   def service_proxy_name

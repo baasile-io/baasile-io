@@ -40,21 +40,14 @@
       </div>
     </div>
 
+    <% if @ticket.ticket_status.to_sym != :closed %>
+      <hr />
+      <%= render partial: 'form' %>
+  <% end %>
+
     <%= render partial: 'comments/list', locals: {comments: @comments} %>
 
   </div>
 </div>
-
-<% if @ticket.ticket_status.to_sym != :closed %>
-
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-
-      <%= render partial: 'comments/form', locals: {object: @new_comment} %>
-
-    </div>
-  </div>
-
-<% end %>
 
 <%= render partial: 'shared/versions', locals: {objects: [@ticket] + @comments} %>

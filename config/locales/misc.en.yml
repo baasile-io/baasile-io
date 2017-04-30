@@ -14,6 +14,7 @@ en:
     captcha_hint: 'Please copy the verification code.'
     closed_tickets: 'Closed tickets'
     correct_errors: 'Correct the following errors and try again:'
+    current_month_consumption: 'Current month consumption (%{month})'
     dashboard: 'Dashboard'
     day:
       one: 'day'
@@ -42,6 +43,7 @@ en:
     next_step: 'Next step'
     no: 'Non'
     no_available_proxies: 'No available products'
+    no_price_template: 'No pricing template is available on this product.'
     none: 'None'
     none_feminized: 'None'
     not_active: 'Deactivated account'

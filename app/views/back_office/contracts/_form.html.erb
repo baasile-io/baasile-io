@@ -21,7 +21,6 @@
       <%= f.input :name %>
       <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
       <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
-      <%= f.input :contract_duration_type, collection: format_contract_duration_types_for_select, input_html: {class: 'col-sm-3'}, include_blank: false %>
       <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
       <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>

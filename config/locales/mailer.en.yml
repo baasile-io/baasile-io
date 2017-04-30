@@ -1,5 +1,10 @@
 en:
   mailer:
+    contract_notifier:
+      send_rejected_status_notification:
+        subject: "Your contract get a modification \"%{status}\""
+      send_validated_status_notification:
+        subject: "Your contract has just passed the status \"%{status}\""
     service_notifier:
       send_validation:
         subject: 'Your enterprise has been activated'
@@ -7,16 +12,11 @@ en:
     shared:
       hello: 'Hello!'
       best_regard: 'Best regard.'
+    ticket_notifier:
+      send_ticket_notification:
+        subject: "ticket \"%{ticket_name}\" %{action} with status: \"%{status}\""
     user_notifier:
       send_reset_password:
         subject: 'Reset your password'
       send_welcome_email:
         subject: 'Welcome'
-    ticket_notifier:
-      send_ticket_notification:
-        subject: "ticket \"%{ticket_name}\" %{action} with status: \"%{status}\""
-    contract_notifier:
-      send_rejected_status_notification:
-        subject: "Your contract get a modification \"%{status}\""
-      send_validated_status_notification:
-        subject: "Your contract has just passed the status \"%{status}\""
