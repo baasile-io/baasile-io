@@ -52,7 +52,7 @@ class Service < ApplicationRecord
 
   validates :website, url: true, allow_blank: true
 
-  validates :subdomain, presence: true, if: :confirmed_at?
+  validates :subdomain, presence: true
   validates :subdomain, uniqueness: true, subdomain: true, length: {minimum: 2, maximum: 35}, if: Proc.new { subdomain.present? }
   validate :subdomain_changed_disallowed
 

@@ -55,3 +55,8 @@ en:
       price_parameter:
         deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'
         undefined_cost_and_free_count: 'You must at least specify one value (number of authorized requests or unit price).'
+    proxies:
+      detroyed_linked_to_contract: "The proxy can't be destroy, because it is linked to a contract"
+    services:
+      detroyed_linked_product_to_contract: "The service can't be destroy, because one of its product is linked to a contract"
+      detroyed_linked_to_contract: "The service can't be destroy, because it is linked to a contract"

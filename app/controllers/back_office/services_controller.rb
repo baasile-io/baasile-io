@@ -19,7 +19,7 @@ module BackOffice
     end
 
     def show
-      redirect_to edit_back_office_service_path(@service)
+      redirect_to_edit
     end
 
     def create
@@ -32,7 +32,7 @@ module BackOffice
       end
       if @service.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
-        redirect_to back_office_services_path
+        redirect_to_index
       else
         render :new
       end
@@ -50,17 +50,27 @@ module BackOffice
       if @service.save
         @service.reset_identifiers if params[:reset_identifiers]
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
-        redirect_to back_office_services_path
+        redirect_to_index
       else
         render :edit
       end
     end
 
     def destroy
+      if @service.contracts.count > 0
+        flash[:error] = I18n.t('errors.services.detroyed_linked_to_contract', resource: t('activerecord.models.service'))
+        return redirect_to_index
+      end
+      @service.proxies.each do |proxy|
+        if proxy.contracts.count > 0
+          flash[:error] = I18n.t('errors.services.detroyed_linked_product_to_contract', resource: t('activerecord.models.service'))
+          return redirect_to_index
+        end
+      end
       if @service.destroy
         flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.service'))
       end
-      redirect_to back_office_services_path
+      redirect_to_index
     end
 
     def edit
@@ -69,6 +79,14 @@ module BackOffice
     end
 
     private
+
+    def redirect_to_index
+      redirect_to back_office_services_path
+    end
+
+    def redirect_to_edit
+      redirect_to edit_back_office_service_path(@service)
+    end
 
     def load_service
       @service = Service.find(params[:id])

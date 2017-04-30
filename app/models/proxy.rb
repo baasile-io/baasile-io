@@ -6,19 +6,18 @@ class Proxy < ApplicationRecord
   # Versioning
   has_paper_trail
 
-  belongs_to :service
-  belongs_to :user
-  belongs_to :category
+  belongs_to  :service
+  belongs_to  :user
+  belongs_to  :category
+  belongs_to  :proxy_parameter
+  belongs_to  :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
 
-  belongs_to :proxy_parameter
-  belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
-  has_many :routes
-  has_many :prices
-  has_one :identifier, as: :identifiable, through: :proxy_parameter
-  has_many :query_parameters, through: :routes
-  has_many  :contracts
-
-  has_many :error_measurements, through: :contracts
+  has_many    :routes
+  has_many    :prices
+  has_one     :identifier, as: :identifiable, through: :proxy_parameter
+  has_many    :query_parameters, through: :routes
+  has_many    :contracts
+  has_many    :error_measurements, through: :contracts
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test

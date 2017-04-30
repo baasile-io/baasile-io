@@ -15,7 +15,7 @@ class ProxiesController < DashboardController
   def index
     @collection = current_service.proxies.authorized(current_user)
     if @collection.size == 0
-      redirect_to new_service_proxy_path
+      redirect_to_new
     end
   end
 
@@ -45,7 +45,7 @@ class ProxiesController < DashboardController
 
     if @proxy.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.proxy'))
-      redirect_to service_proxy_path(current_service, @proxy)
+      redirect_to_show
     else
       @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
       @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
@@ -76,7 +76,7 @@ class ProxiesController < DashboardController
 
     if @proxy.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy'))
-      redirect_to service_proxy_path(current_service, @proxy)
+      redirect_to_show
     else
       @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
       @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
@@ -92,12 +92,29 @@ class ProxiesController < DashboardController
   end
 
   def destroy
-    if @proxy.destroy
+    if @proxy.contracts.count > 0
+      flash[:error] = I18n.t('errors.proxies.detroyed_linked_to_contract', resource: t('activerecord.models.proxy'))
+      render :show
+    elsif @proxy.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.proxy'))
-      redirect_to service_proxies_path(current_service)
+      redirect_to_index
     else
       render :show
     end
+  end
+
+  private
+
+  def redirect_to_new
+    redirect_to new_service_proxy_path(current_service)
+  end
+
+  def redirect_to_index
+    redirect_to service_proxies_path(current_service)
+  end
+
+  def redirect_to_show
+    redirect_to service_proxy_path(current_service, @proxy)
   end
 
   def proxy_params
