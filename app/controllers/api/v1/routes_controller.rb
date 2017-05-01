@@ -20,7 +20,7 @@ module Api
           @proxy_response = proxy_request
           render status: @proxy_response.code, plain: @proxy_response.body
       rescue ProxyInitializationError
-        do_request_error_measure(:ProxyInitializationError, @proxy_response)
+        do_request_error_measure(:proxyInitializationError, @proxy_response)
         render status: :bad_gateway, json: {
           errors: [{
             status: 591,
@@ -29,15 +29,15 @@ module Api
         }
       rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
         if e.code >= 500
-          do_request_error_measure(:ProxyRequestError, @proxy_response)
+          do_request_error_measure(:proxyRequestError, @proxy_response)
           status = 595
           title = 'The origin server cannot or will not process the request due to an apparent internal error'
         elsif e.code >= 400
-          do_request_error_measure(:ProxyAuthenticationError, @proxy_response)
+          do_request_error_measure(:proxyAuthenticationError, @proxy_response)
           status = 594
           title = 'The origin server cannot or will not process the request due to an apparent client error'
         else
-          do_request_error_measure(:ProxyRedirectionError, @proxy_response)
+          do_request_error_measure(:proxyRedirectionError, @proxy_response)
           status = 593
           title = 'The origin server cannot or will not process the request due to an apparent redirection error'
         end
@@ -79,7 +79,7 @@ module Api
           }
         end
       rescue ProxyMissingMandatoryQueryParameterError => e
-        do_request_error_measure(:ProxyMissingMandatoryQueryParameterError, @proxy_response, "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\"")
+        do_request_error_measure(:proxyMissingMandatoryQueryParameterError, @proxy_response, "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\"")
         return render status: 400, json: {
           errors: [{
                      status: 400,

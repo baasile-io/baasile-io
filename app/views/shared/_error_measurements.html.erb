@@ -21,10 +21,10 @@
       <% collection.each do |error_measurement| %>
           <tr>
             <td>
-              <%= ErrorMeasurement::ERROR_TYPE[error_measurement.error_type.to_sym][:title] %>
+              <%= t("errors.#{error_measurement.error_type.to_sym}.title")%>
               <br/><small class="text-muted"><%=  %></small>
             <td>
-              <%= ErrorMeasurement::ERROR_TYPE[error_measurement.error_type.to_sym][:message] %><br/>
+              <%= t("errors.#{error_measurement.error_type.to_sym}.message") %><br/>
               <small class="text-muted"> <%= error_measurement.request %></small>
             </td>
             <td>

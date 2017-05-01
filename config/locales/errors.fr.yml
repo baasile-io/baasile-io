@@ -36,19 +36,19 @@ fr:
       price_parameter:
         deny_after_free_count_validity: 'Si vous paramétrez le déni de service, vous devez spécifier un minimum de requêtes autorisées et supprimer le prix unitaire.'
         undefined_cost_and_free_count: 'Vous devez renseigner au moins une valeur (Prix unitaire ou nombre de requêtes autorisées).'
-    ProxyInitializationError:
+    proxyInitializationError:
       message: "Le serveur ne peut pas traiter la requête en raison d'une erreur de configuration"
       title: 'Bad gateway'
-    ProxyAuthenticationError:
+    proxyAuthenticationError:
       message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur apparente du client"
       title: 'Authentication error'
-    ProxyRedirectionError:
+    proxyRedirectionError:
       message: "Le serveur d'origine ne peut pas ou ne traitera pas cette requête en raison d'une erreur de redirection apparente"
       title: 'Redirection error'
-    ProxyRequestError:
+    proxyRequestError:
       message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur interne apparente"
       title: 'Request error'
-    ProxyMissingMandatoryQueryParameterError:
+    proxyMissingMandatoryQueryParameterError:
       message: "Le serveur ne peut pas traiter la requête en raison d'un paramètre obligatoire manquant"
       title: 'Missing mandatory parameter'
 

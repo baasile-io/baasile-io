@@ -1,35 +1,25 @@
 class ErrorMeasurement < ApplicationRecord
 
-  ERROR_TYPE = {
-      ProxyInitializationError: {
-          index: 1,
-          title: I18n.t("errors.ProxyInitializationError.title"),
-          message: I18n.t("errors.ProxyInitializationError.message"),
+  ERROR_TYPES = {
+      proxyInitializationError: {
+          index: 1
       },
-      ProxyAuthenticationError: {
-          index: 2,
-          title: I18n.t("errors.ProxyAuthenticationError.title"),
-          message: I18n.t("errors.ProxyAuthenticationError.message"),
+      proxyAuthenticationError: {
+          index: 2
       },
-      ProxyRedirectionError: {
-          index: 3,
-          title: I18n.t("errors.ProxyRedirectionError.title"),
-          message: I18n.t("errors.ProxyRedirectionError.message"),
+      proxyRedirectionError: {
+          index: 3
       },
-      ProxyRequestError: {
-          index: 4,
-          title: I18n.t("errors.ProxyRequestError.title"),
-          message: I18n.t("errors.ProxyRequestError.message"),
+      proxyRequestError: {
+          index: 4
       },
-      ProxyMissingMandatoryQueryParameterError: {
-          index: 5,
-          title: I18n.t("errors.ProxyMissingMandatoryQueryParameterError.title"),
-          message: I18n.t("errors.ProxyMissingMandatoryQueryParameterError.message"),
+      proxyMissingMandatoryQueryParameterError: {
+          index: 5
       }
   }
 
-  ERROR_TYPE_ENUM = ERROR_TYPE.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
-  enum error_type: ERROR_TYPE_ENUM
+  ERROR_TYPES_ENUM = ERROR_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
+  enum error_type: ERROR_TYPES_ENUM
 
   belongs_to  :contract
   belongs_to  :route
