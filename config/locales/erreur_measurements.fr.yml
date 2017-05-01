@@ -1,0 +1,8 @@
+en:
+  erreur_measurements:
+    error_types:
+      title: "Type d'erreur"
+      message: "Message d'erreur"
+    title: 'List des erreurs'
+    created_at: 'Date'
+    request: 'Requète effectué'

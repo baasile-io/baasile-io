@@ -1,0 +1,44 @@
+<% if collection.size == 0 %>
+    <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+    <table class="table table-hover table-sm table-link">
+      <thead>
+      <tr>
+        <th><%= t('erreur_measurements.error_types.title') %></th>
+        <th><%= t("erreur_measurements.error_types.message") %></th>
+        <th>
+          <%= t("erreur_measurements.created_at") %>
+        </th>
+        <th><small class="text-muted"><%= t("activerecord.attributes.contract.client") %></small>
+          <%= t("activerecord.attributes.contract.startup") %></th>
+      </tr>
+      <tr>
+        <th><%= t('erreur_measurements.request') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% collection.each do |erreur_measure| %>
+          <tr>
+            <td>
+              <%= ErreurMeasurement::ERROR_TYPE[erreur_measure.error_type][:title] %>
+            </td>
+            <td>
+              <%= ErreurMeasurement::ERROR_TYPE[erreur_measure.error_type][:message] %>
+            </td>
+            <td>
+              <%= l(erreur_measure.created_at, format: :short) %>
+            </td>
+            <td>
+              <small class="text-muted"><%= erreur_measure.client.name %></small>
+              <%= erreur_measure.startup.name %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= erreur_measure.request %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>
