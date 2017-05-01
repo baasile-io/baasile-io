@@ -36,7 +36,7 @@
       <div class="b-io-menu">
         <div class="b-io-menu--secondary">
           <div class="list-group">
-            <%= link_to t('misc.back_office'), back_office_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office'}" %>
+            <%= link_to t('misc.back_office'), back_office_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'index' }" %>
           </div>
           <div class="list-group">
             <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
@@ -61,6 +61,9 @@
           </div>
           <div class="list-group">
             <%= link_to t('activerecord.models.appconfig'), back_office_appconfigs_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'appconfigs'}" %>
+          </div>
+          <div class="list-group">
+            <%= link_to t('error_measurements.title'), back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'error_measurements' }" %>
           </div>
         </div>
       </div>

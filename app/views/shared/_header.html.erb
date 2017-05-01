@@ -42,6 +42,11 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if !current_contract.nil? || controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
             </li>
+            <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_path(current_service) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -122,6 +127,11 @@
               <li class="nav-item">
                 <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) %>" href="<%= service_proxy_prices_path(current_service, current_proxy) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
               </li>
+              <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if controller_name == 'proxies' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+                  </li>
+              <% end %>
             </ul>
           </div>
         </div>
@@ -267,6 +277,11 @@
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= comments_contract_path(current_contract) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
                 </li>
+              <% end %>
+              <% if current_contract.can?(current_user, :error_measurements) %>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if controller_name == 'proxies' && action_name == 'error_measurements' %>" href="<%= error_measurements_contract_path(current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+                  </li>
               <% end %>
             </ul>
           </div>

@@ -1,0 +1,11 @@
+<% content_for(:page_title) { t('error_measurements.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <h4><%= t('error_measurements.title') %></h4>
+
+      <%= render partial: 'shared/error_measurements', locals: {collection: @contract.error_measurements} %>
+
+  </div>
+</div>

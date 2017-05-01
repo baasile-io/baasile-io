@@ -34,9 +34,9 @@ class ErrorMeasurement < ApplicationRecord
   belongs_to  :contract
   belongs_to  :route
 
-  has_one     :startup    , throught: :contract
-  has_one     :client     , throught: :contract
-  has_one     :proxy      , throught: :contract
+  has_one :startup, through: :contract
+  has_one :client, through: :contract
+  has_one :proxy, through: :contract
 
   validates   :error_type , presence: true
   validates   :request    , presence: true

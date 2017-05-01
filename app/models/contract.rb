@@ -172,6 +172,10 @@ class Contract < ApplicationRecord
         general_condition: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        error_measurements: {
+            client: ['admin'],
+            startup: ['admin']
         }
       },
       show_error: {
@@ -202,6 +206,10 @@ class Contract < ApplicationRecord
         general_condition: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        error_measurements: {
+            client: ['admin'],
+            startup: ['admin']
         }
       },
       show_error: {},

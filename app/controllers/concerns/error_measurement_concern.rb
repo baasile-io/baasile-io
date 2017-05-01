@@ -1,4 +1,4 @@
-module ErreurMeasurementConcern
+module ErrorMeasurementConcern
   extend ActiveSupport::Concern
 
   included do
@@ -6,8 +6,8 @@ module ErreurMeasurementConcern
 
   private
 
-  def do_request_Error_measure(error_type, request, message = nil)
-    ErreurMeasurement.transaction do
+  def do_request_error_measure(error_type, request, message = nil)
+    ErrorMeasurement.transaction do
       create_error_measure(error_type, request, message)
     end
     true
@@ -17,6 +17,6 @@ module ErreurMeasurementConcern
 
 
   def create_error_measure(error_type, request, message = nil)
-    measure = ErreurMeasurement.create!(contract: current_contract, route: current_route, error_type: error_type, request: request, message: message)
+    measure = ErrorMeasurement.create!(contract: current_contract, route: current_route, error_type: error_type, request: request, message: message)
   end
 end
