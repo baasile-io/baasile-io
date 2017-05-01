@@ -12,7 +12,7 @@
         <th>
           <%= t("error_measurements.created_at") %>
         </th>
-        <th><%= t("activerecord.attributes.contract.startup") %><br/>
+        <th><%= t("activerecord.attributes.contract.startup") + " / " %> <small class="text-muted"><%= t("activerecord.attributes.contract.proxy") %></small><br/>
           <small class="text-muted"><%= t("activerecord.attributes.contract.client") %></small>
           </th>
       </tr>
@@ -25,13 +25,16 @@
               <br/><small class="text-muted"><%=  %></small>
             <td>
               <%= t("errors.#{error_measurement.error_type.to_sym}.message") %><br/>
+              <% unless error_measurement.message.blank? %>
+                  <%= ", " + error_measurement.message %><br/>
+              <% end %>
               <small class="text-muted"> <%= error_measurement.request %></small>
             </td>
             <td>
               <%= l(error_measurement.created_at, format: :short) %>
             </td>
             <td>
-              <%= error_measurement.startup.name %><br/>
+              <%= error_measurement.startup.name + " / "%><small class="text-muted"><%= error_measurement.proxy.name %></small><br/>
               <small class="text-muted"><%= error_measurement.client.name %></small>
             </td>
           </tr>

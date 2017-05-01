@@ -36,19 +36,19 @@ en:
       price_parameter:
         deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'
         undefined_cost_and_free_count: 'You must at least specify one value (number of authorized requests or unit price).'
-    ProxyInitializationError:
+    proxy_initialization_error:
       message: 'The server cannot process the request due to a configuration error'
       title: 'Bad gateway'
-    ProxyAuthenticationError:
+    proxy_authentication_error:
       message: 'The origin server cannot or will not process the request due to an apparent client error'
       title: 'Authentication error'
-    ProxyRedirectionError:
+    proxy_redirection_error:
       message: 'The origin server cannot or will not process the request due to an apparent redirection error'
       title: 'Redirection error'
-    ProxyRequestError:
+    proxy_request_error:
       message: 'The origin server cannot or will not process the request due to an apparent internal error'
       title: 'Request error'
-    ProxyMissingMandatoryQueryParameterError:
+    proxy_missing_mandatory_quer_parameter_error:
       message: 'The server cannot process the request due to a missing mandatory parameter'
       title: 'Missing mandatory parameter'
 

@@ -1,19 +1,19 @@
 class ErrorMeasurement < ApplicationRecord
 
   ERROR_TYPES = {
-      proxyInitializationError: {
+      proxy_initialization_error: {
           index: 1
       },
-      proxyAuthenticationError: {
+      proxy_authentication_error: {
           index: 2
       },
-      proxyRedirectionError: {
+      proxy_redirection_error: {
           index: 3
       },
-      proxyRequestError: {
+      proxy_request_error: {
           index: 4
       },
-      proxyMissingMandatoryQueryParameterError: {
+      proxy_missing_mandatory_quer_parameter_error: {
           index: 5
       }
   }
