@@ -33,7 +33,7 @@ en:
     locales:
       en: 'English'
       fr: 'French'
-    logotype: 'Company logo'
+    logotype: 'Logotype'
     month:
       one: 'month'
       other: 'months'

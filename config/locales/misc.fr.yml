@@ -33,7 +33,7 @@ fr:
     locales:
       en: 'Anglais'
       fr: 'Français'
-    logotype: "Logo de l'entreprise"
+    logotype: "Logo"
     month:
       one: 'mois'
       other: 'mois'

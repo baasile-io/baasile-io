@@ -143,7 +143,6 @@ class Service < ApplicationRecord
   end
 
   def reset_identifiers
-    self.generate_client_id!
     self.generate_client_secret!
     self.save!
   end

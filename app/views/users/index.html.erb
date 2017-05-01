@@ -1,13 +1,17 @@
-<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_title) {
+  if current_service.nil?
+    t('misc.my_users')
+  else
+    t('.title')
+  end
+} %>
 
 <% unless current_service.nil? %>
   <% if current_user.is_admin_of?(current_service) %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_service_user_path(current_service), class: 'btn btn-primary' } %>
+    <% content_for(:page_controls) { link_to t('actions.create_user'), new_service_user_path(current_service), class: 'btn btn-primary' } %>
   <% end %>
 <% else %>
-  <% if current_user.is_admin? %>
-    <% content_for(:page_controls) { link_to t('actions.new'), new_user_path, class: 'btn btn-primary' } %>
-  <% end %>
+  <% content_for(:page_controls) { link_to t('actions.create_user'), new_user_path, class: 'btn btn-primary' } %>
 <% end %>
 
 <div class="b-io-content--secondary">
@@ -67,7 +71,8 @@
             <td>
               <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-2x fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i></span>".html_safe if user.confirmed_at.nil? || !user.is_active %>
               <strong><%= user.full_name %></strong><br />
-              <small class="text-muted"> <%= user.email %></small>
+              <small class="text-muted"> <%= user.email %></small><br />
+              <small class="text-muted"> <%= user.phone %></small>&nbsp;
             </td>
             <td>
               <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small>
@@ -112,6 +117,22 @@
         <% end %>
         </tbody>
       </table>
+
+      <% if current_service %>
+        <h3><%= t('misc.roles') %></h3>
+        <table class="table table-sm">
+          <tbody>
+          <% Role::USER_ROLES.each do |scope| %>
+            <tr>
+              <td>
+                <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />
+                <small class="text-muted"><%= t("roles.#{scope}.description_service_role") %></small>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
     <% end %>
 
   </div>

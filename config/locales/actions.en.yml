@@ -22,6 +22,9 @@ en:
     create_client: "Create Client account"
     create_startup: "Create Service Provider account"
     create_price_template: 'Create pricing template'
+    create_proxy: 'Create a product'
+    create_service: 'Create an Enteprise account'
+    create_user: 'Create user account'
     deactivate: 'Deactivate'
     destroy: 'Delete'
     disassociate: 'Remove association'

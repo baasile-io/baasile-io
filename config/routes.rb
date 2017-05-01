@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   captcha_route
 
-
   namespace :api do
     scope "/oauth" do
       post 'token' => 'authentication#authenticate'
@@ -42,6 +41,8 @@ Rails.application.routes.draw do
   authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
+  get '/robots.txt' => 'pages#robots'
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 

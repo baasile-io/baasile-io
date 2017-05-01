@@ -21,11 +21,12 @@
             <div class="col-md-3 text-md-right">
               <h4><%= price_template.name %></h4>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-9">
               <%= render partial: 'prices/show_price_info', locals: {price: price_template} %>
-            </div>
-            <div class="col-md-3">
-              <%= link_to t('actions.select'), url, class: 'btn btn-primary btn-lg btn-block' %>
+              <hr />
+              <div class="text-right">
+                <%= link_to t('actions.select'), url, class: 'btn btn-primary btn-lg ' %>
+              </div>
             </div>
           </div>
         <% end %>

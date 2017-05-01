@@ -9,10 +9,16 @@ en:
         subdomain: "The public identifier forms the base of the URL of the enterprise on the platform. It must contain alphanumeric and minus characters only. Warning: Once your account is activated on the platform, you will not be able to modify its value."
         website: 'Example : "http://www.google.fr"'
       tabs:
+        contact_detail:
+          title: 'Contact details'
+        description:
+          description: "Describing your Enteprise is mandatory for suppliers who wants to publish their product in the catalog."
+          title: 'Description'
         main:
-          contact_detail: 'Contact details'
-          description: 'Description'
           title: 'Main'
+        users:
+          description: "Define the officials of your Enterprise among the associated users of the account."
+          title: 'Official users'
     index:
       title: 'Enterprises'
     new:

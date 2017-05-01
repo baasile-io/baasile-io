@@ -8,8 +8,18 @@
         <strong><%= t('activerecord.attributes.contract.status') %></strong>
       </div>
       <div class="col-9">
-        <strong><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></strong><br />
+        <h5><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></h5><br />
         <small class="text-muted"><%= t("types.contract_statuses.#{@contract.status}.description") %></small>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.client') %></strong>
+      </div>
+      <div class="col-9">
+        <h5><i class="<%= t("types.service_types.#{@contract.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.client.service_type}.class") %>"><%= @contract.client.name %></span></h5>
       </div>
     </div>
 
@@ -19,8 +29,7 @@
         <strong><%= t('activerecord.attributes.contract.startup') %></strong>
       </div>
       <div class="col-9">
-        <strong><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></span></strong><br />
-        <small class="text-muted"><%= simple_format(@contract.startup.description) %></small>
+        <h5><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></span></h5>
       </div>
     </div>
 

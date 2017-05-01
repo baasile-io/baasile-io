@@ -22,6 +22,9 @@ fr:
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
     create_price_template: 'Créer un modèle de tarification'
+    create_proxy: 'Créer un produit'
+    create_service: 'Créer un compte Entreprise'
+    create_user: 'Créer un utilisateur'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
     disassociate: "Supprimer l'association"

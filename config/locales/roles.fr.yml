@@ -1,21 +1,25 @@
 fr:
   roles:
     accountant:
+      description_service_role: 'Un comptable peut voir les contrats et gérer les paiements.'
       description: 'Un comptable peut voir les contrats et gérer les paiements.'
       icon: 'fa fa-fw fa-credit-card'
       title: 'Comptable'
       title_long: 'Comptable'
     admin:
+      description_service_role: 'Un administrateur a les droits de lecture et écriture dans toutes les sections.'
       description: 'Un administrateur peut créer des aggrégateurs, des utilisateurs et administrer des clients.'
       icon: 'fa fa-fw fa-user-circle'
       title: 'Administrateur'
       title_long: 'Administrateur'
     commercial:
+      description_service_role: 'Un commercial a les droits de lecture et écriture sur les contrats.'
       description: 'Un commercial peut créer des contrats pour le compte de ses clients ou startups.'
       icon: 'fa fa-fw fa-handshake-o'
       title: 'Commercial'
       title_long: 'Commercial'
     developer:
+      description_service_role: 'Un technicien peut créer et configurer des APIs.'
       description: 'Un technicien peut créer des startups et configurer leurs APIs.'
       icon: 'fa fa-fw fa-user'
       title: 'Technicien'

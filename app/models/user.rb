@@ -17,7 +17,7 @@ class User < ApplicationRecord
   # Ancestry
   has_ancestry orphan_strategy: :adopt
 
-  has_many :tickets
+  has_many :tickets, dependent: :destroy
   has_many :categories, dependent: :nullify
   has_many :companies, dependent: :nullify
   has_many :services, dependent: :nullify
@@ -28,8 +28,8 @@ class User < ApplicationRecord
   has_many :price_parameters, dependent: :nullify
 
   has_many :user_associations, dependent: :destroy
-  has_many :services, through: :user_associations, source: :associable, source_type: Service.name
-  has_many :companies, through: :user_associations, source: :associable, source_type: Company.name
+  has_many :services, through: :user_associations, source: :associable, source_type: Service.name, dependent: :nullify
+  has_many :companies, through: :user_associations, source: :associable, source_type: Company.name, dependent: :nullify
 
   has_many :services_as_main_commercial, class_name: Service.name, primary_key: 'main_commercial_id', dependent: :nullify
   has_many :services_as_main_accountant, class_name: Service.name, primary_key: 'main_accountant_id', dependent: :nullify

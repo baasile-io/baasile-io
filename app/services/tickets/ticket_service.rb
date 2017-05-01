@@ -3,7 +3,7 @@ module Tickets
     def initialize(ticket, current_user)
       @ticket = ticket
       @user = current_user
-      @old_status = ticket.ticket_status
+      @old_status = ticket.try(:ticket_status)
     end
 
     def open

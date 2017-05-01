@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  skip_before_action :set_locale, only: [:robots]
+
   before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found]
   before_action :load_logotype_service, only: [:service_book, :startup]
 
@@ -20,6 +22,13 @@ class PagesController < ApplicationController
 
   def not_found
     render status: :not_found
+  end
+  
+  def robots
+    robots = File.read(Rails.root + "config/robots.#{Rails.env}.txt")
+    render text: robots,
+           layout: false,
+           content_type: 'text/plain'
   end
 
   def current_module

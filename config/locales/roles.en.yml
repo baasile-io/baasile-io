@@ -1,21 +1,25 @@
 en:
   roles:
     accountant:
+      description_service_role: 'An accountant can see contracts and bills.'
       description: 'An Accountant can see contracts and manage billing.'
       icon: 'fa fa-fw fa-credit-card'
       title: 'Accountant'
       title_long: 'Accountant'
     admin:
+      description_service_role: 'An administrator is allowed to see and write everything.'
       description: 'A Company Administrator can create companies and manage them.'
       icon: 'fa fa-fw fa-user-circle'
       title: 'Administrator'
       title_long: 'Administrator'
     commercial:
+      description_service_role: 'A commercial is allowed to see and write contracts.'
       description: 'A Company Commercial can create contracts and on behalf of his clients.'
       icon: 'fa fa-fw fa-handshake-o'
       title: 'Commercial'
       title_long: 'Commercial'
     developer:
+      description_service_role: 'A technician is allowed to create and configure APIs.'
       description: 'A Technician can create startups and manage their APIs.'
       icon: 'fa fa-fw fa-user'
       title: 'Technician'

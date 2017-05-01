@@ -27,6 +27,7 @@ class ServicesController < ApplicationController
   end
 
   def show
+    @logotype_service = LogotypeService.new
     children = current_service.children
     @clients = children.select {|c| c.service_type == 'client'}
     @startups = children.select {|c| c.service_type == 'startup'}
