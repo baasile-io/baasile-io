@@ -1,0 +1,55 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th colspan="2">Mois</th>
+          <th><%= t('activerecord.models.contract') %></th>
+          <th><%= t('activerecord.attributes.contract.proxy') %></th>
+          <th><%= t('bills.invoice_attributes.total_cost') %></th>
+          <th>Statut</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @collection.each do |bill|
+          link = service_bill_path(current_service, bill)
+        %>
+          <tr data-link="<%= link %>">
+            <td class="width-3">
+              <i class="fa-2x fa-file-text-o fa fa-fw"></i>
+            </td>
+            <td>
+              <%= l(bill.bill_month, format: :month_year) %>
+            </td>
+            <td>
+              <%= bill.contract.name %><br />
+              <small class="text-muted"><%= bill.contract.code %></small>&nbsp;
+            </td>
+            <td>
+              <i class="fa fa-fw fa-server"></i> <%= bill.contract.proxy.name %>
+            </td>
+            <td class="text-right">
+              <%= format_amount bill.total_cost %>
+            </td>
+            <td>
+              <%= bill.paid %>
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.see'), link, class: 'btn btn-secondary' %>
+              <%= link_to t('actions.see_contract'), contract_path(bill.contract), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

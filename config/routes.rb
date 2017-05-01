@@ -115,6 +115,11 @@ Rails.application.routes.draw do
           resources :price_parameters
         end
       end
+      resources :bills do
+        member do
+          get :print
+        end
+      end
       resources :users do
         member do
           put :toggle_role

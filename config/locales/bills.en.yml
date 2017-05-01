@@ -1,5 +1,7 @@
 en:
   bills:
+    index:
+      title: 'Billing'
     invoice_attributes:
       unit_cost: 'UP'
       unit_num: 'Qty'
@@ -14,3 +16,5 @@ en:
       startup: 'Supplier'
       subtotal: 'Subtotal'
       total: 'Total (Euro)'
+    show:
+      title: 'Info'

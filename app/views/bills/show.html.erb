@@ -1,0 +1,11 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'bills/show_consumption', locals: {bill: current_bill} %>
+
+    <%= link_to t('actions.print'), print_service_bill_path(current_service, current_bill), class: 'btn btn-secondary' %>
+
+  </div>
+</div>

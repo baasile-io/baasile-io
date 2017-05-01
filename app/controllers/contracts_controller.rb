@@ -87,7 +87,7 @@ class ContractsController < ApplicationController
   def show
     #begin
       if current_contract.status.to_sym == :validation_production
-        @current_month_consumption = BillingService.new.calculate(current_contract, Date.today)
+        @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).calculate
       end
     #rescue
     #  nil
@@ -95,9 +95,9 @@ class ContractsController < ApplicationController
   end
 
   def print_current_month_consumption
-    billing_service = BillingService.new
-    billing_service.calculate(current_contract, Date.today)
-    pdf_path = billing_service.generate_pdf
+    billing_service = Bills::BillingService.new(current_contract, Date.today)
+    billing_service.calculate
+    pdf_path = Bills::GeneratePdfBillService.new(billing_service.bill).generate_pdf
 
     data = open(pdf_path)
     send_data data.read,

@@ -36,6 +36,7 @@ fr:
     new: 'Créer'
     next_step: "Valider"
     open: 'Open'
+    print: 'Imprimer'
     print_consumption: 'Imprimer la consommation en cours'
     reject: 'Rejeter'
     reopen: 'Réouvrir'
@@ -51,6 +52,7 @@ fr:
     save_in_progress: 'Enregistrement en cours...'
     see: 'Voir'
     see_and_add_comments: 'Voir/ajouter des commentaires'
+    see_contract: 'Voir le contrat'
     see_general_conditions: 'Voir les Conditions Générales'
     see_ticket: 'Voir le ticket'
     select: 'Sélectionner...'

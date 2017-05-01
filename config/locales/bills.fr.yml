@@ -1,5 +1,7 @@
 fr:
   bills:
+    index:
+      title: 'Facturations'
     invoice_attributes:
       unit_cost: 'P.U.'
       unit_num: 'Qté'
@@ -14,3 +16,5 @@ fr:
       startup: 'Fournisseur'
       subtotal: 'Sous-total'
       total: 'Total (Euros)'
+    show:
+      title: 'Détail'

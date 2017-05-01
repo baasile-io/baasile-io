@@ -214,7 +214,11 @@
   </div>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
+
       <%= render partial: 'bills/show_consumption', locals: {bill: @current_month_consumption} %>
+
+      <%= link_to t('actions.print_consumption'), print_current_month_consumption_contract_path(current_contract), class: 'btn btn-secondary' %>
+
     </div>
   </div>
 <% end %>

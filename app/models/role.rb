@@ -66,6 +66,10 @@ class Role < ApplicationRecord
       cancel: [:admin],
       print_current_month_consumption: [:admin, :accountant]
     },
+    bills: {
+      index: [:admin, :accountant],
+      show: [:admin, :accountant]
+    },
     prices: {
       index: [:admin, :commercial],
       show: [:admin, :commercial],

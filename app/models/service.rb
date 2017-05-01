@@ -32,6 +32,7 @@ class Service < ApplicationRecord
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens
+  has_many :bills, through: :contracts
 
   has_many :user_associations, as: :associable
   has_many :users, through: :user_associations

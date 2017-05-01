@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_contract
   helper_method :current_price
   helper_method :current_host
+  helper_method :current_bill
   def set_locale
     I18n.locale = params[:locale]
   end
@@ -67,6 +68,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_price
+    nil
+  end
+
+  def current_bill
     nil
   end
 
