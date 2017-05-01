@@ -30,7 +30,11 @@ class Appconfig < ApplicationRecord
       setting_type: :integer,
       value: 18000
     },
-    platform_contribution_rate: {
+    bill_payment_deadline: {
+      setting_type: :integer,
+      value: 10
+    },
+    bill_platform_contribution_rate: {
       setting_type: :numeric,
       value: 3.0
     },

@@ -20,6 +20,7 @@ fr:
       one: 'jour'
       other: 'jours'
     deactivated_services: 'Entreprises non activées'
+    deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
@@ -51,6 +52,9 @@ fr:
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
     overview: "Vue d'ensemble"
+    paid:
+      'false': "À régler"
+      'true': "Réglé"
     parameters: 'Configuration'
     permissions: 'Permissions'
     pricing: 'Tarification'

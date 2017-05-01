@@ -68,7 +68,8 @@ class Role < ApplicationRecord
     },
     bills: {
       index: [:admin, :accountant],
-      show: [:admin, :accountant]
+      show: [:admin, :accountant],
+      print: [:admin, :accountant]
     },
     prices: {
       index: [:admin, :commercial],

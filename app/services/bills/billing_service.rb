@@ -1,9 +1,9 @@
 module Bills
   class BillingService
-    class ContractNotStarted < StandardError; end
-    class ContractEnded < StandardError; end
-    class MissingPriceProxyClient < StandardError; end
-    class AlreadyBilled < StandardError; end
+    class ContractNotStartedError < StandardError; end
+    class ContractEndedError < StandardError; end
+    class MissingPriceProxyClientError < StandardError; end
+    class InvalidBillRecordError < StandardError; end
 
     def initialize(contract, bill_month)
       @contract = contract
@@ -13,7 +13,7 @@ module Bills
 
     def calculate
       if price.nil? || proxy.nil? || client.nil?
-        raise MissingPriceProxyClient
+        raise MissingPriceProxyClientError
       end
 
       calculate_lines
@@ -141,19 +141,22 @@ module Bills
       # contract has not yet started: today is before contract start
       next_month_start = (contract.start_date >> 1).beginning_of_month
       if contract.start_date >= next_month_start
-        raise ContractNotStarted
+        raise ContractNotStartedError
       end
       if bill_month > contract.end_date
-        raise ContractEnded
+        raise ContractEndedError
       end
 
       bill.due_date = due_date
+      bill.paid = true if total_cost == 0
 
       bill.total_cost = total_cost
       bill.total_cost_including_vat = total_cost_including_vat
       bill.total_vat = total_cost_including_vat - total_cost
 
       bill.save!
+    rescue ActiveRecord::RecordInvalid
+      raise InvalidBillRecordError
     end
 
     def calculate_prorata
@@ -259,7 +262,7 @@ module Bills
     end
 
     def platform_contribution_rate
-      @contribution_rate ||= Appconfig.get(:platform_contribution_rate)
+      @contribution_rate ||= Appconfig.get(:bill_platform_contribution_rate)
     end
 
     def vat_rate

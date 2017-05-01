@@ -18,7 +18,10 @@ en:
     api_proxy_callback_uri_name:
       name: 'Name of callback URI header'
       description: "The name of the callback URI parameter in requests headers given to suppliers, allowing them to build URL through the platform"
-    platform_contribution_rate:
+    bill_payment_deadline:
+      name: 'Payment deadline'
+      description: 'Number of days used to calculate the payment deadline'
+    bill_platform_contribution_rate:
       name: "Contribution rate"
       description: "Contribution rate to be applied to all amounts billed by the platform"
     max_requests_per_hour:

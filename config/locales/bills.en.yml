@@ -1,7 +1,7 @@
 en:
   bills:
     index:
-      title: 'Billing'
+      title: 'Consumption'
     invoice_attributes:
       unit_cost: 'UP'
       unit_num: 'Qty'
@@ -17,4 +17,4 @@ en:
       subtotal: 'Subtotal'
       total: 'Total (Euro)'
     show:
-      title: 'Info'
+      title: 'Consumption detail %{month}'

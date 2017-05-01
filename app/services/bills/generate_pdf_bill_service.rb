@@ -309,7 +309,7 @@ module Bills
     end
 
     def platform_contribution_rate
-      @contribution_rate ||= Appconfig.get(:platform_contribution_rate)
+      bill.platform_contribution_rate
     end
   end
 end

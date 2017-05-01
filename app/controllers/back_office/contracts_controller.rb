@@ -66,11 +66,11 @@ module BackOffice
     end
 
     def load_active_services
-      @services = Service.activated_startups
+      @services = Service.all
     end
 
     def load_active_client
-      @clients = Service.activated_clients
+      @clients = Service.all
     end
 
     def load_active_proxies

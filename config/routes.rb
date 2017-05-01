@@ -80,6 +80,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :bills do
+      member do
+        get :print
+        get :comments
+      end
+    end
+
     resources :documentations
 
     resources :users
@@ -118,6 +125,7 @@ Rails.application.routes.draw do
       resources :bills do
         member do
           get :print
+          get :comments
         end
       end
       resources :users do

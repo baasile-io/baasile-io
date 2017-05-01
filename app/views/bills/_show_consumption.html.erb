@@ -13,7 +13,7 @@
     <% if bill_line.line_type.to_sym == :amount %>
       <tbody>
         <tr>
-          <td><%= t(bill_line.title, platform_contribution_rate: Appconfig.get(:platform_contribution_rate)) %></td>
+          <td><%= t(bill_line.title, platform_contribution_rate: Appconfig.get(:bill_platform_contribution_rate)) %></td>
           <td class="text-right"><%= format_amount bill_line.unit_cost %></td>
           <td class="text-right"><%= bill_line.unit_num %></td>
           <td class="text-right"><%= format_amount bill_line.total_cost %></td>

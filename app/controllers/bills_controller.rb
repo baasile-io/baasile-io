@@ -1,13 +1,17 @@
 class BillsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_bill, only: [:show, :print]
+  before_action :load_bill, only: [:show, :print, :comments]
 
   # Authorization
   before_action :authorize_action
 
   def index
-    @collection = current_service.bills
+    @collection = if current_service
+                    Bill.includes(:contract, :client, :startup).by_service(current_service)
+                  else
+                    Bill.includes(:contract, :client, :startup).by_user(current_user)
+                  end
   end
 
   def show
@@ -23,6 +27,10 @@ class BillsController < ApplicationController
               stream: 'true',
               buffer_size: '4096',
               type: 'application/pdf'
+  end
+
+  def comments
+    @new_comment = Comment.new(commentable: current_bill)
   end
 
   private
@@ -48,12 +56,20 @@ class BillsController < ApplicationController
     @service
   end
 
+  def current_module
+    'bill'
+  end
+
   def current_bill
     @bill
   end
 
   def load_bill
-    @bill = current_service.bills.find(params[:id])
+    @bill = if current_service
+              Bill.includes(:contract, :client, :startup).by_service(current_service).find(params[:id])
+            else
+              Bill.includes(:contract, :client, :startup).by_user(current_user).find(params[:id])
+            end
   end
 
 end

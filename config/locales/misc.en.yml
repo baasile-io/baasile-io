@@ -20,6 +20,7 @@ en:
       one: 'day'
       other: 'days'
     deactivated_services: 'Deactivated enterprises'
+    deadline: 'Deadline'
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
@@ -51,6 +52,9 @@ en:
     not_included: 'not included'
     nothing_to_display: "Nothing to show in this section."
     overview: 'Overview'
+    paid:
+      'false': "To be paid"
+      'true': "Paid"
     parameters: 'Settings'
     permissions: 'Permissions'
     pricing: 'Pricing'

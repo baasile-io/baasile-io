@@ -1,7 +1,7 @@
 fr:
   bills:
     index:
-      title: 'Facturations'
+      title: 'Consommation'
     invoice_attributes:
       unit_cost: 'P.U.'
       unit_num: 'Qté'
@@ -17,4 +17,4 @@ fr:
       subtotal: 'Sous-total'
       total: 'Total (Euros)'
     show:
-      title: 'Détail'
+      title: 'Détail de consommation %{month}'
