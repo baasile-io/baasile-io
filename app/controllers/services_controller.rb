@@ -63,6 +63,7 @@ class ServicesController < ApplicationController
   def update
     @service.assign_attributes(service_params)
     if @service.save
+      @service.reset_identifiers if params[:reset_identifiers]
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
@@ -160,11 +161,6 @@ class ServicesController < ApplicationController
     @service
   end
 
-  def is_admin_of(service)
-    return @service.has_role? :all, service
-  end
-
-  helper_method :is_admin_of
   def superadmin
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end

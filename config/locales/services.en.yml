@@ -14,6 +14,8 @@ en:
         description:
           description: "Describing your Enteprise is mandatory for suppliers who wants to publish their product in the catalog."
           title: 'Description'
+        identifiers:
+          title: 'Credentials'
         main:
           title: 'Main'
         users:

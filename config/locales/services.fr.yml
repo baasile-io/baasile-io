@@ -14,6 +14,8 @@ fr:
         description:
           description: "La description est obligatoire pour un Fournisseur souhaitant publier ses produits sur le catalogue."
           title: 'Description'
+        identifiers:
+          title: 'Identifiants'
         main:
           title: 'Général'
         users:

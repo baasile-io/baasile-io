@@ -27,7 +27,8 @@ class Role < ApplicationRecord
       new: [:admin, :developer],
       create: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin]
     },
     identifiers: {
       index: [:admin, :developer]
@@ -38,13 +39,15 @@ class Role < ApplicationRecord
       create: [:admin, :developer],
       show: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin, :developer]
     },
     query_parameters: {
       index: [:admin, :developer],
       create: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin, :developer]
     },
     permissions: {},
     contracts: {

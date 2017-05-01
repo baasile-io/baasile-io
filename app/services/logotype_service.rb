@@ -94,6 +94,8 @@ class LogotypeService
     size_name = DEFAULT_SIZE unless SIZES.key?size_name
 
     aws_s3_object(client_id, size_name).exists?
+  rescue AWS::S3::Errors::Forbidden
+    false
   end
 
   def url client_id, size_name
