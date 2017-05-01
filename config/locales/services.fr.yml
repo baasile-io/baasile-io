@@ -43,7 +43,7 @@ fr:
       prepaid_base_cost: 'Tarif prépayé'
       monthly_base_cost: 'Abonnement mensuel'
       monthly_base_cost_prorated: 'Abonnement mensuel (au prorata)'
-      yearly_base_cost: 'Abonnement annuel (au pro-rata pour 1 mois)'
+      yearly_base_cost: 'Abonnement annuel (au pro-rata pour le mois en cours)'
       additional_requests_cost: 'Requêtes supplémentaires'
       additional_measure_tokens_cost: 'MeasureTokens supplémentaires'
       pdf:

@@ -1,4 +1,9 @@
-<% if @measures_input.size > 0 %>
+<%
+  output ||= []
+  input ||= []
+%>
+
+<% if input.size > 0 %>
   <hr>
   <h5>Requêtes envoyées</h5>
   <table class="table table-sm">
@@ -14,19 +19,19 @@
     </tr>
     </thead>
     <tbody>
-    <% @measures_input.each do |m| %>
+    <% input.each do |m| %>
       <tr>
         <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
         <td>
-          <%= m.contract.name %> <br />
+          <%= m.contract.try(:name) %> <br />
           <%= m.contract_status %>
         </td>
-        <td><%= m.client.name %></td>
+        <td><%= m.client.try(:name) %></td>
         <td>
-          <%= m.service.name %><br />
-          <%= m.proxy.name %>
+          <%= m.service.try(:name) %><br />
+          <%= m.proxy.try(:name) %>
         </td>
-        <td><%= m.route.name %></td>
+        <td><%= m.route.try(:name) %></td>
         <td><%= m.measure_token.try(:value) %></td>
         <td><%= m.requests_count %></td>
       </tr>
@@ -35,7 +40,7 @@
   </table>
 <% end %>
 
-<% if @measures_output.size > 0 %>
+<% if output.size > 0 %>
   <hr>
   <h5>Requêtes reçues</h5>
   <table class="table table-sm">
@@ -51,19 +56,19 @@
     </tr>
     </thead>
     <tbody>
-    <% @measures_output.each do |m| %>
+    <% output.each do |m| %>
       <tr>
         <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
         <td>
-          <%= m.contract.name %> <br />
+          <%= m.contract.try(:name) %> <br />
           <%= m.contract_status %>
         </td>
-        <td><%= m.client.name %></td>
+        <td><%= m.client.try(:name) %></td>
         <td>
-          <%= m.service.name %><br />
-          <%= m.proxy.name %>
+          <%= m.service.try(:name) %><br />
+          <%= m.proxy.try(:name) %>
         </td>
-        <td><%= m.route.name %></td>
+        <td><%= m.route.try(:name) %></td>
         <td><%= m.measure_token.try(:value) %></td>
         <td><%= m.requests_count %></td>
       </tr>

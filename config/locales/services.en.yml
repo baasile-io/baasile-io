@@ -43,7 +43,7 @@ en:
       prepaid_base_cost: 'Prepaid plan'
       monthly_base_cost: 'Monthly subscription'
       monthly_base_cost_prorated: 'Monthly subscription (prorated)'
-      yearly_base_cost: 'Yearly subscription (pro-rated for 1 month)'
+      yearly_base_cost: 'Yearly subscription (pro-rated for current month)'
       additional_requests_cost: 'Additional requests'
       additional_measure_tokens_cost: 'Additional MeasureTokens'
       pdf:

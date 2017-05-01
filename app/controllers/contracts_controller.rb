@@ -86,13 +86,13 @@ class ContractsController < ApplicationController
 
   def show
     @logotype_service = LogotypeService.new
-    begin
+    #begin
       if current_contract.status.to_sym == :validation_production
         @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).calculate
       end
-    rescue
-      nil
-    end
+    #rescue
+    #  nil
+    #end
   end
 
   def print_current_month_consumption

@@ -42,7 +42,7 @@ en:
         description: 'The base cost is applied only once for the duration of the contract.'
         name: 'Prepaid'
       yearly:
-        description: 'The base cost is applied yearly.'
+        description: 'The base cost .'
         name: 'Yearly subscription'
     pricing_types:
       per_call:

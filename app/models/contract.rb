@@ -273,6 +273,7 @@ class Contract < ApplicationRecord
 
   has_one :price
   has_many :comments, as: :commentable
+  has_many :measurements
   has_many :measure_tokens
   has_many :bills
 

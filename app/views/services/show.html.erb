@@ -69,7 +69,7 @@
       <% end %>
     <% end %>
 
-    <%= render partial: 'shared/measurement' %>
+    <%= render partial: 'shared/measurement', locals: {input: @measures_input, output: @measures_output} %>
 
   </div>
 </div>

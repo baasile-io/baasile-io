@@ -68,5 +68,6 @@ fr:
     unconfirmed_email: 'Adresse E-Mail non confirmée'
     unknown_user: 'Utilisateur introuvable'
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
+    user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
     yes: 'Oui'

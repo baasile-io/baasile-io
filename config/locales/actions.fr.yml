@@ -55,6 +55,7 @@ fr:
     save_in_progress: 'Enregistrement en cours...'
     see: 'Voir'
     see_and_add_comments: 'Voir/ajouter des commentaires'
+    see_bill: 'Voir le détail de consommation'
     see_contract: 'Voir le contrat'
     see_general_conditions: 'Voir les Conditions Générales'
     see_ticket: 'Voir le ticket'

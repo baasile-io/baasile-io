@@ -89,40 +89,37 @@ module Bills
       # some contracts have usage limits, so we'll check those here
       measurements = Measurement.by_contract_status(contract)
 
-      # get requests for the billable period of time
-      measurement_month = bill_month << 1
       case price.pricing_duration_type.to_sym
         when :monthly
-          measurements = measurements.where(
-            'created_at >= :start AND created_at <= :end',
-            start: measurement_month.beginning_of_month,
-            end: measurement_month.end_of_month
-          )
+          measurements = measurements.between(bill_month, bill_month.end_of_month)
         when :yearly
-          measurements = measurements.where(
-            'created_at >= :start AND created_at <= :end',
-            start: measurement_month.beginning_of_year,
-            end: measurement_month.end_of_year
-          )
+          measurements = measurements.between(bill_month.beginning_of_year, bill_month.end_of_year)
       end
 
       # check if the client had more usage than allowed by default
       additional_units = -price.free_count
-      case price.pricing_type.to_sym
-        when :per_call
-          # get the number of requests for this months or this year
-          if !price.route.nil?
-            additional_units += measurements.by_route(price.route).sum(:requests_count)
-          else
-            additional_units += measurements.sum(:requests_count)
-          end
-        when :per_parameter
-          # get number of measuretokens for requests of this months or this year
-          additional_units += measurements.where.not(measure_token_id: nil).select(:measure_token_id).distinct.count
+      current_month_units = 0
+      unless price.deny_after_free_count
+        case price.pricing_type.to_sym
+          when :per_call
+            # get the number of requests for this months or this year
+            scope = measurements
+            if !price.route.nil?
+              scope = scope.by_route(price.route)
+            end
+            current_month_units = scope.between(bill_month, bill_month.end_of_month).sum(:requests_count)
+            additional_units += scope.sum(:requests_count)
+          when :per_parameter
+            # get number of measuretokens for requests of this months or this year
+            scope = measurements.where.not(measure_token_id: nil).select(:measure_token_id)
+            current_month_units = scope.between(bill_month, bill_month.end_of_month).distinct.count
+            additional_units += scope.distinct.count
+        end
       end
 
       # adds the additional unit cost to the bill
       if additional_units > 0
+        additional_units = [additional_units, current_month_units].min
         push_line({
                     title: case price.pricing_type.to_sym
                              when :per_call

@@ -5,6 +5,12 @@ fr:
         name: 'Nom'
         setting_type: 'Type'
         value: 'Valeur'
+      bill:
+        bill_month: 'Mois de facturation'
+        created_at: "Date d'émission"
+        due_date: "Date d'échéance"
+        total_cost: 'Total'
+        total_cost_including_var: 'Total (TVA incl.)'
       category:
         name: 'Nom'
         description: 'Description'
@@ -206,6 +212,8 @@ fr:
         whodunnit: 'Auteur'
     models:
       appconfig: 'Configuration'
+      bill: 'Consommation'
+      bill_line: 'Détail de consommation'
       category: "Catégorie"
       comment: 'Commentaire'
       company: 'Aggrétateur'

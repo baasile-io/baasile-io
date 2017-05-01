@@ -42,7 +42,7 @@ fr:
         description: 'Le coût de base est appliqué une seule fois durant toute la durée du contrat.'
         name: 'Prépayé'
       yearly:
-        description: 'Le coût de base est une annuité.'
+        description: 'Le coût de base vaut pour une année mais est mensualisé au prorata.'
         name: 'Souscription annuelle'
     pricing_types:
       per_call:

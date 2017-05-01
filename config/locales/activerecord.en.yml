@@ -5,6 +5,12 @@ en:
         name: 'Name'
         setting_type: 'Type'
         value: 'Value'
+      bill:
+        bill_month: 'Bill month'
+        created_at: 'Issued on'
+        due_date: 'Due date'
+        total_cost: 'Total'
+        total_cost_including_var: 'Total (incl. VAT)'
       category:
         name: 'Name'
         description: 'Description'
@@ -194,6 +200,8 @@ en:
         whodunnit: 'Author'
     models:
       appconfig: 'Configuration'
+      bill: 'Consumption'
+      bill_line: 'Consumption detail'
       category: "Category"
       comment: 'Comment'
       company: 'Aggregator'
