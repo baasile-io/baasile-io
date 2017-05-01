@@ -114,6 +114,7 @@ fr:
         subdomain: 'Identifiant publique'
         user: 'Créateur'
         user_id: 'Créateur'
+        is_active: 'Activé'
       proxy_parameter:
         authorization_mode: "Mode d'autorisation"
         authorization_url: "URL d'autorisation"
