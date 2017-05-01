@@ -103,6 +103,7 @@ fr:
       info_request: "Demande d'informations"
       report_a_bug: 'Signaler un bogue'
       user_right_request: 'Demande de droits utilisateur'
+      account_recover: "Demander la récupération d'un compte"
     contract_statuses:
       creation:
         class: 'text-muted'
