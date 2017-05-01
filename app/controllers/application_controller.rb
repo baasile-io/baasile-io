@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include FlashMessagesHelper
+
   protect_from_forgery with: :exception
 
   # reset captcha code after each request for security
@@ -8,6 +10,8 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit
 
   before_action :set_locale
+
+  after_filter :flash_to_headers
 
   helper_method :current_company
   helper_method :current_service
