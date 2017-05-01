@@ -22,6 +22,13 @@
           <th colspan="2"><%= t('activerecord.attributes.contract.name') %></th>
           <th><%= t('activerecord.attributes.contract.client') %></th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
+          <th>
+            <%= t('activerecord.attributes.contract.start_date') %><br />
+            <%= t('activerecord.attributes.contract.end_date') %>
+          </th>
+          <th>
+            <%= t('activerecord.attributes.contract.is_evergreen') %>
+          </th>
           <th></th>
         </tr>
         </thead>
@@ -51,6 +58,15 @@
                 <i class="<%= t("types.service_types.#{contract.startup.service_type}.icon") %>"></i>
                 <span class="<%= t("types.service_types.#{contract.startup.service_type}.class") %>"><%= contract.startup.name %></span>
               </small>
+            </td>
+            <td>
+              <% if contract.start_date %>
+                <%= l(contract.start_date) %><br />
+                <%= l(contract.end_date) %>
+              <% end %>
+            </td>
+            <td>
+              <%= t("misc.#{contract.is_evergreen}") %>
             </td>
             <td class="text-right">
               <%= link_to t('actions.edit'), link, class: 'btn btn-secondary' %>
