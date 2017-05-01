@@ -103,6 +103,7 @@ en:
       info_request: 'Information request'
       report_a_bug: 'Report a bug'
       user_right_request: 'User rights request'
+      account_recover: 'Request account recover'
     contract_statuses:
       creation:
         class: 'text-muted'
