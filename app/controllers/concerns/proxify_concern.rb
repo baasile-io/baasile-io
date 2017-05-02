@@ -43,6 +43,7 @@ module ProxifyConcern
   class ProxyInitializationError < ProxyError; end
   class ProxyAuthenticationError < ProxyError; end
   class ProxyRedirectionError < ProxyError; end
+  class ProxySocketError < ProxyError; end
   class ProxyRequestError < ProxyError; end
 
   def proxy_initialize
@@ -61,6 +62,8 @@ module ProxifyConcern
     proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
     proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", build_get_params
     proxy_send_request
+  rescue SocketError => e
+    raise ProxySocketError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: e.message}
   end
 
   def build_headers

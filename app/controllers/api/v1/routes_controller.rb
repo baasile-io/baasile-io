@@ -19,28 +19,38 @@ module Api
       def process_request
           @proxy_response = proxy_request
           render status: @proxy_response.code, plain: @proxy_response.body
-      rescue ProxyInitializationError
-        do_request_error_measure(:proxy_initialization_error, "")
+      rescue ProxySocketError => e
+        status = 592
+        title = 'The server cannot process the request due to a connection error with the remote server'
+        do_request_error_measure(e.class.name, status, e.req, title)
         render status: :bad_gateway, json: {
           errors: [{
-            status: 591,
-            title: 'The server cannot process the request due to a configuration error'
+             status: status,
+             title: title
+           }]
+        }
+      rescue ProxyInitializationError
+        status = 591
+        title = 'The server cannot process the request due to a configuration error'
+        do_request_error_measure(e.class.name, status, e.req, title)
+        render status: :bad_gateway, json: {
+          errors: [{
+            status: status,
+            title: title
          }]
         }
       rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
         if e.code >= 500
-          do_request_error_measure(:proxy_request_error, e.req)
           status = 595
           title = 'The origin server cannot or will not process the request due to an apparent internal error'
         elsif e.code >= 400
-          do_request_error_measure(:proxy_authentication_error, e.req)
           status = 594
           title = 'The origin server cannot or will not process the request due to an apparent client error'
         else
-          do_request_error_measure(:proxy_redirection_error, e.req)
           status = 593
           title = 'The origin server cannot or will not process the request due to an apparent redirection error'
         end
+        do_request_error_measure(e.class.name, status, e.req, title)
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
           render status: :bad_gateway, json: {
             errors: [
@@ -79,11 +89,13 @@ module Api
           }
         end
       rescue ProxyMissingMandatoryQueryParameterError => e
-        do_request_error_measure(:proxy_missing_mandatory_quer_parameter_error, "", "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\"")
-        return render status: 400, json: {
+        status = 400
+        title = "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
+        do_request_error_measure(e.class.name, status, e.req, title)
+        return render status: status, json: {
           errors: [{
-                     status: 400,
-                     title: "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
+                     status: status,
+                     title: title
                    }]
         }
       end

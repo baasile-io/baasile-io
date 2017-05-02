@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501220738) do
+ActiveRecord::Schema.define(version: 20170502071633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,12 +150,13 @@ ActiveRecord::Schema.define(version: 20170501220738) do
 
   create_table "error_measurements", force: :cascade do |t|
     t.string   "message"
-    t.integer  "error_type"
+    t.string   "error_type"
     t.string   "request"
     t.integer  "contract_id"
     t.integer  "route_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "status"
     t.index ["contract_id"], name: "index_error_measurements_on_contract_id", using: :btree
     t.index ["route_id"], name: "index_error_measurements_on_route_id", using: :btree
   end

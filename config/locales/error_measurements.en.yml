@@ -6,7 +6,3 @@ en:
     created_at: 'Date'
     request: 'Request done'
     title: 'Error logs'
-    client:
-      title: 'Client Error logs'
-    startup:
-      title: 'Startup Error logs'

@@ -5,8 +5,4 @@ fr:
       message: "Message d'erreur"
     created_at: 'Date'
     request: 'Requète effectué'
-    title: "Liste d'erreurs de requetes"
-    client:
-      title: "Liste d'erreurs de requetes Client"
-    startup:
-      title: "Liste d'erreurs de requetes Startup"
+    title: "Erreurs"

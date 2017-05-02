@@ -89,6 +89,11 @@
                   <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= comments_service_contract_path(current_service, current_contract) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
                 </li>
               <% end %>
+              <% if current_contract.can?(current_user, :error_measurements) %>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_contract_path(current_service, current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
@@ -285,9 +290,9 @@
                 </li>
               <% end %>
               <% if current_contract.can?(current_user, :error_measurements) %>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if controller_name == 'proxies' && action_name == 'error_measurements' %>" href="<%= error_measurements_contract_path(current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
-                  </li>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'error_measurements' %>" href="<%= error_measurements_contract_path(current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+                </li>
               <% end %>
             </ul>
           </div>
