@@ -41,7 +41,7 @@ class Price < ApplicationRecord
   validates :unit_cost, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :free_count, presence: true, numericality: {greater_than: 0}, if: Proc.new {self.pricing_type.to_sym != :subscription}
   validates :deny_after_free_count, inclusion: {in: [true, false]}, if: Proc.new {self.pricing_type.to_sym != :subscription}
-  validates :pricing_duration_type, inclusion: {in: ['monthly', 'yearly']}, if: Proc.new {self.pricing_type.to_sym == :subscription}
+  validates :pricing_duration_type, inclusion: {in: ['monthly', 'yearly', :monthly, :yearly]}, if: Proc.new {self.pricing_type.to_sym == :subscription}
   validate :price_options_consistency
 
   scope :owned, ->(user) { where(user: user) }

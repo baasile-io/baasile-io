@@ -141,6 +141,8 @@ class ContractsController < ApplicationController
     if @contract.save
       ContractNotifier.send_validated_status_notification(@contract, from_status: old_status_key).deliver_now
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    else
+      flash[:error] = @contract.errors.full_messages.join(', ')
     end
     redirect_to_show
   end
@@ -155,6 +157,8 @@ class ContractsController < ApplicationController
       unless @contract.can?(current_user, :show)
         return redirect_to_index
       end
+    else
+      flash[:error] = @contract.errors.full_messages.join(', ')
     end
     redirect_to_show
   end

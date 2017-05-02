@@ -83,7 +83,7 @@ fr:
         free_count: "Unités incluses"
         free_hour: 'Free using hours'
         name: 'Nom du modèle'
-        pricing_duration_type: 'Option de tarification'
+        pricing_duration_type: 'Option de souscription'
         pricing_type: 'Type de tarification'
         price_parameters: 'Critère de tarification'
         query_parameter: 'Paramètre mesuré'

@@ -82,7 +82,7 @@ en:
         free_count: 'Included Units'
         free_hour: 'Free using hours'
         name: 'Template name'
-        pricing_duration_type: 'Pricing option'
+        pricing_duration_type: 'Subscription type'
         pricing_type: 'Pricing type'
         price_parameters: 'Pricing criteria'
         query_parameter: 'Monitored parameter'
