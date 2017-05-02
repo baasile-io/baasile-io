@@ -89,8 +89,8 @@ class UsersController < ApplicationController
   end
 
   def disassociate
-    if current_service.user_id == @user.id
-      flash[:error] = "You can't remove association because the user is the owner"
+    if [current_service.main_admin, current_service.main_developer, current_service.main_commercial, current_service.main_accountant].include?(@user)
+      flash[:error] = t('misc.user_not_disassociable_because_official')
     else
       if UserAssociation.where(user: @user, associable: current_service).destroy_all
         flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.user_association'))

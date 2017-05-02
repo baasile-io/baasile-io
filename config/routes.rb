@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   captcha_route
 
-
   namespace :api do
     scope "/oauth" do
       post 'token' => 'authentication#authenticate'
@@ -43,6 +42,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  get '/robots.txt' => 'pages#robots'
+
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
     devise_for :users, path: 'auth', controllers: { sessions: 'users/sessions',
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
         get :prices
         get :select_price
         post :cancel
+        get :print_current_month_consumption
       end
       collection do
         get :catalog
@@ -77,6 +79,13 @@ Rails.application.routes.draw do
       end
       resources :prices do
         resources :price_parameters
+      end
+    end
+
+    resources :bills do
+      member do
+        get :print
+        get :comments
       end
     end
 
@@ -106,6 +115,7 @@ Rails.application.routes.draw do
           get :prices
           get :select_price
           post :cancel
+          get :print_current_month_consumption
         end
         collection do
           get :catalog
@@ -113,6 +123,12 @@ Rails.application.routes.draw do
         end
         resources :prices do
           resources :price_parameters
+        end
+      end
+      resources :bills do
+        member do
+          get :print
+          get :comments
         end
       end
       resources :users do

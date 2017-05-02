@@ -1,6 +1,6 @@
 <% if !current_service.nil? %>
 
-  <div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? %>background-color:#DADADA;<% end end %>">
+  <div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end end %>">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -42,11 +42,12 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if !current_contract.nil? || controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
             </li>
-            <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_path(current_service) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
-              </li>
-            <% end %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'bills' %>" href="<%= service_bills_path(current_service) %>"><i class="fa fa-file-text-o fa-fw"></i> <%= t('bills.index.title') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_path(current_service) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -93,6 +94,12 @@
         </div>
       </div>
     </div>
+
+  <% end %>
+
+  <% unless current_bill.nil? %>
+
+    <%= render partial: 'shared/headers/bill_header' %>
 
   <% end %>
 
@@ -205,7 +212,7 @@
 
 <% elsif !current_user.nil? %>
 
-  <div class="b-io-header" style="<% unless current_contract.nil? %>background-color:#DADADA;<% end %>">
+  <div class="b-io-header" style="<% unless current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end %>">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -219,16 +226,15 @@
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('misc.my_services') %></a>
             </li>
-            <%# if current_user.is_commercial? %>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
-              </li>
-            <%# end %>
-            <%# if current_user.is_admin? %>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
-              </li>
-            <%# end %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if current_module == 'bill' %>" href="<%= bills_path %>"><i class="fa fa-fw fa-file-text-o"></i> <%= t('bills.index.title') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
             </li>
@@ -288,6 +294,12 @@
         </div>
       </div>
     </div>
+
+  <% end %>
+
+  <% unless current_bill.nil? %>
+
+    <%= render partial: 'shared/headers/bill_header' %>
 
   <% end %>
 

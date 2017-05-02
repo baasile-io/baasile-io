@@ -8,7 +8,7 @@ en:
       form:
         hints:
           activate: "Check the box to autohorize the service on the platform."
-          reset_identifiers: 'Check the box to generate new credentials (Please note that this action is irreversible)'
+          reset_identifiers: 'Check the box to generate new private key (Please note that this action is irreversible)'
           user_id: 'The user will be associated as Administrator of the enterprise.'
       index:
         title: 'Enterprises'

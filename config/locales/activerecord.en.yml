@@ -5,6 +5,12 @@ en:
         name: 'Name'
         setting_type: 'Type'
         value: 'Value'
+      bill:
+        bill_month: 'Bill month'
+        created_at: 'Issued on'
+        due_date: 'Due date'
+        total_cost: 'Total'
+        total_cost_including_var: 'Total (incl. VAT)'
       category:
         name: 'Name'
         description: 'Description'
@@ -34,10 +40,10 @@ en:
         company: 'Aggregator'
         company_id: 'Aggregator'
         contract_duration: 'Contract duration'
-        contract_duration_type: 'Duration type'
         end_date: 'End date'
         expected_contract_duration: 'Expected contract duration'
-        expected_end_date: 'Expected end date'
+        expected_end_date: 'Expected end date (not included)'
+        expected_free_count: 'Expected quantity'
         expected_start_date: 'Expected start date'
         is_evergreen: 'Automatically renewed'
         name: 'Title'
@@ -75,8 +81,8 @@ en:
         deny_after_free_count: "Deny requests after limit"
         free_count: 'Included Units'
         free_hour: 'Free using hours'
-        name: 'Pricing Name'
-        pricing_duration_type: 'Pricing option'
+        name: 'Template name'
+        pricing_duration_type: 'Subscription type'
         pricing_type: 'Pricing type'
         price_parameters: 'Pricing criteria'
         query_parameter: 'Monitored parameter'
@@ -194,6 +200,8 @@ en:
         whodunnit: 'Author'
     models:
       appconfig: 'Configuration'
+      bill: 'Consumption'
+      bill_line: 'Consumption detail'
       category: "Category"
       comment: 'Comment'
       company: 'Aggregator'

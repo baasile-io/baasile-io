@@ -8,8 +8,12 @@
                     name
                   end
   %>
-  <div class="flash_message alert alert-<%= alert_class %>">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <%= raw(msg) %>
+  <div id="flash_message">
+    <div class="alert alert-<%= alert_class %>">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 class="alert-heading"><%= raw(msg) %></h5>
+    </div>
   </div>
 <% end %>

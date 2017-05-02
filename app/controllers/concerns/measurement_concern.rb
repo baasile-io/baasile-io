@@ -58,9 +58,9 @@ module MeasurementConcern
                      end
 
     if requests_count >= current_contract_price_request_limit
-      return render status: 403, json: {
+      return render status: 429, json: {
         errors: [{
-                   status: 403,
+                   status: 429,
                    title: 'Subscription limit is reached.'
                  }]
       }

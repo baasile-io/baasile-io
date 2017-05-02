@@ -5,6 +5,12 @@ fr:
         name: 'Nom'
         setting_type: 'Type'
         value: 'Valeur'
+      bill:
+        bill_month: 'Mois de facturation'
+        created_at: "Date d'émission"
+        due_date: "Date d'échéance"
+        total_cost: 'Total'
+        total_cost_including_var: 'Total (TVA incl.)'
       category:
         name: 'Nom'
         description: 'Description'
@@ -34,10 +40,10 @@ fr:
         company: 'Aggrétateur'
         company_id: 'Aggrétateur'
         contract_duration: 'Durée du contrat'
-        contract_duration_type: 'Type de durée'
         end_date: 'Date de fin'
         expected_contract_duration: 'Durée du contrat souhaitée'
-        expected_end_date: 'Date de fin souhaitée'
+        expected_end_date: 'Date de fin souhaitée (non incluse)'
+        expected_free_count: 'Quantité souhaitée'
         expected_start_date: 'Date de début souhaitée'
         is_evergreen: 'Reconduction automatique'
         name: 'Intitulé'
@@ -76,8 +82,8 @@ fr:
         deny_after_free_count: "Bloquer les requêtes au delà de la limite"
         free_count: "Unités incluses"
         free_hour: 'Free using hours'
-        name: 'Nom du tarif'
-        pricing_duration_type: 'Option de tarification'
+        name: 'Nom du modèle'
+        pricing_duration_type: 'Option de souscription'
         pricing_type: 'Type de tarification'
         price_parameters: 'Critère de tarification'
         query_parameter: 'Paramètre mesuré'
@@ -206,6 +212,8 @@ fr:
         whodunnit: 'Auteur'
     models:
       appconfig: 'Configuration'
+      bill: 'Consommation'
+      bill_line: 'Détail de consommation'
       category: "Catégorie"
       comment: 'Commentaire'
       company: 'Aggrétateur'

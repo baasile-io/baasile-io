@@ -59,7 +59,7 @@ class Contract < ApplicationRecord
       notifications: {
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [:code, :name, :contract_duration_type, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id],
+      allowed_parameters: [:code, :name, :expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id],
       next: :commercial_validation_sp,
       prev: nil
     },
@@ -106,7 +106,7 @@ class Contract < ApplicationRecord
       notifications: {
         client: ['admin', 'commercial']
       },
-      allowed_parameters: [:contract_duration_type, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id],
+      allowed_parameters: [:expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
       prev: :creation
     },
@@ -189,8 +189,44 @@ class Contract < ApplicationRecord
         startup: ['admin', 'commercial']
       },
       allowed_parameters: [],
-      next: :validation_production,
+      next: :waiting_for_production,
       prev: :commercial_validation_client
+    },
+    waiting_for_production: {
+      index: 18,
+      can: {
+        show: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        },
+        validate: {
+          startup: ['commercial']
+        },
+        comments: {
+          client: ['commercial'],
+          startup: ['commercial']
+        },
+        reject: {
+          startup: ['commercial']
+        },
+        general_condition: {
+          client: ['commercial', 'accountant'],
+          startup: ['commercial', 'accountant']
+        }
+      },
+      show_error: {
+        validate: I18n.t('types.contract_statuses.waiting_for_production.error')
+      },
+      conditions: {
+        validate: Proc.new {|c| true}
+      },
+      notifications: {
+        client: ['admin', 'commercial'],
+        startup: ['admin', 'commercial']
+      },
+      allowed_parameters: [],
+      next: :validation_production,
+      prev: :validation
     },
     validation_production: {
       index: 20,
@@ -210,6 +246,10 @@ class Contract < ApplicationRecord
         error_measurements: {
             client: ['admin'],
             startup: ['admin']
+        },
+        print_current_month_consumption: {
+          client: ['accountant'],
+          startup: ['accountant'],
         }
       },
       show_error: {},
@@ -222,19 +262,11 @@ class Contract < ApplicationRecord
       },
       allowed_parameters: [],
       next: nil,
-      prev: :commercial_validation_client
+      prev: :waiting_for_production
     }
   }
   CONTRACT_STATUSES_ENUM = CONTRACT_STATUSES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
   enum status: CONTRACT_STATUSES_ENUM
-
-  CONTRACT_DURATION_TYPES = {
-    custom:  { index: 0 },
-    monthly: { index: 1 },
-    yearly:  { index: 2 }
-  }
-  CONTRACT_DURATION_TYPES_ENUM = CONTRACT_DURATION_TYPES.each_with_object({}) do |k, h| h[k[0]] = k[1][:index] end
-  enum contract_duration_type: CONTRACT_DURATION_TYPES_ENUM
 
   # Versioning
   has_paper_trail
@@ -249,15 +281,19 @@ class Contract < ApplicationRecord
 
   has_one :price
   has_many :comments, as: :commentable
+  has_many :measurements
   has_many :measure_tokens
   has_many :error_measurements
+  has_many :bills
 
   accepts_nested_attributes_for :price
 
   # TODO remove association, and make it via ":through"
   before_validation :set_startup_id
 
-  before_validation :set_expected_end_date_and_expected_contract_duration
+  before_validation :set_expected_contract_duration
+  before_validation :set_contract_dates
+  before_validation :set_contract_duration
 
   validates :name, presence: true
   validates :startup_id, presence:true
@@ -265,14 +301,15 @@ class Contract < ApplicationRecord
   validates :proxy_id, presence:true, uniqueness: {scope: [:client_id, :startup_id]}
   validates :expected_contract_duration, presence: true, numericality: {greater_than: 0, less_than_or_equal: 12}
   validates :expected_start_date, presence: true, date: true
-  validates :expected_end_date, presence: true, date: {after: Proc.new {|record| record.expected_start_date}}
-
+  validates :expected_end_date, presence: true, date: {on_or_after: :expected_start_date}
+  validates :expected_free_count, numericality: {greater_than: 0}, if: Proc.new {self.expected_free_count.present?}
 
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
   scope :associated_startups, ->(startup) { where(startup: startup) }
-  scope :associated_service, ->(service) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: service.subtree_ids) }
-  scope :associated_user, ->(user) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
+  scope :associated_services, ->(service) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: service.subtree_ids) }
+  scope :associated_users, ->(user) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
+  scope :active_between, ->(start_date, end_date) { where('(start_date BETWEEN :start_date AND :end_date) OR (end_date BETWEEN :start_date AND :end_date) OR (start_date < :start_date AND end_date > :end_date)', start_date: start_date, end_date: end_date) }
 
   scope :owned, ->(user) { where(user: user) }
 
@@ -357,20 +394,33 @@ class Contract < ApplicationRecord
     self.startup_id = self.proxy.service.id if self.proxy
   end
 
-  def set_expected_end_date_and_expected_contract_duration
-    case self.contract_duration_type.to_sym
+  def set_expected_contract_duration
+    self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i if self.expected_start_date && self.expected_end_date
+  end
+
+  def set_contract_duration
+    self.contract_duration = (self.end_date - self.start_date).to_i if self.start_date && self.end_date
+  end
+
+  def set_contract_dates
+    if self.status_changed? && self.status.to_sym == :validation_production
+      self.start_date = self.compute_start_date
+      self.end_date = self.compute_end_date
+    end
+  end
+
+  def compute_start_date
+    Date.today
+  end
+
+  def compute_end_date
+    case self.price.pricing_duration_type.to_sym
+      when :prepaid
+        self.start_date + self.set_expected_contract_duration.days
       when :monthly
-        if self.expected_start_date
-          self.expected_end_date = self.expected_start_date + 1.month
-          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i
-        end
+        self.start_date + 1.month
       when :yearly
-        if self.expected_start_date
-          self.expected_end_date = self.expected_start_date + 1.year
-          self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i
-        end
-      else
-        self.expected_contract_duration = (self.expected_end_date - self.expected_start_date).to_i if self.expected_start_date && self.expected_end_date
+        self.start_date + 1.year
     end
   end
 end

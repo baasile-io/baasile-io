@@ -10,12 +10,13 @@ fr:
     form:
       hints:
         expected_contract_duration: 'Durée du contrat en nombre de jours.'
+        expected_free_count: 'Si applicable au produit, quantité de requêtes/utilisateurs souhaitée.'
     index:
       title: 'Contrats'
     new:
       title: 'Créer un nouveau contrat'
     prices:
-      description: 'Sélectionnez et éditez un modèle de tarif.'
+      description: 'Sélectionnez et éditez un modèle de tarif pour ce contrat.'
       title: 'Tarification'
     select_client:
       title: 'Sélectionnez un client'

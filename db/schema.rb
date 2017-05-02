@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501083714) do
+ActiveRecord::Schema.define(version: 20170501220738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,36 @@ ActiveRecord::Schema.define(version: 20170501083714) do
     t.string   "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bill_lines", force: :cascade do |t|
+    t.integer  "bill_id"
+    t.string   "title"
+    t.decimal  "unit_cost",                default: "0.0"
+    t.integer  "unit_num",                 default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "line_type",                default: 0
+    t.decimal  "vat_rate",                 default: "0.0"
+    t.decimal  "total_cost",               default: "0.0"
+    t.decimal  "total_cost_including_vat", default: "0.0"
+    t.index ["bill_id"], name: "index_bill_lines_on_bill_id", using: :btree
+  end
+
+  create_table "bills", force: :cascade do |t|
+    t.integer  "contract_id"
+    t.date     "bill_month"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.decimal  "total_cost",                 default: "0.0"
+    t.decimal  "total_vat",                  default: "0.0"
+    t.decimal  "total_cost_including_vat",   default: "0.0"
+    t.date     "due_date"
+    t.boolean  "paid",                       default: false
+    t.decimal  "platform_contribution_rate", default: "0.0"
+    t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
+    t.index ["contract_id", "bill_month"], name: "index_bills_on_contract_id_and_bill_month", unique: true, using: :btree
+    t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -92,7 +122,7 @@ ActiveRecord::Schema.define(version: 20170501083714) do
     t.integer  "general_condition_id"
     t.integer  "general_condition_validated_client_user_id"
     t.datetime "general_condition_validated_client_datetime"
-    t.integer  "contract_duration_type",                      default: 0
+    t.integer  "expected_free_count"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 
@@ -246,7 +276,7 @@ ActiveRecord::Schema.define(version: 20170501083714) do
     t.string   "hostname"
     t.integer  "port"
     t.string   "authorization_url"
-    t.integer  "authorization_mode"
+    t.integer  "authorization_mode", default: 0
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.string   "realm"
@@ -422,4 +452,6 @@ ActiveRecord::Schema.define(version: 20170501083714) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
+  add_foreign_key "bill_lines", "bills"
+  add_foreign_key "bills", "contracts"
 end

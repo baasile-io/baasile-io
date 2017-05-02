@@ -2,6 +2,7 @@ $(document).ready(function(e) {
 
   if ($('form.edit_price, form#new_price').length > 0) {
     var price_pricing_type_input = $('#price_pricing_type');
+    var price_pricing_duration_type_input = $('#price_pricing_duration_type');
     var price_route_id_input = $('#price_route_id');
     var price_free_count_input = $('#price_free_count');
     var price_deny_after_free_count_true_input = $('#price_deny_after_free_count_true');
@@ -15,6 +16,11 @@ $(document).ready(function(e) {
         toggle_input(price_deny_after_free_count_true_input, true);
         toggle_input(price_deny_after_free_count_false_input, true);
         toggle_input(price_unit_cost_input, true);
+
+        if (price_pricing_duration_type_input.val() == 'prepaid') {
+          price_pricing_duration_type_input.val('monthly');
+        }
+        price_pricing_duration_type_input.find('option[value="prepaid"]').prop('disabled', true);
       } else {
         if (price_pricing_type_input.val() == 'per_call') {
           toggle_input(price_route_id_input, false);
@@ -27,7 +33,10 @@ $(document).ready(function(e) {
         toggle_input(price_deny_after_free_count_false_input, false);
 
         price_unit_cost_update_input_state();
+
+        price_pricing_duration_type_input.find('option[value="prepaid"]').prop('disabled', false);
       }
+      window.apply_select2(price_pricing_duration_type_input);
     }
 
     function toggle_input(input, disable) {

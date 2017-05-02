@@ -5,7 +5,7 @@ module Contracts
     end
 
     def renew
-      @contract.end_date = case @contract.contract_duration_type.to_sym
+      @contract.end_date = case @contract.price.pricing_duration_type.to_sym
                              when :monthly
                                renew_monthly_duration
                              when :yearly

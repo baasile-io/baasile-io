@@ -2,8 +2,8 @@
   tab_active = nil
   tab_attributes = {
     proxy_main: [:name, :alias, :description, :category_id, :public],
-    proxy_authorization: [:'proxy_parameter.authorization_mode', :'proxy_parameter.authorization_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.identifier.client_id', :'proxy_parameter.identifier.encrypted_secret', :'proxy_parameter.scope', :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
-    proxy_authorization_test: [:'proxy_parameter_test.authorization_mode', :'proxy_parameter_test.authorization_url', :'proxy_parameter_test.realm', :'proxy_parameter_test.grant_type', :'proxy_parameter_test.identifier.client_id', :'proxy_parameter_test.identifier.encrypted_secret', :'proxy_parameter_test.scope', :'proxy_parameter_test.follow_url', :'proxy_parameter_test.follow_redirection', :'proxy_parameter_test.protocol', :'proxy_parameter_test.hostname', :'proxy_parameter_test.port']
+    proxy_authorization: [:'proxy_parameter.authorization_mode', :'proxy_parameter.authorization_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.identifier.client_id', :'proxy_parameter.identifier.client_secret', :'proxy_parameter.scope', :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
+    proxy_authorization_test: [:'proxy_parameter_test.authorization_mode', :'proxy_parameter_test.authorization_url', :'proxy_parameter_test.realm', :'proxy_parameter_test.grant_type', :'proxy_parameter_test.identifier.client_id', :'proxy_parameter_test.identifier.client_secret', :'proxy_parameter_test.scope', :'proxy_parameter_test.follow_url', :'proxy_parameter_test.follow_redirection', :'proxy_parameter_test.protocol', :'proxy_parameter_test.hostname', :'proxy_parameter_test.port']
   }
   tab_errors = {
     proxy_main: 0,
@@ -54,44 +54,48 @@
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authorization_test %>" id="proxy_authorization_test">
       <p><%= t('.tabs.proxy_authorization_test.hint') %></p>
       <%= f.simple_fields_for :proxy_parameter_test do |f2| %>
-        <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
+        <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons, input_html: {class: 'col-sm-2'} %>
         <%= f2.input :hostname, hint: t('.hints.hostname') %>
-        <%= f2.input :port %>
-        <%= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
-        <%= f2.input :follow_redirection %>
+        <%= f2.input :port, as: :string, input_html: {class: 'col-sm-2'} %>
+        <%#= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
+        <%= f2.input :follow_redirection, as: :string, input_html: {class: 'col-sm-2'} %>
 
-        <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select %>
-        <%= f2.input :authorization_url, hint: t('.hints.authorization_url') %>
-        <%= f2.input :realm %>
-        <%= f2.input :grant_type %>
-        <%= f2.input :scope, as: :select, include_blank: false, multiple: true, collection: f2.object.scopes, selected: f2.object.scopes, input_html: {'data-layer': 'tags', multiple: 'multiple', name: 'proxy[proxy_parameter_test_attributes][scopes][]'} %>
+        <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select, include_blank: false %>
+        <div id="proxy_proxy_parameter_test_attributes_authorization_mode_inputs">
+          <%= f2.input :authorization_url, required: true, hint: t('.hints.authorization_url') %>
+          <%= f2.input :realm %>
+          <%= f2.input :grant_type %>
+          <%= f2.input :scope, as: :select, include_blank: false, multiple: true, collection: f2.object.scopes, selected: f2.object.scopes, input_html: {'data-layer': 'tags', multiple: 'multiple', name: 'proxy[proxy_parameter_test_attributes][scopes][]'} %>
 
-        <%= f2.simple_fields_for :identifier do |f3| %>
-          <%= f3.input :client_id, required: f2.object.authorization_required? %>
-          <%= f3.input :client_secret, as: :password, required: (f2.object.authorization_required? && !f3.object.persisted?), hint: (t('.hints.client_secret') if f3.object.persisted?) %>
-        <% end %>
+          <%= f2.simple_fields_for :identifier do |f3| %>
+            <%= f3.input :client_id %>
+            <%= f3.input :client_secret, as: :password, required: (!f3.object.persisted?), hint: (t('.hints.client_secret') if f3.object.persisted?) %>
+          <% end %>
+        </div>
       <% end %>
     </div>
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authorization %>" id="proxy_authorization">
       <p><%= t('.tabs.proxy_authorization.hint') %></p>
       <%= f.simple_fields_for :proxy_parameter do |f2| %>
-        <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons %>
+        <%= f2.input :protocol, as: :select, collection: format_protocols_for_radio_buttons, input_html: {class: 'col-sm-2'} %>
         <%= f2.input :hostname, hint: t('.hints.hostname') %>
-        <%= f2.input :port %>
-        <%= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
-        <%= f2.input :follow_redirection %>
+        <%= f2.input :port, as: :string, input_html: {class: 'col-sm-2'} %>
+        <%#= f2.input :follow_url, as: :radio_buttons, collection: format_boolean_values_for_input %>
+        <%= f2.input :follow_redirection, as: :string, input_html: {class: 'col-sm-2'} %>
 
-        <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select %>
-        <%= f2.input :authorization_url, hint: t('.hints.authorization_url') %>
-        <%= f2.input :realm %>
-        <%= f2.input :grant_type %>
-        <%= f2.input :scope, as: :select, include_blank: false, multiple: true, collection: f2.object.scopes, selected: f2.object.scopes, input_html: {'data-layer': 'tags', multiple: 'multiple', name: 'proxy[proxy_parameter_attributes][scopes][]'} %>
+        <%= f2.input :authorization_mode, as: :select, collection: format_authorization_modes_for_select, include_blank: false %>
+        <div id="proxy_proxy_parameter_attributes_authorization_mode_inputs">
+          <%= f2.input :authorization_url, required: true, hint: t('.hints.authorization_url') %>
+          <%= f2.input :realm %>
+          <%= f2.input :grant_type %>
+          <%= f2.input :scope, as: :select, include_blank: false, multiple: true, collection: f2.object.scopes, selected: f2.object.scopes, input_html: {'data-layer': 'tags', multiple: 'multiple', name: 'proxy[proxy_parameter_attributes][scopes][]'} %>
 
-        <%= f2.simple_fields_for :identifier do |f3| %>
-          <%= f3.input :client_id, required: f2.object.authorization_required? %>
-          <%= f3.input :client_secret, as: :password, required: (f2.object.authorization_required? && !f3.object.persisted?), hint: (t('.hints.client_secret') if f3.object.persisted?) %>
-        <% end %>
+          <%= f2.simple_fields_for :identifier do |f3| %>
+            <%= f3.input :client_id %>
+            <%= f3.input :client_secret, as: :password, required: (!f3.object.persisted?), hint: (t('.hints.client_secret') if f3.object.persisted?) %>
+          <% end %>
+        </div>
       <% end %>
     </div>
 

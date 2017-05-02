@@ -14,11 +14,13 @@ en:
     captcha_hint: 'Please copy the verification code.'
     closed_tickets: 'Closed tickets'
     correct_errors: 'Correct the following errors and try again:'
+    current_month_consumption: 'Current month consumption (%{month})'
     dashboard: 'Dashboard'
     day:
       one: 'day'
       other: 'days'
     deactivated_services: 'Deactivated enterprises'
+    deadline: 'Deadline'
     destroyed: 'Deleted'
     documentation: 'Documentation'
     'false': 'No'
@@ -31,17 +33,18 @@ en:
     locales:
       en: 'English'
       fr: 'French'
-    logotype: 'Company logo'
+    logotype: 'Logotype'
     month:
       one: 'month'
       other: 'months'
     more_info: 'More info'
     my_services: 'My services'
     my_users: 'My users'
-    need_to_valide_general_condition: 'You need to valide general contions'
+    need_to_valide_general_condition: 'You need to valide general conditions'
     next_step: 'Next step'
     no: 'Non'
     no_available_proxies: 'No available products'
+    no_price_template: 'No pricing template is available on this product.'
     none: 'None'
     none_feminized: 'None'
     not_active: 'Deactivated account'
@@ -49,6 +52,9 @@ en:
     not_included: 'not included'
     nothing_to_display: "Nothing to show in this section."
     overview: 'Overview'
+    paid:
+      'false': "To be paid"
+      'true': "Paid"
     parameters: 'Settings'
     permissions: 'Permissions'
     pricing: 'Pricing'
@@ -62,5 +68,6 @@ en:
     unconfirmed_email: 'Unconfirmed email'
     unknown_user: 'Unable to find user'
     unknown_user_create_on: "The user was not found, you can create one if you need it"
+    user_not_disassociable_because_official: "You can't remove association because the user is an official"
     waiting_for_validation: 'Waiting for validation'
     yes: 'Yes'

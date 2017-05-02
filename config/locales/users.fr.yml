@@ -12,6 +12,9 @@ fr:
     form:
       hints:
         phone: 'Format international requis : "+33 6 12 34 56 78".'
+      labels:
+        change_password: 'Changer de mot de passe'
+        change_password_confirmation: 'Confirmation du nouveau mot de passe'
     mailer:
       confirmation_instructions:
         subject: "Instructions de confirmation"

@@ -2,10 +2,12 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select, input_html: {class: 'select2'}, include_blank: t('actions.select') %>
-  <%= f.input :service_id, as: :select, collection: format_services_for_select(current_user.services), input_html: {class: 'services-select2'}, include_blank: t('actions.select'), required: (f.object.ticket_type.try(:to_sym) == :activation_request) %>
+  <% unless f.object.persisted? %>
+    <%= f.input :ticket_type, as: :select, collection: format_ticket_types_for_select, input_html: {class: 'select2'}, include_blank: t('actions.select') %>
+    <%= f.input :service_id, as: :select, collection: format_services_for_select(current_user.services), input_html: {class: 'services-select2'}, include_blank: t('actions.select'), required: (f.object.ticket_type.try(:to_sym) == :activation_request) %>
+    <%= f.input :subject %>
+  <% end %>
 
-  <%= f.input :subject %>
   <%= f.simple_fields_for @new_comment do |f2| %>
       <%= f2.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
   <% end %>
