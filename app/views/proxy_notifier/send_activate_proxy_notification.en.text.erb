@@ -1,0 +1,3 @@
+<%= I18n.t("mailer.proxy_notifier.send_activate_proxy_notification.#{@proxy.is_activate ? "activate" : "disable" }.subject", name: @proxy_name) %>
+
+Link to product: <%= proxy_url(@proxy, locale: @user_locale) %>

@@ -455,7 +455,7 @@ class Contract < ApplicationRecord
 
   def check_activation
     if self.activate.changed?
-      send_activate_contract_notification(self, self.status.to_sym)
+      ContractNotifier.send_activate_contract_notification(self, self.status.to_sym).deliver_now
     end
   end
 

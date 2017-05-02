@@ -14,6 +14,12 @@ en:
       send_error_measurement_notification:
         subject: "%{title}"
         body: "%{message}"
+    proxy_notifier:
+      send_activate_proxy_notification:
+        active:
+          subject: "The product \"#{name}\" become active"
+        disable:
+          subject: "The product \"#{name}\" become disable"
     service_notifier:
       send_validation:
         subject: 'Your enterprise has been activated'

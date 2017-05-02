@@ -1,4 +1,9 @@
 class Proxy < ApplicationRecord
+
+  PROXY_NOTIFICATION = {
+      activation: ['admin']
+  }
+
   # User rights
   resourcify
   after_create :assign_default_user_role
@@ -66,7 +71,7 @@ class Proxy < ApplicationRecord
 
   def check_activation
     if self.is_active.changed? && self.contracts.count > 0
-      send_activate_proxy_notification(self, self.status.to_sym)
+      ProxyNotifier.send_activate_proxy_notification(self, self.status.to_sym).deliver_now
     end
   end
 
