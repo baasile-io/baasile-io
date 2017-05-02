@@ -114,6 +114,7 @@ en:
         subdomain: 'Public identifier'
         user: 'Creator'
         user_id: 'Creator'
+        is_active: 'Active'
       proxy_parameter:
         authorization_mode: 'Authorization mode'
         authorization_url: 'Authorization URL'

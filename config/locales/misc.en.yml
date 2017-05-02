@@ -28,6 +28,13 @@ en:
     general_condition_validation: 'General condition validation'
     included: 'included'
     invalid_fields: 'Invalid Fields'
+    is_active:
+      'false':
+        icon: 'fa fa-fw fa-times text-danger'
+        title: 'Disabled'
+      'true':
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Active'
     last_comment: 'Last comment'
     last_modified: 'Last modified'
     locales:

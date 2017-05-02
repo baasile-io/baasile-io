@@ -28,6 +28,13 @@ fr:
     general_condition_validation: 'Validation des Conditions Générales'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
+    is_active:
+      'false':
+        icon: 'fa fa-fw fa-times text-danger'
+        title: 'Désactivé'
+      'true':
+        icon: 'fa fa-fw fa-check text-success'
+        title: 'Activé'
     last_comment: 'Dernier commentaire'
     last_modified: 'Dernière modification'
     locales:

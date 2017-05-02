@@ -12,6 +12,15 @@
         <small class="text-muted"><%= t("types.contract_statuses.#{@contract.status}.description") %></small>
       </div>
     </div>
+    <hr />
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.activate') %></strong>
+      </div>
+      <div class="col-9">
+        <i class="<%= t("misc.is_active.#{@contract.activate}.icon") %>"></i> <%= t("misc.is_active.#{@contract.activate}.title") %>
+      </div>
+    </div>
 
     <hr>
     <div class="row">

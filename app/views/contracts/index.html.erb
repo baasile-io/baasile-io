@@ -20,6 +20,7 @@
         <thead>
         <tr>
           <th colspan="2"><%= t('activerecord.attributes.contract.name') %></th>
+          <th><%= t('activerecord.attributes.contract.activate') %></th>
           <th><%= t('activerecord.attributes.contract.client') %></th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
           <th>
@@ -46,6 +47,9 @@
                 <i class="<%= t("types.contract_statuses.#{contract.status}.icon") %>"></i>
                 <span class="<%= t("types.contract_statuses.#{contract.status}.class") %>"><%= t("types.contract_statuses.#{contract.status}.title") %></span>
               </small>
+            </td>
+            <td>
+              <i class="fa-2x <%= t("misc.is_active.#{contract.activate}.icon") %>" title="<%= t("misc.is_active.#{contract.activate}.title") %>" data-placement="top" data-toggle="tooltip"></i>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
