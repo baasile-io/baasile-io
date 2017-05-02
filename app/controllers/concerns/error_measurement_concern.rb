@@ -14,8 +14,8 @@ module ErrorMeasurementConcern
     )
     ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now
     true
-  rescue
-    false
+  #rescue
+  #  false
   end
 
 end

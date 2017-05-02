@@ -17,8 +17,8 @@ module Api
       include ErrorMeasurementConcern
 
       def process_request
-          @proxy_response = proxy_request
-          render status: @proxy_response.code, plain: @proxy_response.body
+        @proxy_response = proxy_request
+        render status: @proxy_response.code, plain: @proxy_response.body
       rescue ProxySocketError => e
         status = 592
         title = 'The server cannot process the request due to a connection error with the remote server'

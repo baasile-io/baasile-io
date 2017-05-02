@@ -15,24 +15,16 @@ class ErrorMeasurementNotifier < ApplicationMailer
 
   private
 
-  def users_to_be_notified(error_measure)
-    users = []
-    ErrorMeasurement::ERROR_MEASUREMENT_TYPES[error_measure.error_type.underscore][:notifications].each_with_object(1) do |user_scope, user_roles|
-      users += get_users_by_startup_or_client_path_by_scope(error_measure.route.service, error_measure.contract.client, user_scope, user_roles)
-    end
-    return users.reject(&:blank?).uniq
+  def users_to_be_notified(error_measurement)
+    ErrorMeasurement::ERROR_MEASUREMENT_TYPES[error_measurement.error_type.underscore][:notifications].each_with_object([]) do |(user_scope, user_roles), user_array|
+      user_array.concat(get_users_by_service_and_by_roles((user_scope == :startup ? error_measurement.route.service : error_measurement.contract.client), user_roles))
+    end.reject(&:blank?).uniq
   end
 
-  # todo généraliser pour mettre dans un service user par exemple
-
-  def get_users_by_startup_or_client_path_by_scope(startup_path, client_path, user_scope, user_roles)
-    return get_users_by_service_by_scopes(startup_path, user_roles) if user_scope == :startup
-    return get_users_by_service_by_scopes(client_path, user_roles) if user_scope == :client
-  end
-
-  def get_users_by_service_by_scopes(service_path, user_roles)
+  # TODO généraliser pour mettre dans un service user par exemple
+  def get_users_by_service_and_by_roles(service, user_roles)
     user_roles.each_with_object([]) do |user_role, users|
-      users << service_path.send("main_#{user_role}")
+      users << service.send("main_#{user_role}")
     end.reject(&:blank?).uniq
   end
 
