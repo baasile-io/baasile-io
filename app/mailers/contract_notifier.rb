@@ -34,7 +34,7 @@ class ContractNotifier < ApplicationMailer
       I18n.with_locale(locale) do
         @contract_name = @contract.name
         mail( to: user.email,
-              subject: I18n.t("mailer.contract_notifier.send_activate_contract_notification.#{@contract.activate ? "activate" : "disable" }.subject", name: @contract_name) )
+              subject: I18n.t("mailer.contract_notifier.send_activate_contract_notification.#{@contract.activate}.subject", name: @contract_name) )
       end
     end
   end

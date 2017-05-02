@@ -8,7 +8,7 @@ class ProxyNotifier < ApplicationMailer
       I18n.with_locale(locale) do
         @proxy_name = @proxy.name
         mail( to: user.email,
-              subject: I18n.t("mailer.proxy_notifier.send_activate_proxy_notification.#{@proxy.is_activate ? "activate" : "disable" }.subject", name: @proxy_name) )
+              subject: I18n.t("mailer.proxy_notifier.send_activate_proxy_notification.#{@proxy.is_active}.subject", name: @proxy_name) )
       end
     end
   end

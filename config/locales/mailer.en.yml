@@ -6,9 +6,9 @@ en:
       send_validated_status_notification:
         subject: "Your contract has just passed the status \"%{status}\""
       send_activate_contract_notification:
-        active:
+        'true':
           subject: "The contract \"#{name}\" become active"
-        disable:
+        'false':
           subject: "The contract \"#{name}\" become disable"
     error_measurement_notifier:
       send_error_measurement_notification:
@@ -16,9 +16,9 @@ en:
         body: "%{message}"
     proxy_notifier:
       send_activate_proxy_notification:
-        active:
+        'true':
           subject: "The product \"#{name}\" become active"
-        disable:
+        'false':
           subject: "The product \"#{name}\" become disable"
     service_notifier:
       send_validation:

@@ -73,9 +73,9 @@ class ProxiesController < DashboardController
     else
       @proxy.proxy_parameter_test.identifier.destroy unless @proxy.proxy_parameter_test.identifier.nil?
     end
-    has_changed = @proxy.is_active.changed? && @proxy.contracts.count > 0
+    has_changed = @proxy.is_active_changed? && @proxy.contracts.count > 0
     if @proxy.save
-      ProxyNotifier.send_activate_proxy_notification(@proxy, @proxy.status.to_sym).deliver_now if has_changed
+      ProxyNotifier.send_activate_proxy_notification(@proxy).deliver_now if has_changed
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else

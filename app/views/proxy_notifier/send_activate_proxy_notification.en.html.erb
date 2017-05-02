@@ -1,5 +1,5 @@
-<h1><%= I18n.t("mailer.proxy_notifier.send_activate_proxy_notification.#{@proxy.is_activate ? "activate" : "disable" }.subject", name: @proxy_name) %></h1>
+<h1><%= I18n.t("mailer.proxy_notifier.send_activate_proxy_notification.#{@proxy.is_active}.subject", name: @proxy_name) %></h1>
 
 <p>
-  <a href="<%= proxy_url(@proxy, locale: @user_locale) %>">Go to product</a>
+  <a href="<%= service_proxy_url(@proxy.service, @proxy, locale: @user_locale) %>">Go to product</a>
 </p>
