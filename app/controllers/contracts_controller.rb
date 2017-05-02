@@ -132,6 +132,7 @@ class ContractsController < ApplicationController
   end
 
   def general_condition
+
   end
 
   def validate

@@ -1,5 +1,38 @@
 class ErrorMeasurement < ApplicationRecord
 
+  ERROR_MEASUREMENT_TYPES = {
+    'proxify_concern/proxy_initialization_error' => {
+      notifications: {
+        startup: ["admin", "developer"]
+      }
+    },
+    'proxify_concern/proxy_authentication_error' => {
+      notifications: {
+        startup: ["admin", "developer"]
+      }
+    },
+    'proxify_concern/proxy_redirection_error' => {
+      notifications: {
+        startup: ["admin", "developer"]
+      }
+    },
+    'proxify_concern/proxy_request_error' => {
+      notifications: {
+        startup: ["admin", "developer"]
+      }
+    },
+    'proxify_concern/proxy_socket_error' => {
+      notifications: {
+        startup: ["admin", "developer"]
+      }
+    },
+    'proxify_concern/proxy_missing_mandatory_quer_parameter_error' => {
+      notifications: {
+        client: ["admin", "developer"]
+      }
+    }
+  }
+
   belongs_to  :contract
   belongs_to  :route
 
