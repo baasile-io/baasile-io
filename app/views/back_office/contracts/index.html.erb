@@ -30,7 +30,7 @@
               </small>
             </td>
             <td>
-              <i class="<%= t("misc.icon_big_active.#{((contract.activate) ? "sucess" : "danger")}") %>"></i>
+              <i class="fa-2x <%= t("misc.is_active.#{contract.activate}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{contract.activate}.title") %>" data-toggle="tooltip"></i>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>

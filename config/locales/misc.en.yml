@@ -26,11 +26,15 @@ en:
     'false': 'No'
     general_condition_not_modifiable: 'These general conditions are not modifiable because they are already accepted'
     general_condition_validation: 'General condition validation'
-    icon_big_active:
-      sucess: 'fa fa-fw fa-2x fa-check text-success'
-      danger: 'fa fa-fw fa-2x fa-times text-danger'
     included: 'included'
     invalid_fields: 'Invalid Fields'
+    is_active:
+      'false':
+        icon: 'fa fa-fw fa-times text-danger'
+        title: 'Disabled'
+      'true':
+        icone: 'fa fa-fw fa-check text-success'
+        title: 'Active'
     last_comment: 'Last comment'
     last_modified: 'Last modified'
     locales:

@@ -26,11 +26,15 @@ fr:
     'false': 'Non'
     general_condition_not_modifiable: 'Ces Conditions Générales ne sont pas modifiables car elles ont déjà été acceptées'
     general_condition_validation: 'Validation des Conditions Générales'
-    icon_big_active:
-      sucess: 'fa fa-fw fa-2x fa-check text-success'
-      danger: 'fa fa-fw fa-2x fa-times text-danger'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
+    is_active:
+      'false':
+        icon: 'fa fa-fw fa-times text-danger'
+        title: 'Désactivé'
+      'true':
+        icone: 'fa fa-fw fa-check text-success'
+        title: 'Activé'
     last_comment: 'Dernier commentaire'
     last_modified: 'Dernière modification'
     locales:

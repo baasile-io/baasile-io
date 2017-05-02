@@ -15,7 +15,7 @@
     <strong><%= t('activerecord.attributes.proxy.is_active') %></strong>
   </div>
   <div class="col-9">
-    <i class="<%= t("misc.icon_big_active.#{((proxy.is_active) ? "sucess" : "danger")}") %>"></i>
+    <i class="<%= t("misc.is_active.#{proxy.is_active}.icon") %>"></i> <%= t("misc.is_active.#{proxy.is_active}.title") %>
   </div>
 </div>
 

@@ -17,7 +17,7 @@
         <strong><%= t('activerecord.attributes.contract.activate') %></strong>
       </div>
       <div class="col-9">
-        <i class="<%= t("misc.icon_big_active.#{((@contract.activate) ? "sucess" : "danger")}") %>"></i>
+        <i class="<%= t("misc.is_active.#{@contract.activate}.icon") %>"></i> <%= t("misc.is_active.#{@contract.activate}.title") %>
       </div>
     </div>
 

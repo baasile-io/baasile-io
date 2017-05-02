@@ -26,7 +26,7 @@
             <small class="text-muted"><%= simple_format(proxy.description) %></small>
           </td>
           <td>
-            <i class="<%= t("misc.icon_big_active.#{((proxy.is_active) ? "sucess" : "danger")}") %>"></i>
+            <i class="fa-2x <%= t("misc.is_active.#{proxy.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{proxy.is_active}.title") %>" data-toggle="tooltip"></i>
           </td>
           <td>
             <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %>
