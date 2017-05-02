@@ -49,11 +49,7 @@
               </small>
             </td>
             <td>
-              <% if contract.activate %>
-                  <i class="fa fa-fw fa-2x fa-check text-success"></i>
-              <% else %>
-                  <i class="fa fa-fw fa-2x fa-lock"></i>
-              <% end %>
+              <i class="<%= t("misc.icon_big_active.#{((contract.activate) ? "sucess" : "danger")}") %>"></i>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
