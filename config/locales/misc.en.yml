@@ -33,7 +33,7 @@ en:
         icon: 'fa fa-fw fa-times text-danger'
         title: 'Disabled'
       'true':
-        icone: 'fa fa-fw fa-check text-success'
+        icon: 'fa fa-fw fa-check text-success'
         title: 'Active'
     last_comment: 'Last comment'
     last_modified: 'Last modified'
