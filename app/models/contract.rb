@@ -316,7 +316,6 @@ class Contract < ApplicationRecord
   accepts_nested_attributes_for :price
 
   # TODO remove association, and make it via ":through"
-  before_save :check_activation
 
   before_validation :set_startup_id
 
@@ -450,12 +449,6 @@ class Contract < ApplicationRecord
         self.start_date + 1.month
       when :yearly
         self.start_date + 1.year
-    end
-  end
-
-  def check_activation
-    if self.activate.changed?
-      ContractNotifier.send_activate_contract_notification(self, self.status.to_sym).deliver_now
     end
   end
 

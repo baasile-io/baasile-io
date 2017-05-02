@@ -24,7 +24,9 @@ module BackOffice
       @page_title = @contract.name
       @contract.assign_attributes(contract_params(@contract.status))
       @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
+      has_changed = @contract.activate.changed?
       if @contract.save
+        ContractNotifier.send_activate_contract_notification(@contract, @contract.status.to_sym).deliver_now if has_changed
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
         redirect_to_show
       else

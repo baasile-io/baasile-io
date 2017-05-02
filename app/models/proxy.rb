@@ -8,8 +8,6 @@ class Proxy < ApplicationRecord
   resourcify
   after_create :assign_default_user_role
 
-  before_save :check_activation
-
   # Versioning
   has_paper_trail
 
@@ -67,12 +65,6 @@ class Proxy < ApplicationRecord
 
   def to_s
     name
-  end
-
-  def check_activation
-    if self.is_active.changed? && self.contracts.count > 0
-      ProxyNotifier.send_activate_proxy_notification(self, self.status.to_sym).deliver_now
-    end
   end
 
 end
