@@ -5,6 +5,11 @@ fr:
         subject: "Votre contrat a été rejeté et est repassé au status \"%{status}\""
       send_validated_status_notification:
         subject: "Votre contrat vient de passer au status \"%{status}\""
+      send_activate_contract_notification:
+        active:
+          subject: "Le contract \"#{name}\" à été activé"
+        disable:
+          subject: "Le contract \"#{name}\" à été désactivé"
     error_measurement_notifier:
       send_error_measurement_notification:
         subject: "%{title}"

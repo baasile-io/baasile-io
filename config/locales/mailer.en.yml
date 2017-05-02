@@ -5,6 +5,11 @@ en:
         subject: "Your contract get a modification \"%{status}\""
       send_validated_status_notification:
         subject: "Your contract has just passed the status \"%{status}\""
+      send_activate_contract_notification:
+        active:
+          subject: "The contract \"#{name}\" become active"
+        disable:
+          subject: "The contract \"#{name}\" become disable"
     error_measurement_notifier:
       send_error_measurement_notification:
         subject: "%{title}"
