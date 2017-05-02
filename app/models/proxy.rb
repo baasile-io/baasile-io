@@ -1,4 +1,9 @@
 class Proxy < ApplicationRecord
+
+  PROXY_NOTIFICATION = {
+      activation: ['admin']
+  }
+
   # User rights
   resourcify
   after_create :assign_default_user_role
@@ -61,4 +66,5 @@ class Proxy < ApplicationRecord
   def to_s
     name
   end
+
 end

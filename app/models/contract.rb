@@ -18,6 +18,9 @@ class Contract < ApplicationRecord
         validate: Proc.new {|c| true}
       },
       notifications: {},
+      activation_notifications: {
+          client: ['admin']
+      },
       allowed_parameters: [],
       next: :creation,
       prev: nil
@@ -58,6 +61,10 @@ class Contract < ApplicationRecord
       },
       notifications: {
         startup: ['admin', 'commercial']
+      },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
       },
       allowed_parameters: [:code, :name, :expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id],
       next: :commercial_validation_sp,
@@ -106,6 +113,10 @@ class Contract < ApplicationRecord
       notifications: {
         client: ['admin', 'commercial']
       },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
+      },
       allowed_parameters: [:expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id],
       next: :commercial_validation_client,
       prev: :creation
@@ -148,6 +159,10 @@ class Contract < ApplicationRecord
       notifications: {
         startup: ['admin', 'commercial']
       },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
+      },
       allowed_parameters: [],
       next: :validation,
       prev: :commercial_validation_sp
@@ -188,6 +203,10 @@ class Contract < ApplicationRecord
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
       },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
+      },
       allowed_parameters: [],
       next: :waiting_for_production,
       prev: :commercial_validation_client
@@ -223,6 +242,10 @@ class Contract < ApplicationRecord
       notifications: {
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
+      },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
       },
       allowed_parameters: [],
       next: :validation_production,
@@ -260,6 +283,10 @@ class Contract < ApplicationRecord
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
       },
+      activation_notifications: {
+          client: ['admin'],
+          startup: ['admin']
+      },
       allowed_parameters: [],
       next: nil,
       prev: :waiting_for_production
@@ -289,6 +316,7 @@ class Contract < ApplicationRecord
   accepts_nested_attributes_for :price
 
   # TODO remove association, and make it via ":through"
+
   before_validation :set_startup_id
 
   before_validation :set_expected_contract_duration
@@ -423,4 +451,5 @@ class Contract < ApplicationRecord
         self.start_date + 1.year
     end
   end
+
 end
