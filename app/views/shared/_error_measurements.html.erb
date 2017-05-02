@@ -1,0 +1,44 @@
+<% if collection.size == 0 %>
+    <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+    <table class="table table-hover table-sm table-link">
+      <thead>
+      <tr>
+        <th><%= t('error_measurements.error_types.title') %>
+        </th>
+        <th><%= t("error_measurements.error_types.message") %><br/>
+          <small class="text-muted"><%= t('error_measurements.request') %></small>
+        </th>
+        <th>
+          <%= t("error_measurements.created_at") %>
+        </th>
+        <th><%= t("activerecord.attributes.contract.startup") + " / " %> <small class="text-muted"><%= t("activerecord.attributes.contract.proxy") %></small><br/>
+          <small class="text-muted"><%= t("activerecord.attributes.contract.client") %></small>
+          </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% collection.each do |error_measurement| %>
+          <tr>
+            <td>
+              <%= t("errors.#{error_measurement.error_type.to_sym}.title")%>
+              <br/><small class="text-muted"><%=  %></small>
+            <td>
+              <%= t("errors.#{error_measurement.error_type.to_sym}.message") %><br/>
+              <% unless error_measurement.message.blank? %>
+                  <%= ", " + error_measurement.message %><br/>
+              <% end %>
+              <small class="text-muted"> <%= error_measurement.request %></small>
+            </td>
+            <td>
+              <%= l(error_measurement.created_at, format: :short) %>
+            </td>
+            <td>
+              <%= error_measurement.startup.name + " / "%><small class="text-muted"><%= error_measurement.proxy.name %></small><br/>
+              <small class="text-muted"><%= error_measurement.client.name %></small>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>

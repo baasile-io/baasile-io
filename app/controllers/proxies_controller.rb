@@ -1,5 +1,5 @@
 class ProxiesController < DashboardController
-  before_action :load_proxy, only: [:show, :edit, :update, :destroy]
+  before_action :load_proxy, only: [:error_measurements, :show, :edit, :update, :destroy]
   before_action :load_categories, only: [:new, :edit, :update, :create]
 
   before_action :add_breadcrumb_parent
@@ -82,6 +82,10 @@ class ProxiesController < DashboardController
       @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
       render :edit
     end
+  end
+
+  def error_measurements
+
   end
 
   def show

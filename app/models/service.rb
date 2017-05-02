@@ -37,6 +37,9 @@ class Service < ApplicationRecord
   has_many :user_associations, as: :associable
   has_many :users, through: :user_associations
 
+  has_many :error_measurements, through: :contracts
+  #has_many :error_measurements_as_startup, source: :error_measurements_as_startup, through: :contracts,  foreign_key: 'startup_id'
+
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
   before_validation :generate_identifiers

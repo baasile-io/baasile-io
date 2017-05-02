@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption, :error_measurements]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -204,6 +204,10 @@ class ContractsController < ApplicationController
   def comments
     @comments = Comment.where(commentable: @contract).order(created_at: :desc)
     @comment = Comment.new(commentable: @contract)
+  end
+
+  def error_measurements
+
   end
 
   private

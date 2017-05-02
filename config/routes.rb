@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
     resources :contracts do
       member do
+        get :error_measurements
         get :comments
         post :create_comment
         post :validate
@@ -104,6 +105,7 @@ Rails.application.routes.draw do
     resources :services do
       resources :contracts do
         member do
+          get :error_measurements
           get :comments
           post :create_comment
           post :validate
@@ -141,6 +143,7 @@ Rails.application.routes.draw do
       end
 
       member do
+        get  :error_measurements
         post :activation_request
         post :set_right
         post :unset_right
@@ -160,6 +163,9 @@ Rails.application.routes.draw do
       post '/permissions/unset_right', to: 'permissions#unset_right'
 
       resources :proxies do
+        member do
+          get :error_measurements
+        end
         resources :identifiers
         resources :routes do
           resources :query_parameters
@@ -179,8 +185,10 @@ Rails.application.routes.draw do
       end
     end
 
+
     get 'back_office', to: 'back_office#index'
     namespace :back_office do
+      get :error_measurements
       resources :users do
         member do
           get :audit

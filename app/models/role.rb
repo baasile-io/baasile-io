@@ -7,7 +7,8 @@ class Role < ApplicationRecord
       edit: [:admin],
       update: [:admin],
       logo: [:admin],
-      activation_request: [:admin]
+      activation_request: [:admin],
+      error_measurements: [:admin, :developer]
     },
     users: {
       index: USER_ROLES.dup,
@@ -28,6 +29,7 @@ class Role < ApplicationRecord
       create: [:admin, :developer],
       edit: [:admin, :developer],
       update: [:admin, :developer],
+      error_measurements: [:admin, :developer],
       destroy: [:admin]
     },
     identifiers: {
@@ -67,6 +69,7 @@ class Role < ApplicationRecord
       general_condition: [:admin, :commercial, :accountant],
       validate_general_condition: [:admin, :commercial],
       cancel: [:admin],
+      error_measurements: [:admin, :developer],
       print_current_month_consumption: [:admin, :accountant]
     },
     bills: {

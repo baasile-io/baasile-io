@@ -172,6 +172,10 @@ class Contract < ApplicationRecord
         general_condition: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        error_measurements: {
+            client: ['admin'],
+            startup: ['admin']
         }
       },
       show_error: {
@@ -239,6 +243,10 @@ class Contract < ApplicationRecord
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         },
+        error_measurements: {
+            client: ['admin'],
+            startup: ['admin']
+        },
         print_current_month_consumption: {
           client: ['accountant'],
           startup: ['accountant'],
@@ -275,6 +283,7 @@ class Contract < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :measurements
   has_many :measure_tokens
+  has_many :error_measurements
   has_many :bills
 
   accepts_nested_attributes_for :price

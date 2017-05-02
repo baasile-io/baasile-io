@@ -24,7 +24,7 @@
           <small class="text-muted"><%= t("types.ticket_types.#{ticket.ticket_type}") %></small>
         </td>
         <td>
-          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></
+          <span class="<%= t("types.ticket_statuses.#{ticket.ticket_status}.class") %>"><%= t("types.ticket_statuses.#{ticket.ticket_status}.title") %></span>
         </td>
         <td>
           <small class="text-muted"><%= l(ticket.created_at, format: :short) %></small> <br />

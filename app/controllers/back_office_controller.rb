@@ -10,6 +10,10 @@ class BackOfficeController < ApplicationController
     @deactivated_services = Service.deactivated.order(updated_at: :desc)
   end
 
+  def error_measurements
+
+  end
+
   def authorize_superadmin!
     return head(:forbidden) unless current_user.is_superadmin?
   end

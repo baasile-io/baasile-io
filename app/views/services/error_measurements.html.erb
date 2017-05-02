@@ -1,0 +1,20 @@
+<% content_for(:page_title) { t('error_measurements.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <h5><%= t('error_measurements.client.title') %></h5>
+
+    <%= render partial: 'shared/error_measurements', locals: {collection: @service.error_measurements} %>
+
+    <% if @service.proxies.count > 0 %>
+      <h5><%= t('error_measurements.startup.title') %></h5>
+
+      <% @service.proxies.each do |proxy| %>
+          <% if proxy.error_measurements.count > 0 %>
+            <%= render partial: 'shared/error_measurements', locals: {collection: proxy.error_measurements} %>
+          <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

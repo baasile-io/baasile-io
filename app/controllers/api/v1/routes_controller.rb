@@ -13,10 +13,14 @@ module Api
       # allow measure functionality
       include MeasurementConcern
 
+      # add erreur measure functionality by adding methode "do_request_Error_measure(title, message, error_type, request)"
+      include ErrorMeasurementConcern
+
       def process_request
           @proxy_response = proxy_request
           render status: @proxy_response.code, plain: @proxy_response.body
       rescue ProxyInitializationError
+        do_request_error_measure(:proxy_initialization_error, "")
         render status: :bad_gateway, json: {
           errors: [{
             status: 591,
@@ -25,12 +29,15 @@ module Api
         }
       rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
         if e.code >= 500
+          do_request_error_measure(:proxy_request_error, e.req)
           status = 595
           title = 'The origin server cannot or will not process the request due to an apparent internal error'
         elsif e.code >= 400
+          do_request_error_measure(:proxy_authentication_error, e.req)
           status = 594
           title = 'The origin server cannot or will not process the request due to an apparent client error'
         else
+          do_request_error_measure(:proxy_redirection_error, e.req)
           status = 593
           title = 'The origin server cannot or will not process the request due to an apparent redirection error'
         end
@@ -72,6 +79,7 @@ module Api
           }
         end
       rescue ProxyMissingMandatoryQueryParameterError => e
+        do_request_error_measure(:proxy_missing_mandatory_quer_parameter_error, "", "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\"")
         return render status: 400, json: {
           errors: [{
                      status: 400,

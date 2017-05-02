@@ -16,6 +16,9 @@ class Proxy < ApplicationRecord
   has_many :prices
   has_one :identifier, as: :identifiable, through: :proxy_parameter
   has_many :query_parameters, through: :routes
+  has_many  :contracts
+
+  has_many :error_measurements, through: :contracts
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test
