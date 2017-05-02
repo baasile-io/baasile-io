@@ -1,0 +1,45 @@
+<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_description) { t('.description') } %>
+
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading"><%= t('.title') %></h1>
+    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+  </div>
+</section>
+
+<div class="album">
+  <div class="container">
+    <div class="row">
+
+    <div class="col-sm-2">
+    <h5>Categories</h4>
+      <div class="row">
+          <% @collectionCatalog.each.with_index do |categories, index| %>
+        <div class="col-sm-12">
+              <%= link_to categories.title, sortcat_path(categories.id), :method => :post %>
+              <br\>
+        </div>
+          <% end %>
+      </div>
+    </div>
+    <div class="col-sm-10">
+      <div class="row">
+        <% @collectionProxy.each.with_index do |proxy, index| %>
+          <% image = @logotype_service.url(proxy.service_id, :thumb_normalize) %>
+            <div class="col-sm-3">
+              <div class="card text-center mb-4 w-20">
+                <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.name %>">
+                <div class="card-block">
+                  <h4 class="card-title"><%= proxy.name %></h4>
+                  <p class="card-text"><%= truncate(proxy.description, :length => 80) %></p>
+                  <a href="<%= startup_path(proxy.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
