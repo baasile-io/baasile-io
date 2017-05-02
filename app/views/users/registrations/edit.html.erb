@@ -15,8 +15,8 @@
       <%= f.input :phone, hint: t('users.form.hints.phone') %>
       <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
-      <%= f.input :password, autocomplete: "off", hint: t('devise.passwords.password_restrictions') %>
-      <%= f.input :password_confirmation, autocomplete: "off" %>
+      <%= f.input :password, autocomplete: "off", label: t('users.form.labels.change_password'), hint: t('devise.passwords.password_restrictions') %>
+      <%= f.input :password_confirmation, label: t('users.form.labels.change_password_confirmation'), autocomplete: "off" %>
 
       <%= f.input :current_password, required: true, autocomplete: "off" %>
 

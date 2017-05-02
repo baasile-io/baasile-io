@@ -14,11 +14,13 @@ fr:
     captcha_hint: 'Veuillez recopier le code de vérification.'
     closed_tickets: 'Tickets fermés'
     correct_errors: 'Merci de corriger les erreurs ci-dessous :'
+    current_month_consumption: 'Consommation sur le mois en cours (%{month})'
     dashboard: 'Tableau de bord'
     day:
       one: 'jour'
       other: 'jours'
     deactivated_services: 'Entreprises non activées'
+    deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
@@ -31,7 +33,7 @@ fr:
     locales:
       en: 'Anglais'
       fr: 'Français'
-    logotype: "Logo de l'entreprise"
+    logotype: "Logo"
     month:
       one: 'mois'
       other: 'mois'
@@ -42,6 +44,7 @@ fr:
     need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
     no_available_proxies: "Aucun produit n'est disponible"
+    no_price_template: "Aucun modèle de tarification n'est disponible pour ce produit."
     none: 'Aucun'
     none_feminized: 'Aucune'
     not_active: 'Compte désactivé'
@@ -49,6 +52,9 @@ fr:
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
     overview: "Vue d'ensemble"
+    paid:
+      'false': "À régler"
+      'true': "Réglé"
     parameters: 'Configuration'
     permissions: 'Permissions'
     pricing: 'Tarification'
@@ -62,5 +68,6 @@ fr:
     unconfirmed_email: 'Adresse E-Mail non confirmée'
     unknown_user: 'Utilisateur introuvable'
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
+    user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
     yes: 'Oui'

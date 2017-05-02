@@ -3,13 +3,6 @@ fr:
     authorization_modes:
       'null': 'Autorisation non requise'
       oauth2: 'OAuth 2.0 client credentials grant'
-    contract_duration_types:
-      custom:
-        title: 'Personnalisé'
-      monthly:
-        title: 'Mensuel'
-      yearly:
-        title: 'Annuel'
     documentation_types:
       article:
         icon: 'fa fa-fw fa-file-o'
@@ -49,7 +42,7 @@ fr:
         description: 'Le coût de base est appliqué une seule fois durant toute la durée du contrat.'
         name: 'Prépayé'
       yearly:
-        description: 'Le coût de base est une annuité.'
+        description: 'Le coût de base vaut pour une année mais est mensualisé au prorata.'
         name: 'Souscription annuelle'
     pricing_types:
       per_call:
@@ -141,12 +134,19 @@ fr:
         icon: 'fa fa-fw fa-check text-success'
         reject_label: 'Renégocier le contrat'
         title: 'Validé (phase de test)'
-        validate_label: 'Démarrer la phase de production'
+        validate_label: 'Terminer la phase de test'
       validation_production:
         class: 'text-success'
         description: "Le contrat est validé par les deux parties. La phase de production a démarré."
         icon: 'fa fa-fw fa-check text-success'
         title: 'Validé (phase de production)'
+      waiting_for_production:
+        class: 'text-info'
+        description: "Le contrat est validé par les deux parties. En attente de phase de production."
+        icon: 'fa fa-fw fa-check text-info'
+        reject_label: 'Réouvrir la phase de test'
+        title: 'Validé (en attente de production)'
+        validate_label: 'Démarrer la phase de production'
     contract_unset_status:
       creation: 'Suppression'
       commercial_validation_sp: 'Reject startup'

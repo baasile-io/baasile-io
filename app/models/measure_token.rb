@@ -1,5 +1,6 @@
 class MeasureToken < ApplicationRecord
   belongs_to  :contract
+
   before_save :generate_token_value, if: Proc.new { self.value.blank? }
 
   validates :contract_id, presence: true
@@ -17,5 +18,4 @@ class MeasureToken < ApplicationRecord
     return true if MeasureToken.where(value: self.value, contract: self.contract, contract_status: self.contract_status).nil?
     return false
   end
-
 end

@@ -1,14 +1,3 @@
-#
-# Options:
-#   1. destination tenant # default: nil
-#   2. source tenant      # default: adecco
-#   3. anonymise ?        # default: false
-#   3. fresh db ?         # default: true
-#
-# rake 'anonymise_data:import[staging]' for an existing 'staging' schema
-# rake 'anonymise_data:import[panoptes,adecco,false,false]' for an existing 'panoptes' schema
-#
-
 namespace 'pg_dump' do
   desc "Import remote data"
   task :import => :environment do |t, args|

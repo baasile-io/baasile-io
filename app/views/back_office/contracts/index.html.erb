@@ -9,10 +9,8 @@
       <table class="table table-sm table-hover">
         <thead>
         <tr>
-          <th colspan="2"><%= t('activerecord.attributes.contract.name') %> / <%= t('activerecord.attributes.contract.code') %></th>
-          <th><%= t('activerecord.attributes.contract.status') %></th>
+          <th colspan="2"><%= t('activerecord.attributes.contract.name') %></th>
           <th><%= t('activerecord.attributes.contract.client') %></th>
-          <th><%= t('activerecord.attributes.contract.startup') %></th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
           <th></th>
         </tr>
@@ -24,24 +22,22 @@
               <i class="fa-2x fa-edit fa fa-fw"></i>
             </td>
             <td>
-              <%= contract.name %><br />
-              <small class="text-muted"><%= contract.code %></small>&nbsp;
-            </td>
-            <td>
-              <i class="<%= t("types.contract_statuses.#{contract.status}.icon") %>"></i>
-              <span class="<%= t("types.contract_statuses.#{contract.status}.class") %>"><%= t("types.contract_statuses.#{contract.status}.title") %></span>
+              <%= contract.name %> <small class="text-muted"><%= contract.code %></small>&nbsp;<br />
+              <small>
+                <i class="<%= t("types.contract_statuses.#{contract.status}.icon") %>"></i>
+                <span class="<%= t("types.contract_statuses.#{contract.status}.class") %>"><%= t("types.contract_statuses.#{contract.status}.title") %></span>
+              </small>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
               <span class="<%= t("types.service_types.#{contract.client.service_type}.class") %>"><%= contract.client.name %></span>
             </td>
             <td>
-              <i class="<%= t("types.service_types.#{contract.startup.service_type}.icon") %>"></i>
-              <span class="<%= t("types.service_types.#{contract.startup.service_type}.class") %>"><%= contract.startup.name %></span>
-            </td>
-            <td>
-              <i class="fa fa-fw fa-server"></i>
-              <%= contract.proxy.name %>
+              <i class="fa fa-fw fa-server"></i> <%= contract.proxy.name %> <br />
+              <small>
+                <i class="<%= t("types.service_types.#{contract.startup.service_type}.icon") %>"></i>
+                <span class="<%= t("types.service_types.#{contract.startup.service_type}.class") %>"><%= contract.startup.name %></span>
+              </small>
             </td>
             <td class="text-right">
               <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_contract_path(contract), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>

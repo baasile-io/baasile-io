@@ -1,7 +1,8 @@
 <%
   tab_active = nil
   tab_attributes = {
-    service_main: [:name, :company_id, :public, :subdomain, :service_type, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id],
+    service_main: [:name, :company_id, :public, :subdomain, :service_type],
+    service_users: [:user_id, :main_commercial_id, :main_accountant_id, :main_developer_id],
     service_contact_detail: [:'contact_detail.name', :'contact_detail.siret', :'contact_detail.chamber_of_commerce', :'contact_detail.address_line1', :'contact_detail.address_line2', :'contact_detail.address_line3', :'contact_detail.zip', :'contact_detail.city', :'contact_detail.country', :'contact_detail.phone'],
     service_description: [:description, :description_long, :website]
   }
@@ -10,10 +11,10 @@
     service_contact_detail: 0
   }
 
-  if @service.errors.messages.length > 0
+  if current_service.errors.messages.length > 0
     tab_attributes.each_pair do |k, v|
       v.each do |v2|
-        if @service.errors.messages.include? v2
+        if current_service.errors.messages.include? v2
           tab_active = k if tab_active == nil
           tab_errors[k] = 1
         end
@@ -28,15 +29,23 @@
   <li class="nav-item">
     <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab"><%= t('.tabs.main.title') %></a>
   </li>
+  <% if current_service.persisted? %>
+    <li class="nav-item">
+      <a class="nav-link <%= 'active' if tab_active == :service_identifiers %> <%= 'has-danger' if tab_errors[:service_identifiers] == 1 %>" data-toggle="tab" href="#service_identifiers" role="tab"><%= t('.tabs.identifiers.title') %></a>
+    </li>
+  <% end %>
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :service_contact_detail %> <%= 'has-danger' if tab_errors[:service_contact_detail] == 1 %>" data-toggle="tab" href="#service_contact_detail" role="tab"><%= t('.tabs.main.contact_detail') %></a>
+    <a class="nav-link <%= 'active' if tab_active == :service_users %> <%= 'has-danger' if tab_errors[:service_users] == 1 %>" data-toggle="tab" href="#service_users" role="tab"><%= t('.tabs.users.title') %></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <%= 'active' if tab_active == :service_description %> <%= 'has-danger' if tab_errors[:service_description] == 1 %>" data-toggle="tab" href="#service_description" role="tab"><%= t('.tabs.main.description') %></a>
+    <a class="nav-link <%= 'active' if tab_active == :service_contact_detail %> <%= 'has-danger' if tab_errors[:service_contact_detail] == 1 %>" data-toggle="tab" href="#service_contact_detail" role="tab"><%= t('.tabs.contact_detail.title') %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :service_description %> <%= 'has-danger' if tab_errors[:service_description] == 1 %>" data-toggle="tab" href="#service_description" role="tab"><%= t('.tabs.description.title') %></a>
   </li>
 </ul>
 
-<%= simple_form_for @service  do |f| %>
+<%= simple_form_for current_service do |f| %>
   <%= error_messages_for(f.object) %>
 
   <div class="tab-content">
@@ -61,11 +70,6 @@
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
 
-      <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t("back_office.services.form.hints.user_id") %>
-      <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-      <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-      <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-
       <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain'), input_html: {class: 'col-sm-5'} %>
 
       <% if f.object.is_startup? %>
@@ -73,11 +77,43 @@
       <% end %>
     </div>
 
+    <% if f.object.persisted? %>
+      <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_identifiers %>" id="service_identifiers">
+        <%= f.input :client_id, readonly: true %>
+        <%= f.input :client_secret, readonly: true %>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="reset_identifiers"></label>
+          <div class="col-md-9">
+            <label>
+              <%= check_box_tag :reset_identifiers, 'true', params[:reset_identifiers].present? %>
+              <%= t('actions.reset_identifiers') %>
+            </label>
+            <small class="form-text text-muted"><%= t('back_office.services.form.hints.reset_identifiers') %></small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_users %>" id="service_users">
+
+      <p><%= t('.tabs.users.description') %></p>
+
+      <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t("back_office.services.form.hints.user_id"), disabled: true %>
+      <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+      <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+
+    </div>
+
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_contact_detail %>" id="service_contact_detail">
       <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
     </div>
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_description %>" id="service_description">
+
+      <p><%= t('.tabs.description.description') %></p>
+
       <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('.hints.description') %>
       <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('.hints.description_long'), limited: true %>
 

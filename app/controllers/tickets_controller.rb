@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
   before_action :load_comments, only: [:show, :edit, :update, :destroy, :add_comment]
 
   def add_comment
-    ticket_service = Tickets::TicketService.new(@ticket)
+    ticket_service = Tickets::TicketService.new(@ticket, current_user)
     if ticket_service.comment(params[:new_comment])
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
       redirect_to_show
@@ -39,7 +39,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new
     @ticket.user = current_user
     @ticket.assign_attributes(ticket_params)
-    ticket_service = Tickets::TicketService.new(@ticket)
+    ticket_service = Tickets::TicketService.new(@ticket, current_user)
     if ticket_service.create(params[:new_comment])
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
       redirect_to_index
@@ -53,10 +53,8 @@ class TicketsController < ApplicationController
   end
 
   def update
-    @ticket.assign_attributes(ticket_params)
-    @ticket.ticket_status = Ticket::TICKET_STATUSES_ENUM[:opened]
-    ticket_service = Tickets::TicketService.new(@ticket)
-    if ticket_service.edit(params[:new_comment])
+    ticket_service = Tickets::TicketService.new(@ticket, current_user)
+    if ticket_service.edit_and_open(params[:new_comment])
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
       redirect_to_show
     else

@@ -27,6 +27,7 @@ class ServicesController < ApplicationController
   end
 
   def show
+    @logotype_service = LogotypeService.new
     children = current_service.children
     @clients = children.select {|c| c.service_type == 'client'}
     @startups = children.select {|c| c.service_type == 'startup'}
@@ -62,6 +63,7 @@ class ServicesController < ApplicationController
   def update
     @service.assign_attributes(service_params)
     if @service.save
+      @service.reset_identifiers if params[:reset_identifiers]
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
       redirect_to service_path(@service)
     else
@@ -122,7 +124,7 @@ class ServicesController < ApplicationController
   def activation_request
     if @service.confirmed_at.nil?
       ticket = Ticket.new
-      ticket_service = Tickets::TicketService.new(ticket)
+      ticket_service = Tickets::TicketService.new(ticket, current_user)
       if ticket_service.send_activation_request(current_user, @service)
         flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.ticket'))
       else
@@ -159,11 +161,6 @@ class ServicesController < ApplicationController
     @service
   end
 
-  def is_admin_of(service)
-    return @service.has_role? :all, service
-  end
-
-  helper_method :is_admin_of
   def superadmin
     return head(:forbidden) unless current_user.has_role?(:superadmin)
   end

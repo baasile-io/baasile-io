@@ -8,7 +8,7 @@ fr:
       form:
         hints:
           activate: "Cochez la case pour autoriser le service sur la plateforme."
-          reset_identifiers: 'Cochez la case pour générer de nouveaux identifiants (Attention, cette action est irréversible).'
+          reset_identifiers: 'Cochez la case pour générer une nouvelle clé privée (Attention, cette action est irréversible).'
           user_id: "L'utilisateur sera associé en tant qu'administrateur de l'entreprise."
       index:
         title: 'Entreprises'

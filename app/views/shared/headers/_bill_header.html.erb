@@ -1,0 +1,25 @@
+<div class="b-io-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          <span class="text-muted"><%= link_to t('bills.index.title'), polymorphic_path([current_service, Bill]), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <%= t('bills.show.title', month: l(current_bill.bill_month, format: :month_year)) %>
+        </h4>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'bills' && action_name == 'show' %>" href="<%= polymorphic_path([current_service, current_bill]) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'bills' && ['comments'].include?(action_name) %>" href="<%= polymorphic_path([current_service, current_bill], action: :comments) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_bill.comments.active.count})" if current_bill.comments.active.count > 0 %></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

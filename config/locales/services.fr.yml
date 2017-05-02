@@ -9,10 +9,18 @@ fr:
         subdomain: "L'identifiant publique forme la base de l'URL de l'entreprise sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union. Attention : Une fois que votre compte sera activé, il ne sera plus possible de le modifier."
         website: 'Exemple: "http://www.google.fr"'
       tabs:
+        contact_detail:
+          title: 'Coordonnées'
+        description:
+          description: "La description est obligatoire pour un Fournisseur souhaitant publier ses produits sur le catalogue."
+          title: 'Description'
+        identifiers:
+          title: 'Identifiants'
         main:
-          contact_detail: 'Coordonnées'
-          description: 'Description'
           title: 'Général'
+        users:
+          description: 'Définissez un responsable pour chaque rôle principal parmi les utilisateurs associés au service.'
+          title: 'Responsables'
     index:
       title: 'Entreprises'
     new:
@@ -30,3 +38,25 @@ fr:
       delete_file: 'Supprimer'
       update_title: 'Changer / ajouter le logo'
       delete_title: 'Supprimer le logo'
+    billing:
+      prepaid_base_cost_paid: 'Prepaid plan (déjà payé)'
+      prepaid_base_cost: 'Tarif prépayé'
+      monthly_base_cost: 'Abonnement mensuel'
+      monthly_base_cost_prorated: 'Abonnement mensuel (au prorata)'
+      yearly_base_cost: 'Abonnement annuel (au pro-rata pour le mois en cours)'
+      additional_requests_cost: 'Requêtes supplémentaires'
+      additional_measure_tokens_cost: 'MeasureTokens supplémentaires'
+      pdf:
+        title: 'Factures pour %{month} %{year}'
+        chamber_of_commerce: 'Chambre du commerce'
+        phone: 'Téléphone'
+        contract: 'Contrat'
+        company: 'Entreprise'
+        no_bill: 'Pas de factures en %{month} %{year}.'
+        bill_line_reference: 'Référence'
+        bill_line_unit_num: 'Unités'
+        bill_line_unit_cost: 'Prix unitaire'
+        bill_line_total: 'Sous-total'
+        total: 'TOTAL'
+        address: 'Adresse'
+        contact: 'Contact'

@@ -7,7 +7,7 @@ module BackOffice
     before_action :add_breadcrumb_current_action, except: [:index]
 
     def index
-      @collection = User.all.order(email: :asc)
+      @collection = User.all.order(updated_at: :desc)
     end
 
     def new

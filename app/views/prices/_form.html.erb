@@ -2,6 +2,9 @@
 
   <%= error_messages_for(f.object) %>
 
+  <%= hidden_field :price, 'from_contract', value: params[:from_contract] %>
+  <%= hidden_field :price, 'from_service', value: params[:from_service] %>
+
   <%= (f.input :name, required: true) if f.object.contract.nil? %>
 
   <%= f.input :pricing_type, collection: format_pricing_types_for_select, include_blank: false, input_html: {class: 'select2 col-sm-5'} %>

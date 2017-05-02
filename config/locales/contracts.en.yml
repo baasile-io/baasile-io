@@ -10,12 +10,13 @@ en:
     form:
       hints:
         expected_contract_duration: 'Contract duration in days.'
+        expected_free_count: 'If applicable on product, quantity of requests/users expected for the contract duration'
     index:
       title: 'Contracts'
     new:
       title: 'Create a new contract'
     prices:
-      description: 'Select and edit a template price.'
+      description: 'Select and edit a template price for this contract.'
       title: 'Pricing'
     select_client:
       title: 'Select a Client account'

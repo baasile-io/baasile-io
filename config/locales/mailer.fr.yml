@@ -2,7 +2,7 @@ fr:
   mailer:
     contract_notifier:
       send_rejected_status_notification:
-        subject: "Your contract has received a change request for status \"%{status}\""
+        subject: "Votre contrat a été rejeté et est repassé au status \"%{status}\""
       send_validated_status_notification:
         subject: "Votre contrat vient de passer au status \"%{status}\""
     service_notifier:

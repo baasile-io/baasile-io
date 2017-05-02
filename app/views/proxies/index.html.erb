@@ -1,6 +1,6 @@
 <% content_for(:page_title, t('.title')) %>
 <% content_for(:page_description, t('.description')) %>
-<% content_for(:page_controls) { link_to t('actions.new'), new_service_proxy_path(current_service), class: 'btn btn-primary' } %>
+<% content_for(:page_controls) { link_to t('actions.create_proxy'), new_service_proxy_path(current_service), class: 'btn btn-primary' } %>
 
 <div class="b-io-content--secondary">
 

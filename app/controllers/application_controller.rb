@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include FlashMessagesHelper
+
   protect_from_forgery with: :exception
 
   # reset captcha code after each request for security
@@ -9,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
+  after_filter :flash_to_headers
+
   helper_method :current_company
   helper_method :current_service
   helper_method :current_proxy
@@ -17,6 +21,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_contract
   helper_method :current_price
   helper_method :current_host
+  helper_method :current_bill
   def set_locale
     I18n.locale = params[:locale]
   end
@@ -67,6 +72,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_price
+    nil
+  end
+
+  def current_bill
     nil
   end
 

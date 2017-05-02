@@ -1,0 +1,20 @@
+<% content_for(:page_title) { t('.title', month: l(current_bill.bill_month, format: :month_year)) } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= link_to t('actions.print'), polymorphic_path([current_service, current_bill]), class: 'btn btn-secondary' %>
+    <%= link_to t('actions.see_contract'), polymorphic_path([current_service, current_bill.contract]), class: 'btn btn-secondary' %>
+
+    <%= render partial: 'bills/show_consumption', locals: {bill: current_bill} %>
+
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/measurement', locals: {output: current_bill.contract.measurements.between(current_bill.bill_month, current_bill.bill_month.end_of_month)} %>
+
+  </div>
+</div>

@@ -6,7 +6,7 @@ module Contracts
     end
 
     def activate
-      case @contract.contract_duration_type.to_sym
+      case @contract.price.pricing_duration_type.to_sym
         when :monthly
           activate_monthly_duration
         when :yearly

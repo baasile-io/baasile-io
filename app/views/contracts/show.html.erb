@@ -8,8 +8,18 @@
         <strong><%= t('activerecord.attributes.contract.status') %></strong>
       </div>
       <div class="col-9">
-        <strong><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></strong><br />
+        <h5><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></h5><br />
         <small class="text-muted"><%= t("types.contract_statuses.#{@contract.status}.description") %></small>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('activerecord.attributes.contract.client') %></strong>
+      </div>
+      <div class="col-9">
+        <h5><i class="<%= t("types.service_types.#{@contract.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.client.service_type}.class") %>"><%= @contract.client.name %></span></h5>
       </div>
     </div>
 
@@ -19,8 +29,7 @@
         <strong><%= t('activerecord.attributes.contract.startup') %></strong>
       </div>
       <div class="col-9">
-        <strong><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></span></strong><br />
-        <small class="text-muted"><%= simple_format(@contract.startup.description) %></small>
+        <h5><i class="<%= t("types.service_types.#{@contract.startup.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{@contract.startup.service_type}.class") %>"><%= @contract.startup.name %></span></h5>
       </div>
     </div>
 
@@ -32,16 +41,6 @@
       <div class="col-9">
         <i class="fa fa-fw fa-server"></i> <strong><%= @contract.proxy.name %></strong><br />
         <small class="text-muted"><%= simple_format(@contract.proxy.description) %></small>
-      </div>
-    </div>
-
-    <hr>
-    <div class="row">
-      <div class="col-3 text-right">
-        <strong><%= t('activerecord.attributes.contract.contract_duration_type') %></strong>
-      </div>
-      <div class="col-9">
-        <%= t("types.contract_duration_types.#{@contract.contract_duration_type}.title") %>
       </div>
     </div>
 
@@ -62,9 +61,21 @@
           <strong><%= t('activerecord.attributes.contract.expected_end_date') %></strong>
         </div>
         <div class="col-9">
-          <%= l((@contract.expected_end_date - 1.day), format: :long) %> <%= t('misc.included') %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
+          <%= l((@contract.expected_end_date), format: :long) %> (<%= "#{@contract.expected_contract_duration} #{t('misc.day', count: @contract.expected_contract_duration)}" %>)
         </div>
       </div>
+
+      <% if @contract.expected_free_count.present? %>
+        <hr />
+        <div class="row">
+          <div class="col-3 text-right">
+            <strong><%= t('activerecord.attributes.contract.expected_free_count') %></strong>
+          </div>
+          <div class="col-9">
+            <%= @contract.expected_free_count %>
+          </div>
+        </div>
+      <% end %>
 
     <% else %>
 
@@ -97,24 +108,6 @@
       </div>
     </div>
 
-
-    <% if @contract.comments.active.count > 0 %>
-
-      <hr>
-      <div class="row">
-        <div class="col-3 text-right">
-          <strong><%= t('misc.last_comment') %></strong>
-        </div>
-        <div class="col-9">
-          <div class="float-right">
-            <%= link_to "<i class=\"fa fa-fw fa-comments\"></i> #{t('actions.see_and_add_comments').pluralize}".html_safe, (current_service.nil? ? comments_contract_path(@contract) : comments_service_contract_path(current_service, @contract)), class: 'btn btn-sm btn-secondary' %>
-          </div>
-          <%= render partial: 'comments/comment', locals: {comment: @contract.comments.active.last, mode: :inline} %>
-        </div>
-      </div>
-
-    <% end %>
-
     <hr>
     <div class="row">
       <div class="col-3 text-right">
@@ -124,7 +117,7 @@
 
         <% status, errors = @contract.can?(current_user, :general_condition) %>
         <% if status %>
-          <%= link_to t('actions.see_general_conditions'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
+          <p><%= link_to t('actions.see_general_conditions'), (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %></p>
         <% end %>
         <%= show_contract_errors(errors) %>
 
@@ -134,6 +127,25 @@
 
       </div>
     </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('misc.last_comment') %></strong>
+      </div>
+      <div class="col-9">
+
+        <% if @contract.comments.active.count > 0 %>
+          <div class="float-right">
+            <%= link_to "<i class=\"fa fa-fw fa-comments\"></i> #{t('actions.see_and_add_comments').pluralize}".html_safe, (current_service.nil? ? comments_contract_path(@contract) : comments_service_contract_path(current_service, @contract)), class: 'btn btn-sm btn-secondary' %>
+          </div>
+          <%= render partial: 'comments/comment', locals: {comment: @contract.comments.active.last, mode: :inline} %>
+        <% else %>
+          <%= link_to "<i class=\"fa fa-fw fa-comments\"></i> #{t('actions.see_and_add_comments').pluralize}".html_safe, (current_service.nil? ? comments_contract_path(@contract) : comments_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
+        <% end %>
+      </div>
+    </div>
+
     <hr>
 
     <div class="row">
@@ -151,19 +163,19 @@
 
         <% status, errors = @contract.can?(current_user, :edit) %>
         <% if status %>
-          <%= link_to t('actions.edit'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
+          <%= link_to t('actions.edit_contract'), (current_service.nil? ? edit_contract_path(@contract) : edit_service_contract_path(current_service, @contract)), class: 'btn btn-secondary' %>
         <% end %>
         <%= show_contract_errors(errors) %>
 
         <% status, errors = @contract.can?(current_user, :prices) %>
         <% if status %>
-          <%= link_to t('actions.edit_price'), (current_service.nil? ? prices_contract_path(@contract) : prices_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary' %>
+          <%= link_to t('actions.edit_price'), (current_service.nil? ? prices_contract_path(@contract) : prices_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
         <% end %>
         <%= show_contract_errors(errors) %>
 
         <% status, errors = @contract.can?(current_user, :reject) %>
         <% if status %>
-          <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-danger', method: :post %>
+          <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post %>
         <% end %>
         <%= show_contract_errors(errors) %>
       </div>
@@ -178,7 +190,7 @@
         <div class="col-9">
           <% status, errors = @contract.can?(current_user, :validate) %>
           <% if status %>
-            <%= link_to t("types.contract_statuses.#{@contract.status}.validate_label"), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-primary', method: :post %>
+            <%= link_to t("types.contract_statuses.#{@contract.status}.validate_label"), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-success', method: :post %>
           <% end %>
           <%= show_contract_errors(errors) %>
         </div>
@@ -198,6 +210,26 @@
   <div class="b-io-content--secondary">
     <div class="container-fluid">
       <%= render partial: 'prices/show_price_info', locals: {price: @contract.price} %>
+    </div>
+  </div>
+<% end %>
+
+<% if @contract.status.to_sym == :validation_production && @current_month_consumption %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t("misc.current_month_consumption", month: l(Date.today, format: :month_year)) %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+
+      <%= render partial: 'bills/show_consumption', locals: {bill: @current_month_consumption} %>
+
+      <%= link_to t('actions.print_consumption'), print_current_month_consumption_contract_path(current_contract), class: 'btn btn-secondary' %>
+
+      <%= render partial: 'shared/measurement', locals: {input: current_contract.measurements.between(@current_month_consumption.bill_month, @current_month_consumption.bill_month.end_of_month)} %>
+
     </div>
   </div>
 <% end %>

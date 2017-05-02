@@ -32,6 +32,7 @@ class Service < ApplicationRecord
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens
+  has_many :bills, through: :contracts
 
   has_many :user_associations, as: :associable
   has_many :users, through: :user_associations
@@ -135,14 +136,13 @@ class Service < ApplicationRecord
   def activate
     if self.is_activable?
       self.confirmed_at = Date.new if self.confirmed_at.nil?
-      Tickets::TicketService.new(nil).closed_tickets_by_activation(self)
+      Tickets::TicketService.new(nil, nil).closed_tickets_by_activation(self)
       self.generate_identifiers
       self.save
     end
   end
 
   def reset_identifiers
-    self.generate_client_id!
     self.generate_client_secret!
     self.save!
   end

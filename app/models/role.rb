@@ -27,7 +27,8 @@ class Role < ApplicationRecord
       new: [:admin, :developer],
       create: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin]
     },
     identifiers: {
       index: [:admin, :developer]
@@ -38,13 +39,15 @@ class Role < ApplicationRecord
       create: [:admin, :developer],
       show: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin, :developer]
     },
     query_parameters: {
       index: [:admin, :developer],
       create: [:admin, :developer],
       edit: [:admin, :developer],
-      update: [:admin, :developer]
+      update: [:admin, :developer],
+      destroy: [:admin, :developer]
     },
     permissions: {},
     contracts: {
@@ -63,7 +66,13 @@ class Role < ApplicationRecord
       validate: [:admin, :commercial, :accountant],
       general_condition: [:admin, :commercial, :accountant],
       validate_general_condition: [:admin, :commercial],
-      cancel: [:admin]
+      cancel: [:admin],
+      print_current_month_consumption: [:admin, :accountant]
+    },
+    bills: {
+      index: [:admin, :accountant],
+      show: [:admin, :accountant],
+      print: [:admin, :accountant]
     },
     prices: {
       index: [:admin, :commercial],

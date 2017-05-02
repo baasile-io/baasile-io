@@ -26,7 +26,7 @@ module BackOffice
       @service = Service.new(service_params)
       if params[:activate].present?
         @service.confirmed_at = DateTime.now if @service.confirmed_at.nil?
-        Tickets::TicketService.new(nil).closed_tickets_by_activation(@service)
+        Tickets::TicketService.new(nil, nil).closed_tickets_by_activation(@service)
       else
         @service.confirmed_at = nil
       end
@@ -43,7 +43,7 @@ module BackOffice
       @service.assign_attributes(service_params)
       if params[:activate].present?
         @service.confirmed_at = DateTime.now if @service.confirmed_at.nil?
-        Tickets::TicketService.new(nil).closed_tickets_by_activation(@service)
+        Tickets::TicketService.new(nil, nil).closed_tickets_by_activation(@service)
       else
         @service.confirmed_at = nil
       end

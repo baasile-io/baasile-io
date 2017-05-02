@@ -54,6 +54,7 @@ gem 'activevalidators'
 gem 'ancestry'
 gem 'aws-sdk-rails'
 gem 'rmagick'
+gem 'prawn'
 
 # Security
 gem 'rack-attack'

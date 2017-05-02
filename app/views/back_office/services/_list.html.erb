@@ -6,9 +6,6 @@
     <tr>
       <th colspan="2"></th>
       <th>
-        <%= t('activerecord.attributes.service.service_type') %>
-      </th>
-      <th>
         <%= t('activerecord.models.user').pluralize %>
       </th>
       <th>
@@ -28,9 +25,6 @@
           <%= "<span class=\"float-right\"><i class=\"fa fa-2x fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe if service.confirmed_at.nil? %>
           <strong class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></strong><br />
           <%= "<small class=\"text-muted\"><i class=\"#{t("types.service_types.#{service.parent.service_type}.icon")}\"></i> #{service.parent}</small>  ".html_safe if service.parent %>&nbsp;
-        </td>
-        <td>
-          <span class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
         </td>
         <td>
           <% if service.users.size > 0 %>

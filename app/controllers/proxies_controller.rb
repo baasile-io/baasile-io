@@ -22,7 +22,9 @@ class ProxiesController < DashboardController
   def new
     @proxy = Proxy.new
     @proxy.build_proxy_parameter
+    @proxy.proxy_parameter.build_identifier
     @proxy.build_proxy_parameter_test
+    @proxy.proxy_parameter_test.build_identifier
   end
 
   def create
@@ -45,24 +47,22 @@ class ProxiesController < DashboardController
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else
+      @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
+      @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
       render :new
     end
   end
 
   def edit
     @proxy.build_proxy_parameter unless @proxy.proxy_parameter
+    @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
     @proxy.build_proxy_parameter_test unless @proxy.proxy_parameter_test
-
-    if @proxy.proxy_parameter.authorization_required?
-      @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
-    end
-    if @proxy.proxy_parameter_test.authorization_required?
-      @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
-    end
+    @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
   end
 
   def update
     @proxy.assign_attributes(proxy_params)
+
     if @proxy.proxy_parameter.authorization_required?
       @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
     else
@@ -73,10 +73,13 @@ class ProxiesController < DashboardController
     else
       @proxy.proxy_parameter_test.identifier.destroy unless @proxy.proxy_parameter_test.identifier.nil?
     end
+
     if @proxy.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.proxy'))
       redirect_to service_proxy_path(current_service, @proxy)
     else
+      @proxy.proxy_parameter.build_identifier if @proxy.proxy_parameter.identifier.nil?
+      @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
       render :edit
     end
   end

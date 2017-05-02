@@ -1,0 +1,70 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+          <th colspan="2">Mois</th>
+          <th><%= t('activerecord.models.contract') %></th>
+          <th><%= t('activerecord.attributes.contract.proxy') %></th>
+          <th><%= t('activerecord.attributes.bill.created_at') %></th>
+          <th><%= t('bills.invoice_attributes.total_cost') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @collection.each do |bill|
+          link = polymorphic_path([current_service, bill])
+        %>
+          <tr>
+            <td class="width-3">
+              <i class="fa-2x fa-file-text-o fa fa-fw"></i>
+            </td>
+            <td>
+              <%= l(bill.bill_month, format: :month_year) %>
+            </td>
+            <td>
+              <i class="fa fa-fw fa-edit"></i>
+              <%= bill.contract.name %> <small class="text-muted"><%= bill.contract.code %></small><br />
+              <small>
+                <i class="<%= t("types.service_types.#{bill.contract.client.service_type}.icon") %>"></i>
+                <span class="<%= t("types.service_types.#{bill.contract.client.service_type}.class") %>"><%= bill.contract.client.name %></span>
+              </small>
+            </td>
+            <td>
+              <i class="fa fa-fw fa-server"></i> <%= bill.contract.proxy.name %><br />
+              <small>
+                <i class="<%= t("types.service_types.#{bill.contract.startup.service_type}.icon") %>"></i>
+                <span class="<%= t("types.service_types.#{bill.contract.startup.service_type}.class") %>"><%= bill.contract.startup.name %></span>
+              </small>
+            </td>
+            <td>
+              <%= l(bill.created_at.to_date, format: :default) %>
+            </td>
+            <td>
+              <span class="<%= (bill.paid ? 'text-success' : 'text-danger') %>">
+                <strong><%= format_amount bill.total_cost %></strong><br />
+                <%= t("misc.paid.#{bill.paid}") %><br />
+                <% if !bill.paid && bill.due_date %>
+                  <small><%= "#{t('misc.deadline')}#{' ' if I18n.locale == :fr}: #{l(bill.due_date, format: :default)}" %></small>
+                <% end %>
+              </span>
+            </td>
+            <td class="text-right">
+              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, link, class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.see_bill') %>
+              <%= link_to '<i class="fa fa-fw fa-print"></i>'.html_safe, polymorphic_path([current_service, bill], action: :print), class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.print') %>
+              <%= link_to '<i class="fa fa-fw fa-edit"></i>'.html_safe, polymorphic_path([current_service, bill.contract]), class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.see_contract') %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>
