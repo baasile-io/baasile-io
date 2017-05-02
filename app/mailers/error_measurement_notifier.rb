@@ -8,7 +8,7 @@ class ErrorMeasurementNotifier < ApplicationMailer
         @error_measurement_title = I18n.t("errors.api.#{@error_measurement.error_type.underscore}.title")
         @error_measurement_message = I18n.t("errors.api.#{@error_measurement.error_type.underscore}.message")
         mail( to: user.email,
-              subject: I18n.t("mailer.ticket_notifier.send_ticket_notification.subject", title: @error_measurement_title, message: @error_measurement_message) )
+              subject: I18n.t("mailer.error_measurement_notifier.send_error_measurement_notification.subject", title: @error_measurement_title, message: @error_measurement_message) )
       end
     end
   end
@@ -16,9 +16,11 @@ class ErrorMeasurementNotifier < ApplicationMailer
   private
 
   def users_to_be_notified(error_measure)
-    ERROR_MEASUREMENT_TYPES[error_measure.error_type][:notifications].each_with_object([]) do |(user_scope, user_roles), users|
+    users = []
+    ErrorMeasurement::ERROR_MEASUREMENT_TYPES[error_measure.error_type.underscore][:notifications].each_with_object(1) do |user_scope, user_roles|
       users += get_users_by_startup_or_client_path_by_scope(error_measure.route.service, error_measure.contract.client, user_scope, user_roles)
-    end.reject(&:blank?).uniq
+    end
+    return users.reject(&:blank?).uniq
   end
 
   # todo généraliser pour mettre dans un service user par exemple
@@ -29,7 +31,7 @@ class ErrorMeasurementNotifier < ApplicationMailer
   end
 
   def get_users_by_service_by_scopes(service_path, user_roles)
-    user_roles.each([]) do |user_role, users|
+    user_roles.each_with_object([]) do |user_role, users|
       users << service_path.send("main_#{user_role}")
     end.reject(&:blank?).uniq
   end
