@@ -11,10 +11,10 @@
     service_contact_detail: 0
   }
 
-  if current_service.errors.messages.length > 0
+  if @service.errors.messages.length > 0
     tab_attributes.each_pair do |k, v|
       v.each do |v2|
-        if current_service.errors.messages.include? v2
+        if @service.errors.messages.include? v2
           tab_active = k if tab_active == nil
           tab_errors[k] = 1
         end
@@ -29,7 +29,7 @@
   <li class="nav-item">
     <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab"><%= t('.tabs.main.title') %></a>
   </li>
-  <% if current_service.persisted? %>
+  <% if @service.persisted? %>
     <li class="nav-item">
       <a class="nav-link <%= 'active' if tab_active == :service_identifiers %> <%= 'has-danger' if tab_errors[:service_identifiers] == 1 %>" data-toggle="tab" href="#service_identifiers" role="tab"><%= t('.tabs.identifiers.title') %></a>
     </li>
@@ -45,7 +45,7 @@
   </li>
 </ul>
 
-<%= simple_form_for current_service do |f| %>
+<%= simple_form_for @service do |f| %>
   <%= error_messages_for(f.object) %>
 
   <div class="tab-content">
