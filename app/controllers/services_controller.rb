@@ -72,20 +72,11 @@ class ServicesController < ApplicationController
   end
 
   def destroy
-    if @service.contracts.count > 0
-      flash[:error] = I18n.t('errors.services.detroyed_linked_to_contract', resource: t('activerecord.models.service'))
-      return render :show
-    end
-    @service.proxies.each do |proxy|
-      if proxy.contracts.count > 0
-        flash[:error] = I18n.t('errors.services.detroyed_linked_product_to_contract', resource: t('activerecord.models.service'))
-        return render :show
-      end
-    end
     if @service.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.service'))
       redirect_to_index
     else
+      flash[:error] = @service.errors.full_messages.join(', ')
       render :show
     end
   end

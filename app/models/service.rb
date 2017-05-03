@@ -26,15 +26,15 @@ class Service < ApplicationRecord
   belongs_to :main_commercial, class_name: User.name, foreign_key: 'main_commercial_id'
   belongs_to :main_accountant, class_name: User.name, foreign_key: 'main_accountant_id'
   belongs_to :main_developer, class_name: User.name, foreign_key: 'main_developer_id'
-  has_many :tickets
-  has_many :proxies
-  has_many :contracts, class_name: Contract.name, foreign_key: 'client_id'
+  has_many :tickets, dependent: :destroy
+  has_many :proxies, dependent: :restrict_with_error
+  has_many :contracts, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error
   has_many :routes, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
-  has_many :refresh_tokens
-  has_many :bills, through: :contracts
+  has_many :refresh_tokens, dependent: :destroy
+  has_many :bills, through: :contracts, dependent: :restrict_with_error
 
-  has_many :user_associations, as: :associable
+  has_many :user_associations, as: :associable, dependent: :destroy
   has_many :users, through: :user_associations
 
   has_many :error_measurements, through: :routes
