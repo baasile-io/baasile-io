@@ -41,7 +41,6 @@ class ErrorMeasurement < ApplicationRecord
   has_one :startup, through: :route, source: :proxy
 
   validates   :error_type , presence: true
-  validates   :request    , presence: true
   validates   :contract   , presence: true
   validates   :route      , presence: true
 

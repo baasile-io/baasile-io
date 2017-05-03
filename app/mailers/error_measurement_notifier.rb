@@ -16,6 +16,7 @@ class ErrorMeasurementNotifier < ApplicationMailer
   private
 
   def users_to_be_notified(error_measurement)
+    return [] unless ErrorMeasurement::ERROR_MEASUREMENT_TYPES[error_measurement.error_type.underscore]
     ErrorMeasurement::ERROR_MEASUREMENT_TYPES[error_measurement.error_type.underscore][:notifications].each_with_object([]) do |(user_scope, user_roles), user_array|
       user_array.concat(get_users_by_service_and_by_roles((user_scope == :startup ? error_measurement.route.service : error_measurement.contract.client), user_roles))
     end.reject(&:blank?).uniq

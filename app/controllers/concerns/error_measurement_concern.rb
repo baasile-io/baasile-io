@@ -9,13 +9,12 @@ module ErrorMeasurementConcern
       route: current_route,
       status: status,
       error_type: error_type,
-      request: request,
       message: message
     )
     ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now
     true
-  #rescue
-  #  false
+  rescue
+    false
   end
 
 end
