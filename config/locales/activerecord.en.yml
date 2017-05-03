@@ -129,6 +129,7 @@ en:
         name: 'Name'
         query_parameter_type: 'Type'
       route:
+        allowed_methods: 'Allowed methods'
         description: 'Description'
         name: 'Name'
         hostname: 'Hostname'

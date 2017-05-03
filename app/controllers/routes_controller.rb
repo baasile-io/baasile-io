@@ -21,7 +21,7 @@ class RoutesController < DashboardController
   end
 
   def new
-    @route = Route.new
+    @route = current_proxy.routes.build
   end
 
   def create
