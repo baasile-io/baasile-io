@@ -6,19 +6,18 @@ class Proxy < ApplicationRecord
   # Versioning
   has_paper_trail
 
-  belongs_to :service
-  belongs_to :user
-  belongs_to :category
+  belongs_to  :service
+  belongs_to  :user
+  belongs_to  :category
+  belongs_to  :proxy_parameter, dependent: :destroy
+  belongs_to  :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id', dependent: :destroy
 
-  belongs_to :proxy_parameter
-  belongs_to :proxy_parameter_test, class_name: ProxyParameter.name, foreign_key: 'proxy_parameter_test_id'
-  has_many :routes
-  has_many :prices
-  has_one :identifier, as: :identifiable, through: :proxy_parameter
-  has_many :query_parameters, through: :routes
-  has_many  :contracts
-
-  has_many :error_measurements, through: :contracts
+  has_many    :routes, dependent: :destroy
+  has_many    :prices, dependent: :destroy
+  has_one     :identifier, as: :identifiable, through: :proxy_parameter, dependent: :destroy
+  has_many    :query_parameters, through: :routes, dependent: :destroy
+  has_many    :contracts, dependent: :restrict_with_error
+  has_many    :error_measurements, through: :contracts, dependent: :destroy
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test
@@ -52,6 +51,10 @@ class Proxy < ApplicationRecord
 
   def cache_token
     "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at}"
+  end
+
+  def local_url(version = 'v1')
+    "#{self.service.local_url(version)}/proxies/#{self.subdomain}"
   end
 
   def has_get_context?

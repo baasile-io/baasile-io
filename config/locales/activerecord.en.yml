@@ -129,6 +129,7 @@ en:
         name: 'Name'
         query_parameter_type: 'Type'
       route:
+        allowed_methods: 'Allowed methods'
         description: 'Description'
         name: 'Name'
         hostname: 'Hostname'
@@ -206,6 +207,7 @@ en:
       category: "Category"
       comment: 'Comment'
       company: 'Aggregator'
+      contract: 'Contract'
       contact_detail: 'Contact Detail'
       dictionary: 'Dictionary'
       documentation: 'Documentation'

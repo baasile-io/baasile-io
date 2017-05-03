@@ -12,7 +12,7 @@ fr:
         contact_detail:
           title: 'Coordonnées'
         description:
-          description: "La description est obligatoire pour un Fournisseur souhaitant publier ses produits sur le catalogue."
+          description: "La description est obligatoire pour un Fournisseur souhaitant publier des produits sur le catalogue."
           title: 'Description'
         identifiers:
           title: 'Identifiants'

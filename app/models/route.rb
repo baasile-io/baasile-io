@@ -12,11 +12,13 @@ class Route < ApplicationRecord
 
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
+  belongs_to :user
   belongs_to :proxy
   has_one :service, through: :proxy
-  belongs_to :user
-  has_many :query_parameters
-  has_many :error_measurements
+  has_many :query_parameters, dependent: :destroy
+  has_many :error_measurements, dependent: :destroy
+  has_many :contracts, through: :proxy, dependent: :restrict_with_error
+  has_many :prices, dependent: :nullify
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
@@ -55,15 +57,15 @@ class Route < ApplicationRecord
   end
 
   def uri
-    "#{protocol || proxy.proxy_parameter.protocol}://#{hostname.present? ? hostname : proxy.proxy_parameter.hostname}:#{port.present? ? port : proxy.proxy_parameter.port}#{url}"
+    "#{self.protocol || self.proxy.proxy_parameter.protocol}://#{self.hostname.present? ? self.hostname : self.proxy.proxy_parameter.hostname}:#{self.port.present? ? self.port : self.proxy.proxy_parameter.port}#{self.url}"
   end
 
   def uri_test
-    "#{protocol_test || proxy.proxy_parameter_test.protocol}://#{hostname_test.present? ? hostname_test : proxy.proxy_parameter_test.hostname}:#{port_test.present? ? port_test : proxy.proxy_parameter_test.port}#{url}"
+    "#{self.protocol_test || self.proxy.proxy_parameter_test.protocol}://#{self.hostname_test.present? ? self.hostname_test : self.proxy.proxy_parameter_test.hostname}:#{self.port_test.present? ? self.port_test : self.proxy.proxy_parameter_test.port}#{self.url}"
   end
 
-  def local_url(version)
-    "/api/#{version}/#{self.proxy.service.subdomain}/proxies/#{self.proxy.subdomain}/routes/#{self.subdomain}/request"
+  def local_url(version = 'v1')
+    "#{self.proxy.local_url(version)}/routes/#{self.subdomain}/request"
   end
 
   def to_s

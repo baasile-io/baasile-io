@@ -22,7 +22,7 @@ class ServicesController < ApplicationController
   def index
     @collection = current_user.services
     if @collection.size == 0
-      redirect_to new_service_path
+      redirect_to_new
     end
   end
 
@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
     @service.assign_attributes(service_params)
     if @service.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.service'))
-      redirect_to service_path(@service)
+      redirect_to_show
     else
       render :new
     end
@@ -65,7 +65,7 @@ class ServicesController < ApplicationController
     if @service.save
       @service.reset_identifiers if params[:reset_identifiers]
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.service'))
-      redirect_to service_path(@service)
+      redirect_to_show
     else
       render :edit
     end
@@ -74,8 +74,9 @@ class ServicesController < ApplicationController
   def destroy
     if @service.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.service'))
-      redirect_to services_path
+      redirect_to_index
     else
+      flash[:error] = @service.errors.full_messages.join(', ')
       render :show
     end
   end
@@ -92,7 +93,7 @@ class ServicesController < ApplicationController
       else
         flash[:success] = I18n.t('services.logo.deleted')
       end
-      redirect_to logo_service_path(@service)
+      redirect_to_logo
 
     elsif params[:upload] == 'true'
 
@@ -103,7 +104,7 @@ class ServicesController < ApplicationController
       else
         flash[:success] = I18n.t('services.logo.uploaded')
       end
-      redirect_to logo_service_path(@service)
+      redirect_to_logo
 
     else
       render :logo
@@ -135,10 +136,26 @@ class ServicesController < ApplicationController
         flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
       end
     end
-    redirect_to service_path(@service)
+    redirect_to_show
   end
 
   private
+
+  def redirect_to_new
+    redirect_to new_service_path
+  end
+
+  def redirect_to_logo
+    redirect_to logo_service_path(@service)
+  end
+
+  def redirect_to_index
+    redirect_to services_path
+  end
+
+  def redirect_to_show
+    redirect_to service_path(@service)
+  end
 
   def service_params
     allowed_parameters = [:name, :description, :subdomain, :public, :description_long, :website, :parent_id, :user_id, :main_commercial_id, :main_accountant_id, :main_developer_id, contact_detail_attributes: [:name, :siret, :chamber_of_commerce, :address_line1, :address_line2, :address_line3, :zip, :city, :country, :phone]]

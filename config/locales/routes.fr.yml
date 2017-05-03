@@ -9,7 +9,7 @@ fr:
       hints:
         measure_token_activated: "Le MeasureToken permet d'appliquer une tarification \"Par paramètre\"."
         subdomain: "L'identifiant publique forme la base de l'URL de la route sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union."
-        url: "L'URL doit commencer par un slash."
+        url: "L'URL doit commencer par un slash (/). Elle sera suffixée au domaine du produit: %{base_uri}"
     index:
       title: 'Routes'
     new:

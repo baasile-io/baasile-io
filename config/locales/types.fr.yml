@@ -107,7 +107,7 @@ fr:
         validate_label: 'Créer et notifier le fournisseur'
       commercial_validation_sp:
         class: 'text-danger'
-        description: "Le fournisseur doit valider les dates du contrat."
+        description: "Le fournisseur doit valider les dates du contrat et éditer une tarification"
         error: 'Seul un responsable commercial du fournisseur est habilité à valider cette étape.'
         icon: 'fa fa-fw fa-thumbs-o-up text-danger'
         reject_label: 'Rejeter la proposition et notifier le client'

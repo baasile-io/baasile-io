@@ -107,7 +107,7 @@ en:
         validate_label: 'Create and notify supplier'
       commercial_validation_sp:
         class: 'text-danger'
-        description: "The supplier must validate the dates of the contract."
+        description: "The supplier must validate the dates of the contract and edit a pricing."
         error: 'Only a commercial of the supplier is authorized to validate this step.'
         icon: 'fa fa-fw fa-thumbs-o-up text-danger'
         reject_label: 'Reject proposal and notify client'
