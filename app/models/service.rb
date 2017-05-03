@@ -204,4 +204,8 @@ class Service < ApplicationRecord
     end
     false
   end
+
+  def local_url(version = 'v1')
+    "/api/#{version}/#{self.subdomain}"
+  end
 end

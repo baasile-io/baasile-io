@@ -53,6 +53,10 @@ class Proxy < ApplicationRecord
     "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at}"
   end
 
+  def local_url(version = 'v1')
+    "#{self.service.local_url(version)}/proxies/#{self.subdomain}"
+  end
+
   def has_get_context?
     self.routes.where(name: 'getContext').count == 1
   end

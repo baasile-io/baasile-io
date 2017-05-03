@@ -8,10 +8,12 @@
     <table class="table table-sm table-hover table-link">
       <thead>
       <tr>
-        <th colspan="2" class="width-40"><%= t('activerecord.attributes.proxy.name') %></th>
+        <th colspan="2"><%= t('activerecord.attributes.proxy.name') %></th>
         <th><%= t('activerecord.attributes.proxy.is_active') %></th>
-        <th><%= t('activerecord.attributes.proxy.category') %></th>
-        <th><%= t('activerecord.attributes.proxy.public') %></th>
+        <th>
+          <%= t('activerecord.attributes.proxy.category') %><br />
+          <small class="text-muted"><%= t('activerecord.attributes.proxy.public') %></small>
+        </th>
         <th></th>
       </tr>
       </thead>
@@ -22,21 +24,24 @@
             <i class="fa fa-fw fa-2x fa-server"></i>
           </td>
           <td>
-            <strong><%= proxy.name %></strong><br />
+            <p>
+              <strong><%= proxy.name %></strong><br />
+              <%= proxy.local_url %>
+            </p>
             <small class="text-muted"><%= simple_format(proxy.description) %></small>
           </td>
           <td>
             <i class="fa-2x <%= t("misc.is_active.#{proxy.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{proxy.is_active}.title") %>" data-toggle="tooltip"></i>
           </td>
           <td>
-            <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %>
-          </td>
-          <td>
-            <% unless current_service.public %>
-              <i class="fa fa-fw fa-lock"></i> <%= t('misc.service_not_published') %>
-            <% else %>
-              <%= t("misc.#{proxy.public}") %>
-            <% end %>
+            <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %><br />
+            <small class="text-muted">
+              <% unless current_service.public %>
+                <i class="fa fa-fw fa-lock"></i> <%= t('misc.service_not_published') %>
+              <% else %>
+                <%= t("misc.#{proxy.public}") %>
+              <% end %>
+            </small>
           </td>
           <td class="text-right">
             <%= link_to t('actions.configure'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>

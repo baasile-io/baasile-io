@@ -7,7 +7,7 @@
     <table class="table table-hover table-sm table-link">
       <thead>
       <tr>
-        <th colspan="2" class="width-40"><%= t('activerecord.attributes.route.name') %></th>
+        <th colspan="2"><%= t('activerecord.attributes.route.name') %></th>
         <th></th>
       </tr>
       </thead>
@@ -18,7 +18,10 @@
             <i class="fa fa-fw fa-2x fa-sitemap"></i>
           </td>
           <td>
-            <strong><%= route.name %></strong><br />
+            <p>
+              <strong><%= route.name %></strong><br />
+              <%= route.local_url %>
+            </p>
             <small class="text-muted"><%= route.description %></small>
           </td>
           <td class="text-right">
