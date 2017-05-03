@@ -12,11 +12,12 @@ class Route < ApplicationRecord
 
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
+  belongs_to :user
   belongs_to :proxy
   has_one :service, through: :proxy
-  belongs_to :user
-  has_many :query_parameters
-  has_many :error_measurements
+  has_many :query_parameters, dependent: :destroy
+  has_many :error_measurements, dependent: :destroy
+  has_many :contracts, through: :proxy, dependent: :restrict_with_error
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }

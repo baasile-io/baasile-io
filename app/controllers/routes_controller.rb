@@ -59,6 +59,7 @@ class RoutesController < DashboardController
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.route'))
       redirect_to service_proxy_routes_path(current_service, current_proxy)
     else
+      flash[:error] = @route.errors.full_messages.join(', ')
       render :show
     end
   end

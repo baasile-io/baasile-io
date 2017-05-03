@@ -218,6 +218,7 @@ fr:
       category: "Catégorie"
       comment: 'Commentaire'
       company: 'Aggrétateur'
+      contract: 'Contrat'
       contact_detail: 'Coordonnées'
       dictionary: 'Dictionnaire'
       documentation: 'Documentation'

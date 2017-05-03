@@ -92,13 +92,11 @@ class ProxiesController < DashboardController
   end
 
   def destroy
-    if @proxy.contracts.count > 0
-      flash[:error] = I18n.t('errors.proxies.detroyed_linked_to_contract', resource: t('activerecord.models.proxy'))
-      render :show
-    elsif @proxy.destroy
+    if @proxy.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.proxy'))
       redirect_to_index
     else
+      flash[:error] = @proxy.errors.full_messages.join(', ')
       render :show
     end
   end

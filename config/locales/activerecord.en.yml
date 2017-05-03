@@ -206,6 +206,7 @@ en:
       category: "Category"
       comment: 'Comment'
       company: 'Aggregator'
+      contract: 'Contract'
       contact_detail: 'Contact Detail'
       dictionary: 'Dictionary'
       documentation: 'Documentation'

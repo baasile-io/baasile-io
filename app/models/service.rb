@@ -37,7 +37,7 @@ class Service < ApplicationRecord
   has_many :user_associations, as: :associable, dependent: :destroy
   has_many :users, through: :user_associations
 
-  has_many :error_measurements, through: :routes
+  has_many :error_measurements, through: :routes, dependent: :destroy
 
   accepts_nested_attributes_for :contact_detail, allow_destroy: true
 
