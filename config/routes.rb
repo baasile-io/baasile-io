@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
 
     namespace :v1 do
+      get '/' => 'services#root', as: :root
       resources :services, only: :index
       scope '/:current_subdomain' do
         get '/' => 'services#show'

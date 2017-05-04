@@ -70,7 +70,14 @@
 
       <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
 
-      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain'), input_html: {class: 'col-sm-5'} %>
+      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain'), input_html: {class: 'col-sm-5', 'data-target': 'service_subdomain_livepreview', 'data-prefix': "#{api_v1_root_url(locale: nil)}/"} %>
+
+      <div class="form-group row subdomain_livepreview">
+        <label class="col-md-3 col-form-label"><%= t('.hints.subdomain_livepreview_label') %></label>
+        <div class="col-md-9">
+          <input class="form-control" type="text" id="service_subdomain_livepreview" value="" readonly>
+        </div>
+      </div>
 
       <% if f.object.is_startup? %>
         <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>

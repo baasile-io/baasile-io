@@ -7,6 +7,7 @@ fr:
         description: 'Description courte de votre entreprise affichée dans les pages du catalogue.'
         description_long: 'Description avancée de votre entreprise et de ses activités affichéé sur une page dédiée du catalogue.'
         subdomain: "L'identifiant publique forme la base de l'URL de l'entreprise sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union. Attention : Une fois que votre compte sera activé, il ne sera plus possible de le modifier."
+        subdomain_livepreview_label: 'Votre URL sur la plateforme'
         website: 'Exemple: "http://www.google.fr"'
       tabs:
         contact_detail:
