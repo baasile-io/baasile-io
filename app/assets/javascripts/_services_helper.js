@@ -16,6 +16,6 @@ function input_subdomain_live_update(e) {
 
 $(document).ready(function() {
 
-  $('input#service_subdomain').on('keyup change', input_subdomain_live_update).each(input_subdomain_live_update);
+  $('input#service_subdomain, input#proxy_subdomain, input#route_subdomain').on('keyup change', input_subdomain_live_update).each(input_subdomain_live_update);
 
 });

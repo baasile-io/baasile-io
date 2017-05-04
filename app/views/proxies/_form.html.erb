@@ -45,9 +45,18 @@
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_main %>" id="proxy_main">
       <%= f.input :name %>
-      <%= f.input :subdomain, hint: t('proxies.form.hints.subdomain') %>
-      <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
+
+      <%= f.input :subdomain, hint: t('proxies.form.hints.subdomain'), input_html: {class: 'col-sm-5', 'data-target': 'service_subdomain_livepreview', 'data-prefix': "#{f.object.service.local_url}/proxies/"} %>
+
+      <div class="form-group row subdomain_livepreview">
+        <label class="col-md-3 col-form-label"><%= t('services.form.hints.subdomain_livepreview_label') %></label>
+        <div class="col-md-9">
+          <input class="form-control" type="text" id="service_subdomain_livepreview" value="" readonly>
+        </div>
+      </div>
+
       <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
+      <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
       <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
       <%= f.input :description, as: :text, input_html: {rows: 5} %>
     </div>

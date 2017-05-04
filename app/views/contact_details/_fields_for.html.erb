@@ -1,14 +1,13 @@
 <%= f.simple_fields_for :contact_detail do |f2| %>
   <%= f2.input :siret %>
   <%= f2.input :chamber_of_commerce %>
-  <%= f2.input :phone, hint: t('.hints.phone') %>
+  <%= f2.input :phone, hint: t('.hints.phone'), input_html: {class: 'col-sm-3'} %>
   <%= f2.input :name, placeholder: f.object.name %>
   <%= f2.input :address_line1 %>
   <%= f2.input :address_line2 %>
   <%= f2.input :address_line3 %>
 
-  <%= f2.input :zip %>
-  <%= f2.input :city %>
-
-  <%= f2.input :country, as: :string %>
+  <%= f2.input :zip, input_html: {class: 'col-sm-3'} %>
+  <%= f2.input :city, input_html: {class: 'col-sm-6'} %>
+  <%= f2.input :country, as: :string, input_html: {class: 'col-sm-6'} %>
 <% end %>

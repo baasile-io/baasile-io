@@ -1,7 +1,7 @@
 fr:
   proxies:
     create:
-      title: 'Nouvelle fonctionalité'
+      title: 'Nouveau produit'
     edit:
       title: 'Modifier le produit'
     form:
@@ -22,7 +22,7 @@ fr:
       description: 'Paramétrez vos APIs afin de fournir des données à des clients'
       title: 'Produits'
     new:
-      title: 'Nouvelle fonctionalité'
+      title: 'Nouveau produit'
     proxy_parameters_form:
       select_authorization_mode: "Sélectionnez un mode d'autorisation..."
     show:

@@ -104,7 +104,7 @@ en:
         route_id: 'Monitored route'
       proxy:
         alias: 'Alias'
-        category: 'Category'
+        category: "Catalog's Category"
         category_id: 'Category'
         description: 'Description'
         name: 'Name'

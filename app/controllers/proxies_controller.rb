@@ -20,7 +20,7 @@ class ProxiesController < DashboardController
   end
 
   def new
-    @proxy = Proxy.new
+    @proxy = current_service.proxies.new
     @proxy.build_proxy_parameter
     @proxy.proxy_parameter.build_identifier
     @proxy.build_proxy_parameter_test

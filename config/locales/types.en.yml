@@ -92,7 +92,7 @@ en:
         class: 'text-danger'
         title: 'Closed'
     ticket_types:
-      activation_request: "Request for an Enterprise account activation"
+      activation_request: "Request for Enterprise account activation"
       info_request: 'Information request'
       report_a_bug: 'Report a bug'
       user_right_request: 'User rights request'

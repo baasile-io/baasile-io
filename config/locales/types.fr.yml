@@ -92,7 +92,7 @@ fr:
         class: 'text-danger'
         title: 'Fermé'
     ticket_types:
-      activation_request: "Demande d'activation d'un compte Entreprise"
+      activation_request: "Demander l'activation du compte Entreprise"
       info_request: "Demande d'informations"
       report_a_bug: 'Signaler un bogue'
       user_right_request: 'Demande de droits utilisateur'
