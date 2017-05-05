@@ -29,7 +29,7 @@
   <li class="nav-item">
     <a class="nav-link <%= 'active' if tab_active == :service_main %> <%= 'has-danger' if tab_errors[:service_main] == 1 %>" data-toggle="tab" href="#service_main" role="tab"><%= t('.tabs.main.title') %></a>
   </li>
-  <% if @service.persisted? %>
+  <% if @service.persisted? && @service.is_activated? %>
     <li class="nav-item">
       <a class="nav-link <%= 'active' if tab_active == :service_identifiers %> <%= 'has-danger' if tab_errors[:service_identifiers] == 1 %>" data-toggle="tab" href="#service_identifiers" role="tab"><%= t('.tabs.identifiers.title') %></a>
     </li>
@@ -84,7 +84,7 @@
       <% end %>
     </div>
 
-    <% if f.object.persisted? %>
+    <% if f.object.persisted? && f.object.is_activated? %>
       <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :service_identifiers %>" id="service_identifiers">
         <%= f.input :client_id, readonly: true %>
         <%= f.input :client_secret, readonly: true %>
