@@ -1,0 +1,14 @@
+fr:
+  banking_details:
+    create:
+      title: 'Ajouter un compte bancaire'
+    edit:
+      title: 'Modifier'
+    index:
+      title: 'Mes comptes bancaires'
+    new:
+      title: 'Ajouter un compte bancaire'
+    show:
+      title: 'Compte bancaire'
+    update:
+      title: 'Modifier'

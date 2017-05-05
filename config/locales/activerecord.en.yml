@@ -5,6 +5,18 @@ en:
         name: 'Name'
         setting_type: 'Type'
         value: 'Value'
+      banking_detail:
+        name: 'Label'
+        iban: 'IBAN'
+        bic: 'BIC'
+        account_owner: 'Account owner'
+        bank_name: 'Domiciliation'
+        user: 'Creator'
+        user_id: 'Creator'
+        service: 'Enterprise'
+        service_id: 'Enterprise'
+        contract: 'Contract'
+        contract_id: 'Contract'
       bill:
         bill_month: 'Bill month'
         created_at: 'Issued on'
@@ -216,6 +228,7 @@ en:
         whodunnit: 'Author'
     models:
       appconfig: 'Configuration'
+      banking_detail: 'Banking detail'
       bill: 'Consumption'
       bill_line: 'Consumption detail'
       category: "Category"

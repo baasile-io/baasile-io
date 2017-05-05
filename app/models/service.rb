@@ -26,6 +26,8 @@ class Service < ApplicationRecord
   belongs_to :main_commercial, class_name: User.name, foreign_key: 'main_commercial_id'
   belongs_to :main_accountant, class_name: User.name, foreign_key: 'main_accountant_id'
   belongs_to :main_developer, class_name: User.name, foreign_key: 'main_developer_id'
+
+  has_many :banking_details
   has_many :tickets, dependent: :destroy
   has_many :proxies, dependent: :restrict_with_error
   has_many :contracts, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error

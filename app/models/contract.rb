@@ -304,6 +304,7 @@ class Contract < ApplicationRecord
   belongs_to :general_condition_validated_client_user, class_name: User.name
   belongs_to :general_condition, class_name: GeneralCondition.name
 
+  has_many :banking_details
   has_one :price
   has_many :comments, as: :commentable
   has_many :measurements

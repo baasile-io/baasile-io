@@ -5,6 +5,18 @@ fr:
         name: 'Nom'
         setting_type: 'Type'
         value: 'Valeur'
+      banking_detail:
+        name: 'Libellé'
+        iban: 'IBAN'
+        bic: 'BIC'
+        account_owner: 'Titulaire du compte'
+        bank_name: 'Domiciliation'
+        user: 'Créateur'
+        user_id: 'Créateur'
+        service: 'Entreprise'
+        service_id: 'Entreprise'
+        contract: 'Contrat'
+        contract_id: 'Contrat'
       bill:
         bill_month: 'Mois de facturation'
         created_at: "Date d'émission"
@@ -229,6 +241,7 @@ fr:
         whodunnit: 'Auteur'
     models:
       appconfig: 'Configuration'
+      banking_detail: 'Données bancaires'
       bill: 'Consommation'
       bill_line: 'Détail de consommation'
       category: "Catégorie"

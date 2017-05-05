@@ -39,6 +39,9 @@
               </li>
             <% end %>
             <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'banking_details' %>" href="<%= service_banking_details_path(current_service) %>"><i class="fa fa-fw fa-credit-card"></i> <%= t('activerecord.models.banking_detail') %></a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
             </li>
             <li class="nav-item">
