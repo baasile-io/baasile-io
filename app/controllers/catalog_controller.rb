@@ -6,15 +6,12 @@ class CatalogController < ApplicationController
 
   def index
     @collectionProxy = Proxy.all
-#    @collection = Service.activated_startups
-	@collectionCatalog = Category.all
+    @collectionCatalog = Category.all
   end
 
-  def sortcat
-	@collectionProxy = Proxy.all.where(:category_id => params[:id])
-  end
-
-  def show
+  def list_by_category
+    @collectionProxy = Proxy.all.where(:category_id => params[:id])
+    @collectionCatalog = Category.all
   end
 
   def load_logotype_service
