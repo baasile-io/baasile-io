@@ -1,6 +1,15 @@
 class BankingDetailsController < DashboardController
-  before_action :authenticate_user!
   before_action :load_banking_detail, only: [:edit, :show, :update, :destroy]
+
+  before_action :add_breadcrumb_parent
+  before_action :add_breadcrumb_current_action, except: [:index, :show]
+
+  def add_breadcrumb_parent
+    add_breadcrumb I18n.t('services.index.title'), :services_path
+    add_breadcrumb current_service.name, service_path(current_service)
+    add_breadcrumb I18n.t('banking_details.index.title'), :service_proxies_path
+    add_breadcrumb current_banking_detail.name, service_banking_detail_path(current_service, current_banking_detail) if current_banking_detail
+  end
 
   def index
     @collection = BankingDetail.by_service(current_service)

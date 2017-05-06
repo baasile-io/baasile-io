@@ -115,6 +115,11 @@
 
   <% end %>
 
+  <%  if controller_name == 'banking_details' && action_name != 'index' %>
+    <%= render partial: 'shared/headers/banking_detail_header' %>
+  <% end %>
+
+
   <% unless current_proxy.nil? %>
 
     <div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#DADADA;<% end %>">

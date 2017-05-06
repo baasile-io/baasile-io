@@ -1,11 +1,7 @@
-<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_title) { @banking_detail.name } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-
-    <h4><%= @banking_detail.name %></h4>
-
-    <hr />
 
     <h5><%= t('activerecord.attributes.banking_detail.account_owner') %></h5>
     <strong><%= @banking_detail.account_owner %></strong>
