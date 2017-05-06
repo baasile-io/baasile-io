@@ -91,6 +91,11 @@
                   <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_service_contract_path(current_service, current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('actions.edit_price') %></a>
                 </li>
               <% end %>
+              <% if current_contract.can?(current_user, :banking_detail) %>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if ['banking_details'].include?(controller_name) || (controller_name == 'contracts' && ['banking_details'].include?(action_name)) %>" href="<%= banking_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('activerecord.models.banking_detail') %></a>
+                  </li>
+              <% end %>
               <% if current_contract.can?(current_user, :comments) %>
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= comments_service_contract_path(current_service, current_contract) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
@@ -115,7 +120,7 @@
 
   <% end %>
 
-  <%  if controller_name == 'banking_details' && action_name != 'index' %>
+  <% if (controller_name == 'banking_details' && action_name != 'index') %>
     <%= render partial: 'shared/headers/banking_detail_header' %>
   <% end %>
 
@@ -306,6 +311,11 @@
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
                 </li>
+              <% end %>
+              <% if current_contract.can?(current_user, :banking_details) %>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if ['banking_details'].include?(controller_name) || (controller_name == 'contracts' && ['banking_details'].include?(action_name)) %>" href="<%= banking_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('activerecord.models.banking_detail') %></a>
+                  </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>
                 <li class="nav-item">

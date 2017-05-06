@@ -30,6 +30,7 @@ fr:
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
+    edit_banking_details: 'Modifier le compte bancaire'
     edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
     edit_service: 'Modifier le compte Entreprise'
@@ -66,6 +67,7 @@ fr:
     send_ticket: 'Envoyer le ticket'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
+    select_new_template: 'Selectioner dans la liste entreprise'
     set_admin: "Ajouter les droits admin"
     set_production: "Activer la phase d'exploitation"
     sign_in: 'Se connecter'

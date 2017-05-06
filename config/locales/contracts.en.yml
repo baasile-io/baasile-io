@@ -1,5 +1,11 @@
 en:
   contracts:
+    banking_details:
+      title: 'Banking details'
+      description: 'Select a banking details to contractualize.'
+    banking_details_selection:
+      title: 'Banking details'
+      description: 'Select a banking details to contractualize.'
     catalog:
       description: 'Select a product to contractualize.'
       title: 'Startups Book'

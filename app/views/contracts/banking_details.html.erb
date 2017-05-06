@@ -1,58 +1,21 @@
-<% content_for(:page_description) { t('.description') } %>
-<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_title) { current_contract.banking_detail.name } %>
 
-<% if current_contract.price.nil? %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
 
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
+    <%= render partial: 'banking_details/show_banking_detail_info', locals: {banking_detail: current_contract.banking_detail} %>
 
-      <% if @price_templates.size == 0 %>
-        <p class="text-muted"><%= t('misc.no_price_template') %></p>
-        <%= link_to t('actions.create_price_template'), new_service_proxy_price_path(current_contract.startup, current_contract.proxy, from_contract: current_contract.id, from_service: current_service.try(:id)), class: 'btn btn-primary' %>
-      <% else %>
-        <%
-          @price_templates.each.with_index do |price_template, index|
-            url = (!current_service.nil? ? select_price_service_contract_path(current_service, current_contract, price_id: price_template.id) : select_price_contract_path(current_contract, price_id: price_template.id))
-        %>
-          <% if index > 0 %>
-          <hr>
-          <% end %>
-          <div class="row">
-            <div class="col-md-3 text-md-right">
-              <h4><%= price_template.name %></h4>
-            </div>
-            <div class="col-md-9">
-              <%= render partial: 'prices/show_price_info', locals: {price: price_template} %>
-              <hr />
-              <div class="text-right">
-                <%= link_to t('actions.select'), url, class: 'btn btn-primary btn-lg ' %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
-    </div>
-  </div>
-
-<% else %>
-
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-
-      <%= render partial: 'prices/show_price_info', locals: {price: current_contract.price} %>
-
-      <hr>
-      <div class="row">
-        <div class="col-4">
-        </div>
-        <div class="col-8">
-          <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_price_path(current_contract, current_contract.price) : edit_service_contract_price_path(current_service, current_contract, current_contract.price)), class: 'btn btn-secondary' %>
-          <%= link_to t('actions.reset_pricing'), (@service.nil? ? contract_price_path(current_contract, current_contract.price) : service_contract_price_path(current_service, current_contract, current_contract.price)), class: 'btn btn-danger', method: :delete %>
-        </div>
+    <hr>
+    <div class="row">
+      <div class="col-4">
       </div>
-
+      <div class="col-8">
+        <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_banking_detail_path(current_contract, current_contract.banking_detail) : edit_service_contract_banking_detail_path(current_service, current_contract, current_contract.banking_detail)), class: 'btn btn-secondary' %>
+        <%= link_to t('actions.destroy'), (@service.nil? ? contract_banking_detail_path(current_contract, current_contract.banking_detail) : service_contract_banking_detail_path(current_service, current_contract, current_contract.banking_detail)), method: :delete, class: 'btn btn-danger' %>
+        <%= link_to t('actions.select_new_template'), (@service.nil? ? banking_details_selection_contract_path(current_contract) : banking_details_selection_service_contract_path(current_contract)), class: 'btn btn-primary' %>
+      </div>
     </div>
-  </div>
 
-<% end %>
+  </div>
+</div>
+

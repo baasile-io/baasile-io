@@ -1,6 +1,9 @@
 <% content_for(:page_title) { t('.title') } %>
-<% content_for(:page_controls) { link_to t('actions.create_banking_detail'), new_service_banking_detail_path(current_service), class: 'btn btn-primary' } %>
-
+<% if current_contract.nil? %>
+  <% content_for(:page_controls) { link_to t('actions.create_banking_detail'), new_service_banking_detail_path(@startup), class: 'btn btn-primary' } %>
+<% elsif current_contract.banking_detail.nil? %>
+  <% content_for(:page_controls) { link_to t('actions.create_banking_detail'), (@service.nil? ? new_contract_banking_detail_path(current_contract) : new_service_contract_banking_detail_path(@service, current_contract)), class: 'btn btn-secondary' } %>
+<% end %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -30,9 +33,15 @@
                   <span class=""><%= banking_detail.bank_name %></span>
                 </td>
                 <td class="text-right">
-                  <%= link_to t('misc.more_info'), service_banking_detail_path(current_service, banking_detail.id), class: 'btn btn-secondary' %>
-                  <%= link_to t('actions.edit'), edit_service_banking_detail_path(current_service, banking_detail.id), class: 'btn btn-primary' %>
-                  <%= link_to t('actions.destroy'), service_banking_detail_path(current_service, banking_detail.id), method: :delete, class: 'btn btn-danger' %>
+                  <% unless current_contract.nil? %>
+                    <%= link_to t('actions.more_info'), (@service.nil? ? contract_banking_detail_path(current_contract, banking_detail) : service_contract_banking_detail_path(@service, current_contract, banking_detail)), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_banking_detail_path(current_contract, banking_detail) : edit_service_contract_banking_detail_path(@service, current_contract, banking_detail)), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.destroy'), (@service.nil? ? contract_banking_detail_path(current_contract, banking_detail) : service_contract_banking_detail_path(@service, current_contract, banking_detail)), method: :delete, class: 'btn btn-secondary' %>
+                  <% else %>
+                    <%= link_to t('misc.more_info'), service_banking_detail_path(@startup, banking_detail.id), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.edit'), edit_service_banking_detail_path(@startup, banking_detail.id), class: 'btn btn-primary' %>
+                    <%= link_to t('actions.destroy'), service_banking_detail_path(@startup, banking_detail.id), method: :delete, class: 'btn btn-danger' %>
+                  <% end %>
                 </td>
               </tr>
           <% end %>

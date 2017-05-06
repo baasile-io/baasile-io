@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :banking_details, :select_banking_detail, :banking_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -177,6 +177,39 @@ class ContractsController < ApplicationController
     @price_templates = Price.templates(@contract.proxy)
   end
 
+  def banking_details
+    if @contract.banking_detail.nil?
+      @banking_detail_templates = BankingDetail.by_service(@contract.proxy.service)
+      render :banking_details_selection
+    end
+  end
+
+  def banking_details_selection
+    @banking_detail_templates = BankingDetail.by_service(@contract.proxy.service)
+  end
+
+  def select_banking_detail
+    @contract.banking_detail.try(:destroy)
+
+    banking_detail_id = params[:banking_detail_id]
+
+    if banking_detail_id
+      new_banking_detail_id = BankingDetail.find(banking_detail_id).dup
+      new_banking_detail_id.contract = @contract
+      new_banking_detail_id.save!
+    else
+      flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.banking_detail'))
+      redirect_to service_banking_details_path(@contract.proxy.service)
+    end
+
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    end
+
+    return redirect_to edit_service_contract_banking_detail_path(current_service, @contract, @contract.banking_detail) unless current_service.nil?
+    redirect_to edit_contract_banking_detail_path(@contract, @contract.banking_detail)
+  end
+
   def select_price
     @contract.price.try(:destroy)
 
@@ -246,7 +279,7 @@ class ContractsController < ApplicationController
   end
 
   def load_contract
-    @contract = Contract.includes(:price, :client, :startup, :proxy).find(params[:id])
+    @contract = Contract.includes(:price, :banking_detail, :client, :startup, :proxy).find(params[:id])
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 
@@ -271,6 +304,11 @@ class ContractsController < ApplicationController
     else
       @service = nil
     end
+  end
+
+  def contract_params_banking_detail
+    allowed_parameters = [:banking_detail_id]
+    params.require(:contract).permit(allowed_parameters)
   end
 
   def contract_params_price

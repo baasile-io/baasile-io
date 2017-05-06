@@ -206,6 +206,12 @@
         <% end %>
         <%= show_contract_errors(errors) %>
 
+        <% status, errors = @contract.can?(current_user, :banking_details) %>
+        <% if status %>
+            <%= link_to t('actions.edit_banking_details'), (current_service.nil? ? banking_details_contract_path(@contract) : banking_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+        <% end %>
+        <%= show_contract_errors(errors) %>
+
         <% status, errors = @contract.can?(current_user, :reject) %>
         <% if status %>
           <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post %>

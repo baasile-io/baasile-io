@@ -8,7 +8,10 @@ class Role < ApplicationRecord
       edit: [:accountant],
       new: [:accountant],
       update: [:accountant],
-      create: [:accountant]
+      create: [:accountant],
+      banking_details: [:accountant],
+      select_banking_detail: [:accountant],
+      banking_details_selection: [:accountant],
     },
     services: {
       show: USER_ROLES.dup,
