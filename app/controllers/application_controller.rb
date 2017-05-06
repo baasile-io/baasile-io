@@ -116,4 +116,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authorize_contract_set_banking_details
+    unless current_contract.nil?
+      unless @contract.can?(current_user, :banking_details)
+        flash[:error] = I18n.t('misc.not_authorized')
+        return redirect_back fallback_location: (current_service.nil? ? contract_path(current_contract) : service_contract_path(current_service, current_contract))
+      end
+    end
+  end
+
 end
