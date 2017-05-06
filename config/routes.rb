@@ -71,9 +71,11 @@ Rails.application.routes.draw do
         post :reject
         get :prices
         get :select_price
-        get :banking_details
+        get :client_banking_details
         get :select_banking_detail
-        get :banking_details_selection
+        get :client_banking_details_selection
+        get :startup_banking_details
+        get :startup_banking_details_selection
         post :cancel
         get :print_current_month_consumption
       end
@@ -127,9 +129,11 @@ Rails.application.routes.draw do
           get :general_condition
           get :prices
           get :select_price
-          get :banking_details
+          get :client_banking_details
           get :select_banking_detail
-          get :banking_details_selection
+          get :client_banking_details_selection
+          get :startup_banking_details
+          get :startup_banking_details_selection
           post :cancel
           get :print_current_month_consumption
         end

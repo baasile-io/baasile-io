@@ -7,11 +7,11 @@
 
     <hr />
     <% unless current_contract.nil? %>
-        <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_banking_detail_path(current_contract, current_banking_detail) : edit_service_contract_banking_detail_path(@service, current_contract, current_banking_detail)), class: 'btn btn-secondary' %>
-        <%= link_to t('actions.destroy'), (@service.nil? ? contract_banking_detail_path(current_contract, current_banking_detail) : service_contract_banking_detail_path(@service, current_contract, current_banking_detail)), method: :delete, class: 'btn btn-secondary' %>
+        <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_banking_detail_path(current_contract, current_banking_detail, entreprise_owner_id: current_entreprise_owner) : edit_service_contract_banking_detail_path(@service, current_contract, current_banking_detail, entreprise_owner_id: current_entreprise_owner)), class: 'btn btn-secondary' %>
+        <%= link_to t('actions.destroy'), (@service.nil? ? contract_banking_detail_path(current_contract, current_banking_detail, entreprise_owner_id: current_entreprise_owner) : service_contract_banking_detail_path(@service, current_contract, current_banking_detail, entreprise_owner_id: current_entreprise_owner)), method: :delete, class: 'btn btn-secondary' %>
     <% else %>
-        <%= link_to t('actions.edit'), edit_service_banking_detail_path(@startup, current_banking_detail.id), class: 'btn btn-primary' %>
-        <%= link_to t('actions.destroy'), service_banking_detail_path(@startup, current_banking_detail.id), method: :delete, class: 'btn btn-danger' %>
+        <%= link_to t('actions.edit'), edit_service_banking_detail_path(current_entreprise_owner, current_banking_detail.id), class: 'btn btn-primary' %>
+        <%= link_to t('actions.destroy'), service_banking_detail_path(current_entreprise_owner, current_banking_detail.id), method: :delete, class: 'btn btn-danger' %>
     <% end%>
 
   </div>

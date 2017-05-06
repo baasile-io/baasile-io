@@ -11,11 +11,11 @@ class BankingDetailsController < ApplicationController
 
   # # # #
 
-  before_action :load_startup
+  before_action :load_entreprise_owner
   before_action :load_banking_detail, only: [:edit, :show, :update, :destroy]
 
   def index
-    @collection = BankingDetail.by_service(@startup)
+    @collection = BankingDetail.by_service(current_entreprise_owner)
   end
 
   def new
@@ -26,7 +26,7 @@ class BankingDetailsController < ApplicationController
   def create
     @banking_detail = BankingDetail.new
     @banking_detail.user = current_user
-    @banking_detail.service = current_startup_owner
+    @banking_detail.service = current_entreprise_owner
     @banking_detail.contract = nil
     @banking_detail.assign_attributes(banking_detail_params)
     if @banking_detail.save
@@ -69,21 +69,23 @@ class BankingDetailsController < ApplicationController
   private
 
   def get_form_values
-    return [@startup, current_banking_detail] if @contract.nil?
+    return [current_entreprise_owner, current_banking_detail] if @contract.nil?
     return [@service, @contract, current_banking_detail] unless @service.nil?
-    return [@contract,current_banking_detail]
+    return [@contract, current_banking_detail]
   end
 
   def redirect_to_index
-    return redirect_to service_banking_details_path(@startup) if @contract.nil?
+    return redirect_to service_banking_details_path(current_entreprise_owner) if @contract.nil?
     return redirect_to banking_details_service_contract_path(@service, @contract) unless @service.nil?
-    return redirect_to banking_details_contract_path(@contract)
+    return redirect_to client_banking_details_contract_path(@contract) if current_entreprise_owner == @contract.client
+    return redirect_to startup_banking_details_contract_path(@contract) if current_entreprise_owner == @contract.proxy.service
   end
 
   def redirect_to_show
-    return redirect_to service_banking_detail_path(@startup, current_banking_detail) if @contract.nil?
+    return redirect_to service_banking_detail_path(current_entreprise_owner, current_banking_detail) if @contract.nil?
     return redirect_to service_contract_banking_details_path(@service, @contract) unless @service.nil?
-    return redirect_to contract_banking_details_path(@contract)
+    return redirect_to client_banking_details_contract_path(@contract) if current_entreprise_owner.id == @contract.client.id
+    return redirect_to startup_banking_details_contract_path(@contract) if current_entreprise_owner.id == @contract.proxy.service.id
   end
 
   def load_service
@@ -98,20 +100,15 @@ class BankingDetailsController < ApplicationController
     end
   end
 
-  def load_startup
-    if @contract.nil?
-      return @startup = @service
+  def load_entreprise_owner
+    if !@contract.nil? && params.key?(:entreprise_owner_id)
+      @entreprise_owner = Service.find(params[:entreprise_owner_id])
+    elsif banking_detail_params.key?(:entreprise_owner_id)
+      @entreprise_owner = Service.find(banking_detail_params[:entreprise_owner_id])
+    else
+      @entreprise_owner = @service
     end
-    @startup = @contract.proxy.service
   end
-
-  #def redirect_to_index
-  #  redirect_to service_banking_details_path(current_service)
-  #end
-
-  #def redirect_to_show
-  #  redirect_to service_banking_detail_path(current_service, @banking_detail)
-  #end
 
   def load_banking_detail
     @banking_detail = BankingDetail.find(params[:id])
@@ -121,8 +118,8 @@ class BankingDetailsController < ApplicationController
     @service
   end
 
-  def current_startup_owner
-    @startup
+  def current_entreprise_owner
+    @entreprise_owner
   end
 
   def current_contract
@@ -134,8 +131,11 @@ class BankingDetailsController < ApplicationController
   end
 
   def banking_detail_params
-    allowed_parameters = [:name, :bank_name, :account_owner, :bic, :iban]
-    params.require(:banking_detail).permit(allowed_parameters)
+    allowed_parameters = [:name, :bank_name, :entreprise_owner_id, :account_owner, :bic, :iban]
+    if params.key?(:banking_detail)
+      return params.require(:banking_detail).permit(allowed_parameters)
+    end
+    return Hash.new
   end
 
   def current_module
@@ -145,7 +145,7 @@ class BankingDetailsController < ApplicationController
   end
 
   def current_authorized_resource
-    current_startup_owner
+    current_entreprise_owner
   end
 
 end

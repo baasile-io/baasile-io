@@ -91,9 +91,14 @@
                   <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_service_contract_path(current_service, current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('actions.edit_price') %></a>
                 </li>
               <% end %>
-              <% if current_contract.can?(current_user, :banking_detail) %>
+              <% if current_contract.can?(current_user, :client_banking_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ['banking_details'].include?(controller_name) || (controller_name == 'contracts' && ['banking_details'].include?(action_name)) %>" href="<%= banking_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('activerecord.models.banking_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.client && controller_name == 'banking_details') || (controller_name == 'contracts' && ['client_banking_details', 'client_banking_details_selection'].include?(action_name))) %>" href="<%= client_banking_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_banking_detail') %></a>
+                  </li>
+              <% end %>
+              <% if current_contract.can?(current_user, :startup_banking_details) %>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.proxy.service && controller_name == 'banking_details') || (controller_name == 'contracts' && ['startup_banking_details', 'startup_banking_details_selection'].include?(action_name))) %>" href="<%= startup_banking_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_banking_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>
@@ -312,9 +317,14 @@
                   <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
                 </li>
               <% end %>
-              <% if current_contract.can?(current_user, :banking_details) %>
+              <% if current_contract.can?(current_user, :client_banking_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ['banking_details'].include?(controller_name) || (controller_name == 'contracts' && ['banking_details'].include?(action_name)) %>" href="<%= banking_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('activerecord.models.banking_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.client && controller_name == 'banking_details') || (controller_name == 'contracts' && ['client_banking_details', 'client_banking_details_selection'].include?(action_name))) %>" href="<%= client_banking_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_banking_detail') %></a>
+                  </li>
+              <% end %>
+              <% if current_contract.can?(current_user, :startup_banking_details) %>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.proxy.service && controller_name == 'banking_details') || (controller_name == 'contracts' && ['startup_banking_details', 'startup_banking_details_selection'].include?(action_name))) %>" href="<%= startup_banking_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_banking_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>

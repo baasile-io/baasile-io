@@ -25,15 +25,21 @@ class Contract < ApplicationRecord
     creation: {
       index: 1,
       can: {
-        banking_details: {
-            startup: ['accountant']
-        },
-        select_banking_detail: {
-            startup: ['accountant']
-        },
-        banking_details_selection: {
-            startup: ['accountant']
-        },
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
+              startup: ['accountant']
+          },
+          select_banking_detail: {
+              startup: ['accountant']
+          },
         show: {
           client: ['commercial']
         },
@@ -77,13 +83,19 @@ class Contract < ApplicationRecord
     commercial_validation_sp: {
       index: 4,
       can: {
-          banking_details: {
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
               startup: ['accountant']
           },
           select_banking_detail: {
-              startup: ['accountant']
-          },
-          banking_details_selection: {
               startup: ['accountant']
           },
         show: {
@@ -136,13 +148,19 @@ class Contract < ApplicationRecord
     commercial_validation_client: {
       index: 7,
       can: {
-          banking_details: {
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
               startup: ['accountant']
           },
           select_banking_detail: {
-              startup: ['accountant']
-          },
-          banking_details_selection: {
               startup: ['accountant']
           },
         show: {
@@ -190,13 +208,19 @@ class Contract < ApplicationRecord
     validation: {
       index: 16,
       can: {
-          banking_details: {
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
               startup: ['accountant']
           },
           select_banking_detail: {
-              startup: ['accountant']
-          },
-          banking_details_selection: {
               startup: ['accountant']
           },
         show: {
@@ -246,13 +270,19 @@ class Contract < ApplicationRecord
     waiting_for_production: {
       index: 18,
       can: {
-          banking_details: {
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
               startup: ['accountant']
           },
           select_banking_detail: {
-              startup: ['accountant']
-          },
-          banking_details_selection: {
               startup: ['accountant']
           },
         show: {
@@ -294,15 +324,21 @@ class Contract < ApplicationRecord
     validation_production: {
       index: 20,
       can: {
-        banking_details: {
-            startup: ['accountant']
-        },
-        select_banking_detail: {
-            startup: ['accountant']
-        },
-        banking_details_selection: {
-            startup: ['accountant']
-        },
+          client_banking_details: {
+              client: ['accountant']
+          },
+          client_banking_details_selection: {
+              client: ['accountant']
+          },
+          startup_banking_details: {
+              startup: ['accountant']
+          },
+          startup_banking_details_selection: {
+              startup: ['accountant']
+          },
+          select_banking_detail: {
+              startup: ['accountant']
+          },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -358,7 +394,7 @@ class Contract < ApplicationRecord
   belongs_to :general_condition_validated_client_user, class_name: User.name
   belongs_to :general_condition, class_name: GeneralCondition.name
 
-  has_one :banking_detail
+  has_many :banking_details
   has_one :price
   has_many :comments, as: :commentable
   has_many :measurements

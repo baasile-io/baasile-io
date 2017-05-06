@@ -9,9 +9,11 @@ class Role < ApplicationRecord
       new: [:accountant],
       update: [:accountant],
       create: [:accountant],
-      banking_details: [:accountant],
+      client_banking_details: [:accountant],
       select_banking_detail: [:accountant],
-      banking_details_selection: [:accountant],
+      client_banking_details_selection: [:accountant],
+      startup_banking_details: [:accountant],
+      startup_banking_details_selection: [:accountant],
     },
     services: {
       show: USER_ROLES.dup,

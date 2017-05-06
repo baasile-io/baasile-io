@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :banking_details, :select_banking_detail, :banking_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_banking_details, :select_banking_detail, :client_banking_details_selection, :startup_banking_details, :startup_banking_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -177,19 +177,31 @@ class ContractsController < ApplicationController
     @price_templates = Price.templates(@contract.proxy)
   end
 
-  def banking_details
-    if @contract.banking_detail.nil?
+  def startup_banking_details
+    if @contract.banking_details.find_by(service: @contract.proxy.service).nil?
       @banking_detail_templates = BankingDetail.by_service(@contract.proxy.service)
-      render :banking_details_selection
+      render :startup_banking_details_selection
     end
   end
 
-  def banking_details_selection
+  def startup_banking_details_selection
     @banking_detail_templates = BankingDetail.by_service(@contract.proxy.service)
   end
 
+  def client_banking_details
+    if @contract.banking_details.find_by(service: @contract.client).nil?
+      @banking_detail_templates = BankingDetail.by_service(@contract.client)
+      render :client_banking_details_selection
+    end
+  end
+
+  def client_banking_details_selection
+    @banking_detail_templates = BankingDetail.by_service(@contract.client)
+  end
+
   def select_banking_detail
-    @contract.banking_detail.try(:destroy)
+    entreprise_owner = Service.find(params[:entreprise_owner_id])
+    @contract.banking_details.find_by(service: entreprise_owner).try(:destroy)
 
     banking_detail_id = params[:banking_detail_id]
 
@@ -199,15 +211,16 @@ class ContractsController < ApplicationController
       new_banking_detail_id.save!
     else
       flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.banking_detail'))
-      redirect_to service_banking_details_path(@contract.proxy.service)
+      return redirect_to service_client_banking_details_path(entreprise_owner) if @contract.client == entreprise_owner
+      return redirect_to service_client_banking_details_path(entreprise_owner) if @contract.proxy.service == entreprise_owner
     end
 
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
 
-    return redirect_to edit_service_contract_banking_detail_path(current_service, @contract, @contract.banking_detail) unless current_service.nil?
-    redirect_to edit_contract_banking_detail_path(@contract, @contract.banking_detail)
+    return redirect_to edit_service_contract_banking_detail_path(current_service, @contract, new_banking_detail_id, entreprise_owner_id: entreprise_owner) unless current_service.nil?
+    redirect_to edit_contract_banking_detail_path(@contract, new_banking_detail_id, entreprise_owner_id: entreprise_owner)
   end
 
   def select_price
@@ -279,7 +292,7 @@ class ContractsController < ApplicationController
   end
 
   def load_contract
-    @contract = Contract.includes(:price, :banking_detail, :client, :startup, :proxy).find(params[:id])
+    @contract = Contract.includes(:price, :banking_details, :client, :startup, :proxy).find(params[:id])
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 

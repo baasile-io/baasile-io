@@ -6,11 +6,11 @@
 
     <% if @banking_detail_templates.size == 0 %>
       <p class="text-muted"><%= t('misc.no_banking_detail') %></p>
-      <%= link_to t('actions.create_banking_detail_template'), new_service_banking_detail_path(current_contract.proxy.service, from_contract: current_contract.id, from_service: current_service.try(:id)), class: 'btn btn-primary' %>
+      <%= link_to t('actions.create_banking_detail_template'), new_service_banking_detail_path(entreprise_owner, entreprise_owner_id: entreprise_owner, from_contract: current_contract.id, from_service: current_service.try(:id)), class: 'btn btn-primary' %>
     <% else %>
       <%
         @banking_detail_templates.each.with_index do |banking_detail_template, index|
-          url = (!current_service.nil? ? select_banking_detail_service_contract_path(current_service, current_contract, banking_detail_id: banking_detail_template.id) : select_banking_detail_contract_path(current_contract, banking_detail_id: banking_detail_template.id))
+          url = (!current_service.nil? ? select_banking_detail_service_contract_path(current_service, current_contract, banking_detail_id: banking_detail_template.id, entreprise_owner_id: entreprise_owner) : select_banking_detail_contract_path(current_contract, banking_detail_id: banking_detail_template.id, entreprise_owner_id: entreprise_owner))
       %>
         <% if index > 0 %>
         <hr>
@@ -32,4 +32,3 @@
 
   </div>
 </div>
-

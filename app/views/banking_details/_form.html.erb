@@ -7,7 +7,7 @@
   <%= f.input :bic %>
   <%= f.input :account_owner %>
   <%= f.input :bank_name %>
-
+    <%= hidden_field_tag(:entreprise_owner_id, current_entreprise_owner.id) %>
   <div class="row">
     <div class="actions col-md-9 offset-md-3">
       <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
