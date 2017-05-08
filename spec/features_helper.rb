@@ -35,9 +35,11 @@ RSpec.configure do |config|
 
   config.before :each do
     if /selenium_remote/.match Capybara.current_driver.to_s
+
       ip = `/sbin/ip route|awk '/scope/ { print $9 }'`
       ip = ip.gsub "\n", ""
       Capybara.server_host = ip
+      WebMock.disable_net_connect!(allow: [ip, 'selenium:4444'])
       Capybara.app_host = "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
     end
   end

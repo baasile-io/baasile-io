@@ -1,8 +1,4 @@
 fr:
   error_measurements:
-    error_types:
-      title: "Type d'erreur"
-      message: "Message d'erreur"
-    created_at: 'Date'
-    request: 'Requète effectué'
-    title: "Erreurs"
+    index:
+      title: ''

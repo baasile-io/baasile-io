@@ -38,15 +38,6 @@ describe "measure token", type: :request do
       @access_token = response_body['access_token']
     end
 
-    describe "unsubscribed product" do
-      it "requires contract" do
-        get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
-
-        expect(response.status).to eq 403
-        expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"No subscription to this product"}]})
-      end
-    end
-
     describe "subscribed" do
       before :each do
         stub_request(:get, route.uri_test).
@@ -65,12 +56,12 @@ describe "measure token", type: :request do
 
       describe "request" do
         it "generates a new measure token", focus: true do
-          allow(SecureRandom).to receive(:uuid).and_return('my_measure_token_id').once
+          allow(SecureRandom).to receive(:uuid).and_return('my_measure_token_id')
 
           get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
 
-          expect(response.status).to eq 276
           expect(response.body).to eq "My body"
+          expect(response.status).to eq 276
           expect(response.headers['MeasureTokenID']).to eq('my_measure_token_id')
         end
 
@@ -80,7 +71,7 @@ describe "measure token", type: :request do
             'MeasureTokenID' => 'unknwon_measure_token'
           }
 
-          expect(response.status).to eq 400
+          expect(response.status).to eq 403
         end
       end
     end

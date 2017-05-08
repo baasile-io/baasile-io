@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :contract do
-    sequence(:name)        {|i| "My Contract #{i}"}
-    sequence(:code)        {|i| i}
+    sequence(:client_code) {|i| "C#{i}"}
+    sequence(:startup_code){|i| "S#{i}"}
     association            :client, factory: :client_service
     association            :proxy
     expected_start_date    Date.today + 1.month

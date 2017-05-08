@@ -36,15 +36,15 @@ module Contracts
 
       true
     rescue MissingContract
-      [false, 'No contract found to this product']
+      [false, 'No contract found with this product']
     rescue NotValidatedContract
-      [false, "No active contract to this product (status: #{@contract.status})"]
+      [false, "No active contract found with this product (status: #{@contract.status})"]
     rescue MissingStartDateProductionPhase
       [false, "Production phase has no start date"]
     rescue NotStartedProductionPhase
-      [false, "Production phase will start on #{I18n.l(@contract.start_date)}"]
+      [false, "Production phase will start on #{I18n.l(@contract.start_date, locale: :en)}"]
     rescue EndedProductionPhase
-      [false, "Production phase ended on #{I18n.l(@contract.end_date)}"]
+      [false, "Production phase ended on #{I18n.l(@contract.end_date, locale: :en)}"]
     rescue WaitingForProduction
       [false, "Waiting for production phase"]
     rescue NotActive

@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Route, type: :model do
   before :each do
-    @route = create :route
-    @route2 = create :route
+    service = create :service
+    proxy = create :proxy, service: service
+    @route = create :route, proxy: proxy
+    @route2 = create :route, proxy: proxy
   end
 
   describe "attributes" do
     describe "methods" do
       it "restricts array of methods" do
-        expect(Route::ALLOWED_METHODS).to eq ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+        expect(Route::ALLOWED_METHODS).to eq ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
         @route.allowed_methods = Route::ALLOWED_METHODS
         expect(@route.valid?).to be_truthy

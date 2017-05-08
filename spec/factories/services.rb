@@ -24,6 +24,6 @@ FactoryGirl.define do
     sequence(:client_id)  {|i| "2e931510-#{i.to_s.rjust(4, '0')}-494a-8c67-87feb05e1594"}
     client_secret         'abcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghjikabcdefghj'
     confirmed_at          nil
-    subdomain             nil
+    sequence(:subdomain)  {|i| "notactiveservice#{i}"}
   end
 end

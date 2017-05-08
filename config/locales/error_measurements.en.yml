@@ -1,8 +1,4 @@
 en:
   error_measurements:
-    error_types:
-      title: 'Error type'
-      message: 'Error message'
-    created_at: 'Date'
-    request: 'Request done'
-    title: 'Error logs'
+    index:
+      title: ''

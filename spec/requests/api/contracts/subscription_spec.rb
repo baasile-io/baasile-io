@@ -73,7 +73,7 @@ describe "subscription", type: :request do
         get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
 
         expect(response.status).to eq 403
-        expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"No subscription to this product"}]})
+        expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"No contract found with this product"}]})
       end
     end
 
@@ -87,7 +87,7 @@ describe "subscription", type: :request do
           get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
 
           expect(response.status).to eq 403
-          expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"No active subscription to this product (status: creation)"}]})
+          expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"No active contract found with this product (status: creation)"}]})
         end
       end
 
@@ -114,8 +114,8 @@ describe "subscription", type: :request do
           it "redirects to test uri" do
             get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
 
-            expect(response.status).to eq 276
             expect(response.body).to eq "Test phase"
+            expect(response.status).to eq 276
           end
         end
 
@@ -142,15 +142,28 @@ describe "subscription", type: :request do
             expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"Production phase ended on #{contract.end_date.strftime('%Y-%m-%d')}"}]})
           end
 
+          it "requires active contract" do
+            contract.update_attributes({is_active: false})
+
+            get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
+
+            expect(response.status).to eq 403
+            expect(JSON.parse(response.body)).to eq({"errors" => [{"status"=>403, "title"=>"Contract is temporarily deactivated"}]})
+          end
+
           describe "success" do
             describe "is_evergreen" do
               it "extends expired contract" do
                 contract.update_attributes(
                   {
                     is_evergreen: true,
-                    contract_duration_type: :monthly,
                     start_date: Date.today - 10.days,
                     end_date: Date.today - 1.day
+                  }
+                )
+                contract.price.update_attributes(
+                  {
+                    pricing_duration_type: :monthly
                   }
                 )
 

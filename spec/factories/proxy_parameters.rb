@@ -6,5 +6,6 @@ FactoryGirl.define do
     port                  80
     follow_url            false
     follow_redirection    10
+    association           :identifier
   end
 end

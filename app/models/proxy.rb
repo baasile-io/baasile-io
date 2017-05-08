@@ -50,7 +50,7 @@ class Proxy < ApplicationRecord
   end
 
   def cache_token
-    "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at}"
+    "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at.strftime('%Y%M%d%H%I%S')}"
   end
 
   def local_url(version = 'v1')
