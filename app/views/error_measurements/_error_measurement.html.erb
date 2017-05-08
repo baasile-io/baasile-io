@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.error_type') %></strong>
+  </div>
+  <div class="col-9">
+    <%= t("errors.api.#{object.error_type.underscore}.title") %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.message') %></strong>
+  </div>
+  <div class="col-9">
+    <%= object.message %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.error_code') %></strong>
+  </div>
+  <div class="col-9">
+    <%= object.error_code %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.created_at') %></strong>
+  </div>
+  <div class="col-9">
+    <%= l(object.created_at) %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.route') %></strong>
+  </div>
+  <div class="col-9">
+    <i class="fa fa-fw fa-sitemap"></i> <%= object.route %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.contract') %></strong>
+  </div>
+  <div class="col-9">
+    <i class="fa fa-fw fa-edit"></i> <%= object.contract %>
+  </div>
+</div>
+
+<% if object.request_detail.present? %>
+  <hr />
+  <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue '<pre>---</pre>'.html_safe %>
+<% end %>

@@ -3,23 +3,29 @@ fr:
     an_error_occured: 'Une erreur est survenue'
     api:
       'proxify_concern/proxy_authentication_error':
-        message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur apparente du client"
-        title: 'Authentication error'
+        message: "La plateforme n'a pas pu s'authentifier sur le serveur distant"
+        title: "Erreur d'authentification"
       'proxify_concern/proxy_initialization_error':
-        message: "Le serveur ne peut pas traiter la requête en raison d'une erreur de configuration"
-        title: 'Bad gateway'
-      'proxify_concern/proxy_missing_mandatory_quer_parameter_error':
-        message: "Le serveur ne peut pas traiter la requête en raison d'un paramètre obligatoire manquant"
-        title: 'Missing mandatory parameter'
+        message: "La plateforme ne peut pas traiter la requête en raison d'une erreur de configuration"
+        title: 'Mauvaise configuration'
+      'proxify_concern/proxy_missing_mandatory_query_parameter_error':
+        message: "La plateforme ne peut pas traiter la requête en raison d'un paramètre obligatoire absent"
+        title: 'Paramètre obligatoire absent'
+      'proxify_concern/proxy_not_found_error':
+        message: "La plateforme n'a pas pu traiter la requête en raison d'une route inexistante"
+        title: "La page n'existe pas"
       'proxify_concern/proxy_redirection_error':
-        message: "Le serveur d'origine ne peut pas ou ne traitera pas cette requête en raison d'une erreur de redirection apparente"
-        title: 'Redirection error'
+        message: "La plateforme n'a pas pu traiter la requête en raison d'un nombre de redirections trop important"
+        title: 'Erreur de redirection'
       'proxify_concern/proxy_request_error':
-        message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur interne apparente"
-        title: 'Request error'
+        message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur interne"
+        title: 'Erreur sur le serveur distant'
       'proxify_concern/proxy_socket_error':
-        message: "Le serveur distant ne répond pas"
-        title: 'Socket Error'
+        message: "La plateforme n'a pas pu traiter la requête car le serveur distant ne répond pas"
+        title: 'Erreur de connexion'
+      'proxify_concern/proxy_ssl_error':
+        message: "La plateforme n'a pas pu traiter la requête en HTTPS avec le serveur distant"
+        title: 'Erreur SSL'
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'

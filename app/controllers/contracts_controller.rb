@@ -208,7 +208,6 @@ class ContractsController < ApplicationController
   end
 
   def error_measurements
-
   end
 
   private

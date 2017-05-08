@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502071633) do
+ActiveRecord::Schema.define(version: 20170508071915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20170502071633) do
     t.datetime "updated_at",                      null: false
     t.string   "chamber_of_commerce", limit: 255
     t.index ["contactable_type", "contactable_id"], name: "index_contact_details_on_contactable_type_and_contactable_id", using: :btree
+    t.index ["name", "contactable_type", "contactable_id"], name: "id_contdetails_name_type_and_id", using: :btree
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -148,14 +149,14 @@ ActiveRecord::Schema.define(version: 20170502071633) do
   end
 
   create_table "error_measurements", force: :cascade do |t|
-    t.string   "message"
     t.string   "error_type"
-    t.string   "request"
+    t.text     "request_detail"
     t.integer  "contract_id"
     t.integer  "route_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "status"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "error_code"
+    t.integer  "response_http_status"
     t.index ["contract_id"], name: "index_error_measurements_on_contract_id", using: :btree
     t.index ["route_id"], name: "index_error_measurements_on_route_id", using: :btree
   end
@@ -171,7 +172,6 @@ ActiveRecord::Schema.define(version: 20170502071633) do
   create_table "identifiers", force: :cascade do |t|
     t.string   "client_id"
     t.string   "encrypted_secret"
-    t.datetime "expires_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "identifiable_type"
@@ -356,8 +356,8 @@ ActiveRecord::Schema.define(version: 20170502071633) do
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
     t.string   "subdomain"
-    t.integer  "company_id"
     t.boolean  "public",                         default: false
+    t.integer  "company_id"
     t.integer  "service_type",                   default: 1
     t.string   "ancestry"
     t.integer  "main_commercial_id"
@@ -368,6 +368,7 @@ ActiveRecord::Schema.define(version: 20170502071633) do
     t.index ["main_accountant_id"], name: "index_services_on_main_accountant_id", using: :btree
     t.index ["main_commercial_id"], name: "index_services_on_main_commercial_id", using: :btree
     t.index ["main_developer_id"], name: "index_services_on_main_developer_id", using: :btree
+    t.index ["name"], name: "index_services_on_name", unique: true, using: :btree
   end
 
   create_table "services_roles", id: false, force: :cascade do |t|
@@ -419,14 +420,14 @@ ActiveRecord::Schema.define(version: 20170502071633) do
     t.datetime "locked_at"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.datetime "password_changed_at"
-    t.string   "unique_session_id",      limit: 20
-    t.datetime "last_activity_at"
-    t.datetime "expired_at"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
+    t.datetime "password_changed_at"
+    t.string   "unique_session_id",      limit: 20
+    t.datetime "last_activity_at"
+    t.datetime "expired_at"
     t.boolean  "is_active",                         default: true
     t.string   "ancestry"
     t.string   "language",                          default: "en"

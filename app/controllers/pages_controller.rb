@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   skip_before_action :set_locale, only: [:robots]
 
-  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found]
+  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found, :robots]
   before_action :load_logotype_service, only: [:service_book, :startup]
 
   layout 'public'

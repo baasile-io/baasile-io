@@ -143,8 +143,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :error_measurements
       member do
-        get  :error_measurements
         post :activation_request
         post :set_right
         post :unset_right
@@ -164,9 +164,7 @@ Rails.application.routes.draw do
       post '/permissions/unset_right', to: 'permissions#unset_right'
 
       resources :proxies do
-        member do
-          get :error_measurements
-        end
+        resources :error_measurements
         resources :identifiers
         resources :routes do
           resources :query_parameters

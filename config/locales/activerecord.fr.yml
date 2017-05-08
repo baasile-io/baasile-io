@@ -67,6 +67,16 @@ fr:
         body: 'Contenu'
         locale: 'Langue'
         title: 'Titre'
+      error_measurement:
+        contract: 'Contrat'
+        contract_id: 'Contrat'
+        created_at: 'Date de survenance'
+        error_code: "Code d'erreur"
+        error_type: "Type d'erreur"
+        message: "Message de l'erreur"
+        request_detail: 'Détail de la requête'
+        route: 'Route'
+        route_id: 'Route'
       general_condition:
         effective_start_date: "Date d'effectivité"
         gc_version: 'Version'
@@ -223,14 +233,14 @@ fr:
       contact_detail: 'Coordonnées'
       dictionary: 'Dictionnaire'
       documentation: 'Documentation'
+      error_measurement: 'Erreur'
       general_condition: 'Conditions Générales'
       identifier: 'Identifiant'
-      contract: 'Contrat'
-      query_parameter: 'Paramètre de requête'
       price: 'Tarif'
       price_parameter: 'Critère de tarification'
       proxy: 'Produit'
       proxy_parameter: 'Paramètres de produit'
+      query_parameter: 'Paramètre de requête'
       route: 'Route'
       service: 'Entreprise'
       ticket: 'Ticket'

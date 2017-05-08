@@ -57,6 +57,7 @@ GEM
     arel (7.1.4)
     autoprefixer-rails (6.7.2)
       execjs
+    awesome_print (1.7.0)
     aws-sdk-core (2.9.7)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
@@ -362,6 +363,7 @@ DEPENDENCIES
   activevalidators
   airbrake
   ancestry
+  awesome_print
   aws-sdk-rails
   bootstrap (~> 4.0.0.alpha6)
   bootstrap-datepicker-rails

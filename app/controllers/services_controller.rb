@@ -111,10 +111,6 @@ class ServicesController < ApplicationController
     end
   end
 
-  def error_measurements
-
-  end
-
   def logo_image
     @logotype_service = LogotypeService.new
 

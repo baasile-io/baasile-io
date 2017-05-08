@@ -3,13 +3,14 @@ module ErrorMeasurementConcern
 
   private
 
-  def do_request_error_measure(error_type, status, request, message = nil)
+  def do_request_error_measure(error, request_detail)
     measure = ErrorMeasurement.create!(
       contract: current_contract,
       route: current_route,
-      status: status,
-      error_type: error_type,
-      message: message
+      error_type: error.class.name,
+      error_code: error.code,
+      response_http_status: error.http_status,
+      request_detail: request_detail.to_json
     )
     ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now
     true

@@ -19,79 +19,47 @@ module Api
       def process_request
         @proxy_response = proxy_request
         render status: @proxy_response.code, plain: @proxy_response.body
-      rescue ProxySocketError => e
-        status = 592
-        title = 'The server cannot process the request due to a connection error with the remote server'
-        do_request_error_measure(e.class.name, status, e.req, title)
-        render status: :bad_gateway, json: {
-          errors: [{
-             status: status,
-             title: title
-           }]
+      rescue ProxySocketError,
+        ProxySSLError,
+        ProxyInitializationError,
+        ProxyAuthenticationError,
+        ProxyRedirectionError,
+        ProxyRequestError,
+        ProxyNotFoundError => e
+        title = t("errors.api.#{e.class.name.underscore}.message", locale: :en)
+        metadata_request = {
+          method: e.req.method,
+          original_url: e.uri.to_s,
+          headers: e.req.to_hash,
+          body: e.req.body
         }
-      rescue ProxyInitializationError
-        status = 591
-        title = 'The server cannot process the request due to a configuration error'
-        do_request_error_measure(e.class.name, status, e.req, title)
-        render status: :bad_gateway, json: {
-          errors: [{
-            status: status,
-            title: title
-         }]
+        metadata_response = {
+          status: e.http_status,
+          body: e.body.to_s.force_encoding('UTF-8')
         }
-      rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
-        if e.code >= 500
-          status = 595
-          title = 'The origin server cannot or will not process the request due to an apparent internal error'
-        elsif e.code >= 400
-          status = 594
-          title = 'The origin server cannot or will not process the request due to an apparent client error'
-        else
-          status = 593
-          title = 'The origin server cannot or will not process the request due to an apparent redirection error'
-        end
-        do_request_error_measure(e.class.name, status, e.req, title)
+        metadata_full = {
+          request: metadata_request,
+          response: metadata_response
+        }
+        rendered_json_error = {
+          status: e.code,
+          title: title
+        }
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
-          render status: :bad_gateway, json: {
-            errors: [
-              {
-                status: status,
-                title: title,
-                meta: {
-                  request: {
-                    method: e.req.method,
-                    original_url: e.uri.to_s,
-                    headers: e.req.to_hash,
-                    body: e.req.body
-                  },
-                  response: {
-                    status: e.code,
-                    body: e.body.to_s.force_encoding('UTF-8')
-                  }
-                }
-              }
-            ]
-          }
+          rendered_json_error[:meta] = metadata_full
         else
-          render status: :bad_gateway, json: {
-            errors: [
-              {
-                status: status,
-                title: title,
-                meta: {
-                  response: {
-                    status: e.code,
-                    body: e.body.to_s.force_encoding('UTF-8')
-                  }
-                }
-              }
-            ]
+          rendered_json_error[:meta] = {
+            response: metadata_response
           }
         end
+        do_request_error_measure(e, metadata_full)
+        render status: :bad_gateway, json: {
+          errors: [rendered_json_error]
+        }
       rescue ProxyMissingMandatoryQueryParameterError => e
         status = 400
         title = "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
-        do_request_error_measure(e.class.name, status, e.req, title)
+        do_request_error_measure(e, {})
         return render status: status, json: {
           errors: [{
                      status: status,

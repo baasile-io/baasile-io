@@ -84,10 +84,6 @@ class ProxiesController < DashboardController
     end
   end
 
-  def error_measurements
-
-  end
-
   def show
   end
 

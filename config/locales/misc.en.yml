@@ -37,6 +37,7 @@ en:
         title: 'Active'
     last_comment: 'Last comment'
     last_modified: 'Last modified'
+    loading: 'Loading...'
     locales:
       en: 'English'
       fr: 'French'
