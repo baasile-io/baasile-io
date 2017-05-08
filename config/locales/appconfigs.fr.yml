@@ -18,6 +18,9 @@ fr:
     api_proxy_callback_uri_name:
       name: "Nom du paramètre Callback URI"
       description: "Le nom du paramètre Callback URI dans les headers envoyé aux fournisseurs permettant de construire les URL via la plateforme"
+    api_read_timeout:
+      name: 'Temps de réponse maximum des requêtes API'
+      description: "Le temps d'attente maximum en secondes des requêtes API de la plateforme vers les serveurs tiers"
     bill_payment_deadline:
       name: 'Échéance des factures'
       description: "Nombre de jours pour calculer l'échéance des factures"

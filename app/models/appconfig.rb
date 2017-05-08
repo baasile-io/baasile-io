@@ -26,6 +26,10 @@ class Appconfig < ApplicationRecord
       setting_type: :string,
       value: 'OpenRH-Proxy-Callback-Uri'
     },
+    api_read_timeout: {
+      setting_type: :integer,
+      value: 10
+    },
     max_requests_per_hour: {
       setting_type: :integer,
       value: 18000

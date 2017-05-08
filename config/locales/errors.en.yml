@@ -5,6 +5,9 @@ en:
       'proxify_concern/proxy_authentication_error':
         message: 'The origin server cannot or will not process the request due to an apparent client error'
         title: 'Authentication error'
+      'proxify_concern/proxy_eof_error':
+        message: "Distant server is not accessible"
+        title: 'Connection error'
       'proxify_concern/proxy_initialization_error':
         message: 'The server cannot process the request due to a configuration error'
         title: 'Misconfiguration'
@@ -26,6 +29,9 @@ en:
       'proxify_concern/proxy_ssl_error':
         message: "Failed to connect remote server through HTTPS"
         title: 'SSL Error'
+      'proxify_concern/proxy_timeout_error':
+        message: "The platform could not successfully process the request due to a timeout error"
+        title: 'Timeout error'
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'

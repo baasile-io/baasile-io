@@ -91,6 +91,18 @@ module ProxifyConcern
     end
   end
 
+  class ProxyEOFError < ProxyError
+    def code
+      609
+    end
+  end
+
+  class ProxyTimeoutError < ProxyError
+    def code
+      610
+    end
+  end
+
   def proxy_initialize
     raise ProxyInitializationError if current_proxy.nil?
     raise ProxyInitializationError if current_route.nil?
@@ -111,6 +123,10 @@ module ProxifyConcern
     raise ProxySocketError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: e.message}
   rescue OpenSSL::SSL::SSLError => e
     raise ProxySSLError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: e.message}
+  rescue EOFError => e
+    raise ProxyEOFError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: e.message}
+  rescue Net::ReadTimeout => e
+    raise ProxyTimeoutError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: e.message}
   end
 
   def build_headers
@@ -227,6 +243,7 @@ module ProxifyConcern
         req.set_form_data(params)
 
         http = Net::HTTP.new uri.host, uri.port
+        http.read_timeout = Appconfig.get(:api_read_timeout)
         http.use_ssl = @current_proxy_parameter.protocol == 'https'
         res = http.request req
 
@@ -243,6 +260,7 @@ module ProxifyConcern
     limit ||= @current_proxy_parameter.follow_redirection
 
     http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
+    http.read_timeout = Appconfig.get(:api_read_timeout)
     http.use_ssl = @current_proxy_uri_object.scheme == 'https'
 
     Rails.logger.info "Proxy Request: #{limit} #{@current_proxy_uri_object}"

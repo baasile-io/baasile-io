@@ -25,7 +25,9 @@ module Api
         ProxyAuthenticationError,
         ProxyRedirectionError,
         ProxyRequestError,
-        ProxyNotFoundError => e
+        ProxyNotFoundError,
+        ProxyTimeoutError,
+        ProxyEOFError => e
         title = t("errors.api.#{e.class.name.underscore}.message", locale: :en)
         metadata_request = {
           method: e.req.method,

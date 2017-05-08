@@ -5,6 +5,9 @@ fr:
       'proxify_concern/proxy_authentication_error':
         message: "La plateforme n'a pas pu s'authentifier sur le serveur distant"
         title: "Erreur d'authentification"
+      'proxify_concern/proxy_eof_error':
+        message: "La plateforme n'a pas pu traiter la requête car le serveur distant ne répond pas"
+        title: 'Erreur de connexion'
       'proxify_concern/proxy_initialization_error':
         message: "La plateforme ne peut pas traiter la requête en raison d'une erreur de configuration"
         title: 'Mauvaise configuration'
@@ -26,6 +29,9 @@ fr:
       'proxify_concern/proxy_ssl_error':
         message: "La plateforme n'a pas pu traiter la requête en HTTPS avec le serveur distant"
         title: 'Erreur SSL'
+      'proxify_concern/proxy_timeout_error':
+        message: "La plateforme n'a pas pu traiter la requête avec le serveur distant en raison d'un temps de réponse trop important"
+        title: 'Erreur temps de réponse'
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
