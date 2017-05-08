@@ -44,7 +44,7 @@ class Service < ApplicationRecord
   before_validation :generate_identifiers
 
   validates :name, uniqueness: true, presence: true, length: {minimum: 2, maximum: 255}
-  validates :description, presence: true, if: Proc.new{ self.service_type.to_sym == :startup }
+  validates :description, presence: true, length: {minimum: 2, maximum: 155}, if: Proc.new{ self.service_type.to_sym == :startup }
   validates :description_long, presence: true, if: Proc.new{ self.service_type.to_sym == :startup && self.public }
 
   validates :service_type, presence: true
