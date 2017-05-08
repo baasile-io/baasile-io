@@ -4,8 +4,11 @@
   <div class="container-fluid">
 
     <%= render partial: 'bank_details' , locals: {entreprise_owner: @contract.client} %>
-
-    <%= link_to t('actions.select_new_template'), (@service.nil? ? client_bank_details_selection_contract_path(current_contract, entreprise_owner_id: @contract.client) : client_bank_details_selection_service_contract_path(current_contract, entreprise_owner_id: @contract.client)), class: 'btn btn-primary' %>
-
+    <% if @bank_detail_templates.size == 0 %>
+      <p class="text-muted"><%= t('misc.no_bank_detail') %></p>
+      <%= link_to t('actions.create_bank_detail_template'), new_service_bank_detail_path(@contract.client, entreprise_owner_id: @contract.client, from_contract: current_contract.id, from_service: current_service.try(:id)), class: 'btn btn-primary' %>
+    <% else %>
+      <%= link_to t('actions.select_new_template'), (@service.nil? ? client_bank_details_selection_contract_path(current_contract, entreprise_owner_id: @contract.client) : client_bank_details_selection_service_contract_path(current_contract, entreprise_owner_id: @contract.client)), class: 'btn btn-primary' %>
+    <% end %>
   </div>
 </div>

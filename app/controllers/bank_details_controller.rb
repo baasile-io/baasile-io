@@ -31,8 +31,12 @@ class BankDetailsController < ApplicationController
     @bank_detail.assign_attributes(bank_detail_params)
     if @bank_detail.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.bank_detail'))
+      set_service_to_redirect
       redirect_to_show
     else
+      params[:from_contract] = params[:bank_detail][:from_contract]
+      params[:entreprise_owner_id] = params[:bank_detail][:entreprise_owner_id]
+      params[:from_service] = params[:bank_detail][:from_service]
       @form_values = get_form_values
       render :new
     end
@@ -76,16 +80,28 @@ class BankDetailsController < ApplicationController
 
   def redirect_to_index
     return redirect_to service_bank_details_path(current_entreprise_owner) if @contract.nil?
-    return redirect_to bank_details_service_contract_path(@service, @contract) unless @service.nil?
+    unless @service.nil?
+      return redirect_to client_bank_details_service_contract_path(@service, @contract) if current_entreprise_owner.id == @contract.client.id
+      return redirect_to startup_bank_details_service_contract_path(@service, @contract) if current_entreprise_owner.id == @contract.proxy.service.id
+    end
     return redirect_to client_bank_details_contract_path(@contract) if current_entreprise_owner == @contract.client
     return redirect_to startup_bank_details_contract_path(@contract) if current_entreprise_owner == @contract.proxy.service
   end
 
   def redirect_to_show
     return redirect_to service_bank_detail_path(current_entreprise_owner, current_bank_detail) if @contract.nil?
-    return redirect_to service_contract_bank_details_path(@service, @contract) unless @service.nil?
+    unless @service.nil?
+      return redirect_to client_bank_details_service_contract_path(@service, @contract) if current_entreprise_owner.id == @contract.client.id
+      return redirect_to startup_bank_details_service_contract_path(@service, @contract) if current_entreprise_owner.id == @contract.proxy.service.id
+    end
     return redirect_to client_bank_details_contract_path(@contract) if current_entreprise_owner.id == @contract.client.id
     return redirect_to startup_bank_details_contract_path(@contract) if current_entreprise_owner.id == @contract.proxy.service.id
+  end
+
+  def set_service_to_redirect
+    if !@contract.nil? && params.key?(:bank_detail)
+      @service = Service.find(params[:bank_detail][:from_service])
+    end
   end
 
   def load_service
@@ -97,6 +113,8 @@ class BankDetailsController < ApplicationController
   def load_contract
     if params.key?(:contract_id)
       @contract = Contract.find(params[:contract_id])
+    elsif params.key?(:bank_detail)
+      @contract = Contract.find(params[:bank_detail][:from_contract])
     end
   end
 
@@ -131,7 +149,7 @@ class BankDetailsController < ApplicationController
   end
 
   def bank_detail_params
-    allowed_parameters = [:name, :bank_name, :entreprise_owner_id, :account_owner, :bic, :iban]
+    allowed_parameters = [:name, :bank_name, :account_owner, :bic, :iban]
     if params.key?(:bank_detail)
       return params.require(:bank_detail).permit(allowed_parameters)
     end

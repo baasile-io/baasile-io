@@ -178,8 +178,8 @@ class ContractsController < ApplicationController
   end
 
   def startup_bank_details
+    @bank_detail_templates = BankDetail.by_service(@contract.proxy.service)
     if @contract.bank_details.find_by(service: @contract.proxy.service).nil?
-      @bank_detail_templates = BankDetail.by_service(@contract.proxy.service)
       render :startup_bank_details_selection
     end
   end
@@ -189,8 +189,8 @@ class ContractsController < ApplicationController
   end
 
   def client_bank_details
+    @bank_detail_templates = BankDetail.by_service(@contract.client)
     if @contract.bank_details.find_by(service: @contract.client).nil?
-      @bank_detail_templates = BankDetail.by_service(@contract.client)
       render :client_bank_details_selection
     end
   end
