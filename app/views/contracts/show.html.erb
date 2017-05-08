@@ -206,15 +206,15 @@
         <% end %>
         <%= show_contract_errors(errors) %>
 
-        <% status, errors = @contract.can?(current_user, :client_banking_details) %>
+        <% status, errors = @contract.can?(current_user, :client_bank_details) %>
         <% if status %>
-            <%= link_to t('actions.edit_banking_details.client'), (current_service.nil? ? client_banking_details_contract_path(@contract) : client_banking_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+            <%= link_to t('actions.edit_bank_details.client'), (current_service.nil? ? client_bank_details_contract_path(@contract) : client_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
         <% end %>
         <%= show_contract_errors(errors) %>
 
-        <% status, errors = @contract.can?(current_user, :startup_banking_details) %>
+        <% status, errors = @contract.can?(current_user, :startup_bank_details) %>
         <% if status %>
-            <%= link_to t('actions.edit_banking_details.startup'), (current_service.nil? ? startup_banking_details_contract_path(@contract) : startup_banking_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+            <%= link_to t('actions.edit_bank_details.startup'), (current_service.nil? ? startup_bank_details_contract_path(@contract) : startup_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
         <% end %>
         <%= show_contract_errors(errors) %>
 

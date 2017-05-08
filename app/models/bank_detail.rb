@@ -1,4 +1,4 @@
-class BankingDetail < ApplicationRecord
+class BankDetail < ApplicationRecord
   # Versioning
   has_paper_trail
 

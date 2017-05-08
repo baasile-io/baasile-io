@@ -1,0 +1,53 @@
+<% content_for(:page_title) { t('.title') } %>
+<% if current_contract.nil? %>
+  <% content_for(:page_controls) { link_to t('actions.create_bank_detail'), new_service_bank_detail_path(current_entreprise_owner), class: 'btn btn-primary' } %>
+<% elsif current_contract.bank_details.find_by(service: current_entreprise_owner).nil? %>
+  <% content_for(:page_controls) { link_to t('actions.create_bank_detail'), (@service.nil? ? new_contract_bank_detail_path(current_contract, entreprise_owner_id: current_entreprise_owner) : new_service_contract_bank_detail_path(@service, current_contract, entreprise_owner_id: current_entreprise_owner)), class: 'btn btn-secondary' } %>
+<% end %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @collection.size == 0 %>
+        <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+        <table class="table table-sm table-hover">
+          <thead>
+          <tr>
+            <th colspan="2" class="width-30"><%= t('activerecord.attributes.bank_detail.name') %></th>
+            <th class="width-20"><%= t('activerecord.attributes.bank_detail.bank_name') %></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @collection.each do |bank_detail| %>
+              <tr>
+                <td class="width-3">
+                  <i class="fa fa-2x fa-credit-card"></i>
+                </td>
+                <td>
+                  <strong ><%= bank_detail.name %></strong><br />
+                  <small class="text-muted"><%=  bank_detail.account_owner %></small>
+                </td>
+                <td>
+                  <span class=""><%= bank_detail.bank_name %></span>
+                </td>
+                <td class="text-right">
+                  <% unless current_contract.nil? %>
+                    <%= link_to t('actions.more_info'), (@service.nil? ? contract_bank_detail_path(current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner) : service_contract_bank_detail_path(@service, current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner)), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_bank_detail_path(current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner) : edit_service_contract_bank_detail_path(@service, current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner)), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.destroy'), (@service.nil? ? contract_bank_detail_path(current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner) : service_contract_bank_detail_path(@service, current_contract, bank_detail, entreprise_owner_id: current_entreprise_owner)), method: :delete, class: 'btn btn-secondary' %>
+                  <% else %>
+                    <%= link_to t('misc.more_info'), service_bank_detail_path(current_entreprise_owner, bank_detail.id), class: 'btn btn-secondary' %>
+                    <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_entreprise_owner, bank_detail.id), class: 'btn btn-primary' %>
+                    <%= link_to t('actions.destroy'), service_bank_detail_path(current_entreprise_owner, bank_detail.id), method: :delete, class: 'btn btn-danger' %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+    <% end %>
+
+  </div>
+</div>

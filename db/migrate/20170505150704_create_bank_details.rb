@@ -1,6 +1,6 @@
-class CreateBankingDetails < ActiveRecord::Migration[5.0]
+class CreateBankDetails < ActiveRecord::Migration[5.0]
   def change
-    create_table :banking_details do |t|
+    create_table :bank_details do |t|
       t.string      :name
       t.string      :iban
       t.string      :bic
@@ -14,6 +14,6 @@ class CreateBankingDetails < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :banking_details, [:name, :service_id, :contract_id], unique: true, name: 'index_on_name_service_contract'
+    add_index :bank_details, [:name, :service_id, :contract_id], unique: true, name: 'index_on_name_service_contract'
   end
 end

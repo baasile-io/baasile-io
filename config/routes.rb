@@ -71,11 +71,11 @@ Rails.application.routes.draw do
         post :reject
         get :prices
         get :select_price
-        get :client_banking_details
-        get :select_banking_detail
-        get :client_banking_details_selection
-        get :startup_banking_details
-        get :startup_banking_details_selection
+        get :client_bank_details
+        get :select_bank_detail
+        get :client_bank_details_selection
+        get :startup_bank_details
+        get :startup_bank_details_selection
         post :cancel
         get :print_current_month_consumption
       end
@@ -83,7 +83,7 @@ Rails.application.routes.draw do
         get :catalog
         get :select_client
       end
-      resources :banking_details
+      resources :bank_details
       resources :prices do
         resources :price_parameters
       end
@@ -115,7 +115,7 @@ Rails.application.routes.draw do
 
     resources :services do
 
-      resources :banking_details
+      resources :bank_details
 
       resources :contracts do
         member do
@@ -129,11 +129,11 @@ Rails.application.routes.draw do
           get :general_condition
           get :prices
           get :select_price
-          get :client_banking_details
-          get :select_banking_detail
-          get :client_banking_details_selection
-          get :startup_banking_details
-          get :startup_banking_details_selection
+          get :client_bank_details
+          get :select_bank_detail
+          get :client_bank_details_selection
+          get :startup_bank_details
+          get :startup_bank_details_selection
           post :cancel
           get :print_current_month_consumption
         end
@@ -141,7 +141,7 @@ Rails.application.routes.draw do
           get :catalog
           get :select_client
         end
-        resources :banking_details
+        resources :bank_details
         resources :prices do
           resources :price_parameters
         end

@@ -2,18 +2,18 @@ class Role < ApplicationRecord
   USER_ROLES = %i(admin commercial developer accountant).freeze
 
   CONTROLLER_AUTHORIZATIONS = {
-    banking_details: {
+    bank_details: {
       index: [:accountant],
       show: [:accountant],
       edit: [:accountant],
       new: [:accountant],
       update: [:accountant],
       create: [:accountant],
-      client_banking_details: [:accountant],
-      select_banking_detail: [:accountant],
-      client_banking_details_selection: [:accountant],
-      startup_banking_details: [:accountant],
-      startup_banking_details_selection: [:accountant],
+      client_bank_details: [:accountant],
+      select_bank_detail: [:accountant],
+      client_bank_details_selection: [:accountant],
+      startup_bank_details: [:accountant],
+      startup_bank_details_selection: [:accountant],
     },
     services: {
       show: USER_ROLES.dup,

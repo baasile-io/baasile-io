@@ -1,9 +1,9 @@
 fr:
   contracts:
-    banking_details:
+    bank_details:
       title: 'Données bancaires'
       description: 'Choisissez une donnée bancaire pour contractualiser.'
-    banking_details_selection:
+    bank_details_selection:
       title: 'Données bancaires'
       description: 'Choisissez une donnée bancaire pour contractualiser.'
     catalog:

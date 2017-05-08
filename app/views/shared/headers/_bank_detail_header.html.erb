@@ -1,0 +1,12 @@
+<div class="b-io-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          <span class="text-muted"><%= link_to t('bank_details.index.title'), polymorphic_path([current_service, BankDetail]), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <%= t("bank_details.#{action_name}.title") %>
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>

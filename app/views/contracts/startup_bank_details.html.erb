@@ -1,0 +1,12 @@
+<% content_for(:page_title) { t('types.service_types.startup.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+
+    <%= render partial: 'bank_details' , locals: {entreprise_owner: @contract.proxy.service} %>
+
+    <%= link_to t('actions.select_new_template'), (@service.nil? ? startup_bank_details_selection_contract_path(current_contract, entreprise_owner_id: @contract.proxy.service) : startup_bank_details_selection_service_contract_path(current_contract, entreprise_owner_id: @contract.proxy.service)), class: 'btn btn-primary' %>
+
+  </div>
+</div>

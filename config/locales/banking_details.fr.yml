@@ -1,5 +1,5 @@
 fr:
-  banking_details:
+  bank_details:
     create:
       title: 'Ajouter un compte bancaire'
     edit:

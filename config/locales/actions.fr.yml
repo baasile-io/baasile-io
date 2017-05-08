@@ -30,7 +30,7 @@ fr:
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
-    edit_banking_details:
+    edit_bank_details:
       client: 'Modifier le compte bancaire du client'
       startup: 'Modifier le compte bancaire du fournisseur'
     edit_contract: 'Modifier le contrat'
@@ -68,8 +68,8 @@ fr:
     send_reset_password: 'Réinitialiser le mot de passe'
     send_ticket: 'Envoyer le ticket'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
-    show_startup_banking_detail: 'données bancaires de la startup'
-    show_client_banking_detail: 'données bancaires du client'
+    show_startup_bank_detail: 'données bancaires de la startup'
+    show_client_bank_detail: 'données bancaires du client'
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
     select_new_template: 'Selectioner dans la liste entreprise'
     set_admin: "Ajouter les droits admin"

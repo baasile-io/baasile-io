@@ -30,9 +30,9 @@ en:
     disassociate: 'Remove association'
     edit: 'Edit'
     edit_account: 'Edit account'
-    edit_banking_details:
-      client: 'Edit client Banking details'
-      startup: 'Edit startup Banking details'
+    edit_bank_details:
+      client: 'Edit client Bank details'
+      startup: 'Edit startup Bank details'
     edit_contract: 'Edit contract'
     edit_price: 'Edit pricing'
     edit_service: 'Edit Enterprise account'
@@ -69,8 +69,8 @@ en:
     send_reset_password: 'Reset password'
     send_ticket: 'Send ticket'
     send_welcome_instructions: 'Send welcome instructions by email'
-    show_startup_banking_detail: 'Startup banking details'
-    show_client_banking_detail: 'Client banking details'
+    show_startup_bank_detail: 'Startup bank details'
+    show_client_bank_detail: 'Client bank details'
     skip_confirmation: "Skip email address confirmation"
     select_new_template: 'Select in enterprise list'
     set_admin: 'Set admin'

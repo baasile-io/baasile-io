@@ -5,7 +5,7 @@ fr:
         name: 'Nom'
         setting_type: 'Type'
         value: 'Valeur'
-      banking_detail:
+      bank_detail:
         name: 'Libellé'
         iban: 'IBAN'
         bic: 'BIC'
@@ -241,7 +241,7 @@ fr:
         whodunnit: 'Auteur'
     models:
       appconfig: 'Configuration'
-      banking_detail: 'Données bancaires'
+      bank_detail: 'Données bancaires'
       bill: 'Consommation'
       bill_line: 'Détail de consommation'
       category: "Catégorie"
