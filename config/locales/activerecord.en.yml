@@ -33,18 +33,19 @@ en:
         siret: "SIRET Number"
         zip: "Zip Code"
       contract:
-        activate: 'Active'
         client: 'Client'
+        client_code: 'Free field (client)'
         client_id: 'Client'
-        code: 'Code'
         company: 'Aggregator'
         company_id: 'Aggregator'
         contract_duration: 'Contract duration'
+        created_at: 'Created at'
         end_date: 'End date'
         expected_contract_duration: 'Expected contract duration'
         expected_end_date: 'Expected end date (not included)'
         expected_free_count: 'Expected quantity'
         expected_start_date: 'Expected start date'
+        is_active: 'Active'
         is_evergreen: 'Automatically renewed'
         name: 'Title'
         price: 'Pricing'
@@ -54,8 +55,10 @@ en:
         proxy_id: 'Product'
         start_date: 'Start date'
         startup: 'Supplier'
+        startup_code: 'Free field (supplier)'
         startup_id: 'Supplier'
         status: 'Status'
+        updated_at: 'Last update at'
       dictionary:
         body: 'Body'
         footer: 'Footer'

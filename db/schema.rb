@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508071915) do
+ActiveRecord::Schema.define(version: 20170508183429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,7 +101,6 @@ ActiveRecord::Schema.define(version: 20170508071915) do
   end
 
   create_table "contracts", force: :cascade do |t|
-    t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "client_id"
@@ -110,11 +109,11 @@ ActiveRecord::Schema.define(version: 20170508071915) do
     t.integer  "user_id"
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
-    t.boolean  "activate",                                    default: true
+    t.boolean  "is_active",                                   default: true
     t.integer  "status",                                      default: 1
     t.boolean  "production",                                  default: false
     t.integer  "proxy_id"
-    t.string   "code"
+    t.string   "client_code"
     t.integer  "contract_duration"
     t.date     "expected_start_date"
     t.date     "expected_end_date"
@@ -124,6 +123,7 @@ ActiveRecord::Schema.define(version: 20170508071915) do
     t.integer  "general_condition_validated_client_user_id"
     t.datetime "general_condition_validated_client_datetime"
     t.integer  "expected_free_count"
+    t.string   "startup_code"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 

@@ -25,7 +25,11 @@
       <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
-      <%= f.input :activate, as: :radio_buttons, hint: t('.hints.activate') %>
+      <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.is_active') %>
+
+      <%= f.simple_fields_for @new_comment do |f2| %>
+        <%= f2.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
+      <% end %>
 
       <div class="row">
         <div class="actions col-md-9 offset-md-3">

@@ -18,7 +18,7 @@
         <strong><%= t('activerecord.attributes.contract.activate') %></strong>
       </div>
       <div class="col-9">
-        <i class="<%= t("misc.is_active.#{@contract.activate}.icon") %>"></i> <%= t("misc.is_active.#{@contract.activate}.title") %>
+        <i class="<%= t("misc.is_active.#{@contract.is_active}.icon") %>"></i> <%= t("misc.is_active.#{@contract.is_active}.title") %>
       </div>
     </div>
 
@@ -52,6 +52,30 @@
         <small class="text-muted"><%= simple_format(@contract.proxy.description) %></small>
       </div>
     </div>
+
+    <% if current_user.is_user_of?(@contract.client) %>
+      <hr>
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.client_code') %></strong>
+        </div>
+        <div class="col-9">
+          <%= @contract.client_code %></strong>
+        </div>
+      </div>
+    <% end %>
+
+    <% if current_user.is_user_of?(@contract.startup) %>
+      <hr>
+      <div class="row">
+        <div class="col-3 text-right">
+          <strong><%= t('activerecord.attributes.contract.startup_code') %></strong>
+        </div>
+        <div class="col-9">
+          <%= @contract.startup_code %></strong>
+        </div>
+      </div>
+    <% end %>
 
     <hr>
 

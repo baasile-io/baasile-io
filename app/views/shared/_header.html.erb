@@ -140,9 +140,9 @@
                 <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) %>" href="<%= service_proxy_prices_path(current_service, current_proxy) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
               </li>
               <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_proxy_error_measurements_path(current_service, current_proxy) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
-                  </li>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_proxy_error_measurements_path(current_service, current_proxy) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.title') %></a>
+                </li>
               <% end %>
             </ul>
           </div>

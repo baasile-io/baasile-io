@@ -51,11 +51,16 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    self.has_role?(:superadmin) || self.has_role?(:admin)
+    self.is_superadmin? || self.has_role?(:admin)
   end
 
   def is_commercial?
-    self.has_role?(:superadmin) || self.has_role?(:admin, :any) || self.has_role?(:commercial, :any)
+    self.is_superadmin? || self.has_role?(:admin, :any) || self.has_role?(:commercial, :any)
+  end
+
+  def is_user_of?(service)
+    return true if service.users.exists?(self) || self.is_superadmin?
+    false
   end
 
   def is_developer_of?(service)

@@ -1,4 +1,4 @@
-<% if @current_status[:allowed_parameters].empty? %>
+<% if @current_status[:allowed_parameters].keys.size == 0 %>
 
   <p>[Impossible de modifier les paramètres du contrat à ce stade]</p>
 
@@ -25,27 +25,27 @@
       </div>
     </div>
 
-    <% if @current_status[:allowed_parameters].include?(:name) %>
-      <%= f.input :name %>
+    <% if f.object.can_edit_attribute?(current_user, :client_code) %>
+      <%= f.input :client_code, hint: t('.hints.client_code') %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:code) %>
-      <%= f.input :code, input_html: {class: 'col-sm-3'} %>
+    <% if f.object.can_edit_attribute?(current_user, :startup_code) %>
+      <%= f.input :startup_code, hint: t('.hints.startup_code') %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:expected_start_date) %>
+    <% if f.object.can_edit_attribute?(current_user, :expected_start_date) %>
       <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:expected_end_date) %>
+    <% if f.object.can_edit_attribute?(current_user, :expected_end_date) %>
       <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:is_evergreen) %>
+    <% if f.object.can_edit_attribute?(current_user, :is_evergreen) %>
       <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
     <% end %>
 
-    <% if @current_status[:allowed_parameters].include?(:expected_free_count) %>
+    <% if f.object.can_edit_attribute?(current_user, :expected_free_count) %>
       <%= f.input :expected_free_count, as: :string, input_html: {class: 'col-sm-2'}, hint: t('.hints.expected_free_count') %>
     <% end %>
 

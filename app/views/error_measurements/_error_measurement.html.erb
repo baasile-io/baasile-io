@@ -49,5 +49,5 @@
 
 <% if object.request_detail.present? %>
   <hr />
-  <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue "<pre>---</pre>".html_safe %>
+  <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe %>
 <% end %>

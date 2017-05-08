@@ -33,18 +33,20 @@ fr:
         siret: "Numéro de SIRET"
         zip: "Code postal"
       contract:
-        activate: 'Actif'
         client: 'Client'
+        client_code: 'Champ libre (client)'
         client_id: 'Client'
         code: 'Code'
         company: 'Aggrétateur'
         company_id: 'Aggrétateur'
         contract_duration: 'Durée du contrat'
+        created_at: 'Date de création'
         end_date: 'Date de fin'
         expected_contract_duration: 'Durée du contrat souhaitée'
         expected_end_date: 'Date de fin souhaitée (non incluse)'
         expected_free_count: 'Quantité souhaitée'
         expected_start_date: 'Date de début souhaitée'
+        is_active: 'Actif'
         is_evergreen: 'Reconduction automatique'
         name: 'Intitulé'
         price: 'Tarification'
@@ -54,8 +56,10 @@ fr:
         proxy_id: 'Produit'
         start_date: 'Date de début'
         startup: 'Fournisseur'
+        startup_code: 'Champ libre (fournisseur)'
         startup_id: 'Fournisseur'
         status: 'Statut'
+        updated_at: 'Dernière modification'
       dictionary:
         body: 'Corps'
         footer: 'Pied de page'

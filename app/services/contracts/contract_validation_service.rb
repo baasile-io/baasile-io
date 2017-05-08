@@ -5,6 +5,8 @@ module Contracts
     class MissingStartDateProductionPhase < StandardError; end
     class NotStartedProductionPhase < StandardError; end
     class EndedProductionPhase < StandardError; end
+    class WaitingForProduction < StandardError; end
+    class NotActive < StandardError; end
 
     def initialize(contract, route)
       @contract = contract
@@ -19,6 +21,8 @@ module Contracts
           authorize_test_request
         when :validation_production
           authorize_production_request
+        when :waiting_for_production
+          raise WaitingForProduction
         else
           raise NotValidatedContract
       end
@@ -28,17 +32,23 @@ module Contracts
           authorize_request_per_call
       end
 
+      raise NotActive unless @contract.is_active
+
       true
     rescue MissingContract
-      [false, 'No subscription to this product']
+      [false, 'No contract found to this product']
     rescue NotValidatedContract
-      [false, "No active subscription to this product (status: #{@contract.status})"]
+      [false, "No active contract to this product (status: #{@contract.status})"]
     rescue MissingStartDateProductionPhase
       [false, "Production phase has no start date"]
     rescue NotStartedProductionPhase
       [false, "Production phase will start on #{I18n.l(@contract.start_date)}"]
     rescue EndedProductionPhase
       [false, "Production phase ended on #{I18n.l(@contract.end_date)}"]
+    rescue WaitingForProduction
+      [false, "Waiting for production phase"]
+    rescue NotActive
+      [false, "Contract is temporarily deactivated"]
     end
 
     def authorize_test_request

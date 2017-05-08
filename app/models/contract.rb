@@ -18,7 +18,7 @@ class Contract < ApplicationRecord
         validate: Proc.new {|c| true}
       },
       notifications: {},
-      allowed_parameters: [],
+      allowed_parameters: {},
       next: :creation,
       prev: nil
     },
@@ -59,7 +59,9 @@ class Contract < ApplicationRecord
       notifications: {
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [:code, :name, :expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id],
+      allowed_parameters: {
+        client: [:client_code, :expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id]
+      },
       next: :commercial_validation_sp,
       prev: nil
     },
@@ -106,7 +108,10 @@ class Contract < ApplicationRecord
       notifications: {
         client: ['admin', 'commercial']
       },
-      allowed_parameters: [:expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id],
+      allowed_parameters: {
+        client: [:client_code],
+        startup: [:startup_code, :expected_free_count, :expected_start_date, :expected_end_date, :is_evergreen]
+      },
       next: :commercial_validation_client,
       prev: :creation
     },
@@ -148,7 +153,10 @@ class Contract < ApplicationRecord
       notifications: {
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [],
+      allowed_parameters: {
+        client: [:client_code],
+        startup: [:startup_code]
+      },
       next: :validation,
       prev: :commercial_validation_sp
     },
@@ -174,8 +182,12 @@ class Contract < ApplicationRecord
           startup: ['commercial', 'accountant']
         },
         error_measurements: {
-            client: ['admin'],
-            startup: ['admin']
+            client: ['admin', 'developer'],
+            startup: ['admin', 'developer']
+        },
+        error_measurement: {
+          client: ['admin', 'developer'],
+          startup: ['admin', 'developer']
         }
       },
       show_error: {
@@ -188,7 +200,10 @@ class Contract < ApplicationRecord
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [],
+      allowed_parameters: {
+        client: [:client_code],
+        startup: [:startup_code]
+      },
       next: :waiting_for_production,
       prev: :commercial_validation_client
     },
@@ -224,7 +239,10 @@ class Contract < ApplicationRecord
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [],
+      allowed_parameters: {
+        client: [:client_code],
+        startup: [:startup_code]
+      },
       next: :validation_production,
       prev: :validation
     },
@@ -244,8 +262,12 @@ class Contract < ApplicationRecord
           startup: ['commercial', 'accountant']
         },
         error_measurements: {
-            client: ['admin'],
-            startup: ['admin']
+          client: ['admin', 'developer'],
+          startup: ['admin', 'developer']
+        },
+        error_measurement: {
+          client: ['admin', 'developer'],
+          startup: ['admin', 'developer']
         },
         print_current_month_consumption: {
           client: ['accountant'],
@@ -260,7 +282,10 @@ class Contract < ApplicationRecord
         client: ['admin', 'commercial'],
         startup: ['admin', 'commercial']
       },
-      allowed_parameters: [],
+      allowed_parameters: {
+        client: [:client_code],
+        startup: [:startup_code]
+      },
       next: nil,
       prev: :waiting_for_production
     }
@@ -295,7 +320,6 @@ class Contract < ApplicationRecord
   before_validation :set_contract_dates
   before_validation :set_contract_duration
 
-  validates :name, presence: true
   validates :startup_id, presence:true
   validates :client_id, presence:true
   validates :proxy_id, presence:true, uniqueness: {scope: [:client_id, :startup_id]}
@@ -386,6 +410,14 @@ class Contract < ApplicationRecord
     false
   end
 
+  def can_edit_attribute?(user, attribute)
+    return false if status_config[:allowed_parameters].nil?
+    status_config[:allowed_parameters].each_pair do |scope, allowed_parameters|
+      return true if user.is_user_of?(self.send(scope)) && allowed_parameters.include?(attribute)
+    end
+    false
+  end
+
   def to_s
     name
   end
@@ -422,5 +454,9 @@ class Contract < ApplicationRecord
       when :yearly
         self.start_date + 1.year
     end
+  end
+
+  def name
+    "#{self.client} / #{self.startup} / #{self.proxy}"
   end
 end

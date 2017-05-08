@@ -25,9 +25,11 @@ module Api
         ProxyAuthenticationError,
         ProxyRedirectionError,
         ProxyRequestError,
+        ProxyMethodNotAllowedError,
         ProxyNotFoundError,
         ProxyTimeoutError,
-        ProxyEOFError => e
+        ProxyEOFError,
+        ProxyMissingMandatoryQueryParameterError => e
         title = t("errors.api.#{e.class.name.underscore}.message", locale: :en)
         metadata_request = {
           method: e.req.method,
@@ -35,10 +37,12 @@ module Api
           headers: e.req.to_hash,
           body: e.req.body
         }
-        metadata_response = {
-          status: e.http_status,
-          body: e.body.to_s.force_encoding('UTF-8')
-        }
+        if e.body
+          metadata_response = {
+            status: e.http_status,
+            body: e.body.to_s.force_encoding('UTF-8')
+          }
+        end
         metadata_full = {
           request: metadata_request,
           response: metadata_response
@@ -58,16 +62,7 @@ module Api
         render status: :bad_gateway, json: {
           errors: [rendered_json_error]
         }
-      rescue ProxyMissingMandatoryQueryParameterError => e
-        status = 400
-        title = "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
-        do_request_error_measure(e, {})
-        return render status: status, json: {
-          errors: [{
-                     status: status,
-                     title: title
-                   }]
-        }
+        raise ProxyCanceledMeasurement
       end
 
       def index

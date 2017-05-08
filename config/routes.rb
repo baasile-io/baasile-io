@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     resources :contracts do
       member do
         get :error_measurements
+        get :error_measurement
         get :comments
         post :create_comment
         post :validate
@@ -107,6 +108,7 @@ Rails.application.routes.draw do
       resources :contracts do
         member do
           get :error_measurements
+          get :error_measurement
           get :comments
           post :create_comment
           post :validate

@@ -103,6 +103,12 @@ module ProxifyConcern
     end
   end
 
+  class ProxyMethodNotAllowedError < ProxyError
+    def code
+      611
+    end
+  end
+
   def proxy_initialize
     raise ProxyInitializationError if current_proxy.nil?
     raise ProxyInitializationError if current_route.nil?
@@ -218,6 +224,10 @@ module ProxifyConcern
     case @current_proxy_parameter.authorization_mode
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?
     end
+
+    unless current_route.allowed_methods.include?(request.method)
+      raise ProxyMethodNotAllowedError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, code: 0, body: nil}
+    end
   end
 
   def proxy_authenticate_after_unauthorized
@@ -266,7 +276,6 @@ module ProxifyConcern
     Rails.logger.info "Proxy Request: #{limit} #{@current_proxy_uri_object}"
     res = http.request @current_proxy_send_request
 
-
     case res
       when Net::HTTPUnauthorized
         if @current_proxy_parameter.authorization_mode != 'null' && limit > -1
@@ -284,6 +293,8 @@ module ProxifyConcern
         end
       when Net::HTTPNotFound
         raise ProxyNotFoundError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, http_status: res.code, body: res.body}
+      when Net::HTTPMethodNotAllowed
+        raise ProxyMethodNotAllowedError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, http_status: res.code, body: res.body}
       when Net::HTTPSuccess
         res
       else

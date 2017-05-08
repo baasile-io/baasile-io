@@ -1,2 +1,2 @@
 $('#modal-window .modal-title').html('<%= escape_javascript(@error_measurement.to_s) %>');
-$('#modal-window .modal-body').html('<%= escape_javascript(render partial: "error_measurement", locals: {object: @error_measurement}) %>');
+$('#modal-window .modal-body').html('<%= escape_javascript(render partial: "error_measurements/error_measurement", locals: {object: @error_measurement}) %>');

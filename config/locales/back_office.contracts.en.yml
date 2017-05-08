@@ -7,7 +7,7 @@ en:
         title: 'Edit'
       form:
         hints:
-          activate: 'This option temporarily disables a contract in case of major force (for example: Litigation between the customer and the supplier).'
+          is_active: 'This option temporarily disables a contract in case of major force (for example: Litigation between the customer and the supplier).'
       index:
         title: 'Contracts'
       new:

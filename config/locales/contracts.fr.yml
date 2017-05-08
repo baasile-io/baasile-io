@@ -9,8 +9,10 @@ fr:
       title: 'Paramètres'
     form:
       hints:
+        client_code: 'Champ libre visible uniquement par le client'
         expected_contract_duration: 'Durée du contrat en nombre de jours.'
         expected_free_count: 'Si applicable au produit, quantité de requêtes/utilisateurs souhaitée.'
+        startup_code: 'Champ libre visible uniquement par le fournisseur'
     index:
       title: 'Contrats'
     new:

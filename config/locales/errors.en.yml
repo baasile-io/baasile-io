@@ -11,6 +11,9 @@ en:
       'proxify_concern/proxy_initialization_error':
         message: 'The server cannot process the request due to a configuration error'
         title: 'Misconfiguration'
+      'proxify_concern/proxy_method_not_allowed_error':
+        message: "The platform could not successfully process the request because of a method not allowed"
+        title: "Method not allowed"
       'proxify_concern/proxy_missing_mandatory_query_parameter_error':
         message: 'The server cannot process the request due to a missing mandatory parameter'
         title: 'Missing mandatory parameter'

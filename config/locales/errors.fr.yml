@@ -11,6 +11,9 @@ fr:
       'proxify_concern/proxy_initialization_error':
         message: "La plateforme ne peut pas traiter la requête en raison d'une erreur de configuration"
         title: 'Mauvaise configuration'
+      'proxify_concern/proxy_method_not_allowed_error':
+        message: "La plateforme n'a pas pu traiter la requête en raison de la méthode non autorisée"
+        title: "Méthode non autorisée"
       'proxify_concern/proxy_missing_mandatory_query_parameter_error':
         message: "La plateforme ne peut pas traiter la requête en raison d'un paramètre obligatoire absent"
         title: 'Paramètre obligatoire absent'

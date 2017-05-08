@@ -10,9 +10,13 @@
         <thead>
         <tr>
           <th colspan="2"><%= t('activerecord.attributes.contract.name') %></th>
-          <th><%= t('activerecord.attributes.contract.activate') %></th>
+          <th><%= t('activerecord.attributes.contract.is_active') %></th>
           <th><%= t('activerecord.attributes.contract.client') %></th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
+          <th>
+            <small><%= t('activerecord.attributes.contract.created_at') %></small><br />
+            <%= t('activerecord.attributes.contract.updated_at') %>
+          </th>
           <th></th>
         </tr>
         </thead>
@@ -30,7 +34,7 @@
               </small>
             </td>
             <td>
-              <i class="fa-2x <%= t("misc.is_active.#{contract.activate}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{contract.activate}.title") %>" data-toggle="tooltip"></i>
+              <i class="fa-2x <%= t("misc.is_active.#{contract.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{contract.is_active}.title") %>" data-toggle="tooltip"></i>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{contract.client.service_type}.icon") %>"></i>
@@ -42,6 +46,10 @@
                 <i class="<%= t("types.service_types.#{contract.startup.service_type}.icon") %>"></i>
                 <span class="<%= t("types.service_types.#{contract.startup.service_type}.class") %>"><%= contract.startup.name %></span>
               </small>
+            </td>
+            <td>
+              <small class="text-muted"><%= l(contract.created_at, format: :short) %></small><br />
+              <%= l(contract.updated_at, format: :short) %>
             </td>
             <td class="text-right">
               <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_contract_path(contract), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
