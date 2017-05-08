@@ -17,8 +17,8 @@
       <%= error_messages_for(f.object) %>
 
       <%= f.input :status, collection: format_contract_status_for_select %>
-      <%= f.input :code %>
-      <%= f.input :name %>
+      <%= f.input :client_code %>
+      <%= f.input :startup_code %>
       <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
       <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
       <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>

@@ -89,7 +89,7 @@ module BackOffice
     end
 
     def contract_params(status)
-      allowed_parameters = [:code, :name, :is_active, :status, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id]
+      allowed_parameters = [:client_code, :startup_code, :name, :is_active, :status, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id]
       params.require(:contract).permit(allowed_parameters)
     end
 

@@ -10,7 +10,7 @@ module Api
               id: contract.id.to_s,
               type: contract.class.name,
               attributes: {
-                code: contract.code,
+                code: (authenticated_service.id == contract.startup.id ? contract.startup_code : contract.client_code),
                 name: contract.name,
                 status: contract.status,
                 expected_start_date: contract.expected_start_date,
