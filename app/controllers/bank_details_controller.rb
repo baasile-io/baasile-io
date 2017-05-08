@@ -37,6 +37,7 @@ class BankDetailsController < ApplicationController
       params[:from_contract] = params[:bank_detail][:from_contract]
       params[:entreprise_owner_id] = params[:bank_detail][:entreprise_owner_id]
       params[:from_service] = params[:bank_detail][:from_service]
+      @contract = nil
       @form_values = get_form_values
       render :new
     end
