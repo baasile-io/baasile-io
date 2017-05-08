@@ -99,7 +99,7 @@ class BankDetailsController < ApplicationController
   end
 
   def set_service_to_redirect
-    if !@contract.nil? && params.key?(:bank_detail)
+    if !@contract.nil? && params.key?(:bank_detail) && !params[:bank_detail][:from_service].blank?
       @service = Service.find(params[:bank_detail][:from_service])
     end
   end
@@ -113,7 +113,7 @@ class BankDetailsController < ApplicationController
   def load_contract
     if params.key?(:contract_id)
       @contract = Contract.find(params[:contract_id])
-    elsif params.key?(:bank_detail)
+    elsif params.key?(:bank_detail) && !params[:bank_detail][:from_contract].blank?
       @contract = Contract.find(params[:bank_detail][:from_contract])
     end
   end
