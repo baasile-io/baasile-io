@@ -25,10 +25,6 @@ class Contract < ApplicationRecord
     creation: {
       index: 1,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
         show: {
           client: ['commercial']
         },
@@ -72,14 +68,6 @@ class Contract < ApplicationRecord
     commercial_validation_sp: {
       index: 4,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial'],
           startup: ['commercial']
@@ -130,14 +118,6 @@ class Contract < ApplicationRecord
     commercial_validation_client: {
       index: 7,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -183,14 +163,6 @@ class Contract < ApplicationRecord
     validation: {
       index: 16,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
