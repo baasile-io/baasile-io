@@ -28,11 +28,7 @@ class Contract < ApplicationRecord
           client_bank_details: { client: ['accountant'] },
           client_bank_details_selection: { client: ['accountant'] },
           client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
           delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial']
         },
@@ -273,7 +269,16 @@ class Contract < ApplicationRecord
         validate: I18n.t('types.contract_statuses.waiting_for_production.error')
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: [
+          Proc.new {|c|
+            bank_detail = c.bank_details.where(service_id: c.client.id).first
+            (!bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
+          },
+          Proc.new {|c|
+            bank_detail = c.bank_details.where(service_id: c.proxy.service.id).first
+            (!bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
+          }
+        ]
       },
       notifications: {
         client: ['admin', 'commercial'],
@@ -289,14 +294,6 @@ class Contract < ApplicationRecord
     validation_production: {
       index: 20,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']

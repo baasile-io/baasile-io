@@ -18,6 +18,8 @@ en:
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       is_used: 'is in use'
+      missing_contract_client_bank_detail: "Client must save his bank details to continue."
+      missing_contract_startup_bank_detail: "Supplier must save his bank details to continue."
       missing_contract_prices: "Supplier must set the contract's pricing to continue."
       missing_file: 'Make sure you add a file before you hit "Upload file".'
       missing_general_condition: 'There is no effective general condition on the platform. Please contact an administrator.'

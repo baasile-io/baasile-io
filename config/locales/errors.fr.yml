@@ -52,6 +52,8 @@ fr:
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
       is_used: "est en cours d'utilisation"
+      missing_contract_client_bank_detail: "Le client doit enregistrer ces coordonnées bancaires avant de pouvoir continuer."
+      missing_contract_startup_bank_detail: "Le fournisseur doit enregistrer ces coordonnées bancaires avant de pouvoir continuer."
       missing_contract_prices: "Le fournisseur doit fixer la tarification avant de pouvoir continuer."
       missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer".'
       missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur."
