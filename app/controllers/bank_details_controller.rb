@@ -1,14 +1,4 @@
-class BankDetailsController < ApplicationController
-
-  before_action :load_service
-
-  # # # # dashboard
-
-  # Authorization
-  before_action :authenticate_user!
-  before_action :authorize_action
-
-  # # # #
+class BankDetailsController < DashboardController
 
   before_action :load_bank_detail, only: [:edit, :show, :update, :destroy]
 
@@ -77,18 +67,8 @@ class BankDetailsController < ApplicationController
     return redirect_to service_bank_detail_path(current_service, current_bank_detail)
   end
 
-  def load_service
-    if params.key?(:service_id)
-      @service = Service.find(params[:service_id])
-    end
-  end
-
   def load_bank_detail
     @current_bank_detail = BankDetail.find(params[:id])
-  end
-
-  def current_service
-    @service
   end
 
   def current_bank_detail
@@ -98,16 +78,6 @@ class BankDetailsController < ApplicationController
   def bank_detail_params
     allowed_parameters = [:name, :bank_name, :account_owner, :bic, :iban]
     return params.require(:bank_detail).permit(allowed_parameters)
-  end
-
-  def current_module
-    unless current_service.nil?
-    'dashboard'
-    end
-  end
-
-  def current_authorized_resource
-    current_service
   end
 
 end
