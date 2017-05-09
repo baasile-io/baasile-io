@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_host
   helper_method :current_bill
   helper_method :current_bank_detail
-  helper_method :current_entreprise_owner
+  helper_method :current_service_owner
 
   def set_locale
     I18n.locale = params[:locale]
@@ -90,7 +90,7 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  def current_entreprise_owner
+  def current_service_owner
     nil
   end
 

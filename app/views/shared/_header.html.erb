@@ -93,12 +93,12 @@
               <% end %>
               <% if current_contract.can?(current_user, :client_bank_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.client && controller_name == 'bank_details') || (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name))) %>" href="<%= client_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_service_owner == current_contract.client && controller_name == 'bank_details') || (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name))) %>" href="<%= client_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :startup_bank_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.proxy.service && controller_name == 'bank_details') || (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name))) %>" href="<%= startup_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_service_owner == current_contract.proxy.service && controller_name == 'bank_details') || (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name))) %>" href="<%= startup_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>
@@ -319,12 +319,12 @@
               <% end %>
               <% if current_contract.can?(current_user, :client_bank_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.client && controller_name == 'bank_details') || (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name))) %>" href="<%= client_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_service_owner == current_contract.client && controller_name == 'bank_details') || (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name))) %>" href="<%= client_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :startup_bank_details) %>
                   <li class="nav-item">
-                    <a class="nav-link <%= 'active' if ((current_entreprise_owner == current_contract.proxy.service && controller_name == 'bank_details') || (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name))) %>" href="<%= startup_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
+                    <a class="nav-link <%= 'active' if ((current_service_owner == current_contract.proxy.service && controller_name == 'bank_details') || (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name))) %>" href="<%= startup_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
                   </li>
               <% end %>
               <% if current_contract.can?(current_user, :comments) %>

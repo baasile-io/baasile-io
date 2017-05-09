@@ -72,10 +72,13 @@ Rails.application.routes.draw do
         get :prices
         get :select_price
         get :client_bank_details
-        get :select_bank_detail
         get :client_bank_details_selection
+        post :client_select_bank_detail
         get :startup_bank_details
         get :startup_bank_details_selection
+        post :startup_select_bank_detail
+        delete :delete_client_bank_detail
+        delete :delete_startup_bank_detail
         post :cancel
         get :print_current_month_consumption
       end
@@ -83,7 +86,7 @@ Rails.application.routes.draw do
         get :catalog
         get :select_client
       end
-      resources :bank_details
+      #resources :bank_details
       resources :prices do
         resources :price_parameters
       end
@@ -130,10 +133,13 @@ Rails.application.routes.draw do
           get :prices
           get :select_price
           get :client_bank_details
-          get :select_bank_detail
           get :client_bank_details_selection
+          post :client_select_bank_detail
           get :startup_bank_details
           get :startup_bank_details_selection
+          post :startup_select_bank_detail
+          delete :delete_client_bank_detail
+          delete :delete_startup_bank_detail
           post :cancel
           get :print_current_month_consumption
         end
@@ -141,7 +147,7 @@ Rails.application.routes.draw do
           get :catalog
           get :select_client
         end
-        resources :bank_details
+        #resources :bank_details
         resources :prices do
           resources :price_parameters
         end

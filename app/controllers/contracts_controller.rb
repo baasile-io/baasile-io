@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_banking_details, :select_banking_detail, :client_banking_details_selection, :startup_banking_details, :startup_banking_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :startup_select_bank_detail, :client_select_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :delete_client_bank_detail, :delete_startup_bank_detail, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -177,50 +177,72 @@ class ContractsController < ApplicationController
     @price_templates = Price.templates(@contract.proxy)
   end
 
-  def startup_bank_details
-    @bank_detail_templates = BankDetail.by_service(@contract.proxy.service)
-    if @contract.bank_details.find_by(service: @contract.proxy.service).nil?
-      render :startup_bank_details_selection
-    end
-  end
-
-  def startup_bank_details_selection
-    @bank_detail_templates = BankDetail.by_service(@contract.proxy.service)
-  end
-
   def client_bank_details
-    @bank_detail_templates = BankDetail.by_service(@contract.client)
-    if @contract.bank_details.find_by(service: @contract.client).nil?
+    @service_owner = @contract.client
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+        unless bank_details?
       render :client_bank_details_selection
     end
   end
 
-  def client_bank_details_selection
-    @bank_detail_templates = BankDetail.by_service(@contract.client)
+  def startup_bank_details
+    @service_owner = @contract.proxy.service
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+    unless bank_details?
+      render :startup_bank_details_selection
+    end
   end
 
-  def select_bank_detail
-    entreprise_owner = Service.find(params[:entreprise_owner_id])
-    @contract.bank_details.find_by(service: entreprise_owner).try(:destroy)
+  def client_bank_details_selection
+    @service_owner = @contract.client
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+  end
 
-    bank_detail_id = params[:bank_detail_id]
+  def startup_bank_details_selection
+    @service_owner = @contract.proxy.service
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+  end
 
-    if bank_detail_id
-      new_bank_detail_id = BankDetail.find(bank_detail_id).dup
-      new_bank_detail_id.contract = @contract
-      new_bank_detail_id.save!
+  def client_select_bank_detail
+    @service_owner = @contract.client
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+    select_bank_detail
+    redirect_to_client_bank_details
+  end
+
+  def startup_select_bank_detail
+    @service_owner = @contract.proxy.service
+    @bank_detail_templates = get_bank_details
+    @bank_detail = get_bank_detail
+    select_bank_detail
+    redirect_to_startup_bank_details
+  end
+
+  def delete_client_bank_detail
+    @service_owner = @contract.client
+    @bank_detail = get_bank_detail
+    if @bank_detail.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.bank_detail'))
     else
-      flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.bank_detail'))
-      return redirect_to service_client_bank_details_path(entreprise_owner) if @contract.client == entreprise_owner
-      return redirect_to service_client_bank_details_path(entreprise_owner) if @contract.proxy.service == entreprise_owner
+      flash[:error] = I18n.t('errors.an_error_occured',resource: t('activerecord.models.bank_detail') )
     end
+    redirect_to_client_bank_details
+  end
 
-    if @contract.save
-      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+  def delete_startup_bank_detail
+    @service_owner = @contract.proxy.service
+    @bank_detail = get_bank_detail
+    if @bank_detail.destroy
+      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.bank_detail'))
+    else
+      flash[:error] = I18n.t('errors.an_error_occured',resource: t('activerecord.models.bank_detail') )
     end
-
-    return redirect_to edit_service_contract_bank_detail_path(current_service, @contract, new_bank_detail_id, entreprise_owner_id: entreprise_owner) unless current_service.nil?
-    redirect_to edit_contract_bank_detail_path(@contract, new_bank_detail_id, entreprise_owner_id: entreprise_owner)
+    redirect_to_startup_bank_details
   end
 
   def select_price
@@ -262,6 +284,51 @@ class ContractsController < ApplicationController
   end
 
   private
+
+  def redirect_to_client_bank_details
+    return redirect_to client_bank_details_service_contract_path(current_service, @contract) unless current_service.nil?
+    redirect_to client_bank_details_contract_path(@contract)
+  end
+
+  def redirect_to_startup_bank_details
+    return redirect_to startup_bank_details_service_contract_path(current_service, @contract) unless current_service.nil?
+    redirect_to startup_bank_details_contract_path(@contract)
+  end
+
+  def load_new_bank_detail
+    if params.key?(:bank_detail_id)
+      @ban_detail_loaded = BankDetail.find(params[:bank_detail_id])
+    end
+    nil
+  end
+
+  def get_bank_details
+    @service_owner.bank_details.templates
+  end
+
+  def get_bank_detail
+    @contract.bank_details.where(service_id: @service_owner.id).first
+  end
+
+  def bank_details?
+    !@bank_detail.nil?
+  end
+
+  def select_bank_detail
+    @bank_detail.try(:destroy)
+    load_new_bank_detail
+    if @ban_detail_loaded && @ban_detail_loaded.service == @service_owner
+      new_bank_detail = @ban_detail_loaded.dup
+      new_bank_detail.contract = @contract
+      new_bank_detail.save!
+    else
+      flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.bank_detail'))
+    end
+
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    end
+  end
 
   def load_general_condition
     if @contract.nil? || @contract.general_condition.nil?

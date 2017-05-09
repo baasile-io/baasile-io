@@ -1,16 +1,6 @@
-<% content_for(:page_title) { @contract.bank_details.find_by(service: entreprise_owner).name } %>
+<% content_for(:page_title) { @bank_detail.name } %>
+
+    <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @bank_detail}%>
 
 
-
-    <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @contract.bank_details.find_by(service: entreprise_owner)} %>
-
-    <hr>
-    <div class="row">
-      <div class="col-4">
-      </div>
-      <div class="col-8">
-        <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_bank_detail_path(current_contract, id: @contract.bank_details.find_by(service: entreprise_owner).id, entreprise_owner_id: entreprise_owner) : edit_service_contract_bank_detail_path(current_service, current_contract, id: @contract.bank_details.find_by(service: entreprise_owner).id, entreprise_owner_id: entreprise_owner)), class: 'btn btn-secondary' %>
-        <%= link_to t('actions.destroy'), (@service.nil? ? contract_bank_detail_path(current_contract, id: @contract.bank_details.find_by(service: entreprise_owner).id, entreprise_owner_id: entreprise_owner) : service_contract_bank_detail_path(current_service, current_contract, id: @contract.bank_details.find_by(service: entreprise_owner).id, entreprise_owner_id: entreprise_owner)), method: :delete, class: 'btn btn-danger' %>
-        </div>
-    </div>
 
