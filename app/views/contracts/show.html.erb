@@ -259,6 +259,22 @@
   </div>
 <% end %>
 
+<% unless @contract.bank_details.count == 0 %>
+  <% @contract.bank_details.each do |bank_detail| %>
+    <div class="b-io-content--header">
+      <div class="container-fluid">
+        <div class="b-io-content--header--controls"></div>
+        <h4><%= t('activerecord.models.bank_detail') + ' ' + ((bank_detail.service == @contract.client) ?  t('activerecord.attributes.contract.client') : t('activerecord.attributes.contract.startup')) %></h4>
+      </div>
+    </div>
+    <div class="b-io-content--secondary">
+      <div class="container-fluid">
+        <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: bank_detail}%>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
 <% if @contract.status.to_sym == :validation_production && @current_month_consumption %>
   <div class="b-io-content--header">
     <div class="container-fluid">
