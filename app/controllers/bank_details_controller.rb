@@ -69,29 +69,29 @@ class BankDetailsController < ApplicationController
   private
 
   def get_form_values
-    return [current_service_owner, current_bank_detail] if current_contract.nil?
-    return [current_service, current_contract, current_bank_detail] unless current_service.nil?
-    return [current_contract, current_bank_detail]
+    return [current_service_owner, current_bank_detail] #if current_contract.nil?
+    #return [current_service, current_contract, current_bank_detail] unless current_service.nil?
+    #return [current_contract, current_bank_detail]
   end
 
   def redirect_to_index
-    return redirect_to service_bank_details_path(current_service_owner) if current_contract.nil?
-    unless current_service.nil?
-      return redirect_to client_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.client.id
-      return redirect_to startup_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.proxy.service.id
-    end
-    return redirect_to client_bank_details_contract_path(current_contract) if current_service_owner == current_contract.client
-    return redirect_to startup_bank_details_contract_path(current_contract) if current_service_owner == current_contract.proxy.service
+    return redirect_to service_bank_details_path(current_service_owner) #if current_contract.nil?
+    #unless current_service.nil?
+    #  return redirect_to client_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.client.id
+    #  return redirect_to startup_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.proxy.service.id
+    #end
+    #return redirect_to client_bank_details_contract_path(current_contract) if current_service_owner == current_contract.client
+    #return redirect_to startup_bank_details_contract_path(current_contract) if current_service_owner == current_contract.proxy.service
   end
 
   def redirect_to_show
-    return redirect_to service_bank_detail_path(current_service_owner, current_bank_detail) if current_contract.nil?
-    unless @service.nil?
-      return redirect_to client_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.client.id
-      return redirect_to startup_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.proxy.service.id
-    end
-    return redirect_to client_bank_details_contract_path(current_contract) if current_service_owner.id == current_contract.client.id
-    return redirect_to startup_bank_details_contract_path(current_contract) if current_service_owner.id == current_contract.proxy.service.id
+    return redirect_to service_bank_detail_path(current_service_owner, current_bank_detail) #if current_contract.nil?
+    #unless @service.nil?
+    #  return redirect_to client_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.client.id
+    #  return redirect_to startup_bank_details_service_contract_path(current_service, current_contract) if current_service_owner.id == current_contract.proxy.service.id
+    #end
+    #return redirect_to client_bank_details_contract_path(current_contract) if current_service_owner.id == current_contract.client.id
+    #return redirect_to startup_bank_details_contract_path(current_contract) if current_service_owner.id == current_contract.proxy.service.id
   end
 
   def load_service
@@ -107,11 +107,11 @@ class BankDetailsController < ApplicationController
   end
 
   def load_service_owner
-    if !@contract.nil? && params.key?(:service_owner_id)
-      @service_owner = Service.find(params[:service_owner_id])
-    else
+    #if !@contract.nil? && params.key?(:service_owner_id)
+    #  @service_owner = Service.find(params[:service_owner_id])
+    #else
       @service_owner = @service
-    end
+    #end
   end
 
   def load_bank_detail

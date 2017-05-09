@@ -86,7 +86,6 @@ Rails.application.routes.draw do
         get :catalog
         get :select_client
       end
-      #resources :bank_details
       resources :prices do
         resources :price_parameters
       end
@@ -147,7 +146,6 @@ Rails.application.routes.draw do
           get :catalog
           get :select_client
         end
-        #resources :bank_details
         resources :prices do
           resources :price_parameters
         end
