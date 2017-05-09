@@ -1,4 +1,5 @@
 <% content_for(:page_title) { current_bank_detail.name } %>
+<% content_for(:page_back) { service_bank_details_path(current_service)} %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -6,13 +7,7 @@
     <%= render partial: 'show_bank_detail_info', locals: {bank_detail: current_bank_detail} %>
 
     <hr />
-    <% unless current_contract.nil? %>
-        <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_bank_detail_path(current_contract, current_bank_detail, service_owner_id: current_service_owner) : edit_service_contract_bank_detail_path(@service, current_contract, current_bank_detail, service_owner_id: current_service_owner)), class: 'btn btn-secondary' %>
-        <%= link_to t('actions.destroy'), (@service.nil? ? contract_bank_detail_path(current_contract, current_bank_detail, service_owner_id: current_service_owner) : service_contract_bank_detail_path(@service, current_contract, current_bank_detail, service_owner_id: current_service_owner)), method: :delete, class: 'btn btn-secondary' %>
-    <% else %>
-        <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_service_owner, current_bank_detail.id), class: 'btn btn-primary' %>
-        <%= link_to t('actions.destroy'), service_bank_detail_path(current_service_owner, current_bank_detail.id), method: :delete, class: 'btn btn-danger' %>
-    <% end%>
-
+    <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_service, current_bank_detail.id), class: 'btn btn-primary' %>
+    <%= link_to t('actions.destroy'), service_bank_detail_path(current_service, current_bank_detail.id), method: :delete, class: 'btn btn-danger' %>
   </div>
 </div>

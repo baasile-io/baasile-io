@@ -2,10 +2,6 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= hidden_field :bank_detail, 'from_contract', value: params[:from_contract] %>
-  <%= hidden_field :bank_detail, 'from_service', value: params[:from_service] %>
-  <%= hidden_field :bank_detail, 'service_owner_id', value: params[:service_owner_id] %>
-
   <%= f.input :name %>
   <%= f.input :iban %>
   <%= f.input :bic %>

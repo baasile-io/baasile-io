@@ -267,6 +267,11 @@
         <h4><%= t('activerecord.models.bank_detail') + ' ' + ((bank_detail.service == @contract.client) ?  t('activerecord.attributes.contract.client') : t('activerecord.attributes.contract.startup')) %></h4>
       </div>
     </div>
+    <div class="b-io-content--header">
+      <div class="container-fluid">
+        <h5><%= bank_detail.name %></h5>
+      </div>
+    </div>
     <div class="b-io-content--secondary">
       <div class="container-fluid">
         <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: bank_detail}%>
