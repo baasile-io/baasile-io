@@ -1,5 +1,8 @@
 en:
   pages:
+    internal_server_error:
+      subtitle: "An administrator was warned."
+      title: "An error occured"
     not_found:
       title: 'Page Not Found'
     root:

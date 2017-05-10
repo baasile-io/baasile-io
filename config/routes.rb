@@ -239,5 +239,7 @@ Rails.application.routes.draw do
 
   get '/users/sign_in', to: redirect('/auth/sign_in')
 
+  match "/404", via: :all, to: "pages#not_found"
+  match "/500", via: :all, to: "pages#internal_server_error"
   match "*any", via: :all, to: "pages#not_found"
 end

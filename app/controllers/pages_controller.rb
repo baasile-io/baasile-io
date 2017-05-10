@@ -22,6 +22,12 @@ class PagesController < ApplicationController
 
   def not_found
     render status: :not_found
+    Airbrake.notify('Not found', {})
+  end
+
+  def internal_server_error
+    render status: 500
+    Airbrake.notify('Internal server error', {})
   end
   
   def robots

@@ -1,5 +1,8 @@
 fr:
   pages:
+    internal_server_error:
+      subtitle: "Un administrateur a reçu une notification."
+      title: "Une erreur est survenue"
     not_found:
       title: "Cette page n'existe pas"
     root:

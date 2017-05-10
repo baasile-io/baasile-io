@@ -20,6 +20,9 @@ module BaasileIo
     # Background jobs
     config.active_job.queue_adapter = :sidekiq
 
+    # Error routes
+    config.exceptions_app = self.routes
+
     # Public API headers
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Origin' => '*',
