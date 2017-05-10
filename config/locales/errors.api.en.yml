@@ -1,0 +1,63 @@
+en:
+  errors:
+    api:
+      '0':
+        status: 500
+        message: "An unknown error occured"
+        title: 'Unknown error'
+      '601':
+        status: 502
+        message: "Failed to connect remote server through HTTPS"
+        title: 'SSL Error'
+      '602':
+        status: 502
+        message: "Distant server is not accessible"
+        title: 'Connection error'
+      '603':
+        status: 502
+        message: 'The origin server cannot or will not process the request due to an apparent redirection error'
+        title: 'Redirection error'
+      '604':
+        status: 502
+        message: 'The origin server cannot or will not process the request due to an apparent client error'
+        title: 'Authentication error'
+      '605':
+        status: 502
+        message: 'The server cannot process the request due to a configuration error'
+        title: 'Misconfiguration'
+      '606':
+        status: 400
+        message: 'The server cannot process the request due to a missing mandatory parameter'
+        title: 'Missing mandatory parameter'
+      '607':
+        status: 502
+        message: 'The origin server cannot or will not process the request due to an apparent internal error'
+        title: 'Remote server error'
+      '608':
+        status: 502
+        message: "The platform could not successfully process the request because of a route not found"
+        title: "Page not found"
+      '609':
+        status: 502
+        message: "Distant server is not accessible"
+        title: 'Connection error'
+      '610':
+        status: 502
+        message: "The platform could not successfully process the request due to a timeout error"
+        title: 'Timeout error'
+      '611':
+        status: 502
+        message: "The platform could not successfully process the request because of a method not allowed"
+        title: "Method not allowed"
+      '612':
+        status: 502
+        message: "The platform could not successfully process the request because of a misconfigured credential"
+        title: "Credential misconfiguration"
+      '613':
+        status: 502
+        message: "The platform could not successfully process the request because of a bad request error"
+        title: "Bad request"
+      '614':
+        status: 502
+        message: "The platform could not successfully process the request because of an authorization failure"
+        title: "Authorization failure"

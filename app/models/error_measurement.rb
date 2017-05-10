@@ -45,10 +45,10 @@ class ErrorMeasurement < ApplicationRecord
   validates   :route      , presence: true
 
   def to_s
-    "#{I18n.t("errors.api.#{self.error_type.underscore}.title")} (#{self.error_code})"
+    "#{self.error_code} #{I18n.t("errors.api.#{self.error_code}.title", locale: :en)}"
   end
 
   def message
-    I18n.t("errors.api.#{self.error_type.underscore}.message")
+    I18n.t("errors.api.#{self.error_code}.message", locale: :en)
   end
 end

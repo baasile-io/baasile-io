@@ -1,7 +1,15 @@
 module MeasurementConcern
   extend ActiveSupport::Concern
   
-  class ProxyCanceledMeasurement < StandardError; end
+  class ProxyCanceledMeasurement < StandardError
+    attr_reader :error, :request_detail
+
+    def initialize(data)
+      data ||= {}
+      @error = data[:error]
+      @request_detail = data[:request_detail]
+    end
+  end
 
   included do
     before_action :authorize_measured_request, only: [:process_request]
@@ -20,8 +28,8 @@ module MeasurementConcern
       yield
       response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value unless @measure_token.nil?
     end
-  rescue ProxyCanceledMeasurement
-    nil
+  rescue ProxyCanceledMeasurement => e
+    do_request_error_measure(e.error, e.request_detail)
   end
 
   def load_measure_token

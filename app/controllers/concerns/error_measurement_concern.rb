@@ -9,7 +9,7 @@ module ErrorMeasurementConcern
       route: current_route,
       error_type: error.class.name,
       error_code: error.code,
-      response_http_status: error.http_status,
+      response_http_status: (!error.res.nil? ? error.res.code : 0),
       request_detail: request_detail.to_json
     )
     ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now

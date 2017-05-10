@@ -35,46 +35,37 @@ class ApiAuthMiddleware
                                                                 ]
                                                               }.to_json]]
       rescue JWT::ExpiredSignature
-        return [403, {'Content-Type' => 'application/json'}, [{
+        return [401, {'Content-Type' => 'application/json'}, [{
                                                                 errors: [
                                                                   {
-                                                                    status: 403,
-                                                                    title: 'This authorization token has expired'
+                                                                    status: 401,
+                                                                    title: 'Token has expired'
                                                                   }
                                                                 ]
                                                               }.to_json]]
       rescue JWT::VerificationError, JWT::DecodeError
-        return [403, {'Content-Type' => 'application/json'}, [{
+        return [401, {'Content-Type' => 'application/json'}, [{
                                                                 errors: [
                                                                   {
-                                                                    status: 403,
+                                                                    status: 401,
                                                                     title: 'Signature verification failed'
                                                                   }
                                                                 ]
                                                               }.to_json]]
-      rescue JWT::DecodeError
-        return [403, {'Content-Type' => 'application/json'}, [{
-                                                                errors: [
-                                                                  {
-                                                                    status: 403,
-                                                                    title: 'Failed to decode authorization token'
-                                                                  }
-                                                                ]
-                                                              }.to_json]]
       rescue ActiveRecord::RecordNotFound
-        return [403, {'Content-Type' => 'application/json'}, [{
+        return [401, {'Content-Type' => 'application/json'}, [{
                                                                 errors: [
                                                                   {
-                                                                    status: 403,
+                                                                    status: 401,
                                                                     title: 'Client ID not found in database'
                                                                   }
                                                                 ]
                                                               }.to_json]]
       rescue
-        return [403, {'Content-Type' => 'application/json'}, [{
+        return [401, {'Content-Type' => 'application/json'}, [{
                                                                 errors: [
                                                                   {
-                                                                    status: 403,
+                                                                    status: 401,
                                                                     title: 'Authorization failed due to an invalid token'
                                                                   }
                                                                 ]

@@ -3,7 +3,7 @@
     <strong><%= t('activerecord.attributes.error_measurement.error_type') %></strong>
   </div>
   <div class="col-9">
-    <%= t("errors.api.#{object.error_type.underscore}.title") %>
+    <%= t("errors.api.#{object.error_code}.title", locale: :en) %>
   </div>
 </div>
 <div class="row">
@@ -11,7 +11,15 @@
     <strong><%= t('activerecord.attributes.error_measurement.message') %></strong>
   </div>
   <div class="col-9">
-    <%= object.message %>
+    <%= t("errors.api.#{object.error_code}.message", locale: :en) %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.http_status') %></strong>
+  </div>
+  <div class="col-9">
+    <%= t("errors.api.#{object.error_code}.status", locale: :en) %>
   </div>
 </div>
 <div class="row">
@@ -47,7 +55,7 @@
   </div>
 </div>
 
-<% if object.request_detail.present? %>
+<% if object.request_detail.present? && current_user.is_user_of?(object.route.service) %>
   <hr />
   <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe %>
 <% end %>

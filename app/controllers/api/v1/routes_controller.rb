@@ -19,28 +19,24 @@ module Api
       def process_request
         @proxy_response = proxy_request
         render status: @proxy_response.code, plain: @proxy_response.body
-      rescue ProxySocketError,
-        ProxySSLError,
-        ProxyInitializationError,
-        ProxyAuthenticationError,
-        ProxyRedirectionError,
-        ProxyRequestError,
-        ProxyMethodNotAllowedError,
-        ProxyNotFoundError,
-        ProxyTimeoutError,
-        ProxyEOFError,
-        ProxyMissingMandatoryQueryParameterError => e
-        title = t("errors.api.#{e.class.name.underscore}.message", locale: :en)
-        metadata_request = {
-          method: e.req.method,
-          original_url: e.uri.to_s,
-          headers: e.req.to_hash,
-          body: e.req.body
-        }
-        if e.body
+      rescue Api::ProxyError => e
+        Rails.logger.error "Api::ProxyError: #{e.message}"
+        status = t("errors.api.#{e.code}.status", locale: :en).to_i
+        title = t("errors.api.#{e.code}.title", locale: :en)
+        message = t("errors.api.#{e.code}.message", locale: :en)
+        metadata_request = nil
+        if e.req
+          metadata_request = {
+            method: e.req.method,
+            original_url: e.uri.to_s,
+            headers: e.req.to_hash,
+            body: e.req.body
+          }
+        end
+        if e.res
           metadata_response = {
-            status: e.http_status,
-            body: e.body.to_s.force_encoding('UTF-8')
+            status: e.res.code,
+            body: e.res.body.to_s.force_encoding('UTF-8')
           }
         end
         metadata_full = {
@@ -48,8 +44,9 @@ module Api
           response: metadata_response
         }
         rendered_json_error = {
-          status: e.code,
-          title: title
+          code: e.code,
+          title: title,
+          message: message
         }
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
           rendered_json_error[:meta] = metadata_full
@@ -58,11 +55,10 @@ module Api
             response: metadata_response
           }
         end
-        do_request_error_measure(e, metadata_full)
-        render status: :bad_gateway, json: {
+        render status: status, json: {
           errors: [rendered_json_error]
         }
-        raise ProxyCanceledMeasurement
+        raise ProxyCanceledMeasurement, {error: e, request_detail: metadata_full}
       end
 
       def index
