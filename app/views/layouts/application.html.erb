@@ -4,7 +4,8 @@
   <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
   <%= csrf_meta_tags %>
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>
 

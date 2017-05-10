@@ -51,7 +51,7 @@
 
     <table class="table table-sm">
       <tbody>
-      <% ([:superadmin] + Role::USER_ROLES).each do |scope| %>
+      <% [:superadmin].each do |scope| %>
         <tr>
           <td>
             <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />

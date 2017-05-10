@@ -27,7 +27,7 @@
         </td>
         <td>
           <% if user.parent %>
-            <i class="fa fa-fw fa-user" data-toggle="tooltip" data-placement="top" title="<%= user.parent.full_name %>"></i>
+            <i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= user.parent.full_name %>"></i>
           <% end %>
         </td>
         <td class="width-5">

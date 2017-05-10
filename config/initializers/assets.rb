@@ -8,4 +8,4 @@ Rails.application.config.assets.paths << "#{Rails.root}/vendor/javascripts/*"
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( public.css )
+Rails.application.config.assets.precompile += %w( public.css login.css )

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <%= csrf_meta_tags %>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+
+  <%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+  <div id="form-container">
+
+    <div class="container-fluid">
+      <p class="logo">
+        <%= link_to root_path do %>
+          <img src="/dashboard/baasile-io.png" class="img-fluid">
+        <% end %>
+      </p>
+
+      <h1>
+        <%= content_for(:page_title) %>
+      </h1>
+
+      <%= yield %>
+
+      <%= render partial: "users/shared/links" %>
+    </div>
+
+  </div>
+
+  <div id="big-image">
+    <div id="litte-space-man"></div>
+  </div>
+
+<%= render partial: 'shared/flash' %>
+
+</body>
+</html>

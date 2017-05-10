@@ -1,39 +1,25 @@
 <% content_for(:page_title) { t('.title') } %>
 
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
 
-    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= devise_error_messages! %>
+  <%= f.input :email, required: true, autofocus: true %>
 
-      <%= f.input :email, required: true, autofocus: true %>
+  <%= f.input :gender, as: :select, collection: format_genders_for_select, input_html: {class: 'col-sm-2'} %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
 
-      <%= f.input :gender, as: :select, collection: format_genders_for_select, input_html: {class: 'col-sm-2'} %>
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
+  <%= f.input :phone, hint: t('users.form.hints.phone') %>
+  <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
-      <%= f.input :phone, hint: t('users.form.hints.phone') %>
-      <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
+  <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
+  <%= f.input :password_confirmation, required: true %>
 
-      <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>
-      <%= f.input :password_confirmation, required: true %>
+  <%= render partial: 'shared/captcha', locals: {f: f} %>
 
-      <%= render partial: 'shared/captcha', locals: {f: f} %>
-
-      <div class="row">
-        <div class="actions col-md-9 offset-md-3">
-          <%= f.button :submit, value: I18n.t('actions.sign_up'), data: { disable_with: t('actions.signin_up') } %>
-        </div>
-      </div>
-    <% end %>
-
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.sign_up'), data: { disable_with: t('actions.signin_up') }, class: 'btn btn-lg btn-secondary' %>
+    </div>
   </div>
-</div>
-
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
-    <%= render partial: "users/shared/links" %>
-
-  </div>
-</div>
+<% end %>
