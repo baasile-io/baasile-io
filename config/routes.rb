@@ -242,7 +242,12 @@ Rails.application.routes.draw do
           post :open
         end
       end
-
+      resources :bank_details do
+        member do
+          post :toggle_activate
+          get :audit
+        end
+      end
       resources :general_conditions
       resources :contracts do
         member do

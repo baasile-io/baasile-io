@@ -8,6 +8,7 @@ fr:
       bank_detail:
         name: 'Libellé'
         iban: 'IBAN'
+        is_active: 'Activé'
         bic: 'BIC'
         account_owner: 'Titulaire du compte'
         bank_name: 'Domiciliation'

@@ -28,11 +28,12 @@ ActiveRecord::Schema.define(version: 20170508183429) do
     t.string   "bic"
     t.string   "account_owner"
     t.string   "bank_name"
+    t.boolean  "is_active",     default: false
     t.integer  "user_id"
     t.integer  "service_id"
     t.integer  "contract_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.index ["contract_id"], name: "index_bank_details_on_contract_id", using: :btree
     t.index ["name", "service_id", "contract_id"], name: "index_on_name_service_contract", unique: true, using: :btree
     t.index ["service_id"], name: "index_bank_details_on_service_id", using: :btree

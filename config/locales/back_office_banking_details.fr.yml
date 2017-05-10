@@ -1,0 +1,15 @@
+fr:
+  back_office:
+    bank_details:
+      create:
+        title: 'Ajouter un compte bancaire'
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Liste des comptes bancaires'
+      new:
+        title: 'Ajouter un compte bancaire'
+      show:
+        title: 'Compte bancaire'
+      update:
+        title: 'Modifier'

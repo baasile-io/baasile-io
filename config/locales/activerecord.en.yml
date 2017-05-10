@@ -8,6 +8,7 @@ en:
       bank_detail:
         name: 'Label'
         iban: 'IBAN'
+        is_active: 'Active'
         bic: 'BIC'
         account_owner: 'Account owner'
         bank_name: 'Domiciliation'

@@ -1,0 +1,16 @@
+<% content_for(:page_title) { current_bank_detail.name } %>
+<% content_for(:page_back) { back_office_bank_details_path} %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: current_bank_detail} %>
+
+    <hr />
+    <%= link_to (current_bank_detail.is_active ? t('actions.deactivate') : t('actions.activate') ), toggle_activate_back_office_bank_detail_path(current_bank_detail), method: :post, class: 'btn btn-primary' %>
+    <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_bank_detail.service, current_bank_detail.id), class: 'btn btn-primary' %>
+  </div>
+</div>
+
+
+<%= render partial: 'shared/versions', locals: {objects: [current_bank_detail]} %>

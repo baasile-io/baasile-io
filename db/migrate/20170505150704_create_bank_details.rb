@@ -6,6 +6,7 @@ class CreateBankDetails < ActiveRecord::Migration[5.0]
       t.string      :bic
       t.string      :account_owner
       t.string      :bank_name
+      t.boolean     :is_active,   default: false
 
       t.belongs_to  :user
       t.belongs_to  :service

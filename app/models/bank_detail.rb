@@ -17,6 +17,7 @@ class BankDetail < ApplicationRecord
 
   scope :by_service, ->(service) { where(service: service, contract: nil)}
   scope :templates, -> { where(contract: nil)}
+  scope :activated, -> { where(is_active: true)}
   scope :linked, -> { where.not(contract: nil)}
 
 end

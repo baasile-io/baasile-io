@@ -284,7 +284,7 @@ class ContractsController < ApplicationController
   end
 
   def init_bank_details
-    @bank_detail_templates = @service_owner.bank_details.templates
+    @bank_detail_templates = @service_owner.bank_details.templates.activated
   end
 
   def redirect_to_client_bank_details
