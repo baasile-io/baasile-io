@@ -158,6 +158,7 @@ en:
         mode: 'Mode'
         name: 'Name'
         query_parameter_type: 'Type'
+        description: 'description'
       route:
         allowed_methods: 'Allowed methods'
         description: 'Description'

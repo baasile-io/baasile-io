@@ -1,0 +1,37 @@
+<%= query_parameter.name %><br />
+<table class="table table-sm table-hover">
+  <tbody>
+    <tr>
+      <td>
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.mode') + ': '%></small><br />
+      </td>
+      <td>
+        <small class="text-muted"><%= t("types.query_parameter_modes.#{query_parameter.mode}")%></small><br />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.query_parameter_type') + ': '%></small><br />
+      </td>
+      <td>
+        <small class="text-muted"><i class="<%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.icon")%>"></i><%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.title")%></small><br />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.default_value') + ': '%></small><br />
+      </td>
+      <td>
+        <small class="text-muted"><%= query_parameter.default_value %></small><br />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.description') + ': '%></small>
+      </td>
+      <td>
+        <small class="text-muted"><%= query_parameter.description %></small>
+      </td>
+    </tr>
+  </tbody>
+</table>
