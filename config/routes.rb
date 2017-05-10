@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
     end
 
-    get "*any", via: :all, to: "api#not_found"
+    match "*any", via: :all, to: "api#not_found"
   end
 
   # Background jobs
@@ -235,11 +235,9 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    get "*any", via: :all, to: "pages#not_found"
   end
 
   get '/users/sign_in', to: redirect('/auth/sign_in')
 
-  get "*any", via: :all, to: "pages#not_found"
+  match "*any", via: :all, to: "pages#not_found"
 end

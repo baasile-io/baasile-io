@@ -36,12 +36,7 @@ module Api
       def load_proxy_and_authorize
         @proxy = current_service.proxies.where("subdomain = :subdomain OR id = :id", subdomain: params[:id].to_s, id: params[:id].to_i).first
         if @proxy.nil?
-          return render status: 404, json: {
-            errors: [{
-                       status: 404,
-                       title: 'Proxy not found'
-                     }]
-          }
+          raise BaseNotFoundError
         end
       end
 

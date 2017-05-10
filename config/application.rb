@@ -2,8 +2,9 @@ require_relative 'boot'
 
 require 'rails/all'
 
+require_relative '../lib/api/proxy_error'
 require_relative '../lib/api_auth_middleware'
-require_relative '../lib/catch_json_parse_errors_middleware'
+require_relative '../lib/catch_errors_middleware'
 require_relative '../lib/load_appconfigs_middleware'
 
 # Require the gems listed in Gemfile, including any gems
@@ -33,7 +34,7 @@ module BaasileIo
     config.middleware.use Airbrake::Rack::Middleware
 
     # Security
-    config.middleware.use ::CatchJsonParseErrorsMiddleware
+    config.middleware.use ::CatchErrorsMiddleware
     config.middleware.use ::ApiAuthMiddleware
     config.middleware.use Rack::Attack
     config.middleware.use I18n::JS::Middleware

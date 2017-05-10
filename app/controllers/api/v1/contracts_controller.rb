@@ -61,12 +61,7 @@ module Api
 
       def authorize_owner
         if current_service.id != authenticated_service.id && !(current_service.parent && current_service.parent.id == authenticated_service.id)
-          return render status: 403, json: {
-            errors: [{
-                       status: 403,
-                       title: 'Forbidden private API'
-                     }]
-          }
+          raise BaseForbiddenError
         end
       end
     end

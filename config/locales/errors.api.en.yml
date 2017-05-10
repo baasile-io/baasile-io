@@ -5,6 +5,14 @@ en:
         status: 500
         message: "An unknown error occured"
         title: 'Unknown error'
+      '403':
+        status: 403
+        message: "The requested route or method is forbidden"
+        title: "Forbidden"
+      '404':
+        status: 404
+        message: "The requested route or method is not found"
+        title: "Not found"
       '601':
         status: 502
         message: "Failed to connect remote server through HTTPS"
@@ -61,3 +69,91 @@ en:
         status: 502
         message: "The platform could not successfully process the request because of an authorization failure"
         title: "Authorization failure"
+      '701':
+        status: 400
+        message: "The value of the parameter \"client_id\" is unknown"
+        title: 'Invalid client_id'
+      '702':
+        status: 400
+        message: "The parameter \"client_id\" is missing"
+        title: 'Missing client_id'
+      '703':
+        status: 400
+        message: "The parameter \"client_secret\" is missing"
+        title: 'Missing client_secret'
+      '704':
+        status: 401
+        message: "The client is not active"
+        title: 'Inactive client'
+      '705':
+        status: 400
+        message: "The provided credentials are invalid"
+        title: 'Bad credentials'
+      '706':
+        status: 400
+        message: "The parameter \"scope\" is missing"
+        title: 'Missing scope'
+      '707':
+        status: 400
+        message: "The refresh token is invalid"
+        title: 'Invalid refresh token'
+      '708':
+        status: 401
+        message: "The refresh token has expired"
+        title: 'Expired refresh token'
+      '709':
+        status: 400
+        message: "The parameter \"refresh_token\" is missing"
+        title: 'Missing refresh token'
+      '710':
+        status: 400
+        message: "The header \"Authorization\" is missing"
+        title: 'Missing authorization header'
+      '711':
+        status: 401
+        message: "The access token has expired"
+        title: 'Expired access token'
+      '712':
+        status: 401
+        message: "The access token cannot be decrypted"
+        title: 'Invalid access token'
+      '713':
+        status: 401
+        message: "The authenticated client seems to not exist anymore"
+        title: 'Client not found'
+      '714':
+        status: 403
+        message: "The requested route requires an access token with a bigger authorization scope"
+        title: 'Invalid scope'
+      '801':
+        status: 403
+        message: "No contract found with this product"
+        title: 'Contract not found'
+      '802':
+        status: 403
+        message: "No active contract found with this product"
+        title: 'Invalid contract status'
+      '803':
+        status: 403
+        message: "Production phase has no start date"
+        title: 'Contract not planned'
+      '804':
+        status: 403
+        message: "Production phase will start later"
+        title: 'Contract not started'
+      '805':
+        status: 403
+        message: "Production phase has ended"
+        title: 'Contract ended'
+      '806':
+        status: 403
+        message: "Production phase has not yet started"
+        title: 'Waiting for production'
+      '807':
+        status: 403
+        message: "The contract has been temporarily deactivated"
+        title: 'Contract not active'
+      '901':
+        status: 403
+        message: "The supplier is not active"
+        title: 'Inactive supplier'

@@ -3,70 +3,44 @@ module Api
     skip_before_action :authenticate_schema
 
     def authenticate
+      unless params[:scope].present?
+        raise AuthMissingScopeError
+      end
       @scope = params.fetch(:scope, '').split.sort! {|a,b| a.downcase <=> b.downcase}.join(' ')
       return authenticate_by_refresh_token if params[:grant_type] == 'refresh_token'
-      if params[:client_id].present?
-        @service = Service.find_by_client_id(params[:client_id])
-        if @service.nil?
-          title = 'Invalid client_id'
-        elsif params[:client_secret].blank?
-          title = 'Missing client_secret'
-        elsif @service.client_secret == params[:client_secret]
-          return check_service_activation
-        end
-      else
-        title = 'Missing client_id'
+      unless params[:client_id].present?
+        raise AuthMissingClientIdError
       end
-      status = 400
-      title ||= 'Client authentication failed'
-      render status: status, json: {
-        errors: [{
-          status: status,
-          title: title
-        }]
-      }
+      @service = Service.find_by_client_id(params[:client_id])
+      if @service.nil?
+        raise AuthInvalidClientIdError
+      elsif params[:client_secret].blank?
+        raise AuthMissingClientSecretError
+      elsif @service.client_secret != params[:client_secret]
+        raise AuthBadCredentialsError
+      end
+      check_service_activation
     end
 
     def authenticate_by_refresh_token
       unless params[:refresh_token].present?
-        title = "Missing refresh_token"
-      else
-        @refresh_token = RefreshToken.includes(:service).find_by(value: params[:refresh_token])
-        if @refresh_token.nil?
-          title = 'Invalid refresh_token'
-        else
-          if @refresh_token.expires_at >= DateTime.now
-            @service = @refresh_token.service
-            return check_service_activation
-          else
-            status = 401
-            title = 'Token has expired'
-          end
-        end
+        raise AuthMissingRefreshTokenError
       end
-      status ||= 400
-      title ||= 'Client authentication failed'
-      render status: status, json: {
-        errors: [{
-          status: status,
-          title: title
-        }]
-      }
+      @refresh_token = RefreshToken.includes(:service).find_by(value: params[:refresh_token])
+      if @refresh_token.nil?
+        raise AuthInvalidRefreshTokenError
+      elsif @refresh_token.expires_at < DateTime.now
+        raise AuthExpiredRefreshTokenError
+      end
+      @service = @refresh_token.service
+      check_service_activation
     end
 
     def check_service_activation
-      if @service.is_activated?
-        render json: payload
-      else
-        status = 403
-        title = 'Client is not activated'
-        render status: status, json: {
-          errors: [{
-                     status: status,
-                     title: title
-                   }]
-        }
+      unless @service.is_activated?
+        raise AuthInactiveClientError
       end
+      render json: payload
     end
 
     def check_token

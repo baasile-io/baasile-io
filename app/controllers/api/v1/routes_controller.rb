@@ -3,7 +3,6 @@ module Api
     class RoutesController < ApiController
       before_action :load_route, except: [:index]
       before_action :load_contract, except: [:show, :index]
-      before_action :authorize_request!
       before_action :authorize_request_by_contract, only: [:process_request]
 
       # allow proxy functionality
@@ -21,10 +20,6 @@ module Api
         render status: @proxy_response.code, plain: @proxy_response.body
       rescue Api::ProxyError => e
         Rails.logger.error "Api::ProxyError: #{e.message}"
-        status = t("errors.api.#{e.code}.status", locale: :en).to_i
-        title = t("errors.api.#{e.code}.title", locale: :en)
-        message = t("errors.api.#{e.code}.message", locale: :en)
-        metadata_request = nil
         if e.req
           metadata_request = {
             method: e.req.method,
@@ -43,22 +38,14 @@ module Api
           request: metadata_request,
           response: metadata_response
         }
-        rendered_json_error = {
-          code: e.code,
-          title: title,
-          message: message
-        }
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
-          rendered_json_error[:meta] = metadata_full
+          meta = metadata_full
         else
-          rendered_json_error[:meta] = {
+          meta = {
             response: metadata_response
           }
         end
-        render status: status, json: {
-          errors: [rendered_json_error]
-        }
-        raise ProxyCanceledMeasurement, {error: e, request_detail: metadata_full}
+        raise ProxyCanceledMeasurement, {error: e, meta: meta, request_detail: metadata_full}
       end
 
       def index
@@ -93,12 +80,7 @@ module Api
 
       def load_route
         if current_route.nil?
-          return render status: 404, json: {
-            errors: [{
-                       status: 404,
-                       title: 'Route not found'
-                     }]
-          }
+          raise BaseNotFoundError
         end
       end
 
@@ -161,27 +143,22 @@ module Api
         @contract = Contract.where(client: authenticated_service, proxy: current_proxy).first
       end
 
-      def authorize_request!
-        #TODO
-
-        return true
-        if current_service == authenticated_service || authorize_request_by_contract
-          return true
-        end
-      end
-
       def authorize_request_by_contract
-        status, error = Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
-        return true if status
-
-        error_status = 403
-        render status: error_status, json: {
-          errors: [{
-                     status: error_status,
-                     title: error
-                   }]
-        }
-        false
+        Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
+      rescue Contracts::ContractValidationService::MissingContract
+        raise ContractMissingContractError
+      rescue Contracts::ContractValidationService::NotValidatedContract
+        raise ContractNotValidatedContractError
+      rescue Contracts::ContractValidationService::MissingStartDateProductionPhase
+        raise ContractMissingStartDateProductionPhaseError
+      rescue Contracts::ContractValidationService::NotStartedProductionPhase
+        raise ContractNotStartedProductionPhaseError
+      rescue Contracts::ContractValidationService::EndedProductionPhase
+        raise ContractEndedProductionPhaseError
+      rescue Contracts::ContractValidationService::WaitingForProduction
+        raise ContractWaitingForProductionError
+      rescue Contracts::ContractValidationService::NotActive
+        raise ContractNotActiveError
       end
 
     end

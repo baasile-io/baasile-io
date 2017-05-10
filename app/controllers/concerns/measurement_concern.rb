@@ -2,12 +2,13 @@ module MeasurementConcern
   extend ActiveSupport::Concern
   
   class ProxyCanceledMeasurement < StandardError
-    attr_reader :error, :request_detail
+    attr_reader :error, :request_detail, :meta
 
     def initialize(data)
       data ||= {}
       @error = data[:error]
       @request_detail = data[:request_detail]
+      @meta = data[:meta]
     end
   end
 
@@ -30,6 +31,7 @@ module MeasurementConcern
     end
   rescue ProxyCanceledMeasurement => e
     do_request_error_measure(e.error, e.request_detail)
+    raise e.error.class, {req: e.error.req, res: e.error.res, uri: e.error.uri, message: e.error.message, meta: e.error.meta}
   end
 
   def load_measure_token

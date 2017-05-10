@@ -1,4 +1,4 @@
-class CatchJsonParseErrorsMiddleware
+class CatchErrorsMiddleware
   def initialize(app)
     @app = app
   end
@@ -26,6 +26,26 @@ class CatchJsonParseErrorsMiddleware
                                                                 ]
                                                               }.to_json]]
       end
+    rescue Api::ProxyError => error
+      status = I18n.t("errors.api.#{error.code}.status", locale: :en).to_i
+      error_json = {
+        code: error.code,
+        title: I18n.t("errors.api.#{error.code}.title", locale: :en),
+        message: I18n.t("errors.api.#{error.code}.message", locale: :en)
+      }
+      error_json[:meta] = error.meta if error.meta
+      if status == 0
+        Airbrake.notify('Misconfigured error', {
+          error: error.class,
+          message: error.message
+        })
+        status = 500
+      end
+      return [status, {'Content-Type' => 'application/json'}, [{
+                                                              errors: [
+                                                                error_json
+                                                              ]
+                                                            }.to_json]]
     end
   end
 end
