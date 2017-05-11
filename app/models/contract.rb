@@ -210,14 +210,14 @@ class Contract < ApplicationRecord
     waiting_for_production: {
       index: 18,
       can: {
-          client_bank_details: { client: ['accountant'] },
-          client_bank_details_selection: { client: ['accountant'] },
-          client_select_bank_detail: { client: ['accountant'] },
-          startup_bank_details: { startup: ['accountant'] },
-          startup_bank_details_selection: { startup: ['accountant'] },
-          startup_select_bank_detail: { startup: ['accountant'] },
-          delete_client_bank_detail: { client: ['accountant'] },
-          delete_startup_bank_detail: { startup: ['accountant'] },
+        client_bank_details: { client: ['accountant'] },
+        client_bank_details_selection: { client: ['accountant'] },
+        client_select_bank_detail: { client: ['accountant'] },
+        startup_bank_details: { startup: ['accountant'] },
+        startup_bank_details_selection: { startup: ['accountant'] },
+        startup_select_bank_detail: { startup: ['accountant'] },
+        delete_client_bank_detail: { client: ['accountant'] },
+        delete_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -243,12 +243,10 @@ class Contract < ApplicationRecord
       conditions: {
         validate: [
           Proc.new {|c|
-            bank_detail = c.bank_details.where(service_id: c.client.id).first
-            (!bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
+            (!c.get_client_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
           },
           Proc.new {|c|
-            bank_detail = c.bank_details.where(service_id: c.proxy.service.id).first
-            (!bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
+            (!c.get_startup_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
           }
         ]
       },
@@ -476,5 +474,13 @@ class Contract < ApplicationRecord
 
   def name
     "#{self.client} / #{self.startup} / #{self.proxy}"
+  end
+
+  def get_client_bank_detail
+    self.bank_details.where(service_id: self.client.id).first
+  end
+
+  def get_startup_bank_detail
+    self.bank_details.where(service_id: self.proxy.service.id).first
   end
 end

@@ -297,10 +297,6 @@ class ContractsController < ApplicationController
     redirect_to startup_bank_details_contract_path(@contract)
   end
 
-  def bank_details?
-    !@bank_detail.nil?
-  end
-
   def get_new_bank_detail
     return BankDetail.find(params[:bank_detail_id]) if params.key?(:bank_detail_id)
     nil
@@ -312,7 +308,7 @@ class ContractsController < ApplicationController
     if !new_bank_detail_loaded.nil? && new_bank_detail_loaded.service == @service_owner
       new_bank_detail = new_bank_detail_loaded.dup
       new_bank_detail.contract = @contract
-      new_bank_detail.save!
+      new_bank_detail.save
     else
       flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.bank_detail'))
     end

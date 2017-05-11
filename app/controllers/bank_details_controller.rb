@@ -3,7 +3,7 @@ class BankDetailsController < DashboardController
   before_action :load_bank_detail, only: [:edit, :show, :update, :destroy]
 
   def index
-    @collection = BankDetail.by_service(current_service)
+    @collection = BankDetail.templates.by_service(current_service)
   end
 
   def new

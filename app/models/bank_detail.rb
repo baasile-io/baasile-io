@@ -15,9 +15,8 @@ class BankDetail < ApplicationRecord
   validates     :name, presence:true, uniqueness: {scope: [:service, :contract]}
 
 
-  scope :by_service, ->(service) { where(service: service, contract: nil)}
+  scope :by_service, ->(service) { where(service: service)}
   scope :templates, -> { where(contract: nil)}
   scope :activated, -> { where(is_active: true)}
-  scope :linked, -> { where.not(contract: nil)}
 
 end
