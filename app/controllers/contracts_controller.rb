@@ -314,6 +314,8 @@ class ContractsController < ApplicationController
     end
     if @contract.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    else
+      flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.contract'))
     end
   end
 
