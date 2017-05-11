@@ -1,8 +1,13 @@
 body
-  background-color: #292b2c
+  background-color: #ffffff
+
+  @media (min-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
+    background-color: #292b2c
 
 #form-container
   @include alpha-background-color(rgba(#FFFFFF, 1), #FFFFFF)
+  padding-top: 50px
+  padding-bottom: 100px
 
   p.logo
     margin-bottom: 40px
@@ -29,12 +34,10 @@ body
     bottom: 0
     width: 42%
     heigt: auto
-    overflow: auto
+    overflow: scroll
     overflow-x: hidden
     padding-left: 30px
     padding-right: 30px
-    padding-top: 50px
-    padding-bottom: 100px
 
 #big-image
 
@@ -57,3 +60,6 @@ body
     right: 0
     height: auto
     width: auto
+
+  @media (max-width: map-get($grid-breakpoints, $dashboard-grid-breakpoint))
+    display: none

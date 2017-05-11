@@ -2,7 +2,7 @@ fr:
   contracts:
     catalog:
       description: 'Choisissez un produit à contractualiser.'
-      title: 'Catalogue des startups'
+      title: 'Catalogue des fournisseurs'
     comments:
       title: 'Commentaires'
     edit:

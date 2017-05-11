@@ -67,14 +67,14 @@ en:
         icon: 'fa fa-fw fa-cube text-info'
         title: 'Client'
       company:
-        class: ''
+        class: 'text-info'
         description: 'Aggregator accounts can manage multiple Client and Service Provider accounts.'
-        icon: 'fa fa-fw fa-bank'
+        icon: 'fa fa-fw fa-bank text-info'
         title: 'Aggregator'
       startup:
         class: ''
         description: 'Service Provider accounts can consume and provide API.'
-        icon: 'fa fa-fw fa-cube text-danger'
+        icon: 'fa fa-fw fa-cube'
         title: 'Service Provider'
     setting_types:
       boolean: 'Boolean'

@@ -2,6 +2,7 @@
 <html>
 <head>
   <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
@@ -9,20 +10,24 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
-<body>
+<body class="public">
 
-<%= render partial: 'shared/topbar' %>
+  <%= render partial: 'shared/topbar' %>
 
-<%= yield %>
+  <%= yield %>
 
-<footer class="text-muted">
-  <div class="container">
-    <p class="float-sm-right">
-      <a href="#">Back to top</a>
-    </p>
-    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
-  </div>
-</footer>
+  <hr class="featurette-divider">
+
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-sm-right">Demo Platform &copy; Port Parallèle / Baasile IO</p>
+      <p>
+        <img src="/dashboard/logo-port-parallele.png">
+      </p>
+    </div>
+  </footer>
+
+  <%= render partial: 'shared/flash' %>
+
 </body>
 </html>

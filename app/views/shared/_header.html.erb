@@ -15,8 +15,10 @@
           </h3>
         </div>
       </div>
-      <hr>
-      <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
+    </div>
+    <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
+    <hr>
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <ul class="nav nav-pills" style="font-size:110%">
@@ -67,7 +69,9 @@
             </h4>
           </div>
         </div>
-        <hr/>
+      </div>
+      <hr/>
+      <div class="container">
         <div class="row">
           <div class="col-12">
             <ul class="nav nav-pills">
@@ -120,7 +124,9 @@
             </h4>
           </div>
         </div>
-        <hr/>
+      </div>
+      <hr/>
+      <div class="container">
         <div class="row">
           <div class="col-12">
             <ul class="nav nav-pills">
@@ -159,7 +165,13 @@
                 <span class="text-muted"><%= link_to "#{t('activerecord.models.route').pluralize}".html_safe, service_proxy_routes_path(current_service, current_proxy), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
                 <%= current_route.name %>
               </h4>
-              <hr>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
               <ul class="nav nav-pills" style="font-size: 90%;">
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if controller_name == 'routes' && action_name == 'show' %>" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
@@ -186,7 +198,9 @@
                 <span class="text-muted"><%= link_to t('misc.pricing'), service_proxy_prices_path(current_service, current_proxy), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
                 <%= current_price.name %>
               </h4>
-              <hr>
+            </div>
+            <hr/>
+            <div class="container">
               <ul class="nav nav-pills" style="font-size: 90%;">
                 <li class="nav-item">
                   <a class="nav-link <%= 'active' if controller_name == 'prices' && action_name == 'show' %>" href="<%= service_proxy_price_path(current_service, current_proxy, current_price) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
@@ -206,7 +220,7 @@
 <% elsif current_module == 'documentation' %>
 
   <div class="b-io-header">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <h3><%= t('activerecord.models.documentation') %></h3>
@@ -224,7 +238,9 @@
           <h3><%= t('misc.dashboard') %></h3>
         </div>
       </div>
-      <hr/>
+    </div>
+    <hr/>
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <ul class="nav nav-pills" style="font-size:110%">
@@ -267,7 +283,9 @@
             </h4>
           </div>
         </div>
-        <hr/>
+      </div>
+      <hr/>
+      <div class="container">
         <div class="row">
           <div class="col-12">
             <ul class="nav nav-pills">

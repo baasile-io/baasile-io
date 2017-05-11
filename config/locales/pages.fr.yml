@@ -6,8 +6,12 @@ fr:
     not_found:
       title: "Cette page n'existe pas"
     root:
-      title: 'Bienvenue sur OpenRH'
+      buttons:
+        goto_startup_book: 'Fournisseurs'
+        goto_dashboard: 'Tableau de bord'
+      subtitle: "Bienvenue sur la plateforme Démo"
+      title: "La plateforme d'interconnexion augmentée"
     service_book:
-      title: 'Catalogue des startups'
-      description: 'Voici le catalogue des startups proposant leurs APIs sur la plateforme'
+      title: 'Fournisseurs'
+      description: 'Voici le catalogue des fournisseurs proposant leurs APIs sur la plateforme'
       startup_infos: 'Infos'

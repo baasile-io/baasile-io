@@ -1,4 +1,4 @@
-<ul class="list-unstyled">
+<ul class="list-unstyled" style="fon-size:120%;">
   <% arrange_nested_resources_collection(collection, Proc.new {|page| page.public}).each do |page| %>
     <li>
       <%= "#{'&nbsp;&nbsp;' * page.depth}".html_safe %>

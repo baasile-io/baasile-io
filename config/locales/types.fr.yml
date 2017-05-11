@@ -72,7 +72,7 @@ fr:
         icon: 'fa fa-fw fa-cubes'
         title: 'Aggrétateur'
       startup:
-        class: 'text-danger'
+        class: 'text-success'
         description: 'Les comptes Fournisseur peuvent consommer et fournir des API.'
         icon: 'fa fa-fw fa-cube text-danger'
         title: 'Fournisseur'

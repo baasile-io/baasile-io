@@ -6,8 +6,12 @@ en:
     not_found:
       title: 'Page Not Found'
     root:
-      title: 'Welcome to OpenRH'
+      buttons:
+        goto_startup_book: 'Suppliers'
+        goto_dashboard: 'Dashboard'
+      subtitle: "Augmented Interconnection Platform"
+      title: 'Welcome to Baasile IO demo'
     service_book:
-      title: 'Startup Book'
+      title: 'Suppliers'
       description: 'The catalog of startups providing APIs on the marketplace'
       startup_infos: 'Infos'

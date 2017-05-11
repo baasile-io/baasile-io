@@ -11,6 +11,10 @@ body {
   padding-bottom: 6rem;
   margin-bottom: 0;
   background-color: #fff;
+  border-radius: 0;
+}
+.jumbotron img {
+  max-width: 550px;
 }
 
 .jumbotron p:last-child {
@@ -81,6 +85,8 @@ footer p {
 }
 .marketing h2 {
   font-weight: normal;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .marketing .col-lg-4 p {
   margin-right: .75rem;
@@ -101,4 +107,21 @@ footer p {
   line-height: 1;
   letter-spacing: -.05rem;
 }
+
+
+
+
+
+
+.fa-stack .fa {
+  color: #292b2c
+}
+
+.fa-stack .fa.fa-inverse {
+  color: #FFFFFF
+}
+
+
+
+
 
