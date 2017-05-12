@@ -6,7 +6,11 @@ class DocumentationsController < ApplicationController
   end
 
   def show
-    @documentation = Documentation.find(params[:id])
+    @documentation = Documentation.find_by_id(params[:id])
+    if @documentation.nil?
+      flash[:error] = I18n.t('errors.page_not_found')
+      return redirect_to documentations_path
+    end
     unless @documentation.public
       redirect_to documentations_path
     end

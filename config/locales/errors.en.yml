@@ -36,3 +36,4 @@ en:
       price_parameter:
         deny_after_free_count_validity: 'If you allow denying requests, you must specify number of authorized requests and reset unit price.'
         undefined_cost_and_free_count: 'You must at least specify one value (number of authorized requests or unit price).'
+    page_not_found: 'This page does not exist'
