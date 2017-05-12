@@ -57,5 +57,5 @@
 
 <% if object.request_detail.present? && current_user.is_user_of?(object.route.service) %>
   <hr />
-  <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe %>
+  <%= (ap JSON.parse(object.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue "<pre>#{object.request_detail}</pre>".html_safe %>
 <% end %>

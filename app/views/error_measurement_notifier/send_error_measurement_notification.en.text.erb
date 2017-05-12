@@ -1,1 +1,13 @@
-<%= I18n.t("mailer.error_measurement_notifier.send_error_measurement_notification.body", message: @error_measurement_message) %>
+<%= @error_measurement_title %>
+
+Message: <%= @error_measurement_message %>
+
+Client: <%= @error_measurement.contract.client.name %>
+Supplier: <%= @error_measurement.contract.startup.name %>
+Product: <%= @error_measurement.proxy.name %>
+
+<% if @error_measurement.request_detail && @user.is_user_of?(@error_measurement.contract.startup) -%>
+#####################################
+
+<%= ActionView::Helpers::SanitizeHelper.sanitize(ap JSON.parse(@error_measurement.request_detail), {html: false, indent: -2, plain: false, index: false}) rescue @error_measurement.request_detail %>
+<% end %>

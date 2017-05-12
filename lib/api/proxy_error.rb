@@ -6,6 +6,7 @@ module Api
     attr_reader :uri
     attr_reader :message
     attr_reader :meta
+    attr_reader :notifications
 
     def initialize(data = {})
       data[:code] ||= 502
@@ -34,6 +35,12 @@ module Api
 
     def meta
       @data[:meta]
+    end
+
+    def notifications
+      {
+        startup: ["admin", "developer"]
+      }
     end
   end
 

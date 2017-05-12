@@ -12,10 +12,14 @@ module ErrorMeasurementConcern
       response_http_status: (!error.res.nil? ? error.res.code : 0),
       request_detail: request_detail.to_json
     )
-    ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now
+    ErrorMeasurementNotifier.send_error_measurement_notification(measure, error.notifications).deliver_now
     true
-  rescue
-    false
+  #rescue Exception => e
+  #  Airbrake.notify('Failed to measure error', {
+  #    error: e.class,
+  #    message: e.message
+  #  })
+  #  false
   end
 
 end

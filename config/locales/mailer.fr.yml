@@ -7,8 +7,7 @@ fr:
         subject: "Votre contrat vient de passer au status \"%{status}\""
     error_measurement_notifier:
       send_error_measurement_notification:
-        subject: "%{title}"
-        body: "%{message}"
+        subject: "Une erreur est survenue : %{title}"
     service_notifier:
       send_validation:
         subject: 'Votre entreprise a été activé'
