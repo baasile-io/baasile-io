@@ -1,9 +1,0 @@
-<% content_for(:page_title) { t('error_measurements.index.title') } %>
-
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
-    <%= render partial: 'error_measurements/list_error_measurements', locals: {collection: ErrorMeasurement.all.includes(:client, :proxy).order(created_at: :desc)} %>
-
-  </div>
-</div>

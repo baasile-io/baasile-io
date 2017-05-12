@@ -1,0 +1,5 @@
+en:
+  back_office:
+    error_measurements:
+      index:
+        title: 'Errors from the API'

@@ -192,7 +192,7 @@ Rails.application.routes.draw do
 
     get 'back_office', to: 'back_office#index'
     namespace :back_office do
-      get :error_measurements
+      resources :error_measurements
       resources :users do
         member do
           get :audit

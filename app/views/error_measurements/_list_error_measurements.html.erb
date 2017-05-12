@@ -53,7 +53,15 @@
             <i class="fa fa-fw fa-edit"></i> <%= error_measurement.contract.client %>
           </td>
           <td class="text-right">
-            <%= link_to_modal t('misc.more_info'), (current_contract.nil? ? polymorphic_path([current_service, current_proxy, current_route, error_measurement]) : polymorphic_path([current_service, current_contract], action: :error_measurement, id_error_measurement: error_measurement)), class: 'btn btn-secondary btn-sm' %>
+            <% if current_module == 'back_office' %>
+              <%= link_to_modal t('misc.more_info'),
+                                back_office_error_measurement_path(error_measurement),
+                                class: 'btn btn-secondary btn-sm' %>
+            <% else %>
+              <%= link_to_modal t('misc.more_info'),
+                                (current_contract.nil? ? polymorphic_path([current_service, current_proxy, current_route, error_measurement]) : polymorphic_path([current_service, current_contract], action: :error_measurement, id_error_measurement: error_measurement)),
+                                class: 'btn btn-secondary btn-sm' %>
+            <% end %>
           </td>
         </tr>
       <% end %>
