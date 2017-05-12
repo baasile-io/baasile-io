@@ -1,19 +1,37 @@
 module MeasurementConcern
   extend ActiveSupport::Concern
+  
+  class ProxyCanceledMeasurement < StandardError
+    attr_reader :error, :request_detail, :meta
+
+    def initialize(data)
+      data ||= {}
+      @error = data[:error]
+      @request_detail = data[:request_detail]
+      @meta = data[:meta]
+    end
+  end
 
   included do
     before_action :authorize_measured_request, only: [:process_request]
     before_action :load_measure_token, only: [:process_request]
-    after_action :do_request_measure, only: [:process_request]
+    around_action :do_request_measure
   end
 
   private
 
   def do_request_measure
-    date_start = DateTime.now.change(hour: 0, min: 0, sec: 0)
-    measure = Measurement.where(contract: current_contract, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id, created_at: date_start, measure_token_id: current_measure_token.try(:id)).first_or_create!
-    measure.increment_call
-    measure.save!
+    Measurement.transaction do
+      date_start = DateTime.now.change(hour: 0, min: 0, sec: 0)
+      measure = Measurement.where(contract: current_contract, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id, created_at: date_start, measure_token_id: current_measure_token.try(:id)).first_or_create!
+      measure.increment_call
+      measure.save!
+      yield
+      response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value unless @measure_token.nil?
+    end
+  rescue ProxyCanceledMeasurement => e
+    do_request_error_measure(e.error, e.request_detail)
+    raise e.error.class, {req: e.error.req, res: e.error.res, uri: e.error.uri, message: e.error.message, meta: e.meta}
   end
 
   def load_measure_token
@@ -34,8 +52,6 @@ module MeasurementConcern
         }
       end
     end
-
-    response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value
   end
 
   def authorize_measured_request

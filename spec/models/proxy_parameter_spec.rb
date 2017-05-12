@@ -32,30 +32,11 @@ RSpec.describe ProxyParameter, type: :model do
         expect(@proxy_parameter.errors.messages[:port]).to_not be_empty
       end
 
-      it "does not require client_id, client_secret and authorization_url" do
-        @proxy_parameter.client_id = nil
-        @proxy_parameter.client_secret = nil
-        @proxy_parameter.authorization_url = nil
-        expect(@proxy_parameter.valid?).to be_truthy
-      end
-
       [:oauth2].each do |auth_mode|
         describe "authorization_mode: #{auth_mode}" do
           before :each do
             @proxy_parameter.authorization_mode = auth_mode
             @proxy_parameter.save
-          end
-
-          it "requires client_id" do
-            @proxy_parameter.client_id = nil
-            expect(@proxy_parameter.valid?).to be_falsey
-            expect(@proxy_parameter.errors.messages[:client_id]).to_not be_empty
-          end
-
-          it "requires client_secret" do
-            @proxy_parameter.client_secret = nil
-            expect(@proxy_parameter.valid?).to be_falsey
-            expect(@proxy_parameter.errors.messages[:client_secret]).to_not be_empty
           end
 
           it "requires authorization_url" do

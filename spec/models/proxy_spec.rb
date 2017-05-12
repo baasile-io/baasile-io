@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Proxy, type: :model do
   before :each do
-    @proxy = create :proxy
-    @proxy2 = create :proxy
+    service = create :service
+    @proxy = create :proxy, service: service
+    @proxy2 = create :proxy, service: service
   end
 
   describe "attributes" do
@@ -36,10 +37,10 @@ RSpec.describe Proxy, type: :model do
     describe "cache_token" do
       it "returns a string" do
         @proxy.proxy_parameter.authorization_mode = :null
-        expect(@proxy.cache_token).to eq "proxy_cache_token_null_#{@proxy.id}"
+        expect(@proxy.cache_token).to eq "proxy_cache_token_null_#{@proxy.id}_#{@proxy.updated_at.strftime('%Y%M%d%H%I%S')}"
 
         @proxy.proxy_parameter.authorization_mode = :oauth2
-        expect(@proxy.cache_token).to eq "proxy_cache_token_oauth2_#{@proxy.id}"
+        expect(@proxy.cache_token).to eq "proxy_cache_token_oauth2_#{@proxy.id}_#{@proxy.updated_at.strftime('%Y%M%d%H%I%S')}"
       end
     end
   end

@@ -1,2 +1,17 @@
-<h1><%= I18n.t("mailer.error_measurement_notifier.send_error_measurement_notification.body", message: @error_measurement_message) %></h1>
+<h1>
+  <%= @error_measurement_title %>
+</h1>
 
+<p>
+  <strong>Message:</strong> <%= @error_measurement_message %>
+</p>
+<p>
+  <strong>Client:</strong> <%= @error_measurement.contract.client.name %><br />
+  <strong>Supplier:</strong> <%= @error_measurement.contract.startup.name %><br />
+  <strong>Product:</strong> <%= @error_measurement.proxy.name %>
+</p>
+
+<% if @error_measurement.request_detail && @user.is_user_of?(@error_measurement.contract.startup) %>
+  <hr />
+  <%= (ap JSON.parse(@error_measurement.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue "<pre>#{@error_measurement.request_detail}</pre>".html_safe %>
+<% end %>

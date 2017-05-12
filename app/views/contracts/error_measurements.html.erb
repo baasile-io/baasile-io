@@ -1,9 +1,9 @@
-<% content_for(:page_title) { t('error_measurements.title') } %>
+<% content_for(:page_title) { t('error_measurements.index.title') } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'shared/error_measurements', locals: {collection: @contract.error_measurements} %>
+    <%= render partial: 'error_measurements/list_error_measurements', locals: {collection: @contract.error_measurements.includes(:client, :proxy).order(created_at: :desc)} %>
 
   </div>
 </div>

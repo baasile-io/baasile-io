@@ -3,18 +3,26 @@ module ErrorMeasurementConcern
 
   private
 
-  def do_request_error_measure(error_type, status, request, message = nil)
-    measure = ErrorMeasurement.create!(
-      contract: current_contract,
-      route: current_route,
-      status: status,
-      error_type: error_type,
-      message: message
-    )
-    ErrorMeasurementNotifier.send_error_measurement_notification(measure).deliver_now
-    true
-  rescue
-    false
+  def do_request_error_measure(error, request_detail)
+    begin
+      measure = ErrorMeasurement.create!(
+        contract: current_contract,
+        route: current_routes,
+        error_type: error.class.name,
+        error_code: error.code,
+        response_http_status: (!error.res.nil? ? error.res.code : 0),
+        request_detail: request_detail.to_json
+      )
+      ErrorMeasurementNotifier.send_error_measurement_notification(measure, error.notifications).deliver_now
+      true
+    rescue Exception => e
+      Rails.logger.error "Failed to measure error #{e.class} #{e.message}"
+      Airbrake.notify('Failed to measure error', {
+        error: e.class,
+        message: e.message
+      })
+      false
+    end
   end
 
 end

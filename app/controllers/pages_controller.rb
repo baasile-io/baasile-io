@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   skip_before_action :set_locale, only: [:robots]
 
-  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found]
+  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found, :robots]
   before_action :load_logotype_service, only: [:service_book, :startup]
 
   layout 'public'
@@ -22,6 +22,12 @@ class PagesController < ApplicationController
 
   def not_found
     render status: :not_found
+    Airbrake.notify('Not found', {})
+  end
+
+  def internal_server_error
+    render status: 500
+    Airbrake.notify('Internal server error', {})
   end
   
   def robots
@@ -32,7 +38,11 @@ class PagesController < ApplicationController
   end
 
   def current_module
-    'service_book'
+    if action_name == 'root'
+      'homepage'
+    else
+      'service_book'
+    end
   end
 
   def load_logotype_service

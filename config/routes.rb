@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
     end
 
-    get "*any", via: :all, to: "api#not_found"
+    match "*any", via: :all, to: "api#not_found"
   end
 
   # Background jobs
@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     resources :contracts do
       member do
         get :error_measurements
+        get :error_measurement
         get :comments
         post :create_comment
         post :validate
@@ -107,6 +108,7 @@ Rails.application.routes.draw do
       resources :contracts do
         member do
           get :error_measurements
+          get :error_measurement
           get :comments
           post :create_comment
           post :validate
@@ -143,8 +145,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :error_measurements
       member do
-        get  :error_measurements
         post :activation_request
         post :set_right
         post :unset_right
@@ -164,9 +166,7 @@ Rails.application.routes.draw do
       post '/permissions/unset_right', to: 'permissions#unset_right'
 
       resources :proxies do
-        member do
-          get :error_measurements
-        end
+        resources :error_measurements
         resources :identifiers
         resources :routes do
           resources :query_parameters
@@ -235,9 +235,11 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    get "*any", via: :all, to: "pages#not_found"
   end
 
-  get "*any", via: :all, to: "pages#not_found"
+  get '/users/sign_in', to: redirect('/auth/sign_in')
+
+  match "/404", via: :all, to: "pages#not_found"
+  match "/500", via: :all, to: "pages#internal_server_error"
+  match "*any", via: :all, to: "pages#not_found"
 end

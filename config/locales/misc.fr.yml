@@ -37,6 +37,7 @@ fr:
         title: 'Activé'
     last_comment: 'Dernier commentaire'
     last_modified: 'Dernière modification'
+    loading: 'Chargement en cours...'
     locales:
       en: 'Anglais'
       fr: 'Français'

@@ -71,6 +71,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
 gem "breadcrumbs_on_rails"
+gem 'awesome_print'
 
 # Background jobs
 #gem 'apartment-sidekiq'

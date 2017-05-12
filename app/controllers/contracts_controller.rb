@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption, :error_measurements]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -208,7 +208,11 @@ class ContractsController < ApplicationController
   end
 
   def error_measurements
-
+  end
+  
+  def error_measurement
+    @error_measurement = current_contract.error_measurements.includes(:proxy, :client).find(params[:id_error_measurement])
+    render 'error_measurements/show'
   end
 
   private
@@ -275,7 +279,10 @@ class ContractsController < ApplicationController
   end
 
   def contract_params(status)
-    allowed_parameters = Contract::CONTRACT_STATUSES[status.to_sym][:allowed_parameters]
+    allowed_parameters = Contract::CONTRACT_STATUSES[status.to_sym][:allowed_parameters].each_with_object([]) do |(scope, attributes), tmp_allowed_parameters|
+      tmp_allowed_parameters.concat(attributes)
+    end
+    allowed_parameters.reject! {|attribute| !current_contract.can_edit_attribute?(current_user, attribute)} if current_contract
     params.require(:contract).permit(allowed_parameters)
   end
 

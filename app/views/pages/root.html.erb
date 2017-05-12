@@ -2,86 +2,60 @@
 
 <section class="jumbotron text-center bg-inverse">
   <div class="container-fluid">
-    <h1 class="jumbotron-heading"><%= t('pages.root.title') %></h1>
-    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+    <p><img src="/dashboard/baasile-io-homepage.png" class="img-fluid"></p>
+    <h1 class="jumbotron-heading"><%= t('.title') %></h1>
+    <p class="lead text-muted"><%= t('.subtitle') %></p>
     <p>
-      <%= link_to 'Voir le catalogue des startups', service_book_url, class: 'btn btn-primary' %>
-      <%= link_to 'Accéder au tableau de bord', current_user.nil? ? new_user_session_path : services_path, class: 'btn btn-secondary' %>
+      <%= link_to "<i class=\"fa fa-fw fa-book\"></i> #{t('.buttons.goto_startup_book')}".html_safe, service_book_url, class: 'btn btn-link btn-lg' %>
+      <%= link_to "<i class=\"fa fa-fw fa-dashboard\"></i> #{t('.buttons.goto_dashboard')}".html_safe, current_user.nil? ? new_user_session_path : services_path, class: 'btn btn-link btn-lg' %>
     </p>
   </div>
 </section>
 
-
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
-
 <div class="container marketing">
 
-  <!-- Three columns of text below the carousel -->
   <div class="row">
+
     <div class="col-lg-4">
-      <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-    <div class="col-lg-4">
-      <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-      <h2>Heading</h2>
-      <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-    <div class="col-lg-4">
-      <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-  </div><!-- /.row -->
+      <span class="fa-stack fa-lg fa-4x">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-rocket fa-stack-1x fa-inverse"></i>
+      </span>
 
-
-  <!-- START THE FEATURETTES -->
-
-  <hr class="featurette-divider">
-
-  <div class="row featurette">
-    <div class="col-md-7">
-      <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+      <h2>Déployez</h2>
+      <p>
+        Le déploiement d'une plateforme Baasile IO est facilité de part sa conception.
+        Nous recommandons le choix de Heroku en tant qu'infrastructure, mais il est tout à fait possible de déployer sur ses propres serveurs.
+      </p>
     </div>
-    <div class="col-md-5">
-      <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
+
+    <div class="col-lg-4">
+      <span class="fa-stack fa-lg fa-4x">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-share-alt fa-stack-1x fa-inverse"></i>
+      </span>
+
+      <h2>Connectez</h2>
+      <p>
+        Paramétrez vos connecteurs d'API via le Tableau de bord et commencez à utiliser les fonctionnalités d'interconnexion.
+        Nous proposons actuellement le mode de connexion OAuth 2.0 client credentials grant, mais d'autres sont à venir.
+      </p>
     </div>
+
+    <div class="col-lg-4">
+      <span class="fa-stack fa-lg fa-4x">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+      </span>
+
+      <h2>Économisez</h2>
+      <p>
+        Ne perdez plus de temps à établir des connexions spécifiques entre vos services et vos clients.
+        Redéployez les ressources ainsi économisées à la valorisation des données.
+      </p>
+    </div>
+
   </div>
 
-  <hr class="featurette-divider">
-
-  <div class="row featurette">
-    <div class="col-md-7 push-md-5">
-      <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5 pull-md-7">
-      <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
-    </div>
-  </div>
-
-  <hr class="featurette-divider">
-
-  <div class="row featurette">
-    <div class="col-md-7">
-      <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5">
-      <%= image_tag asset_path('no-image.png'), class: 'img-fluid' %>
-    </div>
-  </div>
-
-  <hr class="featurette-divider">
-
-  <!-- /END THE FEATURETTES -->
-
-</div><!-- /.container -->
+</div>
 

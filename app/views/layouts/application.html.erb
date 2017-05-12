@@ -2,9 +2,11 @@
 <html>
 <head>
   <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>
 
@@ -44,6 +46,24 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle"><%= t('misc.loading') %></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center"><%= image_tag("loading.gif") %></div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
   </div>
 
   <%= render partial: 'shared/flash' %>

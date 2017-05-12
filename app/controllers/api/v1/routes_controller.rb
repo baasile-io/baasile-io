@@ -3,7 +3,6 @@ module Api
     class RoutesController < ApiController
       before_action :load_route, except: [:index]
       before_action :load_contract, except: [:show, :index]
-      before_action :authorize_request!
       before_action :authorize_request_by_contract, only: [:process_request]
 
       # allow proxy functionality
@@ -19,85 +18,36 @@ module Api
       def process_request
         @proxy_response = proxy_request
         render status: @proxy_response.code, plain: @proxy_response.body
-      rescue ProxySocketError => e
-        status = 592
-        title = 'The server cannot process the request due to a connection error with the remote server'
-        do_request_error_measure(e.class.name, status, e.req, title)
-        render status: :bad_gateway, json: {
-          errors: [{
-             status: status,
-             title: title
-           }]
-        }
-      rescue ProxyInitializationError
-        status = 591
-        title = 'The server cannot process the request due to a configuration error'
-        do_request_error_measure(e.class.name, status, e.req, title)
-        render status: :bad_gateway, json: {
-          errors: [{
-            status: status,
-            title: title
-         }]
-        }
-      rescue ProxyAuthenticationError, ProxyRedirectionError, ProxyRequestError => e
-        if e.code >= 500
-          status = 595
-          title = 'The origin server cannot or will not process the request due to an apparent internal error'
-        elsif e.code >= 400
-          status = 594
-          title = 'The origin server cannot or will not process the request due to an apparent client error'
-        else
-          status = 593
-          title = 'The origin server cannot or will not process the request due to an apparent redirection error'
+      rescue Api::ProxyError => e
+        Rails.logger.error "Api::ProxyError: #{e.message}"
+        if e.req
+          metadata_request = {
+            method: e.req.method,
+            original_url: e.uri.to_s,
+            headers: e.req.to_hash,
+            body: e.req.body
+          }
         end
-        do_request_error_measure(e.class.name, status, e.req, title)
+        if e.res
+          metadata_response = {
+            status: e.res.code,
+            body: e.res.body.to_s.force_encoding('UTF-8')
+          }
+        end
+        if metadata_request && metadata_response
+          metadata_full = {
+            request: metadata_request,
+            response: metadata_response
+          }
+        end
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
-          render status: :bad_gateway, json: {
-            errors: [
-              {
-                status: status,
-                title: title,
-                meta: {
-                  request: {
-                    method: e.req.method,
-                    original_url: e.uri.to_s,
-                    headers: e.req.to_hash,
-                    body: e.req.body
-                  },
-                  response: {
-                    status: e.code,
-                    body: e.body.to_s.force_encoding('UTF-8')
-                  }
-                }
-              }
-            ]
-          }
+          meta = metadata_full
         else
-          render status: :bad_gateway, json: {
-            errors: [
-              {
-                status: status,
-                title: title,
-                meta: {
-                  response: {
-                    status: e.code,
-                    body: e.body.to_s.force_encoding('UTF-8')
-                  }
-                }
-              }
-            ]
+          meta = {
+            response: metadata_response
           }
         end
-      rescue ProxyMissingMandatoryQueryParameterError => e
-        status = 400
-        title = "Missing mandatory #{t("types.query_parameter_types.#{e.query_parameter_type}.title")} parameter: \"#{e.parameter}\""
-        do_request_error_measure(e.class.name, status, e.req, title)
-        return render status: status, json: {
-          errors: [{
-                     status: status,
-                     title: title
-                   }]
-        }
+        raise ProxyCanceledMeasurement, {error: e, meta: meta, request_detail: metadata_full}
       end
 
       def index
@@ -132,12 +82,7 @@ module Api
 
       def load_route
         if current_route.nil?
-          return render status: 404, json: {
-            errors: [{
-                       status: 404,
-                       title: 'Route not found'
-                     }]
-          }
+          raise BaseNotFoundError
         end
       end
 
@@ -200,27 +145,22 @@ module Api
         @contract = Contract.where(client: authenticated_service, proxy: current_proxy).first
       end
 
-      def authorize_request!
-        #TODO
-
-        return true
-        if current_service == authenticated_service || authorize_request_by_contract
-          return true
-        end
-      end
-
       def authorize_request_by_contract
-        status, error = Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
-        return true if status
-
-        error_status = 403
-        render status: error_status, json: {
-          errors: [{
-                     status: error_status,
-                     title: error
-                   }]
-        }
-        false
+        Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
+      rescue Contracts::ContractValidationService::MissingContract
+        raise ContractMissingContractError
+      rescue Contracts::ContractValidationService::NotValidatedContract
+        raise ContractNotValidatedContractError
+      rescue Contracts::ContractValidationService::MissingStartDateProductionPhase
+        raise ContractMissingStartDateProductionPhaseError
+      rescue Contracts::ContractValidationService::NotStartedProductionPhase
+        raise ContractNotStartedProductionPhaseError
+      rescue Contracts::ContractValidationService::EndedProductionPhase
+        raise ContractEndedProductionPhaseError
+      rescue Contracts::ContractValidationService::WaitingForProduction
+        raise ContractWaitingForProductionError
+      rescue Contracts::ContractValidationService::NotActive
+        raise ContractNotActiveError
       end
 
     end

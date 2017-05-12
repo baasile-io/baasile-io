@@ -1,0 +1,57 @@
+<% if collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th colspan="2" class="width-30">
+        <%= t('activerecord.attributes.error_measurement.error_type') %>
+      </th>
+      <th>
+        <%= t("activerecord.attributes.error_measurement.status") %>
+      </th>
+      <th>
+        <%= t("activerecord.attributes.error_measurement.created_at") %>
+      </th>
+      <th>
+        <%= t("activerecord.attributes.error_measurement.route") %>
+      </th>
+      <th>
+        <%= t("activerecord.attributes.error_measurement.contract") %>
+      </th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      <% collection.each do |error_measurement| %>
+        <tr>
+          <td class="width-3">
+            <i class="fa fa-fw fa-2x fa-exclamation-triangle"></i>
+          </td>
+          <td>
+            <%= error_measurement.error_code %> <%= t("errors.api.#{error_measurement.error_code}.title", locale: :en) %><br/>
+            <small class="text-muted">
+              <%= t("errors.api.#{error_measurement.error_code}.message", locale: :en) %>
+            </small>
+          </td>
+          <td>
+            <%= t("errors.api.#{error_measurement.error_code}.status", locale: :en) %>
+          </td>
+          <td>
+            <%= l(error_measurement.created_at, format: :short) %>
+          </td>
+          <td>
+            <small><i class="fa fa-fw fa-server"></i> <%= error_measurement.proxy.name %></small><br/>
+            <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
+          </td>
+          <td>
+            <i class="fa fa-fw fa-edit"></i> <%= error_measurement.contract.client %>
+          </td>
+          <td class="text-right">
+            <%= link_to_modal t('misc.more_info'), (current_contract.nil? ? polymorphic_path([current_service, current_proxy, current_route, error_measurement]) : polymorphic_path([current_service, current_contract], action: :error_measurement, id_error_measurement: error_measurement)), class: 'btn btn-secondary btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

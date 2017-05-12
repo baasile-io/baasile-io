@@ -30,7 +30,11 @@
             </td>
             <td>
               <i class="fa fa-fw fa-edit"></i>
-              <%= bill.contract.name %> <small class="text-muted"><%= bill.contract.code %></small><br />
+              <%= bill.contract.name %>
+              <small class="text-muted">
+                <%= bill.contract.client_code if current_user.is_user_of?(bill.contract.client) %>&nbsp;
+                <%= bill.contract.startup_code if current_user.is_user_of?(bill.contract.startup) %>
+              </small><br />
               <small>
                 <i class="<%= t("types.service_types.#{bill.contract.client.service_type}.icon") %>"></i>
                 <span class="<%= t("types.service_types.#{bill.contract.client.service_type}.class") %>"><%= bill.contract.client.name %></span>

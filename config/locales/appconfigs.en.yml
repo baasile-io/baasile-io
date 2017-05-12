@@ -18,6 +18,9 @@ en:
     api_proxy_callback_uri_name:
       name: 'Name of callback URI header'
       description: "The name of the callback URI parameter in requests headers given to suppliers, allowing them to build URL through the platform"
+    api_read_timeout:
+      name: 'Timeout for API requests'
+      description: "The maximum time duration in seconds the platform waits for the distant servers to respond"
     bill_payment_deadline:
       name: 'Payment deadline'
       description: 'Number of days used to calculate the payment deadline'

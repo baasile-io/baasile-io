@@ -9,8 +9,10 @@ en:
       title: 'Parameters'
     form:
       hints:
+        client_code: 'Free field visible only by the client'
         expected_contract_duration: 'Contract duration in days.'
         expected_free_count: 'If applicable on product, quantity of requests/users expected for the contract duration'
+        startup_code: 'Free field visible only by the supplier'
     index:
       title: 'Contracts'
     new:

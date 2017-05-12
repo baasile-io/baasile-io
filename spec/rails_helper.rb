@@ -58,4 +58,8 @@ RSpec.configure do |config|
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
+
+  config.before do
+    $redis.flushall
+  end
 end

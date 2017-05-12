@@ -44,4 +44,11 @@ class ErrorMeasurement < ApplicationRecord
   validates   :contract   , presence: true
   validates   :route      , presence: true
 
+  def to_s
+    "#{self.error_code} #{I18n.t("errors.api.#{self.error_code}.title", locale: :en)}"
+  end
+
+  def message
+    I18n.t("errors.api.#{self.error_code}.message", locale: :en)
+  end
 end

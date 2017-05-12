@@ -1,0 +1,5 @@
+$('#modal-window').on('hidden.bs.modal', function (e) {
+  modal_window = $(this);
+  modal_window.find('.modal-body').html('<div class="text-center"><%= image_tag("loading.gif") %></div>');
+  modal_window.find('.modal-title').html(I18n.t('misc.loading'));
+});

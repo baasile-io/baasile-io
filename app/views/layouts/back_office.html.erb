@@ -63,7 +63,7 @@
             <%= link_to t('activerecord.models.appconfig'), back_office_appconfigs_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'appconfigs'}" %>
           </div>
           <div class="list-group">
-            <%= link_to t('error_measurements.title'), back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'error_measurements' }" %>
+            <%= link_to t('error_measurements.index.title'), back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'error_measurements' }" %>
           </div>
         </div>
       </div>
@@ -90,13 +90,6 @@
 
         <%= yield %>
 
-        <footer class="text-muted">
-          <div class="container">
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-          </div>
-        </footer>
       </div>
     </div>
   </div>

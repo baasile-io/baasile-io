@@ -93,7 +93,7 @@
 // $gray-lightest:             #f7f7f9;
 
 // Reassign color vars to semantic color scheme
-// $brand-primary:             $blue;
+$brand-primary:             #336699; //$blue;
 // $brand-success:             $green;
 // $brand-info:                $teal;
 // $brand-warning:             $orange;
@@ -226,8 +226,8 @@ $spacer-y: $spacer;
 
 // $font-family-sans-serif: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 // $font-family-serif:      Georgia, "Times New Roman", Times, serif;
-// $font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-// $font-family-base:       $font-family-sans-serif;
+// $font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+$font-family-base:       'Roboto Condensed', 'Roboto', 'Open Sans', -apple-system, system-ui, sans-serif;
 
 $font-size-base: .85rem; // Assumes the browser default, typically `16px`
 $font-size-lg:   1.1rem;
