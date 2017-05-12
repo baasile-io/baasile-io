@@ -14,12 +14,12 @@ module ErrorMeasurementConcern
     )
     ErrorMeasurementNotifier.send_error_measurement_notification(measure, error.notifications).deliver_now
     true
-  #rescue Exception => e
-  #  Airbrake.notify('Failed to measure error', {
-  #    error: e.class,
-  #    message: e.message
-  #  })
-  #  false
+  rescue Exception => e
+    Airbrake.notify('Failed to measure error', {
+      error: e.class,
+      message: e.message
+    })
+    false
   end
 
 end
