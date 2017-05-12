@@ -7,7 +7,7 @@ module ErrorMeasurementConcern
     begin
       measure = ErrorMeasurement.create!(
         contract: current_contract,
-        route: current_routes,
+        route: current_route,
         error_type: error.class.name,
         error_code: error.code,
         response_http_status: (!error.res.nil? ? error.res.code : 0),
