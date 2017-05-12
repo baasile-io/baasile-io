@@ -38,7 +38,11 @@ class PagesController < ApplicationController
   end
 
   def current_module
-    'service_book'
+    if action_name == 'root'
+      'homepage'
+    else
+      'service_book'
+    end
   end
 
   def load_logotype_service
