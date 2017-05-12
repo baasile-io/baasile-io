@@ -14,7 +14,7 @@ module ProxifyConcern
     @current_proxy_uri_object = nil
     @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if current_contract_status != :validation_production}")
     @current_route_uri = current_route.send("uri#{'_test' if current_contract_status != :validation_production}")
-    @current_proxy_cache_token = current_proxy.cache_token
+    @current_proxy_cache_token = current_proxy.send("cache_token#{'_test' if current_contract_status != :validation_production}")
   end
 
   def proxy_request
@@ -136,7 +136,7 @@ module ProxifyConcern
   def proxy_authenticate
     if current_proxy_access_token.nil?
       if @current_proxy_parameter.authorization_mode == 'oauth2'
-        uri = URI.parse current_proxy.authorization_uri
+        uri = URI.parse current_proxy.send("authorization_uri#{'_test' if current_contract_status != :validation_production}")
         new_query_ar = URI.decode_www_form(uri.query || '')
         new_query_ar << ["realm", @current_proxy_parameter.realm] if @current_proxy_parameter.realm.present?
         uri.query = URI.encode_www_form(new_query_ar)
@@ -152,11 +152,24 @@ module ProxifyConcern
 
         http = Net::HTTP.new uri.host, uri.port
         http.read_timeout = Appconfig.get(:api_read_timeout)
-        http.use_ssl = @current_proxy_parameter.protocol == 'https'
+        http.use_ssl = uri.scheme == 'https'
+
+        Rails.logger.info "Proxy Auth Request: #{uri}"
         res = http.request req
 
         case res
-          when Net::HTTPOK, Net::HTTPCreated   then set_current_proxy_access_token JSON.parse(res.body)['access_token']
+          when Net::HTTPOK, Net::HTTPCreated
+            begin
+              access_token = JSON.parse(res.body)['access_token']
+              unless access_token.present?
+                raise Api::AuthAccessTokenNotFoundError, {uri: uri, req: req, res: res}
+              end
+              set_current_proxy_access_token access_token
+            rescue JSON::ParserError
+              raise Api::AuthJSONParseErrorError, {uri: uri, req: req, res: res}
+            end
+          when Net::HTTPBadRequest
+            raise Api::AuthBadRequestError, {uri: uri, req: req, res: res}
           else
             raise Api::ProxyAuthenticationError, {uri: uri, req: req, res: res}
         end
@@ -164,7 +177,7 @@ module ProxifyConcern
     end
   end
 
-  def proxy_send_request(limit = nil)
+  def proxy_send_request(limit = nil, limit_unauthorized = 2)
     limit ||= @current_proxy_parameter.follow_redirection
 
     http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
@@ -178,7 +191,7 @@ module ProxifyConcern
       when Net::HTTPUnauthorized
         if @current_proxy_parameter.authorization_mode != 'null' && limit > -1
           proxy_authenticate_after_unauthorized
-          proxy_send_request(limit - 1)
+          proxy_send_request(limit, limit_unauthorized - 1)
         else
           raise Api::ProxyUnauthorizedError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, res: res}
         end
@@ -187,7 +200,7 @@ module ProxifyConcern
           raise(Api::ProxyRedirectionError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, res: res})
         else
           proxy_prepare_request(res['location'])
-          proxy_send_request(limit - 1)
+          proxy_send_request(limit - 1, limit_unauthorized)
         end
       when Net::HTTPNotFound
         raise Api::ProxyNotFoundError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, res: res}

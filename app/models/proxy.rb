@@ -49,8 +49,16 @@ class Proxy < ApplicationRecord
     "#{proxy_parameter.protocol}://#{proxy_parameter.hostname}:#{proxy_parameter.port}#{proxy_parameter.authorization_url}"
   end
 
+  def authorization_uri_test
+    "#{proxy_parameter_test.protocol}://#{proxy_parameter_test.hostname}:#{proxy_parameter_test.port}#{proxy_parameter_test.authorization_url}"
+  end
+
   def cache_token
     "proxy_cache_token_#{proxy_parameter.authorization_mode}_#{id}_#{proxy_parameter.updated_at.strftime('%Y%M%d%H%I%S')}"
+  end
+
+  def cache_token_test
+    "proxy_cache_token_test_#{proxy_parameter_test.authorization_mode}_#{id}_#{proxy_parameter_test.updated_at.strftime('%Y%M%d%H%I%S')}"
   end
 
   def local_url(version = 'v1')

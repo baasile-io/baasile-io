@@ -34,10 +34,12 @@ module Api
             body: e.res.body.to_s.force_encoding('UTF-8')
           }
         end
-        metadata_full = {
-          request: metadata_request,
-          response: metadata_response
-        }
+        if metadata_request && metadata_response
+          metadata_full = {
+            request: metadata_request,
+            response: metadata_response
+          }
+        end
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
           meta = metadata_full
         else

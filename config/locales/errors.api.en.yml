@@ -27,7 +27,7 @@ en:
         title: 'Redirection error'
       '604':
         status: 502
-        message: 'The origin server cannot or will not process the request due to an apparent client error'
+        message: 'The platform could not process the request due to an authentication failure'
         title: 'Authentication error'
       '605':
         status: 502
@@ -59,7 +59,7 @@ en:
         title: "Method not allowed"
       '612':
         status: 502
-        message: "The platform could not successfully process the request because of a misconfigured credential"
+        message: "The platform could not successfully process the request because of a misconfigured supplier credential"
         title: "Credential misconfiguration"
       '613':
         status: 502
@@ -125,6 +125,18 @@ en:
         status: 403
         message: "The requested route requires an access token with a bigger authorization scope"
         title: 'Invalid scope'
+      '715':
+        status: 502
+        message: "The platform failed to parse the remote server JSON response"
+        title: 'Authentication parsing error'
+      '716':
+        status: 502
+        message: "The platform failed to authenticate to the remote server due to a missing access token"
+        title: 'Authentication missing access token'
+      '717':
+        status: 502
+        message: "The platform failed to authenticate to the remote server due to a bad request"
+        title: 'Authentication bad request'
       '801':
         status: 403
         message: "No contract found with this product"

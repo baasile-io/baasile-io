@@ -31,7 +31,7 @@ class CatchErrorsMiddleware
       error_json = {
         code: error.code,
         title: I18n.t("errors.api.#{error.code}.title", locale: :en),
-        message: I18n.t("errors.api.#{error.code}.message", locale: :en)
+        message: (error.message || I18n.t("errors.api.#{error.code}.message", locale: :en))
       }
       error_json[:meta] = error.meta if error.meta
       if status == 0

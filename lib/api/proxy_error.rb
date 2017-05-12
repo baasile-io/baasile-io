@@ -217,6 +217,24 @@ module Api
     end
   end
 
+  class AuthJSONParseErrorError < ProxyError
+    def code
+      715
+    end
+  end
+
+  class AuthAccessTokenNotFoundError < ProxyError
+    def code
+      716
+    end
+  end
+
+  class AuthBadRequestError < ProxyError
+    def code
+      717
+    end
+  end
+
   class ContractMissingContractError < ProxyError
     def code
       801

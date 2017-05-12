@@ -31,7 +31,7 @@ module MeasurementConcern
     end
   rescue ProxyCanceledMeasurement => e
     do_request_error_measure(e.error, e.request_detail)
-    raise e.error.class, {req: e.error.req, res: e.error.res, uri: e.error.uri, message: e.error.message, meta: e.error.meta}
+    raise e.error.class, {req: e.error.req, res: e.error.res, uri: e.error.uri, message: e.error.message, meta: e.meta}
   end
 
   def load_measure_token
