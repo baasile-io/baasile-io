@@ -30,6 +30,7 @@ en:
         message: 'The platform could not process the request due to an authentication failure'
         title: 'Authentication error'
       '605':
+        explanation: "Contact the administrator of the API to resolve this issue."
         status: 502
         message: 'The server cannot process the request due to a configuration error'
         title: 'Misconfiguration'

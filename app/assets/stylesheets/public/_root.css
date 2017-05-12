@@ -13,9 +13,6 @@ body {
   background-color: #fff;
   border-radius: 0;
 }
-.jumbotron img {
-  max-width: 550px;
-}
 
 .jumbotron p:last-child {
   margin-bottom: 0;

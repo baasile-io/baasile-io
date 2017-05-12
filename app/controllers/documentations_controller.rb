@@ -12,6 +12,10 @@ class DocumentationsController < ApplicationController
     end
   end
 
+  def errors
+    @errors = I18n.t('errors.api', locale: :en)
+  end
+
   def current_module
     'documentation'
   end

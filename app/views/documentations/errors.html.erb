@@ -1,0 +1,40 @@
+<% content_for(:page_back) { documentations_path } %>
+<% content_for(:page_title, t('.title') ) %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-4">
+        <small>
+          <%= render partial: 'subtree', locals: {collection: Documentation.roots.published} %>
+        </small>
+      </div>
+      <div class="col-sm-8">
+        <div class="documentation_body">
+          <h2><%= t('.title') %></h2>
+          <div class="trix-content">
+            <% @errors.each.with_index do |(error_key, error_parameters), index| %>
+              <%= '<hr />'.html_safe if index > 0 %>
+              <h1>
+                <span class="float-right">HTTP
+                  <%= error_parameters[:status] %>
+                </span>
+                <%= error_key %> <%= error_parameters[:title] %>
+              </h1>
+              <p><%= error_parameters[:message] %></p>
+              <% if error_parameters[:explanation] %>
+                <p class="text-muted">
+                  <small>
+                    <i class="fa fa-fw fa-question-circle"></i> <%= error_parameters[:explanation] %>
+                  </small>
+                </p>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

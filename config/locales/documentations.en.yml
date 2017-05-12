@@ -1,4 +1,6 @@
 en:
   documentations:
+    errors:
+      title: "List of API error codes"
     index:
      title: 'Menu'

@@ -25,7 +25,6 @@ Rails.application.routes.draw do
         resources :contracts
       end
 
-      resources :documentations
       resources :categories
       resources :appconfigs do
         member do
@@ -91,7 +90,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :documentations
+    resources :documentations do
+      collection do
+        get :errors
+      end
+    end
 
     resources :users
 

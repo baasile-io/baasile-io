@@ -1,6 +1,11 @@
 <% if collection.size == 0 %>
   <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
 <% else %>
+  <p class="text-right">
+  <%= link_to errors_documentations_path, class: 'btn btn-secondary' do %>
+    <i class="fa fa-fw fa-warning"></i> <%= t('documentations.errors.title') %>
+  <% end %>
+  </p>
   <table class="table table-hover table-sm">
     <thead>
     <tr>
