@@ -94,6 +94,10 @@ class Role < ApplicationRecord
       edit: [:admin, :commercial],
       update: [:admin, :commercial],
       destroy: [:admin, :commercial]
+    },
+    error_measurements: {
+      index: [:admin, :developer],
+      show: [:admin, :developer]
     }
   }.freeze
 
