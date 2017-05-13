@@ -22,7 +22,9 @@ class PagesController < ApplicationController
 
   def not_found
     render status: :not_found
-    Airbrake.notify('Not found', {})
+    Airbrake.notify('Not found', {
+      original_url: request.original_url
+    })
   end
 
   def internal_server_error
