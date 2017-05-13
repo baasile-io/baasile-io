@@ -5,7 +5,7 @@ en:
     edit:
       title: 'Edit'
     index:
-      title: 'Bank details'
+      title: 'My bank details'
     new:
       title: 'New bank detail'
     show:

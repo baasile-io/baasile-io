@@ -53,6 +53,7 @@ fr:
     need_to_valide_general_condition: 'You need to valide general contions'
     no: 'No'
     no_available_proxies: "Aucun produit n'est disponible"
+    no_bank_detail: "Aucune cooordonnée bancaire n'a été configurée et confirmée"
     no_price_template: "Aucun modèle de tarification n'est disponible pour ce produit."
     none: 'Aucun'
     none_feminized: 'Aucune'

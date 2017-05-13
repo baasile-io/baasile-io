@@ -244,7 +244,7 @@ Rails.application.routes.draw do
       end
       resources :bank_details do
         member do
-          post :toggle_activate
+          post :toggle_is_active
           get :audit
         end
       end

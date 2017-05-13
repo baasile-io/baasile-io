@@ -1,14 +1,14 @@
 fr:
   bank_details:
     create:
-      title: 'Ajouter un compte bancaire'
+      title: 'Ajouter des coordonnées bancaires'
     edit:
       title: 'Modifier'
     index:
-      title: 'Mes comptes bancaires'
+      title: 'Mes coordonnées bancaires'
     new:
-      title: 'Ajouter un compte bancaire'
+      title: 'Ajouter des coordonnées bancaires'
     show:
-      title: 'Compte bancaire'
+      title: 'Coordonnée bancaire'
     update:
       title: 'Modifier'

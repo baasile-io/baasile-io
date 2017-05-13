@@ -12,7 +12,8 @@
           <thead>
           <tr>
             <th colspan="2" class="width-30"><%= t('activerecord.attributes.bank_detail.name') %></th>
-            <th class="width-20"><%= t('activerecord.attributes.bank_detail.bank_name') %></th>
+            <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
+            <th><%= t('activerecord.attributes.bank_detail.bank_name') %></th>
             <th></th>
           </tr>
           </thead>
@@ -25,6 +26,9 @@
                 <td>
                   <strong ><%= bank_detail.name %></strong><br />
                   <small class="text-muted"><%=  bank_detail.account_owner %></small>
+                </td>
+                <td>
+                  <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
                 </td>
                 <td>
                   <span class=""><%= bank_detail.bank_name %></span>

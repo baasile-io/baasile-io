@@ -1,19 +1,21 @@
 module BackOffice
   class BankDetailsController < BackOfficeController
 
-    before_action :load_bank_detail, only: [:show, :toggle_activate]
+    before_action :load_bank_detail, only: [:show, :toggle_is_active]
 
     def index
-      @collection = BankDetail.all.templates.order(is_active: :desc)
+      @collection = BankDetail.includes(:service).templates.order(updated_at: :desc)
     end
 
     def show
     end
 
-    def toggle_activate
-      current_bank_detail.is_active = !current_bank_detail.is_active
-      if current_bank_detail.save
+    def toggle_is_active
+      @bank_detail.is_active = !current_bank_detail.is_active
+      if @bank_detail.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bank_detail'))
+      else
+        flash[:error] = @bank_detail.errors.full_messages.join(', ')
       end
       redirect_to_show
     end

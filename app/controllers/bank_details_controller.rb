@@ -1,22 +1,22 @@
 class BankDetailsController < DashboardController
-
   before_action :load_bank_detail, only: [:edit, :show, :update, :destroy]
 
   def index
-    @collection = BankDetail.templates.by_service(current_service)
+    @collection = current_service.bank_details.templates
   end
 
   def new
-    @current_bank_detail = BankDetail.new
+    @bank_detail = BankDetail.new
     @form_values = get_form_values
   end
 
   def create
-    @current_bank_detail = BankDetail.new
-    @current_bank_detail.user = current_user
-    @current_bank_detail.service = current_service
-    @current_bank_detail.assign_attributes(bank_detail_params)
-    if @current_bank_detail.save
+    @bank_detail = BankDetail.new(
+      user: current_user,
+      service: current_service
+    )
+    @bank_detail.assign_attributes(bank_detail_params)
+    if @bank_detail.save
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.bank_detail'))
       redirect_to_show
     else
@@ -33,8 +33,8 @@ class BankDetailsController < DashboardController
   end
 
   def update
-    @current_bank_detail.assign_attributes(bank_detail_params)
-    if @current_bank_detail.save
+    @bank_detail.assign_attributes(bank_detail_params)
+    if @bank_detail.save
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bank_detail'))
       redirect_to_show
     else
@@ -44,11 +44,11 @@ class BankDetailsController < DashboardController
   end
 
   def destroy
-    if @current_bank_detail.destroy
+    if @bank_detail.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.bank_detail'))
       redirect_to_index
     else
-      flash[:error] = I18n.t('errors.an_error_occured',resource: t('activerecord.models.bank_detail') )
+      flash[:error] = @bank_detail.errors.full_messages.join(', ')
       render :show
     end
   end
@@ -68,16 +68,15 @@ class BankDetailsController < DashboardController
   end
 
   def load_bank_detail
-    @current_bank_detail = BankDetail.find(params[:id])
+    @bank_detail = current_service.bank_details.templates.find(params[:id])
   end
 
   def current_bank_detail
-    @current_bank_detail
+    @bank_detail
   end
 
   def bank_detail_params
     allowed_parameters = [:name, :bank_name, :account_owner, :bic, :iban]
     return params.require(:bank_detail).permit(allowed_parameters)
   end
-
 end

@@ -243,10 +243,10 @@ class Contract < ApplicationRecord
       conditions: {
         validate: [
           Proc.new {|c|
-            (!c.get_client_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
+            (!c.client_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
           },
           Proc.new {|c|
-            (!c.get_startup_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
+            (!c.startup_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
           }
         ]
       },
@@ -476,11 +476,11 @@ class Contract < ApplicationRecord
     "#{self.client} / #{self.startup} / #{self.proxy}"
   end
 
-  def get_client_bank_detail
+  def client_bank_detail
     self.bank_details.where(service_id: self.client.id).first
   end
 
-  def get_startup_bank_detail
+  def startup_bank_detail
     self.bank_details.where(service_id: self.proxy.service.id).first
   end
 end

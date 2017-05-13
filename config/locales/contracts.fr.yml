@@ -1,10 +1,10 @@
 fr:
   contracts:
     bank_details:
-      title: 'Données bancaires'
+      title: 'Coordonnées bancaires'
       description: 'Choisissez une donnée bancaire pour contractualiser.'
     bank_details_selection:
-      title: 'Données bancaires'
+      title: 'Coordonnées bancaires'
       description: 'Choisissez une donnée bancaire pour contractualiser.'
     catalog:
       description: 'Choisissez un produit à contractualiser.'

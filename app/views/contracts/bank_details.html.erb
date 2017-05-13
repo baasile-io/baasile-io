@@ -1,0 +1,23 @@
+<% content_for(:page_controls) {
+  if @bank_detail
+    link_to t('actions.select_new_bank_detail_template'), (@service.nil? ? client_bank_details_selection_contract_path(current_contract) : client_bank_details_selection_service_contract_path(current_service, current_contract)), class: 'btn btn-primary'
+  end
+} %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <h5><%= @bank_detail.name %></h5>
+    <hr>
+
+    <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @bank_detail}%>
+
+    <hr>
+
+    <% if @bank_detail_templates.size == 0 %>
+      <p class="text-muted"><%= t('misc.no_bank_detail') %></p>
+      <%= link_to t('actions.create_bank_detail_template'), new_service_bank_detail_path(@service_owner), class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

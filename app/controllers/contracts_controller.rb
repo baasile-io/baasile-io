@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :startup_select_bank_detail, :client_select_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :delete_client_bank_detail, :delete_startup_bank_detail, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :startup_select_bank_detail, :client_select_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
@@ -9,14 +9,14 @@ class ContractsController < ApplicationController
   before_action :authorize_action
   before_action :authorize_contract_action
 
+  # banking details init
+  before_action :init_startup_service_owner, only: [:startup_bank_details, :startup_bank_details_selection, :startup_select_bank_detail]
+  before_action :init_client_service_owner, only: [:client_bank_details, :client_bank_details_selection, :client_select_bank_detail]
+  before_action :init_bank_detail, only: [:client_bank_details, :client_bank_details_selection, :client_select_bank_detail, :startup_bank_details, :startup_bank_details_selection, :startup_select_bank_detail]
+  before_action :init_bank_details, only: [:client_bank_details, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection]
+
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
-
-  # banking details init
-  before_action :init_startup_service_owner, only: [:startup_bank_details, :startup_bank_details_selection, :startup_select_bank_detail, :delete_startup_bank_detail]
-  before_action :init_client_service_owner, only: [:client_bank_details, :client_bank_details_selection, :client_select_bank_detail, :delete_client_bank_detail]
-  before_action :init_bank_detail, only: [:client_bank_details, :client_bank_details_selection, :client_select_bank_detail, :delete_client_bank_detail, :startup_bank_details, :startup_bank_details_selection, :startup_select_bank_detail, :delete_startup_bank_detail]
-  before_action :init_bank_details, only: [:client_bank_details, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection]
 
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('contracts.index.title'), :contracts_path
@@ -186,45 +186,31 @@ class ContractsController < ApplicationController
   # # banking details actions
 
   def client_bank_details
-    render :client_bank_details_selection if @bank_detail.nil?
+    return render :bank_details_selection if @bank_detail.nil?
+    render :bank_details
   end
 
   def startup_bank_details
-    render :startup_bank_details_selection if @bank_detail.nil?
+    return render :bank_details_selection if @bank_detail.nil?
+    render :bank_details
   end
 
   def client_bank_details_selection
+    render :bank_details_selection
   end
 
   def startup_bank_details_selection
+    render :bank_details_selection
   end
 
   def client_select_bank_detail
     select_bank_detail
-    redirect_to_client_bank_details
+    redirect_to_show
   end
 
   def startup_select_bank_detail
     select_bank_detail
-    redirect_to_startup_bank_details
-  end
-
-  def delete_client_bank_detail
-    if @bank_detail.destroy
-      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.bank_detail'))
-    else
-      flash[:error] = I18n.t('errors.an_error_occured',resource: t('activerecord.models.bank_detail') )
-    end
-    redirect_to_client_bank_details
-  end
-
-  def delete_startup_bank_detail
-    if @bank_detail.destroy
-      flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.bank_detail'))
-    else
-      flash[:error] = I18n.t('errors.an_error_occured',resource: t('activerecord.models.bank_detail') )
-    end
-    redirect_to_startup_bank_details
+    redirect_to_show
   end
 
   # # # #
@@ -287,34 +273,17 @@ class ContractsController < ApplicationController
     @bank_detail_templates = @service_owner.bank_details.templates.activated
   end
 
-  def redirect_to_client_bank_details
-    return redirect_to client_bank_details_service_contract_path(current_service, @contract) unless current_service.nil?
-    redirect_to client_bank_details_contract_path(@contract)
-  end
-
-  def redirect_to_startup_bank_details
-    return redirect_to startup_bank_details_service_contract_path(current_service, @contract) unless current_service.nil?
-    redirect_to startup_bank_details_contract_path(@contract)
-  end
-
-  def get_new_bank_detail
-    return BankDetail.find(params[:bank_detail_id]) if params.key?(:bank_detail_id)
-    nil
-  end
-
   def select_bank_detail
-    @bank_detail.try(:destroy)
-    new_bank_detail_loaded = get_new_bank_detail
-    if !new_bank_detail_loaded.nil? && new_bank_detail_loaded.service == @service_owner
-      new_bank_detail = new_bank_detail_loaded.dup
-      new_bank_detail.contract = @contract
-      new_bank_detail.save
-    else
-      flash[:error] = I18n.t('errors.messages.empty', resource: t('activerecord.models.bank_detail'))
-    end
-    if @contract.save
-      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-    else
+    begin
+      Contract.transaction do
+        @bank_detail.destroy!
+        new_bank_detail = @service_owner.bank_details.templates.activated.find(params[:bank_detail_id]).dup
+        new_bank_detail.contract = @contract
+        new_bank_detail.save!
+        @contract.save!
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      end
+    rescue
       flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.contract'))
     end
   end
@@ -350,7 +319,7 @@ class ContractsController < ApplicationController
   end
 
   def load_contract
-    @contract = Contract.includes(:price, :bank_details, :client, :startup, :proxy).find(params[:id])
+    @contract = Contract.includes(:price, :bank_details, :price, :client, :startup, :proxy).find(params[:id])
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 

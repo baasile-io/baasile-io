@@ -53,6 +53,7 @@ en:
     next_step: 'Next step'
     no: 'Non'
     no_available_proxies: 'No available products'
+    no_bank_detail: 'No bank details has been configured and confirmed'
     no_price_template: 'No pricing template is available on this product.'
     none: 'None'
     none_feminized: 'None'

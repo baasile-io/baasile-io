@@ -6,19 +6,17 @@
 
     <% if @bank_detail_templates.size == 0 %>
       <p class="text-muted"><%= t('misc.no_bank_detail') %></p>
-      <%= link_to t('actions.create_bank_detail_template'), new_service_bank_detail_path(@service_owner), class: 'btn btn-primary' %>
+      <%= link_to t('actions.see_bank_detail_template'), service_bank_details_path(@service_owner), class: 'btn btn-primary btn-lg' %>
     <% else %>
       <%
         @bank_detail_templates.each.with_index do |bank_detail_template, index|
           if (@contract.client.id == @service_owner.id)
             url = (!current_service.nil? ? client_select_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : client_select_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
           elsif
-            url = (!current_service.nil? ? startup_select_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : startup_select_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
+          url = (!current_service.nil? ? startup_select_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : startup_select_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
           end
       %>
-        <% if index > 0 %>
-        <hr>
-        <% end %>
+        <%= '<hr>'.html_safe if index > 0 %>
         <div class="row">
           <div class="col-md-3 text-md-right">
             <h4><%= bank_detail_template.name %></h4>
