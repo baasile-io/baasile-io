@@ -52,14 +52,22 @@ module Api
         return render json: {
             errors: [{
                          status: 403,
-                         title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
+                         title: "#{Appconfig.get(:api_measure_token_name)} already revoked"
                      }]
-        } if current_measure_token.nil? unless current_measure_token.is_active
+        } unless current_measure_token.is_active
         current_measure_token.is_active = false
         if current_measure_token.save
-          render status:200
+          render json: {
+            status: 200,
+            body: "OK"
+          }
         else
-          render status:500
+          render json: {
+              errors: [{
+                           status: 500,
+                           title: "Server error"
+                       }]
+          }
         end
       end
 
@@ -70,8 +78,11 @@ module Api
       end
 
       def load_measure_token
-        return unless params.key?(:id)
-        @measure_token = get_measure_token(params[:id])
+        if params.key?(:id)
+          @measure_token = get_measure_token(params[:id])
+        elsif params.key?(:measure_token_id)
+          @measure_token = get_measure_token(params[:measure_token_id])
+        end
       end
 
       def get_measure_token(value)
