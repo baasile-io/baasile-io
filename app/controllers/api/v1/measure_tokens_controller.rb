@@ -1,7 +1,6 @@
 module Api
   module V1
     class MeasureTokensController < ApiController
-      skip_before_action  :authenticate_schema, only: [:index]
       before_action       :load_measure_tokens
       before_action       :load_measure_token, only: [:show, :revoke]
 
