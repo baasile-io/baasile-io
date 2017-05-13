@@ -21,12 +21,7 @@ module Api
       end
 
       def show
-        return render json: {
-            errors: [{
-                         status: 403,
-                         title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
-                     }]
-        } if current_measure_token.nil?
+        return render_invalid_token if current_measure_token.nil?
         render json: {
           data: {
             id: current_measure_token.value,
@@ -42,18 +37,8 @@ module Api
       end
 
       def revoke
-        return render json: {
-            errors: [{
-                         status: 403,
-                         title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
-                     }]
-        } if current_measure_token.nil?
-        return render json: {
-            errors: [{
-                         status: 403,
-                         title: "#{Appconfig.get(:api_measure_token_name)} already revoked"
-                     }]
-        } unless current_measure_token.is_active
+        return render_invalid_token if current_measure_token.nil?
+        return render_already_revoked unless current_measure_token.is_active
         current_measure_token.is_active = false
         if current_measure_token.save
           render json: {
@@ -62,10 +47,10 @@ module Api
           }
         else
           render json: {
-              errors: [{
-                           status: 500,
-                           title: "Server error"
-                       }]
+            errors: [{
+              status: 500,
+              title: "Server error"
+            }]
           }
         end
       end
@@ -90,6 +75,24 @@ module Api
         end
         return nil unless res.nil?
         res
+      end
+
+      def render_invalid_token
+        render json: {
+          errors: [{
+            status: 403,
+            title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
+          }]
+        }
+      end
+
+      def render_already_revoked
+        render json: {
+          errors: [{
+            status: 403,
+            title: "#{Appconfig.get(:api_measure_token_name)} already revoked"
+          }]
+        }
       end
 
       def load_measure_tokens
