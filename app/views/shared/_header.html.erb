@@ -245,7 +245,10 @@
         <div class="col-12">
           <ul class="nav nav-pills" style="font-size:110%">
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('misc.my_services') %></a>
+              <a class="nav-link <%= 'active' if (controller_name == 'users' && action_name == 'profile') || controller_name == 'registrations' %>" href="<%= profile_path %>"><i class="fa fa-home fa-fw"></i> <%= t('misc.my_account') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('activerecord.models.service').pluralize %></a>
             </li>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
@@ -258,12 +261,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><%= t('misc.profile') %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'registrations' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_user_registration_path %>"><%= t('actions.edit_account') %></a>
             </li>
           </ul>
         </div>

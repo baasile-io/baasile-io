@@ -46,6 +46,7 @@ fr:
       one: 'mois'
       other: 'mois'
     more_info: "Plus d'infos"
+    my_account: 'Mon compte'
     my_services: 'Mes entreprises'
     my_users: 'Mes utilisateurs'
     next_step: 'Étape suivante'

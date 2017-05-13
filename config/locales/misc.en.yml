@@ -46,6 +46,7 @@ en:
       one: 'month'
       other: 'months'
     more_info: 'More info'
+    my_account: 'My account'
     my_services: 'My services'
     my_users: 'My users'
     need_to_valide_general_condition: 'You need to valide general conditions'
