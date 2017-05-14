@@ -7,7 +7,7 @@ module QueryParametersHelper
 
   def format_query_parameter_types_for_select
     QueryParameter::QUERY_PARAMETER_TYPES.map do |key, _|
-      ["#{I18n.t("types.query_parameter_types.#{key}.title")}", key]
+      [I18n.t("types.query_parameter_types.#{key}.title"), key, {'data-description': I18n.t("types.query_parameter_types.#{key}.description")}]
     end
   end
 

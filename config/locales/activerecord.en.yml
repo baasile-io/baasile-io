@@ -137,7 +137,7 @@ en:
         category: "Catalog's Category"
         category_id: 'Category'
         description: 'Description'
-        name: 'Name'
+        name: 'Product name'
         public: 'Published on catalog'
         service: 'Enterprise'
         service_id: 'Enterprise'
@@ -158,10 +158,11 @@ en:
         mode: 'Mode'
         name: 'Name'
         query_parameter_type: 'Type'
+        description: 'Description'
       route:
         allowed_methods: 'Allowed methods'
         description: 'Description'
-        name: 'Name'
+        name: 'Title'
         hostname: 'Hostname'
         hostname_test: 'Hostname (test)'
         measure_token_activated: 'MeasureToken activated'

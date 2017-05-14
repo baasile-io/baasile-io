@@ -60,10 +60,17 @@
   </div>
   <div class="col-9">
     <ul>
-      <% proxy.routes.map do |route| %>
+      <% proxy.routes.each do |route| %>
         <li>
           <i class="fa fa-fw fa-sitemap"></i> <%= route.name %> <br />
           <small class="text-muted"><%= route.local_url('v1') %></small>
+          <% if route.query_parameters.count > 0 %>
+            <hr />
+            <p><strong><%= t('activerecord.models.query_parameter').pluralize %> :</strong></p>
+            <% route.query_parameters.each do |query_parameter| %>
+              <%= render partial: 'query_parameters/show_query_parameter_info', locals: {query_parameter: query_parameter} %>
+            <% end %>
+          <% end %>
         </li>
       <% end %>
     </ul>

@@ -15,7 +15,7 @@ module MeasurementConcern
   included do
     before_action :authorize_measured_request, only: [:process_request]
     before_action :load_measure_token, only: [:process_request]
-    around_action :do_request_measure
+    around_action :do_request_measure, only: [:process_request]
   end
 
   private

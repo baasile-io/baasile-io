@@ -47,7 +47,16 @@ module Api
                         attributes: {
                           name: route.name,
                           request_url: route.local_url('v1'),
-                          allowed_methods: route.allowed_methods
+                          allowed_methods: route.allowed_methods,
+                          query_parameters: route.query_parameters.map {|query_parameter|
+                            {
+                              name: query_parameter.name,
+                              description: query_parameter.description,
+                              mode: query_parameter.mode,
+                              type: query_parameter.query_parameter_type,
+                              default_value: query_parameter.default_value
+                            }
+                          }
                         }
                       }
                     }
