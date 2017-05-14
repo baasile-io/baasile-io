@@ -50,7 +50,8 @@ Rails.application.routes.draw do
                                                     registrations: 'users/registrations',
                                                     confirmations: 'users/confirmations',
                                                     passwords: 'users/passwords',
-                                                    unlocks: 'users/unlocks' }
+                                                    unlocks: 'users/unlocks',
+                                                    password_expired: 'users/password_expired' }
 
     root to: 'pages#root'
 

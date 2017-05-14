@@ -107,4 +107,8 @@ private
     @new_comment = Comment.new(body: params[:new_comment])
   end
 
+  def current_module
+    'profile'
+  end
+
 end

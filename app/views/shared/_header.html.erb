@@ -3,76 +3,15 @@
   <%= render partial: 'shared/headers/dashboard_header' %>
 
   <% unless current_contract.nil? %>
-
     <%= render partial: 'shared/headers/contract_header' %>
-    <!--
-    <div class="b-io-header" style="<% unless current_route.nil? %>background-color:#DADADA;<% end %>">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h4>
-              <span class="text-muted"><%= link_to "#{t('activerecord.models.contract').pluralize}".html_safe, service_contracts_path(current_service), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-              <%= current_contract.name %>
-            </h4>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'show' %>" href="<%= service_contract_path(current_service, current_contract) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-              </li>
-              <% if current_contract.can?(current_user, :edit) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_contract_path(current_service, current_contract) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :prices) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_service_contract_path(current_service, current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('actions.edit_price') %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :client_bank_details) %>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name)) %>" href="<%= client_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
-                  </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :startup_bank_details) %>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name)) %>" href="<%= startup_bank_details_service_contract_path(current_service, current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
-                  </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :comments) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= comments_service_contract_path(current_service, current_contract) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :error_measurements) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'error_measurements' %>" href="<%= error_measurements_service_contract_path(current_service, current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    -->
-
   <% end %>
 
   <% unless current_bill.nil? %>
-
     <%= render partial: 'shared/headers/bill_header' %>
-
   <% end %>
 
 
   <% unless current_proxy.nil? %>
-
     <%= render partial: 'shared/headers/proxy_header' %>
 
     <% unless current_route.nil? %>
@@ -82,7 +21,6 @@
     <% unless current_price.nil? %>
       <%= render partial: 'shared/headers/price_header' %>
     <% end %>
-
   <% end %>
 
 <% elsif current_module == 'documentation' %>

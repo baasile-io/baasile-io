@@ -42,6 +42,10 @@ class Appconfig < ApplicationRecord
       setting_type: :numeric,
       value: 3.0
     },
+    user_password_expire_after: {
+      sertting_type: :numeric,
+      value: 90
+    },
     vat_rate: {
       setting_type: :numeric,
       value: 19.6

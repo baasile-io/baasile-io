@@ -57,7 +57,11 @@ class BillsController < ApplicationController
   end
 
   def current_module
-    'bill'
+    if current_service.nil?
+      'bill'
+    else
+      'dashboard'
+    end
   end
 
   def current_bill

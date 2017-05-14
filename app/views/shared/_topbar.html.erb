@@ -9,16 +9,16 @@
         <a class="nav-link <%= 'active' if current_module == 'service_book' %>" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
       </li>
       <% if !current_user.nil? %>
-        <li class="nav-item">
-          <a class="nav-link <%= 'active' if current_module == 'dashboard' %>" href="<%= services_path %>"><%= t('services.index.title') %></a>
-        </li>
-        <% if current_user.is_commercial? %>
-          <li class="nav-item">
-            <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><%= t('contracts.index.title') %></a>
-          </li>
-        <% end %>
-        <li class="nav-item">
-          <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><%= t('activerecord.models.ticket').pluralize %></a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle <%= 'active' if ['profile', 'dashboard', 'contract', 'ticket', 'bill'].include?(current_module) %>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= t('misc.dashboard') %></a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <%= 'active' if controller_name == 'users' && action_name == 'profile' %>" href="<%= profile_path %>"><i class="fa fa-home fa-fw"></i> <%= t('misc.my_account') %></a>
+            <a class="dropdown-item <%= 'active' if current_module == 'dashboard' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('services.index.title') %></a>
+            <a class="dropdown-item <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-edit fa-fw"></i> <%= t('contracts.index.title') %></a>
+            <a class="dropdown-item <%= 'active' if current_module == 'bill' %>" href="<%= bills_path %>"><i class="fa fa-file-text-o fa-fw"></i> <%= t('bills.index.title') %></a>
+            <a class="dropdown-item <%= 'active' if current_service.nil? && controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-user fa-fw"></i> <%= t('activerecord.models.user').pluralize %></a>
+            <a class="dropdown-item <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-rss fa-fw"></i> <%= t('activerecord.models.ticket').pluralize %></a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link <%= 'active' if current_module == 'documentation' %>" href="<%= documentations_path %>"><%= t('misc.documentation') %></a>

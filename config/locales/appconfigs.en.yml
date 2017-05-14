@@ -30,6 +30,9 @@ en:
     max_requests_per_hour:
       name: 'Max requests per hour'
       description: "The max number of requests per hour an IP is allowed to do"
+    user_password_expire_after:
+      name: 'Password expiration'
+      description: 'Validity of a password in days'
     vat_rate:
       name: "VAT rate"
       description: "VAT rate to be applied on billing"

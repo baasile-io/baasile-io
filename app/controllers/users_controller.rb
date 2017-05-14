@@ -125,7 +125,11 @@ class UsersController < ApplicationController
   end
 
   def current_module
-    'profile'
+    if current_service.nil?
+      'profile'
+    else
+      'dashboard'
+    end
   end
 
   def current_service

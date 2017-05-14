@@ -63,3 +63,11 @@ body
 
   @media (max-width: map-get($grid-breakpoints, $login-grid-breakpoint))
     display: none
+
+body.with-warning
+  #form-container
+    background-color: #f40200 !important
+    color: #FFF !important
+
+    .text-muted, .has-danger .form-control-feedback, .has-danger .form-control-label, .has-danger .col-form-label, .has-danger .form-check-label, .has-danger .custom-control
+      color: #FFF !important

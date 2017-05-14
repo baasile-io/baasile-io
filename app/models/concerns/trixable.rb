@@ -36,10 +36,10 @@ module Trixable
       html ||= ''
       doc = Nokogiri::HTML::fragment(
         ActionController::Base.helpers.sanitize(
-          html.gsub(/\n/, '<br>'),
+          html,
           tags: (restricted ? TRIXABLE_WHITELISTED_TAGS_RESTRICTED : TRIXABLE_WHITELISTED_TAGS),
           attributes: (restricted ? TRIXABLE_WHITELISTED_ATTRIBUTES_RESTRICTED : TRIXABLE_WHITELISTED_ATTRIBUTES)
-        ).gsub(/\n/, '')
+        )
       )
       doc.css('div, blockquote, h1, pre, ul, ol, li, a, strong, em, del').each do |p|
         p.remove if p.content.blank?
