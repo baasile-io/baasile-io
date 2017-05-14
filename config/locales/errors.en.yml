@@ -4,6 +4,10 @@ en:
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
+    bank_details:
+      not_active: 'Bank details are not verified'
+      not_modifiable: 'Bank details not modifiable because it is verified. Please contact an administrator trough a new support ticket.'
+      unauthorized: 'Unauthorized bank details'
     failed_to_reset_password: "The password cannot be changed due to an error."
     logotype:
       bad_extension: 'Not allowed file format (Accepted formats: %{extensions}).'
@@ -18,15 +22,19 @@ en:
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       is_used: 'is in use'
-      missing_contract_prices: "Supplier must set the contract's pricing to continue."
-      missing_file: 'Make sure you add a file before you hit "Upload file".'
-      missing_general_condition: 'There is no effective general condition on the platform. Please contact an administrator.'
-      missing_measure_token_activated_route: 'There is no route on your API with MeasureToken option is activated.'
+      missing_contract_client_bank_detail: "Client must save his bank details to continue"
+      missing_contract_startup_bank_detail: "Supplier must save his bank details to continue"
+      missing_contract_prices: "Supplier must set the contract's pricing to continue"
+      missing_file: 'Make sure you add a file before you hit "Upload file"'
+      missing_general_condition: 'There is no effective general condition on the platform. Please contact an administrator'
+      missing_measure_token_activated_route: 'There is no route on your API with MeasureToken option is activated'
       missing_translation: 'Missing translation'
       missing_translation_for_locale: 'Missing translation for the following language: %{current_locale}'
+      not_a_bic: 'must be a valid BIC'
       not_a_date: 'is not a valid date'
       not_a_number: 'must be numeric'
       not_a_hostname: "must be a valid hostname"
+      not_an_iban: 'must be a valid IBAN'
       parameters_not_allowed: 'must not contain params'
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'

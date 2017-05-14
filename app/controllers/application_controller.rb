@@ -22,6 +22,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_price
   helper_method :current_host
   helper_method :current_bill
+  helper_method :current_bank_detail
+  helper_method :current_service_owner
+
   def set_locale
     I18n.locale = params[:locale]
   end
@@ -83,6 +86,14 @@ class ApplicationController < ActionController::Base
     nil
   end
 
+  def current_bank_detail
+    nil
+  end
+
+  def current_service_owner
+    nil
+  end
+
   def current_host
     "#{request.protocol}#{request.host_with_port}"
   end
@@ -109,5 +120,14 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  #def authorize_contract_set_bank_details
+  #  unless current_contract.nil?
+  #    unless @contract.can?(current_user, :bank_details)
+  #      flash[:error] = I18n.t('misc.not_authorized')
+  #      return redirect_back fallback_location: (current_service.nil? ? contract_path(current_contract) : service_contract_path(current_service, current_contract))
+  #    end
+  #  end
+  #end
 
 end

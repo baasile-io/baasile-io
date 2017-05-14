@@ -1,5 +1,11 @@
 fr:
   contracts:
+    bank_details:
+      title: 'Coordonnées bancaires'
+      description: 'Choisissez une donnée bancaire pour contractualiser.'
+    bank_details_selection:
+      title: 'Coordonnées bancaires'
+      description: 'Choisissez une donnée bancaire pour contractualiser.'
     catalog:
       description: 'Choisissez un produit à contractualiser.'
       title: 'Catalogue des fournisseurs'

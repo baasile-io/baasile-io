@@ -8,8 +8,9 @@ fr:
       default_value: "Par défaut (%{value})"
       hints:
         measure_token_activated: "Le MeasureToken permet d'appliquer une tarification \"Par paramètre\"."
+        name: 'Nom de la route (Exemple : "Liste des candidats").'
         subdomain: "L'identifiant publique forme la base de l'URL de la route sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union."
-        url: "L'URL doit commencer par un slash (/). Elle sera suffixée au domaine du produit: %{base_uri}"
+        url: "L'URL doit commencer par un slash (/). Elle sera suffixée au domaine de l'API."
     index:
       title: 'Routes'
     new:

@@ -29,8 +29,6 @@
       </div>
     </div>
 
-    <%= render partial: 'shared/flash' %>
-
     <div class="b-io-main-container">
 
       <div class="b-io-menu">
@@ -46,6 +44,9 @@
           </div>
           <div class="list-group">
             <%= link_to t('activerecord.models.contract').pluralize, back_office_contracts_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'contracts'}" %>
+          </div>
+          <div class="list-group">
+            <%= link_to t('activerecord.models.bank_detail').pluralize, back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" %>
           </div>
           <div class="list-group">
             <%= link_to t('activerecord.models.category').pluralize, back_office_categories_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'categories'}" %>
@@ -95,6 +96,8 @@
   </div>
 
   <%= render partial: 'shared/modal_window' %>
+
+  <%= render partial: 'shared/flash' %>
 
   <%= javascript_include_tag 'application' %>
   <script type="text/javascript">

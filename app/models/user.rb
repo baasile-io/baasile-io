@@ -17,6 +17,7 @@ class User < ApplicationRecord
   # Ancestry
   has_ancestry orphan_strategy: :adopt
 
+  has_many :bank_details
   has_many :tickets, dependent: :destroy
   has_many :categories, dependent: :nullify
   has_many :companies, dependent: :nullify
@@ -97,6 +98,10 @@ class User < ApplicationRecord
 
   def to_s
     full_name
+  end
+
+  def self.expire_after
+    Appconfig.get(:user_password_expire_after).days
   end
 
 end

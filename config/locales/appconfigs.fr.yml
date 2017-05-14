@@ -30,6 +30,9 @@ fr:
     max_requests_per_hour:
       name: 'Nombre maximum de requêtes par heure'
       description: "Le nombre maximum de requêtes qu'une IP est autorisée à faire"
+    user_password_expire_after:
+      name: 'Expiration des mots de passe'
+      description: 'Validité des mots de passe en jours'
     vat_rate:
       name: "Taux de TVA"
       description: "Le taux de TVA applicable sur les factures"

@@ -1,0 +1,17 @@
+<% content_for(:page_controls) {
+  if @bank_detail
+    link_to t('actions.select_new_bank_detail_template'), polymorphic_path([current_service, current_contract], action: "#{action_name}_selection"), class: 'btn btn-primary'
+  end
+} %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <h5><%= @bank_detail.name %></h5>
+    <hr>
+
+    <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @bank_detail}%>
+
+  </div>
+</div>

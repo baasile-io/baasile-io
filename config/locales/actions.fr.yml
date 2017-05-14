@@ -19,6 +19,7 @@ fr:
     confirm_email: "Confirmer l'adresse E-Mail"
     contractualize: 'Contractualiser'
     close: 'Fermer'
+    create_bank_detail: 'Ajouter des coordonnées bancaires'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
     create_price_template: 'Créer un modèle de tarification'
@@ -30,6 +31,9 @@ fr:
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
+    edit_bank_details:
+      client: 'Modifier le compte bancaire du client'
+      startup: 'Modifier le compte bancaire du fournisseur'
     edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
     edit_service: 'Modifier le compte Entreprise'
@@ -55,6 +59,7 @@ fr:
     save_in_progress: 'Enregistrement en cours...'
     see: 'Voir'
     see_and_add_comments: 'Voir/ajouter des commentaires'
+    see_bank_detail_template: 'Voir/ajouter des coordonnées bancaires'
     see_bill: 'Voir le détail de consommation'
     see_contract: 'Voir le contrat'
     see_general_conditions: 'Voir les Conditions Générales'
@@ -65,7 +70,10 @@ fr:
     send_reset_password: 'Réinitialiser le mot de passe'
     send_ticket: 'Envoyer le ticket'
     send_welcome_instructions: "Envoyer les instructions de bienvenue par E-Mail"
+    show_startup_bank_detail: 'Coordonnées bancaires de la startup'
+    show_client_bank_detail: 'Coordonnées bancaires du client'
     skip_confirmation: "Ne pas envoyer la confirmation de l'adresse E-Mail"
+    select_new_bank_detail_template: 'Changer de coordonnées bancaires'
     set_admin: "Ajouter les droits admin"
     set_production: "Activer la phase d'exploitation"
     sign_in: 'Se connecter'

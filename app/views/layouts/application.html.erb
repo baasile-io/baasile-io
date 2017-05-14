@@ -22,7 +22,7 @@
 
   <div class="container">
 
-    <div class="b-io-main-container">
+    <div class="b-io-main-container" id="main_container">
 
       <div class="b-io-content">
         <div class="b-io-content--header">
@@ -41,8 +41,9 @@
             <% end %>
           </div>
         </div>
-
-        <%= yield %>
+        <div class="b-io-subcontent" id="main_content">
+          <%= yield %>
+        </div>
       </div>
     </div>
 

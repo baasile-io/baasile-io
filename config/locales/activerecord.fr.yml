@@ -5,6 +5,23 @@ fr:
         name: 'Nom'
         setting_type: 'Type'
         value: 'Valeur'
+      bank_detail:
+        name: 'Libellé'
+        iban: 'IBAN'
+        is_active: 'Activé'
+        bic: 'BIC'
+        account_owner: 'Titulaire du compte'
+        bank_name: 'Domiciliation'
+        updated_at: 'Date de modification'
+        user: 'Créateur'
+        user_id: 'Créateur'
+        service: 'Entreprise'
+        service_id: 'Entreprise'
+        contracts_as_client: 'Contrats'
+        contracts_as_client: 'Contrats'
+        contracts_as_startup: 'Contrats'
+        contracts_as_startup: 'Contrats'
+        created_at: 'Date de création'
       bill:
         bill_month: 'Mois de facturation'
         created_at: "Date d'émission"
@@ -229,6 +246,7 @@ fr:
         whodunnit: 'Auteur'
     models:
       appconfig: 'Configuration'
+      bank_detail: 'Coordonnée bancaire'
       bill: 'Consommation'
       bill_line: 'Détail de consommation'
       category: "Catégorie"

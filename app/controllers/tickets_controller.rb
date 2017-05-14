@@ -12,7 +12,7 @@ class TicketsController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
       redirect_to_show
     else
-      flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      flash[:error] = I18n.t('errors.an_error_occured')
       @new_comment = Comment.new(body: params[:new_comment])
       render :show
     end
@@ -45,7 +45,7 @@ class TicketsController < ApplicationController
       redirect_to_index
     else
       if @ticket.errors.size == 0
-        flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+        flash[:error] = I18n.t('errors.an_error_occured')
       end
       @new_comment = Comment.new(commentable: @ticket, body: params[:new_comment])
       render :new
@@ -58,7 +58,7 @@ class TicketsController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.ticket'))
       redirect_to_show
     else
-      flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      flash[:error] = I18n.t('errors.an_error_occured')
       @new_comment = Comment.new(body: params[:new_comment])
       render :edit
     end
@@ -69,7 +69,7 @@ class TicketsController < ApplicationController
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.ticket'))
       redirect_to_index
     else
-      flash[:error] = I18n.t('errors.an_error_occured', resource: t('activerecord.models.ticket'))
+      flash[:error] = I18n.t('errors.an_error_occured')
       render :show
     end
   end
@@ -105,6 +105,10 @@ private
   def load_comments
     @comments = Comment.where(commentable: @ticket).order(created_at: :desc)
     @new_comment = Comment.new(body: params[:new_comment])
+  end
+
+  def current_module
+    'profile'
   end
 
 end

@@ -19,6 +19,7 @@ en:
     configure: 'Configurate'
     confirm_email: "Confirm email address"
     contractualize: 'Contractualize'
+    create_bank_detail: 'Create new bank details'
     create_client: "Create Client account"
     create_startup: "Create Service Provider account"
     create_price_template: 'Create pricing template'
@@ -30,6 +31,9 @@ en:
     disassociate: 'Remove association'
     edit: 'Edit'
     edit_account: 'Edit account'
+    edit_bank_details:
+      client: 'Edit client Bank details'
+      startup: 'Edit startup Bank details'
     edit_contract: 'Edit contract'
     edit_price: 'Edit pricing'
     edit_service: 'Edit Enterprise account'
@@ -56,6 +60,7 @@ en:
     save_in_progress: 'Save in progress...'
     see: 'See'
     see_and_add_comments: 'See/add comments'
+    see_bank_detail_template: 'See/add bank details'
     see_bill: 'See bill detail'
     see_contract: 'See contract'
     see_general_conditions: 'See General Conditions'
@@ -66,7 +71,10 @@ en:
     send_reset_password: 'Reset password'
     send_ticket: 'Send ticket'
     send_welcome_instructions: 'Send welcome instructions by email'
+    show_startup_bank_detail: 'Startup bank details'
+    show_client_bank_detail: 'Client bank details'
     skip_confirmation: "Skip email address confirmation"
+    select_new_bank_detail_template: 'Change bank details'
     set_admin: 'Set admin'
     set_production: 'Activate production phase'
     sign_in: 'Sign in'

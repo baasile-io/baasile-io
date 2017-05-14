@@ -1,0 +1,14 @@
+fr:
+  bank_details:
+    create:
+      title: 'Ajouter des coordonnées bancaires'
+    edit:
+      title: 'Modifier'
+    index:
+      title: 'Mes coordonnées bancaires'
+    new:
+      title: 'Ajouter des coordonnées bancaires'
+    show:
+      title: 'Coordonnée bancaire'
+    update:
+      title: 'Modifier'

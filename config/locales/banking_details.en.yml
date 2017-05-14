@@ -1,0 +1,14 @@
+en:
+  bank_details:
+    create:
+      title: 'New bank detail'
+    edit:
+      title: 'Edit'
+    index:
+      title: 'My bank details'
+    new:
+      title: 'New bank detail'
+    show:
+      title: 'Bank detail'
+    update:
+      title: 'Edit'

@@ -210,6 +210,12 @@ class Contract < ApplicationRecord
     waiting_for_production: {
       index: 18,
       can: {
+        client_bank_details: { client: ['accountant'] },
+        client_bank_details_selection: { client: ['accountant'] },
+        select_client_bank_detail: { client: ['accountant'] },
+        startup_bank_details: { startup: ['accountant'] },
+        startup_bank_details_selection: { startup: ['accountant'] },
+        select_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -233,7 +239,14 @@ class Contract < ApplicationRecord
         validate: I18n.t('types.contract_statuses.waiting_for_production.error')
       },
       conditions: {
-        validate: Proc.new {|c| true}
+        validate: [
+          Proc.new {|c|
+            (!c.client_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_client_bank_detail')]
+          },
+          Proc.new {|c|
+            (!c.startup_bank_detail.nil?) ? true : [false, I18n.t('errors.messages.missing_contract_startup_bank_detail')]
+          }
+        ]
       },
       notifications: {
         client: ['admin', 'commercial'],
@@ -303,13 +316,17 @@ class Contract < ApplicationRecord
   belongs_to :startup, class_name: Service.name
   belongs_to :general_condition_validated_client_user, class_name: User.name
   belongs_to :general_condition, class_name: GeneralCondition.name
+  belongs_to :client_bank_detail, class_name: BankDetail.name, foreign_key: 'client_bank_detail_id'
+  belongs_to :startup_bank_detail, class_name: BankDetail.name, foreign_key: 'startup_bank_detail_id'
 
-  has_one :price
-  has_many :comments, as: :commentable
-  has_many :measurements
-  has_many :measure_tokens
-  has_many :error_measurements
-  has_many :bills
+  has_one :price, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :measurements, dependent: :nullify
+  has_many :measure_tokens, dependent: :nullify
+  has_many :error_measurements, dependent: :nullify
+  has_many :bills, dependent: :restrict_with_error
+
+  #has_one :startup, through: :proxy, source: :service
 
   accepts_nested_attributes_for :price
 
@@ -327,6 +344,9 @@ class Contract < ApplicationRecord
   validates :expected_start_date, presence: true, date: true
   validates :expected_end_date, presence: true, date: {on_or_after: :expected_start_date}
   validates :expected_free_count, numericality: {greater_than: 0}, if: Proc.new {self.expected_free_count.present?}
+
+  validate :validate_client_bank_detail
+  validate :validate_startup_bank_detail
 
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
@@ -458,5 +478,27 @@ class Contract < ApplicationRecord
 
   def name
     "#{self.client} / #{self.startup} / #{self.proxy}"
+  end
+
+  def validate_client_bank_detail
+    unless self.client_bank_detail.nil?
+      unless self.client_bank_detail.is_active
+        self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
+      end
+      if self.client_bank_detail.service.id != self.client.id
+        self.errors.add(:base, I18n.t('errors.bank_details.unauthorized'))
+      end
+    end
+  end
+
+  def validate_startup_bank_detail
+    unless self.startup_bank_detail.nil?
+      unless self.startup_bank_detail.is_active
+        self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
+      end
+      if self.startup_bank_detail.service.id != self.startup.id
+        self.errors.add(:base, I18n.t('errors.bank_details.unauthorized'))
+      end
+    end
   end
 end

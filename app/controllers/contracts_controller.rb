@@ -1,13 +1,17 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
   before_action :load_active_proxies, only: [:catalog]
 
   # Authorization
   before_action :authorize_action
   before_action :authorize_contract_action
+
+  # banking details init
+  before_action :init_client_and_bank_detail, only: [:client_bank_details, :client_bank_details_selection]
+  before_action :init_startup_and_bank_detail, only: [:startup_bank_details, :startup_bank_details_selection]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action
@@ -177,6 +181,52 @@ class ContractsController < ApplicationController
     @price_templates = Price.templates(@contract.proxy)
   end
 
+  # # banking details actions
+
+  def client_bank_details
+    return client_bank_details_selection if @contract.client_bank_detail.nil?
+    render :bank_details
+  end
+
+  def startup_bank_details
+    return startup_bank_details_selection if @contract.startup_bank_detail.nil?
+    render :bank_details
+  end
+
+  def client_bank_details_selection
+    @bank_detail_templates = @contract.client.bank_details.activated
+    render :bank_details_selection
+  end
+
+  def startup_bank_details_selection
+    @bank_detail_templates = @contract.startup.bank_details.activated
+    render :bank_details_selection
+  end
+
+  def select_client_bank_detail
+    @contract.client_bank_detail = @contract.client.bank_details.find(params[:bank_detail_id])
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    else
+      flash[:error] = ([I18n.t('errors.an_error_occured')] + @contract.errors.full_messages).join(', ')
+      return redirect_to polymorphic_path([current_service, current_contract], action: 'client_bank_details_selection')
+    end
+    redirect_to_show
+  end
+
+  def select_startup_bank_detail
+    @contract.startup_bank_detail = @contract.startup.bank_details.find(params[:bank_detail_id])
+    if @contract.save
+      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+    else
+      flash[:error] = ([I18n.t('errors.an_error_occured')] + @contract.errors.full_messages).join(', ')
+      return redirect_to polymorphic_path([current_service, current_contract], action: 'startup_bank_details_selection')
+    end
+    redirect_to_show
+  end
+
+  # # # #
+
   def select_price
     @contract.price.try(:destroy)
 
@@ -217,6 +267,20 @@ class ContractsController < ApplicationController
 
   private
 
+  # # banking details functions
+
+  def init_client_and_bank_detail
+    @service_owner = @contract.client
+    @bank_detail = @contract.client_bank_detail
+  end
+
+  def init_startup_and_bank_detail
+    @service_owner = @contract.startup
+    @bank_detail = @contract.startup_bank_detail
+  end
+
+  # # # #
+
   def load_general_condition
     if @contract.nil? || @contract.general_condition.nil?
       @general_condition = GeneralCondition.effective_now
@@ -246,7 +310,7 @@ class ContractsController < ApplicationController
   end
 
   def load_contract
-    @contract = Contract.includes(:price, :client, :startup, :proxy).find(params[:id])
+    @contract = Contract.includes(:client_bank_detail, :startup_bank_detail, :price, :client, :startup, :proxy).find(params[:id])
     @current_status = Contract::CONTRACT_STATUSES[@contract.status.to_sym]
   end
 
@@ -271,6 +335,11 @@ class ContractsController < ApplicationController
     else
       @service = nil
     end
+  end
+
+  def contract_params_bank_detail
+    allowed_parameters = [:bank_detail_id]
+    params.require(:contract).permit(allowed_parameters)
   end
 
   def contract_params_price

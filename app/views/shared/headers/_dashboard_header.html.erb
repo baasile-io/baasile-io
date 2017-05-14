@@ -1,0 +1,62 @@
+<div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end end %>">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3>
+          <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe unless current_service.is_activated? %>
+          <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= I18n.t("types.service_types.#{current_service.service_type}.title") %></span>
+          <span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <% if current_service.parent %>
+            <span class="text-muted"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent) %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <% end %>
+          <span class="<%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><i class="<%= I18n.t("types.service_types.#{current_service.service_type}.icon") %>"></i> <%= current_service.name %></span>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
+  <hr>
+  <div class="container">
+    <ul class="nav nav-pills" style="font-size:110%">
+      <li class="nav-item">
+        <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'show' %>" href="<%= service_path(current_service) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
+      </li>
+      <% if current_user.is_admin_of?(current_service) %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle
+                  <%= 'active' if (controller_name == 'services' && ['edit', 'update', 'logo'].include?(action_name)) ||
+                                  (controller_name == 'users') %>
+                   " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><i class="fa fa-cog fa-fw"></i> <%= t('actions.edit') %></a>
+            <a class="dropdown-item <%= 'active' if controller_name == 'services' && ['logo'].include?(action_name) %>" href="<%= logo_service_path(current_service) %>"><i class="fa fa-image fa-fw"></i> <%= t('misc.logotype') %></a>
+            <a class="dropdown-item <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
+          </div>
+        </li>
+      <% end %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle
+                  <%= 'active' if (['prices', 'price_parameters', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name)) ||
+                                  (controller_name == 'error_measurements') %>
+                   " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
+        <div class="dropdown-menu">
+          <% if current_service.is_startup? %>
+            <a class="dropdown-item <%= 'active' if ['prices', 'price_parameters', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
+          <% end %>
+          <a class="dropdown-item <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_error_measurements_path(current_service) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle
+                  <%= 'active' if (!current_contract.nil? || controller_name == 'contracts') ||
+                                  (['bank_details', 'bills'].include?(controller_name)) %>
+                   " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edit fa-fw"></i> <%= t('activerecord.models.contract').pluralize %></a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item <%= 'active' if !current_contract.nil? || controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+          <a class="dropdown-item <%= 'active' if controller_name == 'bank_details' %>" href="<%= service_bank_details_path(current_service) %>"><i class="fa fa-fw fa-credit-card"></i> <%= t('activerecord.models.bank_detail') %></a>
+          <a class="dropdown-item <%= 'active' if controller_name == 'bills' %>" href="<%= service_bills_path(current_service) %>"><i class="fa fa-file-text-o fa-fw"></i> <%= t('bills.index.title') %></a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

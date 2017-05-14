@@ -1,0 +1,56 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @collection.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+          <th colspan="2"><%= t('activerecord.attributes.bank_detail.name') %></th>
+          <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
+          <th><%= t('activerecord.attributes.bank_detail.service') %></th>
+          <th><%= t('activerecord.attributes.bank_detail.account_owner') %></th>
+          <th>
+            <small><%= t('activerecord.attributes.bank_detail.created_at') %></small><br />
+            <%= t('activerecord.attributes.bank_detail.updated_at') %>
+          </th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @collection.each do |bank_detail| %>
+          <tr>
+            <td class="width-3">
+              <i class="fa-2x fa-credit-card fa fa-fw"></i>
+            </td>
+            <td>
+              <%= bank_detail.name %>
+            </td>
+            <td>
+              <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
+            </td>
+            <td>
+              <i class="<%= t("types.service_types.#{bank_detail.service.service_type}.icon") %>"></i>
+              <span class="<%= t("types.service_types.#{bank_detail.service.service_type}.class") %>"><%= bank_detail.service.name %></span>
+            </td>
+            <td>
+              <%= bank_detail.account_owner %>
+            </td>
+            <td>
+              <small class="text-muted"><%= l(bank_detail.created_at, format: :short) %></small><br />
+              <%= l(bank_detail.updated_at, format: :short) %>
+            </td>
+            <td class="text-right">
+              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, edit_back_office_bank_detail_path(bank_detail), class: 'btn btn-secondary btn-sm', title: t('actions.show'), data: {toggle: 'tooltip', placement: 'top'} %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

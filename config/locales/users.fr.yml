@@ -26,6 +26,10 @@ fr:
         subject: "Votre mot de passe a été modifié avec succés."
     new:
       title: "Créer un utilisateur"
+    password_expired:
+      show:
+        title: 'Mot de passe expiré'
+        description: 'Veuillez changer de mot de passe pour continuer à vous connecter.'
     passwords:
       edit:
         title: 'Changer de mot de passe'

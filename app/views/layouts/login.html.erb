@@ -11,14 +11,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
-<body class="login">
+<body class="login <%= 'with-warning' if controller_name == 'password_expired' %>">
 
   <div id="form-container">
 
     <div class="container-fluid">
       <p class="logo">
         <%= link_to root_path do %>
-          <img src="/dashboard/baasile-io.png" class="img-fluid">
+          <img src="/dashboard/baasile-io<%= '-homepage' if controller_name == 'password_expired' %>.png" class="img-fluid">
         <% end %>
       </p>
 
@@ -28,7 +28,7 @@
 
       <%= yield %>
 
-      <%= render partial: "users/shared/links" %>
+      <%= render partial: "users/shared/links" if controller_name != 'password_expired' %>
     </div>
 
   </div>

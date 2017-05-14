@@ -1,0 +1,44 @@
+<div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#DADADA;<% end %>">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          <span class="text-muted"><%= link_to "#{t('activerecord.models.proxy').pluralize}".html_safe, service_proxies_path(current_service), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <%= current_proxy.name %>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'proxies' && action_name == 'show' %>" href="<%= service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle
+                  <%= 'active' if (controller_name == 'proxies' && ['edit', 'update'].include?(action_name)) ||
+                                  (controller_name == 'identifiers' && action_name == 'index') ||
+                                  (['prices', 'price_parameters'].include?(controller_name)) %>
+                   " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item <%= 'active' if controller_name == 'proxies' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
+              <a class="dropdown-item <%= 'active' if controller_name == 'identifiers' && action_name == 'index' %>" href="<%= service_proxy_identifiers_path(current_service, current_proxy) %>"><i class="fa fa-key fa-fw"></i> <%= t('activerecord.models.identifier').pluralize %></a>
+              <a class="dropdown-item <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) %>" href="<%= service_proxy_prices_path(current_service, current_proxy) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if ['routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-sitemap fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
+          </li>
+          <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_proxy_error_measurements_path(current_service, current_proxy) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

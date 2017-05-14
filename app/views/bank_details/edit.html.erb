@@ -1,0 +1,12 @@
+<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_back) { service_bank_detail_path(current_service, current_bank_detail)} %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'form', locals: {object: @form_values} %>
+
+  </div>
+</div>
+
+<%= render partial: 'shared/versions', locals: {objects: [current_bank_detail]} %>

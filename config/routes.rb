@@ -50,7 +50,8 @@ Rails.application.routes.draw do
                                                     registrations: 'users/registrations',
                                                     confirmations: 'users/confirmations',
                                                     passwords: 'users/passwords',
-                                                    unlocks: 'users/unlocks' }
+                                                    unlocks: 'users/unlocks',
+                                                    password_expired: 'users/password_expired' }
 
     root to: 'pages#root'
 
@@ -71,6 +72,12 @@ Rails.application.routes.draw do
         post :reject
         get :prices
         get :select_price
+        get :client_bank_details
+        get :client_bank_details_selection
+        post :select_client_bank_detail
+        get :startup_bank_details
+        get :startup_bank_details_selection
+        post :select_startup_bank_detail
         post :cancel
         get :print_current_month_consumption
       end
@@ -108,6 +115,9 @@ Rails.application.routes.draw do
     end
 
     resources :services do
+
+      resources :bank_details
+
       resources :contracts do
         member do
           get :error_measurements
@@ -120,6 +130,12 @@ Rails.application.routes.draw do
           get :general_condition
           get :prices
           get :select_price
+          get :client_bank_details
+          get :client_bank_details_selection
+          post :select_client_bank_detail
+          get :startup_bank_details
+          get :startup_bank_details_selection
+          post :select_startup_bank_detail
           post :cancel
           get :print_current_month_consumption
         end
@@ -131,12 +147,14 @@ Rails.application.routes.draw do
           resources :price_parameters
         end
       end
+
       resources :bills do
         member do
           get :print
           get :comments
         end
       end
+
       resources :users do
         member do
           put :toggle_role
@@ -221,7 +239,12 @@ Rails.application.routes.draw do
           post :open
         end
       end
-
+      resources :bank_details do
+        member do
+          post :toggle_is_active
+          get :audit
+        end
+      end
       resources :general_conditions
       resources :contracts do
         member do

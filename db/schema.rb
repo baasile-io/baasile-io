@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508183429) do
+ActiveRecord::Schema.define(version: 20170514142614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,21 @@ ActiveRecord::Schema.define(version: 20170508183429) do
     t.string   "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bank_details", force: :cascade do |t|
+    t.string   "name"
+    t.string   "iban"
+    t.string   "bic"
+    t.string   "account_owner"
+    t.string   "bank_name"
+    t.boolean  "is_active",     default: false
+    t.integer  "user_id"
+    t.integer  "service_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["service_id"], name: "index_bank_details_on_service_id", using: :btree
+    t.index ["user_id"], name: "index_bank_details_on_user_id", using: :btree
   end
 
   create_table "bill_lines", force: :cascade do |t|
@@ -124,6 +139,8 @@ ActiveRecord::Schema.define(version: 20170508183429) do
     t.datetime "general_condition_validated_client_datetime"
     t.integer  "expected_free_count"
     t.string   "startup_code"
+    t.integer  "client_bank_detail_id"
+    t.integer  "startup_bank_detail_id"
     t.index ["client_id", "startup_id", "proxy_id"], name: "index_contracts_on_client_id_and_startup_id_and_proxy_id", unique: true, using: :btree
   end
 

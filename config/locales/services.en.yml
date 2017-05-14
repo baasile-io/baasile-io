@@ -4,10 +4,12 @@ en:
       title: 'Parameters'
     form:
       hints:
-        description: 'Short description of your enterprise to be displayed in the catalog.'
+        description: 'Short description of your enterprise to be displayed in the catalog (144 characters).'
         description_long: 'Advanced description of your enterprise to be displayed on a dedicated web page.'
         subdomain: "The public identifier forms the base of the URL of the enterprise on the platform. It must contain alphanumeric and minus characters only. Warning: Once your account is activated on the platform, you will not be able to modify its value."
-        subdomain_livepreview_label: 'Your URL on the platform'
+        subdomain_livepreview_label: 'URL on the platform'
+        url_livepreview_label: "Full URL (production)"
+        url_test_livepreview_label: "Full URL (test)"
         website: 'Example : "http://www.google.fr"'
       tabs:
         contact_detail:

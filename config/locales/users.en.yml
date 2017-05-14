@@ -26,6 +26,10 @@ en:
         subject: "Password Changed"
     new:
       title: "New user"
+    password_expired:
+      show:
+        title: 'Expired password'
+        description: 'You are required to change your password in order to sign in.'
     passwords:
       edit:
         title: 'Change password'

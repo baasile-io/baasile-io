@@ -1,0 +1,32 @@
+<% content_for(:page_description) { t('.description') } %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @bank_detail_templates.size == 0 %>
+      <p class="text-muted"><%= t('misc.no_bank_detail') %></p>
+      <%= link_to t('actions.see_bank_detail_template'), service_bank_details_path(@service_owner), class: 'btn btn-primary btn-lg' %>
+    <% else %>
+      <%
+        @bank_detail_templates.each.with_index do |bank_detail_template, index|
+          url = polymorphic_path([current_service, current_contract], bank_detail_id: bank_detail_template.id, action: "select_#{action_name == 'client_bank_details_selection' ? 'client' : 'startup'}_bank_detail")
+      %>
+        <%= '<hr>'.html_safe if index > 0 %>
+        <div class="row">
+          <div class="col-md-3 text-md-right">
+            <h4><%= bank_detail_template.name %></h4>
+          </div>
+          <div class="col-md-9">
+            <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: bank_detail_template} %>
+            <hr />
+            <div class="text-right">
+              <%= link_to t('actions.select'), url, method: :post, class: 'btn btn-primary btn-lg ' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
