@@ -184,12 +184,12 @@ class ContractsController < ApplicationController
   # # banking details actions
 
   def client_bank_details
-    return client_bank_details_selection if @bank_detail.nil?
+    return client_bank_details_selection if @contract.client_bank_detail.nil?
     render :bank_details
   end
 
   def startup_bank_details
-    return startup_bank_details_selection if @bank_detail.nil?
+    return startup_bank_details_selection if @contract.startup_bank_detail.nil?
     render :bank_details
   end
 

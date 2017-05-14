@@ -7,6 +7,7 @@ fr:
     bank_details:
       not_active: 'Coordonnées bancaires non vérifiées'
       not_modifiable: "Coordonnées non modifables car elles ont été confirmées. Veuillez contacter un administrateur par l'intermediaire d'un ticket."
+      unauthorized: 'Coordonnées bancaires non autorisées'
     failed_to_reset_password: "Le mot de passe n'a pas pu être modifié."
     logotype:
       bad_extension: "Format d'image non autorisé (Formats acceptés: %{extensions})."
@@ -21,12 +22,12 @@ fr:
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
       is_used: "est en cours d'utilisation"
-      missing_contract_client_bank_detail: "Le client doit enregistrer ces coordonnées bancaires avant de pouvoir continuer."
-      missing_contract_startup_bank_detail: "Le fournisseur doit enregistrer ces coordonnées bancaires avant de pouvoir continuer."
-      missing_contract_prices: "Le fournisseur doit fixer la tarification avant de pouvoir continuer."
-      missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer".'
-      missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur."
-      missing_measure_token_activated_route: "Votre API ne comporte aucune route dont l'option MeasureToken est activée."
+      missing_contract_client_bank_detail: "Le client doit enregistrer ces coordonnées bancaires avant de pouvoir continuer"
+      missing_contract_startup_bank_detail: "Le fournisseur doit enregistrer ces coordonnées bancaires avant de pouvoir continuer"
+      missing_contract_prices: "Le fournisseur doit fixer la tarification avant de pouvoir continuer"
+      missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer"'
+      missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur"
+      missing_measure_token_activated_route: "Votre API ne comporte aucune route dont l'option MeasureToken est activée"
       missing_translation: 'Traduction manquante'
       missing_translation_for_locale: 'Traduction manquante pour la langue suivante : %{current_locale}'
       not_a_bic: 'doit être un BIC valide'

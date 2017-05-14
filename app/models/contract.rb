@@ -485,6 +485,9 @@ class Contract < ApplicationRecord
       unless self.client_bank_detail.is_active
         self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
       end
+      if self.client_bank_detail.service.id != self.client.id
+        self.errors.add(:base, I18n.t('errors.bank_details.unauthorized'))
+      end
     end
   end
 
@@ -492,6 +495,9 @@ class Contract < ApplicationRecord
     unless self.startup_bank_detail.nil?
       unless self.startup_bank_detail.is_active
         self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
+      end
+      if self.startup_bank_detail.service.id != self.startup.id
+        self.errors.add(:base, I18n.t('errors.bank_details.unauthorized'))
       end
     end
   end

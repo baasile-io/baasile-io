@@ -10,11 +10,7 @@
     <% else %>
       <%
         @bank_detail_templates.each.with_index do |bank_detail_template, index|
-          if (@contract.client.id == @service_owner.id)
-            url = (!current_service.nil? ? select_client_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : select_client_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
-          elsif
-          url = (!current_service.nil? ? select_startup_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : select_startup_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
-          end
+          url = polymorphic_path([current_service, current_contract], bank_detail_id: bank_detail_template.id, action: "select_#{action_name == 'client_bank_details_selection' ? 'client' : 'startup'}_bank_detail")
       %>
         <%= '<hr>'.html_safe if index > 0 %>
         <div class="row">

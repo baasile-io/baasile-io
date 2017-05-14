@@ -2,7 +2,7 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :name %>
+  <%= f.input :name, hint: t('.hints.name') %>
 
   <%= f.input :subdomain, hint: t('routes.form.hints.subdomain'), input_html: {class: 'col-sm-5', 'data-target': 'service_subdomain_livepreview', 'data-prefix': "#{f.object.proxy.local_url}/routes/"}  %>
 
@@ -15,7 +15,32 @@
 
 
   <%= f.input :description, as: :text, input_html: {rows: 5} %>
-  <%= f.input :url, hint: t('.hints.url', base_uri: f.object.uri) %>
+
+  <%= f.input :url, hint: t('.hints.url'), input_html: {
+    data: {
+      base_protocol: f.object.proxy.proxy_parameter.protocol,
+      base_hostname: f.object.proxy.proxy_parameter.hostname,
+      base_port: f.object.proxy.proxy_parameter.port,
+      base_test_protocol: f.object.proxy.proxy_parameter_test.protocol,
+      base_test_hostname: f.object.proxy.proxy_parameter_test.hostname,
+      base_test_port: f.object.proxy.proxy_parameter_test.port
+    }
+  } %>
+
+  <div class="form-group row url_livepreview">
+    <label class="col-md-3 col-form-label"><%= t('services.form.hints.url_test_livepreview_label') %></label>
+    <div class="col-md-9">
+      <input class="form-control" type="text" id="route_url_livepreview" value="" readonly>
+    </div>
+  </div>
+
+  <div class="form-group row url_livepreview">
+    <label class="col-md-3 col-form-label"><%= t('services.form.hints.url_livepreview_label') %></label>
+    <div class="col-md-9">
+      <input class="form-control" type="text" id="route_url_test_livepreview" value="" readonly>
+    </div>
+  </div>
+
   <%= f.input :allowed_methods, as: :check_boxes, required: true, collection: Route::ALLOWED_METHODS %>
   <%= f.input :measure_token_activated, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.measure_token_activated') %>
 
