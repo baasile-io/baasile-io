@@ -8,6 +8,8 @@ en:
       default_mode: "DEFAULT"
       hints:
         default_value: "In case of a mandatory parameter: The default value is not taken into account. In case of an optional parameter: The default value is taken into account only if the parameter is not present in the queries. Finally, in case of a forbidden parameter: If the default value is set, the parameter will be systematically integrated with this value."
+        description: "Describe the parameter to help developers during the integration of the route."
+        name: "The name of the parameter as it should appear in the request (e.g.: \"candidate[name]\")."
     index:
       description: "Describe your API parameters requirements (optional)."
       title: 'Query parameters'

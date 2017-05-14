@@ -24,9 +24,11 @@ en:
       get:
         icon: ''
         title: 'GET'
+        description: "A parameter GET must be passed in the URL after the character \"?\"."
       header:
         icon: ''
         title: 'HEADER'
+        description: "A parameter HEADER must be passed in the headers of the query."
     price_parameters_types:
       per_call:
         description: "La mesure s'effectue sur le nombre d'appels."

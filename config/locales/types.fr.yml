@@ -22,9 +22,11 @@ fr:
         icon: ''
         title: 'BODY'
       get:
+        description: "Un paramètre GET doit être passé dans l'URL après le caractère \"?\"."
         icon: ''
         title: 'GET'
       header:
+        description: "Un paramètre HEADER doit être passé dans les entêtes de la requête."
         icon: ''
         title: 'HEADER'
     price_parameters_types:

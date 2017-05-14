@@ -60,7 +60,7 @@ module Api
                 name: route.name,
                 request_url: route.local_url('v1'),
                 allowed_methods: route.allowed_methods,
-                parameters: route.query_parameters.map {|query_parameter|
+                query_parameters: route.query_parameters.map {|query_parameter|
                   {
                     name: query_parameter.name,
                     description: query_parameter.description,
@@ -84,7 +84,7 @@ module Api
               name: current_route.name,
               request_url: current_route.local_url('v1'),
               allowed_methods: current_route.allowed_methods,
-              parameters: current_route.query_parameters.map {|query_parameter|
+              query_parameters: current_route.query_parameters.map {|query_parameter|
                 {
                   name: query_parameter.name,
                   description: query_parameter.description,
