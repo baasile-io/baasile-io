@@ -7,7 +7,9 @@
     <%= render partial: 'show_bank_detail_info', locals: {bank_detail: current_bank_detail} %>
 
     <hr />
-    <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_service, current_bank_detail.id), class: 'btn btn-primary' %>
+    <% unless current_bank_detail.is_active %>
+      <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_service, current_bank_detail.id), class: 'btn btn-primary' %>
+    <% end %>
     <%= link_to t('actions.destroy'), service_bank_detail_path(current_service, current_bank_detail.id), method: :delete, class: 'btn btn-danger' %>
   </div>
 </div>

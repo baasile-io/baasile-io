@@ -4,6 +4,9 @@ en:
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
+    bank_details:
+      not_active: 'Bank details are not verified'
+      not_modifiable: 'Bank details not modifiable because it is verified. Please contact an administrator trough a new support ticket.'
     failed_to_reset_password: "The password cannot be changed due to an error."
     logotype:
       bad_extension: 'Not allowed file format (Accepted formats: %{extensions}).'

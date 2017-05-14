@@ -44,7 +44,7 @@
               <%= l(bank_detail.updated_at, format: :short) %>
             </td>
             <td class="text-right">
-              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, back_office_bank_detail_path(bank_detail), class: 'btn btn-secondary btn-sm', title: t('actions.show'), data: {toggle: 'tooltip', placement: 'top'} %>
+              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, edit_back_office_bank_detail_path(bank_detail), class: 'btn btn-secondary btn-sm', title: t('actions.show'), data: {toggle: 'tooltip', placement: 'top'} %>
             </td>
           </tr>
         <% end %>

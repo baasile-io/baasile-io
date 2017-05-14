@@ -11,9 +11,9 @@
       <%
         @bank_detail_templates.each.with_index do |bank_detail_template, index|
           if (@contract.client.id == @service_owner.id)
-            url = (!current_service.nil? ? client_select_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : client_select_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
+            url = (!current_service.nil? ? select_client_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : select_client_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
           elsif
-          url = (!current_service.nil? ? startup_select_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : startup_select_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
+          url = (!current_service.nil? ? select_startup_bank_detail_service_contract_path(current_service, current_contract, bank_detail_id: bank_detail_template.id) : select_startup_bank_detail_contract_path(current_contract, bank_detail_id: bank_detail_template.id))
           end
       %>
         <%= '<hr>'.html_safe if index > 0 %>

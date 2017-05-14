@@ -17,8 +17,10 @@ fr:
         user_id: 'Créateur'
         service: 'Entreprise'
         service_id: 'Entreprise'
-        contract: 'Contrat'
-        contract_id: 'Contrat'
+        contracts_as_client: 'Contrats'
+        contracts_as_client: 'Contrats'
+        contracts_as_startup: 'Contrats'
+        contracts_as_startup: 'Contrats'
         created_at: 'Date de création'
       bill:
         bill_month: 'Mois de facturation'

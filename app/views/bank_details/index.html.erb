@@ -8,7 +8,7 @@
     <% if @collection.size == 0 %>
         <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
     <% else %>
-        <table class="table table-sm table-hover">
+        <table class="table table-sm table-hover table-link">
           <thead>
           <tr>
             <th colspan="2" class="width-30"><%= t('activerecord.attributes.bank_detail.name') %></th>
@@ -18,8 +18,8 @@
           </tr>
           </thead>
           <tbody>
-          <% @collection.each do |bank_detail| %>
-              <tr>
+            <% @collection.each do |bank_detail| %>
+              <tr data-link="<%= polymorphic_path([current_service, bank_detail]) %>">
                 <td class="width-3">
                   <i class="fa fa-2x fa-credit-card"></i>
                 </td>
@@ -31,15 +31,13 @@
                   <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
                 </td>
                 <td>
-                  <span class=""><%= bank_detail.bank_name %></span>
+                  <%= bank_detail.bank_name %>
                 </td>
                 <td class="text-right">
-                  <%= link_to t('misc.more_info'), service_bank_detail_path(current_service, bank_detail.id), class: 'btn btn-secondary' %>
-                  <%= link_to t('actions.edit'), edit_service_bank_detail_path(current_service, bank_detail.id), class: 'btn btn-primary' %>
-                  <%= link_to t('actions.destroy'), service_bank_detail_path(current_service, bank_detail.id), method: :delete, class: 'btn btn-danger' %>
+                  <%= link_to t('misc.more_info'), polymorphic_path([current_service, bank_detail]), class: 'btn btn-secondary' %>
                 </td>
               </tr>
-          <% end %>
+            <% end %>
           </tbody>
         </table>
     <% end %>

@@ -212,12 +212,10 @@ class Contract < ApplicationRecord
       can: {
         client_bank_details: { client: ['accountant'] },
         client_bank_details_selection: { client: ['accountant'] },
-        client_select_bank_detail: { client: ['accountant'] },
+        select_client_bank_detail: { client: ['accountant'] },
         startup_bank_details: { startup: ['accountant'] },
         startup_bank_details_selection: { startup: ['accountant'] },
-        startup_select_bank_detail: { startup: ['accountant'] },
-        delete_client_bank_detail: { client: ['accountant'] },
-        delete_startup_bank_detail: { startup: ['accountant'] },
+        select_startup_bank_detail: { startup: ['accountant'] },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -318,14 +316,17 @@ class Contract < ApplicationRecord
   belongs_to :startup, class_name: Service.name
   belongs_to :general_condition_validated_client_user, class_name: User.name
   belongs_to :general_condition, class_name: GeneralCondition.name
+  belongs_to :client_bank_detail, class_name: BankDetail.name, foreign_key: 'client_bank_detail_id'
+  belongs_to :startup_bank_detail, class_name: BankDetail.name, foreign_key: 'startup_bank_detail_id'
 
-  has_many :bank_details
-  has_one :price
-  has_many :comments, as: :commentable
-  has_many :measurements
-  has_many :measure_tokens
-  has_many :error_measurements
-  has_many :bills
+  has_one :price, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :measurements, dependent: :nullify
+  has_many :measure_tokens, dependent: :nullify
+  has_many :error_measurements, dependent: :nullify
+  has_many :bills, dependent: :restrict_with_error
+
+  #has_one :startup, through: :proxy, source: :service
 
   accepts_nested_attributes_for :price
 
@@ -343,6 +344,9 @@ class Contract < ApplicationRecord
   validates :expected_start_date, presence: true, date: true
   validates :expected_end_date, presence: true, date: {on_or_after: :expected_start_date}
   validates :expected_free_count, numericality: {greater_than: 0}, if: Proc.new {self.expected_free_count.present?}
+
+  validate :validate_client_bank_detail
+  validate :validate_startup_bank_detail
 
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
@@ -476,11 +480,19 @@ class Contract < ApplicationRecord
     "#{self.client} / #{self.startup} / #{self.proxy}"
   end
 
-  def client_bank_detail
-    self.bank_details.where(service_id: self.client.id).first
+  def validate_client_bank_detail
+    unless self.client_bank_detail.nil?
+      unless self.client_bank_detail.is_active
+        self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
+      end
+    end
   end
 
-  def startup_bank_detail
-    self.bank_details.where(service_id: self.proxy.service.id).first
+  def validate_startup_bank_detail
+    unless self.startup_bank_detail.nil?
+      unless self.startup_bank_detail.is_active
+        self.errors.add(:base, I18n.t('errors.bank_details.not_active'))
+      end
+    end
   end
 end

@@ -1,43 +1,12 @@
 fr:
   errors:
     an_error_occured: 'Une erreur est survenue'
-    api:
-      'proxify_concern/proxy_authentication_error':
-        message: "La plateforme n'a pas pu s'authentifier sur le serveur distant"
-        title: "Erreur d'authentification"
-      'proxify_concern/proxy_eof_error':
-        message: "La plateforme n'a pas pu traiter la requête car le serveur distant ne répond pas"
-        title: 'Erreur de connexion'
-      'proxify_concern/proxy_initialization_error':
-        message: "La plateforme ne peut pas traiter la requête en raison d'une erreur de configuration"
-        title: 'Mauvaise configuration'
-      'proxify_concern/proxy_method_not_allowed_error':
-        message: "La plateforme n'a pas pu traiter la requête en raison de la méthode non autorisée"
-        title: "Méthode non autorisée"
-      'proxify_concern/proxy_missing_mandatory_query_parameter_error':
-        message: "La plateforme ne peut pas traiter la requête en raison d'un paramètre obligatoire absent"
-        title: 'Paramètre obligatoire absent'
-      'proxify_concern/proxy_not_found_error':
-        message: "La plateforme n'a pas pu traiter la requête en raison d'une route inexistante"
-        title: "La page n'existe pas"
-      'proxify_concern/proxy_redirection_error':
-        message: "La plateforme n'a pas pu traiter la requête en raison d'un nombre de redirections trop important"
-        title: 'Erreur de redirection'
-      'proxify_concern/proxy_request_error':
-        message: "Le serveur d'origine ne peut pas ou ne traitera pas la requête en raison d'une erreur interne"
-        title: 'Erreur sur le serveur distant'
-      'proxify_concern/proxy_socket_error':
-        message: "La plateforme n'a pas pu traiter la requête car le serveur distant ne répond pas"
-        title: 'Erreur de connexion'
-      'proxify_concern/proxy_ssl_error':
-        message: "La plateforme n'a pas pu traiter la requête en HTTPS avec le serveur distant"
-        title: 'Erreur SSL'
-      'proxify_concern/proxy_timeout_error':
-        message: "La plateforme n'a pas pu traiter la requête avec le serveur distant en raison d'un temps de réponse trop important"
-        title: 'Erreur temps de réponse'
     aws:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
+    bank_details:
+      not_active: 'Coordonnées bancaires non vérifiées'
+      not_modifiable: "Coordonnées non modifables car elles ont été confirmées. Veuillez contacter un administrateur par l'intermediaire d'un ticket."
     failed_to_reset_password: "Le mot de passe n'a pas pu être modifié."
     logotype:
       bad_extension: "Format d'image non autorisé (Formats acceptés: %{extensions})."

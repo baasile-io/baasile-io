@@ -74,12 +74,10 @@ Rails.application.routes.draw do
         get :select_price
         get :client_bank_details
         get :client_bank_details_selection
-        post :client_select_bank_detail
+        post :select_client_bank_detail
         get :startup_bank_details
         get :startup_bank_details_selection
-        post :startup_select_bank_detail
-        delete :delete_client_bank_detail
-        delete :delete_startup_bank_detail
+        post :select_startup_bank_detail
         post :cancel
         get :print_current_month_consumption
       end
@@ -134,12 +132,10 @@ Rails.application.routes.draw do
           get :select_price
           get :client_bank_details
           get :client_bank_details_selection
-          post :client_select_bank_detail
+          post :select_client_bank_detail
           get :startup_bank_details
           get :startup_bank_details_selection
-          post :startup_select_bank_detail
-          delete :delete_client_bank_detail
-          delete :delete_startup_bank_detail
+          post :select_startup_bank_detail
           post :cancel
           get :print_current_month_consumption
         end
