@@ -1,67 +1,11 @@
 <% if !current_service.nil? %>
 
-  <div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end end %>">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h3>
-            <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe unless current_service.is_activated? %>
-            <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= I18n.t("types.service_types.#{current_service.service_type}.title") %></span>
-            <span class="text-muted"><%= link_to t('misc.dashboard'), services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
-            <% if current_service.parent %>
-              <span class="text-muted"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent) %> <i class="fa fa-fw fa-caret-right"></i></span>
-            <% end %>
-            <span class="<%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><i class="<%= I18n.t("types.service_types.#{current_service.service_type}.icon") %>"></i> <%= current_service.name %></span>
-          </h3>
-        </div>
-      </div>
-    </div>
-    <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
-    <hr>
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <ul class="nav nav-pills" style="font-size:110%">
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'services' && action_name == 'show' %>" href="<%= service_path(current_service) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-            </li>
-            <% if current_user.is_admin_of?(current_service) %>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'services' && ['logo'].include?(action_name) %>" href="<%= logo_service_path(current_service) %>"><i class="fa fa-image fa-fw"></i> <%= t('misc.logotype') %></a>
-              </li>
-            <% end %>
-            <% if current_service.is_startup? %>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if ['prices', 'price_parameters', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name) %>" href="<%= service_proxies_path(current_service) %>"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
-              </li>
-            <% end %>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'bank_details' %>" href="<%= service_bank_details_path(current_service) %>"><i class="fa fa-fw fa-credit-card"></i> <%= t('activerecord.models.bank_detail') %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if !current_contract.nil? || controller_name == 'contracts' %>" href="<%= service_contracts_path(current_service) %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'bills' %>" href="<%= service_bills_path(current_service) %>"><i class="fa fa-file-text-o fa-fw"></i> <%= t('bills.index.title') %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_error_measurements_path(current_service) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <%= render partial: 'shared/headers/dashboard_header' %>
 
   <% unless current_contract.nil? %>
 
+    <%= render partial: 'shared/headers/contract_header' %>
+    <!--
     <div class="b-io-header" style="<% unless current_route.nil? %>background-color:#DADADA;<% end %>">
       <div class="container">
         <div class="row">
@@ -116,6 +60,7 @@
         </div>
       </div>
     </div>
+    -->
 
   <% end %>
 
@@ -128,105 +73,14 @@
 
   <% unless current_proxy.nil? %>
 
-    <div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#DADADA;<% end %>">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h4>
-              <span class="text-muted"><%= link_to "#{t('activerecord.models.proxy').pluralize}".html_safe, service_proxies_path(current_service), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-              <%= current_proxy.name %>
-            </h4>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'proxies' && action_name == 'show' %>" href="<%= service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'proxies' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'identifiers' && action_name == 'index' %>" href="<%= service_proxy_identifiers_path(current_service, current_proxy) %>"><i class="fa fa-key fa-fw"></i> <%= t('activerecord.models.identifier').pluralize %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if ['routes', 'query_parameters'].include?(controller_name) %>" href="<%= service_proxy_routes_path(current_service, current_proxy) %>"><i class="fa fa-sitemap fa-fw"></i> <%= t('activerecord.models.route').pluralize %></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) %>" href="<%= service_proxy_prices_path(current_service, current_proxy) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
-              </li>
-              <% if current_user.is_admin_of?(current_service) || current_user.is_developer_of?(current_service)%>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'error_measurements' %>" href="<%= service_proxy_error_measurements_path(current_service, current_proxy) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render partial: 'shared/headers/proxy_header' %>
 
     <% unless current_route.nil? %>
-      <div class="b-io-header">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <h4>
-                <span class="text-muted"><%= link_to "#{t('activerecord.models.route').pluralize}".html_safe, service_proxy_routes_path(current_service, current_proxy), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-                <%= current_route.name %>
-              </h4>
-            </div>
-          </div>
-        </div>
-        <hr/>
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <ul class="nav nav-pills" style="font-size: 90%;">
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'routes' && action_name == 'show' %>" href="<%= service_proxy_route_path(current_service, current_proxy, current_route) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'routes' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_route_path(current_service, current_proxy, current_route) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'query_parameters' %>" href="<%= service_proxy_route_query_parameters_path(current_service, current_proxy, current_route) %>"><i class="fa fa-list fa-fw"></i> <%= t('query_parameters.index.title') %></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'shared/headers/route_header' %>
     <% end %>
 
     <% unless current_price.nil? %>
-      <div class="b-io-header">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <h4>
-                <span class="text-muted"><%= link_to t('misc.pricing'), service_proxy_prices_path(current_service, current_proxy), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-                <%= current_price.name %>
-              </h4>
-            </div>
-            <hr/>
-            <div class="container">
-              <ul class="nav nav-pills" style="font-size: 90%;">
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'prices' && action_name == 'show' %>" href="<%= service_proxy_price_path(current_service, current_proxy, current_price) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'prices' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_price_path(current_service, current_proxy, current_price) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'shared/headers/price_header' %>
     <% end %>
 
   <% end %>
@@ -257,7 +111,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <ul class="nav nav-pills" style="font-size:110%">
+          <ul class="nav nav-pills " style="font-size:110%">
             <li class="nav-item">
               <a class="nav-link <%= 'active' if (controller_name == 'users' && action_name == 'profile') || controller_name == 'registrations' %>" href="<%= profile_path %>"><i class="fa fa-home fa-fw"></i> <%= t('misc.my_account') %></a>
             </li>
@@ -283,68 +137,11 @@
   </div>
 
   <% unless current_contract.nil? %>
-
-    <div class="b-io-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h4>
-              <span class="text-muted"><%= link_to "#{t('activerecord.models.contract').pluralize}".html_safe, contracts_path, class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-              <%= current_contract.name %>
-            </h4>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'show' %>" href="<%= contract_path(current_contract) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
-              </li>
-              <% if current_contract.can?(current_user, :edit) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_contract_path(current_contract) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :prices) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= prices_contract_path(current_contract) %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :client_bank_details) %>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name)) %>" href="<%= client_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
-                  </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :startup_bank_details) %>
-                  <li class="nav-item">
-                    <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name)) %>" href="<%= startup_bank_details_contract_path(current_contract) %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
-                  </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :comments) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= comments_contract_path(current_contract) %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
-                </li>
-              <% end %>
-              <% if current_contract.can?(current_user, :error_measurements) %>
-                <li class="nav-item">
-                  <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['error_measurements'].include?(action_name) %>" href="<%= error_measurements_contract_path(current_contract) %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <%= render partial: 'shared/headers/contract_header' %>
   <% end %>
 
   <% unless current_bill.nil? %>
-
     <%= render partial: 'shared/headers/bill_header' %>
-
   <% end %>
 
 <% end %>

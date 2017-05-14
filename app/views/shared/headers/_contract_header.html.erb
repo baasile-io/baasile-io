@@ -1,0 +1,54 @@
+<div class="b-io-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          <span class="text-muted"><%= link_to "#{t('activerecord.models.contract').pluralize}".html_safe, polymorphic_path([current_service, Contract]), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <%= current_contract.name %>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'contracts' && action_name == 'show' %>" href="<%= polymorphic_path([current_service, current_contract]) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
+          </li>
+          <% if current_contract.can?(current_user, :edit) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_polymorphic_path([current_service, current_contract]) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :prices) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'prices') %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :client_bank_details) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'client_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :startup_bank_details) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'startup_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :comments) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['comments'].include?(action_name) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'comments') %>"><i class="fa fa-comments fa-fw"></i> <%= t('activerecord.models.comment').pluralize %><%= " (#{current_contract.comments.active.count})" if current_contract.comments.active.count > 0 %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :error_measurements) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['error_measurements'].include?(action_name) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'error_measurements') %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

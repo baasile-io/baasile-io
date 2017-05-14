@@ -302,8 +302,8 @@ $headings-color:         inherit;
 // $border-radius-lg:       .3rem;
 // $border-radius-sm:       .2rem;
 
-// $component-active-color: $white;
-// $component-active-bg:    $brand-primary;
+$component-active-color: #000; //$white;
+$component-active-bg:    rgba(0, 0, 0, .08);
 
 // $caret-width:            .3em;
 
