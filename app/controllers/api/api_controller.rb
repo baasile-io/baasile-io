@@ -32,7 +32,7 @@ module Api
     end
 
     def authenticated_scope
-      @authenticated_scope ||= request.env[:authenticated_scope].split
+      @authenticated_scope ||= (request.env[:authenticated_scope] || '').split
     end
   end
 end
