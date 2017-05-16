@@ -172,6 +172,7 @@ fr:
         name: 'Nom'
         query_parameter_type: 'Type'
         description: 'Description'
+        sample_value: 'exemple'
       route:
         allowed_methods: 'Méthodes autorisées'
         description: 'Description'

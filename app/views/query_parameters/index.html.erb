@@ -14,6 +14,7 @@
           <th><%= t('activerecord.attributes.query_parameter.query_parameter_type') %></th>
           <th><%= t('activerecord.attributes.query_parameter.mode') %></th>
           <th><%= t('activerecord.attributes.query_parameter.default_value') %></th>
+          <th><%= t('activerecord.attributes.query_parameter.sample_value') %></th>
           <th></th>
         </tr>
         </thead>
@@ -32,6 +33,7 @@
                 <%= t("types.query_parameter_modes.#{query_param.mode}") %>
               </td>
               <td><%= query_param.default_value.blank? ? '<span class="text-muted">---</span>'.html_safe : query_param.default_value %></td>
+              <td><%= query_param.sample_value.blank? ? '<span class="text-muted">---</span>'.html_safe : query_param.sample_value %></td>
               <td class="text-right">
                 <%= link_to t('actions.edit'), edit_service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), class: 'btn btn-secondary' %>
                 <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, service_proxy_route_query_parameter_path(current_service, query_param.route.proxy, query_param.route, query_param), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger' %>
