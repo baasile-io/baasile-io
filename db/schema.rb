@@ -201,8 +201,9 @@ ActiveRecord::Schema.define(version: 20170514142614) do
     t.string   "value"
     t.string   "contract_status"
     t.integer  "contract_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "is_active",       default: true
     t.index ["value", "contract_status", "contract_id"], name: "value_status_contract_index", unique: true, using: :btree
   end
 
