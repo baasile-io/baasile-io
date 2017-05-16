@@ -14,7 +14,9 @@ Rails.application.routes.draw do
       resources :services, only: :index
       scope '/:current_subdomain' do
         resources :measure_tokens do
-          post :revoke
+          member do
+            post :revoke
+          end
         end
         get '/' => 'services#show'
         resources :proxies do

@@ -1,10 +1,13 @@
 class MeasureToken < ApplicationRecord
   belongs_to  :contract
 
+  has_one :startup, through: :contract, foreign_key: 'startup_id'
+  has_one :client, through: :contract, foreign_key: 'client_id'
+
   before_save :generate_token_value, if: Proc.new { self.value.blank? }
 
   validates :contract_id, presence: true
-  validates :value, uniqueness: {scope: [:contract_id, :contract_status]}
+  validates :value, uniqueness: true
 
   scope :by_contract_status, ->(contract) { where(contract: contract, contract_status: contract.status) }
 
@@ -14,8 +17,7 @@ class MeasureToken < ApplicationRecord
     end while self.class.exists?(value: self.value)
   end
 
-  def already_exist?
-    return true if MeasureToken.where(value: self.value, contract: self.contract, contract_status: self.contract_status).nil?
-    return false
+  def revoked
+    !is_active
   end
 end

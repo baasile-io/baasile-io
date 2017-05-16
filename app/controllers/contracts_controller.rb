@@ -41,7 +41,7 @@ class ContractsController < ApplicationController
     return redirect_to (current_service.nil? ? select_client_contracts_path : select_client_service_contracts_path(current_service)) if current_service.nil? || current_service.is_company?
     return redirect_to (current_service.nil? ? catalog_contracts_path : catalog_service_contracts_path(current_service)) unless params[:proxy_id].present?
 
-    existing_contract = current_service.contracts.where(proxy_id: params[:proxy_id]).first
+    existing_contract = current_service.contracts_as_client.where(proxy_id: params[:proxy_id]).first
     if existing_contract
       return redirect_to (current_service.nil? ? contract_path(existing_contract) : service_contract_path(current_service, existing_contract))
     end

@@ -30,7 +30,8 @@ class Service < ApplicationRecord
   has_many :bank_details, dependent: :destroy
   has_many :tickets, dependent: :destroy
   has_many :proxies, dependent: :restrict_with_error
-  has_many :contracts, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error
+  has_many :contracts_as_client, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error
+  has_many :contracts_as_startup, class_name: Contract.name, foreign_key: 'startup_id', dependent: :restrict_with_error
   has_many :routes, through: :proxies, dependent: :restrict_with_error
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens, dependent: :destroy
@@ -209,5 +210,13 @@ class Service < ApplicationRecord
 
   def local_url(version = 'v1')
     "/api/#{version}/#{self.subdomain}"
+  end
+
+  def contracts
+    Contract.where('client_id = :id OR startup_id = :id', id: self.id)
+  end
+
+  def measure_tokens
+    MeasureToken.where(contract_id: self.contracts.pluck(:id))
   end
 end

@@ -170,3 +170,11 @@ en:
         status: 403
         message: "The supplier is not active"
         title: 'Inactive supplier'
+      '1001':
+        status: 404
+        message: "The measure token was not found"
+        title: 'Measure token not found'
+      '1002':
+        status: 422
+        message: "The measure token can not be modified"
+        title: 'Measure token not modifiable'

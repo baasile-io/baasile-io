@@ -289,4 +289,16 @@ module Api
       901
     end
   end
+
+  class MeasureTokenNotFoundError < ProxyError
+    def code
+      1001
+    end
+  end
+
+  class MeasureTokenUnprocessableEntityError < ProxyError
+    def code
+      1002
+    end
+  end
 end
