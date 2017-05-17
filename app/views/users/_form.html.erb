@@ -11,6 +11,11 @@
   <%= f.input :phone, hint: t('users.form.hints.phone') %>
   <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
+  <%= f.input :is_active_notification_measurement_errors, as: :radio_buttons %>
+  <%= f.input :is_active_notification_contract_status, as: :radio_buttons %>
+  <%= f.input :is_active_notification_ticket, as: :radio_buttons %>
+  <%= f.input :is_active_notification_service_validation, as: :radio_buttons %>
+
   <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
   <% if f.object.persisted? %>

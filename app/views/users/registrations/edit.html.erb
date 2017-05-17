@@ -15,6 +15,11 @@
 
       <%= f.input :phone, hint: t('users.form.hints.phone') %>
       <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
+      <%= f.input :is_active_notification_measurement_errors, as: :radio_buttons %>
+      <%= f.input :is_active_notification_contract_status, as: :radio_buttons %>
+      <%= f.input :is_active_notification_ticket, as: :radio_buttons %>
+      <%= f.input :is_active_notification_service_validation, as: :radio_buttons %>
+
 
       <%= f.input :password, autocomplete: "off", label: t('users.form.labels.change_password'), hint: t('devise.passwords.password_restrictions') %>
       <%= f.input :password_confirmation, label: t('users.form.labels.change_password_confirmation'), autocomplete: "off" %>
