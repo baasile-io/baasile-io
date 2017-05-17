@@ -9,7 +9,7 @@ module Api
     private
 
     def current_service
-      @current_service ||= Service.find_by_subdomain_or_client_id(params[:current_subdomain])
+      @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
     end
 
     def current_host
