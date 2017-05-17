@@ -49,10 +49,27 @@
       </tr>
       </tbody>
     </table>
-    <%= t("activerecord.attributes.user.is_active_notification_measurement_errors")%>:<%= current_user.is_active_notification_measurement_errors %>
-    <%= t("activerecord.attributes.user.is_active_notification_contract_status")%>:<%= current_user.is_active_notification_contract_status  %>
-    <%= t("activerecord.attributes.user.is_active_notification_ticket")%>:<%= current_user.is_active_notification_ticket %>
-    <%= t("activerecord.attributes.user.is_active_notification_service_validation")%>:<%= current_user.is_active_notification_service_validation  %>
+
+    <hr>
+    <h5><%= t("misc.notification_activation_status") %></h5>
+    <hr>
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t("activerecord.attributes.user.is_active_notification_measurement_errors")%></th>
+        <th><%= t("activerecord.attributes.user.is_active_notification_contract_status")%></th>
+        <th><%= t("activerecord.attributes.user.is_active_notification_ticket")%></th>
+        <th><%= t("activerecord.attributes.user.is_active_notification_service_validation")%></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><i class="<%= t("misc.is_active.#{current_user.is_active_notification_measurement_errors}.icon") %>"></i><%= t("misc.is_active.#{current_user.is_active_notification_measurement_errors}.title") %></td>
+        <td><i class="<%= t("misc.is_active.#{current_user.is_active_notification_contract_status}.icon") %>"></i><%= t("misc.is_active.#{current_user.is_active_notification_measurement_errors}.title") %></td>
+        <td><i class="<%= t("misc.is_active.#{current_user.is_active_notification_ticket}.icon") %>"></i><%= t("misc.is_active.#{current_user.is_active_notification_measurement_errors}.title") %></td>
+        <td><i class="<%= t("misc.is_active.#{current_user.is_active_notification_service_validation}.icon") %>"></i><%= t("misc.is_active.#{current_user.is_active_notification_measurement_errors}.title") %></td>
+      </tr>
+    </table>
 
   </div>
 </div>

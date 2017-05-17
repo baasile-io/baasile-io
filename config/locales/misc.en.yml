@@ -61,6 +61,7 @@ en:
     not_authorized: 'You are not authorized to process this action.'
     not_included: 'not included'
     nothing_to_display: "Nothing to show in this section."
+    notification_activation_status: 'Notifications mailling status'
     overview: 'Overview'
     paid:
       'false': "To be paid"

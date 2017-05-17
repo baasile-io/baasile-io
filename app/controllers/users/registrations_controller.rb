@@ -43,7 +43,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def extra_params
-    [:gender, :first_name, :last_name, :phone, :language]
+    [:is_active_notification_measurement_errors, :is_active_notification_contract_status,
+     :is_active_notification_ticket, :is_active_notification_service_validation, :gender, :first_name, :last_name, :phone, :language]
   end
 
   # If you have extra params to permit, append them to the sanitizer.

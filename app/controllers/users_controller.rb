@@ -145,7 +145,9 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :gender, :first_name, :last_name, :phone, :is_active, :language)
+    params.require(:user).permit(:is_active_notification_measurement_errors, :is_active_notification_contract_status,
+                                 :is_active_notification_ticket, :is_active_notification_service_validation,
+                                 :email, :gender, :first_name, :last_name, :phone, :is_active, :language)
   end
 
   def load_user_and_authorize_service_admin

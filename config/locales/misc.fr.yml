@@ -61,6 +61,7 @@ fr:
     not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
+    notification_activation_status: 'Status des notifications de mails'
     overview: "Vue d'ensemble"
     paid:
       'false': "À régler"
