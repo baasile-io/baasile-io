@@ -105,12 +105,12 @@ module ProxifyConcern
     @current_proxy_send_request = request_obj.send(:new, @current_proxy_uri_object)
 
     if request.content_type
-      case @current_proxy_send_request.content_type = request.content_type
-        when 'application/x-www-form-urlencoded'
-          @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
-        else
+      #case @current_proxy_send_request.content_type = request.content_type
+      #  when 'application/x-www-form-urlencoded'
+      #    @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
+      #  else
           @current_proxy_send_request.body = request.raw_post
-      end
+      #end
     end
 
     build_headers
