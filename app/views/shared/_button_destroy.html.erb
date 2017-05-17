@@ -1,0 +1,25 @@
+
+<% unless object.is_destroyable? %>
+
+  <p><%= t('misc.object_cannot_be_destroyed') %></p>
+
+  <ul>
+    <% object.dependent_resources.each do |dependent_resource| %>
+      <li>
+        <%= "<span class=\"badge badge-default\">#{t("activerecord.models.#{dependent_resource.class.table_name.singularize}")}</span> #{dependent_resource}".html_safe %>
+      </li>
+    <% end %>
+  </ul>
+
+<% else %>
+
+  <%= link_to t('actions.destroy'),
+              polymorphic_path(object_path),
+              data: {
+                confirm: t('misc.are_you_sure')
+              },
+              method: :delete,
+              class: 'btn btn-lg btn-danger' %>
+
+
+<% end %>

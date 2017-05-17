@@ -1,3 +1,7 @@
+<%
+  show_routes = show_routes.nil? ? true : show_routes
+%>
+
 <div class="row">
   <div class="col-3 text-right">
     <strong><%= t('activerecord.attributes.proxy.name') %></strong>
@@ -52,27 +56,31 @@
   </div>
 </div>
 
-<hr>
+<% if show_routes %>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.models.route').pluralize %></strong>
-  </div>
-  <div class="col-9">
-    <ul>
-      <% proxy.routes.each do |route| %>
-        <li>
-          <i class="fa fa-fw fa-sitemap"></i> <%= route.name %> <br />
-          <small class="text-muted"><%= route.local_url('v1') %></small>
-          <% if route.query_parameters.count > 0 %>
-            <hr />
-            <p><strong><%= t('activerecord.models.query_parameter').pluralize %> :</strong></p>
-            <% route.query_parameters.each do |query_parameter| %>
-              <%= render partial: 'query_parameters/show_query_parameter_info', locals: {query_parameter: query_parameter} %>
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.models.route').pluralize %></strong>
+    </div>
+    <div class="col-9">
+      <ul>
+        <% proxy.routes.each do |route| %>
+          <li>
+            <i class="fa fa-fw fa-sitemap"></i> <%= route.name %> <br />
+            <small class="text-muted"><%= route.local_url('v1') %></small>
+            <% if route.query_parameters.count > 0 %>
+              <hr />
+              <p><strong><%= t('activerecord.models.query_parameter').pluralize %> :</strong></p>
+              <% route.query_parameters.each do |query_parameter| %>
+                <%= render partial: 'query_parameters/show_query_parameter_info', locals: {query_parameter: query_parameter} %>
+              <% end %>
             <% end %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
+
+<% end %>

@@ -8,6 +8,7 @@ fr:
     all: 'Tous'
     all_feminized: 'Toutes'
     already_accepted: 'Déjà validées'
+    are_you_sure: 'Veuillez confirmer cette action.'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
     captcha: 'Code de vérification'
@@ -61,6 +62,7 @@ fr:
     not_authorized: "Vous n'avez pas les droits nécessaires pour effectuer cette opération."
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
+    object_cannot_be_destroyed: "La ressource ne peut être détruite car des ressources dépendantes existent."
     overview: "Vue d'ensemble"
     paid:
       'false': "À régler"

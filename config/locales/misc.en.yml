@@ -8,6 +8,7 @@ en:
     all: 'All'
     all_feminized: 'All'
     already_accepted: 'Already accepted'
+    are_you_sure: 'Are your sure?'
     authentification_identifiers: 'Login credentials'
     back_office: 'Back Office'
     captcha: 'Verification code'
@@ -61,6 +62,7 @@ en:
     not_authorized: 'You are not authorized to process this action.'
     not_included: 'not included'
     nothing_to_display: "Nothing to show in this section."
+    object_cannot_be_destroyed: 'The resource cannot be destroyed because of existing dependent resources.'
     overview: 'Overview'
     paid:
       'false': "To be paid"

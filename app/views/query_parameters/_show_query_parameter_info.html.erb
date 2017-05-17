@@ -40,7 +40,7 @@
         <small class="text-muted"><%= t('activerecord.attributes.query_parameter.sample_value') + ': '%></small>
       </td>
       <td>
-        <small class="text-muted"><%= query_parameter.sample_value.blank? ? '<span class="text-muted">---</span>'.html_safe : query_parameter.sample_value %></small>
+        <pre><%= query_parameter.sample_value.blank? ? '<span class="text-muted">---</span>'.html_safe : query_parameter.sample_value %></pre>
       </td>
     </tr>
   </tbody>

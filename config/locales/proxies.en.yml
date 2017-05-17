@@ -1,5 +1,7 @@
 en:
   proxies:
+    confirm_destroy:
+      title: 'Delete product'
     create:
       title: 'New product'
     edit:

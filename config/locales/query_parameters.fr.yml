@@ -10,6 +10,7 @@ fr:
         default_value: "En cas de paramètre obligatoire : La valeur par défaut n'est pas prise en compte. En cas de paramètre optionnel : La valeur par défaut n'est prise en compte qu'en cas d'absence du paramètre dans les requêtes. Enfin, en cas de paramètre interdit : Si la valeur par défaut est définie, le paramètre sera systématiquement intégré avec cette valeur."
         description: "Décrivez le paramètre afin d'aider les développeurs à réaliser l'intégration de la route."
         name: "Le nom du paramètre tel qu'il doit apparaitre dans la requête (Exemple : \"candidate[name]\")."
+        sample_value: "Spécifiez un exemple de valeur pour ce paramètre."
     index:
       description: "Décrivez les paramètres de votre API (optionnel)."
       title: 'Paramètres de requête'
