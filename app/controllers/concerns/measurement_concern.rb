@@ -43,14 +43,8 @@ module MeasurementConcern
       create_measure_token
     else
       find_measure_token(given_measure_token_value)
-      if @measure_token.nil?
-        return render status: 403, json: {
-          errors: [{
-                     status: 403,
-                     title: "Invalid #{Appconfig.get(:api_measure_token_name)}"
-                   }]
-        }
-      end
+      raise Api::MeasureTokenNotFoundError if @measure_token.nil?
+      raise Api::MeasureTokenRevokedError if @measure_token.revoked
     end
   end
 

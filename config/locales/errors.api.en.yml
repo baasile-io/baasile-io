@@ -178,3 +178,7 @@ en:
         status: 422
         message: "The measure token can not be modified"
         title: 'Measure token not modifiable'
+      '1003':
+        status: 423
+        message: "The measure token has been revoked"
+        title: 'Measure token revoked'

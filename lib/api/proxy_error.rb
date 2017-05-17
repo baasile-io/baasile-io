@@ -301,4 +301,10 @@ module Api
       1002
     end
   end
+
+  class MeasureTokenRevokedError < ProxyError
+    def code
+      1003
+    end
+  end
 end
