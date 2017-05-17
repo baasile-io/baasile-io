@@ -13,6 +13,15 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-5 text-sm-right">
+        <strong><%= t('activerecord.attributes.service.client_id') %></strong>
+      </div>
+      <div class="col-sm-7">
+        <%= service.client_id %>
+      </div>
+    </div>
+
 
     <% unless service.contact_detail.nil? %>
       <hr>
