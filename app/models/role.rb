@@ -46,7 +46,8 @@ class Role < ApplicationRecord
       edit: [:admin, :developer],
       update: [:admin, :developer],
       error_measurements: [:admin, :developer],
-      destroy: [:admin]
+      destroy: [:admin],
+      confirm_destroy: [:admin]
     },
     identifiers: {
       index: [:admin, :developer]

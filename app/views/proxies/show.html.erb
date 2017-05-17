@@ -3,12 +3,21 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'proxies/show_proxy_info', locals: {proxy: @proxy} %>
-
-    <hr>
-    <div class="text-right">
-      <%= link_to t('actions.destroy'), service_proxy_path(current_service, @proxy), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-secondary btn-danger' %>
-    </div>
+    <%= render partial: 'proxies/show_proxy_info', locals: {proxy: @proxy, show_routes: false} %>
 
   </div>
 </div>
+
+<% if @proxy.routes.size > 0 %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t('activerecord.models.route').pluralize %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <%= render partial: 'routes/list', locals: {routes: @proxy.routes}%>
+    </div>
+  </div>
+<% end %>

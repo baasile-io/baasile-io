@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170514142614) do
+ActiveRecord::Schema.define(version: 20170516112347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,6 +316,7 @@ ActiveRecord::Schema.define(version: 20170514142614) do
     t.integer  "query_parameter_type", default: 1
     t.string   "description"
     t.string   "default_value"
+    t.text     "sample_value"
     t.index ["name", "query_parameter_type", "route_id"], name: "name_query_parameter_type_route_index", unique: true, using: :btree
     t.index ["route_id"], name: "index_query_parameters_on_route_id", using: :btree
     t.index ["user_id"], name: "index_query_parameters_on_user_id", using: :btree

@@ -159,6 +159,7 @@ en:
         name: 'Name'
         query_parameter_type: 'Type'
         description: 'Description'
+        sample_value: 'Sample'
       route:
         allowed_methods: 'Allowed methods'
         description: 'Description'

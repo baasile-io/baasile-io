@@ -1,0 +1,27 @@
+<table class="table table-hover table-sm table-link">
+  <thead>
+  <tr>
+    <th colspan="2"><%= t('activerecord.attributes.route.name') %></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% routes.each do |route| %>
+    <tr data-link="<%= service_proxy_route_path(current_service, route.proxy, route) %>">
+      <td class="width-3">
+        <i class="fa fa-fw fa-2x fa-sitemap"></i>
+      </td>
+      <td>
+        <p>
+          <strong><%= route.name %></strong><br />
+          <%= route.local_url %>
+        </p>
+        <small class="text-muted"><%= route.description %></small>
+      </td>
+      <td class="text-right">
+        <%= link_to t('actions.configure'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

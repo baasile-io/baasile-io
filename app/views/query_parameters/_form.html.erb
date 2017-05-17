@@ -7,6 +7,7 @@
   <%= f.input :mode, as: :radio_buttons, collection: format_query_parameter_modes_for_select %>
   <%= f.input :default_value, hint: t('.hints.default_value') %>
   <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('.hints.description') %>
+  <%= f.input :sample_value, as: :text, input_html: {rows: 5}, hint: t('.hints.sample_value') %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

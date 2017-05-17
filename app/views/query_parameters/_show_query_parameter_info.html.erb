@@ -3,18 +3,18 @@
   <tbody>
     <tr>
       <td>
-        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.mode') + ': '%></small><br />
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.mode') + ': '%></small>
       </td>
       <td>
-        <small class="text-muted"><%= t("types.query_parameter_modes.#{query_parameter.mode}")%></small><br />
+        <small class="text-muted"><%= t("types.query_parameter_modes.#{query_parameter.mode}")%></small>
       </td>
     </tr>
     <tr>
       <td>
-        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.query_parameter_type') + ': '%></small><br />
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.query_parameter_type') + ': '%></small>
       </td>
       <td>
-        <small class="text-muted"><i class="<%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.icon")%>"></i><%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.title")%></small><br />
+        <small class="text-muted"><i class="<%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.icon")%>"></i><%= t("types.query_parameter_types.#{query_parameter.query_parameter_type}.title")%></small>
       </td>
     </tr>
     <% unless query_parameter.default_value.blank? %>
@@ -23,7 +23,7 @@
           <small class="text-muted"><%= t('activerecord.attributes.query_parameter.default_value') + ': '%></small><br />
         </td>
         <td>
-          <small class="text-muted"><%= query_parameter.default_value %></small><br />
+          <small class="text-muted"><%= query_parameter.default_value.blank? ? '<span class="text-muted">---</span>'.html_safe :  query_parameter.default_value %></small>
         </td>
       </tr>
     <% end %>
@@ -33,6 +33,14 @@
       </td>
       <td>
         <small class="text-muted"><%= query_parameter.description %></small>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <small class="text-muted"><%= t('activerecord.attributes.query_parameter.sample_value') + ': '%></small>
+      </td>
+      <td>
+        <pre><%= query_parameter.sample_value.blank? ? '<span class="text-muted">---</span>'.html_safe : query_parameter.sample_value %></pre>
       </td>
     </tr>
   </tbody>
