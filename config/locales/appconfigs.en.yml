@@ -27,6 +27,9 @@ en:
     bill_platform_contribution_rate:
       name: "Contribution rate"
       description: "Contribution rate to be applied to all amounts billed by the platform"
+    error_measurement_backup_duration:
+      name: "Error backup time"
+      description: "Time duration in days for storing errors triggered through the APIs platform"
     max_requests_per_hour:
       name: 'Max requests per hour'
       description: "The max number of requests per hour an IP is allowed to do"

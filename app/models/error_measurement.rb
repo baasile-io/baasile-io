@@ -44,6 +44,10 @@ class ErrorMeasurement < ApplicationRecord
   validates   :contract   , presence: true
   validates   :route      , presence: true
 
+  scope :old, -> {
+    where("created_at <= ?", DateTime.now - Appconfig.get(:error_measurement_backup_duration).days)
+  }
+
   def to_s
     "#{self.error_code} #{I18n.t("errors.api.#{self.error_code}.title", locale: :en)}"
   end

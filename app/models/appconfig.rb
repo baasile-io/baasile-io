@@ -49,6 +49,10 @@ class Appconfig < ApplicationRecord
     vat_rate: {
       setting_type: :numeric,
       value: 19.6
+    },
+    error_measurement_backup_duration: {
+      setting_type: :integer,
+      value: 90
     }
   }
 
