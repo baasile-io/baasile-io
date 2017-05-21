@@ -1,3 +1,5 @@
 machine:
+  pre:
+    - cp .env.text .env
   services:
     - redis
