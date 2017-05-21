@@ -3,11 +3,11 @@ module Api
     skip_before_action :authenticate_schema
 
     def authenticate
+      return authenticate_by_refresh_token if params[:grant_type] == 'refresh_token'
       unless params[:scope].present?
         raise AuthMissingScopeError
       end
       @scope = params.fetch(:scope, '').split.sort! {|a,b| a.downcase <=> b.downcase}.join(' ')
-      return authenticate_by_refresh_token if params[:grant_type] == 'refresh_token'
       unless params[:client_id].present?
         raise AuthMissingClientIdError
       end

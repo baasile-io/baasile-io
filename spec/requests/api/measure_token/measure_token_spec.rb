@@ -22,8 +22,10 @@ describe "measure token", type: :request do
     it "requires authorization header" do
       get request_route_api_uri
 
+      expect(JSON.parse(response.body)).to eq({"errors" => [
+        {"code"=>710, "title"=>"Missing authorization header", "message"=>"The header \"Authorization\" is missing"}
+      ]})
       expect(response.status).to eq 400
-      expect(JSON.parse(response.body)).to eq({"errors" => [{"status" => 400, "title" => "Missing authorization header"}]})
     end
   end
 
@@ -31,7 +33,12 @@ describe "measure token", type: :request do
     before :each do
       route #create route in DB
 
-      post authentication_api_uri, {client_id: contract.client.client_id, client_secret: contract.client.client_secret, scope: contract.startup.subdomain}
+      post authentication_api_uri,
+           params: {
+             client_id: contract.client.client_id,
+             client_secret: contract.client.client_secret,
+             scope: contract.startup.subdomain
+           }
 
       expect(response.status).to eq 200
       response_body = JSON.parse(response.body)
@@ -55,23 +62,43 @@ describe "measure token", type: :request do
       end
 
       describe "request" do
-        it "generates a new measure token", focus: true do
+        it "generates a new measure token" do
           allow(SecureRandom).to receive(:uuid).and_return('my_measure_token_id')
 
-          get request_route_api_uri, nil, {'Authorization' => "Bearer #{@access_token}"}
+          get request_route_api_uri,
+              headers: {'Authorization' => "Bearer #{@access_token}"}
 
           expect(response.body).to eq "My body"
-          expect(response.status).to eq 276
           expect(response.headers['MeasureTokenID']).to eq('my_measure_token_id')
+          expect(response.status).to eq 276
         end
 
         it "returns error when unknown measure token" do
-          get request_route_api_uri, nil, {
-            'Authorization' => "Bearer #{@access_token}",
-            'MeasureTokenID' => 'unknwon_measure_token'
-          }
+          get request_route_api_uri,
+              headers: {
+                'Authorization' => "Bearer #{@access_token}",
+                'MeasureTokenID' => 'unknwon_measure_token'
+              }
 
-          expect(response.status).to eq 403
+          expect(JSON.parse(response.body)).to eq({"errors" => [
+            {"code"=>1001, "title"=>"Measure token not found", "message"=>"The measure token was not found"}
+          ]})
+          expect(response.status).to eq 404
+        end
+
+        it "returns error when revoked measure token" do
+          measure_token = create :measure_token, contract: contract, contract_status: contract.status, is_active: false
+
+          get request_route_api_uri,
+              headers: {
+                'Authorization' => "Bearer #{@access_token}",
+                'MeasureTokenID' => measure_token.value
+              }
+
+          expect(JSON.parse(response.body)).to eq({"errors" => [
+            {"code"=>1003, "title"=>"Measure token revoked", "message"=>"The measure token has been revoked"}
+          ]})
+          expect(response.status).to eq 423
         end
       end
     end
