@@ -2,8 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  captcha_route
-
   namespace :api do
     scope "/oauth" do
       post 'token' => 'authentication#authenticate'
@@ -42,10 +40,7 @@ Rails.application.routes.draw do
     match "*any", via: :all, to: "api#not_found"
   end
 
-  # Background jobs
-  authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
+  captcha_route
 
   get '/robots.txt' => 'pages#robots'
 
@@ -269,6 +264,11 @@ Rails.application.routes.draw do
         end
       end
     end
+  end
+
+  # Background jobs
+  authenticate :user, lambda { |u| u.has_role?(:superadmin) } do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   get '/users/sign_in', to: redirect('/auth/sign_in')
