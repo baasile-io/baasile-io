@@ -1,5 +1,7 @@
 machine:
-  pre:
-    - cp .env.test .env
   services:
     - redis
+
+test:
+  pre:
+    - cp .env.test .env
