@@ -20,8 +20,14 @@ $(document).ready(function(e) {
         if (price_pricing_duration_type_input.val() == 'prepaid') {
           price_pricing_duration_type_input.val('monthly');
         }
+        price_pricing_duration_type_input.find('option[value="monthly"]').prop('disabled', false);
+        price_pricing_duration_type_input.find('option[value="yearly"]').prop('disabled', false);
         price_pricing_duration_type_input.find('option[value="prepaid"]').prop('disabled', true);
       } else {
+        price_pricing_duration_type_input.val('prepaid');
+        price_pricing_duration_type_input.find('option[value="monthly"]').prop('disabled', true);
+        price_pricing_duration_type_input.find('option[value="yearly"]').prop('disabled', true);
+
         if (price_pricing_type_input.val() == 'per_call') {
           toggle_input(price_route_id_input, false);
         } else if (price_pricing_type_input.val() == 'per_parameter') {

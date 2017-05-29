@@ -36,6 +36,7 @@ fr:
       not_a_hostname: "doit être un domaine valide"
       not_an_iban: 'doit être un IBAN valide'
       parameters_not_allowed: 'ne doit pas contenir de paramètres'
+      pricing_per_parameter_must_be_prepaid: 'doit être "Prépayé" lorsque le type de tarification est "Par paramètre MeasureToken"'
       record_invalid: "L'objet de peut être enregistré car il est invalide"
       taken: 'est déjà utilisé'
       too_short: 'est trop court'

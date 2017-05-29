@@ -36,6 +36,7 @@ en:
       not_a_hostname: "must be a valid hostname"
       not_an_iban: 'must be a valid IBAN'
       parameters_not_allowed: 'must not contain params'
+      pricing_per_parameter_must_be_prepaid: 'must be "Prepaid" when pricing type is "Per parameter MeasureToken"'
       record_invalid: "The record cannot be saved because it is invalid"
       taken: 'is already used'
       too_short: 'is too short'

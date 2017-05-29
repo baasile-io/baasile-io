@@ -36,12 +36,31 @@ class Price < ApplicationRecord
   validates :service, presence: true
   validates :proxy, presence: true
 
-  validates :base_cost, presence: true, numericality: {greater_than: 0}
-  validates :cost, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :unit_cost, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :free_count, presence: true, numericality: {greater_than: 0}, if: Proc.new {self.pricing_type.to_sym != :subscription}
-  validates :deny_after_free_count, inclusion: {in: [true, false]}, if: Proc.new {self.pricing_type.to_sym != :subscription}
-  validates :pricing_duration_type, inclusion: {in: ['monthly', 'yearly', :monthly, :yearly]}, if: Proc.new {self.pricing_type.to_sym == :subscription}
+  validates :base_cost,
+            presence: true,
+            numericality: {greater_than: 0}
+
+  validates :cost,
+            presence: true,
+            numericality: {greater_than_or_equal_to: 0}
+
+  validates :unit_cost,
+            presence: true,
+            numericality: {greater_than_or_equal_to: 0}
+
+  validates :free_count,
+            presence: true,
+            numericality: {greater_than: 0},
+            if: Proc.new {self.pricing_type.to_sym != :subscription}
+
+  validates :deny_after_free_count,
+            inclusion: {in: [true, false]},
+            if: Proc.new {self.pricing_type.to_sym != :subscription}
+
+  validates :pricing_duration_type,
+            inclusion: {in: ['monthly', 'yearly', :monthly, :yearly]},
+            if: Proc.new {self.pricing_type.to_sym == :subscription}
+
   validate :price_options_consistency
 
   scope :owned, ->(user) { where(user: user) }
@@ -76,6 +95,9 @@ class Price < ApplicationRecord
         end
     end
     if self.pricing_type.to_sym == :per_parameter
+      if self.pricing_duration_type != :prepaid
+        self.errors.add(:pricing_duration_type, I18n.t('errors.messages.pricing_per_parameter_must_be_prepaid'))
+      end
       unless self.proxy.routes.exists?(measure_token_activated: true)
         self.errors.add(:base, I18n.t('errors.messages.missing_measure_token_activated_route'))
       end
