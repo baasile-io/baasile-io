@@ -27,6 +27,9 @@ fr:
     bill_platform_contribution_rate:
       name: "Taux de contribution à la plateforme"
       description: "Le taux de contribution au fonctionnement de la plateforme applicable aux montants facturés"
+    error_measurement_backup_duration:
+      name: "Durée de sauvegarde en base d'une erreur"
+      description: "Durée de sauvegarde en jours des erreurs survenues sur les APIs de la plateforme"
     max_requests_per_hour:
       name: 'Nombre maximum de requêtes par heure'
       description: "Le nombre maximum de requêtes qu'une IP est autorisée à faire"
