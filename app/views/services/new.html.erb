@@ -1,4 +1,14 @@
-<% content_for(:page_title) { t('.title') } %>
+<%
+  if current_user.services.count > 0
+    content_for(:page_back) {
+      new_service_path
+    }
+  end
+
+  content_for(:page_title) {
+    t('.title')
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

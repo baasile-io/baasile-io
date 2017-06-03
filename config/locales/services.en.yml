@@ -27,7 +27,7 @@ en:
     index:
       title: 'Enterprises'
     new:
-      title: 'Create a new enterprise'
+      title: 'Create a new Enterprise account'
     show:
       title: 'Dashboard'
     update:

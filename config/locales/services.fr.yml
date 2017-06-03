@@ -27,7 +27,7 @@ fr:
     index:
       title: 'Entreprises'
     new:
-      title: 'Créer une nouvelle entreprise'
+      title: 'Créer un compte Entreprise'
     show:
       title: 'Tableau de bord'
     update:

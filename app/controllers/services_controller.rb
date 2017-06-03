@@ -21,7 +21,7 @@ class ServicesController < ApplicationController
 
   def index
     @collection = current_user.services
-    if @collection.size == 0
+    if @collection.count == 0
       redirect_to_new
     end
   end
@@ -117,9 +117,7 @@ class ServicesController < ApplicationController
     response.headers['Content-Type'] = 'image/png'
     response.headers['Content-Disposition'] = 'inline'
 
-    if params.has_key?(:width) then width = params[:width].to_i else width = nil end
-
-    render :text => @logotype_service.image(@service.client_id, width)
+    render :text => @logotype_service.image(@service.client_id, params[:format])
   end
 
   def activation_request

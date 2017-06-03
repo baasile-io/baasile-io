@@ -21,7 +21,7 @@ en:
     contractualize: 'Contractualize'
     create_bank_detail: 'Create new bank details'
     create_client: "Create Client account"
-    create_startup: "Create Service Provider account"
+    create_startup: "Create Supplier account"
     create_price_template: 'Create pricing template'
     create_proxy: 'Create a product'
     create_service: 'Create an Enteprise account'
@@ -42,6 +42,9 @@ en:
     infos: 'Infos'
     invite_user: "Invite existing user"
     new: 'New'
+    new_client: 'Create Client'
+    new_company: 'Create Aggregator'
+    new_startup: 'Create Supplier'
     next_step: 'Validate'
     open: 'Ouvrir'
     print: 'Print'

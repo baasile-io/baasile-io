@@ -42,6 +42,9 @@ fr:
     infos: 'Infos'
     invite_user: "Inviter un utilisateur existant"
     new: 'Créer'
+    new_client: 'Créer un Client'
+    new_company: 'Créer un Aggrégateur'
+    new_startup: 'Créer un Fournisseur'
     next_step: "Valider"
     open: 'Open'
     print: 'Imprimer'

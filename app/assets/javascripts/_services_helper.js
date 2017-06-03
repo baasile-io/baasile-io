@@ -1,5 +1,47 @@
+var input_service_name = $('input#service_name');
+var input_service_subdomain = $('input#service_subdomain');
+
+function parse_subdomain_from_name(value) {
+  if (typeof value == 'undefined')
+    return '';
+  return value.toLowerCase().removeAccents().replace(/ /g, "-").replace(/[^-a-z0-9]+/g, "").replace(/(--)/g, "-")
+}
+
+function generate_subdomain_auto() {
+  var service_name = input_service_name.val();
+  var new_subdomain = parse_subdomain_from_name(service_name);
+  if (input_service_subdomain.val() === '') {
+    input_service_subdomain.val(new_subdomain);
+    input_service_subdomain.trigger('change');
+  }
+  input_service_subdomain.attr('placeholder', new_subdomain);
+}
+
+function update_subdomain_placeholder() {
+  var service_name = input_service_name.val();
+  var new_subdomain = parse_subdomain_from_name(service_name);
+  input_service_subdomain.attr('placeholder', new_subdomain);
+
+  var old_service_name = input_service_name.data('old-value');
+  var old_subdomain = parse_subdomain_from_name(old_service_name);
+  input_service_name.data('old-value', service_name);
+  if (input_service_subdomain.val() === old_subdomain) {
+    input_service_subdomain.val(new_subdomain);
+    input_service_subdomain.trigger('change');
+  }
+}
+
+input_service_name.on('keyup', update_subdomain_placeholder);
+input_service_name.on('blur', generate_subdomain_auto);
+input_service_subdomain.on('blur', function() {
+  if (input_service_subdomain.val() === '') {
+    generate_subdomain_auto();
+  }
+});
+
+
 function input_subdomain_live_update(e) {
-  input = $(this);
+  var input = $(this);
   var form_group_livepreview = $('div.form-group.subdomain_livepreview');
   var value = input.val();
   if (value === '') {
