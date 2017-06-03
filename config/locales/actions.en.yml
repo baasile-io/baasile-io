@@ -38,6 +38,7 @@ en:
     edit_price: 'Edit pricing'
     edit_service: 'Edit Enterprise account'
     edit_user: 'Edit User account'
+    filter_by_startup: 'Filter by supplier...'
     infos: 'Infos'
     invite_user: "Invite existing user"
     new: 'New'

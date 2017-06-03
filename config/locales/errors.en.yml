@@ -5,6 +5,7 @@ en:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
     bank_details:
+      need_accountant_role: "Accountant or admin authorization is needed"
       not_active: 'Bank details are not verified'
       not_modifiable: 'Bank details not modifiable because it is verified. Please contact an administrator trough a new support ticket.'
       unauthorized: 'Unauthorized bank details'
@@ -17,14 +18,14 @@ en:
     messages:
       aftet: 'is too old'
       blank: "can't be blank"
-      general_condition_is_used: "General conditions are already accepted on the platform and can't be modified"
+      general_condition_is_used: "General Conditions are already accepted on the platform and can't be modified"
       general_condition_not_validated: 'General conditions must be accepted'
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
       is_used: 'is in use'
-      missing_contract_client_bank_detail: "Client must save his bank details to continue"
-      missing_contract_startup_bank_detail: "Supplier must save his bank details to continue"
-      missing_contract_prices: "Supplier must set the contract's pricing to continue"
+      missing_contract_client_bank_detail: "Client must set his bank details"
+      missing_contract_startup_bank_detail: "Supplier must set his bank details"
+      missing_contract_prices: "Supplier must set the contract's pricing"
       missing_file: 'Make sure you add a file before you hit "Upload file"'
       missing_general_condition: 'There is no effective general condition on the platform. Please contact an administrator'
       missing_measure_token_activated_route: 'There is no route on your API with MeasureToken option is activated'

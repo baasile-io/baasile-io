@@ -22,6 +22,24 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-5 text-sm-right">
+        <strong><%= t('activerecord.attributes.service.subdomain') %></strong>
+      </div>
+      <div class="col-sm-7">
+        <%= service.subdomain %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5 text-sm-right">
+        <strong><%= t('activerecord.attributes.service.local_url') %></strong>
+      </div>
+      <div class="col-sm-7">
+        <%= service.local_url %>
+      </div>
+    </div>
+
 
     <% unless service.contact_detail.nil? %>
       <hr>
@@ -79,43 +97,30 @@
 <hr>
 
 <div class="row">
-  <div class="col-sm-3 text-sm-right">
+  <div class="col-sm-4 col-md-3 text-sm-right">
     <strong><%= t("roles.admin.title") %> <i class="<%= t("roles.admin.icon") %>"></i></strong>
   </div>
-  <div class="col-sm-9">
+  <div class="col-sm-8 col-md-3">
     <%= render partial: 'shared/user_info', locals: {user: service.user} %>
   </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-3 text-sm-right">
+  <div class="col-sm-4 col-md-3 text-sm-right">
     <strong><%= t("roles.commercial.title") %> <i class="<%= t("roles.commercial.icon") %>"></i></strong>
   </div>
-  <div class="col-sm-9">
+  <div class="col-sm-8 col-md-3">
     <%= render partial: 'shared/user_info', locals: {user: service.main_commercial} %>
   </div>
 </div>
-
-<hr>
-
 <div class="row">
-  <div class="col-sm-3 text-sm-right">
+  <div class="col-sm-4 col-md-3 text-sm-right">
     <strong><%= t("roles.accountant.title") %> <i class="<%= t("roles.accountant.icon") %>"></i></strong>
   </div>
-  <div class="col-sm-9">
+  <div class="col-sm-8 col-md-3">
     <%= render partial: 'shared/user_info', locals: {user: service.main_accountant} %>
   </div>
-</div>
-
-<hr>
-
-<div class="row">
-  <div class="col-sm-3 text-sm-right">
+  <div class="col-sm-4 col-md-3 text-sm-right">
     <strong><%= t("roles.developer.title") %> <i class="<%= t("roles.developer.icon") %>"></i></strong>
   </div>
-  <div class="col-sm-9">
+  <div class="col-sm-8 col-md-3">
     <%= render partial: 'shared/user_info', locals: {user: service.main_developer} %>
   </div>
 </div>

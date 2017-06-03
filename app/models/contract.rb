@@ -40,7 +40,7 @@ class Contract < ApplicationRecord
         validate_general_condition: {
           client: ['commercial']
         },
-        cancel: {
+        destroy: {
           client: ['commercial']
         },
         comments: {
@@ -100,7 +100,7 @@ class Contract < ApplicationRecord
         }
       },
       show_error: {
-        validate: I18n.t('types.contract_statuses.commercial_validation_sp.error')
+        validate: Proc.new {I18n.t('types.contract_statuses.commercial_validation_sp.error')}
       },
       conditions: {
         validate: Proc.new {|c| (!c.price.nil? && c.price.persisted?) ? true : [false, I18n.t('errors.messages.missing_contract_prices')]}
@@ -144,7 +144,7 @@ class Contract < ApplicationRecord
         }
       },
       show_error: {
-        validate: I18n.t('types.contract_statuses.commercial_validation_client.error')
+        validate: Proc.new {I18n.t('types.contract_statuses.commercial_validation_client.error')}
       },
       conditions: {
         validate_general_condition: Proc.new {|c| ( c.general_condition_validated_client_user_id.nil? ) ? true : false},
@@ -191,7 +191,7 @@ class Contract < ApplicationRecord
         }
       },
       show_error: {
-        validate: I18n.t('types.contract_statuses.validation.error')
+        validate: Proc.new {I18n.t('types.contract_statuses.validation.error')}
       },
       conditions: {
         validate: Proc.new {|c| true}
@@ -210,12 +210,24 @@ class Contract < ApplicationRecord
     waiting_for_production: {
       index: 18,
       can: {
-        client_bank_details: { client: ['accountant'] },
-        client_bank_details_selection: { client: ['accountant'] },
-        select_client_bank_detail: { client: ['accountant'] },
-        startup_bank_details: { startup: ['accountant'] },
-        startup_bank_details_selection: { startup: ['accountant'] },
-        select_startup_bank_detail: { startup: ['accountant'] },
+        client_bank_details: {
+          client: ['accountant']
+        },
+        client_bank_details_selection: {
+          client: ['accountant']
+        },
+        select_client_bank_detail: {
+          client: ['accountant']
+        },
+        startup_bank_details: {
+          startup: ['accountant']
+        },
+        startup_bank_details_selection: {
+          startup: ['accountant']
+        },
+        select_startup_bank_detail: {
+          startup: ['accountant']
+        },
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
@@ -236,7 +248,9 @@ class Contract < ApplicationRecord
         }
       },
       show_error: {
-        validate: I18n.t('types.contract_statuses.waiting_for_production.error')
+        validate: Proc.new {I18n.t('types.contract_statuses.waiting_for_production.error')},
+        startup_bank_details: Proc.new {I18n.t('errors.bank_details.need_accountant_role')},
+        client_bank_details: Proc.new {I18n.t('errors.bank_details.need_accountant_role')}
       },
       conditions: {
         validate: [
@@ -426,7 +440,9 @@ class Contract < ApplicationRecord
         return true if self.send("is_#{role}?", user, scope)
       end
     end
-    return [false, [status_config[:show_error][action]]] if status_config[:show_error]
+    if status_config[:show_error] && status_config[:show_error][action]
+      return [false, [status_config[:show_error][action].call]]
+    end
     false
   end
 

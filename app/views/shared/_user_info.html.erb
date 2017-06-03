@@ -1,9 +1,11 @@
-<% if user %>
-  <%= user.full_name %><br />
-  <small>
-    <%= "#{user.email}<br />".html_safe if user.email.present? %>
-    <%= "#{user.phone}<br />".html_safe if user.phone.present? %>
-  </small>
-<% else %>
-  <span class="text-muted">---</span>
-<% end %>
+<p>
+  <% if user %>
+    <%= user.full_name %><br />
+    <small>
+      <%= "#{user.email}<br />".html_safe if user.email.present? %>
+      <%= "#{user.phone}<br />".html_safe if user.phone.present? %>
+    </small>
+  <% else %>
+    <span class="text-muted">---</span>
+  <% end %>
+</p>

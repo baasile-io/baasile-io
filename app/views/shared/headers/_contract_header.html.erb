@@ -27,15 +27,19 @@
               <a class="nav-link <%= 'active' if ['prices', 'price_parameters'].include?(controller_name) || (controller_name == 'contracts' && ['prices'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'prices') %>"><i class="fa fa-money fa-fw"></i> <%= t('misc.pricing') %></a>
             </li>
           <% end %>
-          <% if current_contract.can?(current_user, :client_bank_details) %>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'client_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
-            </li>
+          <% if current_user.is_user_of?(current_contract.client) %>
+            <% if current_contract.can?(current_user, :client_bank_details) %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['client_bank_details', 'client_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'client_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_client_bank_detail') %></a>
+              </li>
+            <% end %>
           <% end %>
-          <% if current_contract.can?(current_user, :startup_bank_details) %>
-            <li class="nav-item">
-              <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'startup_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
-            </li>
+          <% if current_user.is_user_of?(current_contract.startup) %>
+            <% if current_contract.can?(current_user, :startup_bank_details) %>
+              <li class="nav-item">
+                <a class="nav-link <%= 'active' if (controller_name == 'contracts' && ['startup_bank_details', 'startup_bank_details_selection'].include?(action_name)) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'startup_bank_details') %>"><i class="fa fa-credit-card fa-fw"></i> <%= t('actions.show_startup_bank_detail') %></a>
+              </li>
+            <% end %>
           <% end %>
           <% if current_contract.can?(current_user, :comments) %>
             <li class="nav-item">

@@ -6,6 +6,8 @@ class PagesController < ApplicationController
 
   layout 'public'
 
+  respond_to :html, :js
+
   def service_book
     @collection = Service.activated_startups.published
   end

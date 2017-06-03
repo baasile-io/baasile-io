@@ -25,7 +25,7 @@ then
   until curl --output /dev/null --silent --head --fail "http://baasile-io-demo.dev:3042"
   do
     echo "Waiting for http://baasile-io-demo.dev:3042 to respond..."
-    sleep 5
+    sleep 10
   done
 
   echo "Running ./scripts/watch_letter_opener.sh"

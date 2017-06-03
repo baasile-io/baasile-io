@@ -7,6 +7,6 @@ module ContractsHelper
   
   def show_contract_errors(errors)
     return if errors.blank?
-    errors.join(', ')
+    "<i class=\"fa fa-fw fa-warning\"></i> #{errors.join(', ')}".html_safe
   end
 end

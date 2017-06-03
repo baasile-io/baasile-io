@@ -25,6 +25,7 @@ fr:
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
+    general_condition_not_accepted: 'Vous devez accepter les Conditions Générales pour continuer la phase de contractualisation.'
     general_condition_not_modifiable: 'Ces Conditions Générales ne sont pas modifiables car elles ont déjà été acceptées'
     general_condition_validation: 'Validation des Conditions Générales'
     included: 'inclus'

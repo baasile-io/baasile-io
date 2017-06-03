@@ -38,6 +38,7 @@ fr:
     edit_price: 'Éditer la tarification'
     edit_service: 'Modifier le compte Entreprise'
     edit_user: 'Modifier le compte Utilisateur'
+    filter_by_startup: 'Filtrer par fournisseur...'
     infos: 'Infos'
     invite_user: "Inviter un utilisateur existant"
     new: 'Créer'

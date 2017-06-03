@@ -102,7 +102,7 @@ fr:
     contract_statuses:
       creation:
         class: 'text-muted'
-        description: "Le contrat est au stade de brouillon. Seule le client peut y accéder."
+        description: "Le contrat est au stade de brouillon. Seul le client peut y accéder."
         icon: 'fa fa-fw fa-pencil text-muted'
         reject_label: 'Supprimer le contrat'
         title: 'Création'
@@ -118,7 +118,7 @@ fr:
       commercial_validation_client:
         class: 'text-info'
         description: "Le client doit valider les dates du contrat."
-        error: 'Seul un responsable commercial du client est habilité à valider cette étape.'
+        error: 'En attente de validation par un responsable commercial du client.'
         icon: 'fa fa-fw fa-thumbs-o-up text-info'
         reject_label: 'Rejeter les changements et notifier le fournisseur'
         title: 'Validation commercial client'

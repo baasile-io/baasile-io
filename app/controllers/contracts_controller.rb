@@ -3,7 +3,6 @@ class ContractsController < ApplicationController
   before_action :load_service_and_authorize
   before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
-  before_action :load_active_proxies, only: [:catalog]
 
   # Authorization
   before_action :authorize_action
@@ -34,6 +33,7 @@ class ContractsController < ApplicationController
   end
 
   def catalog
+    load_active_proxies
     @logotype_service = LogotypeService.new
   end
 
@@ -164,15 +164,6 @@ class ContractsController < ApplicationController
       end
     else
       flash[:error] = @contract.errors.full_messages.join(', ')
-    end
-    redirect_to_show
-  end
-
-  def cancel
-    @contract.status = :deletion
-    if @contract.save
-      flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
-      return redirect_to_index
     end
     redirect_to_show
   end
@@ -315,13 +306,16 @@ class ContractsController < ApplicationController
   end
 
   def load_active_proxies
-    @proxies = []
-    Service.includes(:proxies).activated_startups.published.each do |service|
-      @proxies += service.proxies.includes(:category).published.to_a
+    startups_scope = Service.activated_startups.published.order(name: :asc)
+    @startups = startups_scope
+
+    if params[:startup_id].present?
+      startups_scope = startups_scope.where(id: params[:startup_id])
     end
-    if @proxies.size == 0
-      flash[:error] = I18n.t('misc.no_available_proxies')
-      redirect_to_index
+
+    @proxies = []
+    startups_scope.includes(:proxies).each do |service|
+      @proxies += service.proxies.includes(:category).published.to_a
     end
   end
 

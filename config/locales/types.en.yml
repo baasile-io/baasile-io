@@ -118,7 +118,7 @@ en:
       commercial_validation_client:
         class: 'text-info'
         description: "The client must validate the dates of the contract."
-        error: 'Only a commercial of the client is authorized to validate this step.'
+        error: 'Waiting for commercial validation by the client.'
         icon: 'fa fa-fw fa-thumbs-o-up text-info'
         reject_label: 'Reject changes and notify supplier'
         title: 'Client Validation'

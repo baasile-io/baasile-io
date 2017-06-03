@@ -36,8 +36,7 @@
       <% end %>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle
-                  <%= 'active' if (['prices', 'price_parameters', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name)) ||
-                                  (controller_name == 'error_measurements') %>
+                  <%= 'active' if current_contract.nil? && ((['prices', 'price_parameters', 'proxies', 'routes', 'query_parameters', 'identifiers'].include?(controller_name)) || (controller_name == 'error_measurements')) %>
                    " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-server fa-fw"></i> <%= t('activerecord.models.proxy').pluralize %></a>
         <div class="dropdown-menu">
           <% if current_service.is_startup? %>

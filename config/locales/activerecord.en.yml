@@ -63,7 +63,7 @@ en:
         expected_free_count: 'Expected quantity'
         expected_start_date: 'Expected start date'
         is_active: 'Active'
-        is_evergreen: 'Automatically renewed'
+        is_evergreen: 'Is evergreen ?'
         name: 'Title'
         price: 'Pricing'
         price_id: 'Pricing'

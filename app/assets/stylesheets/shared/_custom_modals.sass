@@ -1,0 +1,34 @@
+.b-io-modal
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  width: auto
+  height: auto
+  z-index: 120
+  display: none
+
+  .b-io-modal-background
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    width: auto
+    height: auto
+    @include alpha-background-color(rgba(#FFFFFF, .9), #FFFFFF)
+
+  .b-io-modal-message
+    position: absolute
+    top: 100px
+    left: 50%
+    right: 0
+    bottom: 0
+    width: 500px
+    height: auto
+    margin-left: -250px
+
+  .popover
+    width: 100% !important
+    max-width: 100% !important

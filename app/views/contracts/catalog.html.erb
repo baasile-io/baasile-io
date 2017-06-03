@@ -1,29 +1,55 @@
 <% content_for(:page_description) { t('.description') } %>
 <% content_for(:page_title) { t('.title') } %>
 
+<% content_for(:page_controls) {
+  content_tag :div, style: 'width: 300px' do
+    select_tag :startup_id,
+               options_from_collection_for_select(@startups, :id, :name, params[:startup_id]),
+               prompt: t('actions.filter_by_startup'),
+               id: 'select_startup_id_catalog',
+               class: 'select2',
+               data: {
+                 url: request.path
+               }
+  end
+} %>
+
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <div class="row">
-      <% @proxies.each do |proxy| %>
-        <% image = @logotype_service.url(proxy.service.client_id, :thumb_normalize) %>
-        <div class="col-sm-4">
-          <div class="card text-center mb-4">
-            <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.service.name %>">
-            <div class="card-block">
-              <h4 class="card-title"><%= proxy.name %></h4>
-              <p class="card-text text-muted"><%= proxy.category.try(:name) %></p>
-              <p class="card-text"><%= simple_format(proxy.description).html_safe %></p>
-              <a href="<%= startup_path(proxy.service.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
-              <a href="<%= new_service_contract_path(current_service, proxy_id: proxy.id) %>" class="btn btn-success"><%= t('actions.contractualize') %></a>
+    <% if @proxies.size == 0 %>
+      <p><%= t('misc.no_available_proxies') %></p>
+    <% else %>
+
+      <div class="contract_catalog_container">
+        <div class="row">
+          <% @proxies.each do |proxy| %>
+            <% image = @logotype_service.url(proxy.service.client_id, :thumb_normalize) %>
+            <div class="col-sm-3">
+              <div class="card text-center mb-3">
+                <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.service.name %>">
+                <div class="card-block">
+                  <div class="card-block-description">
+                    <h4 class="card-title"><%= proxy.name %></h4>
+                    <p class="card-text text-muted"><%= proxy.category.try(:name) %></p>
+                    <p class="card-text"><%= simple_format(proxy.description).html_safe %></p>
+                    <div class="card-block-description-shadow"></div>
+                  </div>
+                  <%= link_to_modal t('misc.more_info'),
+                                    startup_path(proxy.service.id),
+                                    class: 'btn btn-secondary' %>
+                  <a href="<%= new_service_contract_path(current_service, proxy_id: proxy.id) %>" class="btn btn-success"><%= t('actions.contractualize') %></a>
+                </div>
+                <div class="card-footer text-muted">
+                  <%= proxy.service.name %>
+                </div>
+              </div>
             </div>
-            <div class="card-footer text-muted">
-              <%= proxy.service.name %>
-            </div>
-          </div>
+          <% end %>
         </div>
-      <% end %>
-    </div>
+      </div>
+
+    <% end %>
 
   </div>
 </div>
