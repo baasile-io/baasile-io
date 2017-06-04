@@ -80,6 +80,7 @@ Rails.application.routes.draw do
         post :select_startup_bank_detail
         post :cancel
         get :print_current_month_consumption
+        get :audit
       end
       collection do
         get :catalog
@@ -138,6 +139,7 @@ Rails.application.routes.draw do
           post :select_startup_bank_detail
           post :cancel
           get :print_current_month_consumption
+          get :audit
         end
         collection do
           get :catalog
@@ -172,6 +174,7 @@ Rails.application.routes.draw do
         post :set_right
         post :unset_right
         get :users
+        get :audit
         get :logo
         post :logo
         get '/logo/image', to: 'services#logo_image'
@@ -189,10 +192,14 @@ Rails.application.routes.draw do
       resources :proxies do
         member do
           get :confirm_destroy
+          get :audit
         end
         resources :error_measurements
         resources :identifiers
         resources :routes do
+          member do
+            get :audit
+          end
           resources :query_parameters
         end
         resources :prices do

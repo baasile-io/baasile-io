@@ -134,7 +134,7 @@ en:
         route_id: 'Monitored route'
       proxy:
         alias: 'Alias'
-        category: "Catalog's Category"
+        category: "Category"
         category_id: 'Category'
         description: 'Description'
         name: 'Product name'
@@ -250,8 +250,8 @@ en:
       identifier: 'Credential'
       price: 'Price'
       price_parameter: 'Price criteria'
-      proxy: 'Proxy'
-      proxy_parameter: 'Proxy parameter'
+      proxy: 'Product'
+      proxy_parameter: 'Product parameter'
       query_parameter: 'Query parameter'
       route: 'Route'
       service: 'Enterprise'

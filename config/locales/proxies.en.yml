@@ -1,5 +1,7 @@
 en:
   proxies:
+    audit:
+      title: 'History'
     confirm_destroy:
       title: 'Delete product'
     create:
@@ -21,8 +23,8 @@ en:
           title: 'Test parameters'
         general: 'General'
     index:
-      description: 'Manage your APIs and provide data to the clients'
-      title: 'Functionalities'
+      description: 'Manage your API and publish them in the catalog.'
+      title: 'Products'
     new:
       title: 'New product'
     proxy_parameters_form:

@@ -15,6 +15,7 @@ class Role < ApplicationRecord
       edit: [:admin],
       update: [:admin],
       logo: [:admin],
+      audit: [:admin],
       activation_request: [:admin],
       error_measurements: [:admin, :developer]
     },
@@ -39,7 +40,8 @@ class Role < ApplicationRecord
       update: [:admin, :developer],
       error_measurements: [:admin, :developer],
       destroy: [:admin],
-      confirm_destroy: [:admin]
+      confirm_destroy: [:admin],
+      audit: [:admin]
     },
     identifiers: {
       index: [:admin, :developer]
@@ -70,6 +72,7 @@ class Role < ApplicationRecord
       new: [:admin, :commercial],
       create: [:admin, :commercial],
       show: [:admin, :commercial, :accountant],
+      audit: [:admin],
       edit: [:admin, :commercial, :accountant],
       update: [:admin, :commercial, :accountant],
       comments: [:admin, :commercial, :accountant],

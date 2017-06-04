@@ -19,7 +19,7 @@
           </li>
           <% if current_contract.can?(current_user, :edit) %>
             <li class="nav-item">
-              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_polymorphic_path([current_service, current_contract]) %>"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_polymorphic_path([current_service, current_contract]) %>"><i class="fa fa-pencil fa-fw"></i> <%= t('actions.edit') %></a>
             </li>
           <% end %>
           <% if current_contract.can?(current_user, :prices) %>
@@ -49,6 +49,11 @@
           <% if current_contract.can?(current_user, :error_measurements) %>
             <li class="nav-item">
               <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['error_measurements'].include?(action_name) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'error_measurements') %>"><i class="fa fa-exclamation-triangle fa-fw"></i> <%= t('error_measurements.index.title') %></a>
+            </li>
+          <% end %>
+          <% if current_contract.can?(current_user, :audit) %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if controller_name == 'contracts' && ['audit'].include?(action_name) %>" href="<%= polymorphic_path([current_service, current_contract], action: 'audit') %>"><i class="fa fa-history fa-fw"></i> <%= t('misc.history') %></a>
             </li>
           <% end %>
         </ul>

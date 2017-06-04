@@ -7,6 +7,9 @@ class Contract < ApplicationRecord
         show: {
           client: ['admin']
         },
+        audit: {
+          client: ['admin']
+        },
         validate: {
           client: ['admin']
         },
@@ -28,6 +31,10 @@ class Contract < ApplicationRecord
         show: {
           client: ['commercial']
         },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
+        },
         edit: {
           client: ['commercial']
         },
@@ -44,7 +51,7 @@ class Contract < ApplicationRecord
           client: ['commercial']
         },
         comments: {
-          startup: ['commercial']
+          client: ['commercial']
         },
         general_condition: {
           client: ['commercial']
@@ -71,6 +78,10 @@ class Contract < ApplicationRecord
         show: {
           client: ['commercial'],
           startup: ['commercial']
+        },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
         },
         edit: {
           client: ['commercial']
@@ -122,6 +133,10 @@ class Contract < ApplicationRecord
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
+        },
         validate: {
           client: ['commercial']
         },
@@ -166,6 +181,10 @@ class Contract < ApplicationRecord
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
         },
         validate: {
           startup: ['commercial']
@@ -232,6 +251,10 @@ class Contract < ApplicationRecord
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
         },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
+        },
         validate: {
           startup: ['commercial']
         },
@@ -279,6 +302,10 @@ class Contract < ApplicationRecord
         show: {
           client: ['commercial', 'accountant'],
           startup: ['commercial', 'accountant']
+        },
+        audit: {
+          client: ['admin'],
+          startup: ['admin']
         },
         comments: {
           client: ['commercial'],

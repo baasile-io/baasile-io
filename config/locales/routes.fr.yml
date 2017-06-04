@@ -1,5 +1,7 @@
 fr:
   routes:
+    audit:
+      title: 'Historique'
     create:
       title: 'Nouvelle route'
     edit:

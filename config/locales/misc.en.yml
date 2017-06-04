@@ -4,6 +4,7 @@ en:
     actions: 'Actions'
     activated: "Activated"
     activation_request_already_sent: 'An activation request has been sent.'
+    activation_request_need: "This Enterprise account need to be activated by an administrator of the platform to gain access to all features."
     advanced_permissions: 'Advanced permissions'
     all: 'All'
     all_feminized: 'All'
@@ -20,6 +21,7 @@ en:
     day:
       one: 'day'
       other: 'days'
+    deactivated_service: 'Deactivated enterprise'
     deactivated_services: 'Deactivated enterprises'
     deadline: 'Deadline'
     destroyed: 'Deleted'
@@ -28,6 +30,7 @@ en:
     general_condition_not_accepted: 'You must accept the General Conditions to continue the process of contractualization.'
     general_condition_not_modifiable: 'These General Conditions are not modifiable because they are already accepted'
     general_condition_validation: 'General Conditions validation'
+    history: 'History'
     included: 'included'
     invalid_fields: 'Invalid Fields'
     is_active:

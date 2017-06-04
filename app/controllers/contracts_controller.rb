@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :audit, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
   before_action :load_general_condition, only: [:general_condition]
 
   # Authorization

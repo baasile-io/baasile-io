@@ -1,0 +1,7 @@
+<%
+  content_for(:page_title) {
+    t('misc.history')
+  }
+%>
+
+<%= render partial: 'shared/versions', locals: {objects: [@service]} %>

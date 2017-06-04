@@ -135,7 +135,7 @@ fr:
         route_id: 'Route mesurée'
       proxy:
         alias: 'Alias'
-        category: 'Catégorie du catalogue'
+        category: 'Catégorie'
         category_id: 'Catégorie'
         description: 'Description'
         public: 'Publié sur le catalogue'

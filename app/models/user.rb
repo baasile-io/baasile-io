@@ -21,7 +21,6 @@ class User < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :categories, dependent: :nullify
   has_many :companies, dependent: :nullify
-  has_many :services, dependent: :nullify
   has_many :proxies, dependent: :nullify
   has_many :routes, dependent: :nullify
   has_many :query_parameters, dependent: :nullify
@@ -32,6 +31,7 @@ class User < ApplicationRecord
   has_many :services, through: :user_associations, source: :associable, source_type: Service.name, dependent: :nullify
   has_many :companies, through: :user_associations, source: :associable, source_type: Company.name, dependent: :nullify
 
+  has_many :services_as_owner, class_name: Service.name, primary_key: 'user_id', dependent: :nullify
   has_many :services_as_main_commercial, class_name: Service.name, primary_key: 'main_commercial_id', dependent: :nullify
   has_many :services_as_main_accountant, class_name: Service.name, primary_key: 'main_accountant_id', dependent: :nullify
   has_many :services_as_main_developer, class_name: Service.name, primary_key: 'main_developer_id', dependent: :nullify

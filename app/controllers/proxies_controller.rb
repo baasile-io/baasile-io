@@ -1,5 +1,5 @@
 class ProxiesController < DashboardController
-  before_action :load_proxy, only: [:error_measurements, :show, :edit, :update, :destroy, :confirm_destroy]
+  before_action :load_proxy, only: [:error_measurements, :show, :audit, :edit, :update, :destroy, :confirm_destroy]
   before_action :load_categories, only: [:new, :edit, :update, :create]
 
   before_action :add_breadcrumb_parent

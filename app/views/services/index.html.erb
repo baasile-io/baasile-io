@@ -1,5 +1,14 @@
-<% content_for(:page_title) { t('misc.my_services') } %>
-<% content_for(:page_controls) { link_to t('actions.create_service'), new_service_path, class: 'btn btn-primary' } %>
+<%
+  content_for(:page_title) {
+    t('misc.my_services')
+  }
+
+  content_for(:page_controls) {
+    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.create_service')}".html_safe,
+            new_service_path,
+            class: 'btn btn-primary'
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

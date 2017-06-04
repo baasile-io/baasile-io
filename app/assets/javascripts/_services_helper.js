@@ -31,13 +31,15 @@ function update_subdomain_placeholder() {
   }
 }
 
-input_service_name.on('keyup', update_subdomain_placeholder);
-input_service_name.on('blur', generate_subdomain_auto);
-input_service_subdomain.on('blur', function() {
-  if (input_service_subdomain.val() === '') {
-    generate_subdomain_auto();
-  }
-});
+if (!input_service_subdomain.is(':disabled')) {
+  input_service_name.on('keyup', update_subdomain_placeholder);
+  input_service_name.on('blur', generate_subdomain_auto);
+  input_service_subdomain.on('blur', function () {
+    if (input_service_subdomain.val() === '') {
+      generate_subdomain_auto();
+    }
+  });
+}
 
 
 function input_subdomain_live_update(e) {

@@ -12,7 +12,7 @@ fr:
     comments:
       title: 'Commentaires'
     edit:
-      title: 'Paramètres'
+      title: 'Modifier'
     form:
       hints:
         client_code: 'Champ libre visible uniquement par le client'

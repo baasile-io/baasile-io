@@ -1,0 +1,12 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<%= render partial: 'shared/versions',
+           locals: {
+             objects: [
+               @proxy,
+               @proxy.proxy_parameter,
+               @proxy.proxy_parameter_test,
+               @proxy.proxy_parameter.identifier,
+               @proxy.proxy_parameter_test.identifier
+             ]
+           } %>

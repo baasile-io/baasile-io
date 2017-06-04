@@ -1,5 +1,5 @@
 class RoutesController < DashboardController
-  before_action :load_route, only: [:show, :edit, :update, :destroy]
+  before_action :load_route, only: [:show, :audit, :edit, :update, :destroy]
 
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:index, :show]

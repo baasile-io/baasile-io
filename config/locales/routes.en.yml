@@ -1,5 +1,7 @@
 en:
   routes:
+    audit:
+      title: 'History'
     create:
       title: 'New route'
     edit:
@@ -12,7 +14,7 @@ en:
         subdomain: "The public identifier forms the base of the URL of the route on the platform. It must contain alphanumeric and minus characters only."
         url: "URL must start with a slash (/). It will be joined with the host name of the API."
     index:
-      title: 'List of routes'
+      title: 'Routes'
     new:
       title: 'New route'
     show:

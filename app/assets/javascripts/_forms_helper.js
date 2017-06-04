@@ -101,6 +101,7 @@ window.apply_select2 = function(input) {
     language: I18n.locale,
     templateResult: format_select2_result,
     templateSelection: format_select2_selection,
+    minimumResultsForSearch: 5,
     escapeMarkup: function (markup) { return markup; },
     matcher: matchStart
   });
@@ -125,12 +126,15 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
-  $('select.select2').each(function() {window.apply_select2($(this));});
+  $('select.select2').each(function() {
+    window.apply_select2($(this));
+  });
 
   $('select.services-select2').select2({
     language: I18n.locale,
     templateResult: format_service_select2_option,
     templateSelection: format_service_select2_selection,
+    minimumResultsForSearch: 5,
     escapeMarkup: function (markup) { return markup; },
     matcher: matchStart
   });

@@ -1,12 +1,11 @@
 <%
-  versions = objects.inject([]) {|a, obj| a += obj.versions.to_a if obj.try(&:versions); a}.sort! {|left, right| right.created_at <=> left.created_at}
+  versions = objects.inject([]) {|a, obj|
+    a += obj.versions.to_a if obj.try(&:versions)
+    a
+  }.sort! {|left, right|
+    right.created_at <=> left.created_at
+  }
 %>
-
-<div class="b-io-content--header">
-  <div class="container-fluid">
-    <h3><%= t('.audit') %></h3>
-  </div>
-</div>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -14,7 +13,7 @@
     <% if versions.size == 0 %>
       <p><%= t('misc.nothing_to_display') %></p>
     <% else %>
-      <table class="table table-sm">
+      <table class="table table-sm table-hover">
         <thead>
         <tr>
           <th>

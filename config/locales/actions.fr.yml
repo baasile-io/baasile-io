@@ -44,7 +44,10 @@ fr:
     new: 'Créer'
     new_client: 'Créer un Client'
     new_company: 'Créer un Aggrégateur'
+    new_contract: 'Nouveau contrat'
+    new_route: 'Créer une route'
     new_startup: 'Créer un Fournisseur'
+    new_ticket: 'Créer un ticket'
     next_step: "Valider"
     open: 'Open'
     print: 'Imprimer'

@@ -49,14 +49,14 @@
   <p><%= t('proxies.form.tabs.proxy_authorization_test.hint') %></p>
   <%= f.input :protocol_test, as: :select, collection: format_protocols_for_select, include_blank: t('.default_value', value: t("types.protocols.#{current_proxy.proxy_parameter_test.protocol}")) %>
   <%= f.input :hostname_test, placeholder: t('.default_value', value: current_proxy.proxy_parameter_test.hostname) %>
-  <%= f.input :port_test, placeholder: t('.default_value', value: current_proxy.proxy_parameter_test.port.to_s) %>
+  <%= f.input :port_test, placeholder: t('.default_value', value: current_proxy.proxy_parameter_test.port.to_s), input_html: {class: 'col-sm-3'} %>
 
   <hr>
   <h5><%= t('proxies.form.tabs.proxy_authorization.title') %></h5>
   <p><%= t('proxies.form.tabs.proxy_authorization.hint') %></p>
   <%= f.input :protocol, as: :select, collection: format_protocols_for_select, include_blank: t('.default_value', value: t("types.protocols.#{current_proxy.proxy_parameter.protocol}")) %>
   <%= f.input :hostname, placeholder: t('.default_value', value: current_proxy.proxy_parameter.hostname) %>
-  <%= f.input :port, placeholder: t('.default_value', value: current_proxy.proxy_parameter.port.to_s) %>
+  <%= f.input :port, placeholder: t('.default_value', value: current_proxy.proxy_parameter.port.to_s), input_html: {class: 'col-sm-3'} %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">
