@@ -1,5 +1,12 @@
-<% content_for(:page_controls) { link_to t('actions.edit_account'), edit_user_registration_path, class: 'btn btn-primary' } %>
-<% content_for(:page_title) { t('misc.my_account') } %>
+<%
+  content_for(:page_controls) {
+    link_to "<i class=\"fa fa-fw fa-pencil\"></i> #{t('actions.edit_account')}".html_safe, edit_user_registration_path, class: 'btn btn-primary'
+  }
+
+  content_for(:page_title) {
+    t('misc.my_account')
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

@@ -4,6 +4,7 @@ fr:
     actions: 'Actions'
     activated: "Activé"
     activation_request_already_sent: "Une demande d'activation a été envoyée."
+    activation_request_need: "Ce compte Entreprise nécessite l'activation par un administrateur de la plateforme afin de bénéficier de toutes les fonctionnalités."
     advanced_permissions: 'Permissions avancées'
     all: 'Tous'
     all_feminized: 'Toutes'
@@ -20,13 +21,17 @@ fr:
     day:
       one: 'jour'
       other: 'jours'
+    deactivated_service: 'Entreprise non activée'
     deactivated_services: 'Entreprises non activées'
     deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
     'false': 'Non'
+    free_count_limit_reached: 'Limite de requêtes atteinte'
+    free_count_limit_reached_reset_description: "Vous avez atteint le nombre de requêtes ou paramètres maximum autorisé dans votre contrat. Du fait que vous êtes en phase de test, vous pouvez réinitialiser le compteur afin de continuer à requêter l'API."
     general_condition_not_modifiable: 'Ces Conditions Générales ne sont pas modifiables car elles ont déjà été acceptées'
     general_condition_validation: 'Validation des Conditions Générales'
+    history: 'Historique'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     is_active:

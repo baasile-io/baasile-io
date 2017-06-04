@@ -1,0 +1,2 @@
+$('#modal-window .modal-title').html('<%= escape_javascript(@startup.name) %>');
+$('#modal-window .modal-body').html('<%= escape_javascript(render partial: "startup_info", locals: {show_back_controls: false}) %>');

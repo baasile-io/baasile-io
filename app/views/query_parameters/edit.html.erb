@@ -1,4 +1,12 @@
-<% content_for(:page_title) { t('.title') } %>
+<%
+  content_for(:page_title) {
+    t('.title')
+  }
+
+  content_for(:page_back) {
+    service_proxy_route_query_parameters_path(current_service, current_proxy, current_route)
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

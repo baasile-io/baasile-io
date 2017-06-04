@@ -1,0 +1,38 @@
+<div class="b-io-header" style="<% unless current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end %>">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3><%= t('misc.dashboard') %></h3>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-pills " style="font-size:110%">
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if (controller_name == 'users' && action_name == 'profile') || controller_name == 'registrations' %>" href="<%= profile_path %>"><i class="fa fa-home fa-fw"></i> <%= t('misc.my_account') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'services' %>" href="<%= services_path %>"><i class="fa fa-cube fa-fw"></i> <%= t('activerecord.models.service').pluralize %></a>
+          </li>
+          <% if current_user.services.count > 0 %>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-fw fa-edit"></i> <%= t('activerecord.models.contract').pluralize %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if current_module == 'bill' %>" href="<%= bills_path %>"><i class="fa fa-fw fa-file-text-o"></i> <%= t('bills.index.title') %></a>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

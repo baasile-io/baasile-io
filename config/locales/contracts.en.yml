@@ -12,7 +12,7 @@ en:
     comments:
       title: 'Comments'
     edit:
-      title: 'Parameters'
+      title: 'Edit'
     form:
       hints:
         client_code: 'Free field visible only by the client'

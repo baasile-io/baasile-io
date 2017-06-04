@@ -13,10 +13,17 @@ class ProxiesController < DashboardController
   end
 
   def index
-    @collection = current_service.proxies.authorized(current_user)
-    if @collection.size == 0
-      redirect_to_new
-    end
+    @collection = current_service.proxies
+  end
+
+  def audit
+    @proxy = Proxy.includes(
+      :prices,
+      :routes,
+      :proxy_parameter,
+      :proxy_parameter_test,
+      routes: [:query_parameters]
+    ).find(params[:id])
   end
 
   def new

@@ -43,7 +43,7 @@ class Appconfig < ApplicationRecord
       value: 3.0
     },
     user_password_expire_after: {
-      sertting_type: :numeric,
+      setting_type: :integer,
       value: 90
     },
     vat_rate: {

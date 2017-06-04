@@ -1,4 +1,19 @@
-<% content_for(:page_title) { t('.title') } %>
+<%
+  content_for(:page_back) {
+    if params[:from_contract]
+      if params[:from_service].present?
+        service_contract_prices_path(service_id: params[:from_service], contract_id: params[:from_contract])
+      else
+        contract_prices_path(contract_id: params[:from_contract])
+      end
+    else
+      service_proxy_prices_path(current_service, current_proxy)
+    end
+  }
+  content_for(:page_title) {
+    t('.title')
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

@@ -284,6 +284,12 @@ module Api
     end
   end
 
+  class ContractFreeCountLimitReached < ProxyError
+    def code
+      808
+    end
+  end
+
   class OtherNotActiveSupplierError < ProxyError
     def code
       901

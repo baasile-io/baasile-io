@@ -2,9 +2,16 @@ class LogotypeService
   class MissingFile < StandardError; end
   class BadExtension < StandardError; end
 
-  MISSING_IMAGE_URL = '/no-image.png'
+  MISSING_IMAGE_EXT = '.png'
+  MISSING_IMAGE_NAME = 'no-image.png'
+  MISSING_IMAGE_PATH = Rails.root.join('app', 'assets', 'images')
+  MISSING_PROCESSED_IMAGE_SUBDIR = 'assets/images/no-image'
+  MISSING_PROCESSED_IMAGE_PATH = Rails.root.join('public', MISSING_PROCESSED_IMAGE_SUBDIR)
 
   ACCEPTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
+
+  # if you update the sizes bellow,
+  # run task: "rake assets:generate_no_image_formats" and commit files
   SIZES = {
     iconic:     {w:   24, h:  24},
     tiny:       {w:  100, h: 100},
@@ -24,39 +31,47 @@ class LogotypeService
     @aws_s3_bucket = Aws::S3::Bucket.new(ENV['AWS_S3_BUCKET'], client: @aws_s3_client)
   end
 
+  def process_image(original_filename, path)
+    # check if the file extension is right
+    raise BadExtension unless ACCEPTED_EXTENSIONS.include? File.extname(original_filename).downcase
+
+    # convert the file to PNG, Magick automatically converts to the extension
+    # of the ouput file
+    magick = Magick::Image.read(path).first
+
+    [].tap do |processed_images|
+      SIZES.each_pair do |size_name, size_dimensions|
+        temp = Tempfile.new(['img', size_name.to_s, '.png'])
+        temp_img = if size_dimensions.key? :h
+                     if magick.columns > magick.rows
+                       x = 0
+                       y = ((size_dimensions[:h] - magick.rows * size_dimensions[:w].to_f / magick.columns.to_f) / 2).to_i
+                     else
+                       y = 0
+                       x = ((size_dimensions[:w] - magick.columns * size_dimensions[:h].to_f / magick.rows.to_f) / 2).to_i
+                     end
+                     magick.resize_to_fit(size_dimensions[:w], size_dimensions[:h]).extent(size_dimensions[:w], size_dimensions[:h], -x, -y)
+                   else
+                     magick.scale(size_dimensions[:w].to_f / magick.columns.to_f)
+                   end
+        temp_img.write temp.path
+
+        processed_images << [temp, size_name]
+      end
+    end
+  end
+
   def upload client_id, file
     # check if file is missing
     raise MissingFile if file.blank?
 
-    # check if the file extension is right
-    raise BadExtension unless ACCEPTED_EXTENSIONS.include? File.extname(file.original_filename).downcase
-
-    # convert the file to PNG, Magick automatically converts to the extension
-    # of the ouput file
-    magick = Magick::Image.read(file.path).first
-
-    SIZES.each_pair do |size_name, size_dimensions|
-      temp = Tempfile.new(['img', '.png'])
-      temp_img = if size_dimensions.key? :h
-                   if magick.columns > magick.rows
-                     x = 0
-                     y = ((size_dimensions[:h] - magick.rows * size_dimensions[:w].to_f / magick.columns.to_f) / 2).to_i
-                   else
-                     y = 0
-                     x = ((size_dimensions[:w] - magick.columns * size_dimensions[:h].to_f / magick.rows.to_f) / 2).to_i
-                   end
-                   magick.resize_to_fit(size_dimensions[:w], size_dimensions[:h]).extent(size_dimensions[:w], size_dimensions[:h], -x, -y)
-                 else
-                   magick.scale(size_dimensions[:w].to_f / magick.columns.to_f)
-                 end
-      temp_img.write temp.path
-
+    process_image(file.original_filename, file.path).each do |image|
       # uploaded the PNG file to S3
-      aws_s3_object(client_id, size_name).delete
-      aws_s3_object(client_id, size_name).upload_file(temp.path, acl: 'public-read', content_type: 'image/png')
+      aws_s3_object(client_id, image[1]).delete
+      aws_s3_object(client_id, image[1]).upload_file(image[0].path, acl: 'public-read', content_type: 'image/png')
 
       # clean up
-      temp.unlink
+      image[0].unlink
     end
 
     true
@@ -83,7 +98,17 @@ class LogotypeService
   def image client_id, size_name
     size_name = DEFAULT_SIZE unless SIZES.key?size_name
 
-    file = open(url client_id, size_name)
+    url = begin
+            if exists?(client_id, size_name)
+              aws_s3_object(client_id, size_name).public_url
+            else
+              ActionController::Base.helpers.asset_path("#{MISSING_PROCESSED_IMAGE_PATH}/#{size_name}#{MISSING_IMAGE_EXT}")
+            end
+          rescue Aws::S3::Errors::Forbidden
+            ActionController::Base.helpers.asset_path("#{MISSING_PROCESSED_IMAGE_PATH}/#{size_name}#{MISSING_IMAGE_EXT}")
+          end
+
+    file = open(url)
     blob = file.read
     file.close
 
@@ -104,10 +129,10 @@ class LogotypeService
     if exists?(client_id, size_name)
       aws_s3_object(client_id, size_name).public_url
     else
-      MISSING_IMAGE_URL
+      ActionController::Base.helpers.asset_path("#{MISSING_PROCESSED_IMAGE_SUBDIR}/#{size_name}#{MISSING_IMAGE_EXT}")
     end
   rescue Aws::S3::Errors::Forbidden
-    MISSING_IMAGE_URL
+    ActionController::Base.helpers.asset_path("#{MISSING_PROCESSED_IMAGE_SUBDIR}/#{size_name}#{MISSING_IMAGE_EXT}")
   end
 
   private

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   captcha_route
 
   get '/robots.txt' => 'pages#robots'
+  get '/logotype/:client_id/(:format)', to: 'pages#startup_logotype', as: :startup_logotype
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
@@ -80,6 +81,8 @@ Rails.application.routes.draw do
         post :select_startup_bank_detail
         post :cancel
         get :print_current_month_consumption
+        get :audit
+        post :reset_free_count_limit
       end
       collection do
         get :catalog
@@ -138,6 +141,8 @@ Rails.application.routes.draw do
           post :select_startup_bank_detail
           post :cancel
           get :print_current_month_consumption
+          get :audit
+          post :reset_free_count_limit
         end
         collection do
           get :catalog
@@ -172,9 +177,9 @@ Rails.application.routes.draw do
         post :set_right
         post :unset_right
         get :users
+        get :audit
         get :logo
         post :logo
-        get '/logo/image', to: 'services#logo_image'
       end
 
       get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'
@@ -189,10 +194,14 @@ Rails.application.routes.draw do
       resources :proxies do
         member do
           get :confirm_destroy
+          get :audit
         end
         resources :error_measurements
         resources :identifiers
         resources :routes do
+          member do
+            get :audit
+          end
           resources :query_parameters
         end
         resources :prices do

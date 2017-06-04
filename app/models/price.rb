@@ -95,7 +95,7 @@ class Price < ApplicationRecord
         end
     end
     if self.pricing_type.to_sym == :per_parameter
-      if self.pricing_duration_type != :prepaid
+      if self.pricing_duration_type.to_sym != :prepaid
         self.errors.add(:pricing_duration_type, I18n.t('errors.messages.pricing_per_parameter_must_be_prepaid'))
       end
       unless self.proxy.routes.exists?(measure_token_activated: true)

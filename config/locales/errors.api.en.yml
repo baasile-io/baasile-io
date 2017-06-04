@@ -166,6 +166,10 @@ en:
         status: 403
         message: "The contract has been temporarily deactivated"
         title: 'Contract not active'
+      '808':
+        status: 429
+        message: "The number of requests or measure tokens has been reached"
+        title: "Contract's limit has been reached"
       '901':
         status: 403
         message: "The supplier is not active"

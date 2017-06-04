@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service, only: [:error_measurements, :activation_request, :show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo, :logo_image]
+  before_action :load_service, only: [:error_measurements, :activation_request, :show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
@@ -21,7 +21,7 @@ class ServicesController < ApplicationController
 
   def index
     @collection = current_user.services
-    if @collection.size == 0
+    if @collection.count == 0
       redirect_to_new
     end
   end
@@ -31,6 +31,22 @@ class ServicesController < ApplicationController
     children = current_service.children
     @clients = children.select {|c| c.service_type == 'client'}
     @startups = children.select {|c| c.service_type == 'startup'}
+  end
+
+  def audit
+    @service = Service.includes(
+      :user_associations,
+      :bank_details,
+      :tickets,
+      :prices,
+      :proxies,
+      :routes,
+      :contracts_as_client,
+      :contracts_as_startup,
+      :contact_detail,
+      proxies: [:proxy_parameter, :proxy_parameter_test],
+      routes: [:query_parameters]
+    ).find(params[:id])
   end
 
   def new
@@ -91,6 +107,7 @@ class ServicesController < ApplicationController
       unless status
         flash[:error] = error
       else
+        @service.touch
         flash[:success] = I18n.t('services.logo.deleted')
       end
       redirect_to_logo
@@ -102,6 +119,7 @@ class ServicesController < ApplicationController
       unless status
         flash[:error] = error
       else
+        @service.touch
         flash[:success] = I18n.t('services.logo.uploaded')
       end
       redirect_to_logo
@@ -109,17 +127,6 @@ class ServicesController < ApplicationController
     else
       render :logo
     end
-  end
-
-  def logo_image
-    @logotype_service = LogotypeService.new
-
-    response.headers['Content-Type'] = 'image/png'
-    response.headers['Content-Disposition'] = 'inline'
-
-    if params.has_key?(:width) then width = params[:width].to_i else width = nil end
-
-    render :text => @logotype_service.image(@service.client_id, width)
   end
 
   def activation_request

@@ -1,8 +1,16 @@
-<% content_for(:page_title) { t('.title') } %>
+<%
+  content_for(:page_title) {
+    t('.title')
+  }
 
-<% if current_user.is_commercial_of?(current_service) %>
-  <% content_for(:page_controls) { link_to t('actions.new'), new_service_proxy_price_path(current_service, current_proxy), class: 'btn btn-primary' } %>
-<% end %>
+  if current_user.is_commercial_of?(current_service)
+    content_for(:page_controls) {
+      link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_price_template')}".html_safe,
+              new_service_proxy_price_path(current_service, current_proxy),
+              class: 'btn btn-primary'
+    }
+  end
+%>
 
 
 <div class="b-io-content--secondary">

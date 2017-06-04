@@ -1,0 +1,8 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<%= render partial: 'shared/versions',
+           locals: {
+             objects: [
+               @route
+             ] + @route.query_parameters.to_a
+           } %>

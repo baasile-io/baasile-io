@@ -2,6 +2,10 @@ en:
   shared:
     versions:
       audit: 'History'
+      event_icons:
+        create: 'fa fa-fw fa-plus-circle'
+        destroy: 'fa fa-fw fa-trash'
+        update: 'fa fa-fw fa-pencil'
       events:
         create: 'Creation'
         destroy: 'Removal'

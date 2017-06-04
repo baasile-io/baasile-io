@@ -23,9 +23,9 @@ class Proxy < ApplicationRecord
   accepts_nested_attributes_for :proxy_parameter_test
 
   validates :name, presence: true, length: {minimum: 2, maximum: 255}
-  validates :name, uniqueness: {scope: :service_id}
+  validates :name, uniqueness: {scope: :service_id, case_sensitive: false}
   validates :description, presence: true
-  validates :subdomain, uniqueness: {scope: :service_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
+  validates :subdomain, uniqueness: {scope: :service_id, case_sensitive: false}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
   validates :proxy_parameter, presence: true
   validates :proxy_parameter_test, presence: true
 

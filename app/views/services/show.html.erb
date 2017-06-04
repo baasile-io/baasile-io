@@ -1,5 +1,7 @@
 <% content_for(:page_title) { t('misc.overview') } %>
 
+<% activation_requests = Ticket.activation_requests_by_service(current_service).not_closed %>
+
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
@@ -56,7 +58,6 @@
       </div>
     <% else %>
       <hr />
-      <% activation_requests = Ticket.activation_requests_by_service(current_service).not_closed %>
       <% if activation_requests.count > 0 %>
         <div class="alert alert-info text-center" role="alert">
           <h5 class="alert-heading"><%= t('misc.activation_request_already_sent') %></h5>
@@ -114,4 +115,26 @@
     </div>
   </div>
 
+<% end %>
+
+<% unless @service.is_activated? %>
+  <%= render layout: 'shared/custom_modal',
+             locals: {
+               title: t('misc.deactivated_service')
+             } do %>
+
+    <% if activation_requests.count > 0 %>
+      <p><%= t('misc.activation_request_already_sent') %></p>
+      <%= link_to t('actions.see_ticket'),
+                  ticket_path(activation_requests.last),
+                  class: 'btn btn-success' %>
+    <% else %>
+      <p><%= t('misc.activation_request_need') %></p>
+      <%= link_to t('types.ticket_types.activation_request'),
+                  activation_request_service_path(@service),
+                  method: :post,
+                  class: 'btn btn-primary' %>
+    <% end %>
+
+  <% end %>
 <% end %>

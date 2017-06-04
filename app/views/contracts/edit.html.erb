@@ -1,4 +1,8 @@
-<% content_for(:page_title) { t('misc.parameters') } %>
+<%
+  content_for(:page_title) {
+    t('.title')
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -7,6 +11,3 @@
 
   </div>
 </div>
-
-
-<%= render partial: 'shared/versions', locals: {objects: [@contract] + @contract.comments.to_a + [@contract.price]} %>

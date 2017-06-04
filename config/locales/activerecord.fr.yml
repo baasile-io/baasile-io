@@ -135,7 +135,7 @@ fr:
         route_id: 'Route mesurée'
       proxy:
         alias: 'Alias'
-        category: 'Catégorie du catalogue'
+        category: 'Catégorie'
         category_id: 'Catégorie'
         description: 'Description'
         public: 'Publié sur le catalogue'
@@ -270,7 +270,7 @@ fr:
       service: 'Entreprise'
       ticket: 'Ticket'
       user: 'Utilisateur'
-      user_association: 'Association'
+      user_association: "Association d'utilisateur"
       version: 'Version'
     validations:
       service:

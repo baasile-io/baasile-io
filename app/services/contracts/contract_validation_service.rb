@@ -42,7 +42,9 @@ module Contracts
     end
 
     def authorize_production_request
-      return ContractActivationService.new(@contract).activate if start_date.nil?
+      if start_date.nil?
+        return ContractActivationService.new(@contract).activate
+      end
       raise NotStartedProductionPhase if today < start_date
       if today >= end_date
         raise EndedProductionPhase unless is_evergreen

@@ -16,7 +16,6 @@
           <strong><%= route.name %></strong><br />
           <%= route.local_url %>
         </p>
-        <small class="text-muted"><%= route.description %></small>
       </td>
       <td class="text-right">
         <%= link_to t('actions.configure'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>

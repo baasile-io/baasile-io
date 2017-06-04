@@ -1,3 +1,22 @@
+<%
+  unless Contract::CONTRACT_STATUSES[@contract.status.to_sym][:next].nil?
+    next_step_status, next_step_errors = @contract.can?(current_user, :validate)
+
+    content_for(:page_controls) {
+      if next_step_status
+        link_to t("types.contract_statuses.#{@contract.status}.validate_label"),
+                polymorphic_path([current_service, @contract], action: 'validate'),
+                class: 'btn btn-success',
+                method: :post
+      else
+        show_contract_errors(next_step_errors)
+      end
+    }
+  end
+
+  free_count_limit_ok = Contracts::ContractCheckFreeCountLimit.new(@contract).call
+%>
+
 <% content_for(:page_title) { t('misc.overview') } %>
 
 <div class="b-io-content--secondary">
@@ -8,7 +27,12 @@
         <strong><%= t('activerecord.attributes.contract.status') %></strong>
       </div>
       <div class="col-9">
-        <h5><i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i> <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>"><%= t("types.contract_statuses.#{@contract.status}.title") %></span></h5><br />
+        <h5>
+          <i class="<%= t("types.contract_statuses.#{@contract.status}.icon") %>"></i>
+          <span class="<%= t("types.contract_statuses.#{@contract.status}.class") %>">
+            <%= t("types.contract_statuses.#{@contract.status}.title") %>
+          </span>
+        </h5>
         <small class="text-muted"><%= t("types.contract_statuses.#{@contract.status}.description") %></small>
       </div>
     </div>
@@ -186,10 +210,16 @@
       </div>
       <div class="col-9">
 
-        <% status, errors = @contract.can?(current_user, :cancel) %>
+        <% status, errors = @contract.can?(current_user, :destroy) %>
         <% if status %>
           <div class="pull-right">
-            <%= button_to t('actions.cancel_contract'), (current_service.nil? ? cancel_contract_path(@contract) : cancel_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post, data: { confirm: "Are you sure?" } %>
+            <%= button_to t('actions.cancel_contract'),
+                          polymorphic_path([current_service, @contract]),
+                          class: 'btn btn-danger',
+                          method: :delete,
+                          data: {
+                            confirm: "Are you sure?"
+                          } %>
           </div>
         <% end %>
         <%= show_contract_errors(errors) %>
@@ -206,23 +236,40 @@
         <% end %>
         <%= show_contract_errors(errors) %>
 
-        <% status, errors = @contract.can?(current_user, :client_bank_details) %>
-        <% if status %>
-            <%= link_to t('actions.edit_bank_details.client'), (current_service.nil? ? client_bank_details_contract_path(@contract) : client_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+        <% if current_user.is_user_of?(@contract.client) %>
+          <% status, errors = @contract.can?(current_user, :client_bank_details) %>
+          <% if status %>
+              <%= link_to t('actions.edit_bank_details.client'), (current_service.nil? ? client_bank_details_contract_path(@contract) : client_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+          <% end %>
+          <%= show_contract_errors(errors) %>
         <% end %>
-        <%= show_contract_errors(errors) %>
 
-        <% status, errors = @contract.can?(current_user, :startup_bank_details) %>
-        <% if status %>
-            <%= link_to t('actions.edit_bank_details.startup'), (current_service.nil? ? startup_bank_details_contract_path(@contract) : startup_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+        <% if current_user.is_user_of?(@contract.startup) %>
+          <% status, errors = @contract.can?(current_user, :startup_bank_details) %>
+          <% if status %>
+              <%= link_to t('actions.edit_bank_details.startup'), (current_service.nil? ? startup_bank_details_contract_path(@contract) : startup_bank_details_service_contract_path(current_service, @contract)), class: 'btn btn-primary' %>
+          <% end %>
+          <%= show_contract_errors(errors) %>
         <% end %>
-        <%= show_contract_errors(errors) %>
+
+        <% if @contract.status.to_sym == :validation %>
+          <% unless free_count_limit_ok %>
+            <% status, errors = @contract.can?(current_user, :reset_free_count_limit) %>
+            <% if status %>
+              <%= link_to t('actions.reset_free_count_limit'),
+                          polymorphic_path([current_service, @contract], action: :reset_free_count_limit),
+                          class: 'btn btn-primary',
+                          method: :post %>
+            <% end %>
+          <% end %>
+        <% end %>
 
         <% status, errors = @contract.can?(current_user, :reject) %>
         <% if status %>
           <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post %>
         <% end %>
         <%= show_contract_errors(errors) %>
+
       </div>
     </div>
 
@@ -233,11 +280,11 @@
           <strong><%= t('misc.next_step') %></strong>
         </div>
         <div class="col-9">
-          <% status, errors = @contract.can?(current_user, :validate) %>
-          <% if status %>
+          <% if next_step_status %>
             <%= link_to t("types.contract_statuses.#{@contract.status}.validate_label"), (current_service.nil? ? validate_contract_path(@contract) : validate_service_contract_path(current_service, @contract)), class: 'btn btn-lg btn-success', method: :post %>
+          <% else %>
+            <%= show_contract_errors(next_step_errors) %>
           <% end %>
-          <%= show_contract_errors(errors) %>
         </div>
       </div>
     <% end %>
@@ -356,3 +403,42 @@
     <%= render partial: 'proxies/show_proxy_info', locals: {proxy: @contract.proxy} %>
   </div>
 </div>
+
+<% if @contract.general_condition_validated_client_user_id.nil? %>
+  <% status, errors = @contract.can?(current_user, :general_condition) %>
+  <% if status %>
+
+    <%= render layout: 'shared/custom_modal',
+               locals: {
+                 title: t('misc.general_condition_validation')
+               } do %>
+
+      <p><%= t('misc.general_condition_not_accepted') %></p>
+
+      <%= link_to t('actions.see_general_conditions'),
+                  (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)),
+                  class: 'btn btn-primary' %>
+
+    <% end %>
+
+  <% end %>
+<% end %>
+
+<% if @contract.status.to_sym == :validation %>
+  <% unless free_count_limit_ok %>
+    <%= render layout: 'shared/custom_modal',
+               locals: {
+                 title: t('misc.free_count_limit_reached')
+               } do %>
+
+      <p><%= t('misc.free_count_limit_reached_reset_description') %></p>
+
+      <%= link_to t('actions.reset_free_count_limit'),
+                  polymorphic_path([current_service, @contract], action: :reset_free_count_limit),
+                  class: 'btn btn-primary',
+                  method: :post %>
+
+    <% end %>
+
+  <% end %>
+<% end %>

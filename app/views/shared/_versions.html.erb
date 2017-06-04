@@ -1,12 +1,11 @@
 <%
-  versions = objects.inject([]) {|a, obj| a += obj.versions.to_a if obj.try(&:versions); a}.sort! {|left, right| right.created_at <=> left.created_at}
+  versions = objects.inject([]) {|a, obj|
+    a += obj.versions.to_a if obj.try(&:versions)
+    a
+  }.sort! {|left, right|
+    right.created_at <=> left.created_at
+  }
 %>
-
-<div class="b-io-content--header">
-  <div class="container-fluid">
-    <h3><%= t('.audit') %></h3>
-  </div>
-</div>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -14,14 +13,14 @@
     <% if versions.size == 0 %>
       <p><%= t('misc.nothing_to_display') %></p>
     <% else %>
-      <table class="table table-sm">
+      <table class="table table-sm table-hover">
         <thead>
         <tr>
-          <th>
-            <%= t('activerecord.attributes.versions.object') %>
+          <th colspan="2">
+            <%= t('activerecord.attributes.versions.event') %>
           </th>
           <th>
-            <%= t('activerecord.attributes.versions.event') %>
+            <%= t('activerecord.attributes.versions.object') %>
           </th>
           <th>
             <%= t('activerecord.attributes.versions.whodunnit') %>
@@ -34,11 +33,14 @@
         <tbody>
         <% versions.each do |v| %>
         <tr>
-          <td>
-            <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
+          <td class="width-3">
+            <i class="<%= t(".event_icons.#{v.event}") %>"></i>
           </td>
           <td>
             <small><%= t(".events.#{v.event}") %></small>
+          </td>
+          <td>
+            <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
           </td>
           <td>
             <small><%= User.find_by_id(v.whodunnit) %></small>

@@ -22,11 +22,11 @@ class Route < ApplicationRecord
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
-  validates :subdomain, uniqueness: {scope: :proxy_id}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
+  validates :subdomain, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
-  validates :name, uniqueness: {scope: :proxy_id}, presence: true, length: {minimum: 2, maximum: 255}
+  validates :name, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
   validates :url, presence: true
   validates :url, format: {with: /\A\//}

@@ -1,6 +1,20 @@
-<% content_for(:page_title, t('.title')) %>
-<% content_for(:page_controls) { link_to t('actions.new'), new_ticket_path, class: 'btn btn-primary' } %>
-<% content_for(:page_controls) { link_to t('misc.closed_tickets'), closed_tickets_path, class: 'btn btn-secondary' } %>
+<%
+  content_for(:page_title) {
+    t('.title')
+  }
+
+  content_for(:page_controls) {
+    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_ticket')}".html_safe,
+            new_ticket_path,
+            class: 'btn btn-primary'
+  }
+
+  content_for(:page_controls) {
+    link_to t('misc.closed_tickets'),
+            closed_tickets_path,
+            class: 'btn btn-secondary'
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

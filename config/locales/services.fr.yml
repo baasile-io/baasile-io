@@ -4,7 +4,7 @@ fr:
       title: 'Paramètres'
     form:
       hints:
-        description: 'Description courte de votre entreprise affichée dans les pages du catalogue (144 caractères).'
+        description: 'Description courte de votre entreprise affichée dans les pages du catalogue (155 caractères).'
         description_long: 'Description avancée de votre entreprise et de ses activités affichéé sur une page dédiée du catalogue.'
         subdomain: "L'identifiant publique forme la base de l'URL de l'entreprise sur la plateforme. Il ne peut contenir que des caractères alpha-numériques et le trait d'union. Attention : Une fois que votre compte sera activé, il ne sera plus possible de le modifier."
         subdomain_livepreview_label: 'URL sur la plateforme'
@@ -27,7 +27,7 @@ fr:
     index:
       title: 'Entreprises'
     new:
-      title: 'Créer une nouvelle entreprise'
+      title: 'Créer un compte Entreprise'
     show:
       title: 'Tableau de bord'
     update:

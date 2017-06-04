@@ -70,14 +70,14 @@ en:
         title: 'Client'
       company:
         class: 'text-info'
-        description: 'Aggregator accounts can manage multiple Client and Service Provider accounts.'
+        description: 'Aggregator accounts can manage multiple Client and Supplier accounts.'
         icon: 'fa fa-fw fa-bank text-info'
         title: 'Aggregator'
       startup:
         class: ''
-        description: 'Service Provider accounts can consume and provide API.'
+        description: 'Supplier accounts can consume and provide API.'
         icon: 'fa fa-fw fa-cube'
-        title: 'Service Provider'
+        title: 'Supplier'
     setting_types:
       boolean: 'Boolean'
       integer: 'Integer'
@@ -118,7 +118,7 @@ en:
       commercial_validation_client:
         class: 'text-info'
         description: "The client must validate the dates of the contract."
-        error: 'Only a commercial of the client is authorized to validate this step.'
+        error: 'Waiting for commercial validation by the client.'
         icon: 'fa fa-fw fa-thumbs-o-up text-info'
         reject_label: 'Reject changes and notify supplier'
         title: 'Client Validation'

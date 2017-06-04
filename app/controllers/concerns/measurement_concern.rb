@@ -27,7 +27,9 @@ module MeasurementConcern
       measure.increment_call
       measure.save!
       yield
-      response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value unless @measure_token.nil?
+      unless @measure_token.nil?
+        response.headers[Appconfig.get(:api_measure_token_name)] = @measure_token.value
+      end
     end
   rescue ProxyCanceledMeasurement => e
     do_request_error_measure(e.error, e.request_detail)
@@ -43,37 +45,24 @@ module MeasurementConcern
       create_measure_token
     else
       find_measure_token(given_measure_token_value)
-      raise Api::MeasureTokenNotFoundError if @measure_token.nil?
-      raise Api::MeasureTokenRevokedError if @measure_token.revoked
+      if @measure_token.nil?
+        error = Api::MeasureTokenNotFoundError.new
+        do_request_error_measure(error, nil)
+        raise error
+      end
+      if @measure_token.revoked
+        error = Api::MeasureTokenRevokedError.new
+        do_request_error_measure(error, nil)
+        raise error
+      end
     end
   end
 
   def authorize_measured_request
-    return if current_contract_price_request_limit == false
-
-    measurements = Measurement.by_contract_status(current_contract)
-
-    case current_contract_pricing_duration_type
-      when :monthly
-        measurements = measurements.where('created_at >= :start AND created_at <= :end', start: today.beginning_of_month, end: today.end_of_month)
-      when :yearly
-        measurements = measurements.where('created_at >= :start AND created_at <= :end', start: today.beginning_of_year, end: today.end_of_year)
-    end
-
-    requests_count = case current_contract_pricing_type
-                       when :per_call
-                         measurements.sum(:requests_count)
-                       when :per_parameter
-                         measurements.select(:measure_token_id).distinct.count
-                     end
-
-    if requests_count >= current_contract_price_request_limit
-      return render status: 429, json: {
-        errors: [{
-                   status: 429,
-                   title: 'Subscription limit is reached.'
-                 }]
-      }
+    unless Contracts::ContractCheckFreeCountLimit.new(current_contract, current_route).call
+      error = Api::ContractFreeCountLimitReached.new
+      do_request_error_measure(error, nil)
+      raise error
     end
   end
 

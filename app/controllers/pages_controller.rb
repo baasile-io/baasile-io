@@ -6,6 +6,8 @@ class PagesController < ApplicationController
 
   layout 'public'
 
+  respond_to :html, :js
+
   def service_book
     @collection = Service.activated_startups.published
   end
@@ -14,6 +16,22 @@ class PagesController < ApplicationController
     @startup = Service.find_by_id(params[:id])
     if @startup.nil? || !@startup.public
       render :not_found, status: :not_found
+    end
+  end
+
+  def startup_logotype
+    service = Service.select(:id, :updated_at).find_by_client_id(params[:client_id])
+    if service.nil?
+      return render text: '', status: 404
+    end
+
+    response.headers['Content-Type'] = 'image/png'
+    response.headers['Content-Disposition'] = 'inline'
+
+    cache [service.updated_at, params[:client_id], params[:format]] do
+      @logotype_service = LogotypeService.new
+
+      render text: @logotype_service.image(params[:client_id], params[:format].try(:to_sym))
     end
   end
 

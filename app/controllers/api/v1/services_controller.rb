@@ -13,6 +13,7 @@ module Api
               name: service.name,
               description: service.description,
               website: service.website,
+              logotype: service.logotype_url(current_host),
               proxies: service.proxies.map {|proxy|
                 {
                   id: proxy.subdomain,
@@ -39,6 +40,7 @@ module Api
               name: current_service.name,
               description: current_service.description,
               website: current_service.website,
+              logotype: current_service.logotype_url(current_host),
               proxies: current_service.proxies.map {|proxy|
                 {
                   id: proxy.subdomain,

@@ -33,6 +33,7 @@ class Service < ApplicationRecord
   has_many :contracts_as_client, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error
   has_many :contracts_as_startup, class_name: Contract.name, foreign_key: 'startup_id', dependent: :restrict_with_error
   has_many :routes, through: :proxies, dependent: :restrict_with_error
+  has_many :prices, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens, dependent: :destroy
   has_many :bills, through: :contracts, dependent: :restrict_with_error
@@ -55,7 +56,7 @@ class Service < ApplicationRecord
 
   validates :website, url: true, allow_blank: true
 
-  validates :subdomain, presence: true, uniqueness: true, subdomain: true, length: {minimum: 2, maximum: 35}
+  validates :subdomain, presence: true, uniqueness: {case_sensitive: false}, subdomain: true, length: {minimum: 2, maximum: 35}
   validate :subdomain_changed_disallowed
 
   validates :client_id,     uniqueness: true,
@@ -210,6 +211,10 @@ class Service < ApplicationRecord
 
   def local_url(version = 'v1')
     "/api/#{version}/#{self.subdomain}"
+  end
+
+  def logotype_url(host)
+    Rails.application.routes.url_helpers.startup_logotype_url(client_id: client_id, host: host)
   end
 
   def contracts

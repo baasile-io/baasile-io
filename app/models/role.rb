@@ -9,20 +9,13 @@ class Role < ApplicationRecord
       new: [:accountant],
       update: [:accountant],
       create: [:accountant],
-      client_bank_details: [:accountant],
-      client_select_bank_detail: [:accountant],
-      client_bank_details_selection: [:accountant],
-      startup_bank_details: [:accountant],
-      startup_bank_details_selection: [:accountant],
-      startup_select_bank_detail: [:accountant],
-      delete_client_bank_detail: [:accountant],
-      delete_startup_bank_detail: [:accountant],
     },
     services: {
       show: USER_ROLES.dup,
       edit: [:admin],
       update: [:admin],
       logo: [:admin],
+      audit: [:admin],
       activation_request: [:admin],
       error_measurements: [:admin, :developer]
     },
@@ -47,12 +40,14 @@ class Role < ApplicationRecord
       update: [:admin, :developer],
       error_measurements: [:admin, :developer],
       destroy: [:admin],
-      confirm_destroy: [:admin]
+      confirm_destroy: [:admin],
+      audit: [:admin, :developer]
     },
     identifiers: {
       index: [:admin, :developer]
     },
     routes: {
+      audit: [:admin, :developer],
       index: [:admin, :developer],
       new: [:admin, :developer],
       create: [:admin, :developer],
@@ -78,6 +73,7 @@ class Role < ApplicationRecord
       new: [:admin, :commercial],
       create: [:admin, :commercial],
       show: [:admin, :commercial, :accountant],
+      audit: [:admin],
       edit: [:admin, :commercial, :accountant],
       update: [:admin, :commercial, :accountant],
       comments: [:admin, :commercial, :accountant],
@@ -85,9 +81,19 @@ class Role < ApplicationRecord
       validate: [:admin, :commercial, :accountant],
       general_condition: [:admin, :commercial, :accountant],
       validate_general_condition: [:admin, :commercial],
-      cancel: [:admin],
+      destroy: [:admin, :commercial],
       error_measurements: [:admin, :developer],
-      print_current_month_consumption: [:admin, :accountant]
+      error_measurement: [:admin, :developer],
+      print_current_month_consumption: [:admin, :accountant],
+      client_bank_details: [:admin, :accountant],
+      client_select_bank_detail: [:admin, :accountant],
+      client_bank_details_selection: [:admin, :accountant],
+      startup_bank_details: [:admin, :accountant],
+      startup_bank_details_selection: [:admin, :accountant],
+      startup_select_bank_detail: [:admin, :accountant],
+      delete_client_bank_detail: [:admin, :accountant],
+      delete_startup_bank_detail: [:admin, :accountant],
+      reset_free_count_limit: [:admin, :developer]
     },
     bills: {
       index: [:admin, :accountant],

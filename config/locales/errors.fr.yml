@@ -5,6 +5,7 @@ fr:
       s3:
         multipart_upload_error: 'The file could not be uploaded (%{errors}).'
     bank_details:
+      need_accountant_role: "Accès comptable ou administrateur nécessaire"
       not_active: 'Coordonnées bancaires non vérifiées'
       not_modifiable: "Coordonnées non modifables car elles ont été confirmées. Veuillez contacter un administrateur par l'intermediaire d'un ticket."
       unauthorized: 'Coordonnées bancaires non autorisées'
@@ -22,9 +23,9 @@ fr:
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
       is_used: "est en cours d'utilisation"
-      missing_contract_client_bank_detail: "Le client doit enregistrer ces coordonnées bancaires avant de pouvoir continuer"
-      missing_contract_startup_bank_detail: "Le fournisseur doit enregistrer ces coordonnées bancaires avant de pouvoir continuer"
-      missing_contract_prices: "Le fournisseur doit fixer la tarification avant de pouvoir continuer"
+      missing_contract_client_bank_detail: "Le client doit renseigner ses coordonnées bancaires"
+      missing_contract_startup_bank_detail: "Le fournisseur doit renseigner ses coordonnées bancaires"
+      missing_contract_prices: "Le fournisseur doit proposer une tarification"
       missing_file: 'Veuillez sélectionner un fichier avant de cliquer sur "Envoyer"'
       missing_general_condition: "Il n'y a pas de conditions générales effectives sur la plateforme. Veuillez contacter un administrateur"
       missing_measure_token_activated_route: "Votre API ne comporte aucune route dont l'option MeasureToken est activée"

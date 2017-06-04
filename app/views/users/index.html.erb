@@ -1,24 +1,34 @@
-<% content_for(:page_title) {
-  if current_service.nil?
-    t('misc.my_users')
-  else
-    t('.title')
-  end
-} %>
+<%
+  content_for(:page_title) {
+    if current_service.nil?
+      t('misc.my_users')
+    else
+      t('.title')
+    end
+  }
 
-<% unless current_service.nil? %>
-  <% if current_user.is_admin_of?(current_service) %>
-    <% content_for(:page_controls) { link_to t('actions.create_user'), new_service_user_path(current_service), class: 'btn btn-primary' } %>
-  <% end %>
-<% else %>
-  <% content_for(:page_controls) { link_to t('actions.create_user'), new_user_path, class: 'btn btn-primary' } %>
-<% end %>
+  unless current_service.nil?
+    if current_user.is_admin_of?(current_service)
+      content_for(:page_controls) {
+        link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.create_user')}".html_safe,
+                new_service_user_path(current_service),
+                class: 'btn btn-primary'
+      }
+    end
+  else
+    content_for(:page_controls) {
+      link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.create_user')}".html_safe,
+              new_user_path,
+              class: 'btn btn-primary'
+    }
+  end
+%>
 
 <div class="b-io-content--secondary">
   <div class="container">
 
     <% if current_service %>
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-sm-6">
           <%= form_for User.new, url: invite_by_email_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do %>
             <label class="sr-only" for="inlineFormInput"><%= t('activerecord.attributes.user.email') %></label>
@@ -40,7 +50,6 @@
           <% end %>
         </div>
       </div>
-      <hr>
     <% end %>
 
     <% if @users.size == 0 %>

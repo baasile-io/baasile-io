@@ -9,7 +9,7 @@ module Api
     private
 
     def current_service
-      @current_service ||= Service.find_by_subdomain(params[:current_subdomain])
+      @current_service ||= Service.where('lower(subdomain) = lower(?)', params[:current_subdomain]).first
     end
 
     def current_host
