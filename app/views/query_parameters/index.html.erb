@@ -26,7 +26,7 @@
               </td>
               <td>
                 <strong><%= query_param.name %></strong><br />
-                <small class="text-muted"><%= query_param.description %></small>&nbsp;
+                <small class="text-muted"><%= simple_format(query_param.description) %></small>&nbsp;
               </td>
               <td><%= t("types.query_parameter_types.#{query_param.query_parameter_type}.title") %></td>
               <td>

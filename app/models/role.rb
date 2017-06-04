@@ -41,12 +41,13 @@ class Role < ApplicationRecord
       error_measurements: [:admin, :developer],
       destroy: [:admin],
       confirm_destroy: [:admin],
-      audit: [:admin]
+      audit: [:admin, :developer]
     },
     identifiers: {
       index: [:admin, :developer]
     },
     routes: {
+      audit: [:admin, :developer],
       index: [:admin, :developer],
       new: [:admin, :developer],
       create: [:admin, :developer],
@@ -82,6 +83,7 @@ class Role < ApplicationRecord
       validate_general_condition: [:admin, :commercial],
       destroy: [:admin, :commercial],
       error_measurements: [:admin, :developer],
+      error_measurement: [:admin, :developer],
       print_current_month_consumption: [:admin, :accountant],
       client_bank_details: [:accountant],
       client_select_bank_detail: [:accountant],

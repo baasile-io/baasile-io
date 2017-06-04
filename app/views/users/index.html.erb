@@ -28,7 +28,7 @@
   <div class="container">
 
     <% if current_service %>
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-sm-6">
           <%= form_for User.new, url: invite_by_email_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do %>
             <label class="sr-only" for="inlineFormInput"><%= t('activerecord.attributes.user.email') %></label>
@@ -50,7 +50,6 @@
           <% end %>
         </div>
       </div>
-      <hr>
     <% end %>
 
     <% if @users.size == 0 %>

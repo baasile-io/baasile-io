@@ -33,6 +33,7 @@ class Service < ApplicationRecord
   has_many :contracts_as_client, class_name: Contract.name, foreign_key: 'client_id', dependent: :restrict_with_error
   has_many :contracts_as_startup, class_name: Contract.name, foreign_key: 'startup_id', dependent: :restrict_with_error
   has_many :routes, through: :proxies, dependent: :restrict_with_error
+  has_many :prices, through: :proxies
   has_one :contact_detail, as: :contactable, dependent: :destroy
   has_many :refresh_tokens, dependent: :destroy
   has_many :bills, through: :contracts, dependent: :restrict_with_error

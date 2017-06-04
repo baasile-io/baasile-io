@@ -45,6 +45,7 @@ en:
     new_client: 'Create Client'
     new_company: 'Create Aggregator'
     new_contract: 'New contract'
+    new_price_template: 'Create pricing template'
     new_route: 'Create route'
     new_startup: 'Create Supplier'
     new_ticket: 'Create Ticket'

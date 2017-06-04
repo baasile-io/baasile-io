@@ -4,9 +4,12 @@
            locals: {
              objects: [
                @proxy,
+               @proxy.prices.to_a,
+               @proxy.routes.to_a,
+               @proxy.routes.map {|r| r.query_parameters},
                @proxy.proxy_parameter,
                @proxy.proxy_parameter_test,
                @proxy.proxy_parameter.identifier,
                @proxy.proxy_parameter_test.identifier
-             ]
+             ].flatten
            } %>

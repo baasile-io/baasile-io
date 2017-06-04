@@ -30,7 +30,7 @@
           <div class="dropdown-menu">
             <a class="dropdown-item <%= 'active' if controller_name == 'services' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_path(current_service) %>"><i class="fa fa-pencil fa-fw"></i> <%= t('actions.edit') %></a>
             <a class="dropdown-item <%= 'active' if controller_name == 'services' && ['logo'].include?(action_name) %>" href="<%= logo_service_path(current_service) %>"><i class="fa fa-image fa-fw"></i> <%= t('misc.logotype') %></a>
-            <a class="dropdown-item <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
+            <a class="dropdown-item <%= 'active' if controller_name == 'users' %>" href="<%= users_service_path(current_service) %>"><i class="fa fa-fw fa-users"></i> <%= t('services.users.title') %></a>
             <a class="dropdown-item <%= 'active' if controller_name == 'services' && ['audit'].include?(action_name) %>" href="<%= audit_service_path(current_service) %>"><i class="fa fa-history fa-fw"></i> <%= t('misc.history') %></a>
           </div>
         </li>

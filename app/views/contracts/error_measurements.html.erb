@@ -1,4 +1,14 @@
-<% content_for(:page_title) { t('error_measurements.index.title') } %>
+<%
+  content_for(:page_title) {
+    t('error_measurements.index.title')
+  }
+
+  content_for(:page_controls) {
+    link_to errors_documentations_path, class: 'btn btn-secondary' do
+      "<i class=\"fa fa-fw fa-warning\"></i> #{t('documentations.errors.title')}".html_safe
+    end
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

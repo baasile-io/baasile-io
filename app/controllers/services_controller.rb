@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service, only: [:error_measurements, :activation_request, :show, :audit, :edit, :update, :destroy, :toggle_public, :users, :services, :logo]
+  before_action :load_service, only: [:error_measurements, :activation_request, :show, :edit, :update, :destroy, :toggle_public, :users, :services, :logo]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
@@ -31,6 +31,22 @@ class ServicesController < ApplicationController
     children = current_service.children
     @clients = children.select {|c| c.service_type == 'client'}
     @startups = children.select {|c| c.service_type == 'startup'}
+  end
+
+  def audit
+    @service = Service.includes(
+      :user_associations,
+      :bank_details,
+      :tickets,
+      :prices,
+      :proxies,
+      :routes,
+      :contracts_as_client,
+      :contracts_as_startup,
+      :contact_detail,
+      proxies: [:proxy_parameter, :proxy_parameter_test],
+      routes: [:query_parameters]
+    ).find(params[:id])
   end
 
   def new

@@ -257,7 +257,7 @@ en:
       service: 'Enterprise'
       ticket: 'Ticket'
       user: 'User'
-      user_association: 'Association'
+      user_association: "User association"
       version: 'Version'
     validations:
       service:

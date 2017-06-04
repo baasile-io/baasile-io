@@ -45,6 +45,7 @@ fr:
     new_client: 'Créer un Client'
     new_company: 'Créer un Aggrégateur'
     new_contract: 'Nouveau contrat'
+    new_price_template: 'Créer un modèle de tarification'
     new_route: 'Créer une route'
     new_startup: 'Créer un Fournisseur'
     new_ticket: 'Créer un ticket'

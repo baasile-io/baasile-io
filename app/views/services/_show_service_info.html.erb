@@ -79,9 +79,7 @@
 
   </div>
   <div class="col-sm-3 text-sm-right">
-    <% if @logotype_service.exists?(service.client_id, :tiny) %>
-      <img src="<%= @logotype_service.url(service.client_id, :tiny) %>">
-    <% end %>
+    <img src="<%= @logotype_service.url(service.client_id, :tiny) %>">
   </div>
 </div>
 

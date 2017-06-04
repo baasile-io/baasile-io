@@ -6,7 +6,7 @@
   unless current_service.nil?
     if current_user.is_commercial_of?(current_service)
       content_for(:page_controls) {
-        link_to t('actions.new_contract'),
+        link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_contract')}".html_safe,
                 new_service_contract_path(current_service),
                 class: 'btn btn-primary'
       }
@@ -14,7 +14,7 @@
   else
     if current_user.is_commercial?
       content_for(:page_controls) {
-        link_to t('actions.new_contract'),
+        link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_contract')}".html_safe,
                 new_contract_path,
                 class: 'btn btn-primary'
       }
