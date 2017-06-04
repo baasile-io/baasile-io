@@ -1,6 +1,7 @@
-<% unless Contract::CONTRACT_STATUSES[@contract.status.to_sym][:next].nil? %>
-  <% next_step_status, next_step_errors = @contract.can?(current_user, :validate) %>
-  <%
+<%
+  unless Contract::CONTRACT_STATUSES[@contract.status.to_sym][:next].nil?
+    next_step_status, next_step_errors = @contract.can?(current_user, :validate)
+
     content_for(:page_controls) {
       if next_step_status
         link_to t("types.contract_statuses.#{@contract.status}.validate_label"),
@@ -11,8 +12,10 @@
         show_contract_errors(next_step_errors)
       end
     }
-  %>
-<% end %>
+  end
+
+  free_count_limit_ok = Contracts::ContractCheckFreeCountLimit.new(@contract).call
+%>
 
 <% content_for(:page_title) { t('misc.overview') } %>
 
@@ -249,11 +252,24 @@
           <%= show_contract_errors(errors) %>
         <% end %>
 
+        <% if @contract.status.to_sym == :validation %>
+          <% unless free_count_limit_ok %>
+            <% status, errors = @contract.can?(current_user, :reset_free_count_limit) %>
+            <% if status %>
+              <%= link_to t('actions.reset_free_count_limit'),
+                          polymorphic_path([current_service, @contract], action: :reset_free_count_limit),
+                          class: 'btn btn-primary',
+                          method: :post %>
+            <% end %>
+          <% end %>
+        <% end %>
+
         <% status, errors = @contract.can?(current_user, :reject) %>
         <% if status %>
           <%= link_to t("types.contract_statuses.#{@contract.status}.reject_label"), (current_service.nil? ? reject_contract_path(@contract) : reject_service_contract_path(current_service, @contract)), class: 'btn btn-danger', method: :post %>
         <% end %>
         <%= show_contract_errors(errors) %>
+
       </div>
     </div>
 
@@ -402,6 +418,25 @@
       <%= link_to t('actions.see_general_conditions'),
                   (current_service.nil? ? general_condition_contract_path(@contract) : general_condition_service_contract_path(current_service, @contract)),
                   class: 'btn btn-primary' %>
+
+    <% end %>
+
+  <% end %>
+<% end %>
+
+<% if @contract.status.to_sym == :validation %>
+  <% unless free_count_limit_ok %>
+    <%= render layout: 'shared/custom_modal',
+               locals: {
+                 title: t('misc.free_count_limit_reached')
+               } do %>
+
+      <p><%= t('misc.free_count_limit_reached_reset_description') %></p>
+
+      <%= link_to t('actions.reset_free_count_limit'),
+                  polymorphic_path([current_service, @contract], action: :reset_free_count_limit),
+                  class: 'btn btn-primary',
+                  method: :post %>
 
     <% end %>
 

@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_contract, only: [:show, :audit, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement]
+  before_action :load_contract, only: [:show, :audit, :edit, :update, :destroy, :validate, :reject, :general_condition, :validate_general_condition, :comments, :prices, :select_price, :client_bank_details, :select_startup_bank_detail, :select_client_bank_detail, :client_bank_details_selection, :startup_bank_details, :startup_bank_details_selection, :cancel, :print_current_month_consumption, :error_measurements, :error_measurement, :reset_free_count_limit]
   before_action :load_general_condition, only: [:general_condition]
 
   # Authorization
@@ -254,6 +254,17 @@ class ContractsController < ApplicationController
   def error_measurement
     @error_measurement = current_contract.error_measurements.includes(:proxy, :client).find(params[:id_error_measurement])
     render 'error_measurements/show'
+  end
+
+  def reset_free_count_limit
+    if @contract.status.to_sym == :validation
+      if Contracts::ContractResetFreeCountLimit.new(@contract).call
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
+      else
+        flash[:error] = I18n.t('errors.an_error_occured')
+      end
+    end
+    redirect_to_show
   end
 
   private

@@ -85,14 +85,15 @@ class Role < ApplicationRecord
       error_measurements: [:admin, :developer],
       error_measurement: [:admin, :developer],
       print_current_month_consumption: [:admin, :accountant],
-      client_bank_details: [:accountant],
-      client_select_bank_detail: [:accountant],
-      client_bank_details_selection: [:accountant],
-      startup_bank_details: [:accountant],
-      startup_bank_details_selection: [:accountant],
-      startup_select_bank_detail: [:accountant],
-      delete_client_bank_detail: [:accountant],
-      delete_startup_bank_detail: [:accountant]
+      client_bank_details: [:admin, :accountant],
+      client_select_bank_detail: [:admin, :accountant],
+      client_bank_details_selection: [:admin, :accountant],
+      startup_bank_details: [:admin, :accountant],
+      startup_bank_details_selection: [:admin, :accountant],
+      startup_select_bank_detail: [:admin, :accountant],
+      delete_client_bank_detail: [:admin, :accountant],
+      delete_startup_bank_detail: [:admin, :accountant],
+      reset_free_count_limit: [:admin, :developer]
     },
     bills: {
       index: [:admin, :accountant],

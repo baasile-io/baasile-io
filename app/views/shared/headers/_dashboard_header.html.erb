@@ -7,7 +7,7 @@
           <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= I18n.t("types.service_types.#{current_service.service_type}.title") %></span>
           <span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
           <% if current_service.parent %>
-            <span class="text-muted"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent) %> <i class="fa fa-fw fa-caret-right"></i></span>
+            <span class="<%= I18n.t("types.service_types.#{current_service.parent.service_type}.class") %>"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent) %> <i class="fa fa-fw fa-caret-right"></i></span>
           <% end %>
           <span class="<%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><i class="<%= I18n.t("types.service_types.#{current_service.service_type}.icon") %>"></i> <%= current_service.name %></span>
         </h3>

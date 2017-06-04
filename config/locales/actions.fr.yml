@@ -57,6 +57,7 @@ fr:
     reopen: 'Réouvrir'
     resend_confirmation_instructions: 'Renvoyer les instructions'
     reset: 'Réinitialiser la valeur par défaut'
+    reset_free_count_limit: 'Réinitialiser le compteur'
     reset_identifiers: 'Réinitialiser les identifiants de connexion'
     reset_unlock_instructions: 'Renvoyer les instructions'
     reset_password: 'Recevoir les instructions'

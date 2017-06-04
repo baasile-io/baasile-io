@@ -82,6 +82,7 @@ Rails.application.routes.draw do
         post :cancel
         get :print_current_month_consumption
         get :audit
+        post :reset_free_count_limit
       end
       collection do
         get :catalog
@@ -141,6 +142,7 @@ Rails.application.routes.draw do
           post :cancel
           get :print_current_month_consumption
           get :audit
+          post :reset_free_count_limit
         end
         collection do
           get :catalog

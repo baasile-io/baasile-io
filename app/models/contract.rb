@@ -207,6 +207,10 @@ class Contract < ApplicationRecord
         error_measurement: {
           client: ['admin', 'developer'],
           startup: ['admin', 'developer']
+        },
+        reset_free_count_limit: {
+          client: ['admin', 'developer'],
+          startup: ['admin', 'developer']
         }
       },
       show_error: {

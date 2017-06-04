@@ -34,12 +34,10 @@ module Api
             body: e.res.body.to_s.force_encoding('UTF-8')
           }
         end
-        if metadata_request && metadata_response
-          metadata_full = {
-            request: metadata_request,
-            response: metadata_response
-          }
-        end
+        metadata_full = {
+          request: metadata_request,
+          response: metadata_response
+        }
         if current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
           meta = metadata_full
         else
@@ -130,33 +128,6 @@ module Api
 
       def current_contract_pricing_type
         @current_contract_pricing_type ||= current_price.pricing_type.to_sym
-      end
-
-      def current_contract_pricing_duration_type
-        @current_contract_pricing_duration_type ||= current_price.pricing_duration_type.to_sym
-      end
-
-      def current_contract_price_request_limit
-        @current_contract_price_request_limit ||= case current_contract_pricing_type
-                                                    when :per_parameter
-                                                      if current_route.measure_token_activated
-                                                        if current_price.deny_after_free_count
-                                                          current_price.free_count
-                                                        else
-                                                          false
-                                                        end
-                                                      else
-                                                        false
-                                                      end
-                                                    when :per_call
-                                                      if current_price.deny_after_free_count
-                                                        current_price.free_count
-                                                      else
-                                                        false
-                                                      end
-                                                    else
-                                                      false
-                                                  end
       end
 
       def load_contract
