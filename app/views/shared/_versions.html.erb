@@ -16,11 +16,11 @@
       <table class="table table-sm table-hover">
         <thead>
         <tr>
-          <th>
-            <%= t('activerecord.attributes.versions.object') %>
+          <th colspan="2">
+            <%= t('activerecord.attributes.versions.event') %>
           </th>
           <th>
-            <%= t('activerecord.attributes.versions.event') %>
+            <%= t('activerecord.attributes.versions.object') %>
           </th>
           <th>
             <%= t('activerecord.attributes.versions.whodunnit') %>
@@ -33,11 +33,14 @@
         <tbody>
         <% versions.each do |v| %>
         <tr>
-          <td>
-            <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
+          <td class="width-3">
+            <i class="<%= t(".event_icons.#{v.event}") %>"></i>
+          </td>
+          <td class="width-10">
+            <small><%= t(".events.#{v.event}") %></small>
           </td>
           <td>
-            <small><%= t(".events.#{v.event}") %></small>
+            <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
           </td>
           <td>
             <small><%= User.find_by_id(v.whodunnit) %></small>

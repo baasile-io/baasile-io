@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   captcha_route
 
   get '/robots.txt' => 'pages#robots'
+  get '/logotype/:client_id/(:format)', to: 'pages#startup_logotype', as: :startup_logotype
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
@@ -177,7 +178,6 @@ Rails.application.routes.draw do
         get :audit
         get :logo
         post :logo
-        get '/logo/image', to: 'services#logo_image'
       end
 
       get '/permissions/list_proxies_routes', to: 'permissions#list_proxies_routes'

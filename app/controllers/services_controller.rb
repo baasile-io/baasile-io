@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_service, only: [:error_measurements, :activation_request, :show, :audit, :edit, :update, :destroy, :toggle_public, :users, :services, :logo, :logo_image]
+  before_action :load_service, only: [:error_measurements, :activation_request, :show, :audit, :edit, :update, :destroy, :toggle_public, :users, :services, :logo]
   before_action :superadmin, only: [:set_right, :unset_right, :admin_board, :destroy, :public_set, :public_unset]
   before_action :load_companies, only: [:edit, :update, :new, :new_client, :create]
   before_action :load_users, only: [:edit, :update, :new, :new_client, :create]
@@ -91,6 +91,7 @@ class ServicesController < ApplicationController
       unless status
         flash[:error] = error
       else
+        @service.touch
         flash[:success] = I18n.t('services.logo.deleted')
       end
       redirect_to_logo
@@ -102,6 +103,7 @@ class ServicesController < ApplicationController
       unless status
         flash[:error] = error
       else
+        @service.touch
         flash[:success] = I18n.t('services.logo.uploaded')
       end
       redirect_to_logo
@@ -109,15 +111,6 @@ class ServicesController < ApplicationController
     else
       render :logo
     end
-  end
-
-  def logo_image
-    @logotype_service = LogotypeService.new
-
-    response.headers['Content-Type'] = 'image/png'
-    response.headers['Content-Disposition'] = 'inline'
-
-    render :text => @logotype_service.image(@service.client_id, params[:format])
   end
 
   def activation_request

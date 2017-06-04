@@ -212,6 +212,10 @@ class Service < ApplicationRecord
     "/api/#{version}/#{self.subdomain}"
   end
 
+  def logotype_url(host)
+    Rails.application.routes.url_helpers.startup_logotype_url(client_id: client_id, host: host)
+  end
+
   def contracts
     Contract.where('client_id = :id OR startup_id = :id', id: self.id)
   end
