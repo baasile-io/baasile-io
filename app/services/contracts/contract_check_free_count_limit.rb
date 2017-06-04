@@ -42,21 +42,14 @@ module Contracts
             if route.nil? || route.measure_token_activated
               if contract.price.deny_after_free_count
                 contract.price.free_count
-              else
-                false
               end
-            else
-              false
             end
           when :per_call
             if contract.price.deny_after_free_count
               contract.price.free_count
-            else
-              false
             end
-          else
-            false
         end
+        false
       end
 
   end
