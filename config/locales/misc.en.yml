@@ -81,6 +81,7 @@ en:
       'true': "Paid"
     parameters: 'Settings'
     permissions: 'Permissions'
+    platform_contribution: "Platform contribution"
     pricing: 'Pricing'
     profile: 'Profile'
     role: 'Role'

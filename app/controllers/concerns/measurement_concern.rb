@@ -22,7 +22,7 @@ module MeasurementConcern
 
   def do_request_measure
     Measurement.transaction do
-      date_start = DateTime.now.change(hour: 0, min: 0, sec: 0)
+      date_start = Time.zone.now.change(hour: 0, min: 0, sec: 0)
       measure = Measurement.where(contract: current_contract, client_id: authenticated_service.id, service_id: current_service.id, proxy_id: current_proxy.id, route_id: current_route.id, created_at: date_start, measure_token_id: current_measure_token.try(:id)).first_or_create!
       measure.increment_call
       measure.save!

@@ -42,6 +42,7 @@ fr:
     infos: 'Infos'
     invite_user: "Inviter un utilisateur existant"
     new: 'Créer'
+    new_aggregator: 'Créer un Aggrégateur'
     new_client: 'Créer un Client'
     new_company: 'Créer un Aggrégateur'
     new_contract: 'Nouveau contrat'

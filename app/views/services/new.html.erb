@@ -6,7 +6,11 @@
   end
 
   content_for(:page_title) {
-    t('.title')
+    if params[:service_type].present?
+      t("actions.new_#{params[:service_type]}")
+    else
+      t('.title')
+    end
   }
 %>
 
