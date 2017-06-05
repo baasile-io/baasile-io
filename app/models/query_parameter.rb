@@ -15,7 +15,7 @@ class QueryParameter < ApplicationRecord
   # Versioning
   has_paper_trail
 
-  belongs_to :route
+  belongs_to :route, touch: true
   belongs_to :user
 
   validates :name, presence: true, uniqueness: {scope: [:query_parameter_type, :route_id]}

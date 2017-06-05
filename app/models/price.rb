@@ -19,7 +19,7 @@ class Price < ApplicationRecord
   # Versioning
   has_paper_trail
 
-  belongs_to :proxy
+  belongs_to :proxy, touch: true
   belongs_to :service
   belongs_to :user
   belongs_to :contract

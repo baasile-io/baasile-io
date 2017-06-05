@@ -1,78 +1,272 @@
 <%
-  output ||= []
-  input ||= []
+  input ||= nil
+  output ||= nil
+
+  date_range = ((Date.today - 10.days)..Date.today)
+
+  datasets = []
+  if output
+    datasets << {
+      label: t('misc.measurement_output.title'),
+      data: date_range.map{ |date| output.where('measurements.created_at::date = ?', date).sum(:requests_count) },
+      borderWidth: 2,
+      fill: false,
+      hitRadius: 20,
+      pointStyle: 'rect',
+      borderColor: t('misc.measurement_output.color'),
+      pointBorderColor: t('misc.measurement_output.color'),
+      backgroundColor: t('misc.measurement_output.color'),
+      pointBackgroundColor: t('misc.measurement_output.color')
+    }
+  end
+  if input
+    datasets << {
+      label: t('misc.measurement_input.title'),
+      data: date_range.map{ |date| input.where('measurements.created_at::date = ?', date).sum(:requests_count) },
+      borderWidth: 2,
+      fill: false,
+      hitRadius: 20,
+      pointStyle: 'triangle',
+      borderColor: t('misc.measurement_input.color'),
+      pointBorderColor: t('misc.measurement_input.color'),
+      backgroundColor: t('misc.measurement_input.color'),
+      pointBackgroundColor: t('misc.measurement_input.color')
+    }
+  end
 %>
 
-<% if input.size > 0 %>
-  <hr>
-  <h5>Requêtes envoyées</h5>
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Contrat</th>
-      <th>Client</th>
-      <th>Produit</th>
-      <th>Route</th>
-      <th>MeasureToken</th>
-      <th>Nbre</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% input.each do |m| %>
-      <tr>
-        <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
-        <td>
-          <%= m.contract.try(:name) %> <br />
-          <%= m.contract_status %>
-        </td>
-        <td><%= m.client.try(:name) %></td>
-        <td>
-          <%= m.service.try(:name) %><br />
-          <%= m.proxy.try(:name) %>
-        </td>
-        <td><%= m.route.try(:name) %></td>
-        <td><%= m.measure_token.try(:value) %></td>
-        <td><%= m.requests_count %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-<% end %>
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.models.measurement') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
 
-<% if output.size > 0 %>
-  <hr>
-  <h5>Requêtes reçues</h5>
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Contrat</th>
-      <th>Client</th>
-      <th>Produit</th>
-      <th>Route</th>
-      <th>MeasureToken</th>
-      <th>Nbre</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% output.each do |m| %>
-      <tr>
-        <td><%= m.created_at.strftime('%Y/%m/%d') %></td>
-        <td>
-          <%= m.contract.try(:name) %> <br />
-          <%= m.contract_status %>
-        </td>
-        <td><%= m.client.try(:name) %></td>
-        <td>
-          <%= m.service.try(:name) %><br />
-          <%= m.proxy.try(:name) %>
-        </td>
-        <td><%= m.route.try(:name) %></td>
-        <td><%= m.measure_token.try(:value) %></td>
-        <td><%= m.requests_count %></td>
-      </tr>
+    <canvas id="inputChart" width="400" height="100"></canvas>
+    <% content_for(:extra_js) do %>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          var input_chart_container = $("#inputChart");
+          var input_chart = new Chart(input_chart_container, {
+            type: 'line',
+            data: {
+              labels: <%= date_range.map{ |date| date.strftime("%Y-%m-%d") }.to_json.html_safe %>,
+              datasets: <%= datasets.to_json.html_safe %>
+            },
+            options: {
+              tooltips: {
+                mode: 'x'
+              },
+              elements: {
+                line: {
+                  tension: 0
+                }
+              },
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }]
+              },
+              legend: {
+                labels: {
+                  usePointStyle: true
+                }
+              }
+            }
+          });
+        });
+      </script>
     <% end %>
-    </tbody>
-  </table>
+
+  </div>
+</div>
+
+<% if show_detail %>
+
+  <% if input && input.count > 0 %>
+
+    <div class="b-io-content--header">
+      <div class="container-fluid">
+        <div class="b-io-content--header--controls"></div>
+        <h4><%= t('misc.measurement_input.title') %></h4>
+      </div>
+    </div>
+    <div class="b-io-content--secondary">
+      <div class="container-fluid">
+
+        <table class="table table-sm table-hover">
+          <thead>
+          <tr>
+            <th><%= t('activerecord.attributes.measurement.created_at') %></th>
+            <th><%= t('activerecord.models.contract') %></th>
+            <th><%= t('activerecord.attributes.contract.client') %></th>
+            <th><%= t('activerecord.models.proxy') %> / <%= t('activerecord.models.route') %></th>
+            <th><%= t('activerecord.models.measure_token') %></th>
+            <th class="width-10"><%= t('activerecord.attributes.measurement.requests_count') %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% input.each do |m| %>
+            <tr>
+              <td>
+                <small>
+                  <%= m.created_at.strftime('%Y/%m/%d') %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.contract.nil? %>
+                    <%= m.contract.try(:name) %> <br />
+                    <i class="<%= t("types.contract_statuses.#{m.contract_status}.icon") %>"></i>
+                    <span class="<%= t("types.contract_statuses.#{m.contract_status}.class") %>">
+                      <%= t("types.contract_statuses.#{m.contract_status}.title") %>
+                    </span>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.client.nil? %>
+                    <%= m.client.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.proxy.nil? %>
+                    <i class="fa fa-fw fa-server"></i>
+                    <%= m.proxy.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                  <br />
+                  <% unless m.route.nil? %>
+                    <i class="fa fa-fw fa-sitemap"></i>
+                    <%= m.route.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.measure_token.nil? %>
+                    <%= m.measure_token.try(:value) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td class="text-right">
+                <%= m.requests_count %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  <% end %>
+
+  <% if output && output.count > 0 %>
+
+    <div class="b-io-content--header">
+      <div class="container-fluid">
+        <div class="b-io-content--header--controls"></div>
+        <h4><%= t('misc.measurement_output.title') %></h4>
+      </div>
+    </div>
+    <div class="b-io-content--secondary">
+      <div class="container-fluid">
+
+        <table class="table table-sm table-hover">
+          <thead>
+          <tr>
+            <th><%= t('activerecord.attributes.measurement.created_at') %></th>
+            <th><%= t('activerecord.models.contract') %></th>
+            <th><%= t('activerecord.attributes.contract.startup') %></th>
+            <th><%= t('activerecord.models.proxy') %> / <%= t('activerecord.models.route') %></th>
+            <th><%= t('activerecord.models.measure_token') %></th>
+            <th class="width-10"><%= t('activerecord.attributes.measurement.requests_count') %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% output.each do |m| %>
+            <tr>
+              <td>
+                <small>
+                  <%= m.created_at.strftime('%Y/%m/%d') %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.contract.nil? %>
+                    <%= m.contract.try(:name) %> <br />
+                    <i class="<%= t("types.contract_statuses.#{m.contract_status}.icon") %>"></i>
+                    <span class="<%= t("types.contract_statuses.#{m.contract_status}.class") %>">
+                      <%= t("types.contract_statuses.#{m.contract_status}.title") %>
+                    </span>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.service.nil? %>
+                    <%= m.service.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.proxy.nil? %>
+                    <i class="fa fa-fw fa-server"></i>
+                    <%= m.proxy.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                  <br />
+                  <% unless m.route.nil? %>
+                    <i class="fa fa-fw fa-sitemap"></i>
+                    <%= m.route.try(:name) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <% unless m.measure_token.nil? %>
+                    <%= m.measure_token.try(:value) %>
+                  <% else %>
+                    <span class="text-muted">---</span>
+                  <% end %>
+                </small>
+              </td>
+              <td class="text-right">
+                <%= m.requests_count %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  <% end %>
+
 <% end %>

@@ -6,7 +6,11 @@ class BillsController < ApplicationController
   # Authorization
   before_action :authorize_action
 
+  # allow get measure info to show
+  include ShowMeasurementConcern
+
   def index
+    init_measurement
     @collection = if current_service
                     Bill.includes(:contract, :client, :startup).by_service(current_service)
                   else

@@ -15,6 +15,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require tether
+//= require Chart/Chart.bundle
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.fr.js

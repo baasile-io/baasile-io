@@ -6,7 +6,7 @@ class Proxy < ApplicationRecord
   # Versioning
   has_paper_trail
 
-  belongs_to  :service
+  belongs_to  :service, touch: true
   belongs_to  :user
   belongs_to  :category
   belongs_to  :proxy_parameter, dependent: :destroy

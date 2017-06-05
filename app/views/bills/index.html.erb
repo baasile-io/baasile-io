@@ -72,3 +72,9 @@
 
   </div>
 </div>
+
+<%= render partial: 'shared/measurement',
+           locals: {
+             show_detail: true,
+             output: @measures_output.last_month
+           } %>
