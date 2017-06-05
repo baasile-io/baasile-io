@@ -14,6 +14,7 @@ module Contracts
       attr_reader :contract, :route
 
       def check
+        return true unless contract.price
 
         if contract.price.pricing_duration_type.to_sym == :prepaid
           if requests_limit != false
