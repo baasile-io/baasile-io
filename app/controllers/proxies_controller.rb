@@ -5,6 +5,9 @@ class ProxiesController < DashboardController
   before_action :add_breadcrumb_parent
   before_action :add_breadcrumb_current_action, except: [:index, :show]
 
+  # allow get measure info to show
+  include ShowMeasurementConcern
+
   def add_breadcrumb_parent
     add_breadcrumb I18n.t('services.index.title'), :services_path
     add_breadcrumb current_service.name, service_path(current_service)
@@ -79,6 +82,14 @@ class ProxiesController < DashboardController
       @proxy.proxy_parameter_test.build_identifier if @proxy.proxy_parameter_test.identifier.nil?
     else
       @proxy.proxy_parameter_test.identifier.destroy unless @proxy.proxy_parameter_test.identifier.nil?
+    end
+
+    # update timestamp of Proxy
+    if !@proxy.changed? &&
+      (@proxy.proxy_parameter.changed? || @proxy.proxy_parameter_test.changed?) ||
+      (!@proxy.proxy_parameter.identifier.nil? && @proxy.proxy_parameter.identifier.changed?) ||
+      (!@proxy.proxy_parameter_test.identifier.nil? && @proxy.proxy_parameter_test.identifier.changed?)
+      @proxy.updated_at = DateTime.now
     end
 
     if @proxy.save

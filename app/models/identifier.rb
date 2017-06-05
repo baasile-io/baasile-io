@@ -4,7 +4,7 @@ class Identifier < ApplicationRecord
 
   attr_accessor :client_secret
 
-  belongs_to :identifiable, polymorphic: true
+  belongs_to :identifiable, polymorphic: true, touch: true
 
   validates :client_id, presence: true, uniqueness: {scope: [:identifiable_type, :identifiable_id]}
   validate :encrypted_secret_validation

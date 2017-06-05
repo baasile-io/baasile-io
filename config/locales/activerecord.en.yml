@@ -105,6 +105,9 @@ en:
         client_secret: 'Secret Key'
         encrypted_secret: 'Encrypted Secret Key'
         user: 'Creator'
+      measurement:
+        created_at: 'Date'
+        requests_count: 'Requests count'
       price:
         cost: 'Price'
         base_cost: 'Subscription price'
@@ -248,6 +251,8 @@ en:
       error_measurement: 'Error'
       general_condition: 'General Conditions'
       identifier: 'Credential'
+      measure_token: 'Measure Token'
+      measurement: "Use measurement"
       price: 'Price'
       price_parameter: 'Price criteria'
       proxy: 'Product'

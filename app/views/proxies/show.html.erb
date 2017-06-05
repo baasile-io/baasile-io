@@ -21,3 +21,9 @@
     </div>
   </div>
 <% end %>
+
+<%= render partial: 'shared/measurement',
+           locals: {
+             show_detail: true,
+             input: @measures_input.by_proxy(current_proxy).last_month
+           } %>

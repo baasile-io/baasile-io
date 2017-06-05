@@ -14,7 +14,9 @@ class Measurement < ApplicationRecord
   scope :by_startup, ->(startup) { where(service_id: startup.id).order(created_at: :desc) }
   scope :by_proxy, ->(proxy) { where(proxy: proxy) }
   scope :by_route, ->(route) { where(route: route) }
-  scope :between, ->(start_date, end_date) { where('created_at BETWEEN :start_date AND :end_date', start_date: start_date, end_date: end_date) }
+  scope :between, ->(start_date, end_date) { where('measurements.created_at BETWEEN :start_date AND :end_date', start_date: start_date, end_date: end_date) }
+  scope :last_week, -> {where('measurements.created_at >= ?', Date.today - 1.week)}
+  scope :last_month, -> {where('measurements.created_at >= ?', Date.today - 1.month)}
 
   def increment_call
     self.requests_count += 1

@@ -81,6 +81,6 @@ class QueryParametersController < DashboardController
   end
 
   def load_query_parameters
-    @collection = current_route.query_parameters
+    @collection = current_route.query_parameters.order(name: :asc)
   end
 end

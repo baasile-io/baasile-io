@@ -4,7 +4,7 @@
   }
 
   content_for(:page_controls) {
-    link_to t('actions.destroy'),
+    link_to "<i class=\"fa fa-fw fa-trash\"></i> #{t('actions.destroy')}".html_safe,
             service_proxy_price_path(current_service, current_proxy, current_price),
             class: 'btn btn-danger',
             data: {

@@ -1,0 +1,48 @@
+<% if proxies.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover table-link">
+    <thead>
+    <tr>
+      <th colspan="2"><%= t('activerecord.attributes.proxy.name') %></th>
+      <th><%= t('activerecord.attributes.proxy.is_active') %></th>
+      <th>
+        <%= t('activerecord.attributes.proxy.category') %><br />
+        <small class="text-muted"><%= t('activerecord.attributes.proxy.public') %></small>
+      </th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% proxies.each do |proxy| %>
+      <tr data-link="<%= service_proxy_path(current_service, proxy) %>">
+        <td class="width-3">
+          <i class="fa fa-fw fa-2x fa-server"></i>
+        </td>
+        <td>
+          <p>
+            <strong><%= proxy.name %></strong><br />
+            <%= proxy.local_url %>
+          </p>
+        </td>
+        <td>
+          <i class="fa-2x <%= t("misc.is_active.#{proxy.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{proxy.is_active}.title") %>" data-toggle="tooltip"></i>
+        </td>
+        <td>
+          <%= proxy.category.try(:name) || '<span class="text-muted">---</span>'.html_safe %><br />
+          <small class="text-muted">
+            <% unless current_service.public %>
+              <i class="fa fa-fw fa-lock"></i> <%= t('misc.service_not_published') %>
+            <% else %>
+              <%= t("misc.#{proxy.public}") %>
+            <% end %>
+          </small>
+        </td>
+        <td class="text-right">
+          <%= link_to t('actions.configure'), service_proxy_path(current_service, proxy), class: 'btn btn-secondary' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

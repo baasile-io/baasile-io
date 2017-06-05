@@ -48,6 +48,12 @@ fr:
       en: 'Anglais'
       fr: 'Français'
     logotype: "Logo"
+    measurement_input:
+      color: 'rgba(255, 0, 0, 1)'
+      title: 'Requêtes entrantes'
+    measurement_output:
+      color: 'rgba(0, 0, 255, 1)'
+      title: 'Requêtes sortantes'
     month:
       one: 'mois'
       other: 'mois'

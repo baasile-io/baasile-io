@@ -107,6 +107,9 @@ fr:
         encrypted_secret: 'Clé secrète cryptée'
         proxy: 'Produit'
         user: 'Créateur'
+      measurement:
+        created_at: 'Date'
+        requests_count: 'Nombre de requêtes'
       price:
         cost: 'Coût'
         base_cost: 'Coût de base'
@@ -261,6 +264,8 @@ fr:
       error_measurement: 'Erreur'
       general_condition: 'Conditions Générales'
       identifier: 'Identifiant'
+      measure_token: 'Jeton de mesure'
+      measurement: "Mesure d'usage"
       price: 'Tarif'
       price_parameter: 'Critère de tarification'
       proxy: 'Produit'

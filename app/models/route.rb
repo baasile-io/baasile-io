@@ -13,7 +13,7 @@ class Route < ApplicationRecord
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
   belongs_to :user
-  belongs_to :proxy
+  belongs_to :proxy, touch: true
   has_one :service, through: :proxy
   has_many :query_parameters, dependent: :destroy
   has_many :error_measurements, dependent: :destroy

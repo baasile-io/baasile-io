@@ -49,6 +49,12 @@ en:
       en: 'English'
       fr: 'French'
     logotype: 'Logotype'
+    measurement_input:
+      color: 'rgba(255, 0, 0, 1)'
+      title: 'Input requests'
+    measurement_output:
+      color: 'rgba(0, 0, 255, 1)'
+      title: 'Output requests'
     month:
       one: 'month'
       other: 'months'

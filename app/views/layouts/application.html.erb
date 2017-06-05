@@ -54,6 +54,8 @@
   <%= render partial: 'shared/flash' %>
 
   <%= javascript_include_tag 'application' %>
+  <%= content_for(:extra_js) %>
+
   <script type="text/javascript">
     I18n.locale = '<%= I18n.locale %>';
   </script>

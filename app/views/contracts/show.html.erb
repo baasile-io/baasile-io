@@ -362,10 +362,16 @@
 
       <%= link_to t('actions.print_consumption'), print_current_month_consumption_contract_path(current_contract), class: 'btn btn-secondary' %>
 
-      <%= render partial: 'shared/measurement', locals: {input: current_contract.measurements.between(@current_month_consumption.bill_month, @current_month_consumption.bill_month.end_of_month)} %>
-
     </div>
   </div>
+<% end %>
+
+<% if [:validation_production, :validation].include?(@contract.status.to_sym) %>
+  <%= render partial: 'shared/measurement',
+             locals: {
+               show_detail: true,
+               input: current_contract.measurements
+             } %>
 <% end %>
 
 <div class="b-io-content--header">
