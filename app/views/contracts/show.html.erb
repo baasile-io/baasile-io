@@ -14,7 +14,9 @@
     }
   end
 
-  free_count_limit_ok = Contracts::ContractCheckFreeCountLimit.new(@contract).call
+  if @contract.status.to_sym == :validation
+    free_count_limit_ok = Contracts::ContractCheckFreeCountLimit.new(@contract).call
+  end
 %>
 
 <% content_for(:page_title) { t('misc.overview') } %>
