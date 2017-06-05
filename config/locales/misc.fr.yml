@@ -80,6 +80,7 @@ fr:
       'true': "Réglé"
     parameters: 'Configuration'
     permissions: 'Permissions'
+    platform_contribution: "Contribution à la plateforme"
     pricing: 'Tarification'
     profile: 'Profil'
     role: 'Rôle'

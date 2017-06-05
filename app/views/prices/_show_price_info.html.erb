@@ -91,4 +91,14 @@
     </div>
   <% end %>
 
+  <hr />
+  <div class="row">
+    <div class="col-4 text-right">
+      <strong><%= t('misc.platform_contribution') %></strong>
+    </div>
+    <div class="col-8">
+      <%= Appconfig.get(:bill_platform_contribution_rate) %> %
+    </div>
+  </div>
+
 <% end %>
