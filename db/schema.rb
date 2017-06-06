@@ -62,6 +62,9 @@ ActiveRecord::Schema.define(version: 20170715105607) do
     t.date     "due_date"
     t.boolean  "paid",                       default: false
     t.decimal  "platform_contribution_rate", default: "0.0"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "duration"
     t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
     t.index ["contract_id", "bill_month"], name: "index_bills_on_contract_id_and_bill_month", unique: true, using: :btree
     t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree

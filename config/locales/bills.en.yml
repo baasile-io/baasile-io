@@ -17,4 +17,4 @@ en:
       subtotal: 'Subtotal'
       total: 'Total (Euro)'
     show:
-      title: 'Consumption detail %{month}'
+      title: 'Consumption detail from %{start_date} to %{end_date}'

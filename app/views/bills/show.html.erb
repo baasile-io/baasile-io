@@ -1,12 +1,35 @@
-<% content_for(:page_title) { t('.title', month: l(current_bill.bill_month, format: :month_year)) } %>
+<%
+  content_for(:page_title) {
+    t('.title', start_date: l(current_bill.start_date, format: :default), end_date: l(current_bill.end_date, format: :default))
+  }
+
+  content_for(:page_controls) {
+    "#{link_to t('actions.print'), polymorphic_path([current_service, current_bill], action: :print), class: 'btn btn-secondary'}
+    #{link_to t('actions.see_contract'), polymorphic_path([current_service, current_bill.contract]), class: 'btn btn-secondary'}".html_safe
+  }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= link_to t('actions.print'), polymorphic_path([current_service, current_bill]), class: 'btn btn-secondary' %>
-    <%= link_to t('actions.see_contract'), polymorphic_path([current_service, current_bill.contract]), class: 'btn btn-secondary' %>
-
     <%= render partial: 'bills/show_consumption', locals: {bill: current_bill} %>
+
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.attributes.contract.price') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'prices/show_price_info',
+               locals: {
+                 price: current_bill.contract.price
+               } %>
 
   </div>
 </div>
@@ -14,5 +37,7 @@
 <%= render partial: 'shared/measurement',
            locals: {
              show_detail: true,
-             output: current_bill.contract.measurements
+             start_date: current_bill.start_date,
+             end_date: current_bill.end_date,
+             input: current_bill.contract.measurements.between(current_bill.start_date, current_bill.end_date)
            } %>

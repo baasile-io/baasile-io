@@ -90,18 +90,17 @@ class ContractsController < ApplicationController
 
   def show
     @logotype_service = LogotypeService.new
-    #begin
+    begin
       if current_contract.status.to_sym == :validation_production
-        @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).calculate
+        @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).prepare
       end
-    #rescue
-    #  nil
-    #end
+    rescue
+    end
   end
 
   def print_current_month_consumption
     billing_service = Bills::BillingService.new(current_contract, Date.today)
-    billing_service.calculate
+    billing_service.prepare
     pdf_path = Bills::GeneratePdfBillService.new(billing_service.bill).generate_pdf
 
     data = open(pdf_path)

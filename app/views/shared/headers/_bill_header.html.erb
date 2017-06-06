@@ -4,7 +4,7 @@
       <div class="col-12">
         <h4>
           <span class="text-muted"><%= link_to t('bills.index.title'), polymorphic_path([current_service, Bill]), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
-          <%= t('bills.show.title', month: l(current_bill.bill_month, format: :month_year)) %>
+          <%= t('bills.show.title', start_date: l(current_bill.start_date, format: :short), end_date: l(current_bill.end_date, format: :short)) %>
         </h4>
       </div>
     </div>

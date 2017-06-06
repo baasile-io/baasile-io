@@ -2,7 +2,10 @@
   input ||= nil
   output ||= nil
 
-  date_range = ((Date.today - 10.days)..Date.today)
+  end_date ||= Date.today - 10.days
+  start_date ||= end_date - 10.days
+
+  date_range = (start_date..end_date)
 
   datasets = []
   if output
@@ -11,7 +14,7 @@
       data: date_range.map{ |date| output.where('measurements.created_at::date = ?', date).sum(:requests_count) },
       borderWidth: 2,
       fill: false,
-      hitRadius: 20,
+      hitRadius: 15,
       pointStyle: 'rect',
       borderColor: t('misc.measurement_output.color'),
       pointBorderColor: t('misc.measurement_output.color'),
@@ -25,7 +28,7 @@
       data: date_range.map{ |date| input.where('measurements.created_at::date = ?', date).sum(:requests_count) },
       borderWidth: 2,
       fill: false,
-      hitRadius: 20,
+      hitRadius: 15,
       pointStyle: 'triangle',
       borderColor: t('misc.measurement_input.color'),
       pointBorderColor: t('misc.measurement_input.color'),

@@ -8,6 +8,8 @@ class Bill < ApplicationRecord
 
   validates :bill_month, uniqueness: {scope: :contract}
 
+  scope :by_month, ->(date) { where("to_char(bills.start_date, 'YYYY-MM') = ?", date.strftime('%Y-%m')) }
+  scope :by_contract, ->(contract) { where(contract: contract) }
   scope :by_service, ->(service) { joins(:contract).where("contracts.startup_id IN (:service_ids) OR contracts.client_id IN (:service_ids)", service_ids: service.subtree_ids) }
   scope :by_user, ->(user) { joins(:contract).where("contracts.startup_id IN (:service_ids) OR contracts.client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
 end
