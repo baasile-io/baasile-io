@@ -9,11 +9,21 @@
       <table class="table table-sm table-hover">
         <thead>
         <tr>
-          <th colspan="2">Mois</th>
-          <th><%= t('activerecord.models.contract') %></th>
+          <th colspan="2">
+            <%= t('bills.index.period') %> / <%= t('activerecord.attributes.contract.client') %>
+          </th>
           <th><%= t('activerecord.attributes.contract.proxy') %></th>
           <th><%= t('activerecord.attributes.bill.created_at') %></th>
-          <th><%= t('bills.invoice_attributes.total_cost') %></th>
+          <th>
+            <%= t('bills.invoice_attributes.total_cost') %>
+            <%= t('activerecord.attributes.contract.startup') %>
+          </th>
+          <th>
+            <%= t('misc.platform_contribution') %>
+          </th>
+          <th>
+            <%= t('misc.deadline') %>
+          </th>
           <th></th>
         </tr>
         </thead>
@@ -26,15 +36,7 @@
               <i class="fa-2x fa-file-text-o fa fa-fw"></i>
             </td>
             <td>
-              <%= l(bill.start_date, format: :month_year) %>
-            </td>
-            <td>
-              <i class="fa fa-fw fa-edit"></i>
-              <%= bill.contract.name %>
-              <small class="text-muted">
-                <%= bill.contract.client_code if current_user.is_user_of?(bill.contract.client) %>&nbsp;
-                <%= bill.contract.startup_code if current_user.is_user_of?(bill.contract.startup) %>
-              </small><br />
+              <strong><%= t('.from_to', start_date: l(bill.start_date, format: :default), end_date: l(bill.end_date, format: :default)) %></strong><br />
               <small>
                 <i class="<%= t("types.service_types.#{bill.contract.client.service_type}.icon") %>"></i>
                 <span class="<%= t("types.service_types.#{bill.contract.client.service_type}.class") %>"><%= bill.contract.client.name %></span>
@@ -51,13 +53,27 @@
               <%= l(bill.created_at.to_date, format: :default) %>
             </td>
             <td>
-              <span class="<%= (bill.paid ? 'text-success' : 'text-danger') %>">
-                <strong><%= format_amount bill.total_cost %></strong><br />
-                <%= t("misc.paid.#{bill.paid}") %><br />
-                <% if !bill.paid && bill.due_date %>
-                  <small><%= "#{t('misc.deadline')}#{' ' if I18n.locale == :fr}: #{l(bill.due_date, format: :default)}" %></small>
-                <% end %>
+              <span class="<%= (bill.startup_paid ? 'text-success' : 'text-danger') %>">
+                <strong><%= format_amount bill.startup_cost_including_vat %></strong><br />
+                <%= t("misc.paid.#{bill.startup_paid}") %>
               </span>
+            </td>
+            <td>
+              <span class="<%= (bill.platform_contribution_paid ? 'text-success' : 'text-danger') %>">
+                <strong><%= format_amount bill.platform_contribution_cost_including_vat %></strong><br />
+                <%= t("misc.paid.#{bill.platform_contribution_paid}") %>
+              </span>
+            </td>
+            <td>
+              <% if !bill.paid && bill.due_date %>
+                <span class="text-danger">
+                  <%= l(bill.due_date, format: :default) %>
+                </span>
+              <% else %>
+                <span class="text-success">
+                  <%= t("misc.paid.true") %>
+                </span>
+              <% end %>
             </td>
             <td class="text-right">
               <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, link, class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.see_bill') %>

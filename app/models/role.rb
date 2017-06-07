@@ -98,7 +98,9 @@ class Role < ApplicationRecord
     bills: {
       index: [:admin, :accountant],
       show: [:admin, :accountant],
-      print: [:admin, :accountant]
+      print: [:admin, :accountant],
+      mark_as_paid: [:admin, :accountant],
+      mark_platform_contribution_as_paid: []
     },
     prices: {
       index: [:admin, :commercial],

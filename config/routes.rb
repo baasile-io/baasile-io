@@ -97,6 +97,8 @@ Rails.application.routes.draw do
       member do
         get :print
         get :comments
+        post :mark_as_paid
+        post :mark_platform_contribution_as_paid
       end
     end
 
@@ -157,6 +159,8 @@ Rails.application.routes.draw do
         member do
           get :print
           get :comments
+          post :mark_as_paid
+          post :mark_platform_contribution_as_paid
         end
       end
 

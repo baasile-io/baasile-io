@@ -7,16 +7,22 @@ namespace 'contracts' do
 
     Contract.active_around(today).each do |contract|
       begin
-        puts "Processing contract #{contract.id}"
-        if contract.bills.by_month(today).exists?
-          puts "#{contract.id}: Already billed"
-        else
+        Bill.transaction do
+          puts "Processing contract #{contract.id}"
+          if contract.bills.by_month(today).exists?
+            puts "#{contract.id}: Already billed"
+          else
 
-          billing_service = Bills::BillingService.new(contract, today)
-          billing_service.prepare
-          billing_service.call
+            billing_service = Bills::BillingService.new(contract, today)
+            billing_service.prepare
+            billing_service.call
+          end
         end
-      rescue e
+      rescue Exception => e
+        Airbrake.notify('Failed billing task', {
+          error: e.class,
+          message: e.message
+        })
         puts "#{contract.id}: #{e}"
       end
     end

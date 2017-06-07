@@ -66,7 +66,9 @@ module Bills
         pdf.font(@font_normal) do
 
           pdf.font(@font_bold) do
-            pdf.text "#{I18n.t('bills.invoice_titles.pdf_title', month: I18n.t("date.month_names")[bill_start_date.month], year: bill_start_date.year)}",
+            pdf.text "#{I18n.t('bills.invoice_titles.pdf_title',
+                               start_date: I18n.l(bill.start_date, format: :default),
+                               end_date: I18n.l(bill.end_date, format: :default))}",
                      size: 20,
                      align: :center
             pdf.move_down 5

@@ -41,6 +41,7 @@ en:
     filter_by_startup: 'Filter by supplier...'
     infos: 'Infos'
     invite_user: "Invite existing user"
+    mark_as_paid: 'Mark as "Paid"'
     new: 'New'
     new_aggregator: 'Create Aggregator'
     new_client: 'Create Client'

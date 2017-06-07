@@ -48,23 +48,32 @@ ActiveRecord::Schema.define(version: 20170715105607) do
     t.decimal  "vat_rate",                 default: "0.0"
     t.decimal  "total_cost",               default: "0.0"
     t.decimal  "total_cost_including_vat", default: "0.0"
+    t.boolean  "is_platform_contribution", default: false
     t.index ["bill_id"], name: "index_bill_lines_on_bill_id", using: :btree
   end
 
   create_table "bills", force: :cascade do |t|
     t.integer  "contract_id"
     t.date     "bill_month"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.decimal  "total_cost",                 default: "0.0"
-    t.decimal  "total_vat",                  default: "0.0"
-    t.decimal  "total_cost_including_vat",   default: "0.0"
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+    t.decimal  "total_cost",                               default: "0.0"
+    t.decimal  "total_vat",                                default: "0.0"
+    t.decimal  "total_cost_including_vat",                 default: "0.0"
     t.date     "due_date"
-    t.boolean  "paid",                       default: false
-    t.decimal  "platform_contribution_rate", default: "0.0"
+    t.boolean  "paid",                                     default: false
+    t.decimal  "platform_contribution_rate",               default: "0.0"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "duration"
+    t.boolean  "platform_contribution_paid",               default: false
+    t.boolean  "startup_paid",                             default: false
+    t.decimal  "platform_contribution_cost",               default: "0.0"
+    t.decimal  "platform_contribution_vat",                default: "0.0"
+    t.decimal  "platform_contribution_cost_including_vat", default: "0.0"
+    t.decimal  "startup_cost",                             default: "0.0"
+    t.decimal  "startup_vat",                              default: "0.0"
+    t.decimal  "startup_cost_including_vat",               default: "0.0"
     t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
     t.index ["contract_id", "bill_month"], name: "index_bills_on_contract_id_and_bill_month", unique: true, using: :btree
     t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree

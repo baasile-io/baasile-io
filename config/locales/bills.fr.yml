@@ -1,6 +1,10 @@
 fr:
   bills:
+    comments:
+      title: 'Commentaires'
     index:
+      from_to: 'Du %{start_date} au %{end_date}'
+      period: 'Période'
       title: 'Consommation'
     invoice_attributes:
       unit_cost: 'P.U.'
@@ -11,7 +15,7 @@ fr:
     invoice_titles:
       client: 'Client'
       contract_title: 'Contrat n°%{contract_id}'
-      pdf_title: 'Consommation / %{month} %{year}'
+      pdf_title: 'Consommation du %{start_date} au %{end_date}'
       platform_contribution: "Contribution à la plateforme (%{platform_contribution_rate} %)"
       startup: 'Fournisseur'
       subtotal: 'Sous-total'

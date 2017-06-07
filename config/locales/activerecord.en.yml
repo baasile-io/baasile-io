@@ -26,6 +26,8 @@ en:
         bill_month: 'Bill month'
         created_at: 'Issued on'
         due_date: 'Due date'
+        end_date: 'End date'
+        start_date: 'Start date'
         total_cost: 'Total'
         total_cost_including_var: 'Total (incl. VAT)'
       category:

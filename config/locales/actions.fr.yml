@@ -41,6 +41,7 @@ fr:
     filter_by_startup: 'Filtrer par fournisseur...'
     infos: 'Infos'
     invite_user: "Inviter un utilisateur existant"
+    mark_as_paid: 'Marquer comme "Réglé"'
     new: 'Créer'
     new_aggregator: 'Créer un Aggrégateur'
     new_client: 'Créer un Client'

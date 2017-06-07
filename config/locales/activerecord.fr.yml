@@ -26,6 +26,8 @@ fr:
         bill_month: 'Mois de facturation'
         created_at: "Date d'émission"
         due_date: "Date d'échéance"
+        end_date: 'Date de fin'
+        start_date: 'Date de début'
         total_cost: 'Total'
         total_cost_including_var: 'Total (TVA incl.)'
       category:

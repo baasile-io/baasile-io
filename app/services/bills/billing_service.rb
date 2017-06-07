@@ -24,7 +24,8 @@ module Bills
       calculate_lines
       push_subtotal_line
       calculate_contribution
-      push_subtotal_line
+      push_subtotal_line(is_platform_contribution: true)
+      calculate_total
 
       bill
     end
@@ -70,11 +71,13 @@ module Bills
       def calculate_contribution
         push_line({
                     title: platform_name,
+                    is_platform_contribution: true,
                     line_type: :supplier
                   })
 
         push_line({
                     title: 'bills.invoice_titles.platform_contribution',
+                    is_platform_contribution: true,
                     unit_cost: total_cost * platform_contribution_rate / 100.0,
                     unit_num: 1
                   })
@@ -178,15 +181,29 @@ module Bills
         lines.push bill_line
       end
 
-      def push_subtotal_line
+      def push_subtotal_line(is_platform_contribution: false)
         bill_line = BillLine.new({
                                    line_type: :subtotal,
                                    total_cost: subtotal,
+                                   is_platform_contribution: is_platform_contribution,
                                    total_cost_including_vat: subtotal_including_vat
                                  })
         lines.push bill_line
         @subtotal = 0.0
         @subtotal_including_vat = 0.0
+      end
+
+      def calculate_total
+        startup_subtotal_lines               = lines.select {|line| line.line_type.to_sym == :subtotal && !line.is_platform_contribution }
+        platform_contribution_subtotal_lines = lines.select {|line| line.line_type.to_sym == :subtotal && line.is_platform_contribution }
+
+        bill.platform_contribution_vat                = vat_rate
+        bill.platform_contribution_cost               = platform_contribution_subtotal_lines.inject(0.0) {|sum, line| sum + line.total_cost}
+        bill.platform_contribution_cost_including_vat = platform_contribution_subtotal_lines.inject(0.0) {|sum, line| sum + line.total_cost_including_vat}
+
+        bill.startup_vat                = vat_rate
+        bill.startup_cost               = startup_subtotal_lines.inject(0.0) {|sum, line| sum + line.total_cost}
+        bill.startup_cost_including_vat = startup_subtotal_lines.inject(0.0) {|sum, line| sum + line.total_cost_including_vat}
       end
 
       def subtotal
