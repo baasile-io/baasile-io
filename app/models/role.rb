@@ -1,5 +1,5 @@
 class Role < ApplicationRecord
-  USER_ROLES = %i(admin commercial developer accountant).freeze
+  USER_ROLES = %i(admin developer commercial accountant).freeze
 
   CONTROLLER_AUTHORIZATIONS = {
     bank_details: {

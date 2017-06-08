@@ -6,6 +6,9 @@ en:
       new:
         title: 'Confirmation instructions'
     index:
+      hints:
+        add_user: 'Add a user among those you have personally created.'
+        invite_user: 'Invite users who already have an account on the platform with their e-mail address.'
       title: 'Users'
     edit:
       title: "Edit user"

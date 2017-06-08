@@ -7,6 +7,10 @@
       <th colspan="2" class="width-30"><%= t('activerecord.attributes.service.name') %></th>
       <th class="width-10"><%= t('activerecord.attributes.service.service_type') %></th>
       <th><%= t('activerecord.attributes.service.public') %></th>
+      <th>
+        <small><%= t('activerecord.attributes.service.created_at') %></small><br />
+        <%= t('activerecord.attributes.service.updated_at') %>
+      </th>
       <th></th>
     </tr>
     </thead>
@@ -28,6 +32,10 @@
           <% if service.is_startup? %>
             <%= t("misc.#{service.public}") %>
           <% end %>
+        </td>
+        <td>
+          <small class="text-muted"><%= l(service.created_at, format: :short) %></small><br />
+          <%= l(service.updated_at, format: :short) %>
         </td>
         <td class="text-right">
           <%= link_to t('misc.dashboard'), service_path(service.id), class: 'btn btn-secondary' %>

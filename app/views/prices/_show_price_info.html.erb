@@ -35,6 +35,17 @@
 
 <% if pricing_type != :subscription %>
 
+  <hr />
+  <div class="row">
+    <div class="col-4 text-right">
+      <strong><%= t('activerecord.attributes.price.pricing_type') %></strong>
+    </div>
+    <div class="col-8">
+      <%= t("types.pricing_types.#{pricing_type}.name") %><br />
+      <small><%= t("types.pricing_types.#{pricing_type}.description") %></small>
+    </div>
+  </div>
+
   <% if pricing_type == :per_call %>
     <hr />
     <div class="row">
@@ -43,18 +54,6 @@
       </div>
       <div class="col-8">
         <%= price.route || t('misc.all_feminized') %>
-      </div>
-    </div>
-  <% end %>
-
-  <% if pricing_type == :per_parameter %>
-    <hr />
-    <div class="row">
-      <div class="col-4 text-right">
-        <strong><%= t('activerecord.attributes.price.query_parameter') %></strong>
-      </div>
-      <div class="col-8">
-        <%= price.query_parameter || t('misc.all_feminized') %>
       </div>
     </div>
   <% end %>

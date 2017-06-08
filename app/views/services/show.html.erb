@@ -73,12 +73,26 @@
   </div>
 </div>
 
-<%= render partial: 'shared/measurement',
-           locals: {
-             show_detail: false,
-             input: @measures_input.last_month,
-             output: @measures_output.last_month
-           } %>
+<% if current_service.is_activated? %>
+  <%
+
+    measurement_locals = {
+      show_detail: false,
+      output: @measures_output.last_month
+    }
+
+    if (current_service.is_startup? ||
+        (current_service.is_company? && current_service.startups.count > 0))
+      measurement_locals[:input] = @measures_input.last_month
+    end
+
+  %>
+
+  <%=  render partial: 'shared/measurement',
+              locals: measurement_locals %>
+
+<% end %>
+
 
 <% if current_service.is_company? %>
 
@@ -94,7 +108,7 @@
   </div>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
-      <%= render partial: 'list_services', locals: {collection: @clients} %>
+      <%= render partial: 'list_services', locals: {collection: current_service.clients.order(updated_at: :desc)} %>
     </div>
   </div>
 
@@ -110,7 +124,7 @@
   </div>
   <div class="b-io-content--secondary">
     <div class="container-fluid">
-      <%= render partial: 'list_services', locals: {collection: @startups} %>
+      <%= render partial: 'list_services', locals: {collection: current_service.startups.order(updated_at: :desc)} %>
     </div>
   </div>
 
@@ -150,7 +164,7 @@
   <% end %>
 <% end %>
 
-<% unless @service.is_activated? %>
+<% unless current_service.is_activated? %>
   <%= render layout: 'shared/custom_modal',
              locals: {
                title: t('misc.deactivated_service')
@@ -164,7 +178,7 @@
     <% else %>
       <p><%= t('misc.activation_request_need') %></p>
       <%= link_to t('types.ticket_types.activation_request'),
-                  activation_request_service_path(@service),
+                  activation_request_service_path(current_service),
                   method: :post,
                   class: 'btn btn-primary' %>
     <% end %>

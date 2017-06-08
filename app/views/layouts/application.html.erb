@@ -32,7 +32,9 @@
             <% end %>
             <h4>
               <% if content_for?(:page_back) %>
-                <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
+                <%= link_to content_for(:page_back), class: 'btn btn-link' do %>
+                  <i class="fa fa-fw fa-backward"></i> <%= t('actions.back') %>
+                <% end %>
               <% end %>
               <%= content_for(:page_title) %>
             </h4>

@@ -27,32 +27,7 @@
 <div class="b-io-content--secondary">
   <div class="container">
 
-    <% if current_service %>
-      <div class="row mb-3">
-        <div class="col-sm-6">
-          <%= form_for User.new, url: invite_by_email_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do %>
-            <label class="sr-only" for="inlineFormInput"><%= t('activerecord.attributes.user.email') %></label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <div class="input-group-addon">@</div>
-              <input name="email" type="text" class="form-control" id="inlineFormInput" placeholder="<%= t('activerecord.attributes.user.email') %>" value="<%= params[:email] %>">
-            </div>
-            <button type="submit" class="btn btn-primary"><%= t('actions.invite_user') %></button>
-          <% end %>
-        </div>
-        <div class="col-sm-6">
-          <% if @owned_users.size > 0 %>
-            <%= simple_form_for User.new, url: invite_by_id_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do |f| %>
-              <div class="select2-inline-container mb-2 mr-sm-2 mb-sm-0">
-                <%= f.input :id, as: :select, collection: format_users_for_select(@owned_users), label: false, input_html: {class: 'select2'}, include_blank: "#{t('misc.my_users')}..." %>
-              </div>
-              <button type="submit" class="btn btn-primary"><%= t('actions.add_user') %></button>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-
-    <% if @users.size == 0 %>
+    <% if @users.count == 0 %>
       <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
     <% else %>
       <table class="table table-sm table-hover">
@@ -72,10 +47,14 @@
         </tr>
         </thead>
         <tbody>
-        <% @users.each do |user| %>
+        <% @users.order(first_name: :asc, last_name: :asc).each do |user| %>
           <tr>
             <td class="width-3">
-              <i class="fa fa-fw fa-user fa-2x"></i>
+              <% if current_user.id == user.id || current_user.id == user.parent.try(:id) %>
+                <i class="fa fa-fw fa-user fa-2x"></i>
+              <% else %>
+                <i class="fa fa-fw fa-user-o fa-2x"></i>
+              <% end %>
             </td>
             <td>
               <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-2x fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i></span>".html_safe if user.confirmed_at.nil? || !user.is_active %>
@@ -89,7 +68,7 @@
             <% if current_service %>
               <% if current_user.is_admin_of?(current_service) %>
                 <td class="text-right">
-                  <% if current_user.id != user.id %> <%# && current_service.main_admin != user && current_service.main_developer != user && current_service.main_commercial != user && current_service.main_accoutant != user %>
+                  <% if current_user.id != user.id %>
                     <%= link_to '<i class="fa fa-fw fa-unlink"></i>'.html_safe, disassociate_service_user_path(current_service, user), title: t('actions.disassociate'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete, class: 'btn btn-danger btn-sm' %>
                   <% end %>
                 </td>
@@ -118,31 +97,88 @@
             <% end %>
             <td class="text-right">
               <% if current_user.id == user.parent.try(:id) %>
-                <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, (current_service.nil? ? edit_user_path(user) : edit_service_user_path(current_service, user)), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-                <%= link_to '<i class="fa fa-trash"></i>'.html_safe, (current_service.nil? ? user_path(user) : service_user_path(current_service, user)), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+                <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, (current_service.nil? ? edit_user_path(user) : edit_service_user_path(current_service, user)), class: 'btn btn-secondary btn-sm', title: t('actions.edit_user'), data: {toggle: 'tooltip', placement: 'top'} %>
+                <%= link_to '<i class="fa fa-trash"></i>'.html_safe, (current_service.nil? ? user_path(user) : service_user_path(current_service, user)), title: t('actions.destroy_user'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
               <% end %>
             </td>
           </tr>
         <% end %>
         </tbody>
       </table>
-
-      <% if current_service %>
-        <h3><%= t('misc.roles') %></h3>
-        <table class="table table-sm">
-          <tbody>
-          <% Role::USER_ROLES.each do |scope| %>
-            <tr>
-              <td>
-                <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />
-                <small class="text-muted"><%= t("roles.#{scope}.description_service_role") %></small>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      <% end %>
     <% end %>
 
   </div>
 </div>
+
+<% if current_service %>
+
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t('actions.add_existing_users') %></h4>
+    </div>
+  </div>
+
+  <div class="b-io-content--secondary">
+    <div class="container">
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <p><%= t('.hints.invite_user') %></p>
+          <%= form_for User.new, url: invite_by_email_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do %>
+            <label class="sr-only" for="inlineFormInput"><%= t('activerecord.attributes.user.email') %></label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon">@</div>
+              <input name="email" type="text" class="form-control" id="inlineFormInput" placeholder="<%= t('activerecord.attributes.user.email') %>" value="<%= params[:email] %>">
+            </div>
+            <button type="submit" class="btn btn-primary"><%= t('actions.invite_user') %></button>
+          <% end %>
+        </div>
+        <div class="col-sm-6">
+          <% if @owned_users.size > 0 %>
+            <p><%= t('.hints.add_user') %></p>
+            <%= simple_form_for User.new, url: invite_by_id_service_users_path(current_service), method: :post, html: {class: 'form-inline'} do |f| %>
+              <div class="select2-inline-container mb-2 mr-sm-2 mb-sm-0">
+                <%= f.input :id, as: :select, collection: format_users_for_select(@owned_users), label: false, input_html: {class: 'select2'}, include_blank: "#{t('misc.my_users')}..." %>
+              </div>
+              <button type="submit" class="btn btn-primary"><%= t('actions.add_user') %></button>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t('misc.roles') %></h4>
+    </div>
+  </div>
+
+  <div class="b-io-content--secondary">
+    <div class="container">
+
+      <div class="row">
+        <% Role::USER_ROLES.each do |key, _| %>
+          <div class="col-12 col-md-3">
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">
+                  <i class="<%= t("roles.#{key}.icon") %>"></i>
+                  <%= t("roles.#{key}.title_long") %>
+                </h4>
+                <p class="card-text">
+                  <%= t("roles.#{key}.description_service_role") %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>
