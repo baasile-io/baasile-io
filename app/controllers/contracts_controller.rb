@@ -234,7 +234,7 @@ class ContractsController < ApplicationController
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     end
 
-    redirect_to polymorphic_path([current_service, @contract, @contract.price], action: :prices)
+    redirect_to polymorphic_path([current_service, @contract], action: :prices)
   end
 
   def define_form_value
