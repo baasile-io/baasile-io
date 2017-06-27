@@ -1,7 +1,15 @@
 machine:
+  timezone: Europe/Paris
+
+  ruby:
+    version: 2.3.1
+
   services:
     - redis
 
 test:
   pre:
     - cp .env.test .env
+
+  override:
+    - xvfb-run --auto-servernum bundle exec rake
