@@ -20,7 +20,7 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :webkit
   Capybara.ignore_hidden_elements = false
 
-  if ENV['SELENIUM_REMOTE_HOST']
+  if ENV['SELENIUM_REMOTE_HOST'].present?
     Capybara.javascript_driver = :selenium_remote_firefox
     Capybara.register_driver :selenium_remote_firefox do |app|
       Capybara::Selenium::Driver.new(

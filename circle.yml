@@ -5,11 +5,5 @@ machine:
     version: 2.3.1
 
   services:
+    - postgresql
     - redis
-
-test:
-  pre:
-    - cp .env.test .env
-
-  override:
-    - xvfb-run --auto-servernum bundle exec rake
