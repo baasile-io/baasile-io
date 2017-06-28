@@ -6,9 +6,9 @@ namespace 'pg_dump' do
 
     puts "*** Restoring the database dump ***"
 
-    system "psql -U #{target_database_config['username']} -h #{target_database_config['host']} -d #{target_database_config['database']} -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'"
+    system "psql --username=#{target_database_config['username']} --host=#{target_database_config['host']} --port=#{target_database_config['port']} --dbname=#{target_database_config['database']} --command='DROP SCHEMA public CASCADE; CREATE SCHEMA public;'"
 
-    if system "pg_restore -O -U #{target_database_config['username']} -h #{target_database_config['host']} -d #{target_database_config['database']} tmp/latest_pg_dump.dump"
+    if system "pg_restore --no-owner --username=#{target_database_config['username']} --host=#{target_database_config['host']} --port=#{target_database_config['port']} --dbname=#{target_database_config['database']} tmp/latest_pg_dump.dump"
 
       puts ""
       puts "*** Database restoration done ***"
