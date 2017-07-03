@@ -114,10 +114,6 @@ module Api
         nil
       end
 
-      def current_contract
-        @contract ||= load_contract
-      end
-
       def current_price
         @price ||= current_contract.price
       end
@@ -128,6 +124,10 @@ module Api
 
       def current_contract_pricing_type
         @current_contract_pricing_type ||= current_price.pricing_type.to_sym
+      end
+
+      def current_contract
+        @contract ||= load_contract
       end
 
       def load_contract

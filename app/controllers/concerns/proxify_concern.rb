@@ -27,7 +27,7 @@ module ProxifyConcern
     raise Api::ProxySSLError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, message: e.message}
   rescue EOFError => e
     raise Api::ProxyEOFError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, message: e.message}
-  rescue Net::ReadTimeout => e
+  rescue Net::OpenTimeout, Net::ReadTimeout => e
     raise Api::ProxyTimeoutError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, message: e.message}
   rescue ActiveSupport::MessageVerifier::InvalidSignature => e
     raise Api::ProxyInvalidSecretSignatureError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request, message: e.message}
