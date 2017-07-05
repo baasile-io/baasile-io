@@ -24,7 +24,7 @@ class ErrorMeasurementNotifier < ApplicationMailer
           (user_scope == :startup ? @error_measurement.route.service : @error_measurement.contract.client),
           user_roles
         )
-      )
+      ) unless (user_scope != :startup && @error_measurement.contract.nil?)
     end.reject(&:blank?).uniq
   end
 

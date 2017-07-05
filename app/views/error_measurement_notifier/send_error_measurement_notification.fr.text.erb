@@ -2,11 +2,11 @@
 
 Message : <%= @error_measurement_message %>
 
-Client : <%= @error_measurement.contract.client.name %>
-Fournisseur : <%= @error_measurement.contract.startup.name %>
+Client : <%= @error_measurement.contract.client.name unless @error_measurement.contract.nil? %>
+Fournisseur : <%= @error_measurement.contract.startup.name unless @error_measurement.contract.nil? %>
 Produit : <%= @error_measurement.proxy.name %>
 
-<% if @error_measurement.request_detail && @user.is_user_of?(@error_measurement.contract.startup) -%>
+<% if @error_measurement.request_detail && (@error_measurement.contract.nil? || @user.is_user_of?(@error_measurement.contract.startup)) -%>
 #####################################
 
 <%= ActionView::Helpers::SanitizeHelper.sanitize(ap JSON.parse(@error_measurement.request_detail), {html: false, indent: -2, plain: false, index: false}) rescue @error_measurement.request_detail %>

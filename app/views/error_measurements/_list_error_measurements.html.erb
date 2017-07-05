@@ -45,7 +45,11 @@
             <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
           </td>
           <td>
-            <i class="fa fa-fw fa-edit"></i> <%= error_measurement.contract.client %>
+            <% unless error_measurement.contract.nil?  %>
+              <i class="fa fa-fw fa-edit"></i> <%= error_measurement.contract.client %>
+            <% else %>
+              -
+            <% end %>
           </td>
           <td class="text-right">
             <% if current_module == 'back_office' %>
