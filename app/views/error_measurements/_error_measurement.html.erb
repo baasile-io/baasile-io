@@ -1,5 +1,13 @@
 <div class="row">
   <div class="col-3 text-right">
+    <strong><%= t('activerecord.attributes.error_measurement.client') %></strong>
+  </div>
+  <div class="col-9">
+    <i class="<%= t("types.service_types.#{object.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{object.client.service_type}.class") %>"><%= object.client.name %></span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3 text-right">
     <strong><%= t('activerecord.attributes.error_measurement.error_type') %></strong>
   </div>
   <div class="col-9">
@@ -46,14 +54,16 @@
     <i class="fa fa-fw fa-sitemap"></i> <%= object.route %>
   </div>
 </div>
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.error_measurement.contract') %></strong>
+<% if object.contract %>
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.error_measurement.contract') %></strong>
+    </div>
+    <div class="col-9">
+      <i class="fa fa-fw fa-edit"></i> <%= object.contract %>
+    </div>
   </div>
-  <div class="col-9">
-    <i class="fa fa-fw fa-edit"></i> <%= object.contract %>
-  </div>
-</div>
+<% end %>
 
 <% if object.request_detail.present? && current_user.is_user_of?(object.route.service) %>
   <hr />

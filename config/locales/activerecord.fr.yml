@@ -89,6 +89,8 @@ fr:
         locale: 'Langue'
         title: 'Titre'
       error_measurement:
+        client: 'Origine de la requête'
+        client_id: 'Origine de la requête'
         contract: 'Contrat'
         contract_id: 'Contrat'
         created_at: 'Date de survenance'

@@ -88,6 +88,8 @@ en:
         locale: 'Language'
         title: 'Title'
       error_measurement:
+        client: 'Request origin'
+        client_id: 'Request origin'
         contract: 'Contract'
         contract_id: 'Contract'
         created_at: 'Date of occurence'

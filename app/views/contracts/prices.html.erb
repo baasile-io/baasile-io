@@ -47,8 +47,9 @@
         <div class="col-4">
         </div>
         <div class="col-8">
-          <%= link_to t('actions.edit'), (@service.nil? ? edit_contract_price_path(current_contract, current_contract.price) : edit_service_contract_price_path(current_service, current_contract, current_contract.price)), class: 'btn btn-secondary' %>
-          <%= link_to t('actions.reset_pricing'), (@service.nil? ? contract_price_path(current_contract, current_contract.price) : service_contract_price_path(current_service, current_contract, current_contract.price)), class: 'btn btn-danger', method: :delete %>
+          <%= link_to t('misc.ok'), polymorphic_path([@service, current_contract]), class: 'btn btn-success' %>
+          <%= link_to t('actions.edit'), edit_polymorphic_path([@service, current_contract, current_contract.price]), class: 'btn btn-secondary' %>
+          <%= link_to t('actions.reset_pricing'), polymorphic_path([@service, current_contract, current_contract.price]), class: 'btn btn-danger', method: :delete %>
         </div>
       </div>
 

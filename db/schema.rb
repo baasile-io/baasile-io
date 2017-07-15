@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516112347) do
+ActiveRecord::Schema.define(version: 20170715105607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 20170516112347) do
     t.datetime "updated_at",           null: false
     t.integer  "error_code"
     t.integer  "response_http_status"
+    t.integer  "client_id"
     t.index ["contract_id"], name: "index_error_measurements_on_contract_id", using: :btree
     t.index ["route_id"], name: "index_error_measurements_on_route_id", using: :btree
   end

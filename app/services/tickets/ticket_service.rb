@@ -108,8 +108,17 @@ module Tickets
     end
 
     def send_action_notification(action)
-      list_user = Ticket::TICKET_STATUSES[@ticket.ticket_status.to_sym][:notifications]
-      TicketNotifier.send_ticket_notification(@ticket, action, list_user, @user).deliver_now
+      users_scope = Ticket::TICKET_STATUSES[@ticket.ticket_status.to_sym][:notifications]
+      users_to_notify = users_scope.each_with_object([]) do |user_scope, users|
+        user = @ticket.send(user_scope.to_s)
+        if @user.id != user.id
+          users.push(user)
+        end
+      end.reject(&:blank?).uniq
+
+      users_to_notify.each do |user|
+        TicketNotifier.send_ticket_notification(@ticket, action, user).deliver_now
+      end
     end
   end
 end

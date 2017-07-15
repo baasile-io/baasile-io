@@ -74,6 +74,7 @@ fr:
     not_included: 'non inclus'
     nothing_to_display: "Il n'y a rien à afficher dans cette section actuellement."
     object_cannot_be_destroyed: "La ressource ne peut être détruite car des ressources dépendantes existent."
+    ok: 'OK'
     overview: "Vue d'ensemble"
     paid:
       'false': "À régler"

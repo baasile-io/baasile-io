@@ -17,7 +17,7 @@
         <%= t("activerecord.attributes.error_measurement.route") %>
       </th>
       <th>
-        <%= t("activerecord.attributes.error_measurement.contract") %>
+        <%= t("activerecord.attributes.error_measurement.client") %>
       </th>
       <th></th>
     </tr>
@@ -45,11 +45,7 @@
             <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
           </td>
           <td>
-            <% unless error_measurement.contract.nil?  %>
-              <i class="fa fa-fw fa-edit"></i> <%= error_measurement.contract.client %>
-            <% else %>
-              -
-            <% end %>
+            <i class="<%= t("types.service_types.#{error_measurement.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{error_measurement.client.service_type}.class") %>"><%= error_measurement.client.name %></span>
           </td>
           <td class="text-right">
             <% if current_module == 'back_office' %>
