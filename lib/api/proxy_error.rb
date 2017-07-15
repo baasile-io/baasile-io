@@ -36,12 +36,6 @@ module Api
     def meta
       @data[:meta]
     end
-
-    def notifications
-      {
-        startup: ["admin", "developer"]
-      }
-    end
   end
 
   class BaseForbiddenError < ProxyError

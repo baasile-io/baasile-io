@@ -137,18 +137,25 @@ module Api
       def authorize_request_by_contract
         Contracts::ContractValidationService.new(current_contract, current_route).authorize_request
       rescue Contracts::ContractValidationService::MissingContract
+        do_request_error_measure(ContractMissingContractError.new, {})
         raise ContractMissingContractError
       rescue Contracts::ContractValidationService::NotValidatedContract
+        do_request_error_measure(ContractNotValidatedContractError.new, {})
         raise ContractNotValidatedContractError
       rescue Contracts::ContractValidationService::MissingStartDateProductionPhase
+        do_request_error_measure(ContractMissingStartDateProductionPhaseError.new, {})
         raise ContractMissingStartDateProductionPhaseError
       rescue Contracts::ContractValidationService::NotStartedProductionPhase
+        do_request_error_measure(ContractNotStartedProductionPhaseError.new, {})
         raise ContractNotStartedProductionPhaseError
       rescue Contracts::ContractValidationService::EndedProductionPhase
+        do_request_error_measure(ContractEndedProductionPhaseError.new, {})
         raise ContractEndedProductionPhaseError
       rescue Contracts::ContractValidationService::WaitingForProduction
+        do_request_error_measure(ContractWaitingForProductionError.new, {})
         raise ContractWaitingForProductionError
       rescue Contracts::ContractValidationService::NotActive
+        do_request_error_measure(ContractNotActiveError.new, {})
         raise ContractNotActiveError
       end
 

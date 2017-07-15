@@ -60,7 +60,7 @@ class User < ApplicationRecord
   end
 
   def is_user_of?(service)
-    return true if service.users.exists?(self) || self.is_superadmin?
+    return true if service.users.exists?(self.id) || self.is_superadmin?
     false
   end
 

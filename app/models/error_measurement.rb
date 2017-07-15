@@ -35,14 +35,14 @@ class ErrorMeasurement < ApplicationRecord
 
   belongs_to  :contract
   belongs_to  :route
+  belongs_to  :client,      class_name: Service.name
 
-  has_one :client, through: :contract
-  has_one :proxy, through: :route
-  has_one :startup, through: :route, source: :proxy
+  has_one     :proxy,       through: :route
+  has_one     :startup,     through: :route, source: :service
 
-  validates   :error_type , presence: true
-  validates   :contract   , presence: true
-  validates   :route      , presence: true
+  validates   :error_type,  presence: true
+  validates   :client,      presence: true
+  validates   :route,       presence: true
 
   scope :old, -> {
     where("created_at <= ?", DateTime.now - Appconfig.get(:error_measurement_backup_duration).days)

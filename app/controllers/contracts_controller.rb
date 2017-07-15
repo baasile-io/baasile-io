@@ -144,7 +144,17 @@ class ContractsController < ApplicationController
     status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:next] unless status[:next].nil?
     if @contract.save
-      ContractNotifier.send_validated_status_notification(@contract, from_status: old_status_key).deliver_now
+
+      # send email notifications
+      users_to_notify = Contract::CONTRACT_STATUSES[old_status_key][:notifications].each_with_object([]) do |(service_type, user_roles), users|
+        user_roles.each do |user_role|
+          users.push(@contract.send(service_type).send("main_#{user_role}"))
+        end
+      end.reject(&:blank?).uniq
+      users_to_notify.each do |user|
+        ContractNotifier.send_validated_status_notification(@contract, user, from_status: old_status_key).deliver_now
+      end
+
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
     else
       flash[:error] = @contract.errors.full_messages.join(', ')
@@ -157,7 +167,17 @@ class ContractsController < ApplicationController
     status = Contract::CONTRACT_STATUSES[old_status_key]
     @contract.status = status[:prev] unless status[:prev].nil?
     if @contract.save
-      ContractNotifier.send_rejected_status_notification(@contract, from_status: old_status_key).deliver_now
+
+      # send email notifications
+      users_to_notify = Contract::CONTRACT_STATUSES[old_status_key][:notifications].each_with_object([]) do |(service_type, user_roles), users|
+        user_roles.each do |user_role|
+          users.push(@contract.send(service_type).send("main_#{user_role}"))
+        end
+      end.reject(&:blank?).uniq
+      users_to_notify.each do |user|
+        ContractNotifier.send_rejected_status_notification(@contract, user, from_status: old_status_key).deliver_now
+      end
+
       flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
       unless @contract.can?(current_user, :show)
         return redirect_to_index

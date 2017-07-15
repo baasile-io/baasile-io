@@ -6,12 +6,12 @@
   <strong>Message:</strong> <%= @error_measurement_message %>
 </p>
 <p>
-  <strong>Client:</strong> <%= @error_measurement.contract.client.name %><br />
-  <strong>Supplier:</strong> <%= @error_measurement.contract.startup.name %><br />
+  <strong>Request origin:</strong> <%= @error_measurement.client.name %><br />
+  <strong>Supplier:</strong> <%= @error_measurement.startup.name %><br />
   <strong>Product:</strong> <%= @error_measurement.proxy.name %>
 </p>
 
-<% if @error_measurement.request_detail && @user.is_user_of?(@error_measurement.contract.startup) %>
+<% if @error_measurement.request_detail && @user.is_user_of?(@error_measurement.startup) %>
   <hr />
-  <%= (ap JSON.parse(@error_measurement.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue "<pre>#{@error_measurement.request_detail}</pre>".html_safe %>
+  <%= (ap JSON.parse(@error_measurement.request_detail), {html: true, indent: -2, plain: true, index: false}).html_safe rescue "<pre>#{@error_measurement.request_detail}</pre>".html_safe  %>
 <% end %>
