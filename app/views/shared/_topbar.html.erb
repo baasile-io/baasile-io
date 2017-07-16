@@ -17,7 +17,7 @@
             <a class="dropdown-item <%= 'active' if current_module == 'contract' %>" href="<%= contracts_path %>"><i class="fa fa-edit fa-fw"></i> <%= t('contracts.index.title') %></a>
             <a class="dropdown-item <%= 'active' if current_module == 'bill' %>" href="<%= bills_path %>"><i class="fa fa-file-text-o fa-fw"></i> <%= t('bills.index.title') %></a>
             <a class="dropdown-item <%= 'active' if current_service.nil? && controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-user fa-fw"></i> <%= t('activerecord.models.user').pluralize %></a>
-            <a class="dropdown-item <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-rss fa-fw"></i> <%= t('activerecord.models.ticket').pluralize %></a>
+            <a class="dropdown-item <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-envelope fa-fw"></i> <%= t('activerecord.models.ticket').pluralize %></a>
           </div>
         </li>
         <li class="nav-item">

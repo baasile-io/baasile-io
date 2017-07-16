@@ -36,9 +36,35 @@
           <%= l(service.updated_at, format: :short) %>
         </td>
         <td class="text-right">
-          <%= link_to t('misc.dashboard'), service_path(service), class: 'btn btn-secondary btn-sm' %>
-          <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_service_path(service), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_service_path(service), title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+              <%= t('misc.actions') %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to edit_back_office_service_path(service),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+              <% end %>
+              <%= link_to audit_back_office_service_path(service),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to back_office_service_path(service),
+                          class: 'dropdown-item',
+                          method: :delete,
+                          data: {
+                            confirm: 'Are you sure?'
+                          } do %>
+                <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to service_path(service),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-dashboard"></i> <%= t('misc.dashboard') %>
+            <% end %>
+            </div>
+          </div>
         </td>
       </tr>
     <% end %>

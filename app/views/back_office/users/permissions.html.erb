@@ -6,90 +6,62 @@
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link" href="<%= edit_back_office_user_path(@user) %>"><%= t('actions.edit') %></a>
+        <a class="nav-link" href="<%= edit_back_office_user_path(@user) %>">
+          <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="#"><%= t('misc.permissions') %></a>
+        <a class="nav-link active" href="#">
+          <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%= audit_back_office_user_path(@user) %>"><%= t('misc.audit') %></a>
+        <a class="nav-link" href="<%= audit_back_office_user_path(@user) %>">
+          <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
+        </a>
       </li>
     </ul>
 
-    <table class="table table-sm">
-      <tbody>
-      <tr>
-        <th>
-          <%= t('devise.confirmations.email_confirmation') %>
-        </th>
-        <td class="text-right">
-          <%= link_to "<i class=\"fa fa-fw fa-2x fa-#{'un' unless @user.confirmed_at.nil?}lock\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"#{@user.confirmed_at.nil? ? t('devise.confirmations.unconfirmed') : t('devise.confirmations.confirmed_at', date: @user.confirmed_at)}\"></i>".html_safe, '#', class: 'btn btn-link' %>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <%= t('activerecord.attributes.user.is_active') %>
-        </th>
-        <td class="text-right">
-          <%= link_to "<i class=\"fa fa-fw fa-2x fa-toggle-#{@user.is_active ? 'on' : 'off'}\"></i>".html_safe, toggle_is_active_back_office_user_path(@user), title: (@user.is_active ? t('actions.deactivate') : t('actions.activate')), data: {toggle: 'tooltip', placement: 'left'}, method: :put, class: 'btn btn-link' %>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-  </div>
-</div>
-
-<div class="b-io-content--header">
-  <div class="container-fluid">
-    <h3><%= t('misc.roles') %></h3>
-  </div>
-</div>
-
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
-    <table class="table table-sm">
-      <tbody>
-      <% [:superadmin].each do |scope| %>
-        <tr>
-          <td>
-            <strong><i class="<%= t("roles.#{scope}.icon") %>"></i> <%= t("roles.#{scope}.title_long") %></strong><br />
-            <small class="text-muted"><%= t("roles.#{scope}.description") %></small>
-          </td>
-          <td class="text-right">
-            <div class="btn-group">
-              <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(scope) ? '#' : toggle_role_back_office_user_path(@user, scope: scope), method: :put, class: "btn #{@user.has_role?(scope) ? 'btn-success disabled' : 'btn-secondary'}" %>
-              <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(scope) ? '#' : toggle_role_back_office_user_path(@user, scope: scope), method: :put, class: "btn #{!@user.has_role?(scope) ? 'btn-danger disabled' : 'btn-secondary'}" %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-  </div>
-</div>
-
-<div class="b-io-content--header">
-  <div class="container-fluid">
-    <h3><%= t('actions.add_association') %></h3>
-  </div>
-</div>
-
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
-    <%= simple_form_for [:back_office, @user], url: associate_back_office_user_path, method: :put do |f| %>
-      <%= f.input :service_id, collection: format_services_for_select(@other_services), selected: nil, input_html: {class: 'services-select2'}, label: t('activerecord.models.service').pluralize %>
-      <%= f.input :role, collection: format_roles_for_select(Role::USER_ROLES), selected: nil, input_html: {class: 'select2'}, label: t('activerecord.models.role') %>
-
-      <div class="row">
-        <div class="actions col-md-9 offset-md-3">
-          <%= f.button :submit, value: I18n.t('actions.add'), data: { disable_with: t('actions.save_in_progress') } %>
-        </div>
+    <div class="b-io-content--secondary">
+      <div class="container-fluid">
+        <table class="table table-sm">
+          <tbody>
+          <tr>
+            <td>
+              <strong><%= t('devise.confirmations.email_confirmation') %></strong><br />
+              <small class="text-muted"><%= (@user.confirmed_at.nil? ? t('devise.confirmations.unconfirmed') : t('devise.confirmations.confirmed_at', date: @user.confirmed_at)) %></small>
+            </td>
+            <td class="text-right width-3">
+              <i class="fa fa-fw fa-2x fa-<%= 'un' unless @user.confirmed_at.nil? %>lock"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong><%= t('activerecord.attributes.user.is_active') %></strong>
+            </td>
+            <td class="text-right">
+              <div class="btn-group">
+                <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.is_active ? '#' : toggle_is_active_back_office_user_path(@user, scope: :superadmin), method: :put, class: "btn #{@user.is_active ? 'btn-success disabled' : 'btn-secondary'}" %>
+                <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.is_active ? '#' : toggle_is_active_back_office_user_path(@user, scope: :superadmin), method: :put, class: "btn #{!@user.is_active ? 'btn-danger disabled' : 'btn-secondary'}" %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong><i class="<%= t("roles.superadmin.icon") %>"></i> <%= t("roles.superadmin.title_long") %></strong><br />
+              <small class="text-muted"><%= t("roles.superadmin.description") %></small>
+            </td>
+            <td class="text-right">
+              <div class="btn-group">
+                <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(:superadmin) ? '#' : toggle_role_back_office_user_path(@user, scope: :superadmin), method: :put, class: "btn #{@user.has_role?(:superadmin) ? 'btn-success disabled' : 'btn-secondary'}" %>
+                <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(:superadmin) ? '#' : toggle_role_back_office_user_path(@user, scope: :superadmin), method: :put, class: "btn #{!@user.has_role?(:superadmin) ? 'btn-danger disabled' : 'btn-secondary'}" %>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-    <% end -%>
+    </div>
 
   </div>
 </div>
@@ -142,6 +114,29 @@
         </tbody>
       </table>
     <% end %>
+
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <h3><%= t('actions.add_association') %></h3>
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= simple_form_for [:back_office, @user], url: associate_back_office_user_path, method: :put do |f| %>
+      <%= f.input :service_id, collection: format_services_for_select(@other_services), selected: nil, input_html: {class: 'services-select2'}, label: t('activerecord.models.service').pluralize %>
+      <%= f.input :role, collection: format_roles_for_select(Role::USER_ROLES), selected: nil, input_html: {class: 'select2'}, label: t('activerecord.models.role') %>
+
+      <div class="row">
+        <div class="actions col-md-9 offset-md-3">
+          <%= f.button :submit, value: I18n.t('actions.add'), data: { disable_with: t('actions.save_in_progress') } %>
+        </div>
+      </div>
+    <% end -%>
 
   </div>
 </div>

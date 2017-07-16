@@ -76,6 +76,7 @@ en:
     nothing_to_display: "Nothing to show in this section."
     object_cannot_be_destroyed: 'The resource cannot be destroyed because of existing dependent resources.'
     ok: 'OK'
+    opened_tickets: 'Opened tickets'
     overview: 'Overview'
     paid:
       'false': "To be paid"

@@ -1,3 +1,5 @@
+# rake 'contracts:billing'
+
 namespace 'contracts' do
   desc "Billing task"
   task :billing => :environment do |t, args|

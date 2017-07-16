@@ -22,6 +22,8 @@ module Users
       end
     end
 
+    private
+
     def random_password
       (('a'..'k').to_a + ('L'..'Z').to_a + ('0'..'9').to_a + ['/', '.', '?', '%']).shuffle.join
     end

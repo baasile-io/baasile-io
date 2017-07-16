@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %><%= t('misc.back_office') %> / <%= t('config.platform_name') %></title>
   <%= csrf_meta_tags %>
 
   <%= render partial: 'shared/favicon' %>
@@ -19,79 +19,77 @@
       </div>
     </div>
 
-    <div class="b-io-header">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <h1><%= t('misc.back_office') %></h1>
+    <h1><%= t('misc.back_office') %></h1>
+    <hr>
+
+    <div class="b-io-main-container b-io-back-office">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <div class="b-io-menu">
+            <div class="b-io-menu--secondary">
+              <div class="list-group">
+                <%= link_to t('misc.back_office'), back_office_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'index' }" %>
+                <%= link_to back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" do %>
+                  <i class="fa fa-fw fa-users"></i> &nbsp;<%= t('activerecord.models.user').pluralize %>
+                <% end %>
+                <%= link_to back_office_services_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'services'}" do %>
+                  <i class="fa fa-fw fa-cubes"></i> &nbsp;<%= t('activerecord.models.service').pluralize %>
+                <% end %>
+                <%= link_to back_office_contracts_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'contracts'}" do %>
+                  <i class="fa fa-fw fa-edit"></i> &nbsp;<%= t('activerecord.models.contract').pluralize %>
+                <% end %>
+                <%= link_to t('activerecord.models.bank_detail').pluralize, back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" %>
+                <%= link_to back_office_categories_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'categories'}" do %>
+                  <i class="fa fa-fw fa-folder-open"></i> &nbsp;<%= t('activerecord.models.category').pluralize %>
+                <% end %>
+                <%= link_to back_office_general_conditions_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'general_conditions'}" do %>
+                  <i class="fa fa-fw fa-file-text"></i> &nbsp;<%= t('activerecord.models.general_condition').pluralize %>
+                <% end %>
+                <%= link_to back_office_tickets_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'tickets'}" do %>
+                  <i class="fa fa-fw fa-envelope"></i> &nbsp;<%= t('activerecord.models.ticket').pluralize %>
+                <% end %>
+                <%= link_to t('activerecord.models.documentation').pluralize, back_office_documentations_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'documentations'}" %>
+                <%= link_to back_office_appconfigs_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'appconfigs'}" do %>
+                  <i class="fa fa-fw fa-cogs"></i> &nbsp;<%= t('activerecord.models.appconfig') %>
+                <% end %>
+                <%= link_to back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'error_measurements' }" do %>
+                  <i class="fa fa-fw fa-warning"></i> &nbsp;<%= t('error_measurements.index.title') %>
+                <% end %>
+              </div>
+            </div>
           </div>
+
+        </div>
+        <div class="col-md-9">
+
+          <div class="b-io-content">
+
+            <div class="b-io-content--header">
+              <div class="container-fluid">
+                <% if content_for?(:page_controls) %>
+                  <div class="b-io-content--header--controls"><%= content_for(:page_controls) %></div>
+                <% end %>
+                <h3>
+                  <% if content_for?(:page_back) %>
+                    <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
+                  <% end %>
+                  <%= content_for(:page_title) %>
+                </h3>
+                <% if content_for?(:page_description) %>
+                  <p><%= content_for(:page_description) %></p>
+                <% end %>
+              </div>
+            </div>
+
+            <%= yield %>
+
+          </div>
+
         </div>
       </div>
-    </div>
 
-    <div class="b-io-main-container">
-
-      <div class="b-io-menu">
-        <div class="b-io-menu--secondary">
-          <div class="list-group">
-            <%= link_to t('misc.back_office'), back_office_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'index' }" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.user').pluralize, back_office_users_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'users'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.service').pluralize, back_office_services_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'services'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.contract').pluralize, back_office_contracts_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'contracts'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.bank_detail').pluralize, back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.category').pluralize, back_office_categories_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'categories'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.general_condition').pluralize, back_office_general_conditions_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'general_conditions'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.ticket').pluralize, back_office_tickets_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'tickets'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.documentation').pluralize, back_office_documentations_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'documentations'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('activerecord.models.appconfig'), back_office_appconfigs_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'appconfigs'}" %>
-          </div>
-          <div class="list-group">
-            <%= link_to t('error_measurements.index.title'), back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'back_office' && action_name == 'error_measurements' }" %>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="b-io-content b-io-content--with-menu">
-
-        <div class="b-io-content--header">
-          <div class="container-fluid">
-            <% if content_for?(:page_controls) %>
-              <div class="b-io-content--header--controls"><%= content_for(:page_controls) %></div>
-            <% end %>
-            <h3>
-              <% if content_for?(:page_back) %>
-                <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
-              <% end %>
-              <%= content_for(:page_title) %>
-            </h3>
-            <% if content_for?(:page_description) %>
-              <p><%= content_for(:page_description) %></p>
-            <% end %>
-          </div>
-        </div>
-
-        <%= yield %>
-
-      </div>
     </div>
   </div>
 

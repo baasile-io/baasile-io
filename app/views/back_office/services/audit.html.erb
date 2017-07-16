@@ -6,14 +6,38 @@
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link" href="<%= edit_back_office_service_path(@service) %>"><%= t('actions.edit') %></a>
+        <a class="nav-link" href="<%= edit_back_office_service_path(@service) %>">
+          <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="#"><%= t('misc.audit') %></a>
+        <a class="nav-link active" href="#">
+          <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
+        </a>
       </li>
     </ul>
 
+    <%= render partial: 'shared/versions',
+               locals: {
+                 objects:
+                   [@service] +
+                     @service.user_associations.to_a +
+                     @service.bank_details.to_a +
+                     @service.tickets.to_a +
+                     @service.proxies.to_a +
+                     @service.routes.to_a +
+                     @service.prices.to_a +
+                     @service.contracts_as_client.to_a +
+                     @service.contracts_as_startup.to_a +
+                     [@service.contact_detail] +
+                     @service.proxies.map {|p|
+                       [p.proxy_parameter] +
+                         [p.proxy_parameter_test] +
+                         [p.proxy_parameter.identifier] +
+                         [p.proxy_parameter_test.identifier]
+                     }.flatten +
+                     @service.routes.map {|r| r.query_parameters}.flatten
+               } %>
+
   </div>
 </div>
-
-<%= render partial: 'shared/versions', locals: {objects: [@service]} %>

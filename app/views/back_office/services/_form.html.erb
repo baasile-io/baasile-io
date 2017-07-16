@@ -1,108 +1,71 @@
 <%= simple_form_for [:back_office, @service] do |f| %>
 
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
+  <%= error_messages_for(f.object) %>
 
-      <% if f.object.persisted? %>
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= audit_back_office_service_path(f.object) %>"><%= t('misc.audit') %></a>
-          </li>
-        </ul>
-      <% end %>
+  <%= f.input :service_type, collection: format_service_types_for_select, include_blank: false, input_html: {class: 'select2'} %>
 
-      <%= error_messages_for(f.object) %>
+  <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
 
-      <%= f.input :service_type, collection: format_service_types_for_select, include_blank: false, input_html: {class: 'select2'} %>
+  <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t(".hints.user_id") %>
+  <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+  <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+  <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
 
-      <%= f.input :parent_id, collection: format_services_for_select(@companies), include_blank: t('misc.none_feminized'), input_html: {class: 'services-select2'} %>
+  <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
+  <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('services.form.hints.description') %>
+  <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('services.form.hints.description_long') %>
 
-      <%= f.input :user_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: false, hint: t(".hints.user_id") %>
-      <%= f.input :main_commercial_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-      <%= f.input :main_accountant_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
-      <%= f.input :main_developer_id, collection: format_users_for_select(@users), input_html: {class: 'select2'}, include_blank: t('misc.none') %>
+  <% unless f.object.is_client? %>
+    <%= f.input :website, hint: t('services.form.hints.website') %>
+  <% end %>
 
-      <%= f.input :name, input_html: {class: 'input-placeholder-live-update', 'data-target': 'service_contact_detail_attributes_name'} %>
-      <%= f.input :description, as: :text, input_html: {rows: 3}, hint: t('services.form.hints.description') %>
-      <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, hint: t('services.form.hints.description_long') %>
+  <% unless f.object.is_client? %>
+    <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
+  <% end %>
 
-      <% unless f.object.is_client? %>
-        <%= f.input :website, hint: t('services.form.hints.website') %>
-      <% end %>
+  <h3><%= t('activerecord.models.identifier').pluralize %></h3>
 
-      <% unless f.object.is_client? %>
-        <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
-      <% end %>
+  <%= f.input :subdomain, hint: t('services.form.hints.subdomain') %>
 
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" for="activate"></label>
+    <div class="col-md-9">
+      <label>
+        <%= check_box_tag :activate, 'true', f.object.confirmed_at.present? %>
+        <%= t('misc.activated') %>
+      </label>
+      <small class="form-text text-muted"><%= t('.hints.activate') %></small>
     </div>
   </div>
 
-  <div class="b-io-content--header">
-    <div class="container-fluid">
-      <h3><%= t('activerecord.models.identifier').pluralize %></h3>
-    </div>
-  </div>
+  <% if f.object.persisted? %>
 
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-
-      <%= f.input :subdomain, hint: t('services.form.hints.subdomain') %>
+    <fieldset>
+      <legend><%= t('misc.authentification_identifiers') %></legend>
+      <%= f.input :client_id, readonly: true %>
+      <%= f.input :client_secret, readonly: true %>
 
       <div class="form-group row">
-        <label class="col-md-3 col-form-label" for="activate"></label>
+        <label class="col-md-3 col-form-label" for="reset_identifiers"></label>
         <div class="col-md-9">
           <label>
-            <%= check_box_tag :activate, 'true', f.object.confirmed_at.present? %>
-            <%= t('misc.activated') %>
+            <%= check_box_tag :reset_identifiers, 'true', params[:reset_identifiers].present? %>
+            <%= t('actions.reset_identifiers') %>
           </label>
-          <small class="form-text text-muted"><%= t('.hints.activate') %></small>
+          <small class="form-text text-muted"><%= t('.hints.reset_identifiers') %></small>
         </div>
       </div>
+    </fieldset>
 
-      <% if f.object.persisted? %>
+  <% end %>
 
-        <fieldset>
-          <legend><%= t('misc.authentification_identifiers') %></legend>
-          <%= f.input :client_id, readonly: true %>
-          <%= f.input :client_secret, readonly: true %>
+  <h3><%= t('activerecord.models.contact_detail').pluralize %></h3>
 
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="reset_identifiers"></label>
-            <div class="col-md-9">
-              <label>
-                <%= check_box_tag :reset_identifiers, 'true', params[:reset_identifiers].present? %>
-                <%= t('actions.reset_identifiers') %>
-              </label>
-              <small class="form-text text-muted"><%= t('.hints.reset_identifiers') %></small>
-            </div>
-          </div>
-        </fieldset>
+  <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
 
-      <% end %>
-
-    </div>
-  </div>
-
-  <div class="b-io-content--header">
-    <div class="container-fluid">
-      <h3><%= t('activerecord.models.contact_detail').pluralize %></h3>
-    </div>
-  </div>
-
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
-
-      <%= render partial: 'contact_details/fields_for', locals: {f: f} %>
-
-      <div class="row">
-        <div class="actions col-md-9 offset-md-3">
-          <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-        </div>
-      </div>
-
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
     </div>
   </div>
 
