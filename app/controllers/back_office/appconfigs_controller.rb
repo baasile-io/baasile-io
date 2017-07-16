@@ -13,6 +13,7 @@ module BackOffice
       @appconfig.assign_attributes(appconfig_params)
       return destroy if @appconfig.value.blank? || convert_appconfig_value(Appconfig::APPCONFIGS[@appconfig.name.to_sym][:setting_type], @appconfig.value) == Appconfig::APPCONFIGS[@appconfig.name.to_sym][:value]
       if @appconfig.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.appconfig'))
         redirect_to back_office_appconfigs_path
       else
         render :edit
@@ -21,10 +22,14 @@ module BackOffice
 
     def destroy
       if @appconfig.persisted?
-        @appconfig.destroy
+        if @appconfig.destroy
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.appconfig'))
+        end
       end
       redirect_to back_office_appconfigs_path
     end
+
+    private
 
     def load_appconfig
       @appconfig_key = params[:id].to_sym

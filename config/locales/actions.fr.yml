@@ -6,11 +6,13 @@ fr:
     add_admin: 'Ajouter un administrateur'
     add_association: 'Ajouter une association'
     add_comment: 'Ajouter un commentaire'
+    add_existing_users: 'Ajouter des utilisateurs existants'
     add_user: "Ajouter l'utilisateur"
+    add_users: "Ajouter des utilisateurs"
     add_price_parameter: 'Ajouter un critère de tarification'
     admin_list: 'liste des administrateurs'
     associate: 'Associer'
-    back: '<< Retour'
+    back: 'Retour'
     buy: 'Acheter'
     cancel: 'Annuler'
     cancel_contract: 'Annuler le contrat'
@@ -28,6 +30,7 @@ fr:
     create_user: 'Créer un utilisateur'
     deactivate: 'Désactiver'
     destroy: 'Supprimer'
+    destroy_user: "Supprimer définitivement le compte utilisateur"
     disassociate: "Supprimer l'association"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
@@ -37,10 +40,12 @@ fr:
     edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
     edit_service: 'Modifier le compte Entreprise'
-    edit_user: 'Modifier le compte Utilisateur'
+    edit_user: 'Modifier le compte utilisateur'
     filter_by_startup: 'Filtrer par fournisseur...'
+    ignore: 'Ignorer'
     infos: 'Infos'
     invite_user: "Inviter un utilisateur existant"
+    mark_as_paid: 'Marquer comme "Réglé"'
     new: 'Créer'
     new_aggregator: 'Créer un Aggrégateur'
     new_client: 'Créer un Client'

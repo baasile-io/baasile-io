@@ -10,6 +10,10 @@
 
       <div class="popover-content text-center">
         <%= yield %>
+
+        <%= link_to t('actions.ignore'),
+                    '#',
+                    class: 'btn btn-secondary btn-ignore' %>
       </div>
     </div>
   </div>

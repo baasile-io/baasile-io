@@ -13,6 +13,7 @@
       </thead>
       <tbody>
       <% @appconfigs.each do |appconfig_key, default_appconfig| %>
+        <% is_default = (Appconfig.get(appconfig_key) == default_appconfig[:value]) %>
         <tr>
           <td class="width-3">
             <i class="fa-2x fa fa-fw fa-cog"></i>
@@ -22,10 +23,33 @@
             <small class="text-muted"><%= t("appconfigs.#{appconfig_key}.description") %></small>
           </td>
           <td><%= t("types.setting_types.#{default_appconfig[:setting_type]}") %></td>
-          <td><%= Appconfig.get(appconfig_key) %></td>
+          <td>
+            <% if is_default %>
+              <span class="text-muted"><%= Appconfig.get(appconfig_key) %></span>
+            <% else %>
+              <%= Appconfig.get(appconfig_key) %>
+            <% end %>
+          </td>
           <td class="text-right">
-            <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_appconfig_path(appconfig_key), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-            <%= link_to '<i class="fa fa-fw fa-eraser"></i>'.html_safe, destroy_back_office_appconfig_path(appconfig_key), class: 'btn btn-danger btn-sm', title: t('actions.reset'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete %>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                <%= t('misc.actions') %>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to edit_back_office_appconfig_path(appconfig_key),
+                            class: 'dropdown-item' do %>
+                  <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                <% end %>
+                <% unless is_default %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to destroy_back_office_appconfig_path(appconfig_key),
+                              method: :delete,
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-eraser"></i> <%= t('actions.reset') %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
           </td>
         </tr>
       <% end %>

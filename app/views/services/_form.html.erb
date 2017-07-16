@@ -75,7 +75,14 @@
                     'data-old-value': f.object.name
                   } %>
 
-      <%= f.input :subdomain, disabled: f.object.is_activated?, hint: t('.hints.subdomain'), input_html: {class: 'col-sm-5', 'data-target': 'service_subdomain_livepreview', 'data-prefix': "#{api_v1_root_url(locale: nil)}/"} %>
+      <%= f.input :subdomain,
+                  disabled: f.object.is_activated?,
+                  hint: t('.hints.subdomain'),
+                  input_html: {
+                    class: 'col-sm-5',
+                    'data-target': 'service_subdomain_livepreview',
+                    'data-prefix': "#{api_v1_root_url(locale: nil)}/"
+                  } %>
 
       <div class="form-group row subdomain_livepreview">
         <label class="col-md-3 col-form-label"><%= t('.hints.subdomain_livepreview_label') %></label>

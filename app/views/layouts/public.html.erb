@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %><%= t('config.platform_name') %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
 
+  <%= render partial: 'shared/favicon' %>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
-  <%= stylesheet_link_tag    'public', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag    'public', media: 'all' %>
 </head>
 
 <body class="public">
@@ -28,6 +28,14 @@
   </footer>
 
   <%= render partial: 'shared/flash' %>
+
+  <%= javascript_include_tag 'application' %>
+
+  <script type="text/javascript">
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
+
+  <%= content_for(:extra_js) %>
 
 </body>
 </html>

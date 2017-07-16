@@ -42,10 +42,42 @@
           <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small>
         </td>
         <td class="text-right">
-          <%= link_to '<i class="fa fa-fw fa-pencil"></i>'.html_safe, edit_back_office_user_path(user), class: 'btn btn-secondary btn-sm', title: t('actions.edit'), data: {toggle: 'tooltip', placement: 'top'} %>
-          <%= link_to '<i class="fa fa-fw fa-key"></i>'.html_safe, permissions_back_office_user_path(user), class: 'btn btn-secondary btn-sm', title: t('misc.permissions'), data: {toggle: 'tooltip', placement: 'top'} %>
-          <%= link_to '<i class="fa fa-fw fa-sign-in"></i>'.html_safe, sign_in_as_back_office_user_path(user), class: 'btn btn-secondary btn-sm', title: t('actions.sign_in_as'), data: {toggle: 'tooltip', placement: 'top'}, method: :put %>
-          <%= link_to '<i class="fa fa-fw fa-trash"></i>'.html_safe, back_office_user_path(user), class: 'btn btn-danger btn-sm', title: t('actions.destroy'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'top'}, method: :delete %>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+              <%= t('misc.actions') %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to edit_back_office_user_path(user),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+              <% end %>
+              <%= link_to permissions_back_office_user_path(user),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
+              <% end %>
+              <%= link_to audit_back_office_user_path(user),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to back_office_user_path(user),
+                          class: 'dropdown-item',
+                          method: :delete,
+                          data: {
+                            confirm: 'Are you sure?'
+                          } do %>
+                <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to sign_in_as_back_office_user_path(user),
+                          class: 'dropdown-item',
+                          method: :put do %>
+                <i class="fa fa-fw fa-sign-in"></i> <%= t('actions.sign_in_as') %>
+              <% end %>
+            </div>
+          </div>
+
         </td>
       </tr>
       <% end %>

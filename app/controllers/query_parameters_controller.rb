@@ -2,19 +2,6 @@ class QueryParametersController < DashboardController
   before_action :load_query_parameter, only: [:edit, :update, :destroy]
   before_action :load_query_parameters, only: [:index, :create]
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action, except: [:index]
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service)
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
-    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy)
-    add_breadcrumb I18n.t('routes.index.title'), :service_proxy_routes_path
-    add_breadcrumb current_route.name, service_proxy_route_path(current_service, current_proxy, current_route)
-    add_breadcrumb I18n.t('query_parameters.index.title'), :service_proxy_route_query_parameters_path
-  end
-
   def new
     @query_parameter = QueryParameter.new(mode: QueryParameter::MODES[:optional])
   end

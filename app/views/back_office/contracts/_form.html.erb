@@ -1,41 +1,56 @@
 <%= simple_form_for [:back_office, @contract] do |f| %>
 
-  <div class="b-io-content--secondary">
-    <div class="container-fluid">
+  <%= error_messages_for(f.object) %>
 
-      <% if f.object.persisted? %>
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" href="#"><%= t('actions.edit') %></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= audit_back_office_contract_path(@contract) %>"><%= t('misc.audit') %></a>
-          </li>
-        </ul>
-      <% end %>
+  <%= f.input :status,
+              collection: format_contract_status_for_select,
+              disabled: true  %>
 
-      <%= error_messages_for(f.object) %>
+  <%= f.input :client_code %>
+  <%= f.input :startup_code %>
 
-      <%= f.input :status, collection: format_contract_status_for_select %>
-      <%= f.input :client_code %>
-      <%= f.input :startup_code %>
-      <%= f.input :client_id, collection: format_services_for_select(@clients), input_html: {class: 'services-select2'}, include_blank: t('actions.select') %>
-      <%= f.input :proxy_id, collection: format_proxies_for_select(@proxies), input_html: {class: 'select2'}, include_blank: t('actions.select') %>
-      <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
-      <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
-      <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
+  <%= f.input :client_id,
+              collection: format_services_for_select(@clients),
+              input_html: {
+                class: 'services-select2'
+              },
+              include_blank: t('actions.select'),
+              disabled: true %>
 
-      <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.is_active') %>
+  <%= f.input :proxy_id,
+              collection: format_proxies_for_select(@proxies),
+              input_html: {
+                class: 'select2'
+              },
+              include_blank: t('actions.select'),
+              disabled: true %>
 
-      <%= f.simple_fields_for @new_comment do |f2| %>
-        <%= f2.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
-      <% end %>
+  <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
+  <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
+  <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
 
-      <div class="row">
-        <div class="actions col-md-9 offset-md-3">
-          <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
-        </div>
-      </div>
+  <% if f.object.start_date %>
+    <%= f.input :start_date,
+                as: :string,
+                disabled: true,
+                input_html: {class: 'date-picker col-sm-3'} %>
+  <% end %>
+  <% if f.object.end_date %>
+    <%= f.input :end_date,
+                as: :string,
+                disabled: true,
+                input_html: {class: 'date-picker col-sm-3'} %>
+  <% end %>
+
+  <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.is_active') %>
+
+  <%= f.simple_fields_for @new_comment do |f2| %>
+    <%= f2.input :body, as: :trix_editor, label: t('actions.add_comment'), required: false, input_html: {rows: 5, name: 'new_comment'} %>
+  <% end %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
     </div>
   </div>
 

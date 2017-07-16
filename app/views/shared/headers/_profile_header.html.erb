@@ -29,7 +29,7 @@
             <a class="nav-link <%= 'active' if controller_name == 'users' && action_name != 'profile' %>" href="<%= users_path %>"><i class="fa fa-fw fa-user"></i> <%= t('services.users.title') %></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-rss"></i> <%= t('activerecord.models.ticket').pluralize %></a>
+            <a class="nav-link <%= 'active' if controller_name == 'tickets' %>" href="<%= tickets_path %>"><i class="fa fa-fw fa-envelope"></i> <%= t('activerecord.models.ticket').pluralize %></a>
           </li>
         </ul>
       </div>

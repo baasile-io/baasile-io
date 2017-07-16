@@ -4,17 +4,16 @@
       <div class="col-12">
         <h3>
           <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe unless current_service.is_activated? %>
-          <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= I18n.t("types.service_types.#{current_service.service_type}.title") %></span>
-          <span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= t("types.service_types.#{current_service.service_type}.title") %></span>
+          <!--<span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>-->
           <% if current_service.parent %>
-            <span class="<%= I18n.t("types.service_types.#{current_service.parent.service_type}.class") %>"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent) %> <i class="fa fa-fw fa-caret-right"></i></span>
+            <span class="<%= t("types.service_types.#{current_service.parent.service_type}.class") %>"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent), class: t("types.service_types.#{current_service.parent.service_type}.class") %> <i class="fa fa-fw fa-caret-right"></i></span>
           <% end %>
-          <span class="<%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><i class="<%= I18n.t("types.service_types.#{current_service.service_type}.icon") %>"></i> <%= current_service.name %></span>
+          <span class="<%= t("types.service_types.#{current_service.service_type}.class") %>"><i class="<%= I18n.t("types.service_types.#{current_service.service_type}.icon") %>"></i> <%= current_service.name %></span>
         </h3>
       </div>
     </div>
   </div>
-  <%#= render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder %>
   <hr>
   <div class="container">
     <ul class="nav nav-pills" style="font-size:110%">

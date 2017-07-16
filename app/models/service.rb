@@ -181,11 +181,11 @@ class Service < ApplicationRecord
   end
 
   def clients
-    self.children.where(service_type: SERVICE_TYPES[:client][:index])
+    self.children.where(service_type: :client)
   end
 
   def startups
-    self.children.where(service_type: SERVICE_TYPES[:startup][:index])
+    self.children.where(service_type: :startup)
   end
 
   def is_company?

@@ -1,5 +1,5 @@
 $(document).ready(function() {
 
-  $("#flash_message").slideDown().delay(3000).slideUp('slow');
+  $("#flash_message").slideDown().delay(10000).slideUp('slow');
 
 });

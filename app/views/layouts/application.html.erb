@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %> <%= t('config.platform_name') %></title>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %><%= t('config.platform_name') %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
 
+  <%= render partial: 'shared/favicon' %>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
-
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
 </head>
 
 <body>
@@ -32,7 +32,9 @@
             <% end %>
             <h4>
               <% if content_for?(:page_back) %>
-                <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
+                <%= link_to content_for(:page_back), class: 'btn btn-link' do %>
+                  <i class="fa fa-fw fa-backward"></i> <%= t('actions.back') %>
+                <% end %>
               <% end %>
               <%= content_for(:page_title) %>
             </h4>
@@ -54,11 +56,13 @@
   <%= render partial: 'shared/flash' %>
 
   <%= javascript_include_tag 'application' %>
-  <%= content_for(:extra_js) %>
 
   <script type="text/javascript">
     I18n.locale = '<%= I18n.locale %>';
   </script>
+
+  <%= content_for(:extra_js) %>
+
 
 </body>
 </html>

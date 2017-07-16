@@ -67,11 +67,14 @@ module BackOffice
   private
 
     def redirect_to_edit
-      return redirect_to edit_back_office_ticket_path(@ticket)
+      redirect_to edit_back_office_ticket_path(@ticket)
     end
 
     def redirect_to_index
-      return redirect_to back_office_tickets_path
+      if @ticket && @ticket.is_closed?
+        return redirect_to closed_back_office_tickets_path
+      end
+      redirect_to back_office_tickets_path
     end
 
     def ticket_params

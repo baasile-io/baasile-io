@@ -8,6 +8,9 @@ fr:
     edit:
       title: "Modifier l'utilisateur"
     index:
+      hints:
+        add_user: 'Ajoutez un utilisateur parmi ceux que vous avez créé personnellement.'
+        invite_user: 'Invitez des utilisateurs possédant déjà un compte sur la plateforme à partir de leur adresse E-Mail.'
       title: 'Utilisateurs'
     form:
       hints:

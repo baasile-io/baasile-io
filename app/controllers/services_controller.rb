@@ -8,16 +8,8 @@ class ServicesController < ApplicationController
   # Authorization
   before_action :authorize_action
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action, except: [:show]
-
   # allow get measure info to show
   include ShowMeasurementConcern
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service) if current_service
-  end
 
   def index
     @collection = current_user.services
@@ -28,9 +20,6 @@ class ServicesController < ApplicationController
 
   def show
     @logotype_service = LogotypeService.new
-    children = current_service.children
-    @clients = children.select {|c| c.service_type == 'client'}
-    @startups = children.select {|c| c.service_type == 'startup'}
   end
 
   def audit

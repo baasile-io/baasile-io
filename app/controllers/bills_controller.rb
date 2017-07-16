@@ -1,7 +1,7 @@
 class BillsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_service_and_authorize
-  before_action :load_bill, only: [:show, :print, :comments]
+  before_action :load_bill, only: [:show, :print, :comments, :mark_as_paid, :mark_platform_contribution_as_paid]
 
   # Authorization
   before_action :authorize_action
@@ -10,7 +10,6 @@ class BillsController < ApplicationController
   include ShowMeasurementConcern
 
   def index
-    init_measurement
     @collection = if current_service
                     Bill.includes(:contract, :client, :startup).by_service(current_service)
                   else
@@ -19,6 +18,7 @@ class BillsController < ApplicationController
   end
 
   def show
+    @logotype_service = LogotypeService.new
   end
 
   def print
@@ -27,7 +27,9 @@ class BillsController < ApplicationController
     data = open(pdf_path)
     send_data data.read,
               disposition: 'attachment',
-              filename: "abc.pdf",
+              filename: "#{I18n.t('bills.show.title',
+                                  start_date: I18n.l(current_bill.start_date, format: :default),
+                                  end_date: I18n.l(current_bill.end_date, format: :default))}.pdf",
               stream: 'true',
               buffer_size: '4096',
               type: 'application/pdf'
@@ -35,6 +37,34 @@ class BillsController < ApplicationController
 
   def comments
     @new_comment = Comment.new(commentable: current_bill)
+  end
+
+  def mark_as_paid
+    if current_user.is_user_of?(current_bill.contract.startup)
+      current_bill.startup_paid = true
+      if current_bill.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bill'))
+      else
+        flash[:error] = current_bill.errors.full_messages.join(', ')
+      end
+    else
+      flash[:error] = I18n.t('misc.not_authorized')
+    end
+    redirect_to polymorphic_path([current_service, current_bill])
+  end
+
+  def mark_platform_contribution_as_paid
+    if current_user.is_superadmin?
+      current_bill.platform_contribution_paid = true
+      if current_bill.save
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bill'))
+      else
+        flash[:error] = current_bill.errors.full_messages.join(', ')
+      end
+    else
+      flash[:error] = I18n.t('misc.not_authorized')
+    end
+    redirect_to polymorphic_path([current_service, current_bill])
   end
 
   private
@@ -74,9 +104,9 @@ class BillsController < ApplicationController
 
   def load_bill
     @bill = if current_service
-              Bill.includes(:contract, :client, :startup).by_service(current_service).find(params[:id])
+              Bill.includes(:contract).by_service(current_service).find(params[:id])
             else
-              Bill.includes(:contract, :client, :startup).by_user(current_user).find(params[:id])
+              Bill.includes(:contract).by_user(current_user).find(params[:id])
             end
   end
 

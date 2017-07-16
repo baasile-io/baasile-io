@@ -97,6 +97,8 @@ Rails.application.routes.draw do
       member do
         get :print
         get :comments
+        post :mark_as_paid
+        post :mark_platform_contribution_as_paid
       end
     end
 
@@ -157,6 +159,8 @@ Rails.application.routes.draw do
         member do
           get :print
           get :comments
+          post :mark_as_paid
+          post :mark_platform_contribution_as_paid
         end
       end
 
@@ -239,6 +243,10 @@ Rails.application.routes.draw do
       resources :services do
         member do
           get :audit
+          get :users
+          delete :disassociate_user
+          put :associate_user
+          put :toggle_user_role
         end
       end
       resources :tickets do
@@ -261,6 +269,7 @@ Rails.application.routes.draw do
       resources :contracts do
         member do
           get :audit
+          get :comments
         end
       end
 

@@ -1,5 +1,5 @@
 class Role < ApplicationRecord
-  USER_ROLES = %i(admin commercial developer accountant).freeze
+  USER_ROLES = %i(admin developer commercial accountant).freeze
 
   CONTROLLER_AUTHORIZATIONS = {
     bank_details: {
@@ -98,7 +98,9 @@ class Role < ApplicationRecord
     bills: {
       index: [:admin, :accountant],
       show: [:admin, :accountant],
-      print: [:admin, :accountant]
+      print: [:admin, :accountant],
+      mark_as_paid: [:admin, :accountant],
+      mark_platform_contribution_as_paid: []
     },
     prices: {
       index: [:admin, :commercial],

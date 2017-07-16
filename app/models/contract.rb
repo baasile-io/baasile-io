@@ -396,9 +396,10 @@ class Contract < ApplicationRecord
   scope :associated_companies, ->(company) { where(company: company) }
   scope :associated_clients, ->(client) { where(client: client) }
   scope :associated_startups, ->(startup) { where(startup: startup) }
-  scope :associated_services, ->(service) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: service.subtree_ids) }
-  scope :associated_users, ->(user) { where("(startup_id IN (:service_ids) AND status != #{CONTRACT_STATUSES[:deletion][:index]} AND status != #{CONTRACT_STATUSES[:creation][:index]}) OR client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
-  scope :active_between, ->(start_date, end_date) { where('(start_date BETWEEN :start_date AND :end_date) OR (end_date BETWEEN :start_date AND :end_date) OR (start_date < :start_date AND end_date > :end_date)', start_date: start_date, end_date: end_date) }
+  scope :associated_services, ->(service) { where("(contracts.startup_id IN (:service_ids) AND contracts.status != #{CONTRACT_STATUSES[:deletion][:index]} AND contracts.status != #{CONTRACT_STATUSES[:creation][:index]}) OR contracts.client_id IN (:service_ids)", service_ids: service.subtree_ids) }
+  scope :associated_users, ->(user) { where("(contracts.startup_id IN (:service_ids) AND contracts.status != #{CONTRACT_STATUSES[:deletion][:index]} AND contracts.status != #{CONTRACT_STATUSES[:creation][:index]}) OR contracts.client_id IN (:service_ids)", service_ids: user.services.map {|s| s.subtree_ids}.flatten.uniq) }
+  scope :active_between, ->(start_date, end_date) { where('(contracts.start_date BETWEEN :start_date AND :end_date) OR (contracts.end_date BETWEEN :start_date AND :end_date) OR (contracts.start_date < :start_date AND contracts.end_date > :end_date)', start_date: start_date, end_date: end_date) }
+  scope :active_around, ->(date) { where(':date BETWEEN contracts.start_date AND contracts.end_date', date: date) }
 
   scope :owned, ->(user) { where(user: user) }
 

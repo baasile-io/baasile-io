@@ -1,0 +1,8 @@
+--title "Baasile IO"
+--exclude /tmp/
+--quiet
+--protected
+--private
+-
+lib/**/*.rb
+app/**/*.rb

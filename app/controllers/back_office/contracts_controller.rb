@@ -1,19 +1,16 @@
 module BackOffice
   class ContractsController < BackOfficeController
-    before_action :load_contract, only: [:edit, :update, :destroy, :cancel, :audit]
+    before_action :load_contract, only: [:edit, :update, :destroy, :cancel, :audit, :comments]
     before_action :load_active_services, only: [:edit, :update]
     before_action :load_active_client, only: [:edit, :update]
     before_action :load_active_proxies, only: [:edit, :update]
-
-    add_breadcrumb I18n.t('back_office.contracts.index.title'), :back_office_contracts_path
-    before_action :add_breadcrumb_current_action, except: [:index]
 
     def index
       @collection = Contract.all.order(updated_at: :desc)
     end
 
     def audit
-
+      @page_title = @contract.name
     end
 
     def edit
@@ -21,12 +18,24 @@ module BackOffice
       @new_comment = Comment.new(commentable: @contract)
     end
 
+    def comments
+      @page_title = @contract.name
+      @new_comment = Comment.new(commentable: @contract)
+      @comments = @contract.comments.order(created_at: :desc)
+    end
+
     def update
       @page_title = @contract.name
       @contract.assign_attributes(contract_params(@contract.status))
       @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
       if @contract.save
-        Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+
+        unless params[:new_comment].blank?
+          comment = ::Services::Comments::Create.new({body: params[:new_comment]},
+                                                     commentable: @contract,
+                                                     user: current_user).call
+        end
+
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
         redirect_to_show
       else
@@ -89,12 +98,16 @@ module BackOffice
     end
 
     def contract_params(status)
-      allowed_parameters = [:client_code, :startup_code, :name, :is_active, :status, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id]
+      allowed_parameters = [
+        :client_code,
+        :startup_code,
+        :name,
+        :is_active,
+        :expected_start_date,
+        :expected_end_date,
+        :is_evergreen
+      ]
       params.require(:contract).permit(allowed_parameters)
-    end
-
-    def add_breadcrumb_current_action
-      add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
     end
 
     def current_contract

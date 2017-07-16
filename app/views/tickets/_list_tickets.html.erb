@@ -17,7 +17,7 @@
     <% collection.each do |ticket| %>
       <tr data-link="<%= ticket_path(ticket) %>">
         <td class="width-3">
-          <i class="fa fa-fw fa-2x fa-rss"></i>
+          <i class="fa fa-fw fa-2x fa-envelope<%= '-open' unless ticket.is_closed? %>"></i>
         </td>
         <td>
           <strong><%= ticket.subject %></strong> <br />

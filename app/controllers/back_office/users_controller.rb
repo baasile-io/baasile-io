@@ -3,11 +3,12 @@ module BackOffice
     before_action :load_user, except: [:index, :new, :create]
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
-    add_breadcrumb I18n.t('back_office.users.index.title'), :back_office_users_path
-    before_action :add_breadcrumb_current_action, except: [:index]
-
     def index
       @collection = User.all.order(updated_at: :desc)
+    end
+
+    def show
+      redirect_to edit_back_office_user_path(@user)
     end
 
     def new
@@ -47,10 +48,6 @@ module BackOffice
       else
         render :edit
       end
-    end
-
-    def assign_random_password
-      ::Users::UserPasswordsService.new(@user).assign_random_password
     end
 
     def destroy
@@ -127,7 +124,11 @@ module BackOffice
       if current_user == @user
         flash[:error] = "You can't deactivate yourself"
       else
-        @user.update(is_active: !@user.is_active)
+        if @user.update(is_active: !@user.is_active)
+          flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
+        else
+          flash[:error] = @user.errors.full_messages.join(', ')
+        end
       end
 
       redirect_back(fallback_location: permissions_back_office_user_path(@user))
@@ -151,6 +152,10 @@ module BackOffice
     def user_params
       allowed_parameters = [:email, :first_name, :last_name, :gender, :phone, :language, :is_active, :parent_id]
       params.require(:user).permit(allowed_parameters)
+    end
+
+    def assign_random_password
+      ::Users::UserPasswordsService.new(@user).assign_random_password
     end
 
   end

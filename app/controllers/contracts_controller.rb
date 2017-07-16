@@ -12,14 +12,6 @@ class ContractsController < ApplicationController
   before_action :init_client_and_bank_detail, only: [:client_bank_details, :client_bank_details_selection]
   before_action :init_startup_and_bank_detail, only: [:startup_bank_details, :startup_bank_details_selection]
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('contracts.index.title'), :contracts_path
-    #add_breadcrumb current_service.name, contract_path(curr) if current_service
-  end
-
   def index
     unless current_service.nil?
       @collection = Contract.associated_services(current_service).order(status: :asc)
@@ -62,7 +54,13 @@ class ContractsController < ApplicationController
     @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
     @contract.status = Contract.statuses[:creation]
     if @contract.save
-      Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+
+      unless params[:new_comment].blank?
+        comment = ::Services::Comments::Create.new({body: params[:new_comment]},
+                                                   commentable: @contract,
+                                                   user: current_user).call
+      end
+
       flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.contract'))
       redirect_to_show
     else
@@ -90,18 +88,17 @@ class ContractsController < ApplicationController
 
   def show
     @logotype_service = LogotypeService.new
-    #begin
+    begin
       if current_contract.status.to_sym == :validation_production
-        @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).calculate
+        @current_month_consumption = Bills::BillingService.new(current_contract, Date.today).prepare
       end
-    #rescue
-    #  nil
-    #end
+    rescue
+    end
   end
 
   def print_current_month_consumption
     billing_service = Bills::BillingService.new(current_contract, Date.today)
-    billing_service.calculate
+    billing_service.prepare
     pdf_path = Bills::GeneratePdfBillService.new(billing_service.bill).generate_pdf
 
     data = open(pdf_path)
@@ -377,10 +374,6 @@ class ContractsController < ApplicationController
     end
     allowed_parameters.reject! {|attribute| !current_contract.can_edit_attribute?(current_user, attribute)} if current_contract
     params.require(:contract).permit(allowed_parameters)
-  end
-
-  def add_breadcrumb_current_action
-    add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
   end
 
   def current_service

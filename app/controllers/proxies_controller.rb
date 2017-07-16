@@ -2,18 +2,8 @@ class ProxiesController < DashboardController
   before_action :load_proxy, only: [:error_measurements, :show, :edit, :update, :destroy, :confirm_destroy]
   before_action :load_categories, only: [:new, :edit, :update, :create]
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action, except: [:index, :show]
-
   # allow get measure info to show
   include ShowMeasurementConcern
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service)
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path
-    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) if current_proxy
-  end
 
   def index
     @collection = current_service.proxies

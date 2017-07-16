@@ -1,8 +1,20 @@
-<% content_for(:page_back) { back_office_tickets_path } %>
 <% content_for(:page_title, t('.title')) %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= back_office_tickets_path %>">
+          <i class="fa fa-fw fa-envelope-open"></i> <%= t('misc.opened_tickets') %>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="#">
+          <i class="fa fa-fw fa-envelope"></i> <%= t('misc.closed_tickets') %>
+        </a>
+      </li>
+    </ul>
 
     <%= render partial: 'list_tickets', locals: {collection: @collection} %>
 
