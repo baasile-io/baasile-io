@@ -1,6 +1,6 @@
 module BackOffice
   class ContractsController < BackOfficeController
-    before_action :load_contract, only: [:edit, :update, :destroy, :cancel, :audit]
+    before_action :load_contract, only: [:edit, :update, :destroy, :cancel, :audit, :comments]
     before_action :load_active_services, only: [:edit, :update]
     before_action :load_active_client, only: [:edit, :update]
     before_action :load_active_proxies, only: [:edit, :update]
@@ -18,12 +18,24 @@ module BackOffice
       @new_comment = Comment.new(commentable: @contract)
     end
 
+    def comments
+      @page_title = @contract.name
+      @new_comment = Comment.new(commentable: @contract)
+      @comments = @contract.comments.order(created_at: :desc)
+    end
+
     def update
       @page_title = @contract.name
       @contract.assign_attributes(contract_params(@contract.status))
       @contract.startup = @contract.proxy.service unless @contract.proxy.nil?
       if @contract.save
-        Comment.create(commentable: @contract, user: current_user, body: params[:new_comment]) unless params[:new_comment].blank?
+
+        unless params[:new_comment].blank?
+          comment = ::Services::Comments::Create.new({body: params[:new_comment]},
+                                                     commentable: @contract,
+                                                     user: current_user).call
+        end
+
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.contract'))
         redirect_to_show
       else
@@ -91,7 +103,6 @@ module BackOffice
         :startup_code,
         :name,
         :is_active,
-        :status,
         :expected_start_date,
         :expected_end_date,
         :is_evergreen

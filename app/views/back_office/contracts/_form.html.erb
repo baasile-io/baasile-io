@@ -2,7 +2,10 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :status, collection: format_contract_status_for_select %>
+  <%= f.input :status,
+              collection: format_contract_status_for_select,
+              disabled: true  %>
+
   <%= f.input :client_code %>
   <%= f.input :startup_code %>
 
@@ -22,9 +25,22 @@
               include_blank: t('actions.select'),
               disabled: true %>
 
-  <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker'} %>
-  <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker'} %>
+  <%= f.input :expected_start_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
+  <%= f.input :expected_end_date, as: :string, input_html: {class: 'date-picker col-sm-3'} %>
   <%= f.input :is_evergreen, as: :radio_buttons, collection: format_boolean_values_for_input %>
+
+  <% if f.object.start_date %>
+    <%= f.input :start_date,
+                as: :string,
+                disabled: true,
+                input_html: {class: 'date-picker col-sm-3'} %>
+  <% end %>
+  <% if f.object.end_date %>
+    <%= f.input :end_date,
+                as: :string,
+                disabled: true,
+                input_html: {class: 'date-picker col-sm-3'} %>
+  <% end %>
 
   <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input, hint: t('.hints.is_active') %>
 

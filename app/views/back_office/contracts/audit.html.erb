@@ -11,6 +11,11 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="<%= comments_back_office_contract_path(@contract) %>">
+          <i class="fa fa-fw fa-comments"></i> <%= t('activerecord.models.comment').pluralize %>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link active" href="#">
           <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
         </a>
