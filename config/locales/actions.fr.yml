@@ -8,6 +8,7 @@ fr:
     add_comment: 'Ajouter un commentaire'
     add_existing_users: 'Ajouter des utilisateurs existants'
     add_user: "Ajouter l'utilisateur"
+    add_users: "Ajouter des utilisateurs"
     add_price_parameter: 'Ajouter un critère de tarification'
     admin_list: 'liste des administrateurs'
     associate: 'Associer'

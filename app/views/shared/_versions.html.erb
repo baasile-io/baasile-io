@@ -7,52 +7,46 @@
   }
 %>
 
-<div class="b-io-content--secondary">
-  <div class="container-fluid">
-
-    <% if versions.size == 0 %>
-      <p><%= t('misc.nothing_to_display') %></p>
-    <% else %>
-      <table class="table table-sm table-hover">
-        <thead>
-        <tr>
-          <th colspan="2">
-            <%= t('activerecord.attributes.versions.event') %>
-          </th>
-          <th>
-            <%= t('activerecord.attributes.versions.object') %>
-          </th>
-          <th>
-            <%= t('activerecord.attributes.versions.whodunnit') %>
-          </th>
-          <th>
-            <%= t('activerecord.attributes.versions.created_at') %>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% versions.each do |v| %>
-        <tr>
-          <td class="width-3">
-            <i class="<%= t(".event_icons.#{v.event}") %>"></i>
-          </td>
-          <td>
-            <small><%= t(".events.#{v.event}") %></small>
-          </td>
-          <td>
-            <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
-          </td>
-          <td>
-            <small><%= User.find_by_id(v.whodunnit) %></small>
-          </td>
-          <td>
-            <small><%= localize(v.created_at) %></small>
-          </td>
-        </tr>
-        <% end %>
-        </tbody>
-      </table>
+<% if versions.size == 0 %>
+  <p><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover">
+    <thead>
+    <tr>
+      <th colspan="2">
+        <%= t('activerecord.attributes.versions.event') %>
+      </th>
+      <th>
+        <%= t('activerecord.attributes.versions.object') %>
+      </th>
+      <th>
+        <%= t('activerecord.attributes.versions.whodunnit') %>
+      </th>
+      <th>
+        <%= t('activerecord.attributes.versions.created_at') %>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% versions.each do |v| %>
+    <tr>
+      <td class="width-3">
+        <i class="<%= t(".event_icons.#{v.event}") %>"></i>
+      </td>
+      <td>
+        <small><%= t(".events.#{v.event}") %></small>
+      </td>
+      <td>
+        <small><%= t("activerecord.models.#{v.item_type.underscore}") %></small>
+      </td>
+      <td>
+        <small><%= User.find_by_id(v.whodunnit) %></small>
+      </td>
+      <td>
+        <small><%= localize(v.created_at) %></small>
+      </td>
+    </tr>
     <% end %>
-
-  </div>
-</div>
+    </tbody>
+  </table>
+<% end %>

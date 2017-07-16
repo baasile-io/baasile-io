@@ -243,6 +243,10 @@ Rails.application.routes.draw do
       resources :services do
         member do
           get :audit
+          get :users
+          delete :disassociate_user
+          put :associate_user
+          put :toggle_user_role
         end
       end
       resources :tickets do

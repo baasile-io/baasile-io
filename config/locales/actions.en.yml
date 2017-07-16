@@ -8,6 +8,7 @@ en:
     add_comment: 'Add comment'
     add_existing_users: 'Add existing users'
     add_user: 'Add user'
+    add_users: "Add users"
     add_price_parameter: 'Add pricing criteria'
     admin_list: 'administrator list'
     associate: 'Associate'

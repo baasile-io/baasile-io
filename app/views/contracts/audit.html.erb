@@ -4,4 +4,10 @@
   }
 %>
 
-<%= render partial: 'shared/versions', locals: {objects: [@contract] + @contract.comments.to_a} %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/versions', locals: {objects: [@contract] + @contract.comments.to_a} %>
+
+  </div>
+</div>

@@ -11,6 +11,11 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="<%= users_back_office_service_path(@service) %>">
+          <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link active" href="#">
           <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
         </a>

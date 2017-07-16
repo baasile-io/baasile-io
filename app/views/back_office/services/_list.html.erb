@@ -45,6 +45,10 @@
                           class: 'dropdown-item' do %>
                 <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
               <% end %>
+              <%= link_to users_back_office_service_path(service),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+              <% end %>
               <%= link_to audit_back_office_service_path(service),
                           class: 'dropdown-item' do %>
                 <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>

@@ -81,11 +81,12 @@
       <table class="table table-sm">
         <thead>
         <tr>
-          <th></th>
+          <th colspan="2"></th>
           <th></th>
           <% Role::USER_ROLES.each do |scope| %>
             <th class="text-right width-10"><i class="<%= t("roles.#{scope}.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.#{scope}.title") %>"></i></th>
           <% end %>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -93,22 +94,35 @@
           @user_services.each do |service|
         %>
           <tr>
+            <td class="width-3">
+              <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
+            </td>
             <td>
-              <span class="float-right text-muted"><%= t("types.service_types.#{service.service_type}.title") %></span>
-              <small class="text-muted"><%= "<i class=\"fa fa-fw fa-bank\"></i> #{service.parent}".html_safe if service.parent %></small>
-              <%= '<i class="fa fa-fw fa-caret-right"></i> '.html_safe if service.parent %><i class="<%= t("types.service_types.#{service.service_type}.icon") %>"></i> <%= service.name %>
+              <%= "<span class=\"float-right\"><i class=\"fa fa-2x fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('misc.unconfirmed')}\"></i></span>".html_safe if service.confirmed_at.nil? %>
+              <strong class="<%= t("types.service_types.#{service.service_type}.class") %>"><%= service.name %></strong><br />
+              <%= "<small class=\"text-muted\"><i class=\"#{t("types.service_types.#{service.parent.service_type}.icon")}\"></i> #{service.parent}</small>  ".html_safe if service.parent %>&nbsp;
             </td>
             <td class="text-right">
-              <%= link_to '<i class="fa fa-fw fa-unlink"></i>'.html_safe, disassociate_back_office_user_path(@user, service_id: service.id), title: t('actions.disassociate'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+              <% if service.user_id != @user.id %>
+                <%= link_to '<i class="fa fa-fw fa-unlink"></i>'.html_safe, disassociate_back_office_user_path(@user, service_id: service.id), title: t('actions.disassociate'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+              <% end %>
             </td>
             <% Role::USER_ROLES.each do |scope| %>
+              <% has_role = @user.has_role?(scope, service) %>
               <td class="text-right">
-                <div class="btn-group">
-                  <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, @user.has_role?(scope, service) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put, class: "btn btn-sm #{@user.has_role?(scope, service) ? 'btn-success disabled' : 'btn-secondary'}" %>
-                  <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, !@user.has_role?(scope, service) ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope), method: :put, class: "btn btn-sm #{!@user.has_role?(scope, service) ? 'btn-danger disabled' : 'btn-secondary'}" %>
-                </div>
+                <% if !(scope != :admin && @user.has_role?(:admin, service)) && service.send("main_#{scope}") != @user %>
+                  <div class="btn-group">
+                    <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, (has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)), method: :put, class: "btn btn-sm #{has_role ? 'btn-success disabled' : 'btn-secondary'}" %>
+                    <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, (!has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)), method: :put, class: "btn btn-sm #{!has_role ? 'btn-danger disabled' : 'btn-secondary'}" %>
+                  </div>
+                <% else %>
+                  <i class="fa fa-fw fa-check"></i>
+                <% end %>
               </td>
             <% end %>
+            <td class="text-right">
+              <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_back_office_service_path(service), class: 'btn btn-secondary btn-sm', title: t('actions.edit_service'), data: {toggle: 'tooltip', placement: 'left'} %>
+            </td>
           </tr>
         <% end %>
         </tbody>

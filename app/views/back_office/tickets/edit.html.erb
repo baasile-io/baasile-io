@@ -18,4 +18,10 @@
   </div>
 </div>
 
-<%= render partial: 'shared/versions', locals: {objects: [@ticket] + @ticket.comments} %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/versions', locals: {objects: [@ticket] + @ticket.comments} %>
+
+  </div>
+</div>

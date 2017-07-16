@@ -1,8 +1,14 @@
 <% content_for(:page_title) { t('.title') } %>
 
-<%= render partial: 'shared/versions',
-           locals: {
-             objects: [
-               @route
-             ] + @route.query_parameters.to_a
-           } %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/versions',
+               locals: {
+                 objects: [
+                   @route
+                 ] + @route.query_parameters.to_a
+               } %>
+
+  </div>
+</div>

@@ -4,24 +4,30 @@
   }
 %>
 
-<%= render partial: 'shared/versions',
-           locals: {
-             objects:
-               [@service] +
-                 @service.user_associations.to_a +
-                 @service.bank_details.to_a +
-                 @service.tickets.to_a +
-                 @service.proxies.to_a +
-                 @service.routes.to_a +
-                 @service.prices.to_a +
-                 @service.contracts_as_client.to_a +
-                 @service.contracts_as_startup.to_a +
-                 [@service.contact_detail] +
-                 @service.proxies.map {|p|
-                   [p.proxy_parameter] +
-                     [p.proxy_parameter_test] +
-                     [p.proxy_parameter.identifier] +
-                     [p.proxy_parameter_test.identifier]
-                 }.flatten +
-                 @service.routes.map {|r| r.query_parameters}.flatten
-           } %>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/versions',
+               locals: {
+                 objects:
+                   [@service] +
+                     @service.user_associations.to_a +
+                     @service.bank_details.to_a +
+                     @service.tickets.to_a +
+                     @service.proxies.to_a +
+                     @service.routes.to_a +
+                     @service.prices.to_a +
+                     @service.contracts_as_client.to_a +
+                     @service.contracts_as_startup.to_a +
+                     [@service.contact_detail] +
+                     @service.proxies.map {|p|
+                       [p.proxy_parameter] +
+                         [p.proxy_parameter_test] +
+                         [p.proxy_parameter.identifier] +
+                         [p.proxy_parameter_test.identifier]
+                     }.flatten +
+                     @service.routes.map {|r| r.query_parameters}.flatten
+               } %>
+
+  </div>
+</div>

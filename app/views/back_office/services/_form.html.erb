@@ -23,10 +23,6 @@
     <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
   <% end %>
 
-  <h3><%= t('activerecord.models.identifier').pluralize %></h3>
-
-  <%= f.input :subdomain, hint: t('services.form.hints.subdomain') %>
-
   <div class="form-group row">
     <label class="col-md-3 col-form-label" for="activate"></label>
     <div class="col-md-9">
@@ -35,6 +31,23 @@
         <%= t('misc.activated') %>
       </label>
       <small class="form-text text-muted"><%= t('.hints.activate') %></small>
+    </div>
+  </div>
+
+  <h3><%= t('activerecord.models.identifier').pluralize %></h3>
+
+  <%= f.input :subdomain,
+              hint: t('services.form.hints.subdomain'),
+              input_html: {
+                class: 'col-sm-5',
+                'data-target': 'service_subdomain_livepreview',
+                'data-prefix': "#{api_v1_root_url(locale: nil)}/"
+              } %>
+
+  <div class="form-group row subdomain_livepreview">
+    <label class="col-md-3 col-form-label"><%= t('services.form.hints.subdomain_livepreview_label') %></label>
+    <div class="col-md-9">
+      <input class="form-control" type="text" id="service_subdomain_livepreview" value="" readonly>
     </div>
   </div>
 
