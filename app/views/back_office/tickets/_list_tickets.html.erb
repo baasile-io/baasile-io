@@ -64,7 +64,7 @@
                 <div class="dropdown-divider"></div>
                 <%= link_to back_office_service_path(ticket.service),
                             class: 'dropdown-item' do %>
-                  <i class="<%= t("types.service_types.#{ticket.service.service_type}.icon") %>"></i> <%= t('actions.edit_service') %>
+                  <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit_service') %>
                 <% end %>
                 <%= link_to service_path(ticket.service),
                             class: 'dropdown-item' do %>

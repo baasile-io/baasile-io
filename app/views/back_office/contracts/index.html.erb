@@ -70,6 +70,11 @@
                     <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
                   <% end %>
                   <div class="dropdown-divider"></div>
+                  <%= link_to contract_path(contract),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-dashboard"></i> <%= t('misc.dashboard') %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
                   <%= link_to back_office_contract_path(contract),
                               class: 'dropdown-item',
                               method: :delete,
