@@ -34,9 +34,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    location = request.env['omniauth.origin'] || stored_location_for(resource) || services_path(locale: resource.language)
-    if location == root_path
-      location = services_path(locale: resource.language)
+    location = request.env['omniauth.origin'] || stored_location_for(resource)
+    if location.nil? || location == root_path
+      location = if resource.has_role?(:superadmin)
+                   back_office_path(locale: resource.language)
+                 else
+                   services_path(locale: resource.language)
+                 end
     end
     location
   end
