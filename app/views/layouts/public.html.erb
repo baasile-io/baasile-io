@@ -8,7 +8,6 @@
   <%= render partial: 'shared/favicon' %>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
   <%= stylesheet_link_tag    'public', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
 </head>
 
 <body class="public">
@@ -30,11 +29,12 @@
 
   <%= render partial: 'shared/flash' %>
 
+  <%= javascript_include_tag 'application' %>
+
   <script type="text/javascript">
     I18n.locale = '<%= I18n.locale %>';
   </script>
 
-  <%= javascript_include_tag 'application' %>
   <%= content_for(:extra_js) %>
 
 </body>
