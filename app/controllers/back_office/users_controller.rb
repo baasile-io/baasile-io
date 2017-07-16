@@ -3,9 +3,6 @@ module BackOffice
     before_action :load_user, except: [:index, :new, :create]
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
-    add_breadcrumb I18n.t('back_office.users.index.title'), :back_office_users_path
-    before_action :add_breadcrumb_current_action, except: [:index]
-
     def index
       @collection = User.all.order(updated_at: :desc)
     end

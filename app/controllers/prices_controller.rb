@@ -11,16 +11,6 @@ class PricesController < ApplicationController
   before_action :authorize_action
   before_action :authorize_contract_set_prices
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service) unless current_service.nil?
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path unless current_service.nil?
-    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) if current_proxy
-  end
-
   def index
     @collection = Price.templates(current_proxy)
   end
@@ -133,10 +123,6 @@ class PricesController < ApplicationController
   def price_params
     allowed_parameters = [:name, :base_cost, :pricing_type, :pricing_duration_type, :free_count, :deny_after_free_count, :unit_cost, :route_id, :query_parameter_id]
     params.require(:price).permit(allowed_parameters)
-  end
-
-  def add_breadcrumb_current_action
-    add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
   end
 
   def current_service

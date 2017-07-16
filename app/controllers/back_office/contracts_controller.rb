@@ -5,9 +5,6 @@ module BackOffice
     before_action :load_active_client, only: [:edit, :update]
     before_action :load_active_proxies, only: [:edit, :update]
 
-    add_breadcrumb I18n.t('back_office.contracts.index.title'), :back_office_contracts_path
-    before_action :add_breadcrumb_current_action, except: [:index]
-
     def index
       @collection = Contract.all.order(updated_at: :desc)
     end
@@ -91,10 +88,6 @@ module BackOffice
     def contract_params(status)
       allowed_parameters = [:client_code, :startup_code, :name, :is_active, :status, :expected_start_date, :expected_end_date, :is_evergreen, :proxy_id, :client_id]
       params.require(:contract).permit(allowed_parameters)
-    end
-
-    def add_breadcrumb_current_action
-      add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
     end
 
     def current_contract

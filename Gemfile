@@ -1,72 +1,72 @@
 source 'https://rubygems.org'
 ruby "2.3.1"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails',                                    '~> 5.0.0', '>= 5.0.0.1'
-# Use Puma as the app server
+
+# Server
 gem 'puma',                                     '~> 3.0'
-# Use SCSS for stylesheets
-gem 'sass-rails',                               '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier',                                 '>= 1.3.0'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails',                             '~> 4.2'
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-
-# Monitoring
-gem 'newrelic_rpm',                             '~> 3.18'
-gem 'airbrake',                                 '~> 5.7'
+# Background jobs
+gem 'sidekiq',                                  '~> 4.2'
 
 # Databases
 gem 'pg',                                       '~> 0.19'
 gem 'paper_trail',                              '~> 6.0'
+
+# Monitoring
+gem 'newrelic_rpm',                             '~> 3.18'
+gem 'airbrake',                                 '~> 5.7'
 
 # Cache store
 gem 'redis-rails',                              '~> 5.0'
 gem 'redis',                                    '~> 3.3'
 gem 'redis-namespace',                          '~> 1.5'
 
-# User account
-gem 'devise',                                   '~> 4.2'
-gem 'rolify',                                   '~> 5.1'
-gem 'devise_security_extension'
-gem 'rails_email_validator'
-gem 'easy_captcha'
-gem 'activevalidators'
-
-# Accountant
-gem 'iban-tools'
-
-# Data
-gem 'ancestry'
-gem 'aws-sdk-rails'
-gem 'rmagick'
-gem 'prawn'
-
 # Security
-gem 'rack-attack'
+gem 'rack-attack',                              '~> 5.0'
+gem 'easy_captcha',                             '~> 0.6'
 
-# Front
+# CSS / JS
+gem 'sass-rails',                               '~> 5.0'
+gem 'font-awesome-sass',                        '~> 4.7'
 gem 'bootstrap',                                '~> 4.0.0.alpha6'
-gem 'bootstrap-datepicker-rails'
-gem "select2-rails"
-gem "i18n-js",                                  '>= 3.0.0.rc15'
-gem 'font-awesome-sass'
-gem 'simple_form',                              '~>3.3.1'
+gem 'bootstrap-datepicker-rails',               '~> 1.6'
+gem 'uglifier',                                 '>= 1.3.0'
+gem 'coffee-rails',                             '~> 4.2'
+gem 'jquery-rails',                             '~> 4.2'
+gem 'i18n-js',                                  '>= 3.0.0.rc15'
+gem 'select2-rails',                            '~> 4.0'
 ## tether positionning for popovers and tooltips
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether',                    '>= 1.1.0'
 end
-gem "breadcrumbs_on_rails"
-gem 'awesome_print'
 
-# Background jobs
-gem 'sidekiq'
+# User account
+gem 'devise',                                   '~> 4.2'
+gem 'devise_security_extension',                '~> 0.9'
+gem 'rolify',                                   '~> 5.1'
 
-# API authentication
-gem 'jwt'
+# Validators
+gem 'rails_email_validator',                    '~> 0.1'
+gem 'activevalidators',                         '~> 4.0'
+gem 'iban-tools',                               '~> 1.1'
+
+# Relation
+gem 'ancestry',                                 '~> 2.2'
+
+# Images / PDF
+gem 'rmagick',                                  '~> 2.16'
+gem 'prawn',                                    '~> 2.2'
+
+# Views helpers
+gem 'simple_form',                              '~>3.3.1'
+gem 'awesome_print',                            '~> 1.7'
+
+# Encryption
+gem 'jwt',                                      '~> 1.5'
+
+# Third-party
+gem 'aws-sdk-rails',                            '~> 1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

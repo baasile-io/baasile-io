@@ -3,9 +3,6 @@ module BackOffice
     before_action :load_documentation, only: [:edit, :update, :destroy]
     before_action :load_documentation_tree, only: [:new, :create, :edit, :update]
 
-    add_breadcrumb I18n.t('back_office.documentations.index.title'), :back_office_documentations_path
-    before_action :add_breadcrumb_current_action, except: [:index]
-
     def index
       @collection = Documentation.roots
     end

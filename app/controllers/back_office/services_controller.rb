@@ -5,9 +5,6 @@ module BackOffice
     before_action :load_all_users, only: [:new, :create]
     before_action :load_associated_admins, only: [:edit, :update]
 
-    add_breadcrumb I18n.t('back_office.services.index.title'), :back_office_services_path
-    before_action :add_breadcrumb_current_action, except: [:index]
-
     def index
       @collection = Service.includes(:users).all.order(updated_at: :desc)
     end

@@ -98,10 +98,6 @@ class ApplicationController < ActionController::Base
     "#{request.protocol}#{request.host_with_port}"
   end
 
-  def add_breadcrumb_current_action
-    add_breadcrumb I18n.t("#{controller_name}.#{action_name}.title")
-  end
-
   # Authorization
   def authorize_action
     if current_authorized_resource

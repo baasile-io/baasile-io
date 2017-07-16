@@ -12,14 +12,6 @@ class ContractsController < ApplicationController
   before_action :init_client_and_bank_detail, only: [:client_bank_details, :client_bank_details_selection]
   before_action :init_startup_and_bank_detail, only: [:startup_bank_details, :startup_bank_details_selection]
 
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('contracts.index.title'), :contracts_path
-    #add_breadcrumb current_service.name, contract_path(curr) if current_service
-  end
-
   def index
     unless current_service.nil?
       @collection = Contract.associated_services(current_service).order(status: :asc)
@@ -376,10 +368,6 @@ class ContractsController < ApplicationController
     end
     allowed_parameters.reject! {|attribute| !current_contract.can_edit_attribute?(current_user, attribute)} if current_contract
     params.require(:contract).permit(allowed_parameters)
-  end
-
-  def add_breadcrumb_current_action
-    add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
   end
 
   def current_service

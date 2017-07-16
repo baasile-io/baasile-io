@@ -6,20 +6,10 @@ class PriceParametersController < ApplicationController
   before_action :load_price
   before_action :load_price_parameter, except: [:index, :new, :create]
   before_action :load_route_and_query_parameters, only: [:new, :edit, :update, :create]
-  before_action :add_breadcrumb_parent
-  before_action :add_breadcrumb_current_action
 
   # Authorization
   before_action :authorize_action
   before_action :authorize_contract_set_prices
-
-  def add_breadcrumb_parent
-    add_breadcrumb I18n.t('services.index.title'), :services_path
-    add_breadcrumb current_service.name, service_path(current_service) unless current_service.nil?
-    add_breadcrumb I18n.t('proxies.index.title'), :service_proxies_path unless current_service.nil?
-    add_breadcrumb current_proxy.name, service_proxy_path(current_service, current_proxy) unless current_proxy.nil?
-    add_breadcrumb current_price.name, service_proxy_price_path(current_service, current_proxy, current_price) unless current_proxy.nil?
-  end
 
   def index
     return redirect_to_show if current_contract
@@ -142,10 +132,6 @@ class PriceParametersController < ApplicationController
 
   def price_parameter_params
     params.require(:price_parameter).permit([:route_id, :query_parameter_id, :price_parameters_type, :free_count, :cost])
-  end
-
-  def add_breadcrumb_current_action
-    add_breadcrumb I18n.t("back_office.#{controller_name}.#{action_name}.title")
   end
 
   def current_service

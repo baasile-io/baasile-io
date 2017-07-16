@@ -73,7 +73,6 @@ GEM
       sass (>= 3.4.19)
     bootstrap-datepicker-rails (1.6.4.1)
       railties (>= 3.0)
-    breadcrumbs_on_rails (3.0.1)
     builder (3.2.2)
     byebug (9.0.6)
     capybara (2.11.0)
@@ -354,14 +353,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activevalidators
+  activevalidators (~> 4.0)
   airbrake (~> 5.7)
-  ancestry
-  awesome_print
-  aws-sdk-rails
+  ancestry (~> 2.2)
+  awesome_print (~> 1.7)
+  aws-sdk-rails (~> 1.0)
   bootstrap (~> 4.0.0.alpha6)
-  bootstrap-datepicker-rails
-  breadcrumbs_on_rails
+  bootstrap-datepicker-rails (~> 1.6)
   byebug
   capybara
   capybara-screenshot
@@ -369,38 +367,38 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   database_cleaner
   devise (~> 4.2)
-  devise_security_extension
+  devise_security_extension (~> 0.9)
   dotenv-rails
-  easy_captcha
+  easy_captcha (~> 0.6)
   factory_girl_rails
-  font-awesome-sass
+  font-awesome-sass (~> 4.7)
   i18n-js (>= 3.0.0.rc15)
-  iban-tools
-  jquery-rails
-  jwt
+  iban-tools (~> 1.1)
+  jquery-rails (~> 4.2)
+  jwt (~> 1.5)
   letter_opener
   listen (~> 3.0.5)
   newrelic_rpm (~> 3.18)
   paper_trail (~> 6.0)
   pg (~> 0.19)
-  prawn
+  prawn (~> 2.2)
   pry-byebug
   pry-rails
   puma (~> 3.0)
-  rack-attack
+  rack-attack (~> 5.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-assets-tether (>= 1.1.0)!
-  rails_email_validator
+  rails_email_validator (~> 0.1)
   redis (~> 3.3)
   redis-namespace (~> 1.5)
   redis-rails (~> 5.0)
-  rmagick
+  rmagick (~> 2.16)
   rolify (~> 5.1)
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
-  select2-rails
+  select2-rails (~> 4.0)
   selenium-webdriver
-  sidekiq
+  sidekiq (~> 4.2)
   simple_form (~> 3.3.1)
   spring
   spring-watcher-listen (~> 2.0.0)
