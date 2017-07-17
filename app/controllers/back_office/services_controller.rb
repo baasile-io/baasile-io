@@ -6,7 +6,7 @@ module BackOffice
     before_action :load_associated_users, only: [:edit, :update]
 
     def index
-      @collection = Service.includes(:users).all.order(updated_at: :desc)
+      @collection = Service.includes(:users, :proxies).all.order(updated_at: :desc)
     end
 
     def new

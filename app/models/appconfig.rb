@@ -46,6 +46,10 @@ class Appconfig < ApplicationRecord
       setting_type: :integer,
       value: 90
     },
+    user_expire_after: {
+      setting_type: :integer,
+      value: 90
+    },
     vat_rate: {
       setting_type: :numeric,
       value: 19.6
@@ -54,7 +58,7 @@ class Appconfig < ApplicationRecord
       setting_type: :integer,
       value: 90
     }
-  }
+  }.freeze
 
   DEFAULT_CONFIG = APPCONFIGS.each_with_object({}) do |appconfig, default_config|
     default_config[appconfig[0]] = appconfig[1][:value]
@@ -77,7 +81,7 @@ class Appconfig < ApplicationRecord
   def self.reload_config
     Thread.current[:appconfigs_updated_at] = Appconfig.last_updated_at
     DEFAULT_CONFIG.dup.tap do |actual_config|
-      self.all.each do |appconfig|
+      self.all.reload.each do |appconfig|
         appconfig_key = appconfig.name.to_sym
         actual_config[appconfig_key] = convert_appconfig_value APPCONFIGS[appconfig_key][:setting_type], appconfig.value
       end
@@ -95,6 +99,6 @@ class Appconfig < ApplicationRecord
   end
 
   def self.last_updated_at
-    self.order(updated_at: :desc).last.try(:updated_at) || DateTime.now
+    self.all.order(updated_at: :desc).first.try(:updated_at) || DateTime.now
   end
 end

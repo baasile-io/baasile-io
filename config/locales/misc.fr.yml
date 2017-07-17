@@ -61,8 +61,12 @@ fr:
     my_account: 'Mon compte'
     my_services: 'Mes entreprises'
     my_users: 'Mes utilisateurs'
-    next_step: 'Étape suivante'
+    need_admin_unlock_after_expired: 'Compte expiré'
+    need_admin_unlock_after_expired_hint: 'Ce compte a été inactif durant une période de plus de %{x} jours'
+    need_change_password: 'Mot de passe expiré'
+    need_change_password_hint: "Le mot de passe n'a pas été changé depuis plus de %{x} jours"
     need_to_valide_general_condition: 'You need to valide general contions'
+    next_step: 'Étape suivante'
     no: 'No'
     no_available_proxies: "Aucun produit n'est disponible"
     no_bank_detail: "Aucune cooordonnée bancaire n'a été configurée et confirmée"

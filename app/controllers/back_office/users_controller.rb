@@ -4,7 +4,7 @@ module BackOffice
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
     def index
-      @collection = User.all.order(updated_at: :desc)
+      @collection = User.all.order('users.last_activity_at DESC NULLS LAST')
     end
 
     def show
@@ -124,7 +124,8 @@ module BackOffice
       if current_user == @user
         flash[:error] = "You can't deactivate yourself"
       else
-        if @user.update(is_active: !@user.is_active)
+        @user.assign_attributes(is_active: !@user.is_active)
+        if @user.save(validate: false)
           flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
         else
           flash[:error] = @user.errors.full_messages.join(', ')
@@ -137,6 +138,17 @@ module BackOffice
     def sign_in_as
       sign_in(@user, event: :authentication)
       redirect_to root_url
+    end
+
+    def unlock_after_expired
+      @user.assign_attributes(expired_at: nil, last_activity_at: Time.now.utc)
+      if @user.save(validate: false)
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.user'))
+      else
+        flash[:error] = @user.errors.full_messages.join(', ')
+      end
+
+      redirect_back(fallback_location: back_office_users_path)
     end
 
     private
