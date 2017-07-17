@@ -64,11 +64,12 @@ fr:
     resend_confirmation_instructions: 'Renvoyer les instructions'
     reset: 'Réinitialiser la valeur par défaut'
     reset_free_count_limit: 'Réinitialiser le compteur'
-    reset_identifiers: 'Réinitialiser les identifiants de connexion'
+    reset_identifiers: 'Réinitialiser la clé privée'
     reset_unlock_instructions: 'Renvoyer les instructions'
     reset_password: 'Recevoir les instructions'
     reset_prices: 'Réinitialiser les tarifs'
     reset_pricing: 'Réinitialiser la tarification'
+    respond: 'Répondre'
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
@@ -102,5 +103,6 @@ fr:
       created: '%{resource} a été créé avec succès'
       destroyed: '%{resource} a été supprimé avec succès'
       updated: '%{resource} a été mis à jour avec succès'
+    unlock_after_expired: 'Débloquer après expiration'
     unset_admin: "Enlever les droits admin"
     unset_production: "Désactiver la phase d'exploitation"

@@ -6,7 +6,8 @@
     <tr>
       <th colspan="2"></th>
       <th>
-        <%= t('activerecord.models.user').pluralize %>
+      </th>
+      <th>
       </th>
       <th>
         <small><%= t('activerecord.attributes.service.created_at') %></small><br />
@@ -28,7 +29,12 @@
         </td>
         <td>
           <% if service.users.size > 0 %>
-            <%= "<i class=\"fa fa-fw fa-users\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.users.map {|u| "#{u.full_name} (#{u.email})" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.users.count %>
+            <%= "<i class=\"fa fa-fw fa-users\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.users.map {|u| "#{u.full_name} (#{u.email})" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.users.size %>
+          <% end %>
+        </td>
+        <td>
+          <% if service.proxies.size > 0 %>
+            <%= "<i class=\"fa fa-fw fa-server\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"<small>#{service.proxies.map {|p| "#{p.name}" }.join("<br />")}</small>\"></i>".html_safe %> <%= service.proxies.size %>
           <% end %>
         </td>
         <td>
@@ -51,7 +57,7 @@
               <% end %>
               <%= link_to audit_back_office_service_path(service),
                           class: 'dropdown-item' do %>
-                <i class="fa fa-fw fa-history"></i> <%= t('misc.audit') %>
+                <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
               <% end %>
               <div class="dropdown-divider"></div>
               <%= link_to back_office_service_path(service),

@@ -2,9 +2,18 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :name, as: :hidden %>
+  <%= f.input :name,
+              as: :hidden %>
 
-  <%= f.input :value, placeholder: @default_appconfig[:value].to_s %>
+  <%= f.input :value,
+              placeholder: @default_appconfig[:value].to_s %>
+
+  <% if f.object.updated_at %>
+    <%= f.input :updated_at,
+                as: :string,
+                disabled: true,
+                input_html: {class: 'date-picker col-sm-3'} %>
+  <% end %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

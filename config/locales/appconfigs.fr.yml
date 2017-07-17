@@ -33,6 +33,9 @@ fr:
     max_requests_per_hour:
       name: 'Nombre maximum de requêtes par heure'
       description: "Le nombre maximum de requêtes qu'une IP est autorisée à faire"
+    user_expire_after:
+      name: "Expiration d'un compte utilisateur"
+      description: "Expiration d'un compte utilisateur après x jours d'inactivité"
     user_password_expire_after:
       name: 'Expiration des mots de passe'
       description: 'Validité des mots de passe en jours'

@@ -100,8 +100,12 @@ class User < ApplicationRecord
     full_name
   end
 
-  def self.expire_after
+  def self.expire_password_after
     Appconfig.get(:user_password_expire_after).days
+  end
+
+  def self.expire_after
+    Appconfig.get(:user_expire_after).days
   end
 
 end

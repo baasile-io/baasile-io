@@ -237,6 +237,7 @@ Rails.application.routes.draw do
           put :associate
           delete :disassociate
           put :sign_in_as
+          put :unlock_after_expired
         end
       end
 

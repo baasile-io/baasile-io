@@ -4,6 +4,7 @@ en:
       appconfig:
         name: 'Name'
         setting_type: 'Type'
+        updated_at: 'Last update'
         value: 'Value'
       bank_detail:
         name: 'Label'
@@ -33,6 +34,7 @@ en:
       category:
         name: 'Name'
         description: 'Description'
+        proxies_count: 'Nb of products'
       comment:
         body: 'Message'
         deleted: 'Hidden'
