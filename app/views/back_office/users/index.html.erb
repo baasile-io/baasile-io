@@ -9,6 +9,8 @@
       <tr>
         <th colspan="2"></th>
         <th><i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.attributes.user.parent') %>"></i></th>
+        <th><i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.user').pluralize %>"></i></th>
+        <th><i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.service').pluralize %>"></i></th>
         <th><i class="fa fa-fw <%= t("roles.superadmin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.superadmin.title") %>"></i></th>
         <th><%= t('activerecord.attributes.user.is_active') %></th>
         <th><%= t('activerecord.attributes.user.last_activity_at') %></th>
@@ -28,6 +30,16 @@
         <td>
           <% if user.parent %>
             <i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= user.parent.full_name %>"></i>
+          <% end %>
+        </td>
+        <td>
+          <% if user.has_children? %>
+            <i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= user.children.map(&:full_name).join(', ') %>"></i>
+          <% end %>
+        </td>
+        <td>
+          <% if user.services.count > 0 %>
+            <i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= user.services.pluck(:name).join(', ') %>"></i>
           <% end %>
         </td>
         <td class="width-5">

@@ -40,7 +40,9 @@
                 <%= link_to back_office_contracts_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'contracts'}" do %>
                   <i class="fa fa-fw fa-edit"></i> &nbsp;<%= t('activerecord.models.contract').pluralize %>
                 <% end %>
-                <%= link_to t('activerecord.models.bank_detail').pluralize, back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" %>
+                <%= link_to back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" do %>
+                  <i class="fa fa-fw fa-credit-card"></i> &nbsp;<%= t('activerecord.models.bank_detail').pluralize %>
+                <% end %>
                 <%= link_to back_office_categories_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'categories'}" do %>
                   <i class="fa fa-fw fa-folder-open"></i> &nbsp;<%= t('activerecord.models.category').pluralize %>
                 <% end %>

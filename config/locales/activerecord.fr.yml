@@ -91,6 +91,7 @@ fr:
         ancestry: 'Parent'
         body: 'Contenu'
         locale: 'Langue'
+        public: 'Publiée'
         title: 'Titre'
       error_measurement:
         client: 'Origine de la requête'
@@ -107,6 +108,7 @@ fr:
       general_condition:
         effective_start_date: "Date d'effectivité"
         gc_version: 'Version'
+        title: 'Titre'
       identifier:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'

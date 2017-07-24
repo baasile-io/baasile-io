@@ -9,10 +9,10 @@
       <table class="table table-sm table-hover">
         <thead>
         <tr>
-          <th colspan="2"><%= t('activerecord.attributes.bank_detail.name') %></th>
-          <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
+          <th colspan="2"><%= t('activerecord.attributes.bank_detail.name') %> / <%= t('activerecord.attributes.bank_detail.account_owner') %></th>
+          <th><%= t('activerecord.attributes.bank_detail.iban') %> / <%= t('activerecord.attributes.bank_detail.bic') %></th>
           <th><%= t('activerecord.attributes.bank_detail.service') %></th>
-          <th><%= t('activerecord.attributes.bank_detail.account_owner') %></th>
+          <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
           <th>
             <small><%= t('activerecord.attributes.bank_detail.created_at') %></small><br />
             <%= t('activerecord.attributes.bank_detail.updated_at') %>
@@ -27,24 +27,53 @@
               <i class="fa-2x fa-credit-card fa fa-fw"></i>
             </td>
             <td>
-              <%= bank_detail.name %>
+              <strong><%= bank_detail.name %></strong><br />
+              <small>
+                <%= bank_detail.account_owner %>
+              </small>
             </td>
             <td>
-              <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
+              <%= bank_detail.iban %><br />
+              <%= bank_detail.bic %>
             </td>
             <td>
               <i class="<%= t("types.service_types.#{bank_detail.service.service_type}.icon") %>"></i>
               <span class="<%= t("types.service_types.#{bank_detail.service.service_type}.class") %>"><%= bank_detail.service.name %></span>
             </td>
             <td>
-              <%= bank_detail.account_owner %>
+              <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
             </td>
             <td>
               <small class="text-muted"><%= l(bank_detail.created_at, format: :short) %></small><br />
               <%= l(bank_detail.updated_at, format: :short) %>
             </td>
             <td class="text-right">
-              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, edit_back_office_bank_detail_path(bank_detail), class: 'btn btn-secondary btn-sm', title: t('actions.show'), data: {toggle: 'tooltip', placement: 'top'} %>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                  <%= t('misc.actions') %>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%= link_to edit_back_office_bank_detail_path(bank_detail),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to toggle_is_active_back_office_bank_detail_path(bank_detail),
+                              method: :post,
+                              class: 'dropdown-item' do %>
+                    <i class="<%= t("misc.is_active.#{!bank_detail.is_active}.icon") %>"></i> <%= (bank_detail.is_active ? t('actions.deactivate') : t('actions.activate') ) %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to '#',
+                              class: 'dropdown-item disabled',
+                              method: :delete,
+                              data: {
+                                confirm: 'Are you sure?'
+                              } do %>
+                    <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+                  <% end %>
+                </div>
+              </div>
             </td>
           </tr>
         <% end %>

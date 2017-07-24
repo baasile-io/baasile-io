@@ -90,6 +90,7 @@ en:
         ancestry: 'Parent'
         body: 'Content'
         locale: 'Language'
+        public: 'Published'
         title: 'Title'
       error_measurement:
         client: 'Request origin'
@@ -106,6 +107,7 @@ en:
       general_condition:
         effective_start_date: 'Effective date'
         gc_version: 'Version'
+        title: 'Title'
       identifier:
         client_id: 'Public Key'
         client_secret: 'Secret Key'
