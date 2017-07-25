@@ -36,7 +36,7 @@
               <i class="fa-2x fa-file-text-o fa fa-fw"></i>
             </td>
             <td>
-              <strong><%= t('.from_to', start_date: l(bill.start_date, format: :default), end_date: l(bill.end_date, format: :default)) %></strong><br />
+              <strong><%= t('bills.index.from_to', start_date: l(bill.start_date, format: :default), end_date: l(bill.end_date, format: :default)) %></strong><br />
               <small>
                 <i class="<%= t("types.service_types.#{bill.contract.client.service_type}.icon") %>"></i>
                 <span class="<%= t("types.service_types.#{bill.contract.client.service_type}.class") %>"><%= bill.contract.client.name %></span>
@@ -53,32 +53,40 @@
               <%= l(bill.created_at.to_date, format: :default) %>
             </td>
             <td>
-              <span class="<%= (bill.startup_paid? ? 'text-success' : 'text-danger') %>">
-                <strong><%= format_amount bill.startup_cost_including_vat %></strong><br />
-                <%= t("misc.paid.#{bill.startup_paid?}") %>
-              </span>
+            <span class="<%= (bill.startup_paid? ? 'text-success' : 'text-danger') %>">
+              <strong><%= format_amount bill.startup_cost_including_vat %></strong><br />
+              <%= t("misc.paid.#{bill.startup_paid?}") %>
+            </span>
             </td>
             <td>
-              <span class="<%= (bill.platform_contribution_paid? ? 'text-success' : 'text-danger') %>">
-                <strong><%= format_amount bill.platform_contribution_cost_including_vat %></strong><br />
-                <%= t("misc.paid.#{bill.platform_contribution_paid?}") %>
-              </span>
+            <span class="<%= (bill.platform_contribution_paid? ? 'text-success' : 'text-danger') %>">
+              <strong><%= format_amount bill.platform_contribution_cost_including_vat %></strong><br />
+              <%= t("misc.paid.#{bill.platform_contribution_paid?}") %>
+            </span>
             </td>
             <td>
               <% if !bill.paid? && bill.due_date %>
-                <span class="text-danger">
-                  <%= l(bill.due_date, format: :default) %>
-                </span>
+              <span class="text-danger">
+                <%= l(bill.due_date, format: :default) %>
+              </span>
               <% else %>
-                <span class="text-success">
-                  <%= t("misc.paid.true") %>
-                </span>
+              <span class="text-success">
+                <%= t("misc.paid.true") %>
+              </span>
               <% end %>
             </td>
             <td class="text-right">
-              <%= link_to '<i class="fa fa-fw fa-eye"></i>'.html_safe, link, class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.see_bill') %>
-              <%= link_to '<i class="fa fa-fw fa-print"></i>'.html_safe, polymorphic_path([current_service, bill], action: :print), class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.print') %>
-              <%= link_to '<i class="fa fa-fw fa-edit"></i>'.html_safe, polymorphic_path([current_service, bill.contract]), class: 'btn btn-sm btn-secondary', data: {toggle: 'tooltip', placement: 'top'}, title: t('actions.see_contract') %>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                  <%= t('misc.actions') %>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%= link_to edit_back_office_bill_path(bill),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                  <% end %>
+                </div>
+              </div>
             </td>
           </tr>
         <% end %>

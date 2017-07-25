@@ -1,0 +1,11 @@
+en:
+  back_office:
+    bills:
+      edit:
+        title: 'Edit'
+      index:
+        title: 'Bills'
+      show:
+        title: 'Bill'
+      update:
+        title: 'Edit'

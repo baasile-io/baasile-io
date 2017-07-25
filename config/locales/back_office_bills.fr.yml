@@ -1,0 +1,11 @@
+fr:
+  back_office:
+    bills:
+      edit:
+        title: 'Modifier'
+      index:
+        title: 'Consommations'
+      show:
+        title: 'Consommation'
+      update:
+        title: 'Modifier'

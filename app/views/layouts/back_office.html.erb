@@ -43,6 +43,9 @@
                 <%= link_to back_office_bank_details_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bank_details'}" do %>
                   <i class="fa fa-fw fa-credit-card"></i> &nbsp;<%= t('activerecord.models.bank_detail').pluralize %>
                 <% end %>
+                <%= link_to back_office_bills_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'bills'}" do %>
+                  <i class="fa fa-fw fa-file-text-o"></i> &nbsp;<%= t('activerecord.models.bill').pluralize %>
+                <% end %>
                 <%= link_to back_office_categories_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'categories'}" do %>
                   <i class="fa fa-fw fa-folder-open"></i> &nbsp;<%= t('activerecord.models.category').pluralize %>
                 <% end %>

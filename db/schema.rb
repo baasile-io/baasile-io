@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170715105607) do
+ActiveRecord::Schema.define(version: 20170725103403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,19 +61,19 @@ ActiveRecord::Schema.define(version: 20170715105607) do
     t.decimal  "total_vat",                                default: "0.0"
     t.decimal  "total_cost_including_vat",                 default: "0.0"
     t.date     "due_date"
-    t.boolean  "paid",                                     default: false
     t.decimal  "platform_contribution_rate",               default: "0.0"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "duration"
-    t.boolean  "platform_contribution_paid",               default: false
-    t.boolean  "startup_paid",                             default: false
     t.decimal  "platform_contribution_cost",               default: "0.0"
     t.decimal  "platform_contribution_vat",                default: "0.0"
     t.decimal  "platform_contribution_cost_including_vat", default: "0.0"
     t.decimal  "startup_cost",                             default: "0.0"
     t.decimal  "startup_vat",                              default: "0.0"
     t.decimal  "startup_cost_including_vat",               default: "0.0"
+    t.datetime "platform_contribution_paid"
+    t.datetime "startup_paid"
+    t.datetime "paid"
     t.index ["bill_month", "contract_id"], name: "index_bills_on_bill_month_and_contract_id", unique: true, using: :btree
     t.index ["contract_id", "bill_month"], name: "index_bills_on_contract_id_and_bill_month", unique: true, using: :btree
     t.index ["contract_id"], name: "index_bills_on_contract_id", using: :btree

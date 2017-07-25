@@ -273,6 +273,7 @@ Rails.application.routes.draw do
           get :comments
         end
       end
+      resources :bills
 
       resources :documentations
       resources :categories

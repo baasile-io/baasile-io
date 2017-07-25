@@ -1,13 +1,17 @@
 module BackOffice
   class BankDetailsController < BackOfficeController
 
-    before_action :load_bank_detail, only: [:edit, :update, :toggle_is_active]
+    before_action :load_bank_detail, only: [:show, :edit, :update, :toggle_is_active]
 
     def index
       @collection = BankDetail.includes(:service).order(updated_at: :desc)
     end
 
     def edit
+    end
+
+    def show
+      redirect_to_edit
     end
 
     def update
@@ -33,7 +37,11 @@ module BackOffice
     private
 
     def redirect_to_show
-      return
+      redirect_to back_office_bank_detail_path(@bank_detail)
+    end
+
+    def redirect_to_edit
+      redirect_to edit_back_office_bank_detail_path(@bank_detail)
     end
 
     def load_bank_detail

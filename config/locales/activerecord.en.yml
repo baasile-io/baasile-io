@@ -28,6 +28,8 @@ en:
         created_at: 'Issued on'
         due_date: 'Due date'
         end_date: 'End date'
+        platform_contribution_paid: 'Platform contribution paid'
+        startup_paid: 'Supplier paid'
         start_date: 'Start date'
         total_cost: 'Total'
         total_cost_including_var: 'Total (incl. VAT)'

@@ -1,4 +1,6 @@
 class Bill < ApplicationRecord
+  # Versioning
+  has_paper_trail
 
   belongs_to :contract
 
@@ -15,7 +17,31 @@ class Bill < ApplicationRecord
   before_save :set_paid_state
 
   def set_paid_state
-    self.paid = self.startup_paid && self.platform_contribution_paid
+    self.paid = if (self.startup_paid? && self.platform_contribution_paid?)
+                  self.startup_paid > self.platform_contribution_paid ? self.startup_paid : self.platform_contribution_paid
+                else
+                  nil
+                end
+  end
+
+  def paid?
+    !self.paid.nil?
+  end
+
+  def startup_paid?
+    !self.startup_paid.nil?
+  end
+
+  def platform_contribution_paid?
+    !self.platform_contribution_paid.nil?
+  end
+
+  def mark_startup_as_paid
+    self.startup_paid = DateTime.now unless startup_paid?
+  end
+
+  def mark_platform_contribution_as_paid
+    self.platform_contribution_paid = DateTime.now unless platform_contribution_paid?
   end
 
 end

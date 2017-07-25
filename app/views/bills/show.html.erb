@@ -22,16 +22,16 @@
         </strong>
       </div>
       <div class="col-sm-9">
-        <p class="<%= (current_bill.startup_paid ? 'text-success' : 'text-danger') %>">
+        <p class="<%= (current_bill.startup_paid? ? 'text-success' : 'text-danger') %>">
           <strong><%= format_amount current_bill.startup_cost_including_vat %></strong><br />
-          <%= t("misc.paid.#{current_bill.startup_paid}") %>
+          <%= t("misc.paid.#{current_bill.startup_paid?}") %>
         </p>
-        <% if !current_bill.startup_paid && current_bill.due_date %>
+        <% if !current_bill.startup_paid? && current_bill.due_date %>
           <p class="text-danger">
             <small><%= "#{t('misc.deadline')}#{' ' if I18n.locale == :fr}: #{l(current_bill.due_date, format: :default)}" %></small>
           </p>
         <% end %>
-        <% if !current_bill.startup_paid && current_user.is_user_of?(current_bill.contract.startup) %>
+        <% if !current_bill.startup_paid? && current_user.is_user_of?(current_bill.contract.startup) %>
           <p>
             <%= link_to t('actions.mark_as_paid'),
                         polymorphic_path([current_service, current_bill], action: :mark_as_paid),
@@ -51,16 +51,16 @@
         </strong>
       </div>
       <div class="col-sm-9">
-        <p class="<%= (current_bill.platform_contribution_paid ? 'text-success' : 'text-danger') %>">
+        <p class="<%= (current_bill.platform_contribution_paid? ? 'text-success' : 'text-danger') %>">
           <strong><%= format_amount current_bill.platform_contribution_cost_including_vat %></strong><br />
-          <%= t("misc.paid.#{current_bill.platform_contribution_paid}") %>
+          <%= t("misc.paid.#{current_bill.platform_contribution_paid?}") %>
         </p>
-        <% if !current_bill.platform_contribution_paid && current_bill.due_date %>
+        <% if !current_bill.platform_contribution_paid? && current_bill.due_date %>
           <p class="text-danger">
             <small><%= "#{t('misc.deadline')}#{' ' if I18n.locale == :fr}: #{l(current_bill.due_date, format: :default)}" %></small>
           </p>
         <% end %>
-        <% if !current_bill.platform_contribution_paid && current_user.is_superadmin? %>
+        <% if !current_bill.platform_contribution_paid? && current_user.is_superadmin? %>
           <p>
             <%= link_to t('actions.mark_as_paid'),
                         polymorphic_path([current_service, current_bill], action: :mark_platform_contribution_as_paid),
