@@ -85,6 +85,14 @@
                               class: 'dropdown-item' do %>
                     <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
                   <% end %>
+                  <%= link_to comments_back_office_bill_path(bill),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-comments"></i> <%= t('activerecord.models.comment').pluralize %>
+                  <% end %>
+                  <%= link_to audit_back_office_bill_path(bill),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+                  <% end %>
                 </div>
               </div>
             </td>

@@ -1,17 +1,23 @@
 module BackOffice
   class BillsController < BackOfficeController
 
-    before_action :load_bill, only: [:show, :edit, :update]
+    before_action :load_bill, only: [:show, :edit, :update, :comments, :audit]
 
     def index
       @collection = Bill.includes(:client, :startup).order(created_at: :desc)
     end
 
     def edit
+      @logotype_service = LogotypeService.new
     end
 
     def show
       redirect_to_edit
+    end
+
+    def comments
+      @new_comment = Comment.new(commentable: @bill)
+      @comments = @bill.comments.order(created_at: :desc)
     end
 
     def update

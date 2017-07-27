@@ -10,6 +10,16 @@
           <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= comments_back_office_bill_path(@bill) %>">
+          <i class="fa fa-fw fa-comments"></i> <%= t('activerecord.models.comment').pluralize %>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= audit_back_office_bill_path(@bill) %>">
+          <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+        </a>
+      </li>
     </ul>
 
     <%= render partial: 'form' %>
@@ -17,10 +27,107 @@
   </div>
 </div>
 
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('.qmisc') %></h4>
+  </div>
+</div>
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'shared/versions', locals: {objects: [@bill]} %>
+    <%= render partial: 'bills/show_consumption', locals: {bill: @bill} %>
 
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.attributes.contract.price') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'prices/show_price_info',
+               locals: {
+                 price: @bill.contract.price
+               } %>
+
+  </div>
+</div>
+
+<%= render partial: 'shared/measurement',
+           locals: {
+             show_detail: true,
+             start_date: @bill.start_date,
+             end_date: @bill.end_date,
+             input: @bill.contract.measurements.between(@bill.start_date, @bill.end_date)
+           } %>
+
+<% if @bill.contract.client_bank_detail %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= "#{t('activerecord.models.bank_detail')} #{t('activerecord.attributes.contract.client')}" %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3">
+          <h5><%= @bill.contract.client_bank_detail.name %></h5>
+        </div>
+        <div class="col-sm-9">
+          <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @bill.contract.client_bank_detail}%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @bill.contract.startup_bank_detail %>
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= "#{t('activerecord.models.bank_detail')} #{t('activerecord.attributes.contract.startup')}" %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3">
+          <h5><%= @bill.contract.startup_bank_detail.name %></h5>
+        </div>
+        <div class="col-sm-9">
+          <%= render partial: 'bank_details/show_bank_detail_info', locals: {bank_detail: @bill.contract.startup_bank_detail}%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.attributes.contract.client') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <%= render partial: 'services/show_service_info', locals: {service: @bill.contract.client} %>
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('activerecord.attributes.contract.startup') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <%= render partial: 'services/show_service_info', locals: {service: @bill.contract.startup} %>
   </div>
 </div>
