@@ -7,7 +7,11 @@
     <div class="col-md-9">
       <label>
         <%= check_box_tag :mark_startup_as_paid, 'true', f.object.startup_paid? %>
-        <%= t('activerecord.attributes.bill.startup_paid') %>
+        <%= t('activerecord.attributes.bill.startup_paid') %><br />
+        <%= format_amount f.object.startup_cost_including_vat %>
+        <% if f.object.startup_paid? %>
+          (<%= t("misc.paid_on", date: f.object.startup_paid) %>)
+        <% end %>
       </label>
     </div>
   </div>
@@ -17,7 +21,11 @@
     <div class="col-md-9">
       <label>
         <%= check_box_tag :mark_platform_contribution_as_paid, 'true', f.object.platform_contribution_paid? %>
-        <%= t('activerecord.attributes.bill.platform_contribution_paid') %>
+        <%= t('activerecord.attributes.bill.platform_contribution_paid') %><br />
+        <%= format_amount f.object.platform_contribution_cost_including_vat %>
+        <% if f.object.platform_contribution_paid? %>
+          (<%= t("misc.paid_on", date: f.object.platform_contribution_paid) %>)
+        <% end %>
       </label>
     </div>
   </div>

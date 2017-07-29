@@ -84,6 +84,7 @@ fr:
     paid:
       'false': "À régler"
       'true': "Réglé"
+    paid_on: 'Réglé le %{date}'
     parameters: 'Configuration'
     permissions: 'Permissions'
     platform_contribution: "Contribution à la plateforme"

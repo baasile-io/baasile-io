@@ -55,13 +55,21 @@
             <td>
             <span class="<%= (bill.startup_paid? ? 'text-success' : 'text-danger') %>">
               <strong><%= format_amount bill.startup_cost_including_vat %></strong><br />
-              <%= t("misc.paid.#{bill.startup_paid?}") %>
+              <% if bill.startup_paid? %>
+                  <small><%= t("misc.paid_on", date: l(bill.startup_paid, format: :short)) %></small>
+                <% else %>
+                  <%= t("misc.paid.false") %>
+                <% end %>
             </span>
             </td>
             <td>
             <span class="<%= (bill.platform_contribution_paid? ? 'text-success' : 'text-danger') %>">
               <strong><%= format_amount bill.platform_contribution_cost_including_vat %></strong><br />
-              <%= t("misc.paid.#{bill.platform_contribution_paid?}") %>
+              <% if bill.platform_contribution_paid? %>
+                  <small><%= t("misc.paid_on", date: l(bill.platform_contribution_paid, format: :short)) %></small>
+                <% else %>
+                  <%= t("misc.paid.false") %>
+                <% end %>
             </span>
             </td>
             <td>

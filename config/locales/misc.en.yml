@@ -85,6 +85,7 @@ en:
     paid:
       'false': "To be paid"
       'true': "Paid"
+    paid_on: 'Paid on %{date}'
     parameters: 'Settings'
     permissions: 'Permissions'
     platform_contribution: "Platform contribution"
