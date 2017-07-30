@@ -9,6 +9,7 @@ fr:
     new:
       title: 'Ajouter des coordonnées bancaires'
     show:
+      not_active: "Ces coordonnées bancaires doivent être validées par un administrateur de la plateforme avant d'être associées à des contrats."
       title: 'Coordonnée bancaire'
     update:
       title: 'Modifier'

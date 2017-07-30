@@ -1,0 +1,21 @@
+<%= simple_form_for [:back_office, @bank_detail] do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :name %>
+  <%= f.input :iban %>
+  <%= f.input :bic %>
+  <%= f.input :account_owner %>
+  <%= f.input :bank_name %>
+  <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>
+
+<hr />
+<%= link_to (@bank_detail.is_active ? t('actions.deactivate') : t('actions.activate') ), toggle_is_active_back_office_bank_detail_path(@bank_detail), method: :post, class: 'btn btn-primary' %>

@@ -4,7 +4,7 @@ module BackOffice
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
     def index
-      @collection = User.all.order('users.last_activity_at DESC NULLS LAST')
+      @collection = User.all.includes(:services).order('users.last_activity_at DESC NULLS LAST')
     end
 
     def show

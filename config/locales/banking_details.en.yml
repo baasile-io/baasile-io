@@ -9,6 +9,7 @@ en:
     new:
       title: 'New bank detail'
     show:
+      not_active: "These bank details must be validated by an administrator of the platform before they can be associated with contracts."
       title: 'Bank detail'
     update:
       title: 'Edit'

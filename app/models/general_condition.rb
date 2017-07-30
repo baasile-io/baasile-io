@@ -17,7 +17,7 @@ class GeneralCondition < ApplicationRecord
   end
 
   def is_used?
-    return self.contracts && self.contracts.count > 0
+    return self.contracts.count > 0
   end
 
   def self.effective_now

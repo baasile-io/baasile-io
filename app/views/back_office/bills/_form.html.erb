@@ -1,0 +1,39 @@
+<%= simple_form_for [:back_office, @bill] do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" for="mark_startup_as_paid"></label>
+    <div class="col-md-9">
+      <label>
+        <%= check_box_tag :mark_startup_as_paid, 'true', f.object.startup_paid? %>
+        <%= t('activerecord.attributes.bill.startup_paid') %><br />
+        <%= format_amount f.object.startup_cost_including_vat %>
+        <% if f.object.startup_paid? %>
+          (<%= t("misc.paid_on", date: f.object.startup_paid) %>)
+        <% end %>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label" for="mark_platform_contribution_as_paid"></label>
+    <div class="col-md-9">
+      <label>
+        <%= check_box_tag :mark_platform_contribution_as_paid, 'true', f.object.platform_contribution_paid? %>
+        <%= t('activerecord.attributes.bill.platform_contribution_paid') %><br />
+        <%= format_amount f.object.platform_contribution_cost_including_vat %>
+        <% if f.object.platform_contribution_paid? %>
+          (<%= t("misc.paid_on", date: f.object.platform_contribution_paid) %>)
+        <% end %>
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

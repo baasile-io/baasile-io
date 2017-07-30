@@ -104,7 +104,7 @@
             </td>
             <td class="text-right">
               <% if service.user_id != @user.id %>
-                <%= link_to '<i class="fa fa-fw fa-unlink"></i>'.html_safe, disassociate_back_office_user_path(@user, service_id: service.id), title: t('actions.disassociate'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete, class: 'btn btn-danger btn-sm' %>
+                <%= link_to '<i class="fa fa-fw fa-unlink"></i>'.html_safe, disassociate_back_office_user_path(@user, service_id: service.id), title: t('actions.disassociate_user_from_service'), data: {confirm: 'Are you sure?', toggle: 'tooltip', placement: 'left'}, method: :delete, class: 'btn btn-danger btn-sm' %>
               <% end %>
             </td>
             <% Role::USER_ROLES.each do |scope| %>
@@ -112,8 +112,22 @@
               <td class="text-right">
                 <% if !(scope != :admin && @user.has_role?(:admin, service)) && service.send("main_#{scope}") != @user %>
                   <div class="btn-group">
-                    <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe, (has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)), method: :put, class: "btn btn-sm #{has_role ? 'btn-success disabled' : 'btn-secondary'}" %>
-                    <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe, (!has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)), method: :put, class: "btn btn-sm #{!has_role ? 'btn-danger disabled' : 'btn-secondary'}" %>
+                    <%= link_to '<i class="fa fa-fw fa-check"></i>'.html_safe,
+                                (has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)),
+                                method: :put,
+                                title: (t('actions.add_role') if !has_role),
+                                data: {
+                                  toggle: ('tooltip' if !has_role)
+                                },
+                                class: "btn btn-sm #{has_role ? 'btn-success disabled' : 'btn-secondary'}" %>
+                    <%= link_to '<i class="fa fa-fw fa-times"></i>'.html_safe,
+                                (!has_role ? '#' : toggle_object_role_back_office_user_path(@user, object_type: 'Service', object_id: service.id, scope: scope)),
+                                method: :put,
+                                title: (t('actions.remove_role') if has_role),
+                                data: {
+                                  toggle: ('tooltip' if has_role)
+                                },
+                                class: "btn btn-sm #{!has_role ? 'btn-danger disabled' : 'btn-secondary'}" %>
                   </div>
                 <% else %>
                   <i class="fa fa-fw fa-check"></i>
@@ -121,7 +135,32 @@
               </td>
             <% end %>
             <td class="text-right">
-              <%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_back_office_service_path(service), class: 'btn btn-secondary btn-sm', title: t('actions.edit_service'), data: {toggle: 'tooltip', placement: 'left'} %>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                  <%= t('misc.actions') %>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%= link_to edit_back_office_service_path(service),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                  <% end %>
+                  <%= link_to users_back_office_service_path(service),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+                  <% end %>
+                  <%= link_to audit_back_office_service_path(service),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to service_path(service),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-dashboard"></i> <%= t('misc.dashboard') %>
+                  <% end %>
+                </div>
+              </div>
+
             </td>
           </tr>
         <% end %>

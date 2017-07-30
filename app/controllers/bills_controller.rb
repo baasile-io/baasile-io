@@ -41,7 +41,7 @@ class BillsController < ApplicationController
 
   def mark_as_paid
     if current_user.is_user_of?(current_bill.contract.startup)
-      current_bill.startup_paid = true
+      current_bill.mark_startup_as_paid
       if current_bill.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bill'))
       else
@@ -55,7 +55,7 @@ class BillsController < ApplicationController
 
   def mark_platform_contribution_as_paid
     if current_user.is_superadmin?
-      current_bill.platform_contribution_paid = true
+      current_bill.mark_platform_contribution_as_paid
       if current_bill.save
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.bill'))
       else

@@ -59,7 +59,10 @@ fr:
       other: 'mois'
     more_info: "Plus d'infos"
     my_account: 'Mon compte'
+    my_bills: 'Mes concommations'
+    my_contracts: 'Mes contrats'
     my_services: 'Mes entreprises'
+    my_tickets: 'Mes tickets'
     my_users: 'Mes utilisateurs'
     need_admin_unlock_after_expired: 'Compte expiré'
     need_admin_unlock_after_expired_hint: 'Ce compte a été inactif durant une période de plus de %{x} jours'
@@ -84,6 +87,7 @@ fr:
     paid:
       'false': "À régler"
       'true': "Réglé"
+    paid_on: 'Réglé le %{date}'
     parameters: 'Configuration'
     permissions: 'Permissions'
     platform_contribution: "Contribution à la plateforme"
@@ -93,6 +97,7 @@ fr:
     roles: 'Rôles'
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
+    state: 'Statut'
     'true': 'Oui'
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'

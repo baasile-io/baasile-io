@@ -28,6 +28,8 @@ en:
         created_at: 'Issued on'
         due_date: 'Due date'
         end_date: 'End date'
+        platform_contribution_paid: 'Platform contribution paid'
+        startup_paid: 'Supplier paid'
         start_date: 'Start date'
         total_cost: 'Total'
         total_cost_including_var: 'Total (incl. VAT)'
@@ -90,6 +92,7 @@ en:
         ancestry: 'Parent'
         body: 'Content'
         locale: 'Language'
+        public: 'Published'
         title: 'Title'
       error_measurement:
         client: 'Request origin'
@@ -106,6 +109,7 @@ en:
       general_condition:
         effective_start_date: 'Effective date'
         gc_version: 'Version'
+        title: 'Title'
       identifier:
         client_id: 'Public Key'
         client_secret: 'Secret Key'

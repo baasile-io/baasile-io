@@ -28,6 +28,8 @@ fr:
         created_at: "Date d'émission"
         due_date: "Date d'échéance"
         end_date: 'Date de fin'
+        platform_contribution_paid: 'Contribution à la plateforme payée'
+        startup_paid: 'Fournisseur payé'
         start_date: 'Date de début'
         total_cost: 'Total'
         total_cost_including_var: 'Total (TVA incl.)'
@@ -91,6 +93,7 @@ fr:
         ancestry: 'Parent'
         body: 'Contenu'
         locale: 'Langue'
+        public: 'Publiée'
         title: 'Titre'
       error_measurement:
         client: 'Origine de la requête'
@@ -107,6 +110,7 @@ fr:
       general_condition:
         effective_start_date: "Date d'effectivité"
         gc_version: 'Version'
+        title: 'Titre'
       identifier:
         client_id: 'Clé publique'
         client_secret: 'Clé secrète'

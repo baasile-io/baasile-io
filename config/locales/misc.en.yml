@@ -60,7 +60,10 @@ en:
       other: 'months'
     more_info: 'More info'
     my_account: 'My account'
+    my_bills: 'My consumption'
+    my_contracts: 'My contracts'
     my_services: 'My services'
+    my_tickets: 'My tickets'
     my_users: 'My users'
     need_admin_unlock_after_expired: 'Expired account'
     need_admin_unlock_after_expired_hint: 'Last activity of this user was more than %{x} days'
@@ -85,6 +88,7 @@ en:
     paid:
       'false': "To be paid"
       'true': "Paid"
+    paid_on: 'Paid on %{date}'
     parameters: 'Settings'
     permissions: 'Permissions'
     platform_contribution: "Platform contribution"
@@ -94,6 +98,7 @@ en:
     roles: 'Roles'
     service_not_activated: 'Your Enterprise account is not activated'
     service_not_published: 'Enterpise is not published'
+    state: 'State'
     'true': 'Yes'
     unconfirmed: 'Not active'
     unconfirmed_email: 'Unconfirmed email'

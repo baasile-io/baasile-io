@@ -18,9 +18,12 @@
         <table class="table table-sm table-hover table-link">
           <thead>
           <tr>
-            <th colspan="2" class="width-30"><%= t('activerecord.attributes.bank_detail.name') %></th>
-            <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
+            <th colspan="2" class="width-30">
+              <%= t('activerecord.attributes.bank_detail.name') %> / <%= t('activerecord.attributes.bank_detail.account_owner') %>
+            </th>
+            <th><%= t('activerecord.attributes.bank_detail.iban') %> / <%= t('activerecord.attributes.bank_detail.bic') %></th>
             <th><%= t('activerecord.attributes.bank_detail.bank_name') %></th>
+            <th><%= t('activerecord.attributes.bank_detail.is_active') %></th>
             <th></th>
           </tr>
           </thead>
@@ -35,10 +38,18 @@
                   <small class="text-muted"><%=  bank_detail.account_owner %></small>
                 </td>
                 <td>
-                  <i class="fa-2x <%= t("misc.is_active.#{bank_detail.is_active}.icon") %>" data-placement="top" title="<%= t("misc.is_active.#{bank_detail.is_active}.title") %>" data-toggle="tooltip"></i>
+                  <%= bank_detail.iban %><br />
+                  <%= bank_detail.bic %>
                 </td>
                 <td>
                   <%= bank_detail.bank_name %>
+                </td>
+                <td>
+                  <% if bank_detail.is_active %>
+                    <i class="fa-2x <%= t("misc.is_active.true.icon") %>"></i>
+                  <% else %>
+                    <i class="fa-2x <%= t("misc.is_active.false.icon") %>" data-placement="top" title="<%= t('bank_details.show.not_active') %>" data-toggle="tooltip"></i>
+                  <% end %>
                 </td>
                 <td class="text-right">
                   <%= link_to t('misc.more_info'), polymorphic_path([current_service, bank_detail]), class: 'btn btn-secondary' %>
