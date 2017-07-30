@@ -10,6 +10,7 @@ fr:
     add_user: "Ajouter l'utilisateur"
     add_users: "Ajouter des utilisateurs"
     add_price_parameter: 'Ajouter un critère de tarification'
+    add_role: 'Ajouter le rôle'
     admin_list: 'liste des administrateurs'
     associate: 'Associer'
     back: 'Retour'
@@ -32,6 +33,7 @@ fr:
     destroy: 'Supprimer'
     destroy_user: "Supprimer définitivement le compte utilisateur"
     disassociate: "Supprimer l'association"
+    disassociate_user_from_service: "Supprimer l'utilisateur de l'Entreprise"
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
     edit_bank_details:
@@ -60,6 +62,7 @@ fr:
     print: 'Imprimer'
     print_consumption: 'Imprimer la consommation en cours'
     reject: 'Rejeter'
+    remove_role: 'Supprimer le rôle'
     reopen: 'Réouvrir'
     resend_confirmation_instructions: 'Renvoyer les instructions'
     reset: 'Réinitialiser la valeur par défaut'

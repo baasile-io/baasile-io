@@ -59,7 +59,10 @@ fr:
       other: 'mois'
     more_info: "Plus d'infos"
     my_account: 'Mon compte'
+    my_bills: 'Mes concommations'
+    my_contracts: 'Mes contrats'
     my_services: 'Mes entreprises'
+    my_tickets: 'Mes tickets'
     my_users: 'Mes utilisateurs'
     need_admin_unlock_after_expired: 'Compte expiré'
     need_admin_unlock_after_expired_hint: 'Ce compte a été inactif durant une période de plus de %{x} jours'

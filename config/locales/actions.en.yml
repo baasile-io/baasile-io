@@ -10,6 +10,7 @@ en:
     add_user: 'Add user'
     add_users: "Add users"
     add_price_parameter: 'Add pricing criteria'
+    add_role: 'Add role'
     admin_list: 'administrator list'
     associate: 'Associate'
     back: 'Back'
@@ -32,6 +33,7 @@ en:
     destroy: 'Delete'
     destroy_user: 'Definitively delete the user account'
     disassociate: 'Remove association'
+    disassociate_user_from_service: 'Remove user from Enterprise'
     edit: 'Edit'
     edit_account: 'Edit account'
     edit_bank_details:
@@ -61,6 +63,7 @@ en:
     print_consumption: 'Print current consumption'
     closed_ticket: 'Closed tikets'
     reject: 'Reject'
+    remove_role: 'Remove role'
     reopen: 'Reopen'
     resend_confirmation_instructions: 'Resend confirmation instructions by email'
     reset: 'Reset to initial value'
