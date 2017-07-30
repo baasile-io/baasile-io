@@ -1,5 +1,7 @@
 module BackOffice
   class ServicesController < BackOfficeController
+    include PaginateConcern
+
     before_action :load_service, except: [:index, :new, :create]
     before_action :load_companies, only: [:edit, :update, :new, :create]
     before_action :load_all_users, only: [:new, :create]
@@ -7,6 +9,8 @@ module BackOffice
 
     def index
       @collection = Service.includes(:users, :proxies).all.order(updated_at: :desc)
+
+      @collection = paginate @collection
     end
 
     def new

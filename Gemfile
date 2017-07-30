@@ -61,6 +61,7 @@ gem 'prawn',                                    '~> 2.2.2'
 # Views helpers
 gem 'simple_form',                              '~> 3.3.1'
 gem 'awesome_print',                            '~> 1.7.0'
+gem 'kaminari',                                 '~> 1.0.1'
 
 # Encryption
 gem 'jwt',                                      '~> 1.5.6'
