@@ -95,6 +95,7 @@ fr:
     profile: 'Profil'
     role: 'Rôle'
     roles: 'Rôles'
+    search_placeholder: 'Recherche libre'
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
     state: 'Statut'

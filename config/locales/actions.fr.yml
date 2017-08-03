@@ -76,6 +76,7 @@ fr:
     return: 'Retour'
     save: 'Sauvegarder'
     save_in_progress: 'Enregistrement en cours...'
+    search: 'Rechercher'
     see: 'Voir'
     see_and_add_comments: 'Voir/ajouter des commentaires'
     see_bank_detail_template: 'Voir/ajouter des coordonnées bancaires'

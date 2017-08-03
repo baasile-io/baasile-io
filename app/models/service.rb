@@ -80,6 +80,18 @@ class Service < ApplicationRecord
   scope :companies, -> { where(service_type: SERVICE_TYPES[:company][:index]) }
   scope :published, -> { where(public: true) }
 
+  scope :look_for, -> (q) {
+    includes(:proxies).
+      where("(services.name <-> :q_orig) < 0.4
+           OR UPPER(unaccent(services.name))    SIMILAR TO UPPER(unaccent(:q_repeat))
+           OR unaccent(services.name)           ILIKE unaccent(:q)
+           OR unaccent(services.description)    ILIKE unaccent(:q)
+           OR unaccent(proxies.name)            ILIKE unaccent(:q)
+           OR unaccent(proxies.description)     ILIKE unaccent(:q)
+          ", q_orig: q, q: "%#{q.gsub(/\s/, '%')}%", q_repeat: "%#{q.gsub(/\W+/, ' ').gsub(/(\S)/, '\1+').gsub(/\s/, '%')}%").
+      references(:proxies)
+  }
+
   def associated_contracts
     Contract.where('client_id = :service_id OR startup_id = :service_id', service_id: self.id)
   end

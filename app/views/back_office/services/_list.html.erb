@@ -81,5 +81,7 @@
     </tbody>
   </table>
 
-  <%= paginate @collection %>
+  <% if @collection.respond_to?(:page) %>
+    <%= paginate @collection %>
+  <% end %>
 <% end %>

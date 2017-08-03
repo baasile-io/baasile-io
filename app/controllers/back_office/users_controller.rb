@@ -1,10 +1,16 @@
 module BackOffice
   class UsersController < BackOfficeController
+    include PaginateConcern
+    include SearchConcern
+
     before_action :load_user, except: [:index, :new, :create]
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
     def index
       @collection = User.all.includes(:services).order('users.last_activity_at DESC NULLS LAST')
+
+      @collection = search   @collection
+      @collection = paginate @collection
     end
 
     def show
