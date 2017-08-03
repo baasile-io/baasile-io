@@ -24,7 +24,11 @@
       <div class="col-sm-9">
         <p class="<%= (current_bill.startup_paid? ? 'text-success' : 'text-danger') %>">
           <strong><%= format_amount current_bill.startup_cost_including_vat %></strong><br />
-          <%= t("misc.paid.#{current_bill.startup_paid?}") %>
+          <% if current_bill.startup_paid? %>
+            <%= t("misc.paid_on", date: l(current_bill.startup_paid, format: :short)) %>
+          <% else %>
+            <%= t("misc.paid.false") %>
+          <% end %>
         </p>
         <% if !current_bill.startup_paid? && current_bill.due_date %>
           <p class="text-danger">
@@ -53,7 +57,11 @@
       <div class="col-sm-9">
         <p class="<%= (current_bill.platform_contribution_paid? ? 'text-success' : 'text-danger') %>">
           <strong><%= format_amount current_bill.platform_contribution_cost_including_vat %></strong><br />
-          <%= t("misc.paid.#{current_bill.platform_contribution_paid?}") %>
+          <% if current_bill.platform_contribution_paid? %>
+            <%= t("misc.paid_on", date: l(current_bill.platform_contribution_paid, format: :short)) %>
+          <% else %>
+            <%= t("misc.paid.false") %>
+          <% end %>
         </p>
         <% if !current_bill.platform_contribution_paid? && current_bill.due_date %>
           <p class="text-danger">
