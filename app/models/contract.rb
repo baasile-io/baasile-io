@@ -403,6 +403,17 @@ class Contract < ApplicationRecord
 
   scope :owned, ->(user) { where(user: user) }
 
+  scope :look_for, -> (q) {
+    includes(:startup, :client, :proxy).
+      where("UPPER(unaccent(services.name))    SIMILAR TO UPPER(unaccent(:q_repeat))
+           OR unaccent(services.name)           ILIKE unaccent(:q)
+           OR unaccent(services.description)    ILIKE unaccent(:q)
+           OR unaccent(proxies.name)            ILIKE unaccent(:q)
+           OR unaccent(proxies.description)     ILIKE unaccent(:q)
+          ", q_orig: q, q: "%#{q.gsub(/\s/, '%')}%", q_repeat: "%#{q.gsub(/\W+/, ' ').gsub(/(\S)/, '\1+').gsub(/\s/, '%')}%").
+      references(:startup, :client, :proxy)
+  }
+
   def set_dup_price(price_id)
     unless price_id.empty?
       price_temp = Price.find(price_id)

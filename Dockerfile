@@ -5,5 +5,6 @@ RUN mkdir /baasile_io
 WORKDIR /baasile_io
 ADD Gemfile /baasile_io/Gemfile
 ADD Gemfile.lock /baasile_io/Gemfile.lock
+RUN gem install bundler
 RUN bundle install
 ADD . /baasile_io

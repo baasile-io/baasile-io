@@ -43,6 +43,20 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :language, inclusion: {in: I18n.available_locales.map(&:to_s)}
 
+  scope :look_for, -> (q) {
+    where("(users.first_name || users.last_name <-> :q_orig) < 0.4
+         OR (users.email <-> :q_orig) < 0.4
+         OR UPPER(unaccent(users.first_name || users.last_name))    SIMILAR TO UPPER(unaccent(:q_repeat))
+         OR UPPER(unaccent(users.last_name || users.first_name))    SIMILAR TO UPPER(unaccent(:q_repeat))
+         OR unaccent(users.first_name || users.last_name)           ILIKE unaccent(:q)
+         OR unaccent(users.last_name || users.first_name)           ILIKE unaccent(:q)
+         OR unaccent(users.first_name)      ILIKE unaccent(:q)
+         OR unaccent(users.last_name)       ILIKE unaccent(:q)
+         OR unaccent(users.email)           SIMILAR TO UPPER(unaccent(:q_repeat))
+         OR unaccent(users.email)           ILIKE unaccent(:q)
+        ", q_orig: q, q: "%#{q.gsub(/\s/, '%')}%", q_repeat: "%#{q.gsub(/\W+/, ' ').gsub(/(\S)/, '\1+').gsub(/\s/, '%')}%")
+  }
+
   def is_activated?
     !self.confirmed_at.nil? && self.is_active
   end

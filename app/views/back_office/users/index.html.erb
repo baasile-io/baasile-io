@@ -4,115 +4,125 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <table class="table table-sm table-hover">
-      <thead>
-      <tr>
-        <th colspan="2"></th>
-        <th><i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.attributes.user.parent') %>"></i></th>
-        <th><i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.user').pluralize %>"></i></th>
-        <th><i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.service').pluralize %>"></i></th>
-        <th><i class="fa fa-fw <%= t("roles.superadmin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.superadmin.title") %>"></i></th>
-        <th><%= t('activerecord.attributes.user.is_active') %></th>
-        <th><%= t('activerecord.attributes.user.last_activity_at') %></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @collection.each do |user| %>
-      <tr>
-        <td class="width-3">
-          <i class="fa fa-fw fa-user fa-2x"></i>
-        </td>
-        <td>
-          <strong><%= user.full_name %></strong><br />
-          <small class="text-muted"><%= "<i class=\"fa fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i>".html_safe if user.confirmed_at.nil? %> <%= user.email %></small>
-        </td>
-        <td>
-          <% if user.parent %>
-            <i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= user.parent.full_name %>"></i>
-          <% end %>
-        </td>
-        <td>
-          <% if user.has_children? %>
-            <i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= user.children.map(&:full_name).join(', ') %>"></i>
-          <% end %>
-        </td>
-        <td>
-          <% if user.services.count > 0 %>
-            <i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= user.services.pluck(:name).join(', ') %>"></i>
-          <% end %>
-        </td>
-        <td class="width-5">
-          <% if user.is_superadmin? %>
-            <i class="fa fa-fw <%= t("roles.superadmin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.superadmin.title") %>"></i>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to "<i class=\"fa fa-fw fa-toggle-#{user.is_active ? 'on' : 'off'}\"></i>".html_safe, toggle_is_active_back_office_user_path(user), title: (user.is_active ? t('actions.deactivate') : t('actions.activate')), data: {toggle: 'tooltip', placement: 'top'}, method: :put, class: 'btn btn-link btn-sm' %>
-        </td>
-        <td>
-          <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small><br />
-          <% if user.expired? %>
-            <span class="badge badge-danger" data-toggle="tooltip" title="<%= h(t('misc.need_admin_unlock_after_expired_hint', x: Appconfig.get(:user_expire_after))) %>">
-              <i class="fa fa-fw fa-lock"></i> <%= t('misc.need_admin_unlock_after_expired') %>
-            </span>
-          <% end %>
-          <% if user.need_change_password? %>
-            <span class="badge badge-warning" data-toggle="tooltip" title="<%= h(t('misc.need_change_password_hint', x: Appconfig.get(:user_password_expire_after))) %>">
-              <i class="fa fa-fw fa-key"></i> <%= t('misc.need_change_password') %>
-            </span>
-          <% end %>
-        </td>
-        <td class="text-right">
+    <%= render partial: 'shared/search' %>
 
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-              <%= t('misc.actions') %>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to edit_back_office_user_path(user),
-                          class: 'dropdown-item' do %>
-                <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
-              <% end %>
-              <%= link_to permissions_back_office_user_path(user),
-                          class: 'dropdown-item' do %>
-                <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
-              <% end %>
-              <%= link_to audit_back_office_user_path(user),
-                          class: 'dropdown-item' do %>
-                <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
-              <% end %>
-              <% if user.expired? %>
+    <% if @collection.count == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+          <th colspan="2"></th>
+          <th><i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.attributes.user.parent') %>"></i></th>
+          <th><i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.user').pluralize %>"></i></th>
+          <th><i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= t('activerecord.models.service').pluralize %>"></i></th>
+          <th><i class="fa fa-fw <%= t("roles.superadmin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.superadmin.title") %>"></i></th>
+          <th><%= t('activerecord.attributes.user.is_active') %></th>
+          <th><%= t('activerecord.attributes.user.last_activity_at') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @collection.each do |user| %>
+        <tr>
+          <td class="width-3">
+            <i class="fa fa-fw fa-user fa-2x"></i>
+          </td>
+          <td>
+            <strong><%= user.full_name %></strong><br />
+            <small class="text-muted"><%= "<i class=\"fa fa-fw fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i>".html_safe if user.confirmed_at.nil? %> <%= user.email %></small>
+          </td>
+          <td>
+            <% if user.parent %>
+              <i class="fa fa-fw <%= t("roles.admin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= user.parent.full_name %>"></i>
+            <% end %>
+          </td>
+          <td>
+            <% if user.has_children? %>
+              <i class="fa fa-fw fa-users" data-toggle="tooltip" data-placement="top" title="<%= user.children.map(&:full_name).join(', ') %>"></i>
+            <% end %>
+          </td>
+          <td>
+            <% if user.services.count > 0 %>
+              <i class="fa fa-fw fa-cubes" data-toggle="tooltip" data-placement="top" title="<%= user.services.pluck(:name).join(', ') %>"></i>
+            <% end %>
+          </td>
+          <td class="width-5">
+            <% if user.is_superadmin? %>
+              <i class="fa fa-fw <%= t("roles.superadmin.icon") %>" data-toggle="tooltip" data-placement="top" title="<%= t("roles.superadmin.title") %>"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to "<i class=\"fa fa-fw fa-toggle-#{user.is_active ? 'on' : 'off'}\"></i>".html_safe, toggle_is_active_back_office_user_path(user), title: (user.is_active ? t('actions.deactivate') : t('actions.activate')), data: {toggle: 'tooltip', placement: 'top'}, method: :put, class: 'btn btn-link btn-sm' %>
+          </td>
+          <td>
+            <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small><br />
+            <% if user.expired? %>
+              <span class="badge badge-danger" data-toggle="tooltip" title="<%= h(t('misc.need_admin_unlock_after_expired_hint', x: Appconfig.get(:user_expire_after))) %>">
+                <i class="fa fa-fw fa-lock"></i> <%= t('misc.need_admin_unlock_after_expired') %>
+              </span>
+            <% end %>
+            <% if user.need_change_password? %>
+              <span class="badge badge-warning" data-toggle="tooltip" title="<%= h(t('misc.need_change_password_hint', x: Appconfig.get(:user_password_expire_after))) %>">
+                <i class="fa fa-fw fa-key"></i> <%= t('misc.need_change_password') %>
+              </span>
+            <% end %>
+          </td>
+          <td class="text-right">
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                <%= t('misc.actions') %>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to edit_back_office_user_path(user),
+                            class: 'dropdown-item' do %>
+                  <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                <% end %>
+                <%= link_to permissions_back_office_user_path(user),
+                            class: 'dropdown-item' do %>
+                  <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
+                <% end %>
+                <%= link_to audit_back_office_user_path(user),
+                            class: 'dropdown-item' do %>
+                  <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+                <% end %>
+                <% if user.expired? %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to unlock_after_expired_back_office_user_path(user),
+                              class: 'dropdown-item',
+                              method: :put do %>
+                    <i class="fa fa-fw fa-unlock"></i> <%= t('actions.unlock_after_expired') %>
+                  <% end %>
+                <% end %>
                 <div class="dropdown-divider"></div>
-                <%= link_to unlock_after_expired_back_office_user_path(user),
+                <%= link_to back_office_user_path(user),
+                            class: 'dropdown-item',
+                            method: :delete,
+                            data: {
+                              confirm: 'Are you sure?'
+                            } do %>
+                  <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+                <% end %>
+                <div class="dropdown-divider"></div>
+                <%= link_to sign_in_as_back_office_user_path(user),
                             class: 'dropdown-item',
                             method: :put do %>
-                  <i class="fa fa-fw fa-unlock"></i> <%= t('actions.unlock_after_expired') %>
+                  <i class="fa fa-fw fa-sign-in"></i> <%= t('actions.sign_in_as') %>
                 <% end %>
-              <% end %>
-              <div class="dropdown-divider"></div>
-              <%= link_to back_office_user_path(user),
-                          class: 'dropdown-item',
-                          method: :delete,
-                          data: {
-                            confirm: 'Are you sure?'
-                          } do %>
-                <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
-              <% end %>
-              <div class="dropdown-divider"></div>
-              <%= link_to sign_in_as_back_office_user_path(user),
-                          class: 'dropdown-item',
-                          method: :put do %>
-                <i class="fa fa-fw fa-sign-in"></i> <%= t('actions.sign_in_as') %>
-              <% end %>
+              </div>
             </div>
-          </div>
 
-        </td>
-      </tr>
+          </td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <% if @collection.respond_to?(:page) %>
+        <%= paginate @collection %>
       <% end %>
-      </tbody>
-    </table>
+    <% end %>
 
   </div>
 </div>
