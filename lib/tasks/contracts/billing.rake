@@ -2,8 +2,12 @@
 
 namespace 'contracts' do
   desc "Billing task"
-  task :billing => :environment do |t, args|
-    today = Date.today
+  task :billing, [:date] => :environment do |t, args|
+    today = if args.date.present?
+              Date.strptime(args.date, "%Y-%m-%d")
+            else
+              Date.today
+            end
 
     #####ContractRenewalService
 
