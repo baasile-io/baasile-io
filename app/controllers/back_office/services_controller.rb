@@ -1,8 +1,5 @@
 module BackOffice
   class ServicesController < BackOfficeController
-    include PaginateConcern
-    include SearchConcern
-
     before_action :load_service, except: [:index, :new, :create]
     before_action :load_companies, only: [:edit, :update, :new, :create]
     before_action :load_all_users, only: [:new, :create]

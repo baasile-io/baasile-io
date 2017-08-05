@@ -1,8 +1,5 @@
 module BackOffice
   class UsersController < BackOfficeController
-    include PaginateConcern
-    include SearchConcern
-
     before_action :load_user, except: [:index, :new, :create]
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 

@@ -2,6 +2,8 @@ module BackOffice
   class ErrorMeasurementsController < BackOfficeController
     def index
       @collection = ErrorMeasurement.all.includes(:client, :proxy).order(created_at: :desc)
+
+      @collection = paginate @collection
     end
 
     def show

@@ -7,6 +7,8 @@ class ErrorMeasurementsController < DashboardController
                   elsif !current_service.nil?
                     current_service.error_measurements
                   end.includes(:client, :proxy).order(created_at: :desc)
+
+    @collection = paginate @collection
   end
 
   def show
