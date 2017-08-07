@@ -96,6 +96,7 @@ en:
     profile: 'Profile'
     role: 'Role'
     roles: 'Roles'
+    search: 'Search'
     search_placeholder: 'Free text search'
     service_not_activated: 'Your Enterprise account is not activated'
     service_not_published: 'Enterpise is not published'
@@ -107,4 +108,5 @@ en:
     unknown_user_create_on: "The user was not found, you can create one if you need it"
     user_not_disassociable_because_official: "You can't remove association because the user is an official"
     waiting_for_validation: 'Waiting for validation'
+    without_category: 'Without category'
     yes: 'Yes'

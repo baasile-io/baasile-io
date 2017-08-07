@@ -95,6 +95,7 @@ fr:
     profile: 'Profil'
     role: 'Rôle'
     roles: 'Rôles'
+    search: 'Recherche'
     search_placeholder: 'Recherche libre'
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
@@ -106,4 +107,5 @@ fr:
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
     user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
+    without_category: 'Sans catégorie'
     yes: 'Oui'

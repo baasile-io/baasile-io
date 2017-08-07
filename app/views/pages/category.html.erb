@@ -1,0 +1,77 @@
+<% content_for(:page_title) { @category_title } %>
+<% content_for(:page_description) { @category_description } %>
+
+<div class="container catalog category">
+
+  <h1 class="mb-5">
+    <%= t('pages.catalog.title') %>
+  </h1>
+
+  <div class="row">
+
+    <div class="col-md-4 col-lg-3">
+
+      <%= render partial: 'shared/catalog/menu_left' %>
+
+      <hr />
+
+      <%= render partial: 'shared/catalog/search' %>
+
+    </div>
+
+    <div class="col-md-8 col-lg-9">
+
+      <div class="row">
+        <div class="col-12">
+          <h4 class="text-uppercase">
+            <%= @category_title %>
+          </h4>
+          <% if @category_description.present? %>
+            <p><%= @category_description.html_safe %></p>
+          <% end %>
+          <hr />
+        </div>
+      </div>
+
+      <div class="row cards">
+
+        <% @collection.each.with_index do |proxy, index| %>
+          <% image = @logotype_service.url(proxy.service.client_id, :thumb_normalize) %>
+          <div class="col-sm-6 col-lg-3 col-xl-3">
+            <div class="card text-center mb-3">
+              <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.name %>">
+              <div class="card-block">
+                <div class="card-block-description">
+                  <h5 class="card-title text-nowrap text-uppercase"><%= proxy.name %></h5>
+                  <small class="card-text text-sm"><%= simple_format(proxy.description).html_safe %></small>
+                  <div class="card-block-description-shadow"></div>
+                </div>
+                <a href="<%= startup_path(proxy.service.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+
+      <% if @collection.size > 0 %>
+
+        <hr />
+
+        <div class="float-right">
+          <%= paginate @collection %>
+        </div>
+
+        <%= page_entries_info @collection, entry_name: t('activerecord.models.proxy').downcase %>
+
+      <% else %>
+
+        <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>

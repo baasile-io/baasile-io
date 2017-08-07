@@ -33,6 +33,13 @@ class Proxy < ApplicationRecord
   scope :associated_services, ->(service) { where(service: service) }
   scope :published, -> { where(public: true) }
 
+  scope :from_activated_and_published_startups, -> {
+    joins(:service).merge(Service.activated_startups).merge(Service.published)
+  }
+
+  scope :without_category, -> { where('category_id IS NULL') }
+  scope :by_category, -> (category)  { where(category: category) }
+
   def service_proxy_name
     return self.service.name + " - " + self.name
   end

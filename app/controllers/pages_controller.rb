@@ -1,12 +1,41 @@
 class PagesController < ApplicationController
   skip_before_action :set_locale, only: [:robots]
 
-  before_action :authenticate_user!, except: [:root, :service_book, :startup, :not_found, :robots]
-  before_action :load_logotype_service, only: [:service_book, :startup]
+  before_action :authenticate_user!, except: [:root, :service_book, :startup, :catalog, :category, :not_found, :robots]
+  before_action :load_logotype_service, only: [:service_book, :startup, :catalog, :category]
+  before_action :load_categories, only: [:catalog, :category]
 
   layout 'public'
 
   respond_to :html, :js
+
+  def catalog
+    @collection = Service.activated_startups.published
+  end
+
+  def category
+    @collection = Proxy.from_activated_and_published_startups.published
+
+    if params[:cat] == '0'
+      return without_category
+    end
+
+    @category = Category.find(params[:cat])
+    @collection = @collection.by_category(@category)
+
+    @category_title = @category.name
+    @category_description = @category.description
+
+    @collection = paginate @collection, per_page: 8
+  end
+
+  def without_category
+    @collection = @collection.without_category
+
+    @category_title = t('misc.without_category')
+
+    @collection = paginate @collection, per_page: 8
+  end
 
   def service_book
     @collection = Service.activated_startups.published
@@ -67,5 +96,9 @@ class PagesController < ApplicationController
 
   def load_logotype_service
     @logotype_service = LogotypeService.new
+  end
+
+  def load_categories
+    @categories = Category.all
   end
 end

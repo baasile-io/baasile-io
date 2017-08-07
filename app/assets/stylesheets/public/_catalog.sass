@@ -1,0 +1,48 @@
+
+
+.container
+
+  &.catalog
+
+    &.category
+      margin-top: 20px
+
+    .nav
+
+      .nav-item
+        .nav-link
+          padding-left: 0
+
+          &.active
+            color: #000
+            cursor: default
+
+    .row
+      &.cards
+        margin-left: -($spacer-x - ($spacer-x / 1.5))
+        margin-right: -($spacer-x - ($spacer-x / 1.5))
+
+    .card
+      margin-left: -($spacer-x / 1.5)
+      margin-right: -($spacer-x / 1.5)
+
+      .card-block
+        padding-left: 0
+        padding-right: 0
+
+        .card-block-description
+          position: relative
+          height: 100px
+          max-height: 100px
+          overflow: hidden
+          margin-bottom: 10px
+
+          .card-block-description-shadow
+            position: absolute
+            top: -15px
+            left: -15px
+            right: -15px
+            bottom: 0
+            width: auto
+            height: auto
+            box-shadow: 0 -15px 15px #FFFFFF inset

@@ -1,0 +1,31 @@
+<h5 class="text-uppercase mb-4"><%= t('misc.search') %></h5>
+
+<form name="search_form" method="GET" action="#" class="form">
+
+  <label class="sr-only" for="search_form_input"><%= t('actions.search') %></label>
+  <div class="input-group mb-3">
+    <div class="input-group-addon">
+      <i class="fa fa-fw fa-search"></i>
+    </div>
+    <input type="text"
+           name="q"
+           value=""
+           class="form-control"
+           id="search_form_input"
+           placeholder="<%= t('misc.search_placeholder') %>">
+  </div>
+
+  <p class="text-right">
+
+    <% if params[:q].present? %>
+      <button type="reset"
+              class="btn btn-secondary"
+              value="<%= t('actions.cancel') %>"><%= t('actions.cancel') %></button>
+    <% end %>
+    <button type="submit"
+            class="btn btn-secondary"
+            value="<%= t('actions.search') %>"><%= t('actions.search') %></button>
+
+  </p>
+
+</form>

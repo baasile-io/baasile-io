@@ -57,6 +57,8 @@ Rails.application.routes.draw do
     root to: 'pages#root'
 
     resources :pages, only: [:not_found]
+    get '/catalog', to: 'pages#catalog', as: 'catalog'
+    get '/catalog/:cat', to: 'pages#category', as: 'catalog_category'
     get '/service_book', to: 'pages#service_book'
     get '/startup/:id', to: 'pages#startup', as: 'startup'
     get '/profile', to: 'users#profile'

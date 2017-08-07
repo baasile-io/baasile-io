@@ -1,0 +1,19 @@
+<h5 class="text-uppercase"><%= t('.categories') %></h5>
+
+<ul class="nav flex-column">
+  <% @categories.each do |category| %>
+    <li class="nav-item">
+      <%= link_to catalog_category_path(cat: category.id),
+                  class: "nav-link #{'active' if @category.present? && @category.id == category.id}" do %>
+        <%= category.name %>
+      <% end %>
+    </li>
+  <% end %>
+
+  <li class="nav-item">
+    <%= link_to catalog_category_path(cat: 0),
+                class: "nav-link #{'active' if params[:cat] == '0'}" do %>
+      <%= t('misc.without_category') %>
+    <% end %>
+  </li>
+</ul>

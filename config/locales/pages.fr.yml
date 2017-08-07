@@ -1,5 +1,9 @@
 fr:
   pages:
+    catalog:
+      categories: "Catégories d'API"
+      description: "Découvrez les API des fournisseurs de la plateforme."
+      title: "Catalogue d'API"
     internal_server_error:
       subtitle: "Un administrateur a reçu une notification."
       title: "Une erreur est survenue"
