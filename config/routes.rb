@@ -57,7 +57,10 @@ Rails.application.routes.draw do
     root to: 'pages#root'
 
     resources :pages, only: [:not_found]
-    get '/service_book', to: 'pages#service_book'
+    resources :catalog
+#    get '/service_book', to: 'pages#service_book'
+    get '/service_book', to: 'catalog#index'
+    post "/service_book/:id" , to: 'catalog#sortcat', as: 'sortcat'
     get '/startup/:id', to: 'pages#startup', as: 'startup'
     get '/profile', to: 'users#profile'
 
