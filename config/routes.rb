@@ -8,8 +8,10 @@ Rails.application.routes.draw do
     end
 
     namespace :v1 do
-      get '/' => 'services#root', as: :root
+      get '/' => 'services#index', as: :root
       resources :services, only: :index
+      get '/client_id/:id' => 'services#client_id'
+      get '/subdomain/:id' => 'services#subdomain'
       scope '/:current_subdomain' do
         resources :measure_tokens do
           member do
