@@ -1,7 +1,7 @@
 <% content_for(:page_title) { t('.title') } %>
 <% content_for(:page_description) { t('.description') } %>
 
-<section class="jumbotron text-center">
+<section class="jumbotron text-center catalog">
   <div class="container">
     <h1 class="jumbotron-heading"><%= t('.title') %></h1>
     <p class="lead text-muted">
@@ -20,6 +20,7 @@
 
       <hr />
 
+      <h5 class="text-uppercase mb-4"><%= t('misc.search') %></h5>
       <%= render partial: 'shared/catalog/search' %>
 
     </div>
@@ -28,31 +29,14 @@
 
       <div class="row">
         <div class="col-12">
-
-
+          <h1 class="text-uppercase">
+            <%= t('misc.new') %>
+          </h1>
+          <hr />
         </div>
       </div>
 
-      <div class="row cards">
-
-        <% @collection.each.with_index do |service, index| %>
-          <% image = @logotype_service.url(service.client_id, :thumb_normalize) %>
-          <div class="col-sm-6 col-lg-4 col-xl-3">
-            <div class="card text-center mb-3">
-              <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= service.name %>">
-              <div class="card-block">
-                <div class="card-block-description">
-                  <h5 class="card-title text-nowrap text-uppercase"><%= service.name %></h5>
-                  <small class="card-text text-sm"><%= simple_format(service.description).html_safe %></small>
-                  <div class="card-block-description-shadow"></div>
-                </div>
-                <a href="<%= startup_path(service.id) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
-              </div>
-            </div>
-          </div>
-        <% end %>
-
-      </div>
+      <%= render partial: 'shared/catalog/products', locals: {collection: @collection} %>
 
     </div>
 

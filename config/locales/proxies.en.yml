@@ -21,6 +21,9 @@ en:
         proxy_authorization_test:
           hint: "Test parameters are used by the platform by default."
           title: 'Test parameters'
+        proxy_description:
+          hint: 'Classify and describe your API.'
+          title: 'Description'
         general: 'General'
     index:
       description: 'Manage your API and publish them in the catalog.'

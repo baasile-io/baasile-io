@@ -1,11 +1,22 @@
 
+.jumbotron
+
+  &.catalog
+    background-color: lighten($dark-bg-color, 8%)
+    color: #FFF
+    margin-bottom: 20px
+
+  &.product
+    background-color: lighten($dark-bg-color, 70%)
+    padding: 1rem 2rem
+    margin-bottom: 20px
+
+    h3
+      text-align: left
 
 .container
 
   &.catalog
-
-    &.category
-      margin-top: 20px
 
     .nav
 
@@ -46,3 +57,19 @@
             width: auto
             height: auto
             box-shadow: 0 -15px 15px #FFFFFF inset
+
+    &.product
+
+      .description
+        margin-bottom: 50px
+
+      .row
+        &.title
+          .col-10
+            padding-left: 0
+
+      h1
+        font-size: 30px
+
+        img
+          vertical-align: middle

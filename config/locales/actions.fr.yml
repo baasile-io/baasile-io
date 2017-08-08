@@ -14,6 +14,7 @@ fr:
     admin_list: 'liste des administrateurs'
     associate: 'Associer'
     back: 'Retour'
+    back_to_catalog: 'Retourner au catalogue'
     buy: 'Acheter'
     cancel: 'Annuler'
     cancel_contract: 'Annuler le contrat'

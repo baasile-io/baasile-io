@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link <%= 'active' if current_module == 'service_book' %>" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
+        <a class="nav-link <%= 'active' if current_module == 'catalog' %>" href="<%= catalog_path %>"><%= t('pages.service_book.title') %></a>
       </li>
       <% if !current_user.nil? %>
         <li class="nav-item dropdown">

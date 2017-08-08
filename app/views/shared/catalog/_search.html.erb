@@ -1,6 +1,4 @@
-<h5 class="text-uppercase mb-4"><%= t('misc.search') %></h5>
-
-<form name="search_form" method="GET" action="#" class="form">
+<form name="search_form" method="GET" action="<%= catalog_search_path %>" class="form">
 
   <label class="sr-only" for="search_form_input"><%= t('actions.search') %></label>
   <div class="input-group mb-3">
@@ -29,3 +27,13 @@
   </p>
 
 </form>
+
+<% content_for(:extra_js) do %>
+  <script type="text/javascript">
+    $('#search_form_input').val('<%= h(params[:q]) %>');
+    $('form[name="search_form"] button[type="reset"]').on('click', function() {
+      $('#search_form_input').val('');
+      $('form[name="search_form"]').submit();
+    });
+  </script>
+<% end %>

@@ -149,7 +149,8 @@ en:
         alias: 'Alias'
         category: "Category"
         category_id: 'Category'
-        description: 'Description'
+        description: 'Short description'
+        description_long: 'Full description'
         name: 'Product name'
         public: 'Published on catalog'
         service: 'Enterprise'
@@ -199,7 +200,7 @@ en:
         company_id: 'Aggregator'
         created_at: 'Created at'
         description: 'Short description'
-        description_long: 'Advanced description'
+        description_long: 'Full description'
         service_type: 'Type'
         subdomain: 'Public identifier'
         main_accountant: 'Main accoutant'

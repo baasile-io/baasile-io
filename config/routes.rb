@@ -58,8 +58,10 @@ Rails.application.routes.draw do
 
     resources :pages, only: [:not_found]
     get '/catalog', to: 'pages#catalog', as: 'catalog'
+    get '/catalog/products/:proxy_id', to: 'pages#catalog_product', as: 'catalog_product'
+    get '/catalog/search', to: 'pages#catalog_search', as: 'catalog_search'
     get '/catalog/:cat', to: 'pages#category', as: 'catalog_category'
-    get '/service_book', to: 'pages#service_book'
+    get '/service_book' => redirect('/catalog')
     get '/startup/:id', to: 'pages#startup', as: 'startup'
     get '/profile', to: 'users#profile'
 

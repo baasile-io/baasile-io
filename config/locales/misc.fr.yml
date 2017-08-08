@@ -69,6 +69,7 @@ fr:
     need_change_password: 'Mot de passe expiré'
     need_change_password_hint: "Le mot de passe n'a pas été changé depuis plus de %{x} jours"
     need_to_valide_general_condition: 'You need to valide general contions'
+    new: 'Nouveautés'
     next_step: 'Étape suivante'
     no: 'No'
     no_available_proxies: "Aucun produit n'est disponible"
@@ -93,9 +94,11 @@ fr:
     platform_contribution: "Contribution à la plateforme"
     pricing: 'Tarification'
     profile: 'Profil'
+    related_products: 'Produits connexes'
     role: 'Rôle'
     roles: 'Rôles'
     search: 'Recherche'
+    search_no_result: "Il n'y a aucun résultat correspondant à votre recherche."
     search_placeholder: 'Recherche libre'
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
@@ -107,5 +110,5 @@ fr:
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
     user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
-    without_category: 'Sans catégorie'
+    without_category: 'Non classifié'
     yes: 'Oui'

@@ -1,6 +1,13 @@
 <h5 class="text-uppercase"><%= t('.categories') %></h5>
 
 <ul class="nav flex-column">
+  <li class="nav-item">
+    <%= link_to catalog_path,
+                class: "nav-link #{'active' if action_name == 'catalog'}" do %>
+      <%= t('misc.new') %>
+    <% end %>
+  </li>
+
   <% @categories.each do |category| %>
     <li class="nav-item">
       <%= link_to catalog_category_path(cat: category.id),

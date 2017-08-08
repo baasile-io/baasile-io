@@ -1,0 +1,20 @@
+<div class="row cards">
+
+  <% collection.each.with_index do |proxy, index| %>
+    <% image = @logotype_service.url(proxy.service.client_id, :thumb_normalize) %>
+    <div class="col-sm-6 col-lg-3 col-xl-3">
+      <div class="card text-center mb-3">
+        <img class="card-img-top img-fluid" src="<%= image %>" alt="<%= proxy.name %>">
+        <div class="card-block">
+          <div class="card-block-description">
+            <h5 class="card-title text-nowrap text-uppercase"><%= proxy.name %></h5>
+            <small class="card-text text-sm"><%= simple_format(proxy.description).html_safe %></small>
+            <div class="card-block-description-shadow"></div>
+          </div>
+          <a href="<%= catalog_product_path(proxy_id: proxy.id, from_cat: params[:cat]) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>
