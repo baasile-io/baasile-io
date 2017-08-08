@@ -45,7 +45,7 @@ class PagesController < ApplicationController
     @collection = Proxy.from_activated_and_published_startups.published
 
     @collection = search @collection
-    @collection = paginate @collection
+    @collection = paginate @collection, per_page: 8
   end
 
   def catalog_product
