@@ -1,7 +1,7 @@
 module Api
   module V1
     class ServicesController < ApiController
-      skip_before_action  :authenticate_schema, only: [:index, :client_id, :subdomain, :show]
+      skip_before_action  :authenticate_schema, only: [:index, :root]
 
       def index
         services = Service.activated_startups.published
@@ -13,34 +13,16 @@ module Api
         render json: {data: services_restrict}
       end
 
+      def root
+        raise BaseNotFoundError
+      end
+
       def show
         raise AuthInvalidSubdomainError if current_service.nil?
         render json: get_service_into_json(current_service)
       end
 
-      def client_id
-        render json: get_service_into_json(current_service_by_client_id)
-      end
-
-      def subdomain
-        render json: get_service_into_json(current_service_by_subdomain)
-      end
-
       private
-
-      def current_service_by_client_id
-        raise AuthMissingClientIdError unless params[:id].present?
-        @service = Service.find_by_client_id(params[:id])
-        raise AuthInvalidClientIdError if @service.nil?
-        @service
-      end
-
-      def current_service_by_subdomain
-        raise AuthMissingSubdomainError unless params[:id].present?
-        @service = Service.find_by_subdomain(params[:id])
-        raise AuthInvalidSubdomainError if @service.nil?
-        @service
-      end
 
       def get_service_into_json(service)
         {
