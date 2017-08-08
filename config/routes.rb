@@ -19,6 +19,7 @@ Rails.application.routes.draw do
           end
         end
         get '/' => 'services#show'
+        get '/services' => 'services#index'
         resources :proxies do
           resources :routes, only: [:index, :show] do
             member do

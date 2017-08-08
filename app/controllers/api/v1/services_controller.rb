@@ -6,7 +6,9 @@ module Api
       def index
         services = Service.activated_startups.published
         services_restrict = services.map do |service|
-          get_service_into_json(service)
+          if current_service.nil? || current_service.id != service.id
+            get_service_into_json(service)
+          end
         end
         render json: {data: services_restrict}
       end
