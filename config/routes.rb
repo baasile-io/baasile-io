@@ -2,6 +2,17 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  namespace :tester do
+    resources :testers, only: :index, :path => '/' do
+      collection do
+        get :select_client
+      end
+      member do
+        get :select_proxy
+      end
+    end
+  end
+
   namespace :api do
     scope "/oauth" do
       post 'token' => 'authentication#authenticate'

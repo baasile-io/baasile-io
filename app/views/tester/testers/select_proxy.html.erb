@@ -1,0 +1,40 @@
+<% content_for(:page_back) { select_client_tester_testers_path } %>
+<% content_for(:page_title) { t('contracts.catalog.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @proxies.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th colspan="2" class="width-30"><%= t('activerecord.attributes.proxy.name') %></th>
+          <th class="width-10"><%= t('actions.status') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @proxies.each do |proxy, status| %>
+          <tr data-link="<%= select_proxy_tester_tester_path(@client.id) %>">
+            <td class="width-3">
+            </td>
+            <td>
+              <strong class=""><%= proxy.name %></strong><br />
+              <span > <%= proxy.service.name %></span>
+            </td>
+            <td>
+              <span class=""><%= status %></span>
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.select'), select_proxy_tester_tester_path(@client.id), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

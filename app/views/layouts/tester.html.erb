@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><% if content_for?(:page_title) %><%= content_for(:page_title) %> / <% end %><%= t('misc.tester') %> / <%= t('config.platform_name') %></title>
+  <%= csrf_meta_tags %>
+
+  <%= render partial: 'shared/favicon' %>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+</head>
+
+<body>
+  <div class="container-fluid">
+
+    <div class="b-io-topbar">
+      <div class="container-fluid">
+        <%= render partial: 'shared/topbar' %>
+      </div>
+    </div>
+
+    <h1><%= t('misc.tester') %></h1>
+
+    <hr>
+
+    <div class="b-io-main-container b-io-back-office">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="b-io-menu">
+            <div class="b-io-menu--secondary">
+
+              <div class="list-group">
+                <%= link_to t('misc.tester'), tester_testers_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'index' }" %>
+                <%= link_to t('contracts.select_client.title'), select_client_tester_testers_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_client'}" %>
+                <% unless @client.nil? %>
+                  <%= link_to @client.name, select_proxy_tester_tester_path(@client.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_proxy'}" %>
+                <% end %>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="b-io-content">
+            <div class="b-io-content--header">
+              <div class="container-fluid">
+                <% if content_for?(:page_controls) %>
+                  <div class="b-io-content--header--controls"><%= content_for(:page_controls) %></div>
+                <% end %>
+                <h3>
+                  <% if content_for?(:page_back) %>
+                    <%= link_to t('actions.back'), content_for(:page_back), class: 'btn btn-link btn-sm' %>
+                  <% end %>
+                  <%= content_for(:page_title) %>
+                </h3>
+                <% if content_for?(:page_description) %>
+                  <p><%= content_for(:page_description) %></p>
+                <% end %>
+              </div>
+            </div>
+
+            <%= yield %>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <%= render partial: 'shared/modal_window' %>
+
+  <%= render partial: 'shared/flash' %>
+
+  <%= javascript_include_tag 'application' %>
+
+  <script type="text/javascript">
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
+
+  <%= content_for(:extra_js) %>
+
+</body>
+</html>

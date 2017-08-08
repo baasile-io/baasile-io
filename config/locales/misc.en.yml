@@ -101,6 +101,7 @@ en:
     service_not_published: 'Enterpise is not published'
     state: 'State'
     'true': 'Yes'
+    tester: 'Tester'
     unconfirmed: 'Not active'
     unconfirmed_email: 'Unconfirmed email'
     unknown_user: 'Unable to find user'
