@@ -14,6 +14,7 @@ module Api
       end
 
       def show
+        raise AuthInvalidSubdomainError if current_service.nil?
         render json: get_service_into_json(current_service)
       end
 
@@ -35,9 +36,9 @@ module Api
       end
 
       def current_service_by_subdomain
-        raise AuthInvalidSubdomainError unless params[:id].present?
+        raise AuthMissingSubdomainError unless params[:id].present?
         @service = Service.find_by_subdomain(params[:id])
-        raise AuthMissingSubdomainError if @service.nil?
+        raise AuthInvalidSubdomainError if @service.nil?
         @service
       end
 
