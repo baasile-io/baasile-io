@@ -3,12 +3,13 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   namespace :tester do
-    resources :testers, only: :index, :path => '/' do
+    resources :tester_infos, :path => '/' do
       collection do
         get :select_client
       end
       member do
         get :select_proxy
+        get :lanch_test
       end
     end
   end

@@ -1,4 +1,4 @@
-<% content_for(:page_back) { tester_testers_path } %>
+<% content_for(:page_back) { tester_tester_infos_path } %>
 <% content_for(:page_title) { t('contracts.select_client.title') } %>
 
 <div class="b-io-content--secondary">
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <% @clients.each do |service| %>
-          <tr data-link="<%= select_proxy_tester_tester_path(service.id) %>">
+          <tr data-link="<%= select_proxy_tester_tester_info_path(service.id) %>">
             <td class="width-3">
               <i class="fa-2x <%= t("types.service_types.#{service.service_type}.icon") %>"></i>
             </td>
@@ -30,7 +30,7 @@
               <span class="<%= I18n.t("types.service_types.#{service.service_type}.class") %>"><%= t("types.service_types.#{service.service_type}.title") %></span>
             </td>
             <td class="text-right">
-              <%= link_to t('actions.select'), select_proxy_tester_tester_path(service.id), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.select'), select_proxy_tester_tester_info_path(service.id), class: 'btn btn-secondary' %>
             </td>
           </tr>
         <% end %>

@@ -1,0 +1,38 @@
+<% content_for(:page_back) { select_proxy_tester_tester_info_path(@client.id) } %>
+<% content_for(:page_title) { t('misc.tester') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <table class="table table-sm table-hover table-link">
+      <tbody>
+        <tr>
+          <td class="width-3">
+            <%= t('activerecord.attributes.service.name') %>
+          </td>
+          <td>
+            <strong class=""><%= @client.name %></strong><br />
+          </td>
+        </tr>
+        <tr>
+          <td class="width-3">
+            <%= t('activerecord.attributes.proxy.name') %>
+          </td>
+          <td>
+            <strong class=""><%= @proxy.name %></strong><br />
+            <span > <%= @proxy.service.name %></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'form' %>
+
+  </div>
+</div>

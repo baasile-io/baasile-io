@@ -29,10 +29,19 @@
             <div class="b-io-menu--secondary">
 
               <div class="list-group">
-                <%= link_to t('misc.tester'), tester_testers_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'index' }" %>
-                <%= link_to t('contracts.select_client.title'), select_client_tester_testers_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_client'}" %>
+                <%= link_to t('misc.tester'), tester_tester_infos_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'index' }" %>
+                <%= link_to t('contracts.select_client.title'), select_client_tester_tester_infos_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_client'}" %>
                 <% unless @client.nil? %>
-                  <%= link_to @client.name, select_proxy_tester_tester_path(@client.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_proxy'}" %>
+                  <%= link_to select_proxy_tester_tester_info_path(@client.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_proxy'}"  do %>
+                    <span><%= t('activerecord.attributes.service.name') + ' : ' %></span>
+                    <strong><%= @client.name %></strong>
+                  <% end %>
+                  <% unless @proxy.nil? %>
+                    <%= link_to lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'lanch_test'}" do %>
+                      <span><%= t('activerecord.attributes.proxy.name')  + ' : ' %></span>
+                      <strong><%= @proxy.name %></strong>
+                    <% end %>
+                  <% end %>
                 <% end %>
               </div>
 
