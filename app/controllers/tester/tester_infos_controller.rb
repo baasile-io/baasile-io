@@ -7,21 +7,9 @@ module Tester
     layout 'tester'
 
     def index
-
-    end
-
-    def new
-      @tester_info = TesterInfo.new
-      @tester_info.req_url = ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] + '/api/v1/' + @proxy.service.subdomain + '/proxies/' + @proxy.subdomain + '/routes/' + @route.subdomain + '/request/'
-      @tester_info.auth_url = ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] + '/api/oauth/token'
-    end
-
-    def create
-
     end
 
     def select_client
-
     end
 
     def select_route
