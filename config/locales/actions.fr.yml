@@ -15,6 +15,7 @@ fr:
     associate: 'Associer'
     back: 'Retour'
     back_to_catalog: 'Retourner au catalogue'
+    back_to_homepage: "Retour à la page d'accueil"
     buy: 'Acheter'
     cancel: 'Annuler'
     cancel_contract: 'Annuler le contrat'

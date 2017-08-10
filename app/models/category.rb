@@ -3,15 +3,16 @@ class Category < ApplicationRecord
   has_paper_trail
 
   include HasDictionaries
+  has_mandatory_dictionary_attributes :title
 
   belongs_to :user
   has_many :proxies, dependent: :nullify
 
   def name
-    self.title
+    title
   end
 
   def description
-    self.body
+    body
   end
 end

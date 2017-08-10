@@ -1,8 +1,4 @@
 <%
-  content_for(:page_controls) {
-    link_to "<i class=\"fa fa-fw fa-pencil\"></i> #{t('actions.edit_account')}".html_safe, edit_user_registration_path, class: 'btn btn-primary'
-  }
-
   content_for(:page_title) {
     t('misc.my_account')
   }
@@ -11,52 +7,53 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <% if current_user.pending_reconfirmation? %>
-      <div class="alert alert-info">
-        <strong><%= t('devise.registrations.pending_reconfirmation', email: current_user.unconfirmed_email) %></strong><br>
-        <%= t('devise.registrations.update_needs_confirmation') %>
+    <div class="row">
+      <div class="col-sm-3">
+        <strong><%= t('misc.profile') %></strong>
       </div>
+      <div class="col-sm-9">
+        <% if current_user.pending_reconfirmation? %>
+          <div class="alert alert-info">
+            <strong><%= t('devise.registrations.pending_reconfirmation', email: current_user.unconfirmed_email) %></strong><br>
+            <%= t('devise.registrations.update_needs_confirmation') %>
+          </div>
+        <% end %>
+
+        <span class="float-right">
+          <%= link_to "<i class=\"fa fa-fw fa-pencil\"></i> #{t('actions.edit_account')}".html_safe, edit_user_registration_path, class: 'btn btn-primary' %>
+        </span>
+        <%= t("types.genders.#{current_user.gender}") unless current_user.gender.nil? %> <%= current_user.last_name %> <%= current_user.first_name %><br />
+        <%= current_user.email %><br />
+        <%= current_user.phone %>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-sm-3">
+        <strong><%= t('activerecord.attributes.user.language') %></strong>
+      </div>
+      <div class="col-sm-9">
+        <%= t("misc.locales.#{current_user.language}") unless current_user.language.nil? %>
+      </div>
+    </div>
+
+    <% if current_user.is_superadmin? %>
+
+      <hr />
+
+      <div class="row">
+        <div class="col-sm-3">
+          <strong><%= t('misc.role') %></strong>
+        </div>
+        <div class="col-sm-9">
+          <i class="<%= t("roles.superadmin.icon") %>"></i>
+          <%= t("roles.superadmin.title_long") %>
+        </div>
+      </div>
+
     <% end %>
-
-    <table class="table">
-      <thead>
-      <tr>
-        <th>
-          <% if current_user.is_superadmin? %>
-            <%= t("roles.superadmin.title_long")%>
-          <% end %>
-        </th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td><%= t("activerecord.attributes.user.email")%>:</td>
-        <td><%= current_user.email %></td>
-      </tr>
-      <tr>
-        <td><%= t("activerecord.attributes.user.first_name")%>:</td>
-        <td><%= current_user.first_name %></td>
-      </tr>
-      <tr>
-        <td><%= t("activerecord.attributes.user.last_name")%>:</td>
-        <td><%= current_user.last_name %></td>
-      </tr>
-      <tr>
-        <td><%= t("activerecord.attributes.user.gender")%></td>
-        <td><%= t("types.genders.#{current_user.gender}") unless current_user.gender.nil? %></td>
-      </tr>
-      <tr>
-        <td><%= t("activerecord.attributes.user.phone")%>:</td>
-        <td><%= current_user.phone %></td>
-      </tr>
-      <tr>
-        <td><%= t("activerecord.attributes.user.language")%>:</td>
-        <td><%= t("misc.locales.#{current_user.language}") unless current_user.language.nil? %></td>
-      </tr>
-      </tbody>
-    </table>
-
 
   </div>
 </div>

@@ -11,8 +11,21 @@ en:
       title: 'Page Not Found'
     root:
       buttons:
-        goto_startup_book: 'Suppliers'
+        goto_startup_book: 'API Store'
         goto_dashboard: 'Dashboard'
+      sections:
+        advantage1:
+          description: "Share your data by connecting your APIs to the platform and publishing on the catalog."
+          icon: 'fa-share-alt fa-inverse'
+          title: 'Link your APIs'
+        advantage2:
+          description: "Get visibility and customers by providing innovative services easily integrated."
+          icon: 'fa-line-chart fa-inverse'
+          title: 'Increase traffic'
+        advantage3:
+          description: "Take advantage of third-party APIs to consolidate your data and increase their value."
+          icon: 'fa-download fa-inverse'
+          title: 'Aggregate services'
       subtitle: "Augmented Interconnection Platform"
       title: 'Welcome to Baasile IO demo'
     service_book:

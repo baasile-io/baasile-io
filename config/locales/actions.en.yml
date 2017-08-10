@@ -15,6 +15,7 @@ en:
     associate: 'Associate'
     back: 'Back'
     back_to_catalog: 'Back to catalog'
+    back_to_homepage: "Back to homepage"
     buy: 'Buy'
     cancel: 'Cancel'
     cancel_contract: 'Cancel contract'
@@ -66,7 +67,7 @@ en:
     reject: 'Reject'
     remove_role: 'Remove role'
     reopen: 'Reopen'
-    resend_confirmation_instructions: 'Resend confirmation instructions by email'
+    resend_confirmation_instructions: 'Resend confirmation instructions'
     reset: 'Reset to initial value'
     reset_free_count_limit: 'Reset counter'
     reset_identifiers: 'Reset private key'

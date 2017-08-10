@@ -11,8 +11,21 @@ fr:
       title: "Cette page n'existe pas"
     root:
       buttons:
-        goto_startup_book: 'Fournisseurs'
+        goto_startup_book: "Catalogue d'API"
         goto_dashboard: 'Tableau de bord'
+      sections:
+        advantage1:
+          description: "Partagez vos données en connectant vos APIs à la plateforme et en les publiant sur le catalogue."
+          icon: 'fa-share-alt fa-inverse'
+          title: 'Connectez vos APIs'
+        advantage2:
+          description: "Gagnez de la visibilité et des clients en leur fournissant des services innovants facilement intégrables."
+          icon: 'fa-line-chart fa-inverse'
+          title: 'Augmentez votre trafic'
+        advantage3:
+          description: "Bénéficiez des APIs tierces pour consolider vos données et augmenter leur valeur."
+          icon: 'fa-download fa-inverse'
+          title: 'Aggrégez les services'
       subtitle: "Bienvenue sur la plateforme Démo"
       title: "La plateforme d'interconnexion augmentée"
     service_book:

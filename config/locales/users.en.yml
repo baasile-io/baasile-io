@@ -45,8 +45,8 @@ en:
         title: "Sign up"
     sessions:
       new:
-        description: "Log in to your developer account and manage your functionalities"
-        title: "Developer Account"
+        description: "Log in to your Dashboard"
+        title: "User Account"
     shared:
       links:
         did_not_received_confirmation_instructions: "Didn't receive confirmation instructions?"
