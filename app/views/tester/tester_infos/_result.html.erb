@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td>
-      <span style="word-break: break-all;"><%= simple_format(JSON.pretty_generate(JSON.parse(@res.read_body))) %></span>
+      <span style="word-break: break-all;"><%= simple_format(@res) %></span>
     </td>
   </tr>
   <tr>
@@ -22,7 +22,7 @@
   </tr>
   <tr>
     <td>
-      <span style="word-break: break-all;"><%= simple_format(JSON.pretty_generate(JSON.parse(@res.read_body))) %></span>
+      <span style="word-break: break-all;"><%= @res1 %></span>
     </td>
   </tr>
   </tbody>

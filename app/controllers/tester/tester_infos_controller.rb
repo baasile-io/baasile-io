@@ -49,7 +49,34 @@ module Tester
 
           http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
           http.use_ssl = uri.scheme == 'https'
-          @res = http.request req
+          res = http.request req
+          @res = JSON.pretty_generate(JSON.parse(res.read_body))
+          #@res =simple_format @res
+          request_obj = case @tester_info.req_type.to_sym
+                          when :get then Net::HTTP::Get
+                          when :post then Net::HTTP::Post
+                          when :head then Net::HTTP::Head
+                          when :put then Net::HTTP::Put
+                          when :delete then Net::HTTP::Delete
+                        end
+          res_hash = JSON.parse(res.read_body)
+
+          uri = URI.parse @tester_info.req_url
+          req = request_obj.new @tester_info.req_url
+          req.content_type = 'application/x-www-form-urlencoded'
+          req['Authorization'] = res_hash["access_token"]
+          #req['measureTokenId'] = '123456789'
+          #req['OpenRH-ClientTokenID'] = '123456789'
+
+          http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
+          http.use_ssl = uri.scheme == 'https'
+          res1 = http.request req
+          begin
+            @res1 = JSON.pretty_generate(JSON.parse(res1.read_body))
+          rescue
+            doc = Nokogiri::HTML(res1.read_body)
+            @res1 = doc.at('body').inner_html.html_safe
+          end
         end
       end
     end
