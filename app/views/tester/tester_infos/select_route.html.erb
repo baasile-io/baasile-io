@@ -1,0 +1,35 @@
+<% content_for(:page_back) { select_proxy_tester_tester_info_path(@client) } %>
+<% content_for(:page_title) { t('activerecord.models.route') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <% if @proxy.routes.size == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover table-link">
+        <thead>
+        <tr>
+          <th colspan="2" class="width-30"><%= t('activerecord.attributes.route.name') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @proxy.routes.each do |route| %>
+          <tr data-link="<%= lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: route.id) %>">
+            <td class="width-3">
+            </td>
+            <td>
+              <strong><%= route.name %></strong><br />
+            </td>
+            <td class="text-right">
+              <%= link_to t('actions.select'), lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: route.id), class: 'btn btn-secondary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

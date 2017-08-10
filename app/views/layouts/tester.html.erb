@@ -33,13 +33,19 @@
                 <%= link_to t('contracts.select_client.title'), select_client_tester_tester_infos_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_client'}" %>
                 <% unless @client.nil? %>
                   <%= link_to select_proxy_tester_tester_info_path(@client.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'select_proxy'}"  do %>
-                    <span><%= t('activerecord.attributes.service.name') + ' : ' %></span>
+                    <span><%= t('types.service_types.client.title') + ' : ' %></span>
                     <strong><%= @client.name %></strong>
                   <% end %>
                   <% unless @proxy.nil? %>
-                    <%= link_to lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'lanch_test'}" do %>
-                      <span><%= t('activerecord.attributes.proxy.name')  + ' : ' %></span>
+                    <%= link_to select_route_tester_tester_info_path(@client.id, proxy_id: @proxy.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'lanch_test'}" do %>
+                      <span><%= t('activerecord.models.proxy')  + ' : ' %></span>
                       <strong><%= @proxy.name %></strong>
+                    <% end %>
+                    <% unless @route.nil? %>
+                        <%= link_to lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: @route.id), class: "list-group-item list-group-item-action #{'active' if controller_name == 'testers' && action_name == 'lanch_test'}" do %>
+                            <span><%= t('activerecord.models.route')  + ' : ' %></span>
+                            <strong><%= @route.name %></strong>
+                        <% end %>
                     <% end %>
                   <% end %>
                 <% end %>

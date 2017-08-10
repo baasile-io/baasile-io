@@ -1,5 +1,5 @@
 <% content_for(:page_back) { select_client_tester_tester_infos_path } %>
-<% content_for(:page_title) { t('contracts.catalog.title') } %>
+<% content_for(:page_title) { t('activerecord.models.proxy') } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <% @proxies.each do |proxy, status| %>
-          <tr data-link="<%= lanch_test_tester_tester_info_path(@client.id, proxy_id: proxy.id) %>">
+          <tr data-link="<%= select_route_tester_tester_info_path(@client.id, proxy_id: proxy.id) %>">
             <td class="width-3">
             </td>
             <td>
@@ -28,7 +28,7 @@
               <span class=""><%= status %></span>
             </td>
             <td class="text-right">
-              <%= link_to t('actions.select'), lanch_test_tester_tester_info_path(@client.id, proxy_id: proxy.id), class: 'btn btn-secondary' %>
+              <%= link_to t('actions.select'), select_route_tester_tester_info_path(@client.id, proxy_id: proxy.id), class: 'btn btn-secondary' %>
             </td>
           </tr>
         <% end %>

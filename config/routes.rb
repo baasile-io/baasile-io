@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       member do
         get :select_proxy
         get :lanch_test
+        get :select_route
       end
     end
   end

@@ -1,4 +1,4 @@
-<% content_for(:page_back) { select_proxy_tester_tester_info_path(@client.id) } %>
+<% content_for(:page_back) { select_proxy_tester_tester_info_path(@client.id, proxy_id: @proxy.id) } %>
 <% content_for(:page_title) { t('misc.tester') } %>
 
 <div class="b-io-content--secondary">
@@ -7,20 +7,29 @@
     <table class="table table-sm table-hover table-link">
       <tbody>
         <tr>
-          <td class="width-3">
-            <%= t('activerecord.attributes.service.name') %>
+          <td>
+            <%= t('types.service_types.client.title') %>
           </td>
           <td>
             <strong class=""><%= @client.name %></strong><br />
           </td>
         </tr>
         <tr>
-          <td class="width-3">
-            <%= t('activerecord.attributes.proxy.name') %>
+          <td>
+            <strong class=""><%= t('activerecord.models.proxy') %></strong><br />
+            <span ><%= t('types.service_types.startup.title') %></span>
           </td>
           <td>
             <strong class=""><%= @proxy.name %></strong><br />
             <span > <%= @proxy.service.name %></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= t('activerecord.models.route') %>
+          </td>
+          <td>
+            <strong class=""><%= @route.name %></strong>
           </td>
         </tr>
       </tbody>
