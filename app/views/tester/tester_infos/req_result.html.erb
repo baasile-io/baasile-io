@@ -1,4 +1,4 @@
-<% content_for(:page_back) { select_route_tester_tester_info_path(@client.id, proxy_id: @proxy.id) } %>
+<% content_for(:page_back) { lanch_test_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: @route.id) } %>
 <% content_for(:page_title) { t('misc.tester') } %>
 
 <div class="b-io-content--secondary">
@@ -41,7 +41,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'form' %>
+    <%= render partial: 'result' %>
 
   </div>
 </div>

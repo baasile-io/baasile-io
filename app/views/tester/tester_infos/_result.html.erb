@@ -1,0 +1,30 @@
+<table class="table table-sm table-hover table-link">
+  <tbody>
+  <tr>
+    <td>
+      <%= @tester_info.auth_url %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="word-break: break-all;"><%= simple_format(JSON.pretty_generate(JSON.parse(@res.read_body))) %></span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @tester_info.req_url %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @tester_info.req_type %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="word-break: break-all;"><%= simple_format(JSON.pretty_generate(JSON.parse(@res.read_body))) %></span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

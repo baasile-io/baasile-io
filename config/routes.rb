@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get :select_proxy
         get :lanch_test
         get :select_route
+        post :req_result
       end
     end
   end

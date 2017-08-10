@@ -1,4 +1,4 @@
-<%= simple_form_for [:tester, @tester_info] do |f| %>
+<%= simple_form_for [:tester, @tester_info], url: req_result_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: @route.id) do |f| %>
 
     <%= error_messages_for(f.object) %>
 

@@ -2,7 +2,7 @@ module Tester
   class TesterInfosController < ApplicationController
     before_action :authenticate_user!
     #before_action :authorize_superadmin!
-    before_action :load_clients, only: [:select_client, :select_proxy, :lanch_test, :select_route]
+    before_action :load_clients, only: [:select_client, :select_proxy, :lanch_test, :select_route, :req_result]
 
     layout 'tester'
 
@@ -25,34 +25,52 @@ module Tester
     end
 
     def select_route
-      load_routes
+      check_proxy
     end
 
     def select_proxy
-      load_proxies
+      if check_client
+        load_proxies
+      end
+    end
+
+    def req_result
+      if check_route
+        if load_tester_info
+          uri = URI.parse @tester_info.auth_url
+          req = Net::HTTP::Post.new @tester_info.auth_url
+          req.content_type = 'application/x-www-form-urlencoded'
+          params = {
+              client_id: @tester_info.service.client_id,
+              client_secret: @tester_info.service.client_secret
+          }
+          params[:scope] = @tester_info.proxy.service.subdomain
+          req.set_form_data(params)
+
+          http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
+          http.use_ssl = uri.scheme == 'https'
+          @res = http.request req
+        end
+      end
     end
 
     def lanch_test
-      if current_client.nil?
-        redirect_to select_client_tester_tester_infos_path
-      elsif current_proxy.nil?
-        redirect_to select_proxy_tester_tester_info_path(@client)
-      elsif current_route.nil?
-        redirect_to select_route_tester_tester_info_path(@client, proxy_id: @proxy.id)
+      if check_route
+        @tester_info = TesterInfo.new
+        @tester_info.req_url = '/api/v1/' + @proxy.service.subdomain + '/proxies/' + @proxy.subdomain + '/routes/' + @route.subdomain + '/request/'
+        @tester_info.auth_url = '/api/oauth/token'
       end
-      @tester_info = TesterInfo.new
-      @tester_info.req_url = ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] + '/api/v1/' + @proxy.service.subdomain + '/proxies/' + @proxy.subdomain + '/routes/' + @route.subdomain + '/request/'
-      @tester_info.auth_url = ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] + '/api/oauth/token'
     end
 
     private
 
-    def load_routes
-      if current_client.nil?
-        redirect_to select_client_tester_tester_infos_path
-      elsif current_proxy.nil?
-        redirect_to select_proxy_tester_tester_info_path(@client)
-      end
+    def load_tester_info
+      @tester_info = TesterInfo.new
+      @tester_info.user = current_user
+      @tester_info.service = @client
+      @tester_info.proxy = @proxy
+      @tester_info.assign_attributes(tester_info_params)
+      true
     end
 
     def load_proxies
@@ -64,6 +82,32 @@ module Tester
       @client.proxies.each do |proxy|
         @proxies << proxy
       end
+    end
+
+    def check_client
+      if current_client.nil?
+        redirect_to select_client_tester_tester_infos_path
+        false
+      end
+      true
+    end
+
+    def check_proxy
+      return false unless check_client
+      if current_proxy.nil?
+        redirect_to select_proxy_tester_tester_info_path(@client)
+        false
+      end
+      true
+    end
+
+    def check_route
+      return false unless check_proxy
+      if current_route.nil?
+        redirect_to select_route_tester_tester_info_path(@client, proxy_id: @proxy.id)
+        false
+      end
+      true
     end
 
     def authorize_superadmin!
@@ -80,6 +124,10 @@ module Tester
 
     def current_route
       @route = Route.find_by(id: params[:route_id]) if params[:route_id].present?
+    end
+
+    def tester_info_params
+      params.require(:tester_info).permit(:auth_url, :req_url, :req_type)
     end
 
     def load_clients
