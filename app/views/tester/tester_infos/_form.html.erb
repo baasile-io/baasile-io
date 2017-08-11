@@ -1,0 +1,24 @@
+<%= simple_form_for [:tester, @tester_info], url: req_result_tester_tester_info_path(@client.id, proxy_id: @proxy.id, route_id: @route.id) do |f| %>
+
+    <%= error_messages_for(f.object) %>
+
+    <%= f.input :auth_url %>
+    <%= f.input :req_url %>
+    <%= f.input :req_type, collection: format_req_types_for_select %>
+
+    <%= simple_fields_for :query_parameters do |n| %>
+      <% @route.query_parameters.each do |q_param| %>
+        <%= q_param.mode %>
+        </br>
+        <%= q_param.query_parameter_type %>
+        </br>
+        <%= n.input q_param.name.to_sym %>
+      <% end %>
+    <% end %>
+    <div class="row">
+      <div class="actions col-md-9 offset-md-3">
+        <%= f.button :submit, value: I18n.t('actions.send'), data: { disable_with: t('actions.send_in_progress') } %>
+      </div>
+    </div>
+
+<% end %>

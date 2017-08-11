@@ -62,6 +62,12 @@ fr:
     genders:
       male: 'M.'
       female: 'Mme'
+    req_types:
+      post: 'POST'
+      get: 'GET'
+      put: 'PUT'
+      patch: 'PATCH'
+      del: 'DELETE'
     service_types:
       client:
         class: 'text-info'

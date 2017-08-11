@@ -1,0 +1,61 @@
+<table class="table table-sm table-hover table-link">
+  <tbody>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Auth url</span>
+    </td>
+    <td>
+      <%= ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] +  @tester_info.auth_url %>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Body</span>
+    </td>
+    <td>
+      <span style="word-break: break-all;"><%= simple_format(@res) %></span>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Request url</span>
+    </td>
+    <td>
+      <%= ENV['BAASILE_IO_HOSTNAME'] + ':' + ENV['PORT'] +  @tester_info.req_url %>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Request type</span>
+    </td>
+    <td>
+      <%= @tester_info.req_type %>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Status</span>
+    </td>
+    <td>
+      <span style="word-break: break-all;"><%= @status %></span>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Headers</span>
+    </td>
+    <td>
+      <span style="word-break: break-all;"><%= simple_format(@headers) %></span>
+    </td>
+  </tr>
+  <tr>
+    <td class="width-20">
+      <span style="word-break: break-all;">Body</span>
+    </td>
+    <td>
+      <span style="word-break: break-all;"><%= @res1.nil? ? @res2 : simple_format(@res1) %></span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

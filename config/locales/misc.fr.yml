@@ -100,6 +100,7 @@ fr:
     service_not_published: "L'entreprise n'est pas publiée"
     state: 'Statut'
     'true': 'Oui'
+    tester: 'Testeur'
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'
     unknown_user: 'Utilisateur introuvable'
