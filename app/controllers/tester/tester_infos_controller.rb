@@ -49,10 +49,26 @@ module Tester
                         end
           res_hash = JSON.parse(res.read_body)
 
-          uri = URI.parse @tester_info.req_url
+
           req = request_obj.new @tester_info.req_url
           req.content_type = 'application/x-www-form-urlencoded'
           req['Authorization'] = res_hash["access_token"]
+
+          params = Hash.new
+          @route.query_parameters.each do |q_param|
+            p = query_parameters_params[q_param.name]
+            if q_param.query_parameter_type.to_sym == :header
+              req[q_param.name] = p
+            elsif q_param.query_parameter_type.to_sym == :get
+              params[q_param.name] = p
+            end
+          end
+          url = @tester_info.req_url
+          if params.size > 0
+            encoded_params = URI.encode_www_form(params)
+            [url, encoded_params].join("?")
+          end
+          uri = URI.parse url
           #req['measureTokenId'] = '123456789'
           #req['OpenRH-ClientTokenID'] = '123456789'
 
@@ -65,7 +81,7 @@ module Tester
             @res1 = JSON.pretty_generate(JSON.parse(res1.read_body))
           rescue
             doc = Nokogiri::HTML(res1.read_body)
-            unless doc.at('html').nil?
+            if !doc.at('html').nil?
               @res2 = doc.at('body').inner_html.html_safe
             else
               @res2 = doc.inner_html.html_safe
@@ -148,7 +164,16 @@ module Tester
     end
 
     def tester_info_params
-      params.require(:tester_info).permit(:auth_url, :req_url, :req_type)
+      allowed_parameters = [:auth_url, :req_url, :req_type]
+      params.require(:tester_info).permit(allowed_parameters)
+    end
+
+    def query_parameters_params
+      allowed_parameters = []
+      @route.query_parameters.each do |q_param|
+        allowed_parameters << q_param.name
+      end
+      params.require(:query_parameters).permit(allowed_parameters)
     end
 
     def load_clients
