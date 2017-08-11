@@ -59,11 +59,17 @@ module Tester
           http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
           http.use_ssl = uri.scheme == 'https'
           res1 = http.request req
+          @headers = JSON.pretty_generate(JSON.parse(res1.to_hash.to_json))
+          @status = res1.code
           begin
             @res1 = JSON.pretty_generate(JSON.parse(res1.read_body))
           rescue
             doc = Nokogiri::HTML(res1.read_body)
-            @res1 = doc.at('body').inner_html.html_safe
+            unless doc.at('html').nil?
+              @res2 = doc.at('body').inner_html.html_safe
+            else
+              @res2 = doc.inner_html.html_safe
+            end
           end
         end
       end
