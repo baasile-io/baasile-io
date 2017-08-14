@@ -40,13 +40,17 @@ module Tester
           res = http.request req
           @res = JSON.pretty_generate(JSON.parse(res.read_body))
           #@res =simple_format @res
-          request_obj = case @tester_info.req_type.to_sym
-                          when :get then Net::HTTP::Get
-                          when :post then Net::HTTP::Post
-                          when :head then Net::HTTP::Head
-                          when :put then Net::HTTP::Put
-                          when :delete then Net::HTTP::Delete
-                        end
+          unless @tester_info.req_type.blank?
+            request_obj = case @tester_info.req_type.to_sym
+                            when :get then Net::HTTP::Get
+                            when :post then Net::HTTP::Post
+                            when :head then Net::HTTP::Head
+                            when :put then Net::HTTP::Put
+                            when :delete then Net::HTTP::Delete
+                          end
+          else
+            request_obj = Net::HTTP::Get
+          end
           res_hash = JSON.parse(res.read_body)
 
 
