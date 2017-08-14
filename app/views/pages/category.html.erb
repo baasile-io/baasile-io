@@ -1,0 +1,65 @@
+<% content_for(:page_title) { @category_title } %>
+<% content_for(:page_description) { @category_description } %>
+
+<section class="jumbotron text-center catalog">
+  <div class="container">
+    <h1 class="jumbotron-heading"><%= t('pages.catalog.title') %></h1>
+    <p class="lead text-muted">
+      <%= t('pages.catalog.description') %>
+    </p>
+  </div>
+</section>
+
+<div class="container catalog category">
+
+  <div class="row">
+
+    <div class="col-md-4 col-lg-3">
+
+      <%= render partial: 'shared/catalog/menu_left' %>
+
+      <h5 class="text-uppercase mt-5"><%= t('misc.search') %></h5>
+
+      <hr />
+
+      <%= render partial: 'shared/catalog/search' %>
+
+    </div>
+
+    <div class="col-md-8 col-lg-9">
+
+      <div class="row">
+        <div class="col-12">
+          <h1 class="text-uppercase">
+            <%= @category_title %>
+          </h1>
+          <% if @category_description.present? %>
+            <p><%= @category_description.html_safe %></p>
+          <% end %>
+          <hr />
+        </div>
+      </div>
+
+      <%= render partial: 'shared/catalog/products', locals: {collection: @collection} %>
+
+      <% if @collection.size > 0 %>
+
+        <hr />
+
+        <div class="float-right">
+          <%= paginate @collection %>
+        </div>
+
+        <%= page_entries_info @collection, entry_name: t('activerecord.models.proxy').downcase %>
+
+      <% else %>
+
+        <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>

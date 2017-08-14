@@ -1,5 +1,9 @@
 en:
   pages:
+    catalog:
+      categories: "APIs categories"
+      description: "Discover the catalog of API provided by our suppliers."
+      title: 'API Store'
     internal_server_error:
       subtitle: "An administrator was warned."
       title: "An error occured"
@@ -7,8 +11,21 @@ en:
       title: 'Page Not Found'
     root:
       buttons:
-        goto_startup_book: 'Suppliers'
+        goto_startup_book: 'API Store'
         goto_dashboard: 'Dashboard'
+      sections:
+        advantage1:
+          description: "Open new access to your data by connecting your APIs to the platform and publishing them on the catalog."
+          icon: 'fa-share-alt fa-inverse'
+          title: 'Share your data'
+        advantage2:
+          description: "Benefit from the visibility of the platform by providing innovative and easily integrable services."
+          icon: 'fa-line-chart fa-inverse'
+          title: 'Increase traffic'
+        advantage3:
+          description: "Consolidate your own data with third-party APIs and integrate a host of new services into your solution."
+          icon: 'fa-download fa-inverse'
+          title: 'Strengthen your solution'
       subtitle: "Augmented Interconnection Platform"
       title: 'Welcome to Baasile IO demo'
     service_book:

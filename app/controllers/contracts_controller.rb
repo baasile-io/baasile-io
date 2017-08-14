@@ -265,6 +265,9 @@ class ContractsController < ApplicationController
   end
 
   def error_measurements
+    @collection = @contract.error_measurements.includes(:client, :proxy).order(created_at: :desc)
+
+    @collection = paginate @collection
   end
   
   def error_measurement

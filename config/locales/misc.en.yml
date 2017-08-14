@@ -70,6 +70,7 @@ en:
     need_change_password: 'Expired password'
     need_change_password_hint: 'Last changed password was more than %{x} days'
     need_to_valide_general_condition: 'You need to valide general conditions'
+    new: 'New'
     next_step: 'Next step'
     no: 'Non'
     no_available_proxies: 'No available products'
@@ -94,8 +95,11 @@ en:
     platform_contribution: "Platform contribution"
     pricing: 'Pricing'
     profile: 'Profile'
+    related_products: 'Related products'
     role: 'Role'
     roles: 'Roles'
+    search: 'Search'
+    search_no_result: 'There are no results matched your search.'
     search_placeholder: 'Free text search'
     service_not_activated: 'Your Enterprise account is not activated'
     service_not_published: 'Enterpise is not published'
@@ -107,4 +111,5 @@ en:
     unknown_user_create_on: "The user was not found, you can create one if you need it"
     user_not_disassociable_because_official: "You can't remove association because the user is an official"
     waiting_for_validation: 'Waiting for validation'
+    without_category: 'Unclassified'
     yes: 'Yes'

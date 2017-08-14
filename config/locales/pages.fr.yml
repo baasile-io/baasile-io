@@ -1,5 +1,9 @@
 fr:
   pages:
+    catalog:
+      categories: "Catégories d'API"
+      description: "Découvrez les API des fournisseurs de la plateforme."
+      title: "Catalogue d'API"
     internal_server_error:
       subtitle: "Un administrateur a reçu une notification."
       title: "Une erreur est survenue"
@@ -7,8 +11,21 @@ fr:
       title: "Cette page n'existe pas"
     root:
       buttons:
-        goto_startup_book: 'Fournisseurs'
+        goto_startup_book: "Catalogue d'API"
         goto_dashboard: 'Tableau de bord'
+      sections:
+        advantage1:
+          description: "Ouvrez de nouvelles portes d'accès à vos données en connectant vos APIs à la plateforme et en les publiant sur le catalogue."
+          icon: 'fa-share-alt fa-inverse'
+          title: 'Partagez vos données'
+        advantage2:
+          description: "Bénéficiez de la visibilité de la plateforme en y fournissant des services innovants facilement intégrables."
+          icon: 'fa-line-chart fa-inverse'
+          title: 'Augmentez votre trafic'
+        advantage3:
+          description: "Grâce aux APIs tierces, consolidez vos propres données et intégrez une multitude de nouveaux services à votre solution."
+          icon: 'fa-cubes fa-inverse'
+          title: 'Renforcez votre solution'
       subtitle: "Bienvenue sur la plateforme Démo"
       title: "La plateforme d'interconnexion augmentée"
     service_book:

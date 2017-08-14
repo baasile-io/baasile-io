@@ -26,26 +26,40 @@ module HasDictionaries
   end
 
   def title
-    self.send("dictionary_#{I18n.locale}").title
+    get_dictionnary_attr(:title)
   end
 
   def body
-    self.send("dictionary_#{I18n.locale}").body
+    get_dictionnary_attr(:body)
   end
 
   def last_modified
-    self.send("dictionary_#{I18n.locale}").updated_at
+    get_dictionnary_attr(:updated_at)
+  end
+
+  private
+
+  def get_dictionnary_attr(attribute_name)
+    return send("dictionary_#{I18n.locale}").send(attribute_name) if send("dictionary_#{I18n.locale}").send(attribute_name).present?
+    fallback_attribute_translation(attribute_name)
+  end
+
+  def fallback_attribute_translation(attribute_name)
+    I18n.available_locales.each do |locale|
+      return send("dictionary_#{locale}").send(attribute_name) if send("dictionary_#{locale}").send(attribute_name).present?
+    end
+    ''
   end
 
   def validate_dictionary_attributes
     I18n.available_locales.each do |locale|
       self.class.mandatory_dictionary_attributes.each do |attr|
-        if self.send("dictionary_#{locale}").send(attr).blank?
-          self.send("dictionary_#{locale}").errors.add(attr, I18n.t('errors.messages.missing_translation'))
+        if send("dictionary_#{locale}").send(attr).blank?
+          send("dictionary_#{locale}").errors.add(attr, I18n.t('errors.messages.missing_translation'))
         end
       end
-      if self.send("dictionary_#{locale}").errors.any?
-        self.errors.add(:base, I18n.t('errors.messages.missing_translation_for_locale', current_locale: I18n.t("misc.locales.#{locale}")))
+      if send("dictionary_#{locale}").errors.any?
+        errors.add(:base, I18n.t('errors.messages.missing_translation_for_locale', current_locale: I18n.t("misc.locales.#{locale}")))
       end
     end
   end

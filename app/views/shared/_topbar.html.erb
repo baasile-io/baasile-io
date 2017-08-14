@@ -2,11 +2,11 @@
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="<%= root_path %>"><%= t('config.platform_name') %></a>
+  <a class="navbar-brand text-uppercase mb-0" href="<%= root_path %>"><%= t('config.platform_name') %></a>
   <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link <%= 'active' if current_module == 'service_book' %>" href="<%= service_book_path %>"><%= t('pages.service_book.title') %></a>
+        <a class="nav-link <%= 'active' if current_module == 'catalog' %>" href="<%= catalog_path %>"><%= t('pages.catalog.title') %></a>
       </li>
       <% if !current_user.nil? %>
         <li class="nav-item dropdown">
@@ -30,14 +30,27 @@
         <% end %>
       <% end %>
     </ul>
-    <div class="form-inline my-2 my-lg-0">
+    <ul class="navbar-nav">
       <% if current_user.nil? %>
-        <a href="<%= new_user_session_path %>" class="btn btn-link"><%= t('actions.sign_in') %></a>
-        <a href="<%= new_user_registration_path %>" class="btn btn-link"><%= t('actions.sign_up') %></a>
+        <li class="nav-item">
+          <a href="<%= new_user_session_path %>" class="nav-link"><%= t('actions.sign_in') %></a>
+        </li>
+        <li class="nav-item">
+          <a href="<%= new_user_registration_path %>" class="nav-link"><%= t('actions.sign_up') %></a>
+        </li>
+        <li class="nav-item">
+          <% I18n.available_locales.reject {|l| l == I18n.locale}.each do |locale| %>
+            <%= link_to t("misc.locales.#{locale}", locale: locale), url_for(locale: locale), class: 'nav-link btn btn-outline-secondary' %>
+          <% end %>
+        </li>
       <% else %>
-        <%= link_to current_user.full_name, profile_path, class: 'btn btn-outline-secondary' %> &nbsp;
-        <%= link_to '<i class="fa fa-fw fa-sign-out"></i>'.html_safe, destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger', data: {toggle: 'tooltip', title: t('actions.sign_out'), placement: 'bottom'} %>
+        <li class="nav-item">
+          <%= link_to current_user.full_name, profile_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to '<i class="fa fa-fw fa-sign-out"></i>'.html_safe, destroy_user_session_path, method: :delete, class: 'nav-link', data: {toggle: 'tooltip', title: t('actions.sign_out'), placement: 'left'} %>
+        </li>
       <% end %>
-    </div>
+    </ul>
   </div>
 </nav>

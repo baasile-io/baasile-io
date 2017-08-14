@@ -1,14 +1,16 @@
 <%
   tab_active = nil
   tab_attributes = {
-    proxy_main: [:name, :alias, :description, :category_id, :public],
+    proxy_main: [:name, :alias, :public],
     proxy_authorization: [:'proxy_parameter.authorization_mode', :'proxy_parameter.authorization_url', :'proxy_parameter.realm', :'proxy_parameter.grant_type', :'proxy_parameter.identifier.client_id', :'proxy_parameter.identifier.client_secret', :'proxy_parameter.scope', :'proxy_parameter.follow_url', :'proxy_parameter.follow_redirection', :'proxy_parameter.protocol', :'proxy_parameter.hostname', :'proxy_parameter.port'],
-    proxy_authorization_test: [:'proxy_parameter_test.authorization_mode', :'proxy_parameter_test.authorization_url', :'proxy_parameter_test.realm', :'proxy_parameter_test.grant_type', :'proxy_parameter_test.identifier.client_id', :'proxy_parameter_test.identifier.client_secret', :'proxy_parameter_test.scope', :'proxy_parameter_test.follow_url', :'proxy_parameter_test.follow_redirection', :'proxy_parameter_test.protocol', :'proxy_parameter_test.hostname', :'proxy_parameter_test.port']
+    proxy_authorization_test: [:'proxy_parameter_test.authorization_mode', :'proxy_parameter_test.authorization_url', :'proxy_parameter_test.realm', :'proxy_parameter_test.grant_type', :'proxy_parameter_test.identifier.client_id', :'proxy_parameter_test.identifier.client_secret', :'proxy_parameter_test.scope', :'proxy_parameter_test.follow_url', :'proxy_parameter_test.follow_redirection', :'proxy_parameter_test.protocol', :'proxy_parameter_test.hostname', :'proxy_parameter_test.port'],
+    proxy_description: [:category_id, :description, :description_long]
   }
   tab_errors = {
     proxy_main: 0,
     proxy_authorization_test: 0,
-    proxy_authorization: 0
+    proxy_authorization: 0,
+    proxy_description: 0
   }
 
   if @proxy.errors.messages.length > 0
@@ -35,6 +37,9 @@
   <li class="nav-item">
     <a class="nav-link <%= 'active' if tab_active == :proxy_authorization %> <%= 'has-danger' if tab_errors[:proxy_authorization] == 1 %>" data-toggle="tab" href="#proxy_authorization" role="tab"><%= t('.tabs.proxy_authorization.title') %></a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if tab_active == :proxy_description %> <%= 'has-danger' if tab_errors[:proxy_description] == 1 %>" data-toggle="tab" href="#proxy_description" role="tab"><%= t('.tabs.proxy_description.title') %></a>
+  </li>
 </ul>
 
 <%= simple_form_for [current_service, @proxy] do |f| %>
@@ -56,9 +61,7 @@
       </div>
 
       <%= f.input :public, as: :radio_buttons, collection: format_boolean_values_for_input %>
-      <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
       <%= f.input :is_active, as: :radio_buttons, collection: format_boolean_values_for_input %>
-      <%= f.input :description, as: :text, input_html: {rows: 5} %>
     </div>
 
     <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_authorization_test %>" id="proxy_authorization_test">
@@ -107,6 +110,16 @@
           <% end %>
         </div>
       <% end %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane <%= 'active' if tab_active == :proxy_description %>" id="proxy_description">
+
+      <p><%= t('.tabs.proxy_description.hint') %></p>
+
+      <%= f.input :category_id, as: :select, collection: format_categories_for_select(@categories), input_html: {class:'select2'}, include_blank: t('misc.none_feminized') %>
+      <%= f.input :description, as: :text, input_html: {rows: 5} %>
+      <%= f.input :description_long, as: :trix_editor, input_html: {trix_editor_limited: true}, limited: true %>
+
     </div>
 
   </div>

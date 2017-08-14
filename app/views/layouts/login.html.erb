@@ -10,11 +10,14 @@
   <%= stylesheet_link_tag    'login', media: 'all' %>
 </head>
 
-<body class="login <%= 'with-warning' if controller_name == 'password_expired' %>">
+<body class="login <%= 'with-warning' if controller_name == 'password_expired' || flash[:alert].present? %>">
 
   <div id="form-container">
 
     <div class="container-fluid">
+
+      <%= link_to t('actions.back_to_homepage'), root_path, class: 'btn btn-block btn-lg btn-outline-primary' %>
+
       <p class="logo">
         <%= link_to root_path do %>
           <img src="/dashboard/baasile-io<%= '-homepage' if controller_name == 'password_expired' %>.png" class="img-fluid">

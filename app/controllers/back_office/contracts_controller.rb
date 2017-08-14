@@ -1,8 +1,5 @@
 module BackOffice
   class ContractsController < BackOfficeController
-    include PaginateConcern
-    include SearchConcern
-
     before_action :load_contract, only: [:edit, :update, :destroy, :cancel, :audit, :comments]
     before_action :load_active_services, only: [:edit, :update]
     before_action :load_active_client, only: [:edit, :update]

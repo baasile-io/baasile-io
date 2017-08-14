@@ -1,0 +1,74 @@
+<% content_for(:page_title) { "#{@proxy.service.name} / #{@proxy.name}" } %>
+
+<% image = @logotype_service.url(@proxy.service.client_id, :thumb_normalize) %>
+<% image_small = @logotype_service.url(@proxy.service.client_id, :tiny) %>
+
+<section class="jumbotron text-center product">
+  <div class="container-fluid">
+    <p class="jumbotron-heading">
+      <%= link_to t('actions.back_to_catalog'),
+                  catalog_category_path(cat: params[:from_cat], page: params[:from_page], q: params[:from_q]),
+                  class: 'btn btn-link btn-block' %>
+  </div>
+</section>
+
+<div class="container catalog product">
+
+  <div class="row">
+
+    <div class="col-md-8">
+      <div class="row title">
+        <div class="col-2">
+          <%= image_tag image_small, class: 'img-thumbnail img-fluid' %>
+        </div>
+        <div class="col-10">
+          <h1><%= @proxy.name %></h1>
+          <%= t('activerecord.models.category') %> :
+          <% if @proxy.category %>
+            <%= link_to @proxy.category.name, catalog_category_path(cat: @proxy.category.id) %>
+          <% else %>
+            <%= link_to t('misc.without_category'), catalog_category_path(cat: 0) %>
+          <% end %>
+        </div>
+      </div>
+      <hr />
+      <div class="description">
+        <% if @proxy.description_long.present? %>
+          <div class="trix-content">
+            <%= @proxy.description_long.html_safe %>
+          </div>
+        <% else %>
+          <p><%= simple_format(@proxy.description) %></p>
+        <% end %>
+      </div>
+
+      <h4 class="text-uppercase"><%= t('types.service_types.startup.title') %> : <%= @proxy.service.name %></h4>
+      <hr />
+      <div class="description">
+        <% if @proxy.service.description_long.present? %>
+          <div class="trix-content">
+            <%= @proxy.service.description_long.html_safe %>
+          </div>
+        <% else %>
+          <p><%= simple_format(@proxy.service.description) %></p>
+        <% end %>
+      </div>
+
+      <% if @related_proxies.count > 0 %>
+        <h4 class="text-uppercase"><%= t('misc.related_products') %></h4>
+        <hr />
+        <%= render partial: 'shared/catalog/products', locals: {collection: @related_proxies} %>
+      <% end %>
+
+    </div>
+
+    <div class="col-md-4 text-md-right hidden-sm-down">
+      <%= image_tag image, class: 'img-fluid mx-auto' %>
+      <hr />
+      <h4><%= @proxy.service.name %></h4>
+      <p><%= simple_format(@proxy.service.description) %></p>
+    </div>
+
+  </div>
+
+</div>

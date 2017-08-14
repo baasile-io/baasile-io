@@ -41,11 +41,28 @@
             <%= l(error_measurement.created_at, format: :short) %>
           </td>
           <td>
-            <small><i class="fa fa-fw fa-server"></i> <%= error_measurement.proxy.name %></small><br/>
-            <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
+            <% if current_user.is_user_of?(error_measurement.proxy.service) %>
+              <small>
+                <%= link_to service_proxy_path(error_measurement.proxy.service, error_measurement.proxy) do %>
+                  <i class="fa fa-fw fa-server"></i> <%= error_measurement.proxy.name %>
+                <% end %>
+              </small><br/>
+              <%= link_to service_proxy_route_path(error_measurement.proxy.service, error_measurement.proxy, error_measurement.route) do %>
+                <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
+              <% end %>
+            <% else %>
+              <small><i class="fa fa-fw fa-server"></i> <%= error_measurement.proxy.name %></small><br/>
+              <i class="fa fa-fw fa-sitemap"></i> <%= error_measurement.route.name %>
+            <% end %>
           </td>
           <td>
-            <i class="<%= t("types.service_types.#{error_measurement.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{error_measurement.client.service_type}.class") %>"><%= error_measurement.client.name %></span>
+            <% if current_user.is_user_of?(error_measurement.client) %>
+              <%= link_to service_path(error_measurement.client) do %>
+                <i class="<%= t("types.service_types.#{error_measurement.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{error_measurement.client.service_type}.class") %>"><%= error_measurement.client.name %></span>
+              <% end %>
+            <% else %>
+              <i class="<%= t("types.service_types.#{error_measurement.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{error_measurement.client.service_type}.class") %>"><%= error_measurement.client.name %></span>
+            <% end %>
           </td>
           <td class="text-right">
             <% if current_module == 'back_office' %>
@@ -62,4 +79,8 @@
       <% end %>
     </tbody>
   </table>
+
+  <% if collection.respond_to?(:page) %>
+    <%= paginate collection %>
+  <% end %>
 <% end %>

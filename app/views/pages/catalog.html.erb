@@ -1,0 +1,46 @@
+<% content_for(:page_title) { t('.title') } %>
+<% content_for(:page_description) { t('.description') } %>
+
+<section class="jumbotron text-center catalog">
+  <div class="container">
+    <h1 class="jumbotron-heading"><%= t('.title') %></h1>
+    <p class="lead">
+      <%= t('.description') %>
+    </p>
+  </div>
+</section>
+
+<div class="container catalog">
+
+  <div class="row">
+
+    <div class="col-md-4 col-lg-3">
+
+      <%= render partial: 'shared/catalog/menu_left' %>
+
+      <h5 class="text-uppercase mt-5"><%= t('misc.search') %></h5>
+
+      <hr />
+
+      <%= render partial: 'shared/catalog/search' %>
+
+    </div>
+
+    <div class="col-md-8 col-lg-9">
+
+      <div class="row">
+        <div class="col-12">
+          <h1 class="text-uppercase">
+            <%= t('misc.new') %>
+          </h1>
+          <hr />
+        </div>
+      </div>
+
+      <%= render partial: 'shared/catalog/products', locals: {collection: @collection} %>
+
+    </div>
+
+  </div>
+
+</div>

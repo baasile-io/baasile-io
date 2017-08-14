@@ -3,7 +3,13 @@
     <strong><%= t('activerecord.attributes.error_measurement.client') %></strong>
   </div>
   <div class="col-9">
-    <i class="<%= t("types.service_types.#{object.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{object.client.service_type}.class") %>"><%= object.client.name %></span>
+    <% if current_user.is_user_of?(object.client) %>
+      <%= link_to service_path(object.client) do %>
+        <i class="<%= t("types.service_types.#{object.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{object.client.service_type}.class") %>"><%= object.client.name %></span>
+      <% end %>
+    <% else %>
+      <i class="<%= t("types.service_types.#{object.client.service_type}.icon") %>"></i> <span class="<%= t("types.service_types.#{object.client.service_type}.class") %>"><%= object.client.name %></span>
+    <% end %>
   </div>
 </div>
 <div class="row">
@@ -51,7 +57,13 @@
     <strong><%= t('activerecord.attributes.error_measurement.route') %></strong>
   </div>
   <div class="col-9">
-    <i class="fa fa-fw fa-sitemap"></i> <%= object.route %>
+    <% if current_user.is_user_of?(object.proxy.service) %>
+      <%= link_to service_proxy_route_path(object.proxy.service, object.proxy, object.route) do %>
+        <i class="fa fa-fw fa-sitemap"></i> <%= object.route %>
+      <% end %>
+    <% else %>
+      <i class="fa fa-fw fa-sitemap"></i> <%= object.route %>
+    <% end %>
   </div>
 </div>
 <% if object.contract %>
@@ -60,7 +72,9 @@
       <strong><%= t('activerecord.attributes.error_measurement.contract') %></strong>
     </div>
     <div class="col-9">
-      <i class="fa fa-fw fa-edit"></i> <%= object.contract %>
+      <%= link_to contract_path(object.contract) do %>
+        <i class="fa fa-fw fa-edit"></i> <%= object.contract %>
+      <% end %>
     </div>
   </div>
 <% end %>

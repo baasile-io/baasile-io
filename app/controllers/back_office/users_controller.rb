@@ -1,8 +1,5 @@
 module BackOffice
   class UsersController < BackOfficeController
-    include PaginateConcern
-    include SearchConcern
-
     before_action :load_user, except: [:index, :new, :create]
     before_action :load_other_users, only: [:new, :edit, :update, :create]
 
@@ -70,6 +67,10 @@ module BackOffice
     def permissions
       @user_services = @user.services.order('ancestry ASC NULLS FIRST')
       @other_services = Service.where.not(id: @user_services.pluck(:id)).order('services.name ASC')
+    end
+
+    def users
+      @children_users = @user.children
     end
 
     def associate

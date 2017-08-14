@@ -21,6 +21,9 @@ fr:
         proxy_authorization_test:
           hint: "Les paramètres de test sont utilisés par défaut par la plateforme."
           title: 'Paramètres de test'
+        proxy_description:
+          hint: 'Classifiez et décrivez votre API.'
+          title: 'Description'
         general: 'Général'
     index:
       description: 'Paramétrez vos APIs afin de fournir des données à des clients'
