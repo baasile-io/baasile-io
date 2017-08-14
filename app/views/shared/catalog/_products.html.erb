@@ -11,7 +11,10 @@
             <small class="card-text text-sm"><%= simple_format(proxy.description).html_safe %></small>
             <div class="card-block-description-shadow"></div>
           </div>
-          <a href="<%= catalog_product_path(proxy_id: proxy.id, from_cat: params[:cat]) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
+          <a href="<%= catalog_product_path(proxy_id: proxy.id,
+                                            from_cat: params[:cat],
+                                            from_page: params[:page],
+                                            from_q: params[:q]) %>" class="btn btn-secondary"><%= t('misc.more_info') %></a>
         </div>
       </div>
     </div>

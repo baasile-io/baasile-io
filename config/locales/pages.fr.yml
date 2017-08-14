@@ -15,17 +15,17 @@ fr:
         goto_dashboard: 'Tableau de bord'
       sections:
         advantage1:
-          description: "Partagez vos données en connectant vos APIs à la plateforme et en les publiant sur le catalogue."
+          description: "Ouvrez de nouvelles portes d'accès à vos données en connectant vos APIs à la plateforme et en les publiant sur le catalogue."
           icon: 'fa-share-alt fa-inverse'
-          title: 'Connectez vos APIs'
+          title: 'Partagez vos données'
         advantage2:
-          description: "Gagnez de la visibilité et des clients en leur fournissant des services innovants facilement intégrables."
+          description: "Bénéficiez de la visibilité de la plateforme en y fournissant des services innovants facilement intégrables."
           icon: 'fa-line-chart fa-inverse'
           title: 'Augmentez votre trafic'
         advantage3:
-          description: "Bénéficiez des APIs tierces pour consolider vos données et augmenter leur valeur."
-          icon: 'fa-download fa-inverse'
-          title: 'Aggrégez les services'
+          description: "Grâce aux APIs tierces, consolidez vos propres données et intégrez une multitude de nouveaux services à votre solution."
+          icon: 'fa-cubes fa-inverse'
+          title: 'Renforcez votre solution'
       subtitle: "Bienvenue sur la plateforme Démo"
       title: "La plateforme d'interconnexion augmentée"
     service_book:

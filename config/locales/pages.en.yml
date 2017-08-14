@@ -15,17 +15,17 @@ en:
         goto_dashboard: 'Dashboard'
       sections:
         advantage1:
-          description: "Share your data by connecting your APIs to the platform and publishing on the catalog."
+          description: "Open new access to your data by connecting your APIs to the platform and publishing them on the catalog."
           icon: 'fa-share-alt fa-inverse'
-          title: 'Link your APIs'
+          title: 'Share your data'
         advantage2:
-          description: "Get visibility and customers by providing innovative services easily integrated."
+          description: "Benefit from the visibility of the platform by providing innovative and easily integrable services."
           icon: 'fa-line-chart fa-inverse'
           title: 'Increase traffic'
         advantage3:
-          description: "Take advantage of third-party APIs to consolidate your data and increase their value."
+          description: "Consolidate your own data with third-party APIs and integrate a host of new services into your solution."
           icon: 'fa-download fa-inverse'
-          title: 'Aggregate services'
+          title: 'Strengthen your solution'
       subtitle: "Augmented Interconnection Platform"
       title: 'Welcome to Baasile IO demo'
     service_book:

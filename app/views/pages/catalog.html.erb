@@ -4,7 +4,7 @@
 <section class="jumbotron text-center catalog">
   <div class="container">
     <h1 class="jumbotron-heading"><%= t('.title') %></h1>
-    <p class="lead text-muted">
+    <p class="lead">
       <%= t('.description') %>
     </p>
   </div>
@@ -18,9 +18,10 @@
 
       <%= render partial: 'shared/catalog/menu_left' %>
 
+      <h5 class="text-uppercase mt-5"><%= t('misc.search') %></h5>
+
       <hr />
 
-      <h5 class="text-uppercase mb-4"><%= t('misc.search') %></h5>
       <%= render partial: 'shared/catalog/search' %>
 
     </div>

@@ -7,7 +7,7 @@
   <div class="container-fluid">
     <p class="jumbotron-heading">
       <%= link_to t('actions.back_to_catalog'),
-                  (params[:from_cat].present? ? catalog_category_path(cat: params[:from_cat]) : catalog_path),
+                  catalog_category_path(cat: params[:from_cat], page: params[:from_page], q: params[:from_q]),
                   class: 'btn btn-link btn-block' %>
   </div>
 </section>
@@ -62,7 +62,7 @@
 
     </div>
 
-    <div class="col-md-4 text-md-right">
+    <div class="col-md-4 text-md-right hidden-sm-down">
       <%= image_tag image, class: 'img-fluid mx-auto' %>
       <hr />
       <h4><%= @proxy.service.name %></h4>
