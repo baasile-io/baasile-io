@@ -69,6 +69,10 @@ module BackOffice
       @other_services = Service.where.not(id: @user_services.pluck(:id)).order('services.name ASC')
     end
 
+    def users
+      @children_users = @user.children
+    end
+
     def associate
       service = Service.find(params[:user][:service_id])
       role = params[:user][:role].to_sym

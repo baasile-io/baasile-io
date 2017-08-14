@@ -13,9 +13,9 @@
       <%= link_to "<i class=\"fa fa-fw fa-sign-out\"></i> #{t('actions.sign_out')}".html_safe,
                   destroy_user_session_path,
                   method: :delete,
-                  class: 'float-left btn btn-lg btn-outline-secondary' %>
+                  class: 'float-left btn btn-outline-secondary' %>
 
-      <%= f.button :submit, t('actions.change_password'), class: 'btn btn-lg btn-secondary' %>
+      <%= f.button :submit, t('actions.change_password'), class: 'btn btn-secondary' %>
     </div>
   </div>
 <% end %>

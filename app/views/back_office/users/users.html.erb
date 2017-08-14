@@ -1,0 +1,123 @@
+<% content_for(:page_back) { back_office_users_path } %>
+<% content_for(:page_title) { "#{'<i class="fa fa-fw fa-lock"></i> ' unless @user.confirmed_at}#{@user.full_name}".html_safe } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= edit_back_office_user_path(@user) %>">
+          <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= permissions_back_office_user_path(@user) %>">
+          <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="#">
+          <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= audit_back_office_user_path(@user) %>">
+          <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+        </a>
+      </li>
+    </ul>
+
+    <% if @children_users.count == 0 %>
+      <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+    <% else %>
+      <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+          <th colspan="2"><%= t('activerecord.attributes.user.full_name') %></th>
+          <th><%= t('activerecord.attributes.user.last_activity_at') %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @children_users.order(first_name: :asc, last_name: :asc).each do |user| %>
+          <tr>
+            <td class="width-3">
+              <i class="fa fa-fw fa-user fa-2x"></i>
+            </td>
+            <td>
+              <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-2x fa-lock\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"#{t('devise.confirmations.unconfirmed')}\"></i></span>".html_safe if user.confirmed_at.nil? || !user.is_active %>
+              <strong><%= user.full_name %></strong><br />
+              <small class="text-muted"> <%= user.email %></small><br />
+              <small class="text-muted"> <%= user.phone %></small>&nbsp;
+            </td>
+            <td>
+              <small><%= user.last_activity_at ? l(user.last_activity_at, format: :short) : '---' %></small><br />
+              <% if user.expired? %>
+              <span class="badge badge-danger" data-toggle="tooltip" title="<%= h(t('misc.need_admin_unlock_after_expired_hint', x: Appconfig.get(:user_expire_after))) %>">
+                <i class="fa fa-fw fa-lock"></i> <%= t('misc.need_admin_unlock_after_expired') %>
+              </span>
+              <% end %>
+              <% if user.need_change_password? %>
+              <span class="badge badge-warning" data-toggle="tooltip" title="<%= h(t('misc.need_change_password_hint', x: Appconfig.get(:user_password_expire_after))) %>">
+                <i class="fa fa-fw fa-key"></i> <%= t('misc.need_change_password') %>
+              </span>
+              <% end %>
+            </td>
+            <td class="text-right">
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                  <%= t('misc.actions') %>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%= link_to edit_back_office_user_path(user),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+                  <% end %>
+                  <%= link_to permissions_back_office_user_path(user),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
+                  <% end %>
+                  <%= link_to users_back_office_user_path(user),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+                  <% end %>
+                  <%= link_to audit_back_office_user_path(user),
+                              class: 'dropdown-item' do %>
+                    <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>
+                  <% end %>
+                  <% if user.expired? %>
+                    <div class="dropdown-divider"></div>
+                    <%= link_to unlock_after_expired_back_office_user_path(user),
+                                class: 'dropdown-item',
+                                method: :put do %>
+                      <i class="fa fa-fw fa-unlock"></i> <%= t('actions.unlock_after_expired') %>
+                    <% end %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to back_office_user_path(user),
+                              class: 'dropdown-item',
+                              method: :delete,
+                              data: {
+                                confirm: 'Are you sure?'
+                              } do %>
+                    <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+                  <% end %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to sign_in_as_back_office_user_path(user),
+                              class: 'dropdown-item',
+                              method: :put do %>
+                    <i class="fa fa-fw fa-sign-in"></i> <%= t('actions.sign_in_as') %>
+                  <% end %>
+                </div>
+              </div>
+
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+  </div>
+</div>

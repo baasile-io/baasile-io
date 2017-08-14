@@ -83,6 +83,10 @@
                             class: 'dropdown-item' do %>
                   <i class="fa fa-fw fa-key"></i> <%= t('misc.permissions') %>
                 <% end %>
+                <%= link_to users_back_office_user_path(user),
+                            class: 'dropdown-item' do %>
+                  <i class="fa fa-fw fa-users"></i> <%= t('activerecord.models.user').pluralize %>
+                <% end %>
                 <%= link_to audit_back_office_user_path(user),
                             class: 'dropdown-item' do %>
                   <i class="fa fa-fw fa-history"></i> <%= t('misc.history') %>

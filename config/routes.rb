@@ -234,6 +234,7 @@ Rails.application.routes.draw do
       resources :users do
         member do
           get :audit
+          get :users
           get :permissions
           put :toggle_is_active
           put :toggle_role
