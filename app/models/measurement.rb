@@ -29,6 +29,7 @@ class Measurement < ApplicationRecord
   end
 
   def set_contract_status
+    return self.contract_status = :validation if contract.nil?
     self.contract_status = self.contract.status.to_s
   end
 

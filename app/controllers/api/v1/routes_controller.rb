@@ -116,6 +116,7 @@ module Api
 
       def current_price
         @price ||= current_contract.price
+        @price ||= create_self_price if is_self_calling?
       end
 
       def current_contract_status
@@ -128,10 +129,29 @@ module Api
 
       def current_contract
         @contract ||= load_contract
+        @contract ||= create_self_contract if is_self_calling?
       end
 
       def load_contract
         @contract = Contract.where(client: authenticated_service, proxy: current_proxy).first
+      end
+
+      def create_self_price
+        @price = Price.new(name: "price_test_tmp", base_cost: 0, cost: 0, user_id: current_user, proxy_id: current_proxy.id,
+                      service_id: authenticated_service, contract_id: @contract.id, pricing_duration_type: :prepaid,
+                      pricing_type: :subscription, free_count: 1000, unit_cost: 0, route_id: current_route.id)
+      end
+
+      def create_self_contract
+        d = DateTime.new(Date.today.to_time.to_i)
+        @contract = Contract.new(start_date: d , end_date: d + 1000.hours , client_id: authenticated_service.id , startup_id: authenticated_service.id , user_id: current_user ,
+                                 created_at: d  , updated_at: d  , is_active:  true, status: :validation ,
+                                 proxy_id: current_proxy.id , client_code: "cl_test_tmp" , contract_duration: 1000 , expected_start_date: d,
+                                 expected_end_date: d  + 1000.hours , expected_contract_duration: 1000 , is_evergreen: true , general_condition_id: GeneralCondition.all.first ,
+                                 general_condition_validated_client_user_id: current_user , general_condition_validated_client_datetime: d,
+                                 expected_free_count: 1000 , startup_code: "st_test_tmp", )
+        @contract.price = current_price
+        @contract
       end
 
       def authorize_request_by_contract

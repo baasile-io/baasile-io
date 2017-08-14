@@ -57,10 +57,12 @@ module Tester
           params = Hash.new
           @route.query_parameters.each do |q_param|
             p = query_parameters_params[q_param.name]
-            if q_param.query_parameter_type.to_sym == :header
-              req[q_param.name] = p
-            elsif q_param.query_parameter_type.to_sym == :get
-              params[q_param.name] = p
+            unless p.blank?
+              if q_param.query_parameter_type.to_sym == :header
+                req[q_param.name] = p
+              elsif q_param.query_parameter_type.to_sym == :get
+                params[q_param.name] = p
+              end
             end
           end
           url = @tester_info.req_url

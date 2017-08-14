@@ -8,7 +8,7 @@ module ProxifyConcern
   def proxy_initialize
     raise Api::ProxyInitializationError if current_proxy.nil?
     raise Api::ProxyInitializationError if current_route.nil?
-    raise Api::ProxyInitializationError if current_contract.nil?
+    raise Api::ProxyInitializationError if current_contract.nil? &&
     @current_proxy_access_token = nil
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil

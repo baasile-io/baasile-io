@@ -31,6 +31,10 @@ module Api
       @authenticated_service ||= request.env[:authenticated_service]
     end
 
+    def is_self_calling?
+      current_service.id == authenticated_service.id || (current_service.parent.present? && current_service.parent.id == authenticated_service.id)
+    end
+
     def authenticated_scope
       @authenticated_scope ||= (request.env[:authenticated_scope] || '').split
     end
