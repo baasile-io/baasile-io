@@ -1,7 +1,6 @@
 module Tester
   class TesterInfosController < ApplicationController
     before_action :authenticate_user!
-    #before_action :authorize_superadmin!
     before_action :load_clients, only: [:select_client, :select_proxy, :lanch_test, :select_route, :req_result]
 
     layout 'tester'
@@ -25,74 +24,12 @@ module Tester
     def req_result
       if check_route
         if load_tester_info
-          uri = URI.parse @tester_info.auth_url
-          req = Net::HTTP::Post.new @tester_info.auth_url
-          req.content_type = 'application/x-www-form-urlencoded'
-          params = {
-              client_id: @tester_info.service.client_id,
-              client_secret: @tester_info.service.client_secret
-          }
-          params[:scope] = @tester_info.proxy.service.subdomain
-          req.set_form_data(params)
-
-          http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
-          http.use_ssl = uri.scheme == 'https'
-          res = http.request req
-          @res = JSON.pretty_generate(JSON.parse(res.read_body))
-          #@res =simple_format @res
-          unless @tester_info.req_type.blank?
-            request_obj = case @tester_info.req_type.to_sym
-                            when :get then Net::HTTP::Get
-                            when :post then Net::HTTP::Post
-                            when :head then Net::HTTP::Head
-                            when :put then Net::HTTP::Put
-                            when :delete then Net::HTTP::Delete
-                          end
-          else
-            request_obj = Net::HTTP::Get
-          end
-          res_hash = JSON.parse(res.read_body)
-
-
-          req = request_obj.new @tester_info.req_url
-          req.content_type = 'application/x-www-form-urlencoded'
-          req['Authorization'] = res_hash["access_token"]
-
-          params = Hash.new
-          @route.query_parameters.each do |q_param|
-            p = query_parameters_params[q_param.name]
-            unless p.blank?
-              if q_param.query_parameter_type.to_sym == :header
-                req[q_param.name] = p
-              elsif q_param.query_parameter_type.to_sym == :get
-                params[q_param.name] = p
-              end
-            end
-          end
-          url = @tester_info.req_url
-          if params.size > 0
-            encoded_params = URI.encode_www_form(params)
-            [url, encoded_params].join("?")
-          end
-          uri = URI.parse url
-          #req['measureTokenId'] = '123456789'
-          #req['OpenRH-ClientTokenID'] = '123456789'
-
-          http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
-          http.use_ssl = uri.scheme == 'https'
-          res1 = http.request req
-          @headers = JSON.pretty_generate(JSON.parse(res1.to_hash.to_json))
-          @status = res1.code
-          begin
-            @res1 = JSON.pretty_generate(JSON.parse(res1.read_body))
-          rescue
-            doc = Nokogiri::HTML(res1.read_body)
-            if !doc.at('html').nil?
-              @res2 = doc.at('body').inner_html.html_safe
-            else
-              @res2 = doc.inner_html.html_safe
-            end
-          end
+          res = do_auth_req
+          format_auth_body(res)
+          res1 = do_main_req(res)
+          format_main_status(res1)
+          format_main_header(res1)
+          format_main_body(res1)
         end
       end
     end
@@ -106,6 +43,94 @@ module Tester
     end
 
     private
+
+    def format_auth_body(res)
+      @res = JSON.pretty_generate(JSON.parse(res.read_body))
+    end
+
+    def format_main_status(res1)
+      @status = res1.code
+    end
+
+    def format_main_header(res1)
+      @headers = JSON.pretty_generate(JSON.parse(res1.to_hash.to_json))
+    end
+
+    def format_main_body(res1)
+      begin
+        @res1 = JSON.pretty_generate(JSON.parse(res1.read_body))
+      rescue
+        doc = Nokogiri::HTML(res1.read_body)
+        if !doc.at('html').nil?
+          @res2 = doc.at('body').inner_html.html_safe
+        else
+          @res2 = doc.inner_html.html_safe
+        end
+      end
+    end
+
+    def get_params_for_req(req)
+      req_params = Hash.new
+      @route.query_parameters.each do |q_param|
+        p = query_parameters_params[q_param.name]
+        unless p.blank?
+          if q_param.query_parameter_type.to_sym == :header
+            req[q_param.name] = p
+          elsif q_param.query_parameter_type.to_sym == :get
+            req_params[q_param.name] = p
+          end
+        end
+      end
+      req_params
+    end
+
+    def request_obj_type
+      unless @tester_info.req_type.blank?
+        case @tester_info.req_type.to_sym
+          when :get then Net::HTTP::Get
+          when :post then Net::HTTP::Post
+          when :head then Net::HTTP::Head
+          when :put then Net::HTTP::Put
+          when :delete then Net::HTTP::Delete
+        end
+      else
+        Net::HTTP::Get
+      end
+    end
+
+    def do_main_req(res)
+      request_obj = request_obj_type
+      res_hash = JSON.parse(res.read_body)
+      req = request_obj.new @tester_info.req_url
+      req.content_type = 'application/x-www-form-urlencoded'
+      req['Authorization'] = res_hash["access_token"]
+      req_params = get_params_for_req(req)
+      url = @tester_info.req_url
+      if req_params.size > 0
+        encoded_params = URI.encode_www_form(req_params)
+        [url, encoded_params].join("?")
+      end
+      uri = URI.parse url
+      http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
+      http.use_ssl = uri.scheme == 'https'
+      http.request req
+    end
+
+    def do_auth_req
+      uri = URI.parse @tester_info.auth_url
+      req = Net::HTTP::Post.new @tester_info.auth_url
+      req.content_type = 'application/x-www-form-urlencoded'
+      params = {
+          client_id: @tester_info.service.client_id,
+          client_secret: @tester_info.service.client_secret
+      }
+      params[:scope] = @tester_info.proxy.service.subdomain
+      req.set_form_data(params)
+
+      http = Net::HTTP.new ENV['BAASILE_IO_HOSTNAME'], ENV['PORT']
+      http.use_ssl = uri.scheme == 'https'
+      http.request req
+    end
 
     def load_tester_info
       @tester_info = TesterInfo.new
