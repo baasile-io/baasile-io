@@ -9,7 +9,7 @@
   <%= f.input :first_name %>
   <%= f.input :last_name %>
 
-  <%= f.input :phone, hint: t('users.form.hints.phone') %>
+  <%= f.input :phone, as: :phone_number %>
   <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
   <%= f.input :password, required: true, autocomplete: 'off', hint: t('devise.passwords.password_restrictions') %>

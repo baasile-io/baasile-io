@@ -158,4 +158,23 @@ $(document).ready(function(e) {
 
   $('input.autonumeric').autoNumeric('init');
 
+  $('input.intl-tel-input').each(function() {
+    var input = $(this),
+      hidden_input = input.data('hidden-input');
+
+    input.intlTelInput({
+      utilsScript: "/assets/javascripts/google-utils.js",
+      separateDialCode: true,
+      initialCountry: 'auto',
+      hiddenInput: hidden_input,
+      geoIpLookup: function (callback) {
+        $.get("https://ipinfo.io", function () {
+        }, "jsonp").always(function (resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      }
+    });
+  });
+
 });
