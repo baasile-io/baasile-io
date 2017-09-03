@@ -16,6 +16,18 @@ module Api
       include ErrorMeasurementConcern
 
       def process_request
+
+        @request_headers = {}
+        request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
+          header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
+          @request_headers[header_name] = header[1]
+        end
+        @request_method = request.method
+        @request_method_symbol = request.method_symbol
+        @request_content_type = request.content_type
+        @request_body = request.raw_post
+        @request_get = request.GET
+
         @proxy_response = proxy_request
         render status: @proxy_response.code, plain: @proxy_response.body
       rescue Api::ProxyError => e

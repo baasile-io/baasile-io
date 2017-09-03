@@ -110,6 +110,7 @@ en:
       created: '%{resource} was successfuly created'
       destroyed: '%{resource} was successfuly deleted'
       updated: '%{resource} was successfuly updated'
+    test: 'Test'
     unlock_after_expired: 'Unlock after expired'
     unset_admin: 'Unset admin'
     unset_production: 'Deactivate production phase'

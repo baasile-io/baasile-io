@@ -229,6 +229,7 @@ Rails.application.routes.draw do
           end
           post :toogle_activate
         end
+        resources :tests
       end
     end
 

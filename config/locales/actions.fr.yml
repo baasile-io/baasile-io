@@ -109,6 +109,7 @@ fr:
       created: '%{resource} a été créé avec succès'
       destroyed: '%{resource} a été supprimé avec succès'
       updated: '%{resource} a été mis à jour avec succès'
+    test: 'Tester'
     unlock_after_expired: 'Débloquer après expiration'
     unset_admin: "Enlever les droits admin"
     unset_production: "Désactiver la phase d'exploitation"
