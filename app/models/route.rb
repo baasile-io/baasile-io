@@ -11,6 +11,10 @@ class Route < ApplicationRecord
   enum protocol_test: PROTOCOLS_TEST, _prefix: true
 
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+  ALLOWED_FORMATS = [
+    'application/json',
+    'application/x-www-form-urlencoded',
+  ]
 
   belongs_to :user
   belongs_to :proxy, touch: true
