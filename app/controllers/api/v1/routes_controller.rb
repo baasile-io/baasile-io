@@ -118,6 +118,10 @@ module Api
         @price ||= current_contract.price
       end
 
+      def use_test_settings?
+        current_contract_status != :validation_production
+      end
+
       def current_contract_status
         @current_contract_status ||= current_contract.status.to_sym
       end

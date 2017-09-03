@@ -8,13 +8,12 @@ module ProxifyConcern
   def proxy_initialize
     raise Api::ProxyInitializationError if current_proxy.nil?
     raise Api::ProxyInitializationError if current_route.nil?
-    raise Api::ProxyInitializationError if current_contract.nil?
     @current_proxy_access_token = nil
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil
-    @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if current_contract_status != :validation_production}")
-    @current_route_uri = current_route.send("uri#{'_test' if current_contract_status != :validation_production}")
-    @current_proxy_cache_token = current_proxy.send("cache_token#{'_test' if current_contract_status != :validation_production}")
+    @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if use_test_settings?}")
+    @current_route_uri = current_route.send("uri#{'_test' if use_test_settings?}")
+    @current_proxy_cache_token = current_proxy.send("cache_token#{'_test' if use_test_settings?}")
   end
 
   def proxy_request
@@ -136,7 +135,7 @@ module ProxifyConcern
   def proxy_authenticate
     if current_proxy_access_token.nil?
       if @current_proxy_parameter.authorization_mode == 'oauth2'
-        uri = URI.parse current_proxy.send("authorization_uri#{'_test' if current_contract_status != :validation_production}")
+        uri = URI.parse current_proxy.send("authorization_uri#{'_test' if use_test_settings?}")
         new_query_ar = URI.decode_www_form(uri.query || '')
         new_query_ar << ["realm", @current_proxy_parameter.realm] if @current_proxy_parameter.realm.present?
         uri.query = URI.encode_www_form(new_query_ar)

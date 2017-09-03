@@ -40,6 +40,17 @@ Rails.application.routes.draw do
     match "*any", via: :all, to: "api#not_found"
   end
 
+  scope :api_tester, module: :api do
+    namespace :v1 do
+      resources :tests do
+        collection do
+          match '/routes/:route_id/request' => 'tests#process_request', as: 'standard_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
+          match '/routes/:route_id/request/*follow_url' => 'tests#process_request', as: 'special_request', via: Route::ALLOWED_METHODS.map do |el| el.downcase.to_sym end
+        end
+      end
+    end
+  end
+
   captcha_route
 
   get '/robots.txt' => 'pages#robots'
