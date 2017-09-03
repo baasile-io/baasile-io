@@ -23,6 +23,7 @@
 //= require tether/tether.min.js
 //= require ie10-viewport/ie10-viewport-bug-workaround.js
 //= require trix/trix.js
+//= require intlTelInput/intlTelInput.js
 
 //= require select2-full
 //= require select2_locale_fr

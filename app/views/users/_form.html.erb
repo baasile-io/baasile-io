@@ -21,10 +21,10 @@
               } %>
 
   <%= f.input :phone,
+              as: :phone_number,
               input_html: {
                 class: 'col-md-3'
-              },
-              hint: t('users.form.hints.phone') %>
+              } %>
 
   <%= f.input :language , as: :radio_buttons, collection: format_languages_for_select %>
 
