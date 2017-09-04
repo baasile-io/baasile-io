@@ -10,7 +10,7 @@ class Route < ApplicationRecord
   enum protocol: PROTOCOLS, _prefix: true
   enum protocol_test: PROTOCOLS_TEST, _prefix: true
 
-  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   ALLOWED_FORMATS = [
     'application/json',
     'application/x-www-form-urlencoded',
@@ -23,6 +23,7 @@ class Route < ApplicationRecord
   has_many :error_measurements, dependent: :destroy
   has_many :contracts, through: :proxy, dependent: :restrict_with_error
   has_many :prices, dependent: :nullify
+  has_many :tests_requests, dependent: :destroy
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }

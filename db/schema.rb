@@ -412,7 +412,7 @@ ActiveRecord::Schema.define(version: 20170903175526) do
     t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
   end
 
-  create_table "tests_requests", force: :cascade do |t|
+  create_table "tester_requests", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "route_id"
     t.boolean  "is_test_settings"
@@ -421,8 +421,8 @@ ActiveRecord::Schema.define(version: 20170903175526) do
     t.string   "format"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.index ["route_id"], name: "index_tests_requests_on_route_id", using: :btree
-    t.index ["user_id"], name: "index_tests_requests_on_user_id", using: :btree
+    t.index ["route_id"], name: "index_tester_requests_on_route_id", using: :btree
+    t.index ["user_id"], name: "index_tester_requests_on_user_id", using: :btree
   end
 
   create_table "tickets", force: :cascade do |t|

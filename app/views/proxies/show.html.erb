@@ -1,11 +1,5 @@
 <%
   content_for(:page_title) { t('misc.overview') }
-
-  content_for(:page_controls) {
-    link_to_modal "<i class=\"fa fa-fw fa-magic\"></i> #{t('actions.test')}".html_safe,
-                  service_proxy_tests_path(current_service, current_proxy),
-                  class: 'btn btn-primary'
-  }
 %>
 
 <div class="b-io-content--secondary">

@@ -1,0 +1,24 @@
+<%= simple_form_for [object.service, object.proxy, object] do |f| %>
+
+  <%= f.input :route_id,
+              collection: format_routes_for_select([f.object.route]),
+              input_html: {
+                class: 'select2'
+              },
+              disabled: true %>
+
+  <%= f.input :method,
+              collection: Route::ALLOWED_METHODS,
+              input_html: {
+                class: 'col-sm-3'
+              },
+              include_blank: false %>
+
+  <%= f.input :format,
+              collection: Route::ALLOWED_FORMATS,
+              input_html: {
+                class: 'col-sm-7'
+              },
+              include_blank: false %>
+
+<% end %>

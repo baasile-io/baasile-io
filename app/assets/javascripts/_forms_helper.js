@@ -107,6 +107,12 @@ window.apply_select2 = function(input) {
   });
 };
 
+window.activate_select2 = function() {
+  $('select.select2').each(function() {
+    window.apply_select2($(this));
+  });
+};
+
 $(document).ready(function(e) {
 
   $('a[data-toggle="tab"]').click(function (e) {
@@ -126,9 +132,7 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
-  $('select.select2').each(function() {
-    window.apply_select2($(this));
-  });
+  window.activate_select2();
 
   $('select.services-select2').select2({
     language: I18n.locale,
