@@ -230,6 +230,18 @@ fr:
         user: 'Administrateur'
         user_id: 'Administrateur'
         website: 'Site Internet'
+      tester/request:
+        body: 'Corps'
+        format: 'Format'
+        is_test_settings: 'Environnement'
+        method: 'Méthode'
+        name: 'Nom'
+        route: 'Route'
+        route_id: 'Route'
+        type: 'Type'
+        uri: 'Adresse'
+        user: 'Créateur'
+        user_id: 'Créateur'
       ticket:
         created_at: 'Date de création'
         service: 'Entreprise'

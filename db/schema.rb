@@ -413,12 +413,15 @@ ActiveRecord::Schema.define(version: 20170903175526) do
   end
 
   create_table "tester_requests", force: :cascade do |t|
+    t.string   "type",             null: false
+    t.string   "name"
     t.integer  "user_id"
     t.integer  "route_id"
     t.boolean  "is_test_settings"
     t.string   "method"
     t.string   "uri"
     t.string   "format"
+    t.text     "body"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.index ["route_id"], name: "index_tester_requests_on_route_id", using: :btree

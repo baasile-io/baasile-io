@@ -113,6 +113,24 @@ window.activate_select2 = function() {
   });
 };
 
+window.activate_ace_editor = function() {
+  $('pre.ace-editor').each(function() {
+    var editor_container = $(this);
+    var id = editor_container.attr('id');
+    var target = $('#' + editor_container.data('target'));
+    var format = editor_container.data('format');
+
+    var editor = ace.edit(id);
+    editor.getSession().on('change', function() {
+      target.val(editor.getValue());
+    });
+
+    var mode = ace.require("ace/mode/" + format).Mode;
+    editor.setOption('useWorker', false);
+    editor.session.setMode(new mode());
+  });
+};
+
 $(document).ready(function(e) {
 
   $('a[data-toggle="tab"]').click(function (e) {

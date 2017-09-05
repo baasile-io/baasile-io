@@ -13,7 +13,7 @@ class Route < ApplicationRecord
   ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   ALLOWED_FORMATS = [
     'application/json',
-    'application/x-www-form-urlencoded',
+    #'application/x-www-form-urlencoded',
   ]
 
   belongs_to :user

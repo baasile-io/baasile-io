@@ -217,6 +217,18 @@ en:
         user: 'Administrator'
         user_id: 'Administrator'
         website: 'Website'
+      tester/request:
+        body: 'Body'
+        format: 'Format'
+        is_test_settings: 'Environment'
+        method: 'Method'
+        name: 'Name'
+        route: 'Route'
+        route_id: 'Route'
+        type: 'Type'
+        uri: 'Address'
+        user: 'Creator'
+        user_id: 'Creator'
       ticket:
         created_at: 'Created at'
         service: 'Enterprise'

@@ -28,5 +28,8 @@
 //= require select2-full
 //= require select2_locale_fr
 
+//= require 'ace/ace.js'
+//= require 'ace/mode-json.js'
+
 //= require_tree .
 
