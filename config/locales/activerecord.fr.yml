@@ -239,6 +239,7 @@ fr:
         route: 'Route'
         route_id: 'Route'
         type: 'Type'
+        updated_at: 'Dernière modification'
         uri: 'Adresse'
         user: 'Créateur'
         user_id: 'Créateur'

@@ -22,6 +22,7 @@ fr:
       general_condition_not_validated: 'Les conditions générales doivent être acceptées'
       inclusion: "n'est pas une valeur autorisée"
       invalid: 'est invalide'
+      invalid_json: "n'est pas un JSON valide"
       is_used: "est en cours d'utilisation"
       missing_contract_client_bank_detail: "Le client doit renseigner ses coordonnées bancaires"
       missing_contract_startup_bank_detail: "Le fournisseur doit renseigner ses coordonnées bancaires"

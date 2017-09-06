@@ -23,7 +23,7 @@ class Route < ApplicationRecord
   has_many :error_measurements, dependent: :destroy
   has_many :contracts, through: :proxy, dependent: :restrict_with_error
   has_many :prices, dependent: :nullify
-  has_many :tests_requests, dependent: :destroy
+  has_many :tester_requests, dependent: :destroy, class_name: Tester::Request.name
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }

@@ -226,6 +226,7 @@ en:
         route: 'Route'
         route_id: 'Route'
         type: 'Type'
+        updated_at: 'Last update at'
         uri: 'Address'
         user: 'Creator'
         user_id: 'Creator'

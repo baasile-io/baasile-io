@@ -1,0 +1,42 @@
+
+<% if @collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover">
+    <thead>
+    <tr>
+      <th colspan="2"><%= t('activerecord.attributes.tester/request.route') %></th>
+      <th><%= t('activerecord.attributes.tester/request.method') %></th>
+      <th><%= t('activerecord.attributes.tester/request.format') %></th>
+      <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @collection.each do |tester_request| %>
+      <tr>
+        <td class="width-3"></td>
+        <td>
+          <%= tester_request.route %>
+        </td>
+        <td>
+          <%= tester_request.method %>
+        </td>
+        <td>
+          <%= tester_request.format %>
+        </td>
+        <td>
+          <%= l(tester_request.updated_at) %>
+        </td>
+        <td class="text-right">
+          <%= link_to service_proxy_tester_request_path(current_service, current_proxy, tester_request),
+                      remote: request.xhr?,
+                      class: 'btn btn-sm btn-secondary' do %>
+            <%= t('actions.edit') %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

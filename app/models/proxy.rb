@@ -21,6 +21,7 @@ class Proxy < ApplicationRecord
   has_many    :query_parameters, through: :routes, dependent: :destroy
   has_many    :contracts, dependent: :restrict_with_error
   has_many    :error_measurements, through: :contracts, dependent: :destroy
+  has_many    :tester_requests, through: :routes
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test

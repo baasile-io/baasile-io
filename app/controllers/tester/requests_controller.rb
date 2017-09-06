@@ -1,7 +1,20 @@
 module Tester
   class RequestsController < DashboardController
 
-    before_action :load_routes, only: [:new, :create]
+    before_action :load_routes, only: [:new, :create, :show, :edit, :update]
+    before_action :load_request, only: [:show, :edit, :update]
+
+    def index
+      @collection = current_proxy.tester_requests.order(updated_at: :desc)
+    end
+
+    def edit
+
+    end
+
+    def show
+
+    end
 
     def new
       @request = Tester::Requests::Standard.new(route_id: params[:route_id])
@@ -9,11 +22,23 @@ module Tester
 
     def create
       @request = Tester::Requests::Standard.new(requests_params)
+      @request.user = current_user
 
       if @request.save
 
       else
         render :new
+      end
+    end
+
+    def update
+      @request.assign_attributes(requests_params)
+      @request.user = current_user
+
+      if @request.save
+
+      else
+        render :edit
       end
     end
 
@@ -33,6 +58,10 @@ module Tester
 
       def load_routes
         @routes = current_proxy.routes
+      end
+
+      def load_request
+        @request = current_proxy.tester_requests.find(params[:id])
       end
 
   end
