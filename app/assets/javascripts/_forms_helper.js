@@ -128,8 +128,22 @@ window.activate_ace_editor = function() {
     var mode = ace.require("ace/mode/" + format).Mode;
     editor.setOption('useWorker', false);
     editor.session.setMode(new mode());
+    editor.renderer.setOption('printMarginColumn', false);
+    editor.renderer.setOption('displayIndentGuides', true);
   });
 };
+
+remove_tester_parameter = function() {
+  var button = $(this),
+    form_group = button.closest('.form-group');
+
+  button.tooltip('dispose');
+  form_group.find('input[data-destroy="1"]').val('1');
+  form_group.slideUp();
+};
+
+$(document).on('click', 'fieldset.tester_parameters_fieldset .form-group .form-group-remove', remove_tester_parameter);
+
 
 $(document).ready(function(e) {
 

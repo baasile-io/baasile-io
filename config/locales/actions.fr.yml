@@ -9,6 +9,8 @@ fr:
     add_existing_users: 'Ajouter des utilisateurs existants'
     add_user: "Ajouter l'utilisateur"
     add_users: "Ajouter des utilisateurs"
+    add_parameter_header: "Ajouter un paramètre d'entête"
+    add_parameter_query: "Ajouter un paramètre d'URL"
     add_price_parameter: 'Ajouter un critère de tarification'
     add_role: 'Ajouter le rôle'
     admin_list: 'liste des administrateurs'

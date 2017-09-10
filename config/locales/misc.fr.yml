@@ -12,6 +12,7 @@ fr:
     are_you_sure: 'Veuillez confirmer cette action.'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
+    body: 'Corps de la requête'
     captcha: 'Code de vérification'
     captcha_hint: 'Veuillez recopier le code de vérification.'
     closed_tickets: 'Tickets fermés'
@@ -31,6 +32,7 @@ fr:
     free_count_limit_reached_reset_description: "Vous avez atteint le nombre de requêtes ou paramètres maximum autorisé dans votre contrat. Du fait que vous êtes en phase de test, vous pouvez réinitialiser le compteur afin de continuer à requêter l'API."
     general_condition_not_modifiable: 'Ces Conditions Générales ne sont pas modifiables car elles ont déjà été acceptées'
     general_condition_validation: 'Validation des Conditions Générales'
+    headers: 'Entêtes de la requête'
     history: 'Historique'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
@@ -94,6 +96,7 @@ fr:
     platform_contribution: "Contribution à la plateforme"
     pricing: 'Tarification'
     profile: 'Profil'
+    query_parameters: "Paramètres d'URL"
     related_products: 'Produits connexes'
     role: 'Rôle'
     roles: 'Rôles'

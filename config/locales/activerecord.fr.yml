@@ -230,17 +230,27 @@ fr:
         user: 'Administrateur'
         user_id: 'Administrateur'
         website: 'Site Internet'
+      tester/parameter:
+        name: 'Nom'
+        value: 'Valeur'
+      tester/parameters/header:
+        name: 'HH'
       tester/request:
         body: 'Corps'
-        format: 'Format'
+        category: 'Catégorie'
+        category_id: 'Catégorie'
+        format: "Format d'encodage"
         is_test_settings: 'Environnement'
         method: 'Méthode'
         name: 'Nom'
         route: 'Route'
         route_id: 'Route'
+        tester_parameters_headers: "Paramètres d'entête"
+        tester_parameters_queries: "Paramètres d'URL"
         type: 'Type'
         updated_at: 'Dernière modification'
         uri: 'Adresse'
+        use_authorization: 'Authentification'
         user: 'Créateur'
         user_id: 'Créateur'
       ticket:
@@ -297,6 +307,8 @@ fr:
       query_parameter: 'Paramètre de requête'
       route: 'Route'
       service: 'Entreprise'
+      tester/parameter: 'Paramètre'
+      tester/request: 'Requête de test'
       ticket: 'Ticket'
       user: 'Utilisateur'
       user_association: "Association d'utilisateur"

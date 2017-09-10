@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903175526) do
+ActiveRecord::Schema.define(version: 20170910085910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -412,18 +412,29 @@ ActiveRecord::Schema.define(version: 20170903175526) do
     t.index ["service_id", "role_id"], name: "index_services_roles_on_service_id_and_role_id", using: :btree
   end
 
+  create_table "tester_parameters", force: :cascade do |t|
+    t.string  "type",              null: false
+    t.integer "tester_request_id"
+    t.string  "name"
+    t.string  "value"
+    t.index ["tester_request_id"], name: "index_tester_parameters_on_tester_request_id", using: :btree
+  end
+
   create_table "tester_requests", force: :cascade do |t|
-    t.string   "type",             null: false
+    t.string   "type",                             null: false
     t.string   "name"
     t.integer  "user_id"
     t.integer  "route_id"
-    t.boolean  "is_test_settings"
+    t.integer  "category_id"
+    t.boolean  "use_authorization", default: true
+    t.boolean  "is_test_settings",  default: true
     t.string   "method"
     t.string   "uri"
     t.string   "format"
     t.text     "body"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["category_id"], name: "index_tester_requests_on_category_id", using: :btree
     t.index ["route_id"], name: "index_tester_requests_on_route_id", using: :btree
     t.index ["user_id"], name: "index_tester_requests_on_user_id", using: :btree
   end

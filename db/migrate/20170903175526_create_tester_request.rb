@@ -5,7 +5,9 @@ class CreateTesterRequest < ActiveRecord::Migration[5.0]
       t.string :name
       t.belongs_to :user
       t.belongs_to :route
-      t.boolean :is_test_settings
+      t.belongs_to :category
+      t.boolean :use_authorization, default: true
+      t.boolean :is_test_settings, default: true
       t.string :method
       t.string :uri
       t.string :format

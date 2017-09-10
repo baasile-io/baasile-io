@@ -217,9 +217,14 @@ en:
         user: 'Administrator'
         user_id: 'Administrator'
         website: 'Website'
+      tester/parameter:
+        name: 'Name'
+        value: 'Value'
       tester/request:
         body: 'Body'
-        format: 'Format'
+        category: 'Category'
+        category_id: 'Category'
+        format: 'Encoding format'
         is_test_settings: 'Environment'
         method: 'Method'
         name: 'Name'
@@ -228,6 +233,7 @@ en:
         type: 'Type'
         updated_at: 'Last update at'
         uri: 'Address'
+        use_authorization: 'Authentication'
         user: 'Creator'
         user_id: 'Creator'
       ticket:

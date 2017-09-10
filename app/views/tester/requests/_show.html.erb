@@ -1,25 +1,8 @@
 
-<ul class="nav nav-tabs" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if active_tab == 'show' %>" data-toggle="tab" href="#tester_request_main" role="tab"><%= t('actions.test') %></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if active_tab == 'edit' %>" data-toggle="tab" href="#tester_request_edit" role="tab"><%= t('actions.edit') %></a>
-  </li>
-</ul>
+<pre><%= @request.body %></pre>
 
-<div class="tab-content">
-
-  <div role="tabpanel" class="tab-pane <%= 'active' if active_tab == 'show' %>" id="tester_request_main">
-
-    <pre><%= @request.body %></pre>
-
-  </div>
-
-  <div role="tabpanel" class="tab-pane <%= 'active' if active_tab == 'edit' %>" id="tester_request_edit">
-
-    <%= render partial: 'form', locals: {object: @request} %>
-
-  </div>
-
-</div>
+<%= link_to edit_service_proxy_tester_request_path(current_service, current_proxy, @request),
+            remote: request.xhr?,
+            class: 'btn btn-sm btn-secondary' do %>
+  <%= t('actions.edit') %>
+<% end %>

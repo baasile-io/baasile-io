@@ -7,6 +7,7 @@
               input_html: {
                 class: 'select2'
               },
+              include_bank: false,
               readonly: true %>
 
   <%= f.input :method,
@@ -16,18 +17,88 @@
               },
               include_blank: false %>
 
-  <%= f.input :format,
-              collection: Route::ALLOWED_FORMATS,
-              input_html: {
-                class: 'col-sm-7'
-              },
-              include_blank: false %>
+  <%= f.input :use_authorization,
+              as: :radio_buttons,
+              collection: format_boolean_values_for_input({'true': t('tester.requests.form.hints.yes_if_necessary')}) %>
 
-  <%= f.input :body,
-              as: :json,
-              input_html: {
-                rows: 10
-              } %>
+
+  <hr />
+
+  <fieldset id="tester_parameters_header_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+        <%= link_to_add_association f, :tester_parameters_headers,
+                                    {
+                                      partial: 'tester_parameter_fields',
+                                      class: 'btn btn-secondary',
+                                      data: {
+                                        association_insertion_method: 'append',
+                                        association_insertion_node: '#tester_parameters_header_fieldset',
+                                        wrap_object: proc {|obj| obj.type = 'Tester::Parameters::Header'}
+                                      }
+                                    } do %>
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_header') %>
+        <% end %>
+      </span>
+      <%= t('misc.headers') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_headers do |f2| %>
+      <%= render partial: 'tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
+  </fieldset>
+
+  <hr />
+
+  <fieldset id="tester_parameters_query_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+        <%= link_to_add_association f, :tester_parameters_queries,
+                                    {
+                                      partial: 'tester_parameter_fields',
+                                      class: 'btn btn-secondary',
+                                      data: {
+                                        association_insertion_method: 'append',
+                                        association_insertion_node: '#tester_parameters_query_fieldset',
+                                        wrap_object: proc {|obj| obj.type = 'Tester::Parameters::Query'}
+                                      }
+                                    } do %>
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_query') %>
+        <% end %>
+      </span>
+      <%= t('misc.query_parameters') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_queries do |f2| %>
+      <%= render partial: 'tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
+  </fieldset>
+
+  <hr />
+
+  <fieldset id="tester_parameters_headers_fieldset">
+    <legend><%= t('misc.body') %></legend>
+
+
+    <%= f.input :format,
+                collection: Route::ALLOWED_FORMATS,
+                input_html: {
+                  class: 'col-sm-7'
+                },
+                include_blank: false %>
+
+    <p>
+      <%= t('.hints.body') %>
+    </p>
+
+    <%= f.input :body,
+                label: false,
+                as: :json,
+                custom_wrapper_html: {class: 'col-md-12'},
+                input_html: {
+                  rows: 10
+                } %>
+  </fieldset>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

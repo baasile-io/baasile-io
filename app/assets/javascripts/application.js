@@ -31,5 +31,7 @@
 //= require 'ace/ace.js'
 //= require 'ace/mode-json.js'
 
+//= require 'cocoon'
+
 //= require_tree .
 
