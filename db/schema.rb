@@ -427,7 +427,6 @@ ActiveRecord::Schema.define(version: 20170910085910) do
     t.integer  "route_id"
     t.integer  "category_id"
     t.boolean  "use_authorization", default: true
-    t.boolean  "is_test_settings",  default: true
     t.string   "method"
     t.string   "uri"
     t.string   "format"

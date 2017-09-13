@@ -3,6 +3,6 @@ fr:
     requests:
       form:
         hints:
-          body: "Attention : Renseignez le corps de la requête au format JSON. Si vous avez sélectionné un autre format d'encodage, le corps de la requête sera automatiquement converti au format sélectionné."
+          body: "Attention : Renseignez le corps de la requête au format JSON même si vous avez sélectionné un autre format d'encodage. Le corps de la requête sera automatiquement converti au format sélectionné."
           yes_if_necessary: 'Oui, si nécessaire'
     title: "Testeur d'API"

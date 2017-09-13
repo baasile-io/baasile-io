@@ -79,6 +79,7 @@ module Tester
             :route_id,
             :method,
             :format,
+            :use_authorization,
             :body,
             {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
             {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]}

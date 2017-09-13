@@ -152,6 +152,10 @@ fr:
         category_id: 'Catégorie'
         description: 'Description courte'
         description_long: 'Description longue'
+        proxy_parameter: 'Paramètres de production'
+        proxy_parameter_id: 'Paramètres de production'
+        proxy_parameter_test: 'Paramètres de test'
+        proxy_parameter_test_id: 'Paramètres de test'
         public: 'Publié sur le catalogue'
         name: 'Nom du produit'
         service: 'Entreprise'
@@ -240,7 +244,6 @@ fr:
         category: 'Catégorie'
         category_id: 'Catégorie'
         format: "Format d'encodage"
-        is_test_settings: 'Environnement'
         method: 'Méthode'
         name: 'Nom'
         route: 'Route'

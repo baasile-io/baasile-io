@@ -7,7 +7,7 @@
               input_html: {
                 class: 'select2'
               },
-              include_bank: false,
+              include_blank: false,
               readonly: true %>
 
   <%= f.input :method,
@@ -19,7 +19,7 @@
 
   <%= f.input :use_authorization,
               as: :radio_buttons,
-              collection: format_boolean_values_for_input({'true': t('tester.requests.form.hints.yes_if_necessary')}) %>
+              collection: format_boolean_values_for_input({true: t('tester.requests.form.hints.yes_if_necessary')}) %>
 
 
   <hr />
