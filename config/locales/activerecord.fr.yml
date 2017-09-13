@@ -243,6 +243,7 @@ fr:
         body: 'Corps'
         category: 'Catégorie'
         category_id: 'Catégorie'
+        follow_url: 'Chemin supplémentaire'
         format: "Format d'encodage"
         method: 'Méthode'
         name: 'Nom'

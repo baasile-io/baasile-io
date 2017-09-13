@@ -228,6 +228,7 @@ en:
         body: 'Body'
         category: 'Category'
         category_id: 'Category'
+        follow_url: 'Additional path'
         format: 'Encoding format'
         method: 'Method'
         name: 'Name'

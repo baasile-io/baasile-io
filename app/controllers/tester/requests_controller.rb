@@ -78,6 +78,7 @@ module Tester
           .permit(
             :route_id,
             :method,
+            :follow_url,
             :format,
             :use_authorization,
             :body,

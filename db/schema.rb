@@ -430,6 +430,7 @@ ActiveRecord::Schema.define(version: 20170910085910) do
     t.string   "method"
     t.string   "uri"
     t.string   "format"
+    t.string   "follow_url"
     t.text     "body"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false

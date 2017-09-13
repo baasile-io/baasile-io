@@ -45,13 +45,12 @@ module Tester
     private
 
       def body_format_validation
-        case format
-          when 'application/json'
-            begin
-              JSON.parse(body)
-            rescue JSON::ParserError
-              errors.add(:body, I18n.t('errors.messages.invalid_json'))
-            end
+        if ['POST', 'PUT', 'PATCH', 'DELETE'].include?(self.method)
+          begin
+            JSON.parse(body)
+          rescue JSON::ParserError
+            errors.add(:body, I18n.t('errors.messages.invalid_json'))
+          end
         end
       end
 

@@ -6,3 +6,15 @@
             class: 'btn btn-sm btn-secondary' do %>
   <%= t('actions.edit') %>
 <% end %>
+
+<%= simple_form_for @request, url: service_proxy_tester_process_request_path(current_service, current_proxy, id: @request.id), method: :post do |f| %>
+
+  <%= f.input :follow_url %>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.test'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>
