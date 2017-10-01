@@ -22,6 +22,7 @@ module Tester
              foreign_key: 'tester_request_id',
              dependent: :destroy
 
+    validates :name, presence: true
     validates :user, presence: true
     validates :method, inclusion: {in: Route::ALLOWED_METHODS}
     validates :format, inclusion: {in: Route::ALLOWED_FORMATS}

@@ -9,18 +9,25 @@ module Tester
 
     def process_request
 
-      @request_headers = {}
-      request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
-        header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
-        @request_headers[header_name] = header[1]
-      end
-      @request_method = request.method
-      @request_content_type = request.content_type
-      @request_body = request.raw_post
-      @request_get = request.GET
+      @request_method = current_request.method
+      @request_content_type = current_request.format
+
+      @request_headers = request_build_headers
+      @request_body = request_build_body
+      @request_get = request_build_get
 
       @proxy_response = proxy_request
-      render status: @proxy_response.code, plain: @proxy_response.body
+
+      response_headers = {}
+      @proxy_response.header.each_header do |key, value|
+        response_headers[key] = value
+      end
+
+      render json: {
+        status: @proxy_response.code,
+        headers: response_headers,
+        body: @proxy_response.body.to_s.force_encoding('UTF-8')
+      }
     rescue Api::ProxyError => e
       Rails.logger.error "Api::ProxyError: #{e.message}"
       if e.req
@@ -42,6 +49,51 @@ module Tester
         response: metadata_response
       }
       render json: {req: metadata_request, res: metadata_response, uri: e.uri.to_s, message: e.message, meta: e.meta}
+    end
+
+    def request_build_body
+      case current_request.format
+
+        when 'application/json'
+          current_request.body
+
+        when 'application/x-www-form-urlencoded'
+          Rack::Utils.build_nested_query(JSON.parse(current_request.body))
+
+      end
+    rescue
+      current_request.body
+    end
+
+    def request_build_headers
+      {}.tap do |parameters|
+        current_request.tester_parameters_headers.each do |header_parameter|
+          parameters[header_parameter.name.upcase.gsub(/_/, '-')] = header_parameter.value
+        end
+      end
+    end
+
+    def request_build_get
+      {}.tap do |parameters|
+        current_request.tester_parameters_queries.each do |query_parameter|
+          request_parse_get_param(
+            query_parameter,
+            Rack::Utils.parse_nested_query(query_parameter.name),
+            parameters
+          )
+        end
+      end
+    end
+
+    def request_parse_get_param(query_parameter, query_parameter_hash, parameters)
+      key, value = query_parameter_hash.first
+
+      if value.is_a?(Hash)
+        parameters[key] ||= {}
+        request_parse_get_param(query_parameter, value, parameters[key])
+      else
+        parameters[key] ||= query_parameter.value
+      end
     end
 
     def load_route

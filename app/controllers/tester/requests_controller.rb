@@ -15,14 +15,24 @@ module Tester
     end
 
     def new
-      @request = Tester::Requests::Standard.new(route_id: params[:route_id])
-      current_route.query_parameters.not_forbidden.each do |qp|
-        case qp.query_parameter_type.to_sym
-          when :get
-            @request.tester_parameters_queries.build(name: qp.name, value: qp.default_value)
-          when :header
-            @request.tester_parameters_headers.build(name: qp.name, value: qp.default_value)
+      route_id = params.fetch(:tester_request, {}).fetch(:route_id, '')
+
+      if route_id.blank?
+        render 'select_route'
+      else
+
+        route = current_proxy.routes.find(route_id)
+
+        @request = Tester::Requests::Standard.new(route_id: route_id)
+        route.query_parameters.not_forbidden.each do |qp|
+          case qp.query_parameter_type.to_sym
+            when :get
+              @request.tester_parameters_queries.build(name: qp.name, value: qp.default_value)
+            when :header
+              @request.tester_parameters_headers.build(name: qp.name, value: qp.default_value)
+          end
         end
+
       end
     end
 
@@ -31,6 +41,7 @@ module Tester
       @request.user = current_user
 
       if @request.save
+        @current_request = @request
         respond_to do |format|
           format.html { redirect_to_show }
           format.js { render :new }
@@ -41,10 +52,10 @@ module Tester
     end
 
     def update
-      @request.assign_attributes(requests_params)
-      @request.user = current_user
+      current_request.assign_attributes(requests_params)
+      current_request.user = current_user
 
-      if @request.save
+      if current_request.save
         respond_to do |format|
           format.html { redirect_to_show }
           format.js { render :show }
@@ -55,19 +66,19 @@ module Tester
     end
 
     def redirect_to_show
-      redirect_to service_proxy_tester_request_path(current_service, current_proxy, @request)
+      redirect_to service_proxy_tester_request_path(current_service, current_proxy, current_request)
     end
 
     def current_proxy
       @current_proxy ||= current_service.proxies.find(params[:proxy_id])
     end
 
-    def current_route
-      @current_route ||= current_proxy.routes.find_by_id(params[:route_id])
-    end
-
     def current_service
       @current_service ||= Service.find(params[:service_id])
+    end
+
+    def current_request
+      @current_request
     end
 
     private
@@ -77,8 +88,9 @@ module Tester
           .require(:tester_request)
           .permit(
             :route_id,
+            :name,
             :method,
-            :follow_url,
+            #:follow_url,
             :format,
             :use_authorization,
             :body,
@@ -92,7 +104,7 @@ module Tester
       end
 
       def load_request
-        @request = current_proxy.tester_requests.includes(:tester_parameters_headers).find(params[:id])
+        @current_request = current_proxy.tester_requests.includes(:tester_parameters_headers).find(params[:id])
       end
 
   end

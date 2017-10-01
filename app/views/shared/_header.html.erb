@@ -21,6 +21,10 @@
     <% unless current_price.nil? %>
       <%= render partial: 'shared/headers/price_header' %>
     <% end %>
+
+    <% unless current_request.nil? %>
+      <%= render partial: 'shared/headers/request_header' %>
+    <% end %>
   <% end %>
 
 <% elsif current_module == 'documentation' %>

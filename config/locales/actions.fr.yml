@@ -22,10 +22,10 @@ fr:
     cancel: 'Annuler'
     cancel_contract: 'Annuler le contrat'
     change_password: 'Changer de mot de passe'
+    close: 'Fermer'
     configure: 'Configurer'
     confirm_email: "Confirmer l'adresse E-Mail"
     contractualize: 'Contractualiser'
-    close: 'Fermer'
     create_bank_detail: 'Ajouter des coordonnées bancaires'
     create_client: "Créer un compte Client"
     create_startup: "Créer un compte Fournisseur"
@@ -60,6 +60,7 @@ fr:
     new_price_template: 'Créer un modèle de tarification'
     new_route: 'Créer une route'
     new_startup: 'Créer un Fournisseur'
+    new_tester_request: 'Créer une requête'
     new_ticket: 'Créer un ticket'
     next_step: "Valider"
     open: 'Open'

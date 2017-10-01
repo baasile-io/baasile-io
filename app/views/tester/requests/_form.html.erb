@@ -8,7 +8,11 @@
                 class: 'select2'
               },
               include_blank: false,
-              readonly: true %>
+              disabled: true %>
+
+  <%= f.input :route_id, as: :hidden %>
+
+  <%= f.input :name, hint: t('.hints.name') %>
 
   <%= f.input :method,
               collection: Route::ALLOWED_METHODS,
@@ -21,7 +25,7 @@
               as: :radio_buttons,
               collection: format_boolean_values_for_input({true: t('tester.requests.form.hints.yes_if_necessary')}) %>
 
-  <%= f.input :follow_url %>
+  <%#= f.input :follow_url %>
 
   <hr />
 

@@ -1,9 +1,4 @@
 
-<%= link_to new_service_proxy_tester_request_path(current_service, current_proxy),
-            remote: request.xhr? do %>
-  <%= t('actions.new') %>
-<% end %>
-
 <% if @collection.size == 0 %>
   <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
 <% else %>
@@ -33,11 +28,11 @@
         <td>
           <%= l(tester_request.updated_at) %>
         </td>
-        <td class="text-right">
+        <td class="text-right width-10">
           <%= link_to service_proxy_tester_request_path(current_service, current_proxy, tester_request),
                       remote: request.xhr?,
                       class: 'btn btn-sm btn-secondary' do %>
-            <%= t('actions.edit') %>
+            <%= t('actions.select') %>
           <% end %>
         </td>
       </tr>
@@ -45,3 +40,11 @@
     </tbody>
   </table>
 <% end %>
+
+<div class="text-right">
+  <%= link_to new_service_proxy_tester_request_path(current_service, current_proxy),
+              class: 'btn btn-primary',
+              remote: request.xhr? do %>
+    <%= t('actions.new_tester_request') %>
+  <% end %>
+</div>

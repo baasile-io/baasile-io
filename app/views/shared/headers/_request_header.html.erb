@@ -1,0 +1,27 @@
+<div class="b-io-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          <span class="text-muted"><%= link_to t('tester.title'), service_proxy_tester_requests_path(current_service, current_proxy), class: '' %> <i class="fa fa-fw fa-caret-right"></i></span>
+          <%= current_request.name %>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if action_name == 'show' %>" href="<%= service_proxy_tester_request_path(current_service, current_proxy, current_request) %>"><i class="fa fa-dashboard fa-fw"></i> <%= t('misc.overview') %></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_tester_request_path(current_service, current_proxy, current_request) %>"><i class="fa fa-pencil fa-fw"></i> <%= t('actions.edit') %></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

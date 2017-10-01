@@ -9,6 +9,8 @@ en:
     add_existing_users: 'Add existing users'
     add_user: 'Add user'
     add_users: "Add users"
+    add_parameter_header: "Add header parameter"
+    add_parameter_query: "Add query parameter"
     add_price_parameter: 'Add pricing criteria'
     add_role: 'Add role'
     admin_list: 'administrator list'
@@ -58,6 +60,7 @@ en:
     new_price_template: 'Create pricing template'
     new_route: 'Create route'
     new_startup: 'Create Supplier'
+    new_tester_request: 'Create request'
     new_ticket: 'Create Ticket'
     next_step: 'Validate'
     open: 'Ouvrir'

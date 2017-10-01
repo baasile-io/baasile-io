@@ -1,11 +1,9 @@
-<%
-  content_for(:page_title) { t('actions.edit') }
-%>
+<% content_for(:page_title) { t('tester.requests.new.title') } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'edit' %>
+    <%= render partial: 'select_route' %>
 
   </div>
 </div>
@@ -13,6 +11,5 @@
 <% content_for(:extra_js) do %>
   <script type="text/javascript">
     window.activate_select2();
-    window.activate_ace_editor();
   </script>
 <% end %>

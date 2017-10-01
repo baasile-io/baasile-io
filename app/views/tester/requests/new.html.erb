@@ -1,4 +1,12 @@
-<%= render partial: 'new' %>
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'new' %>
+
+  </div>
+</div>
 
 <% content_for(:extra_js) do %>
   <script type="text/javascript">
