@@ -9,6 +9,9 @@ module Tester
 
     def process_request
 
+      @cache_token_prefix = "#{controller_name}#{DateTime.now.to_s}"
+      @use_test_settings = !(params[:use_test_settings] == 'false')
+
       @request_method = current_request.method
       @request_content_type = current_request.format
 
@@ -16,6 +19,7 @@ module Tester
       @request_body = request_build_body
       @request_get = request_build_get
 
+      proxy_initialize
       @proxy_response = proxy_request
 
       response_headers = {}
@@ -23,32 +27,50 @@ module Tester
         response_headers[key] = value
       end
 
-      render json: {
+      @result = {
         status: @proxy_response.code,
-        headers: response_headers,
-        body: @proxy_response.body.to_s.force_encoding('UTF-8')
+        error: false,
+        response: {
+          status: @proxy_response.code,
+          headers: response_headers,
+          body: @proxy_response.body.to_s.force_encoding('UTF-8')
+        }
       }
+
+      render 'tester/requests/show'
+
     rescue Api::ProxyError => e
-      Rails.logger.error "Api::ProxyError: #{e.message}"
-      if e.req
-        metadata_request = {
-          method: e.req.method,
-          original_url: e.uri.to_s,
-          headers: e.req.to_hash,
-          body: e.req.body
-        }
+      Rails.logger.error "Tester::ProcessRequests::ProxyError: #{e.message}"
+
+      status = I18n.t("errors.api.#{e.code}.status", locale: :en)
+
+      @result = {}.tap do |result|
+
+        result[:status] = status
+        result[:error] = true
+        result[:error_title] = I18n.t("errors.api.#{e.code}.title", locale: :en)
+        result[:error_message] = I18n.t("errors.api.#{e.code}.message", locale: :en)
+
+        if e.res
+          result[:response] = {
+            status: e.res.code,
+            headers: e.res.to_hash.transform_values {|v| v.join(', ')},
+            body: e.res.body.to_s.force_encoding('UTF-8')
+          }
+        end
+
+        if e.req
+          result[:request] = {
+            method: e.req.method,
+            original_url: e.uri.to_s,
+            headers: e.req.to_hash.transform_values {|v| v.join(', ')},
+            body: e.req.body
+          }
+        end
+
       end
-      if e.res
-        metadata_response = {
-          status: e.res.code,
-          body: e.res.body.to_s.force_encoding('UTF-8')
-        }
-      end
-      metadata_full = {
-        request: metadata_request,
-        response: metadata_response
-      }
-      render json: {req: metadata_request, res: metadata_response, uri: e.uri.to_s, message: e.message, meta: e.meta}
+
+      render 'tester/requests/show'
     end
 
     def request_build_body
@@ -108,10 +130,6 @@ module Tester
 
     def current_proxy
       @current_proxy ||= current_route.proxy
-    end
-
-    def use_test_settings?
-      true
     end
 
     def authenticated_service

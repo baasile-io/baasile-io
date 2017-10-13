@@ -17,6 +17,8 @@ module Api
 
       def process_request
 
+        @use_test_settings = use_test_settings?
+
         @request_headers = {}
         request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
           header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
@@ -28,21 +30,25 @@ module Api
         @request_body = request.raw_post
         @request_get = request.GET
 
+        proxy_initialize
         @proxy_response = proxy_request
+
         render status: @proxy_response.code, plain: @proxy_response.body
+
       rescue Api::ProxyError => e
         Rails.logger.error "Api::ProxyError: #{e.message}"
         if e.req
           metadata_request = {
             method: e.req.method,
             original_url: e.uri.to_s,
-            headers: e.req.to_hash,
+            headers: e.req.to_hash.transform_values {|v| v.join(', ')},
             body: e.req.body
           }
         end
         if e.res
           metadata_response = {
             status: e.res.code,
+            headers: e.res.to_hash.transform_values {|v| v.join(', ')},
             body: e.res.body.to_s.force_encoding('UTF-8')
           }
         end

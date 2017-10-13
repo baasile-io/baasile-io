@@ -114,6 +114,8 @@ en:
       destroyed: '%{resource} was successfuly deleted'
       updated: '%{resource} was successfuly updated'
     test: 'Test'
+    test_request_production: "Test on production environment"
+    test_request_test: "Test on test environment"
     unlock_after_expired: 'Unlock after expired'
     unset_admin: 'Unset admin'
     unset_production: 'Deactivate production phase'

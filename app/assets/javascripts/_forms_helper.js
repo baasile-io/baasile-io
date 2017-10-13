@@ -133,6 +133,22 @@ window.activate_ace_editor = function() {
   });
 };
 
+window.activate_ace_viewer = function() {
+  $('pre.ace-viewer').each(function() {
+    var editor_container = $(this);
+    var id = editor_container.attr('id');
+    var format = editor_container.data('format');
+
+    var editor = ace.edit(id);
+
+    var mode = ace.require("ace/mode/" + format).Mode;
+    editor.setOption('useWorker', false);
+    editor.session.setMode(new mode());
+    editor.renderer.setOption('printMarginColumn', false);
+    editor.renderer.setOption('displayIndentGuides', true);
+  });
+};
+
 remove_tester_parameter = function() {
   var button = $(this),
     form_group = button.closest('.form-group');
