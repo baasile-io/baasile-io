@@ -224,6 +224,7 @@ en:
       tester/parameter:
         name: 'Name'
         value: 'Value'
+        is_request: 'Is request'
       tester/request:
         body: 'Body'
         category: 'Category'
@@ -232,8 +233,12 @@ en:
         format: 'Encoding format'
         method: 'Method'
         name: 'Name'
+        required_responce_status: 'Responce status'
         route: 'Route'
         route_id: 'Route'
+        tester_parameters_headers: "Header parameters"
+        tester_parameters_queries: "URL parameters"
+        tester_parameters_body_elements: "Body parameters"
         type: 'Type'
         updated_at: 'Last update at'
         uri: 'Address'

@@ -237,6 +237,7 @@ fr:
       tester/parameter:
         name: 'Nom'
         value: 'Valeur'
+        is_request: 'Est ce une requête'
       tester/parameters/header:
         name: 'HH'
       tester/request:
@@ -247,10 +248,12 @@ fr:
         format: "Format d'encodage"
         method: 'Méthode'
         name: 'Nom'
+        required_responce_status: 'Status de la réponse'
         route: 'Route'
         route_id: 'Route'
         tester_parameters_headers: "Paramètres d'entête"
         tester_parameters_queries: "Paramètres d'URL"
+        tester_parameters_body_elements: "Paramètres du corp"
         type: 'Type'
         updated_at: 'Dernière modification'
         uri: 'Adresse'
