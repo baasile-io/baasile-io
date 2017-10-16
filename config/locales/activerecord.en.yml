@@ -236,9 +236,9 @@ en:
         required_responce_status: 'Response status'
         route: 'Route'
         route_id: 'Route'
-        tester_parameters_headers: "Header parameters"
-        tester_parameters_queries: "URL parameters"
-        tester_parameters_body_elements: "Body parameters"
+        tester_parameters_headers: 'Header parameters'
+        tester_parameters_queries: 'URL parameters'
+        tester_parameters_body_elements: 'Body parameters'
         type: 'Type'
         updated_at: 'Last update at'
         uri: 'Address'

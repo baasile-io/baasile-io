@@ -253,7 +253,7 @@ fr:
         route_id: 'Route'
         tester_parameters_headers: "Paramètres d'entête"
         tester_parameters_queries: "Paramètres d'URL"
-        tester_parameters_body_elements: "Paramètres du corp"
+        tester_parameters_body_elements: 'Paramètres du corp'
         type: 'Type'
         updated_at: 'Dernière modification'
         uri: 'Adresse'
