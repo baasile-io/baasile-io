@@ -233,7 +233,7 @@ en:
         format: 'Encoding format'
         method: 'Method'
         name: 'Name'
-        required_responce_status: 'Responce status'
+        required_responce_status: 'Response status'
         route: 'Route'
         route_id: 'Route'
         tester_parameters_headers: "Header parameters"
