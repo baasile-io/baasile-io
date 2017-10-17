@@ -35,6 +35,9 @@ module Tester
     accepts_nested_attributes_for :tester_parameters_queries,
                                   allow_destroy: true
 
+    scope :standard, -> { where.not(route: nil)}
+    scope :template, -> { where(route: nil)}
+
     # STI
     def self.inherited(subclass)
       super

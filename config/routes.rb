@@ -232,9 +232,10 @@ Rails.application.routes.draw do
       end
     end
 
-
     get 'back_office', to: 'back_office#index'
+
     namespace :back_office do
+      resources :module_testers
       resources :error_measurements
       resources :users do
         member do

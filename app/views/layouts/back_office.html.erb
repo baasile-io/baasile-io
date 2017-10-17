@@ -59,6 +59,9 @@
                 <%= link_to back_office_error_measurements_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'error_measurements' }" do %>
                   <i class="fa fa-fw fa-warning"></i> &nbsp;<%= t('error_measurements.index.title') %>
                 <% end %>
+                <%= link_to back_office_module_testers_path, class: "list-group-item list-group-item-action #{'active' if controller_name == 'module_testers' }" do %>
+                    <i class="fa fa-fw fa-warning"></i> &nbsp;<%= t('module_testers.index.title') %>
+                <% end %>
               </div>
             </div>
           </div>

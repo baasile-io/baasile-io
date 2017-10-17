@@ -5,7 +5,7 @@ module Tester
     before_action :load_request, only: [:show, :edit, :update]
 
     def index
-      @collection = current_proxy.tester_requests.order(updated_at: :desc)
+      @collection = current_proxy.tester_requests.standard.order(updated_at: :desc)
     end
 
     def edit
@@ -104,7 +104,7 @@ module Tester
       end
 
       def load_request
-        @current_request = current_proxy.tester_requests.includes(:tester_parameters_headers).find(params[:id])
+        @current_request = current_proxy.tester_requests.standard.includes(:tester_parameters_headers).find(params[:id])
       end
 
   end

@@ -1,0 +1,79 @@
+<%= simple_form_for object, :url => back_office_module_testers_path() do |f| %>
+
+  <%= error_messages_for(f.object) %>
+
+  <%= f.input :name, hint: t('.hints.name') %>
+
+  <%= f.input :method,
+              collection: Route::ALLOWED_METHODS,
+              input_html: {
+                class: 'col-sm-3'
+              },
+              include_blank: false %>
+
+  <hr />
+
+  <fieldset id="tester_parameters_header_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_header') %>
+
+      </span>
+      <%= t('misc.headers') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_headers do |f2| %>
+      <%= render partial: 'tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
+  </fieldset>
+
+  <hr />
+
+  <fieldset id="tester_parameters_query_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_query') %>
+      </span>
+      <%= t('misc.query_parameters') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_queries do |f2| %>
+      <%= render partial: 'tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
+  </fieldset>
+
+  <hr />
+
+  <fieldset id="tester_parameters_headers_fieldset">
+    <legend><%= t('misc.body') %></legend>
+
+
+    <%= f.input :format,
+                collection: Route::ALLOWED_FORMATS,
+                input_html: {
+                  class: 'col-sm-7'
+                },
+                include_blank: false %>
+
+    <p>
+      <%= t('.hints.body') %>
+    </p>
+
+    <%= f.input :body,
+                label: false,
+                as: :json,
+                custom_wrapper_html: {class: 'col-md-12'},
+                input_html: {
+                  rows: 10
+                } %>
+  </fieldset>
+
+  <div class="row">
+    <div class="actions col-md-9 offset-md-3">
+      <%= f.button :submit, value: I18n.t('actions.save'), data: { disable_with: t('actions.save_in_progress') } %>
+    </div>
+  </div>
+
+<% end %>

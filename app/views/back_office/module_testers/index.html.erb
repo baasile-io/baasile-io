@@ -1,0 +1,19 @@
+<%
+  content_for(:page_title) { t('tester.title') }
+  content_for(:page_description, t('tester.description'))
+
+  content_for(:page_controls) {
+    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_tester_request')}".html_safe, new_back_office_module_tester_path(),
+            class: 'btn btn-primary',
+            remote: request.xhr?
+  }
+
+%>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'index' %>
+
+  </div>
+</div>
