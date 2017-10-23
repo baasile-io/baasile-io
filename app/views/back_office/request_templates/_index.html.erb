@@ -25,7 +25,11 @@
           <%= l(tester_request.updated_at) %>
         </td>
         <td class="text-right width-10">
+          <%= link_to edit_back_office_request_template_path(tester_request),
+                      class: 'btn btn-primary',
+                      remote: request.xhr? do %>
             <%= t('actions.select') %>
+          <% end %>
         </td>
       </tr>
     <% end %>
@@ -34,7 +38,7 @@
 <% end %>
 
 <div class="text-right">
-  <%= link_to new_back_office_module_tester_path(),
+  <%= link_to new_back_office_request_template_path(),
               class: 'btn btn-primary',
               remote: request.xhr? do %>
     <%= t('actions.new_tester_request') %>

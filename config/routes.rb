@@ -235,7 +235,7 @@ Rails.application.routes.draw do
     get 'back_office', to: 'back_office#index'
 
     namespace :back_office do
-      resources :module_testers
+      resources :request_templates
       resources :error_measurements
       resources :users do
         member do

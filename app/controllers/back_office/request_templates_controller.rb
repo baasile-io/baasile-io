@@ -1,10 +1,10 @@
 module BackOffice
-  class ModuleTestersController < BackOfficeController
+  class RequestTemplatesController < BackOfficeController
 
     before_action :load_request, except: [:index, :new, :create]
 
     def index
-      @collection = Tester::Request.template.order(updated_at: :desc)
+      @collection = Tester::Request.templates.order(updated_at: :desc)
     end
 
     def new
@@ -42,14 +42,14 @@ module BackOffice
     end
 
     def destroy
-      redirect_to back_office_module_testers_path
+      redirect_to back_office_request_templates_path
     end
 
     def edit
     end
 
     def redirect_to_show
-      redirect_to back_office_module_tester_path(current_request)
+      redirect_to back_office_request_template_path(current_request)
     end
 
     def current_request
@@ -72,7 +72,7 @@ module BackOffice
     end
 
     def load_request
-      @current_request = Tester::Request.template.includes(:tester_parameters_headers).find(params[:id])
+      @current_request = Tester::Request.templates.includes(:tester_parameters_headers).find(params[:id])
     end
 
   end

@@ -1,0 +1,10 @@
+
+<pre><%= current_request.body %></pre>
+
+
+
+<%= link_to edit_back_office_request_template_path(current_request),
+            remote: request.xhr?,
+            class: 'btn btn-sm btn-secondary' do %>
+  <%= t('actions.edit') %>
+<% end %>

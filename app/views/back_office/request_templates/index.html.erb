@@ -3,7 +3,7 @@
   content_for(:page_description, t('tester.description'))
 
   content_for(:page_controls) {
-    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_tester_request')}".html_safe, new_back_office_module_tester_path(),
+    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_tester_request')}".html_safe, new_back_office_request_template_path(),
             class: 'btn btn-primary',
             remote: request.xhr?
   }
