@@ -1,7 +1,7 @@
 module Tester
   module Parameters
-    class BodyElement < Parameter
-
+    class ResponseHeader < Parameter
+      
     end
   end
 end

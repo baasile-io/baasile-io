@@ -68,6 +68,7 @@ en:
     print_consumption: 'Print current consumption'
     closed_ticket: 'Closed tikets'
     reject: 'Reject'
+    remove: 'Remove'
     remove_role: 'Remove role'
     reopen: 'Reopen'
     resend_confirmation_instructions: 'Resend confirmation instructions'

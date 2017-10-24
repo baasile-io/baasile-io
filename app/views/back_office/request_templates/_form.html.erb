@@ -2,7 +2,15 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :name, hint: t('.hints.name') %>
+  <%= f.input :name,
+              hint: t('.hints.name') %>
+
+  <%= f.input :category_id,
+              as: :select,
+              collection: format_categories_for_select(@categories),
+              input_html: {class:'select2'},
+              include_blank: t('tester.misc.apply_to_all_categories'),
+              hint: t('.hints.category_id') %>
 
   <%= f.input :method,
               collection: Route::ALLOWED_METHODS,
@@ -87,6 +95,64 @@
                 input_html: {
                   rows: 10
                 } %>
+  </fieldset>
+
+  <hr />
+
+  <%= f.input :expected_response_status,
+              as: :string,
+              hint: t('.hints.expected_response_status') %>
+
+  <hr />
+
+  <fieldset id="tester_parameters_response_header_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+        <%= link_to_add_association f, :tester_parameters_response_headers,
+                                    {
+                                      partial: 'tester/requests/tester_parameter_fields',
+                                      class: 'btn btn-secondary',
+                                      data: {
+                                        association_insertion_method: 'append',
+                                        association_insertion_node: '#tester_parameters_response_header_fieldset',
+                                        wrap_object: proc {|obj| obj.type = 'Tester::Parameters::ResponseHeader'}
+                                      }
+                                    } do %>
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_response_header') %>
+        <% end %>
+      </span>
+      <%= t('misc.response_headers') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_response_headers do |f2| %>
+      <%= render partial: 'tester/requests/tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
+  </fieldset>
+
+  <hr />
+
+  <fieldset id="tester_parameters_response_body_element_fieldset" class="tester_parameters_fieldset">
+    <legend class="form-group">
+      <span class="float-right">
+        <%= link_to_add_association f, :tester_parameters_response_body_elements,
+                                    {
+                                      partial: 'tester/requests/tester_parameter_fields',
+                                      class: 'btn btn-secondary',
+                                      data: {
+                                        association_insertion_method: 'append',
+                                        association_insertion_node: '#tester_parameters_response_body_element_fieldset',
+                                        wrap_object: proc {|obj| obj.type = 'Tester::Parameters::ResponseBodyElement'}
+                                      }
+                                    } do %>
+          <i class="fa fa-fw fa-plus"></i> <%= t('actions.add_parameter_response_body_element') %>
+        <% end %>
+      </span>
+      <%= t('misc.response_body_elements') %>
+    </legend>
+
+    <%= f.simple_fields_for :tester_parameters_response_body_elements do |f2| %>
+      <%= render partial: 'tester/requests/tester_parameter_fields', locals: {f: f2} %>
+    <% end %>
   </fieldset>
 
   <div class="row">

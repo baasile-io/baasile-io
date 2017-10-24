@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :query_parameters, dependent: :nullify
   has_many :prices, dependent: :nullify
   has_many :price_parameters, dependent: :nullify
+  has_many :tester_requests, dependent: :nullify, class_name: Tester::Request.name
 
   has_many :user_associations, dependent: :destroy
   has_many :services, through: :user_associations, source: :associable, source_type: Service.name, dependent: :nullify

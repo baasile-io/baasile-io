@@ -67,6 +67,7 @@ fr:
     print: 'Imprimer'
     print_consumption: 'Imprimer la consommation en cours'
     reject: 'Rejeter'
+    remove: 'Supprimer'
     remove_role: 'Supprimer le rôle'
     reopen: 'Réouvrir'
     resend_confirmation_instructions: 'Renvoyer les instructions'

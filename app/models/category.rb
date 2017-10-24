@@ -7,6 +7,7 @@ class Category < ApplicationRecord
 
   belongs_to :user
   has_many :proxies, dependent: :nullify
+  has_many :tester_requests, dependent: :destroy, class_name: Tester::Request.name
 
   def name
     title

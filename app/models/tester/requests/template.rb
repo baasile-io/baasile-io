@@ -2,15 +2,24 @@ module Tester
   module Requests
     class Template < Request
 
-      has_many :tester_parameters_body_elements,
+      has_many :tester_parameters_response_headers,
                inverse_of: :tester_request,
-               class_name: Tester::Parameters::BodyElement.name,
+               class_name: Tester::Parameters::ResponseHeader.name,
                foreign_key: 'tester_request_id',
                dependent: :destroy
 
-      validates :name, presence: true
+      has_many :tester_parameters_response_body_elements,
+               inverse_of: :tester_request,
+               class_name: Tester::Parameters::ResponseBodyElement.name,
+               foreign_key: 'tester_request_id',
+               dependent: :destroy
 
-      accepts_nested_attributes_for :tester_parameters_body_elements,
+      validates :expected_response_status, presence: true
+
+      accepts_nested_attributes_for :tester_parameters_response_headers,
+                                    allow_destroy: true
+
+      accepts_nested_attributes_for :tester_parameters_response_body_elements,
                                     allow_destroy: true
 
     end

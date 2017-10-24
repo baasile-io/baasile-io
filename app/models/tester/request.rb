@@ -3,6 +3,7 @@ module Tester
 
     belongs_to :route
     belongs_to :user
+    belongs_to :category
 
     has_many :tester_parameters,
              inverse_of: :tester_request,
@@ -35,8 +36,8 @@ module Tester
     accepts_nested_attributes_for :tester_parameters_queries,
                                   allow_destroy: true
 
-    scope :standards, -> { where.not(route: nil)}
-    scope :templates, -> { where(route: nil)}
+    scope :standards, -> { where.not(type: Tester::Requests::Template.name)}
+    scope :templates, -> { where(type: Tester::Requests::Template.name)}
 
     # STI
     def self.inherited(subclass)

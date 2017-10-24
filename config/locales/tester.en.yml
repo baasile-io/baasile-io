@@ -1,3 +1,14 @@
 en:
   tester:
+    description: "Test your API integration through the dashboard"
+    misc:
+      apply_to_all_categories: 'Apply to all categories'
+    requests:
+      form:
+        hints:
+          body: "Warning: Use JSON format wherever you selected a different encoding format. Body will be automatically formatted."
+          name: "Choose a title that describes the request's purpose."
+          yes_if_necessary: 'Yes, if necessary'
+      new:
+        title: 'Create a request'
     title: "API tester"
