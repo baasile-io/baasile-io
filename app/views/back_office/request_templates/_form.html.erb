@@ -2,8 +2,40 @@
 
   <%= error_messages_for(f.object) %>
 
-  <%= f.input :name,
-              hint: t('.hints.name') %>
+  <ul class="nav nav-tabs" role="tablist">
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <li class="nav-item">
+        <a class="nav-link <%= 'active' if index == 0 %>" data-toggle="tab" href="#category_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+      <div role="tabpanel" class="tab-pane <%= 'active' if index == 0 %>" id="category_<%= locale %>">
+        <%= f.simple_fields_for "dictionary_#{locale}".to_sym do |f2| %>
+          <%= f2.input :locale, as: :hidden %>
+
+          <%= f2.input :title,
+                       as: :string,
+                       required: true,
+                       label: t('activerecord.attributes.tester/request.name'),
+                       hint: t('.hints.name') %>
+
+          <%= f2.input :body,
+                       as: :trix_editor,
+                       required: true,
+                       label: t('activerecord.attributes.tester/request.description'),
+                       hint: t('.hints.description') %>
+
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <hr />
 
   <%= f.input :category_id,
               as: :select,
@@ -85,10 +117,10 @@
                 include_blank: false %>
 
     <p>
-      <%= t('.hints.body') %>
+      <%= t('tester.requests.form.hints.body') %>
     </p>
 
-    <%= f.input :body,
+    <%= f.input :request_body,
                 label: false,
                 as: :json,
                 custom_wrapper_html: {class: 'col-md-12'},
@@ -110,7 +142,7 @@
       <span class="float-right">
         <%= link_to_add_association f, :tester_parameters_response_headers,
                                     {
-                                      partial: 'tester/requests/tester_parameter_fields',
+                                      partial: 'tester/requests/tester_parameter_response_fields',
                                       class: 'btn btn-secondary',
                                       data: {
                                         association_insertion_method: 'append',
@@ -125,7 +157,7 @@
     </legend>
 
     <%= f.simple_fields_for :tester_parameters_response_headers do |f2| %>
-      <%= render partial: 'tester/requests/tester_parameter_fields', locals: {f: f2} %>
+      <%= render partial: 'tester/requests/tester_parameter_response_fields', locals: {f: f2} %>
     <% end %>
   </fieldset>
 
@@ -136,7 +168,7 @@
       <span class="float-right">
         <%= link_to_add_association f, :tester_parameters_response_body_elements,
                                     {
-                                      partial: 'tester/requests/tester_parameter_fields',
+                                      partial: 'tester/requests/tester_parameter_response_fields',
                                       class: 'btn btn-secondary',
                                       data: {
                                         association_insertion_method: 'append',
@@ -151,7 +183,7 @@
     </legend>
 
     <%= f.simple_fields_for :tester_parameters_response_body_elements do |f2| %>
-      <%= render partial: 'tester/requests/tester_parameter_fields', locals: {f: f2} %>
+      <%= render partial: 'tester/requests/tester_parameter_response_fields', locals: {f: f2} %>
     <% end %>
   </fieldset>
 

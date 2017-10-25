@@ -44,7 +44,7 @@ module Tester
         @current_request = @request
         respond_to do |format|
           format.html { redirect_to_show }
-          format.js { render :new }
+          format.js { render :show }
         end
       else
         render :new
@@ -90,10 +90,9 @@ module Tester
             :route_id,
             :name,
             :method,
-            #:follow_url,
             :format,
             :use_authorization,
-            :body,
+            :request_body,
             {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
             {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]}
           )

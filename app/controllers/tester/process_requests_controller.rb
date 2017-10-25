@@ -77,14 +77,14 @@ module Tester
       case current_request.format
 
         when 'application/json'
-          current_request.body
+          current_request.request_body
 
         when 'application/x-www-form-urlencoded'
-          Rack::Utils.build_nested_query(JSON.parse(current_request.body))
+          Rack::Utils.build_nested_query(JSON.parse(current_request.request_body))
 
       end
     rescue
-      current_request.body
+      current_request.request_body
     end
 
     def request_build_headers

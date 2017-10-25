@@ -1,5 +1,7 @@
 module Tester
   class Request < ApplicationRecord
+    # Versioning
+    has_paper_trail
 
     belongs_to :route
     belongs_to :user
@@ -23,7 +25,6 @@ module Tester
              foreign_key: 'tester_request_id',
              dependent: :destroy
 
-    validates :name, presence: true
     validates :user, presence: true
     validates :method, inclusion: {in: Route::ALLOWED_METHODS}
     validates :format, inclusion: {in: Route::ALLOWED_FORMATS}
@@ -52,7 +53,7 @@ module Tester
       def body_format_validation
         if ['POST', 'PUT', 'PATCH', 'DELETE'].include?(self.method)
           begin
-            JSON.parse(body)
+            JSON.parse(request_body)
           rescue JSON::ParserError
             errors.add(:body, I18n.t('errors.messages.invalid_json'))
           end

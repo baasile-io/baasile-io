@@ -17,11 +17,8 @@ module BackOffice
       @request.user = current_user
 
       if @request.save
-        @current_request = @request
-        respond_to do |format|
-          format.html { redirect_to_show }
-          format.js { render :new }
-        end
+        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.tester/request'))
+        redirect_to_index
       else
         render :new
       end
@@ -32,10 +29,8 @@ module BackOffice
       current_request.user = current_user
 
       if current_request.save
-        respond_to do |format|
-          format.html { redirect_to_show }
-          format.js { render :show }
-        end
+        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.tester/request'))
+        redirect_to_index
       else
         render :edit
       end
@@ -48,8 +43,16 @@ module BackOffice
     def edit
     end
 
-    def redirect_to_show
-      redirect_to back_office_request_template_path(current_request)
+    def show
+      redirect_to_edit
+    end
+
+    def redirect_to_edit
+      redirect_to edit_back_office_request_template_path(current_request)
+    end
+
+    def redirect_to_index
+      redirect_to back_office_request_templates_path
     end
 
     def current_request
@@ -63,20 +66,26 @@ module BackOffice
     end
 
     def requests_params
-      params
-        .require(:tester_request)
-        .permit(
-          :name,
-          :method,
-          :format,
-          :body,
-          :category_id,
-          :expected_response_status,
-          {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
-          {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]},
-          {tester_parameters_response_headers_attributes: [:id, :type, :name, :value, :_destroy]},
-          {tester_parameters_response_body_elements_attributes: [:id, :type, :name, :value, :_destroy]}
-        )
+      allowed_parameters = [
+        :name,
+        :method,
+        :format,
+        :request_body,
+        :category_id,
+        :expected_response_status,
+        {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
+        {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]},
+        {tester_parameters_response_headers_attributes: [:id, :type, :name, :value, :comparison_operator, :expected_type, :_destroy]},
+        {tester_parameters_response_body_elements_attributes: [:id, :type, :name, :value, :comparison_operator, :expected_type, :_destroy]}
+      ]
+
+      I18n.available_locales.each do |locale|
+        dictionary_params = {}
+        dictionary_params["dictionary_#{locale}_attributes".to_sym] = [:locale, :title, :body]
+        allowed_parameters << dictionary_params
+      end
+
+      params.require(:tester_request).permit(allowed_parameters)
     end
 
     def load_request

@@ -1,5 +1,10 @@
 en:
   back_office:
     request_templates:
+      form:
+        hints:
+          category_id: "Select a category to limit the scope of this template."
+          description: "Describe the full purpose of this template."
+          name: "Describe the purpose of this template in a few words."
       index:
         description: "Create templates of requests to test APIs integration"

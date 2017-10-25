@@ -6,8 +6,8 @@ en:
     requests:
       form:
         hints:
-          body: "Warning: Use JSON format wherever you selected a different encoding format. Body will be automatically formatted."
           name: "Choose a title that describes the request's purpose."
+          request_body: "Warning: Use JSON format wherever you selected a different encoding format. Body will be automatically formatted."
           yes_if_necessary: 'Yes, if necessary'
       new:
         title: 'Create a request'

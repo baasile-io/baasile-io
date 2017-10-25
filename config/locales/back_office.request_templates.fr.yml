@@ -1,5 +1,10 @@
 fr:
   back_office:
     request_templates:
+      form:
+        hints:
+          category_id: "Sélectionnez une catégorie d'API pour limiter l'utilisation de ce modèle."
+          description: "Décrivez l'objectif de ce modèle en détail."
+          name: "Décrivez l'objectif de ce modèle en quelques mots."
       index:
         description: "Créez des modèles de requête pour tester l'intégration des API"

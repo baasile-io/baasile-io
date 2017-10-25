@@ -5,7 +5,8 @@
   <table class="table table-sm table-hover">
     <thead>
     <tr>
-      <th colspan="2"><%= t('activerecord.attributes.tester/request.route') %></th>
+      <th colspan="2"><%= t('activerecord.attributes.tester/request.name') %></th>
+      <th><%= t('activerecord.attributes.tester/request.route') %></th>
       <th><%= t('activerecord.attributes.tester/request.method') %></th>
       <th><%= t('activerecord.attributes.tester/request.format') %></th>
       <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
@@ -15,7 +16,10 @@
     <tbody>
     <% @collection.each do |tester_request| %>
       <tr>
-        <td class="width-3"></td>
+        <td class="width-3"><i class="fa fa-2x fa-fw fa-magic"></i></td>
+        <td>
+          <%= tester_request.name %>
+        </td>
         <td>
           <%= tester_request.route %>
         </td>

@@ -10,6 +10,8 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  window.activate_ace_viewer();
-</script>
+<% content_for(:extra_js) do %>
+  <script type="text/javascript">
+    window.activate_ace_viewer();
+  </script>
+<% end %>

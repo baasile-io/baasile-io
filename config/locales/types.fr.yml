@@ -13,6 +13,11 @@ fr:
       section:
         icon: 'fa fa-fw fa-angle-right'
         title: 'Section'
+    expected_types:
+      array: 'Tableau'
+      hash: 'Hash'
+      integer: 'Nombre entier'
+      string: 'Chaîne de caractères'
     query_parameter_modes:
       mandatory: 'obligatoire'
       optional: 'optionnel'
@@ -99,6 +104,18 @@ fr:
       report_a_bug: 'Signaler un bogue'
       user_right_request: 'Demande de droits utilisateur'
       account_recover: "Demander la récupération d'un compte"
+    comparison_operators:
+      '=': 'Est égale à'
+      '!=': 'Est différent de'
+      '>': 'Est supérieur à'
+      '>=': 'Est supérieur ou égale à'
+      '<': 'Est inférieur à'
+      '<=': 'Est inférieur ou égale à'
+      '&': 'Contient'
+      'present': 'Est présent'
+      'any': 'Est absent'
+      'null': 'Est nul'
+      'typeof': 'Est de type'
     contract_statuses:
       creation:
         class: 'text-muted'

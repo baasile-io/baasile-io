@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016185848) do
+ActiveRecord::Schema.define(version: 20171025081902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -413,10 +413,12 @@ ActiveRecord::Schema.define(version: 20171016185848) do
   end
 
   create_table "tester_parameters", force: :cascade do |t|
-    t.string  "type",              null: false
+    t.string  "type",                                   null: false
     t.integer "tester_request_id"
     t.string  "name"
     t.string  "value"
+    t.string  "expected_type",       default: "string"
+    t.string  "comparison_operator", default: "="
     t.index ["tester_request_id"], name: "index_tester_parameters_on_tester_request_id", using: :btree
   end
 
@@ -431,7 +433,7 @@ ActiveRecord::Schema.define(version: 20171016185848) do
     t.string   "uri"
     t.string   "format"
     t.string   "follow_url"
-    t.text     "body"
+    t.text     "request_body"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.integer  "expected_response_status"
