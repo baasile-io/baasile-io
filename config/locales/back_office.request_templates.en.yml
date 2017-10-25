@@ -1,0 +1,5 @@
+en:
+  back_office:
+    request_templates:
+      index:
+        description: "Create templates of requests to test APIs integration"

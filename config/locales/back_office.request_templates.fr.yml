@@ -1,0 +1,5 @@
+fr:
+  back_office:
+    request_templates:
+      index:
+        description: "Créez des modèles de requête pour tester l'intégration des API"
