@@ -12,3 +12,4 @@ fr:
       new:
         title: 'Créer une requête'
     title: "Testeur d'API"
+    templates: 'Modèles de requête'

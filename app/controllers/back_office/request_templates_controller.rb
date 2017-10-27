@@ -5,11 +5,14 @@ module BackOffice
     before_action :load_categories, only: [:new, :edit, :update, :create]
 
     def index
-      @collection = Tester::Request.templates.order(updated_at: :desc)
+      @collection = Tester::Requests::Template.all.order(updated_at: :desc)
     end
 
     def new
       @request = Tester::Requests::Template.new
+      I18n.available_locales.each do |locale|
+        @request.send("build_dictionary_#{locale}") if @request.send("dictionary_#{locale}").nil?
+      end
     end
 
     def create
@@ -25,10 +28,11 @@ module BackOffice
     end
 
     def update
-      current_request.assign_attributes(requests_params)
+      @request_template_title = current_request.template_name
+
       current_request.user = current_user
 
-      if current_request.save
+      if current_request.update(requests_params)
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.tester/request'))
         redirect_to_index
       else
@@ -41,6 +45,10 @@ module BackOffice
     end
 
     def edit
+      I18n.available_locales.each do |locale|
+        current_request.send("build_dictionary_#{locale}") if current_request.send("dictionary_#{locale}").nil?
+      end
+      @request_template_title = current_request.template_name
     end
 
     def show
@@ -89,7 +97,7 @@ module BackOffice
     end
 
     def load_request
-      @current_request = Tester::Request.templates.includes(:tester_parameters_headers).find(params[:id])
+      @current_request = Tester::Requests::Template.includes(:tester_parameters_headers).find(params[:id])
     end
 
   end

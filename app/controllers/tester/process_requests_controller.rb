@@ -1,13 +1,29 @@
 module Tester
   class ProcessRequestsController < DashboardController
 
-    before_action :load_request
+    before_action :load_request, only: [:process_request]
 
     # allow proxy functionality
     include RedisStoreConcern
     include ProxifyConcern
 
+    def process_template_request
+      @current_request = Tester::Requests::Template.find(params[:id])
+      @current_route = Route.find(params[:tester_request][:route_id])
+      @current_proxy = @current_route.proxy
+
+      process_common
+
+      render 'tester/requests/template'
+    end
+
     def process_request
+      process_common
+
+      render 'tester/requests/show'
+    end
+
+    def process_common
 
       @cache_token_prefix = "#{controller_name}#{DateTime.now.to_s}"
       @use_test_settings = !(params[:use_test_settings] == 'false')
@@ -36,8 +52,6 @@ module Tester
           body: @proxy_response.body.to_s.force_encoding('UTF-8')
         }
       }
-
-      render 'tester/requests/show'
 
     rescue Api::ProxyError => e
       Rails.logger.error "Tester::ProcessRequests::ProxyError: #{e.message}"
@@ -69,8 +83,6 @@ module Tester
         end
 
       end
-
-      render 'tester/requests/show'
     end
 
     def request_build_body

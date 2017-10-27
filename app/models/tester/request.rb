@@ -48,6 +48,14 @@ module Tester
       end
     end
 
+    def template?
+      type == Tester::Requests::Template.name
+    end
+
+    def standard?
+      !template?
+    end
+
     private
 
       def body_format_validation

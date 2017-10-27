@@ -219,9 +219,14 @@ Rails.application.routes.draw do
           post :toogle_activate
         end
         namespace :tester do
-          resources :requests
+          resources :requests do
+            member do
+              get :template
+            end
+          end
 
           post '/process_request/:id' => 'process_requests#process_request', as: 'process_request'
+          post '/process_template_request/:id' => 'process_requests#process_template_request', as: 'process_template_request'
         end
       end
     end

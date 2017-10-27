@@ -4,7 +4,6 @@ module Tester
 
       include HasDictionaries
       has_mandatory_dictionary_attributes :title, :body
-      after_initialize :build_dictionaries
 
       has_many :tester_parameters_response_headers,
                inverse_of: :tester_request,
@@ -26,20 +25,14 @@ module Tester
       accepts_nested_attributes_for :tester_parameters_response_body_elements,
                                     allow_destroy: true
 
+      scope :by_category, -> (category_id) { where('tester_requests.category_id IS NULL OR tester_requests.category_id = ?', category_id) }
+
       def template_name
         title
       end
 
       def template_description
         body
-      end
-
-      private
-
-      def build_dictionaries
-        I18n.available_locales.each do |locale|
-          self.send("build_dictionary_#{locale}") unless self.send("dictionary_#{locale}")
-        end
       end
 
     end

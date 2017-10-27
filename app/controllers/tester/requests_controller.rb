@@ -6,12 +6,17 @@ module Tester
 
     def index
       @collection = current_proxy.tester_requests.standards.order(updated_at: :desc)
+      @request_templates = Tester::Requests::Template.by_category(current_proxy.category_id)
     end
 
     def edit
     end
 
     def show
+    end
+
+    def template
+      @current_request = Tester::Requests::Template.find(params[:id])
     end
 
     def new

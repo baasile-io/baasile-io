@@ -16,4 +16,8 @@ class Category < ApplicationRecord
   def description
     body
   end
+
+  def to_s
+    name
+  end
 end

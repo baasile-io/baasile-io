@@ -13,7 +13,27 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'index' %>
+    <%= render partial: 'index',
+               locals: {
+                 collection: @collection,
+                 is_template: false
+               } %>
 
+  </div>
+</div>
+
+<div class="b-io-content--header">
+  <div class="container-fluid">
+    <div class="b-io-content--header--controls"></div>
+    <h4><%= t('tester.templates') %></h4>
+  </div>
+</div>
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+    <%= render partial: 'index',
+               locals: {
+                 collection: @request_templates,
+                 is_template: true
+               } %>
   </div>
 </div>

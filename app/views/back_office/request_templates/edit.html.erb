@@ -1,9 +1,18 @@
 <%
-  content_for(:page_title) { t('actions.edit') }
+  content_for(:page_back) { back_office_request_templates_path }
+  content_for(:page_title) { @request_template_title }
 %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">
+          <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+        </a>
+      </li>
+    </ul>
 
     <%= render partial: 'edit' %>
 

@@ -12,3 +12,4 @@ en:
       new:
         title: 'Create a request'
     title: "API tester"
+    templates: 'Request templates'

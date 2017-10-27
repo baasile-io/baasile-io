@@ -4,10 +4,9 @@
   <table class="table table-sm table-hover">
     <thead>
     <tr>
-      <th colspan="2"><%= t('activerecord.attributes.tester/request.category') %></th>
-      <th><%= t('activerecord.attributes.tester/request.name') %></th>
+      <th colspan="2"><%= t('activerecord.attributes.tester/request.name') %></th>
+      <th><%= t('activerecord.attributes.tester/request.category') %></th>
       <th><%= t('activerecord.attributes.tester/request.method') %></th>
-      <th><%= t('activerecord.attributes.tester/request.format') %></th>
       <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
       <th></th>
     </tr>
@@ -17,19 +16,16 @@
       <tr>
         <td class="width-3"><i class="fa fa-2x fa-fw fa-magic"></i></td>
         <td>
-          <%= tester_request.category || t('misc.all_feminized') %>
+          <%= tester_request.template_name %>
         </td>
         <td>
-          <%= tester_request.template_name %>
+          <%= tester_request.category || t('misc.all_feminized') %>
         </td>
         <td>
           <%= tester_request.method %>
         </td>
         <td>
-          <%= tester_request.format %>
-        </td>
-        <td>
-          <%= l(tester_request.updated_at) %>
+          <small><%= l(tester_request.updated_at, format: :short) %></small>
         </td>
         <td class="text-right width-10">
           <%= link_to edit_back_office_request_template_path(tester_request),

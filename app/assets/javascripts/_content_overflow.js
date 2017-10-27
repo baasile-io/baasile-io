@@ -30,19 +30,23 @@ var content_overflow_state = function() {
   }
 };
 
-main_content_div.on( "scroll", function() {
-  if (this.scrollTop > 0) {
-    main_content_first_header_div.addClass('with-shadow');
-  } else {
-    main_content_first_header_div.removeClass('with-shadow');
-  }
-});
-
 $(document).ready(function() {
 
-  if(main_container_div.length > 0) {
-    content_overflow_state();
+  if(window.activate_content_overflow) {
 
-    $(window).resize(content_overflow_state);
+    main_content_div.on("scroll", function () {
+      if (this.scrollTop > 0) {
+        main_content_first_header_div.addClass('with-shadow');
+      } else {
+        main_content_first_header_div.removeClass('with-shadow');
+      }
+    });
+
+    if (main_container_div.length > 0) {
+      content_overflow_state();
+
+      $(window).resize(content_overflow_state);
+    }
+
   }
 });
