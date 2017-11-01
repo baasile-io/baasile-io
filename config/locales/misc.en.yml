@@ -95,7 +95,10 @@ en:
     platform_contribution: "Platform contribution"
     pricing: 'Pricing'
     profile: 'Profile'
+    query_parameters: "Query parameters"
     related_products: 'Related products'
+    response_body_elements: 'Response body'
+    response_headers: 'Response headers'
     role: 'Role'
     roles: 'Roles'
     search: 'Search'

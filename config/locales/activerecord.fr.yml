@@ -243,6 +243,7 @@ fr:
         category: 'Catégorie'
         category_id: 'Catégorie'
         description: 'Description'
+        expected_response_format: 'Format attendu de la réponse'
         expected_response_status: 'Status attendu de la réponse'
         follow_url: 'Chemin supplémentaire'
         format: "Format d'encodage"

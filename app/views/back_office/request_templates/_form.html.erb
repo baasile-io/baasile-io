@@ -131,9 +131,20 @@
 
   <hr />
 
+  <%= f.input :expected_response_format,
+              as: :select,
+              include_blank: false,
+              collection: Tester::Requests::Template::EXPECTED_RESPONSE_FORMATS,
+              input_html: {
+                class: 'col-4'
+              } %>
+
   <%= f.input :expected_response_status,
               as: :string,
-              hint: t('.hints.expected_response_status') %>
+              hint: t('.hints.expected_response_status'),
+              input_html: {
+                class: 'col-2'
+              } %>
 
   <hr />
 

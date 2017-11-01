@@ -81,6 +81,7 @@ module BackOffice
         :request_body,
         :category_id,
         :expected_response_status,
+        :expected_response_format,
         {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
         {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]},
         {tester_parameters_response_headers_attributes: [:id, :type, :name, :value, :comparison_operator, :expected_type, :_destroy]},

@@ -17,6 +17,7 @@ en:
       array: 'Array'
       hash: 'Hash'
       integer: 'Integer'
+      numeric: 'Numeric'
       string: 'Character string'
     query_parameter_modes:
       mandatory: 'mandatory'

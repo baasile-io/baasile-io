@@ -1,3 +1,5 @@
+#require 'api/tester/request_template_parser'
+
 module Tester
   class ProcessRequestsController < DashboardController
 
@@ -13,6 +15,17 @@ module Tester
       @current_proxy = @current_route.proxy
 
       process_common
+
+      parser = ::Api::Tester::RequestTemplateParser.new(request_template: @current_request,
+                                                        response: @result[:response])
+
+      status, errors = parser.call
+
+      @tester_result = Tester::Result.create(tester_requests_template: @current_request,
+                                             route: @current_route,
+                                             is_test_environment: @use_test_settings,
+                                             status: status,
+                                             error_message: errors&.join('; '))
 
       render 'tester/requests/template'
     end
@@ -49,7 +62,7 @@ module Tester
         response: {
           status: @proxy_response.code,
           headers: response_headers,
-          body: @proxy_response.body.to_s.force_encoding('UTF-8')
+          body: @proxy_response.body
         }
       }
 
@@ -69,7 +82,7 @@ module Tester
           result[:response] = {
             status: e.res.code,
             headers: e.res.to_hash.transform_values {|v| v.join(', ')},
-            body: e.res.body.to_s.force_encoding('UTF-8')
+            body: e.res.body
           }
         end
 

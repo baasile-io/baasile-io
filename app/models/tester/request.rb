@@ -1,5 +1,6 @@
 module Tester
   class Request < ApplicationRecord
+
     # Versioning
     has_paper_trail
 

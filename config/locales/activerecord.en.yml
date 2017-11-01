@@ -230,6 +230,7 @@ en:
         category: 'Category'
         category_id: 'Category'
         description: 'Description'
+        expected_response_format: 'Expected response format'
         expected_response_status: 'Expected response status'
         follow_url: 'Additional path'
         format: 'Encoding format'

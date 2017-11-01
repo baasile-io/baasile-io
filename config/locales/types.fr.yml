@@ -17,6 +17,7 @@ fr:
       array: 'Tableau'
       hash: 'Hash'
       integer: 'Nombre entier'
+      numeric: 'Numérique'
       string: 'Chaîne de caractères'
     query_parameter_modes:
       mandatory: 'obligatoire'

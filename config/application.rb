@@ -50,5 +50,8 @@ module BaasileIo
 
     # add services path
     config.autoload_paths += %W["#{config.root}/app/services/**/*"]
+
+    # eager load lib folder
+    config.eager_load_paths += ["#{Rails.root}/lib"]
   end
 end

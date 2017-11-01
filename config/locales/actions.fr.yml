@@ -11,6 +11,8 @@ fr:
     add_users: "Ajouter des utilisateurs"
     add_parameter_header: "Ajouter un paramètre d'entête"
     add_parameter_query: "Ajouter un paramètre d'URL"
+    add_parameter_response_body_element: "Ajouter un élément de corps attendu"
+    add_parameter_response_header: "Ajouter un paramètre d'entête attendu"
     add_price_parameter: 'Ajouter un critère de tarification'
     add_role: 'Ajouter le rôle'
     admin_list: 'liste des administrateurs'

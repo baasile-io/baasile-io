@@ -2,6 +2,8 @@ module Tester
   module Requests
     class Template < Request
 
+      EXPECTED_RESPONSE_FORMATS = %w(application/json)
+
       include HasDictionaries
       has_mandatory_dictionary_attributes :title, :body
 
@@ -17,7 +19,10 @@ module Tester
                foreign_key: 'tester_request_id',
                dependent: :destroy
 
-      validates :expected_response_status, presence: true
+      has_many :tester_results
+
+      validates :expected_response_status, numericality: { only_integer: true }, allow_blank: true
+      validates :expected_response_format, presence: true, inclusion: {in: EXPECTED_RESPONSE_FORMATS}
 
       accepts_nested_attributes_for :tester_parameters_response_headers,
                                     allow_destroy: true

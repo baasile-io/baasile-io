@@ -11,6 +11,8 @@ en:
     add_users: "Add users"
     add_parameter_header: "Add header parameter"
     add_parameter_query: "Add query parameter"
+    add_parameter_response_body_element: 'Add an expected response body element'
+    add_parameter_response_header: 'Add an expected response header'
     add_price_parameter: 'Add pricing criteria'
     add_role: 'Add role'
     admin_list: 'administrator list'

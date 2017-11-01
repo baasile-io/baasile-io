@@ -18,6 +18,7 @@ module Tester
     EXPECTED_TYPES = [
       'string',
       'integer',
+      'numeric',
       'hash',
       'array'
     ].freeze
