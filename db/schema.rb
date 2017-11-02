@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101211202) do
+ActiveRecord::Schema.define(version: 20171102195925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 20171101211202) do
     t.datetime "updated_at",                              null: false
     t.integer  "expected_response_status"
     t.string   "expected_response_format"
+    t.datetime "expiration_date"
     t.index ["category_id"], name: "index_tester_requests_on_category_id", using: :btree
     t.index ["route_id"], name: "index_tester_requests_on_route_id", using: :btree
     t.index ["user_id"], name: "index_tester_requests_on_user_id", using: :btree
@@ -446,12 +447,15 @@ ActiveRecord::Schema.define(version: 20171101211202) do
   create_table "tester_results", force: :cascade do |t|
     t.integer  "tester_request_id"
     t.integer  "route_id"
-    t.boolean  "is_test_environment"
+    t.integer  "proxy_id"
+    t.integer  "service_id"
     t.boolean  "status"
     t.text     "error_message"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["proxy_id"], name: "index_tester_results_on_proxy_id", using: :btree
     t.index ["route_id"], name: "index_tester_results_on_route_id", using: :btree
+    t.index ["service_id"], name: "index_tester_results_on_service_id", using: :btree
     t.index ["tester_request_id"], name: "index_tester_results_on_tester_request_id", using: :btree
   end
 

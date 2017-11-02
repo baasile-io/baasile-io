@@ -24,6 +24,7 @@ class Route < ApplicationRecord
   has_many :contracts, through: :proxy, dependent: :restrict_with_error
   has_many :prices, dependent: :nullify
   has_many :tester_requests, dependent: :destroy, class_name: Tester::Request.name
+  has_many :tester_results, dependent: :destroy, class_name: Tester::Result.name
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
@@ -75,5 +76,11 @@ class Route < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def failed_or_missing_tester_results
+    Tester::Requests::Template
+      .applicable_on_route(self)
+      .with_failed_or_missing_results
   end
 end

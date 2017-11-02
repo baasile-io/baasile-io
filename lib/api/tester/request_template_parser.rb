@@ -2,9 +2,9 @@ module Api
   module Tester
     class RequestTemplateParser
 
-      def initialize(request_template:, response:)
+      def initialize(request_template:, result:)
         @request_template = request_template
-        @response = response
+        @result = result
         @errors = []
         @body = nil
       end
@@ -15,18 +15,18 @@ module Api
 
       private
 
-      attr_reader :request_template, :response, :errors, :body
+      attr_reader :request_template, :result, :errors, :body
       attr_writer :body
 
       def parse_result
-        if response.present?
+        if result[:response].present?
           check_status
           check_headers
           if check_format
             check_body
           end
         else
-          push_error('error')
+          push_error "*#{result[:error_title]}*: #{result[:error_message]}"
         end
 
         [errors.empty?, errors]
@@ -35,14 +35,15 @@ module Api
       def check_format
         @body = case request_template.expected_response_format
                   when 'application/json'
-                    JSON.parse(response[:body])
+                    JSON.parse(result[:response][:body])
                   else
                     raise StandardError
                 end
 
         true
       rescue
-        push_error('bad format')
+        push_error I18n.t("tester.parser.messages.bad_format",
+                          expected_response_format: request_template.expected_response_format)
 
         false
       end
@@ -50,8 +51,9 @@ module Api
       def check_status
         return unless request_template.expected_response_status.present?
 
-        if request_template.expected_response_status != response[:status]
-          push_error('bad status')
+        if request_template.expected_response_status != result[:response][:status]
+          push_error I18n.t("tester.parser.messages.bad_status",
+                            expected_response_status: request_template.expected_response_status)
         end
       end
 
@@ -60,7 +62,8 @@ module Api
           compare_parameter(
             parameter: header_parameter,
             path: Rack::Utils.parse_nested_query(header_parameter.name),
-            container: response[:headers]
+            container: result[:response][:headers],
+            container_id: :headers
           )
         end
       end
@@ -70,26 +73,23 @@ module Api
           compare_parameter(
             parameter: body_parameter,
             path: Rack::Utils.parse_nested_query(body_parameter.name),
-            container: body
+            container: body,
+            container_id: :body_elements
           )
         end
       end
 
-      def compare_parameter(parameter:, path:, container:)
+      def compare_parameter(parameter:, path:, container:, container_id:)
         key, new_path = path&.first
 
-        #if new_path.is_a?(Array) && new_path.any?
-        #  raise key.inspect
-        #end
-
         if new_path.is_a?(Hash) && container.is_a?(Hash)
-          compare_parameter(parameter: parameter, path: new_path, container: container[key])
+          compare_parameter(parameter: parameter, path: new_path, container: container[key], container_id: container_id)
         elsif new_path.is_a?(Array)
           if new_path.empty?
-            compare_parameter(parameter: parameter, path: nil, container: container)
+            compare_parameter(parameter: parameter, path: nil, container: container, container_id: container_id)
           else
             container[key].each do |sub_container|
-              compare_parameter(parameter: parameter, path: new_path.first, container: sub_container)
+              compare_parameter(parameter: parameter, path: new_path.first, container: sub_container, container_id: container_id)
             end
           end
         else
@@ -121,7 +121,7 @@ module Api
                      when '<='
                        value.is_a?(Numeric) && value <= parameter.value.to_f
                      when '&'
-                       value.present? && value.is_a?(String) && value.match(/#{parameter.value}/)
+                       value.present? && value.is_a?(String) && value.match(/\A#{parameter.value}\z/)
                      when 'typeof'
                        case parameter.expected_type
                          when 'string'
@@ -142,7 +142,11 @@ module Api
                    end
 
           unless result
-            errors << "#{parameter.name} #{parameter.comparison_operator} #{parameter.value} #{parameter.expected_type}"
+            push_error I18n.t("tester.parser.messages.comparison_operators.#{parameter.comparison_operator}",
+                              container: I18n.t("misc.response_#{container_id}"),
+                              attribute: parameter.name,
+                              value: parameter.value,
+                              expected_type: I18n.t("types.expected_types.#{parameter.expected_type}"))
           end
         end
       end

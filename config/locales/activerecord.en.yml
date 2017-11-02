@@ -192,6 +192,7 @@ en:
         proxy: 'Product'
         proxy_id: 'Product'
         subdomain: 'Public identifier'
+        tester_results: 'Tests results'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Creator'

@@ -1,3 +1,4 @@
+#TODO deactivate eager load
 #require 'api/tester/request_template_parser'
 
 module Tester
@@ -17,15 +18,24 @@ module Tester
       process_common
 
       parser = ::Api::Tester::RequestTemplateParser.new(request_template: @current_request,
-                                                        response: @result[:response])
+                                                        result: @result)
 
       status, errors = parser.call
 
-      @tester_result = Tester::Result.create(tester_requests_template: @current_request,
-                                             route: @current_route,
-                                             is_test_environment: @use_test_settings,
-                                             status: status,
-                                             error_message: errors&.join('; '))
+      @tester_result = Tester::Result.find_or_initialize_by(
+        tester_requests_template: @current_request,
+        route: @current_route,
+        proxy: @current_route.proxy,
+        service: @current_route.service
+      )
+
+      @tester_result.status = status
+      @tester_result.status_will_change!
+      @tester_result.error_message = errors&.join('; ')
+
+      #if @use_test_settings
+        @tester_result.save!
+      #end
 
       render 'tester/requests/template'
     end
@@ -113,11 +123,7 @@ module Tester
     end
 
     def request_build_headers
-      {}.tap do |parameters|
-        current_request.tester_parameters_headers.each do |header_parameter|
-          parameters[header_parameter.name.upcase.gsub(/_/, '-')] = header_parameter.value
-        end
-      end
+      ApplicationController.helpers.build_headers(current_request.tester_parameters_headers)
     end
 
     def request_build_get

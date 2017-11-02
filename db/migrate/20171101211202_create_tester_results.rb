@@ -3,7 +3,8 @@ class CreateTesterResults < ActiveRecord::Migration[5.0]
     create_table :tester_results do |t|
       t.integer :tester_request_id, index: true
       t.integer :route_id, index: true
-      t.boolean :is_test_environment
+      t.integer :proxy_id, index: true
+      t.integer :service_id, index: true
       t.boolean :status
       t.text :error_message
 

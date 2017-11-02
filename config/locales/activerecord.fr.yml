@@ -205,6 +205,7 @@ fr:
         proxy: 'Produit'
         proxy_id: 'Produit'
         subdomain: 'Identifiant publique'
+        tester_results: 'Résultats de tests'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Créateur'

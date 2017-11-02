@@ -25,7 +25,8 @@ module Tester
 
     belongs_to :tester_request,
                inverse_of: :tester_parameters,
-               class_name: Tester::Request.name
+               class_name: Tester::Request.name,
+               touch: true
 
     validates :tester_request, presence: true
     validates :name, presence: true

@@ -3,6 +3,22 @@ en:
     description: "Test your API integration through the dashboard"
     misc:
       apply_to_all_categories: 'Apply to all categories'
+    parser:
+      messages:
+        bad_format: 'Response *format* must be `%{expected_response_format}`'
+        bad_status: '*HTTP status* of the response is expected to be `%{expected_response_status}`'
+        comparison_operators:
+          '=': "*%{container}*: Value of `%{attribute}` is expected to be equal to `%{value}`"
+          '!=': "*%{container}*: Value of `%{attribute}` is expected to not be equal to `%{value}`"
+          '>': "*%{container}*: Value of `%{attribute}` is expected to be greater than `%{value}`"
+          '>=': "*%{container}*: Value of `%{attribute}` is expected to be greater than or equal to `%{value}`"
+          '<': "*%{container}*: Value of `%{attribute}` is expected to be less than `%{value}`"
+          '<=': "*%{container}*: Value of `%{attribute}` is expected to be less than or equal to `%{value}`"
+          '&': "*%{container}*: Value of `%{attribute}` is expected to contain `%{value}`"
+          'present': "*%{container}*: Attribute `%{attribute}` is expected to be present"
+          'any': "*%{container}*: Attribute `%{attribute}` is expected to not be present"
+          'null': "*%{container}*: Attribute `%{attribute}` is expected to be empty"
+          'typeof': "*%{container}*: Attribute `%{attribute}` is expected to be a type of `%{expected_type}`"
     requests:
       form:
         hints:

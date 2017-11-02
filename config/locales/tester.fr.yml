@@ -3,6 +3,22 @@ fr:
     description: "Testez l'intégration de votre API depuis le tableau de bord"
     misc:
       apply_to_all_categories: 'Appliquer à toutes les catégories'
+    parser:
+      messages:
+        bad_format: 'Le *format* attendu est `%{expected_response_format}`'
+        bad_status: 'Le *code de statut HTTP* attendu est `%{expected_response_status}`'
+        comparison_operators:
+          '=': "*%{container}* : La valeur de `%{attribute}` doit être égale à `%{value}`"
+          '!=': "*%{container}* : La valeur de `%{attribute}` ne doit pas être égale à `%{value}`"
+          '>': "*%{container}* : La valeur de `%{attribute}` doit être supérieur à `%{value}`"
+          '>=': "*%{container}* : La valeur de `%{attribute}` doit être supérieur ou égale à `%{value}`"
+          '<': "*%{container}* : La valeur de `%{attribute}` doit être inférieur à `%{value}`"
+          '<=': "*%{container}* : La valeur de `%{attribute}` doit être inférieur ou égale à `%{value}`"
+          '&': "*%{container}* : La valeur de `%{attribute}` doit contenir `%{value}`"
+          'present': "*%{container}* : L'attribut `%{attribute}` doit être présent"
+          'any': "*%{container}* : L'attribut `%{attribute}` doit être absent"
+          'null': "*%{container}* : L'attribut `%{attribute}` doit être vide"
+          'typeof': "*%{container}* : L'attribut `%{attribute}` doit être de type `%{expected_type}`"
     requests:
       form:
         hints:

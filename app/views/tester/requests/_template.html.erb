@@ -50,7 +50,16 @@
 
   <hr />
 
-  <%= @tester_result.inspect %>
+  <% if !@tester_result.status %>
+
+    <h3><i class="fa fa-close"></i> Failure</h3>
+    <%= format_error_message(@tester_result.error_message) %>
+
+  <% else %>
+
+    <h3><i class="fa fa-check"></i> Success</h3>
+
+  <% end %>
 
   <hr />
 
