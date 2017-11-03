@@ -33,9 +33,9 @@ module Tester
       @tester_result.status_will_change!
       @tester_result.error_message = errors&.join('; ')
 
-      #if @use_test_settings
+      if @use_test_settings
         @tester_result.save!
-      #end
+      end
 
       render 'tester/requests/template'
     end

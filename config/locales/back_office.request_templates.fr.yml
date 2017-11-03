@@ -3,7 +3,7 @@ fr:
     request_templates:
       form:
         hints:
-          category_id: "Sélectionnez une catégorie d'API pour limiter l'utilisation de ce modèle."
+          category_id: "Sélectionnez une catégorie d'API pour limiter l'utilisation de ce modèle de test."
           description: "Décrivez l'objectif de ce modèle en détail."
           expected_response_status: 'Quel code de statut HTTP est attendu (Nombre positif). Si vous ne le spécifiez pas, le status ne sera pas vérifié.'
           name: "Décrivez l'objectif de ce modèle en quelques mots."

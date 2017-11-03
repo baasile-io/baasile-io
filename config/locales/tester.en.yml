@@ -21,7 +21,9 @@ en:
           'typeof': "*%{container}*: Attribute `%{attribute}` is expected to be a type of `%{expected_type}`"
     requests:
       form:
+        expire_results: 'Expire the results of this test'
         hints:
+          expire_results: "Check the box if you want the results of this test to be invalidated. This is needed if you changed the behavior of the test."
           name: "Choose a title that describes the request's purpose."
           request_body: "Warning: Use JSON format wherever you selected a different encoding format. Body will be automatically formatted."
           yes_if_necessary: 'Yes, if necessary'

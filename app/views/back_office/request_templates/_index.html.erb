@@ -27,11 +27,27 @@
         <td>
           <small><%= l(tester_request.updated_at, format: :short) %></small>
         </td>
-        <td class="text-right width-10">
-          <%= link_to edit_back_office_request_template_path(tester_request),
-                      class: 'btn btn-primary' do %>
-            <%= t('actions.select') %>
-          <% end %>
+        <td class="text-right">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+              <%= t('misc.actions') %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to edit_back_office_request_template_path(tester_request),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to back_office_request_template_path(tester_request),
+                          class: 'dropdown-item',
+                          method: :delete,
+                          data: {
+                            confirm: 'Are you sure?'
+                          } do %>
+                <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+              <% end %>
+            </div>
+          </div>
         </td>
       </tr>
     <% end %>

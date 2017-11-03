@@ -241,8 +241,8 @@ fr:
         name: 'Nom'
         value: 'Valeur'
       tester/request:
-        category: 'Catégorie'
-        category_id: 'Catégorie'
+        category: 'Catégorie du test'
+        category_id: 'Catégorie du test'
         description: 'Description'
         expected_response_format: 'Format attendu de la réponse'
         expected_response_status: 'Status attendu de la réponse'

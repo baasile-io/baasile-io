@@ -10,7 +10,7 @@ module Tester
 
     has_many :tester_parameters,
              inverse_of: :tester_request,
-             class_name: Tester::Parameters.name,
+             class_name: Tester::Parameter.name,
              foreign_key: 'tester_request_id',
              dependent: :destroy
 
@@ -23,6 +23,12 @@ module Tester
     has_many :tester_parameters_queries,
              inverse_of: :tester_request,
              class_name: Tester::Parameters::Query.name,
+             foreign_key: 'tester_request_id',
+             dependent: :destroy
+
+    has_many :tester_results,
+             inverse_of: :tester_request,
+             class_name: Tester::Result.name,
              foreign_key: 'tester_request_id',
              dependent: :destroy
 

@@ -5,9 +5,9 @@ module Tester
     belongs_to :proxy
     belongs_to :service
 
-    belongs_to :tester_requests_template,
-               class_name: Tester::Requests::Template.name,
-               foreign_key: 'tester_request_id'
+    belongs_to :tester_request,
+               inverse_of: :tester_results,
+               class_name: Tester::Request.name
 
     validates :route, presence: true
     validates :proxy, presence: true
@@ -19,12 +19,12 @@ module Tester
     scope :failed, -> {where(status: false)}
 
     scope :expired, -> {
-      joins(:tester_requests_template)
+      joins(:tester_request)
         .where('tester_requests_templates.updated_at >= tester_results.created_at')
     }
 
     scope :not_expired, -> {
-      joins(:tester_requests_template)
+      joins(:tester_request)
         .where('tester_requests_templates.updated_at < tester_results.created_at')
     }
 

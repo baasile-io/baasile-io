@@ -21,7 +21,9 @@ fr:
           'typeof': "*%{container}* : L'attribut `%{attribute}` doit être de type `%{expected_type}`"
     requests:
       form:
+        expire_results: 'Expirer les résultats de ce test'
         hints:
+          expire_results: 'Cochez cette case si vous souhaitez que les résultats de ce test ayant été réalisé précédemment soient invalidés. Cette opération est nécessaire si vous avez modifié le comportement du test.'
           name: "Choisissez un nom décrivant l'objectif de la requête."
           request_body: "Attention : Renseignez le corps de la requête au format JSON même si vous avez sélectionné un autre format d'encodage. Le corps de la requête sera automatiquement converti au format sélectionné."
           yes_if_necessary: 'Oui, si nécessaire'

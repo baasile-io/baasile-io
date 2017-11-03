@@ -19,8 +19,6 @@ module Tester
                foreign_key: 'tester_request_id',
                dependent: :destroy
 
-      has_many :tester_results
-
       validates :expected_response_status, numericality: { only_integer: true }, allow_blank: true
       validates :expected_response_format, presence: true, inclusion: {in: EXPECTED_RESPONSE_FORMATS}
 

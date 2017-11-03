@@ -32,6 +32,10 @@ module BackOffice
 
       current_request.user = current_user
 
+      if params[:expire_results] == 'true'
+        current_request.update_expiration_date
+      end
+
       if current_request.update(requests_params)
         flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.tester/request'))
         redirect_to_index
@@ -41,6 +45,9 @@ module BackOffice
     end
 
     def destroy
+      if current_request.destroy
+        flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.tester/request'))
+      end
       redirect_to back_office_request_templates_path
     end
 
@@ -98,7 +105,7 @@ module BackOffice
     end
 
     def load_request
-      @current_request = Tester::Requests::Template.includes(:tester_parameters_headers).find(params[:id])
+      @current_request = Tester::Requests::Template.find(params[:id])
     end
 
   end

@@ -98,6 +98,8 @@ fr:
     profile: 'Profil'
     query_parameters: "Paramètres d'URL"
     related_products: 'Produits connexes'
+    request: 'Requête'
+    response: 'Réponse'
     response_body_elements: 'Corps de la réponse'
     response_headers: 'Entêtes de la réponse'
     role: 'Rôle'
