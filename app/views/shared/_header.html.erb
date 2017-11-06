@@ -14,7 +14,7 @@
   <% unless current_proxy.nil? %>
     <%= render partial: 'shared/headers/proxy_header' %>
 
-    <% unless current_route.nil? %>
+    <% if current_route.present? && !['requests', 'process_requests'].include?(controller_name) %>
       <%= render partial: 'shared/headers/route_header' %>
     <% end %>
 

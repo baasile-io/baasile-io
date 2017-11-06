@@ -249,7 +249,7 @@ fr:
         follow_url: 'Chemin supplémentaire'
         format: "Format d'encodage"
         method: 'Méthode'
-        name: 'Nom'
+        name: 'Nom de la requête'
         request_body: 'Corps'
         route: 'Route'
         route_id: 'Route'

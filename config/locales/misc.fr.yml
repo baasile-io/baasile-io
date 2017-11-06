@@ -9,6 +9,7 @@ fr:
     all: 'Tous'
     all_feminized: 'Toutes'
     already_accepted: 'Déjà validées'
+    an_error_occured: 'Une erreur est survenue'
     are_you_sure: 'Veuillez confirmer cette action.'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
@@ -34,6 +35,7 @@ fr:
     general_condition_validation: 'Validation des Conditions Générales'
     headers: 'Entêtes de la requête'
     history: 'Historique'
+    http_status: 'Statut HTTP'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     is_active:

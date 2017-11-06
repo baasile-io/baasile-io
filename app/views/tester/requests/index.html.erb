@@ -4,8 +4,7 @@
 
   content_for(:page_controls) {
     link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_tester_request')}".html_safe, new_service_proxy_tester_request_path(current_service, current_proxy),
-            class: 'btn btn-primary',
-            remote: request.xhr?
+            class: 'btn btn-primary'
   }
 
 %>
@@ -13,7 +12,7 @@
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'index',
+    <%= render partial: 'list',
                locals: {
                  collection: @collection,
                  is_template: false
@@ -30,10 +29,12 @@
 </div>
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-    <%= render partial: 'index',
+
+    <%= render partial: 'list',
                locals: {
                  collection: @request_templates,
                  is_template: true
                } %>
+
   </div>
 </div>

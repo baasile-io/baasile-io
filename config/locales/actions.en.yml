@@ -47,6 +47,7 @@ en:
       startup: 'Edit startup Bank details'
     edit_contract: 'Edit contract'
     edit_price: 'Edit pricing'
+    edit_request: 'Edit request'
     edit_service: 'Edit Enterprise account'
     edit_user: 'Edit user account'
     filter_by_startup: 'Filter by supplier...'

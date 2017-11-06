@@ -23,7 +23,7 @@ module Tester
       status, errors = parser.call
 
       @tester_result = Tester::Result.find_or_initialize_by(
-        tester_requests_template: @current_request,
+        tester_request: @current_request,
         route: @current_route,
         proxy: @current_route.proxy,
         service: @current_route.service
@@ -58,6 +58,8 @@ module Tester
       @request_body = request_build_body
       @request_get = request_build_get
 
+      @use_authorization = current_request.use_authorization
+
       proxy_initialize
       @proxy_response = proxy_request
 
@@ -72,7 +74,7 @@ module Tester
         response: {
           status: @proxy_response.code,
           headers: response_headers,
-          body: @proxy_response.body
+          body: @proxy_response.body.force_encoding("utf-8")
         }
       }
 
@@ -92,7 +94,7 @@ module Tester
           result[:response] = {
             status: e.res.code,
             headers: e.res.to_hash.transform_values {|v| v.join(', ')},
-            body: e.res.body
+            body: e.res.body.force_encoding("utf-8")
           }
         end
 

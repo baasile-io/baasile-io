@@ -66,7 +66,7 @@ module Tester
     private
 
       def body_format_validation
-        if ['POST', 'PUT', 'PATCH', 'DELETE'].include?(self.method)
+        if Route::ALLOWED_METHODS.include?(self.method) && self.request_body.present?
           begin
             JSON.parse(request_body)
           rescue JSON::ParserError

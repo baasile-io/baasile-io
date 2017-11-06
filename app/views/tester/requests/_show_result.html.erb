@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('misc.http_status') %></strong>
+  </div>
+  <div class="col-9">
+    <strong><%= @result[:status] %></strong>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-3 text-right">
+    <strong><%= t('misc.state') %></strong>
+  </div>
+  <div class="col-9">
+    <% if @result[:error] %>
+      <span class="text-danger">
+        <i class="fa fa-close"></i> <%= t('misc.an_error_occured') %><br />
+        <%= @result[:error_title] %><br />
+        <small><%= @result[:error_message] %></small>
+      </span>
+    <% else %>
+      <span class="text-success"><i class="fa fa-check"></i> OK</span>
+    <% end %>
+  </div>
+</div>
+
+<% if @result[:request] %>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('misc.method') %></strong>
+    </div>
+    <div class="col-9">
+      <%= @result[:request][:method] %>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong>URI</strong>
+    </div>
+    <div class="col-9">
+      <pre><code><%= @result[:request][:original_url] %></code></pre>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('misc.headers') %></strong>
+    </div>
+    <div class="col-9">
+      <pre><code><% @result[:request][:headers].each.with_index do |(key, value), i| %><% if i > 0 %><br /><% end %><%= key.titleize.gsub(/ /, '-') %>: <%= value %><% end %></code></pre>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('misc.body') %></strong>
+    </div>
+    <div class="col-9">
+
+      <%
+        begin
+          json_result = JSON.parse(@result[:request][:body])
+      %>
+
+        <pre class="ace-viewer"
+             id="tester-request-ace-viewer-2"
+             data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
+
+      <% rescue %>
+
+        <pre class="ace-viewer"
+             id="tester-request-ace-viewer-2"
+             data-format="xml"><%= @result[:request][:body] %></pre>
+
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>
+
+
+<% if @result[:response] %>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('misc.response_headers') %></strong>
+    </div>
+    <div class="col-9">
+      <pre><code><% @result[:response][:headers].each.with_index do |(key, value), i| %><% if i > 0 %><br /><% end %><%= key.titleize.gsub(/ /, '-') %>: <%= value %><% end %></code></pre>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('misc.response_body_elements') %></strong>
+    </div>
+    <div class="col-9">
+
+      <%
+        begin
+          json_result = JSON.parse(@result[:response][:body])
+      %>
+
+        <pre class="ace-viewer"
+             id="tester-request-ace-viewer-1"
+             data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
+
+      <% rescue %>
+
+        <pre class="ace-viewer"
+             id="tester-request-ace-viewer-1"
+             data-format="xml"><%= @result[:response][:body] %></pre>
+
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>

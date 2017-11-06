@@ -143,6 +143,8 @@ window.activate_ace_viewer = function() {
 
     var mode = ace.require("ace/mode/" + format).Mode;
     editor.setOption('useWorker', false);
+    editor.setOption('maxLines', Infinity);
+    editor.setOption('readOnly', true);
     editor.session.setMode(new mode());
     editor.renderer.setOption('printMarginColumn', false);
     editor.renderer.setOption('displayIndentGuides', true);

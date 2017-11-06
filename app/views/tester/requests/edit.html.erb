@@ -1,11 +1,12 @@
 <%
+  content_for(:page_back) { service_proxy_tester_request_path(current_service, current_proxy, current_request) }
   content_for(:page_title) { t('actions.edit') }
 %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
 
-    <%= render partial: 'edit' %>
+    <%= render partial: 'form', locals: {object: current_request} %>
 
   </div>
 </div>

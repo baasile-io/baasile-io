@@ -47,6 +47,7 @@ fr:
       startup: 'Modifier le compte bancaire du fournisseur'
     edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
+    edit_request: 'Modifier la requête'
     edit_service: 'Modifier le compte Entreprise'
     edit_user: 'Modifier le compte utilisateur'
     filter_by_startup: 'Filtrer par fournisseur...'

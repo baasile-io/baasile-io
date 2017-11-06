@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include FlashMessagesHelper
 
   protect_from_forgery with: :exception
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_auth_token
 
   # reset captcha code after each request for security
   after_action :reset_last_captcha_code!
@@ -27,6 +28,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_bank_detail
   helper_method :current_service_owner
   helper_method :current_request
+
+  def invalid_auth_token
+    render status: :bad_request
+    Airbrake.notify('Bad request: ActionController::InvalidAuthenticityToken', {
+      original_url: request.original_url
+    })
+  end
 
   def set_locale
     I18n.locale = params[:locale]

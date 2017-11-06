@@ -236,7 +236,7 @@ en:
         follow_url: 'Additional path'
         format: 'Encoding format'
         method: 'Method'
-        name: 'Name'
+        name: "Request's name"
         request_body: 'Body'
         route: 'Route'
         route_id: 'Route'

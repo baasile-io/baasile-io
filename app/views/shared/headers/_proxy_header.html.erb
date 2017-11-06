@@ -21,7 +21,8 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle
                     <%= 'active' if (controller_name == 'proxies' && ['edit', 'update', 'confirm_destroy', 'audit'].include?(action_name)) ||
-                                    (controller_name == 'identifiers' && action_name == 'index') %>
+                                    (controller_name == 'identifiers' && action_name == 'index') ||
+                                    (['requests', 'process_requests'].include?(controller_name)) %>
                      " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog fa-fw"></i> <%= t('misc.parameters') %></a>
               <div class="dropdown-menu">
                 <a class="dropdown-item <%= 'active' if controller_name == 'proxies' && ['edit', 'update'].include?(action_name) %>" href="<%= edit_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-pencil fa-fw"></i> <%= t('actions.edit') %></a>
@@ -30,6 +31,7 @@
                   <a class="dropdown-item <%= 'active' if controller_name == 'proxies' && ['audit'].include?(action_name) %>" href="<%= audit_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-history fa-fw"></i> <%= t('misc.history') %></a>
                   <a class="dropdown-item <%= 'active' if controller_name == 'proxies' && ['confirm_destroy'].include?(action_name) %>" href="<%= confirm_destroy_service_proxy_path(current_service, current_proxy) %>"><i class="fa fa-trash-o fa-fw"></i> <%= t('actions.destroy') %></a>
                 <% end %>
+                <a class="dropdown-item <%= 'active' if ['requests', 'process_requests'].include?(controller_name) %>" href="<%= service_proxy_tester_requests_path(current_service, current_proxy) %>"><i class="fa fa-magic fa-fw"></i> <%= t('tester.title') %></a>
               </div>
             </li>
             <li class="nav-item">
