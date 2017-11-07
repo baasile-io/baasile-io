@@ -87,6 +87,7 @@ module Tester
 
         result[:status] = status
         result[:error] = true
+        result[:error_code] = e.code
         result[:error_title] = I18n.t("errors.api.#{e.code}.title", locale: :en)
         result[:error_message] = I18n.t("errors.api.#{e.code}.message", locale: :en)
 

@@ -37,6 +37,10 @@
                           class: 'dropdown-item' do %>
                 <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
               <% end %>
+              <%= link_to duplicate_back_office_request_template_path(tester_request),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-clone"></i> <%= t('actions.duplicate') %>
+              <% end %>
               <div class="dropdown-divider"></div>
               <%= link_to back_office_request_template_path(tester_request),
                           class: 'dropdown-item',

@@ -32,4 +32,5 @@ en:
         title: 'Create a request'
     result: 'Result'
     title: "API tester"
+    template: 'Request template'
     templates: 'Request templates'

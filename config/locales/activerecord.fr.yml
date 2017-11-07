@@ -253,6 +253,7 @@ fr:
         request_body: 'Corps'
         route: 'Route'
         route_id: 'Route'
+        template_name: 'Nom du test'
         tester_parameters_headers: "Paramètres d'entête"
         tester_parameters_queries: "Paramètres d'URL"
         tester_parameters_response_headers: "Paramètres d'entête attendus"

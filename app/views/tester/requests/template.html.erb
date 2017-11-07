@@ -53,37 +53,41 @@
 
     <% end %>
 
-    <% if @result.present? %>
-
-      <div class="b-io-content--header">
-        <div class="container-fluid">
-          <div class="b-io-content--header--controls"></div>
-          <h4><%= t('tester.result') %></h4>
-        </div>
-      </div>
-      <div class="b-io-content--secondary">
-        <div class="container-fluid">
-
-          <% if !@tester_result.status %>
-
-            <h3><i class="fa fa-close"></i> Failure</h3>
-            <%= format_error_message(@tester_result.error_message) %>
-
-          <% else %>
-
-            <h3><i class="fa fa-check"></i> Success</h3>
-
-          <% end %>
-
-          <%= render partial: 'tester/requests/show_result', locals: {result: @result} %>
-
-        </div>
-      </div>
-
-    <% end %>
-
   </div>
 </div>
+
+<% if @result.present? %>
+
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls">
+        <%= link_to errors_documentations_path, class: 'btn btn-secondary', target: '_blank' do %>
+          <i class="fa fa-fw fa-question-circle"></i> <%= t('documentations.errors.title') %>
+        <% end %>
+      </div>
+      <h4><%= t('tester.result') %></h4>
+    </div>
+  </div>
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+
+      <% if !@tester_result.status %>
+
+        <h3><i class="fa fa-close"></i> <%= t('misc.failure') %></h3>
+        <%= format_error_message(@tester_result.error_message) %>
+
+      <% else %>
+
+        <h3><i class="fa fa-check"></i> <%= t('misc.success') %></h3>
+
+      <% end %>
+
+      <%= render partial: 'tester/requests/show_result', locals: {result: @result} %>
+
+    </div>
+  </div>
+
+<% end %>
 
 <% content_for(:extra_js) do %>
   <script type="text/javascript">

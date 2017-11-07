@@ -28,6 +28,7 @@ fr:
     deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
+    failure: 'Échec'
     'false': 'Non'
     free_count_limit_reached: 'Limite de requêtes atteinte'
     free_count_limit_reached_reset_description: "Vous avez atteint le nombre de requêtes ou paramètres maximum autorisé dans votre contrat. Du fait que vous êtes en phase de test, vous pouvez réinitialiser le compteur afin de continuer à requêter l'API."
@@ -112,6 +113,7 @@ fr:
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
     state: 'Statut'
+    success: 'Succès'
     'true': 'Oui'
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'

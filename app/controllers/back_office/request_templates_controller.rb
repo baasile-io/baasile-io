@@ -2,7 +2,7 @@ module BackOffice
   class RequestTemplatesController < BackOfficeController
 
     before_action :load_request, except: [:index, :new, :create]
-    before_action :load_categories, only: [:new, :edit, :update, :create]
+    before_action :load_categories, only: [:new, :edit, :update, :create, :duplicate]
 
     def index
       @collection = Tester::Requests::Template.all.order(updated_at: :desc)
@@ -49,6 +49,12 @@ module BackOffice
         flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.tester/request'))
       end
       redirect_to back_office_request_templates_path
+    end
+
+    def duplicate
+      @request = current_request.dup_with_associations
+      #raise @request.tester_parameters_headers.inspect
+      render :new
     end
 
     def edit

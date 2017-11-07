@@ -40,6 +40,7 @@ en:
     destroy_user: 'Definitively delete the user account'
     disassociate: 'Remove association'
     disassociate_user_from_service: 'Remove user from Enterprise'
+    duplicate: 'Duplicate'
     edit: 'Edit'
     edit_account: 'Edit account'
     edit_bank_details:
@@ -50,6 +51,10 @@ en:
     edit_request: 'Edit request'
     edit_service: 'Edit Enterprise account'
     edit_user: 'Edit user account'
+    success:
+      created: 'Creation of %{resource} has failed'
+      destroyed: 'Deletion of %{resource} has failed'
+      updated: 'Update of %{resource} has failed'
     filter_by_startup: 'Filter by supplier...'
     ignore: 'Ignore'
     infos: 'Infos'

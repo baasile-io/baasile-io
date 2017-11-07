@@ -240,7 +240,11 @@ Rails.application.routes.draw do
     get 'back_office', to: 'back_office#index'
 
     namespace :back_office do
-      resources :request_templates
+      resources :request_templates do
+        member do
+          get :duplicate
+        end
+      end
       resources :error_measurements
       resources :users do
         member do

@@ -1,11 +1,29 @@
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.tester/request.name') %></strong>
+<% if tester_request.is_a?(::Tester::Requests::Template) %>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.tester/request.template_name') %></strong>
+    </div>
+    <div class="col-9">
+      <p><strong><i class="fa fa-fw fa-magic"></i> <%= tester_request.template_name %></strong></p>
+      <div class="trix-content">
+        <%= tester_request.template_description.html_safe %>
+      </div>
+    </div>
   </div>
-  <div class="col-9">
-    <strong><i class="fa fa-fw fa-magic"></i> <%= tester_request.name %></strong>
+
+<% else %>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.tester/request.name') %></strong>
+    </div>
+    <div class="col-9">
+      <strong><i class="fa fa-fw fa-magic"></i> <%= tester_request.name %></strong>
+    </div>
   </div>
-</div>
+
+<% end %>
 
 <hr>
 

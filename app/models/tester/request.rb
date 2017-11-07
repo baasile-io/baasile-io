@@ -63,6 +63,26 @@ module Tester
       !template?
     end
 
+    def dup_with_associations
+      self.dup.tap do |new_request|
+        I18n.available_locales.each do |locale|
+          new_request.send("dictionary_#{locale}=", self.send("dictionary_#{locale}").dup)
+        end
+        self.tester_parameters_headers.each do |tester_parameter|
+          new_request.tester_parameters_headers << tester_parameter.dup
+        end
+        self.tester_parameters_queries.each do |tester_parameter|
+          new_request.tester_parameters_queries << tester_parameter.dup
+        end
+        self.tester_parameters_response_headers.each do |tester_parameter|
+          new_request.tester_parameters_response_headers << tester_parameter.dup
+        end
+        self.tester_parameters_response_body_elements.each do |tester_parameter|
+          new_request.tester_parameters_response_body_elements << tester_parameter.dup
+        end
+      end
+    end
+
     private
 
       def body_format_validation

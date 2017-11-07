@@ -29,7 +29,6 @@ module Tester
                touch: true
 
     validates :tester_request, presence: true
-    validates :name, presence: true, format: {with: /\A[-_a-zA-Z0-9]+\z/}
 
     default_scope { order(name: :asc) }
 

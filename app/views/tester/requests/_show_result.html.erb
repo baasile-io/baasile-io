@@ -16,8 +16,8 @@
   <div class="col-9">
     <% if @result[:error] %>
       <span class="text-danger">
-        <i class="fa fa-close"></i> <%= t('misc.an_error_occured') %><br />
-        <%= @result[:error_title] %><br />
+        <p><i class="fa fa-close"></i> <%= t('misc.an_error_occured') %></p>
+        <%= @result[:error_code] %> <%= @result[:error_title] %><br />
         <small><%= @result[:error_message] %></small>
       </span>
     <% else %>
