@@ -81,7 +81,7 @@
 
         <pre class="ace-viewer"
              id="tester-request-ace-viewer-0"
-             data-format="json"><%= JSON.pretty_generate(JSON.parse(tester_request.request_body)) %></pre>
+             data-format="json"><%= JSON.pretty_generate(JSON.parse(tester_request.request_body)) rescue tester_request.request_body %></pre>
     </div>
   </div>
 

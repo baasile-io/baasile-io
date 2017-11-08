@@ -102,6 +102,7 @@ fr:
     query_parameters: "Paramètres d'URL"
     related_products: 'Produits connexes'
     request: 'Requête'
+    request_state: 'Statut de la requête'
     response: 'Réponse'
     response_body_elements: 'Corps de la réponse'
     response_headers: 'Entêtes de la réponse'
@@ -121,5 +122,6 @@ fr:
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
     user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
+    warning: 'Attention'
     without_category: 'Non classifié'
     yes: 'Oui'

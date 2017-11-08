@@ -6,7 +6,6 @@
     <tr>
       <th colspan="2"><%= t('activerecord.attributes.tester/request.name') %></th>
       <th><%= t('activerecord.attributes.tester/request.category') %></th>
-      <th><%= t('activerecord.attributes.tester/request.method') %></th>
       <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
       <th></th>
     </tr>
@@ -17,12 +16,14 @@
         <td class="width-3"><i class="fa fa-2x fa-fw fa-magic"></i></td>
         <td>
           <%= tester_request.template_name %>
+          <small class="text-muted">
+            <div class="trix-content">
+              <%= tester_request.template_description.html_safe %>
+            </div>
+          </small>
         </td>
         <td>
           <%= tester_request.category || t('misc.all_feminized') %>
-        </td>
-        <td>
-          <%= tester_request.method %>
         </td>
         <td>
           <small><%= l(tester_request.updated_at, format: :short) %></small>

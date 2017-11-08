@@ -1,4 +1,7 @@
-<% content_for(:page_title) { t('.title') } %>
+<%
+  content_for(:page_title) { t('.title') }
+  content_for(:page_back) { service_proxy_tester_requests_path(current_service, current_proxy) }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

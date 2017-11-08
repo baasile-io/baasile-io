@@ -11,17 +11,23 @@
 
 <div class="row">
   <div class="col-3 text-right">
-    <strong><%= t('misc.state') %></strong>
+    <strong><%= t('misc.request_state') %></strong>
   </div>
   <div class="col-9">
     <% if @result[:error] %>
-      <span class="text-danger">
-        <p><i class="fa fa-close"></i> <%= t('misc.an_error_occured') %></p>
-        <%= @result[:error_code] %> <%= @result[:error_title] %><br />
-        <small><%= @result[:error_message] %></small>
-      </span>
+      <div class="text-danger">
+        <p><i class="fa fa-fw fa-close"></i> <%= t('misc.an_error_occured') %></p>
+        <p>
+          <%= @result[:error_code] %> <%= @result[:error_title] %><br />
+          <small><%= @result[:error_message] %></small>
+        </p>
+      </div>
+
+      <%= link_to errors_documentations_path, class: 'btn btn-secondary', target: '_blank' do %>
+        <i class="fa fa-fw fa-question-circle"></i> <%= t('documentations.errors.title') %>
+      <% end %>
     <% else %>
-      <span class="text-success"><i class="fa fa-check"></i> OK</span>
+      <i class="fa fa-fw fa-check"></i> OK
     <% end %>
   </div>
 </div>
@@ -61,33 +67,37 @@
     </div>
   </div>
 
-  <hr>
+  <% if @result[:request][:body].present? %>
 
-  <div class="row">
-    <div class="col-3 text-right">
-      <strong><%= t('misc.body') %></strong>
+    <hr>
+
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('misc.body') %></strong>
+      </div>
+      <div class="col-9">
+
+        <%
+          begin
+            json_result = JSON.parse(@result[:request][:body])
+        %>
+
+          <pre class="ace-viewer"
+               id="tester-request-ace-viewer-2"
+               data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
+
+        <% rescue %>
+
+          <pre class="ace-viewer"
+               id="tester-request-ace-viewer-2"
+               data-format="xml"><%= @result[:request][:body] %></pre>
+
+        <% end %>
+
+      </div>
     </div>
-    <div class="col-9">
 
-      <%
-        begin
-          json_result = JSON.parse(@result[:request][:body])
-      %>
-
-        <pre class="ace-viewer"
-             id="tester-request-ace-viewer-2"
-             data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
-
-      <% rescue %>
-
-        <pre class="ace-viewer"
-             id="tester-request-ace-viewer-2"
-             data-format="xml"><%= @result[:request][:body] %></pre>
-
-      <% end %>
-
-    </div>
-  </div>
+  <% end %>
 
 <% end %>
 
@@ -105,32 +115,36 @@
     </div>
   </div>
 
-  <hr>
+  <% if @result[:response][:body].present? %>
 
-  <div class="row">
-    <div class="col-3 text-right">
-      <strong><%= t('misc.response_body_elements') %></strong>
+    <hr>
+
+    <div class="row">
+      <div class="col-3 text-right">
+        <strong><%= t('misc.response_body_elements') %></strong>
+      </div>
+      <div class="col-9">
+
+        <%
+          begin
+            json_result = JSON.parse(@result[:response][:body])
+        %>
+
+          <pre class="ace-viewer"
+               id="tester-request-ace-viewer-1"
+               data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
+
+        <% rescue %>
+
+          <pre class="ace-viewer"
+               id="tester-request-ace-viewer-1"
+               data-format="xml"><%= @result[:response][:body] %></pre>
+
+        <% end %>
+
+      </div>
     </div>
-    <div class="col-9">
 
-      <%
-        begin
-          json_result = JSON.parse(@result[:response][:body])
-      %>
-
-        <pre class="ace-viewer"
-             id="tester-request-ace-viewer-1"
-             data-format="json"><%= JSON.pretty_generate(json_result) %></pre>
-
-      <% rescue %>
-
-        <pre class="ace-viewer"
-             id="tester-request-ace-viewer-1"
-             data-format="xml"><%= @result[:response][:body] %></pre>
-
-      <% end %>
-
-    </div>
-  </div>
+  <% end %>
 
 <% end %>

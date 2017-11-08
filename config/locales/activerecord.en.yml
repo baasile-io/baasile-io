@@ -245,6 +245,7 @@ en:
         tester_parameters_queries: 'URL parameters'
         tester_parameters_response_headers: 'Expected response header parameters'
         tester_parameters_response_body_elements: 'Expected response body parameters'
+        tester_results: 'Test results'
         type: 'Type'
         updated_at: 'Last update at'
         uri: 'Address'

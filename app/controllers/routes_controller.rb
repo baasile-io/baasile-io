@@ -5,10 +5,7 @@ class RoutesController < DashboardController
   include ShowMeasurementConcern
 
   def index
-    @collection = current_proxy.routes.authorized(current_user)
-    if @collection.size == 0
-      redirect_to new_service_proxy_route_path
-    end
+    @collection = current_proxy.routes
   end
 
   def new

@@ -17,6 +17,24 @@ module Tester
 
     def template
       @current_request = Tester::Requests::Template.find(params[:id])
+
+      route_id = params.fetch(:tester_request, {}).fetch(:route_id, '')
+
+      if route_id.blank?
+        load_routes
+        render 'template_select_route'
+      else
+
+        @current_route = current_proxy.routes.find(route_id)
+
+        @tester_result = Tester::Result.find_by(
+          tester_request: @current_request,
+          route: @current_route,
+          proxy: current_proxy,
+          service: current_service
+        )
+
+      end
     end
 
     def new

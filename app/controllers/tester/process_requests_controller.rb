@@ -75,6 +75,12 @@ module Tester
           status: @proxy_response.code,
           headers: response_headers,
           body: @proxy_response.body.force_encoding("utf-8")
+        },
+        request: {
+          method: @request_method,
+          original_url: @current_proxy_send_request.uri.to_s,
+          headers: @current_proxy_send_request.to_hash.transform_values {|v| v.join(', ')},
+          body: @current_proxy_send_request.body
         }
       }
 

@@ -258,6 +258,7 @@ fr:
         tester_parameters_queries: "Paramètres d'URL"
         tester_parameters_response_headers: "Paramètres d'entête attendus"
         tester_parameters_response_body_elements: 'Paramètres du corp attendus'
+        tester_results: 'Résultats du test'
         type: 'Type'
         updated_at: 'Dernière modification'
         uri: 'Adresse'

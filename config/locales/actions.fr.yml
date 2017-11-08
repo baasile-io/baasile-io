@@ -69,6 +69,7 @@ fr:
     new_route: 'Créer une route'
     new_startup: 'Créer un Fournisseur'
     new_tester_request: 'Créer une requête'
+    new_tester_request_template: 'Créer un test'
     new_ticket: 'Créer un ticket'
     next_step: "Valider"
     open: 'Open'

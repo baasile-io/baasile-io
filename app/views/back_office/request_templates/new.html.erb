@@ -1,4 +1,7 @@
-<% content_for(:page_title) { t('actions.new_tester_request') } %>
+<%
+  content_for(:page_title) { t('actions.new_tester_request') }
+  content_for(:page_back) { back_office_request_templates_path }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

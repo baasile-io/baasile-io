@@ -38,18 +38,28 @@ module Tester
         by_category(route.proxy.category_id)
       }
 
-      scope :with_missing_results, -> {
-        joins('LEFT JOIN tester_results ON tester_results.tester_request_id = tester_requests.id AND tester_results.updated_at >= tester_requests.expiration_date')
+      scope :applicable_on_proxy, -> (proxy) {
+        by_category(proxy.category_id)
+      }
+
+      scope :with_missing_results, -> (object) {
+        joins("LEFT JOIN tester_results
+               ON tester_results.tester_request_id = tester_requests.id
+                  AND tester_results.#{object.class.model_name.singular}_id = '#{object.id}'
+                  AND tester_results.updated_at >= tester_requests.expiration_date")
           .where("tester_results.id IS NULL")
       }
 
-      scope :with_failed_results, -> {
-        joins('LEFT JOIN tester_results ON tester_results.tester_request_id = tester_requests.id AND tester_results.updated_at >= tester_requests.expiration_date')
+      scope :with_failed_results, -> (object) {
+        joins("LEFT JOIN tester_results
+               ON tester_results.tester_request_id = tester_requests.id
+                  AND tester_results.#{object.class.model_name.singular}_id = '#{object.id}'
+                  AND tester_results.updated_at >= tester_requests.expiration_date")
           .where("tester_results.status = 'f'")
       }
 
-      scope :with_failed_or_missing_results, -> {
-        with_missing_results.or(with_failed_results)
+      scope :with_failed_or_missing_results, -> (object) {
+        with_missing_results(object).or(with_failed_results(object))
       }
 
       def template_name

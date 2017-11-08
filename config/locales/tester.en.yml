@@ -3,6 +3,8 @@ en:
     description: "Test your API integration through the dashboard"
     misc:
       apply_to_all_categories: 'Apply to all categories'
+      not_saved: 'This test result has not been saved because it was run in production environment. In order to get a valid integration test, run it in test environment.'
+      run_it_in_test_env: "Warning: To obtain a valid integration test, run it in test environment only. You can run it in production environment if you want, but it is not recommended as it could affect your actual data."
     parser:
       messages:
         bad_format: 'Response *format* must be `%{expected_response_format}`'
@@ -32,5 +34,5 @@ en:
         title: 'Create a request'
     result: 'Result'
     title: "API tester"
-    template: 'Request template'
-    templates: 'Request templates'
+    template: 'Integration test'
+    templates: 'Integration tests'

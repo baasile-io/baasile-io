@@ -30,8 +30,6 @@ class Route < ApplicationRecord
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
   validates :subdomain, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
 
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
-
   validates :name, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
   validates :url, presence: true
@@ -78,9 +76,11 @@ class Route < ApplicationRecord
     name
   end
 
-  def failed_or_missing_tester_results
+  def failed_or_missing_tester_results(tester_request = nil)
+    scope = tester_request.nil? ? [:all] : [:where, 'tester_requests.id = ?', tester_request.id]
     Tester::Requests::Template
+      .send(*scope)
       .applicable_on_route(self)
-      .with_failed_or_missing_results
+      .with_failed_or_missing_results(self)
   end
 end

@@ -3,14 +3,14 @@
   <%= error_messages_for(f.object) %>
 
   <% I18n.available_locales.each.with_index(0) do |root_locale, root_index| %>
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs nav-tabs-translations" role="tablist">
       <% I18n.available_locales.each.with_index(0) do |locale, index| %>
         <li class="nav-item">
           <a class="nav-link <%= locale == root_locale ? 'active' : 'disabled' %>" href="#category_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
         </li>
       <% end %>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content tab-content-translations">
       <div role="tabpanel" class="tab-pane active">
         <%= f.simple_fields_for "dictionary_#{root_locale}".to_sym do |f2| %>
           <%= f2.input :locale, as: :hidden %>

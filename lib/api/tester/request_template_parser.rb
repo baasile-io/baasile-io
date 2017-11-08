@@ -7,6 +7,19 @@ module Api
         @result = result
         @errors = []
         @body = nil
+
+        unless @result[:response].present?
+          @result[:response] = {
+            status: @result[:status],
+            headers: {},
+            body: case request_template.expected_response_format
+                    when 'application/json'
+                      {}
+                    else
+                      raise StandardError
+                  end
+          }
+        end
       end
 
       def call
@@ -19,20 +32,21 @@ module Api
       attr_writer :body
 
       def parse_result
-        if result[:response].present?
-          check_status
-          check_headers
-          if check_format
-            check_body
-          end
-        else
-          push_error "*#{result[:error_title]}*: #{result[:error_message]}"
+        check_status
+        check_headers
+        if check_format
+          check_body
         end
+        #else
+        #  push_error "*#{result[:error_title]}*: #{result[:error_message]}"
+        #end
 
         [errors.empty?, errors]
       end
 
       def check_format
+        return true if @result[:error]
+
         @body = case request_template.expected_response_format
                   when 'application/json'
                     JSON.parse(result[:response][:body])
@@ -51,7 +65,7 @@ module Api
       def check_status
         return unless request_template.expected_response_status.present?
 
-        if request_template.expected_response_status != result[:response][:status]
+        if request_template.expected_response_status != result[:status]
           push_error I18n.t("tester.parser.messages.bad_status",
                             expected_response_status: request_template.expected_response_status)
         end
@@ -88,8 +102,12 @@ module Api
           if new_path.empty?
             compare_parameter(parameter: parameter, path: nil, container: container, container_id: container_id)
           else
-            container[key].each do |sub_container|
-              compare_parameter(parameter: parameter, path: new_path.first, container: sub_container, container_id: container_id)
+            if container.is_a?(Array)
+              container[key].each do |sub_container|
+                compare_parameter(parameter: parameter, path: new_path.first, container: sub_container, container_id: container_id)
+              end
+            else
+              compare_parameter(parameter: parameter, path: nil, container: nil, container_id: container_id)
             end
           end
         else

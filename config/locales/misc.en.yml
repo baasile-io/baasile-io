@@ -103,6 +103,7 @@ en:
     query_parameters: "Query parameters"
     related_products: 'Related products'
     request: 'Request'
+    request_state: 'Request status'
     response: 'Response'
     response_body_elements: 'Response body'
     response_headers: 'Response headers'
@@ -122,5 +123,6 @@ en:
     unknown_user_create_on: "The user was not found, you can create one if you need it"
     user_not_disassociable_because_official: "You can't remove association because the user is an official"
     waiting_for_validation: 'Waiting for validation'
+    warning: 'Warning'
     without_category: 'Unclassified'
     yes: 'Yes'
