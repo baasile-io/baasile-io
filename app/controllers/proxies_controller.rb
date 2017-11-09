@@ -104,7 +104,7 @@ class ProxiesController < DashboardController
       redirect_to_index
     else
       flash[:error] = @proxy.errors.full_messages.join(', ')
-      render :show
+      render :confirm_destroy
     end
   end
 

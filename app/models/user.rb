@@ -3,10 +3,10 @@ class User < ApplicationRecord
   has_paper_trail
 
   # Include default devise modules. Others available are:
-  #  :omniauthable :password_archivable
+  #  :omniauthable :password_archivable :session_limitable
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :trackable, :secure_validatable, :confirmable, :lockable,
-         :password_expirable, :session_limitable, :expirable
+         :password_expirable, :expirable
 
   GENDERS = {male: 1, female: 2}
   enum gender: GENDERS

@@ -96,4 +96,12 @@ class Proxy < ApplicationRecord
   def to_s
     name
   end
+
+  def failed_or_missing_tester_results(tester_request = nil)
+    scope = tester_request.nil? ? [:all] : [:where, 'tester_requests.id = ?', tester_request.id]
+    Tester::Requests::Template
+      .send(*scope)
+      .applicable_on_proxy(self)
+      .with_failed_or_missing_results(self.routes)
+  end
 end

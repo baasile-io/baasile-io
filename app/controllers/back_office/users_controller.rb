@@ -144,7 +144,7 @@ module BackOffice
     end
 
     def sign_in_as
-      sign_in(:user, @user, event: :authentication)
+      sign_in(:user, @user, event: :authentication, bypass: true)
       redirect_to root_url
     end
 

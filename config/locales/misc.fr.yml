@@ -28,6 +28,7 @@ fr:
     deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
+    existing_contract: 'Un contrat existe déjà'
     failure: 'Échec'
     'false': 'Non'
     free_count_limit_reached: 'Limite de requêtes atteinte'

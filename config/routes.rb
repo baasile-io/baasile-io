@@ -208,6 +208,7 @@ Rails.application.routes.draw do
         resources :identifiers
         resources :routes do
           member do
+            get :confirm_destroy
             get :audit
           end
           resources :query_parameters

@@ -28,6 +28,7 @@ en:
     deadline: 'Deadline'
     destroyed: 'Deleted'
     documentation: 'Documentation'
+    existing_contract: 'A contract already exists'
     failure: 'Failure'
     'false': 'No'
     free_count_limit_reached: 'Included units reached'

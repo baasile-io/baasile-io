@@ -2,6 +2,8 @@ en:
   routes:
     audit:
       title: 'History'
+    confirm_destroy:
+      title: 'Supprimer la route'
     create:
       title: 'New route'
     edit:

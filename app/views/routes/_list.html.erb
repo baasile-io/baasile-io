@@ -21,9 +21,9 @@
       </td>
       <td>
         <% if failed_tests.count > 0 %>
-          <i class="fa fa-fw fa-close"></i> <%= failed_tests.count %>
+          <span class="text-danger"><i class="fa fa-fw fa-close"></i> <%= failed_tests.count %></span>
         <% else %>
-          <i class="fa fa-fw fa-check"></i>
+          <span class="text-success"><i class="fa fa-fw fa-check"></i></span>
         <% end %>
       </td>
       <td class="text-right">

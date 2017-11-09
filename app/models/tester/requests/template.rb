@@ -42,24 +42,32 @@ module Tester
         by_category(proxy.category_id)
       }
 
-      scope :with_missing_results, -> (object) {
-        joins("LEFT JOIN tester_results
-               ON tester_results.tester_request_id = tester_requests.id
-                  AND tester_results.#{object.class.model_name.singular}_id = '#{object.id}'
-                  AND tester_results.updated_at >= tester_requests.expiration_date")
-          .where("tester_results.id IS NULL")
+      scope :with_missing_results, -> (objects) {
+        joins(objects.map {|obj| "
+                LEFT JOIN tester_results AS tester_results_#{obj.id}
+                ON tester_results_#{obj.id}.tester_request_id = tester_requests.id
+                   AND tester_results_#{obj.id}.#{obj.class.model_name.singular}_id = '#{obj.id}'
+                   AND tester_results_#{obj.id}.updated_at >= tester_requests.expiration_date
+              "}.join(' '))
+          .where(objects.map {|obj| "
+                   tester_results_#{obj.id}.id IS NULL
+                 "}.join(' OR '))
       }
 
-      scope :with_failed_results, -> (object) {
-        joins("LEFT JOIN tester_results
-               ON tester_results.tester_request_id = tester_requests.id
-                  AND tester_results.#{object.class.model_name.singular}_id = '#{object.id}'
-                  AND tester_results.updated_at >= tester_requests.expiration_date")
-          .where("tester_results.status = 'f'")
+      scope :with_failed_results, -> (objects) {
+        joins(objects.map {|obj| "
+                LEFT JOIN tester_results AS tester_results_#{obj.id}
+                ON tester_results_#{obj.id}.tester_request_id = tester_requests.id
+                   AND tester_results_#{obj.id}.#{obj.class.model_name.singular}_id = '#{obj.id}'
+                   AND tester_results_#{obj.id}.updated_at >= tester_requests.expiration_date
+              "}.join(' '))
+          .where(objects.map {|obj| "
+                   tester_results_#{obj.id}.status = 'f'
+                 "}.join(' OR '))
       }
 
-      scope :with_failed_or_missing_results, -> (object) {
-        with_missing_results(object).or(with_failed_results(object))
+      scope :with_failed_or_missing_results, -> (objects) {
+        with_missing_results(objects).or(with_failed_results(objects))
       }
 
       def template_name

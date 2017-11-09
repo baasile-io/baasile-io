@@ -23,6 +23,17 @@
     </div>
   </div>
 
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.tester/request.route') %></strong>
+    </div>
+    <div class="col-9">
+      <i class="fa fa-fw fa-sitemap"></i> <%= tester_request.route.name %>
+    </div>
+  </div>
+
 <% end %>
 
 <hr>
