@@ -16,21 +16,39 @@ module Api
       include ErrorMeasurementConcern
 
       def process_request
+
+        @use_test_settings = use_test_settings?
+
+        @request_headers = {}
+        request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
+          header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
+          @request_headers[header_name] = header[1]
+        end
+        @request_method = request.method
+        @request_method_symbol = request.method_symbol
+        @request_content_type = request.content_type
+        @request_body = request.raw_post
+        @request_get = request.GET
+
+        proxy_initialize
         @proxy_response = proxy_request
+
         render status: @proxy_response.code, plain: @proxy_response.body
+
       rescue Api::ProxyError => e
         Rails.logger.error "Api::ProxyError: #{e.message}"
         if e.req
           metadata_request = {
             method: e.req.method,
             original_url: e.uri.to_s,
-            headers: e.req.to_hash,
+            headers: e.req.to_hash.transform_values {|v| v.join(', ')},
             body: e.req.body
           }
         end
         if e.res
           metadata_response = {
             status: e.res.code,
+            headers: e.res.to_hash.transform_values {|v| v.join(', ')},
             body: e.res.body.to_s.force_encoding('UTF-8')
           }
         end
@@ -116,6 +134,10 @@ module Api
 
       def current_price
         @price ||= current_contract.price
+      end
+
+      def use_test_settings?
+        current_contract_status != :validation_production
       end
 
       def current_contract_status

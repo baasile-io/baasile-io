@@ -2,27 +2,24 @@
 
   <%= error_messages_for(f.object) %>
 
-  <ul class="nav nav-tabs" role="tablist">
-    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
-      <li class="nav-item">
-        <a class="nav-link <%= 'active' if index == 0 %>" data-toggle="tab" href="#category_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
-      </li>
-    <% end %>
-  </ul>
-
-  <div class="tab-content">
-
-    <% I18n.available_locales.each.with_index(0) do |locale, index| %>
-      <div role="tabpanel" class="tab-pane <%= 'active' if index == 0 %>" id="category_<%= locale %>">
-        <%= f.simple_fields_for "dictionary_#{locale}".to_sym do |f2| %>
+  <% I18n.available_locales.each.with_index(0) do |root_locale, root_index| %>
+    <ul class="nav nav-tabs nav-tabs-translations" role="tablist">
+      <% I18n.available_locales.each.with_index(0) do |locale, index| %>
+        <li class="nav-item">
+          <a class="nav-link <%= locale == root_locale ? 'active' : 'disabled' %>" href="#category_<%= locale %>" role="tab"><%= t("misc.locales.#{locale}") %></a>
+        </li>
+      <% end %>
+    </ul>
+    <div class="tab-content tab-content-translations">
+      <div role="tabpanel" class="tab-pane active">
+        <%= f.simple_fields_for "dictionary_#{root_locale}".to_sym do |f2| %>
           <%= f2.input :locale, as: :hidden %>
-          <%= f2.input :title, as: :string %>
+          <%= f2.input :title, as: :string, required: true %>
           <%= f2.input :body, as: :trix_editor %>
         <% end %>
       </div>
-    <% end %>
-
-  </div>
+    </div>
+  <% end %>
 
   <div class="row">
     <div class="actions col-md-9 offset-md-3">

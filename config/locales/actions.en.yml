@@ -9,6 +9,10 @@ en:
     add_existing_users: 'Add existing users'
     add_user: 'Add user'
     add_users: "Add users"
+    add_parameter_header: "Add header parameter"
+    add_parameter_query: "Add query parameter"
+    add_parameter_response_body_element: 'Add an expected response body element'
+    add_parameter_response_header: 'Add an expected response header'
     add_price_parameter: 'Add pricing criteria'
     add_role: 'Add role'
     admin_list: 'administrator list'
@@ -36,6 +40,7 @@ en:
     destroy_user: 'Definitively delete the user account'
     disassociate: 'Remove association'
     disassociate_user_from_service: 'Remove user from Enterprise'
+    duplicate: 'Duplicate'
     edit: 'Edit'
     edit_account: 'Edit account'
     edit_bank_details:
@@ -43,8 +48,13 @@ en:
       startup: 'Edit startup Bank details'
     edit_contract: 'Edit contract'
     edit_price: 'Edit pricing'
+    edit_request: 'Edit request'
     edit_service: 'Edit Enterprise account'
     edit_user: 'Edit user account'
+    success:
+      created: 'Creation of %{resource} has failed'
+      destroyed: 'Deletion of %{resource} has failed'
+      updated: 'Update of %{resource} has failed'
     filter_by_startup: 'Filter by supplier...'
     ignore: 'Ignore'
     infos: 'Infos'
@@ -58,6 +68,8 @@ en:
     new_price_template: 'Create pricing template'
     new_route: 'Create route'
     new_startup: 'Create Supplier'
+    new_tester_request: 'Create request'
+    new_tester_request_template: 'Create test'
     new_ticket: 'Create Ticket'
     next_step: 'Validate'
     open: 'Ouvrir'
@@ -65,6 +77,7 @@ en:
     print_consumption: 'Print current consumption'
     closed_ticket: 'Closed tikets'
     reject: 'Reject'
+    remove: 'Remove'
     remove_role: 'Remove role'
     reopen: 'Reopen'
     resend_confirmation_instructions: 'Resend confirmation instructions'
@@ -110,6 +123,9 @@ en:
       created: '%{resource} was successfuly created'
       destroyed: '%{resource} was successfuly deleted'
       updated: '%{resource} was successfuly updated'
+    test: 'Test'
+    test_request_production: "Test on production environment"
+    test_request_test: "Test on test environment"
     unlock_after_expired: 'Unlock after expired'
     unset_admin: 'Unset admin'
     unset_production: 'Deactivate production phase'

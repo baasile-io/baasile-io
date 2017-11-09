@@ -167,7 +167,7 @@ SimpleForm.setup do |config|
     b.use :html5
     b.use :placeholder
     b.use :label, class: 'col-md-3 col-form-label'
-    b.wrapper tag: :div, class: 'col-md-9' do |b2|
+    b.wrapper :custom_wrapper, tag: :div, class: 'col-md-9' do |b2|
       b2.use :input, class: 'form-control', error_class: 'form-control-danger'
       b2.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
       b2.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }

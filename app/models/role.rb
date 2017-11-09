@@ -54,7 +54,9 @@ class Role < ApplicationRecord
       show: [:admin, :developer],
       edit: [:admin, :developer],
       update: [:admin, :developer],
-      destroy: [:admin, :developer]
+      destroy: [:admin, :developer],
+      audit: [:admin, :developer],
+      confirm_destroy: [:admin, :developer]
     },
     query_parameters: {
       index: [:admin, :developer],
@@ -123,19 +125,32 @@ class Role < ApplicationRecord
     error_measurements: {
       index: [:admin, :developer],
       show: [:admin, :developer]
+    },
+    requests: {
+      index: [:admin, :developer],
+      new: [:admin, :developer],
+      create: [:admin, :developer],
+      show: [:admin, :developer],
+      edit: [:admin, :developer],
+      update: [:admin, :developer],
+      template: [:admin, :developer],
+    },
+    process_requests: {
+      process_request: [:admin, :developer],
+      process_template_request: [:admin, :developer]
     }
   }.freeze
 
-  has_and_belongs_to_many :users, :join_table => :users_roles
-  has_and_belongs_to_many :services, :join_table => :services_roles
+  has_and_belongs_to_many :users, join_table: :users_roles
+  has_and_belongs_to_many :services, join_table: :services_roles
 
   belongs_to :resource,
-             :polymorphic => true,
-             :optional => true
+             polymorphic: true,
+             optional: true
 
   validates :resource_type,
-            :inclusion => { :in => Rolify.resource_types },
-            :allow_nil => true
+            inclusion: { in: Rolify.resource_types },
+            allow_nil: true
 
   scopify
 end

@@ -1,0 +1,9 @@
+<% content_for(:page_title) { t('.title') } %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'shared/button_destroy', locals: {object: @route, object_path: [current_service, current_proxy, @route]} %>
+
+  </div>
+</div>

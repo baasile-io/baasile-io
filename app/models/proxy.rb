@@ -21,6 +21,8 @@ class Proxy < ApplicationRecord
   has_many    :query_parameters, through: :routes, dependent: :destroy
   has_many    :contracts, dependent: :restrict_with_error
   has_many    :error_measurements, through: :contracts, dependent: :destroy
+  has_many    :tester_requests, through: :routes
+  has_many    :tester_results, through: :routes
 
   accepts_nested_attributes_for :proxy_parameter
   accepts_nested_attributes_for :proxy_parameter_test
@@ -93,5 +95,13 @@ class Proxy < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def failed_or_missing_tester_results(tester_request = nil)
+    scope = tester_request.nil? ? [:all] : [:where, 'tester_requests.id = ?', tester_request.id]
+    Tester::Requests::Template
+      .send(*scope)
+      .applicable_on_proxy(self)
+      .with_failed_or_missing_results(self.routes)
   end
 end

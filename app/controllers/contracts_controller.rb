@@ -35,6 +35,7 @@ class ContractsController < ApplicationController
 
     existing_contract = current_service.contracts_as_client.where(proxy_id: params[:proxy_id]).first
     if existing_contract
+      flash[:success] = I18n.t('misc.existing_contract')
       return redirect_to (current_service.nil? ? contract_path(existing_contract) : service_contract_path(current_service, existing_contract))
     end
 

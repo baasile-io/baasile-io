@@ -1,0 +1,30 @@
+<div class="row form-group">
+  <%= f.input :id, as: :hidden %>
+  <%= f.input :type, as: :hidden %>
+  <%= f.input :_destroy, as: :hidden, input_html: {data: {destroy: 1}} %>
+
+  <div class="col-5">
+    <div class="input-group <%= 'has-danger' if f.object&.errors&.any? %>">
+      <span class="input-group-addon" id="basic-addon3"><%= t('activerecord.attributes.tester/parameter.name') %></span>
+      <%= f.text_field :name,
+                       class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3"><%= t('activerecord.attributes.tester/parameter.value') %></span>
+      <%= f.text_field :value,
+                       class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-1 text-right">
+    <%= link_to '#',
+                class: 'btn btn-secondary form-group-remove',
+                data: {
+                  toggle: 'tooltip'
+                },
+                title: t('actions.remove') do %>
+      <i class="fa fa-fx fa-close"></i>
+    <% end %>
+  </div>
+</div>

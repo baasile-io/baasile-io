@@ -10,21 +10,25 @@ class Route < ApplicationRecord
   enum protocol: PROTOCOLS, _prefix: true
   enum protocol_test: PROTOCOLS_TEST, _prefix: true
 
-  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+  ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  ALLOWED_FORMATS = [
+    'application/json',
+    'application/x-www-form-urlencoded',
+  ]
 
   belongs_to :user
   belongs_to :proxy, touch: true
   has_one :service, through: :proxy
   has_many :query_parameters, dependent: :destroy
   has_many :error_measurements, dependent: :destroy
-  has_many :contracts, through: :proxy, dependent: :restrict_with_error
+  has_many :contracts, through: :proxy
   has_many :prices, dependent: :nullify
+  has_many :tester_requests, dependent: :destroy, class_name: Tester::Request.name
+  has_many :tester_results, dependent: :destroy, class_name: Tester::Result.name
 
   validates :hostname, hostname: true, if: Proc.new { hostname.present? }
   validates :hostname_test, hostname: true, if: Proc.new { hostname_test.present? }
   validates :subdomain, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, subdomain: true, length: {minimum: 2, maximum: 35}
-
-  scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
 
   validates :name, uniqueness: {scope: :proxy_id, case_sensitive: false}, presence: true, length: {minimum: 2, maximum: 255}
   validates :description, presence: true
@@ -70,5 +74,13 @@ class Route < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def failed_or_missing_tester_results(tester_request = nil)
+    scope = tester_request.nil? ? [:all] : [:where, 'tester_requests.id = ?', tester_request.id]
+    Tester::Requests::Template
+      .send(*scope)
+      .applicable_on_route(self)
+      .with_failed_or_missing_results([self])
   end
 end

@@ -3,10 +3,10 @@ class User < ApplicationRecord
   has_paper_trail
 
   # Include default devise modules. Others available are:
-  #  :omniauthable :password_archivable
+  #  :omniauthable :password_archivable :session_limitable
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :trackable, :secure_validatable, :confirmable, :lockable,
-         :password_expirable, :session_limitable, :expirable
+         :password_expirable, :expirable
 
   GENDERS = {male: 1, female: 2}
   enum gender: GENDERS
@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :query_parameters, dependent: :nullify
   has_many :prices, dependent: :nullify
   has_many :price_parameters, dependent: :nullify
+  has_many :tester_requests, dependent: :nullify, class_name: Tester::Request.name
 
   has_many :user_associations, dependent: :destroy
   has_many :services, through: :user_associations, source: :associable, source_type: Service.name, dependent: :nullify

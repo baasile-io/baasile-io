@@ -2,6 +2,8 @@ fr:
   routes:
     audit:
       title: 'Historique'
+    confirm_destroy:
+      title: 'Supprimer la route'
     create:
       title: 'Nouvelle route'
     edit:

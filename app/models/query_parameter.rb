@@ -25,7 +25,8 @@ class QueryParameter < ApplicationRecord
   validates :query_parameter_type, presence: true
 
   scope :authorized, ->(user) { user.has_role?(:superadmin) ? all : find_as(:developer, user) }
-  scope :by_types, ->(types) { where(query_parameter_type: types) }
+  scope :by_type, ->(types) { where(query_parameter_type: types) }
+  scope :not_forbidden, -> { where.not(mode: :forbidden) }
 
   def authorized?(user)
     user.has_role?(:superadmin) || user.has_role?(:developer, self.route)

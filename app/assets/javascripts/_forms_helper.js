@@ -107,6 +107,88 @@ window.apply_select2 = function(input) {
   });
 };
 
+window.activate_select2 = function() {
+  $('select.select2').each(function() {
+    window.apply_select2($(this));
+  });
+};
+
+window.activate_ace_editor = function() {
+  $('pre.ace-editor').each(function() {
+    var editor_container = $(this);
+    var id = editor_container.attr('id');
+    var target = $('#' + editor_container.data('target'));
+    var format = editor_container.data('format');
+
+    var editor = ace.edit(id);
+    editor.getSession().on('change', function() {
+      target.val(editor.getValue());
+    });
+
+    var mode = ace.require("ace/mode/" + format).Mode;
+    editor.setOption('useWorker', false);
+    editor.session.setMode(new mode());
+    editor.renderer.setOption('printMarginColumn', false);
+    editor.renderer.setOption('displayIndentGuides', true);
+  });
+};
+
+window.activate_ace_viewer = function() {
+  $('pre.ace-viewer').each(function() {
+    var editor_container = $(this);
+    var id = editor_container.attr('id');
+    var format = editor_container.data('format');
+
+    var editor = ace.edit(id);
+
+    var mode = ace.require("ace/mode/" + format).Mode;
+    editor.setOption('useWorker', false);
+    editor.setOption('maxLines', Infinity);
+    editor.setOption('readOnly', true);
+    editor.session.setMode(new mode());
+    editor.renderer.setOption('printMarginColumn', false);
+    editor.renderer.setOption('displayIndentGuides', true);
+  });
+};
+
+remove_tester_parameter = function(e) {
+  e.preventDefault();
+
+  var button = $(this),
+    form_group = button.closest('.form-group');
+
+  button.tooltip('dispose');
+  form_group.find('input[data-destroy="1"]').val('1');
+  form_group.slideUp();
+};
+
+$(document).on('click', 'fieldset.tester_parameters_fieldset .form-group .form-group-remove', remove_tester_parameter);
+
+update_tester_parameter_response_field = function() {
+  var select = $(this),
+    value = select.val(),
+    selected_option = select.find('option[value="'+value+'"]'),
+    has_value = selected_option.data('has-value'),
+    has_expected_type = selected_option.data('has-expected-type'),
+    wrapper = select.closest('.row.form-group');
+
+  if(has_value) {
+    wrapper.find('.wrapper-for-value').removeClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').addClass('hidden-xs-up');
+  } else if(has_expected_type) {
+    wrapper.find('.wrapper-for-value').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').removeClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').addClass('hidden-xs-up');
+  } else {
+    wrapper.find('.wrapper-for-value').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').removeClass('hidden-xs-up');
+  }
+};
+
+$(document).on('change', 'fieldset.tester_parameters_fieldset select.form-control-comparison-operator', update_tester_parameter_response_field);
+
 $(document).ready(function(e) {
 
   $('a[data-toggle="tab"]').click(function (e) {
@@ -126,9 +208,7 @@ $(document).ready(function(e) {
     language: I18n.locale
   });
 
-  $('select.select2').each(function() {
-    window.apply_select2($(this));
-  });
+  window.activate_select2();
 
   $('select.services-select2').select2({
     language: I18n.locale,

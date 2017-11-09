@@ -13,6 +13,12 @@ en:
       section:
         icon: 'fa fa-fw fa-angle-right'
         title: 'Section'
+    expected_types:
+      array: 'Array'
+      hash: 'Hash'
+      integer: 'Integer'
+      numeric: 'Numeric'
+      string: 'Character string'
     query_parameter_modes:
       mandatory: 'mandatory'
       optional: 'optional'
@@ -99,6 +105,18 @@ en:
       report_a_bug: 'Report a bug'
       user_right_request: 'User rights request'
       account_recover: 'Request account recover'
+    comparison_operators:
+      '=': 'Is equal to'
+      '!=': 'Is not equal to'
+      '>': 'Is greater than'
+      '>=': 'Is greater than or equal to'
+      '<': 'Is less than'
+      '<=': 'Is less than or equal to'
+      '&': 'Contains'
+      'present': 'Is present'
+      'any': 'Is not present'
+      'null': 'Is null'
+      'typeof': 'Type of'
     contract_statuses:
       creation:
         class: 'text-muted'

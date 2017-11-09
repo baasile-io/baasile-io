@@ -39,6 +39,7 @@
       <tr>
         <th><%= t('activerecord.attributes.proxy.name') %></th>
         <th><%= t('activerecord.attributes.proxy.category') %></th>
+        <th><%= t('activerecord.attributes.route.tester_results') %></th>
       </tr>
       </thead>
       <tbody>
@@ -50,6 +51,14 @@
             </td>
             <td>
               <%= proxy.category.try(:name) || '---' %>
+            </td>
+            <td>
+              <% failed_tests = proxy.failed_or_missing_tester_results %>
+              <% if failed_tests.count > 0 %>
+                <span class="text-danger"><i class="fa fa-fw fa-close"></i> <%= failed_tests.count %></span>
+              <% else %>
+                <span class="text-success"><i class="fa fa-fw fa-check"></i></span>
+              <% end %>
             </td>
           </tr>
         <% end %>

@@ -1,12 +1,22 @@
-<% content_for(:page_title) { t('misc.overview') } %>
+<%
+  content_for(:page_title) { t('misc.overview') }
+%>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
+
+    <div class="pull-right">
+      <%= link_to service_proxy_tester_requests_path(current_service, current_proxy),
+                  class: 'btn btn-lg btn-secondary' do %>
+        <i class="fa fa-fw fa-magic"></i> <%= t('tester.title') %>
+      <% end %>
+    </div>
 
     <%= render partial: 'proxies/show_proxy_info', locals: {proxy: @proxy, show_routes: false} %>
 
   </div>
 </div>
+
 
 <% if @proxy.routes.size > 0 %>
   <div class="b-io-content--header">

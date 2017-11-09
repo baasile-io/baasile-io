@@ -1,0 +1,38 @@
+en:
+  tester:
+    description: "Test your API integration through the dashboard"
+    misc:
+      apply_to_all_categories: 'Apply to all categories'
+      not_saved: 'This test result has not been saved because it was run in production environment. In order to get a valid integration test, run it in test environment.'
+      run_it_in_test_env: "Warning: To obtain a valid integration test, run it in test environment only. You can run it in production environment if you want, but it is not recommended as it could affect your actual data."
+    parser:
+      messages:
+        bad_format: 'Response *format* must be `%{expected_response_format}`'
+        bad_status: '*HTTP status* of the response is expected to be `%{expected_response_status}`'
+        comparison_operators:
+          '=': "*%{container}*: Value of `%{attribute}` is expected to be equal to `%{value}`"
+          '!=': "*%{container}*: Value of `%{attribute}` is expected to not be equal to `%{value}`"
+          '>': "*%{container}*: Value of `%{attribute}` is expected to be greater than `%{value}`"
+          '>=': "*%{container}*: Value of `%{attribute}` is expected to be greater than or equal to `%{value}`"
+          '<': "*%{container}*: Value of `%{attribute}` is expected to be less than `%{value}`"
+          '<=': "*%{container}*: Value of `%{attribute}` is expected to be less than or equal to `%{value}`"
+          '&': "*%{container}*: Value of `%{attribute}` is expected to contain `%{value}`"
+          'present': "*%{container}*: Attribute `%{attribute}` is expected to be present"
+          'any': "*%{container}*: Attribute `%{attribute}` is expected to not be present"
+          'null': "*%{container}*: Attribute `%{attribute}` is expected to be empty"
+          'typeof': "*%{container}*: Attribute `%{attribute}` is expected to be a type of `%{expected_type}`"
+    requests:
+      form:
+        expire_results: 'Expire the results of this test'
+        hints:
+          expire_results: "Check the box if you want the results of this test to be invalidated. This is needed if you changed the behavior of the test."
+          name: "Choose a title that describes the request's purpose."
+          request_body: "Warning: Use JSON format wherever you selected a different encoding format. Body will be automatically formatted."
+          use_authorization: "If an authentication mode has been selected for the API, choose whether to enable it for this request."
+          yes_if_necessary: 'Yes, if necessary'
+      new:
+        title: 'Create a request'
+    result: 'Result'
+    title: "API tester"
+    template: 'Integration test'
+    templates: 'Integration tests'

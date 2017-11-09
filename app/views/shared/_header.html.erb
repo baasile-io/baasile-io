@@ -14,12 +14,16 @@
   <% unless current_proxy.nil? %>
     <%= render partial: 'shared/headers/proxy_header' %>
 
-    <% unless current_route.nil? %>
+    <% if current_route.present? && !['requests', 'process_requests'].include?(controller_name) %>
       <%= render partial: 'shared/headers/route_header' %>
     <% end %>
 
     <% unless current_price.nil? %>
       <%= render partial: 'shared/headers/price_header' %>
+    <% end %>
+
+    <% unless current_request.nil? %>
+      <%= render partial: 'shared/headers/request_header' %>
     <% end %>
   <% end %>
 

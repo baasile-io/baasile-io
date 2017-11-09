@@ -1,0 +1,136 @@
+<%
+  content_for(:page_title) { current_request.template_name }
+%>
+
+<% if @tester_result.present? %>
+
+  <div class="b-io-content--secondary">
+    <div class="container-fluid">
+
+      <% if @use_test_settings == false %>
+        <div class="alert alert-danger">
+          <h3><%= t('misc.warning') %></h3>
+          <h5><%= t('tester.misc.not_saved') %></h5>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <div class="col-3 text-right">
+        </div>
+        <div class="col-9">
+          <p><i class="fa fa-fw fa-sitemap"></i> <%= @current_route.name %></p>
+        </div>
+      </div>
+
+      <% if !@tester_result.status %>
+
+        <div class="row">
+          <div class="col-3 text-right">
+            <h3 class="text-danger"><i class="fa fa-fw fa-close"></i></h3>
+          </div>
+          <div class="col-9">
+            <h3 class="text-danger"><%= t('misc.failure') %></h3>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-9">
+            <%= format_error_message(@tester_result.error_message) %>
+          </div>
+        </div>
+
+      <% else %>
+
+        <div class="row">
+          <div class="col-3 text-right">
+            <h3 class="text-success"><i class="fa fa-fw fa-check"></i></h3>
+          </div>
+          <div class="col-9">
+            <h3 class="text-success"><%= t('misc.success') %></h3>
+          </div>
+        </div>
+
+        <hr />
+
+      <% end %>
+
+      <% if @result.present? %>
+
+        <%= render partial: 'tester/requests/show_result', locals: {result: @result} %>
+
+      <% end %>
+
+    </div>
+  </div>
+
+  <div class="b-io-content--header">
+    <div class="container-fluid">
+      <div class="b-io-content--header--controls"></div>
+      <h4><%= t('tester.template') %></h4>
+    </div>
+  </div>
+
+<% end %>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'tester/requests/show_tester_request_info', locals: {tester_request: current_request} %>
+
+    <%= simple_form_for current_request,
+                        url: service_proxy_tester_process_template_request_path(
+                          current_service,
+                          current_proxy,
+                          id: current_request.id
+                        ),
+                        method: :post do |f| %>
+
+      <%= f.input :route_id, as: :hidden, input_html: {value: @current_route.id} %>
+
+      <div class="alert alert-info">
+        <%= t('tester.misc.run_it_in_test_env') %>
+      </div>
+
+      <div class="form-group row radio_buttons optional use_test_settings">
+        <label class="col-md-3 col-control-label radio_buttons optional">
+
+        </label>
+        <div class="col-md-9">
+          <input type="hidden" name="proxy[public]" value="">
+          <div class="radio form-check">
+            <label for="use_test_settings_true">
+              <input class="radio_buttons optional" type="radio" value="true" <%= 'checked="checked"' if @use_test_settings.nil? || @use_test_settings == true %> name="use_test_settings" id="use_test_settings_true">
+              <%= t('actions.test_request_test') %>
+            </label>
+          </div>
+          <div class="radio form-check">
+            <label for="use_test_settings_false">
+              <input class="radio_buttons optional" readonly="readonly" type="radio" value="false" <%= 'checked="checked"' if @use_test_settings == false %> name="use_test_settings" id="use_test_settings_false">
+              <%= t('actions.test_request_production') %>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="actions col-md-9 offset-md-3">
+          <%= f.button :submit,
+                       value: t('actions.test'),
+                       data: { disable_with: t('actions.save_in_progress') },
+                       class: 'btn btn-primary' %>
+        </div>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
+
+<% content_for(:extra_js) do %>
+  <script type="text/javascript">
+    window.activate_ace_viewer();
+  </script>
+<% end %>

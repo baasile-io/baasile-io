@@ -1,24 +1,19 @@
 module ProxifyConcern
   extend ActiveSupport::Concern
 
-  included do
-    before_action :proxy_initialize, only: [:process_request]
-  end
-
   def proxy_initialize
     raise Api::ProxyInitializationError if current_proxy.nil?
     raise Api::ProxyInitializationError if current_route.nil?
-    raise Api::ProxyInitializationError if current_contract.nil?
     @current_proxy_access_token = nil
     @current_proxy_send_request = nil
     @current_proxy_uri_object = nil
-    @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if current_contract_status != :validation_production}")
-    @current_route_uri = current_route.send("uri#{'_test' if current_contract_status != :validation_production}")
-    @current_proxy_cache_token = current_proxy.send("cache_token#{'_test' if current_contract_status != :validation_production}")
+    @current_proxy_parameter = current_proxy.send("proxy_parameter#{'_test' if @use_test_settings}")
+    @current_route_uri = current_route.send("uri#{'_test' if @use_test_settings}")
+    @current_proxy_cache_token = "#{@cache_token_prefix}#{current_proxy.send("cache_token#{'_test' if @use_test_settings}")}"
   end
 
   def proxy_request
-    proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
+    proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null' && @use_authorization != false
     proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", build_get_params
     proxy_send_request
   rescue SocketError => e
@@ -34,24 +29,22 @@ module ProxifyConcern
   end
 
   def build_headers
-    received_headers = {}
-    request.headers.env.select{|k, _| k =~ /^HTTP_/}.each do |header|
-      header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
-      received_headers[header_name] = header[1]
+    @request_headers.each do |key, value|
+      @current_proxy_send_request[key] = value
     end
 
-    current_route.query_parameters.by_types(:header).each do |query_parameter|
-      @current_proxy_send_request[query_parameter.name] = received_headers[query_parameter.name.upcase.gsub(/_/, '-')]
+    current_route.query_parameters.by_type(:header).each do |query_parameter|
+      @current_proxy_send_request[query_parameter.name] = @request_headers[query_parameter.name.upcase.gsub(/_/, '-')]
       transform_param(query_parameter, @current_proxy_send_request, query_parameter.name)
     end
   end
 
   def build_get_params
-    return nil if request.GET.nil?
+    return nil if @request_get.nil?
 
-    parameters = request.GET.deep_dup
+    parameters = @request_get.deep_dup
 
-    current_route.query_parameters.by_types(:get).each do |query_parameter|
+    current_route.query_parameters.by_type(:get).each do |query_parameter|
       parse_get_param(
         query_parameter,
         Rack::Utils.parse_nested_query(query_parameter.name),
@@ -82,11 +75,13 @@ module ProxifyConcern
           destination.delete(key)
         end
       when :optional
-        if destination[key].nil?
-          destination[key] = query_parameter.default_value unless query_parameter.default_value.blank?
+        if destination[key].nil? && query_parameter.default_value.present?
+          destination[key] = query_parameter.default_value
         end
       when :mandatory
-        raise Api::ProxyMissingMandatoryQueryParameterError, {message: "Missing parameter: #{query_parameter.query_parameter_type.upcase} #{query_parameter.name}"} if destination[key].nil?
+        if destination[key].nil?
+          raise Api::ProxyMissingMandatoryQueryParameterError, {message: "Missing parameter: #{query_parameter.query_parameter_type.upcase} #{query_parameter.name}"}
+        end
     end
   end
 
@@ -94,23 +89,17 @@ module ProxifyConcern
     @current_proxy_uri_object = URI.parse uri
     @current_proxy_uri_object.query = URI.encode_www_form(query) unless query.nil?
 
-    method_symbol = request.method_symbol
-    request_obj = case method_symbol
-                    when :get then Net::HTTP::Get
-                    when :post then Net::HTTP::Post
-                    when :head then Net::HTTP::Head
-                    when :put then Net::HTTP::Put
-                    when :delete then Net::HTTP::Delete
+    request_obj = case @request_method
+                    when 'GET' then Net::HTTP::Get
+                    when 'POST' then Net::HTTP::Post
+                    when 'HEAD' then Net::HTTP::Head
+                    when 'PUT' then Net::HTTP::Put
+                    when 'DELETE' then Net::HTTP::Delete
                   end
     @current_proxy_send_request = request_obj.send(:new, @current_proxy_uri_object)
 
-    if request.content_type
-      #case @current_proxy_send_request.content_type = request.content_type
-      #  when 'application/x-www-form-urlencoded'
-      #    @current_proxy_send_request.set_form_data(request.POST) if request.method_symbol == :post
-      #  else
-          @current_proxy_send_request.body = request.raw_post
-      #end
+    if @request_content_type
+      @current_proxy_send_request.body = @request_body
     end
 
     build_headers
@@ -123,7 +112,7 @@ module ProxifyConcern
       when 'oauth2' then @current_proxy_send_request.add_field 'Authorization', "Bearer #{current_proxy_access_token}" if current_proxy_access_token.present?
     end
 
-    unless current_route.allowed_methods.include?(request.method)
+    unless current_route.allowed_methods.include?(@request_method)
       raise Api::ProxyMethodNotAllowedError, {uri: @current_proxy_uri_object, req: @current_proxy_send_request}
     end
   end
@@ -136,19 +125,27 @@ module ProxifyConcern
   def proxy_authenticate
     if current_proxy_access_token.nil?
       if @current_proxy_parameter.authorization_mode == 'oauth2'
-        uri = URI.parse current_proxy.send("authorization_uri#{'_test' if current_contract_status != :validation_production}")
+        uri = URI.parse current_proxy.send("authorization_uri#{'_test' if @use_test_settings}")
         new_query_ar = URI.decode_www_form(uri.query || '')
         new_query_ar << ["realm", @current_proxy_parameter.realm] if @current_proxy_parameter.realm.present?
         uri.query = URI.encode_www_form(new_query_ar)
         req = Net::HTTP::Post.new uri
         req.content_type = 'application/x-www-form-urlencoded'
-        params = {
-          client_id: @current_proxy_parameter.identifier.client_id,
-          client_secret: @current_proxy_parameter.identifier.decrypt_secret
-        }
-        params[:grant_type] = @current_proxy_parameter.grant_type if @current_proxy_parameter.grant_type.present?
-        params[:scope] = @current_proxy_parameter.scope.strip if @current_proxy_parameter.scope.present?
-        req.set_form_data(params)
+
+        auth_params = {}.tap do |p|
+          p[:client_id] = @current_proxy_parameter.identifier.client_id
+          p[:client_secret] = @current_proxy_parameter.identifier.decrypt_secret
+
+          if @current_proxy_parameter.grant_type.present?
+            p[:grant_type] = @current_proxy_parameter.grant_type
+          end
+
+          if @current_proxy_parameter.scope.present?
+            p[:scope] = @current_proxy_parameter.scope.strip
+          end
+        end
+
+        req.set_form_data(auth_params)
 
         http = Net::HTTP.new uri.host, uri.port
         http.read_timeout = Appconfig.get(:api_read_timeout)

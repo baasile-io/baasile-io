@@ -1,15 +1,5 @@
 <%
   content_for(:page_title, t('.title'))
-
-  content_for(:page_controls) {
-    link_to "<i class=\"fa fa-fw fa-trash\"></i> #{t('actions.destroy')}".html_safe,
-            service_proxy_route_path(current_service, current_proxy, @route),
-            class: 'btn btn-danger',
-            data: {
-              confirm: "Are you sure?"
-            },
-            method: :delete
-  }
 %>
 
 <div class="b-io-content--secondary">

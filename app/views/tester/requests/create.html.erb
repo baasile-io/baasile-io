@@ -1,0 +1,12 @@
+<%
+  content_for(:page_title) { t('actions.create') }
+%>
+
+<%= render partial: 'form', locals: {object: current_request} %>
+
+<% content_for(:extra_js) do %>
+  <script type="text/javascript">
+    window.activate_select2();
+    window.activate_ace_editor();
+  </script>
+<% end %>

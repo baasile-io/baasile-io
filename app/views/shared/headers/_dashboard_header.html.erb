@@ -1,11 +1,11 @@
-<div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end end %>">
+<div class="b-io-header" style="<% unless current_route.nil? && current_price.nil? && current_request.nil? %>background-color:#C6C6C6;<% else %><% unless current_proxy.nil? && current_contract.nil? && current_bill.nil? %>background-color:#DADADA;<% end end %>">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <h3>
           <%= "<span class=\"float-right\"><i class=\"fa fa-fw fa-lock\"></i>#{t('misc.unconfirmed')}</span>".html_safe unless current_service.is_activated? %>
           <span class="pull-right <%= I18n.t("types.service_types.#{current_service.service_type}.class") %>"><%= t("types.service_types.#{current_service.service_type}.title") %></span>
-          <!--<span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>-->
+          <span class="text-muted"><%= link_to t('activerecord.models.service').pluralize, services_path %> <i class="fa fa-fw fa-caret-right"></i></span>
           <% if current_service.parent %>
             <span class="<%= t("types.service_types.#{current_service.parent.service_type}.class") %>"><%= link_to_if current_user.services.exists?(current_service.parent), "<i class=\"#{t("types.service_types.#{current_service.parent.service_type}.icon")}\"></i> #{current_service.parent}".html_safe, service_path(current_service.parent), class: t("types.service_types.#{current_service.parent.service_type}.class") %> <i class="fa fa-fw fa-caret-right"></i></span>
           <% end %>

@@ -22,6 +22,7 @@ en:
       general_condition_not_validated: 'General conditions must be accepted'
       inclusion: 'is not an authorized value'
       invalid: "is invalid"
+      invalid_json: "is not a valid JSON"
       is_used: 'is in use'
       missing_contract_client_bank_detail: "Client must set his bank details"
       missing_contract_startup_bank_detail: "Supplier must set his bank details"

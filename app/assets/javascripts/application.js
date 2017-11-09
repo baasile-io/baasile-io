@@ -28,5 +28,11 @@
 //= require select2-full
 //= require select2_locale_fr
 
+//= require 'ace/ace.js'
+//= require 'ace/mode-json.js'
+//= require 'ace/mode-xml.js'
+
+//= require 'cocoon'
+
 //= require_tree .
 

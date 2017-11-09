@@ -1,0 +1,38 @@
+fr:
+  tester:
+    description: "Testez l'intégration de votre API depuis le tableau de bord"
+    misc:
+      apply_to_all_categories: 'Appliquer à toutes les catégories'
+      not_saved: "Le résultat de ce test n'a pas été sauvegardé car il a été joué dans un environnement de production. Pour que ce test d'intégration soit validé, veuillez le jouer avec vos paramètres de test."
+      run_it_in_test_env: "Attention : Pour valider un test d'intégration, vous devez le jouer avec vos paramètres de test uniquement. Si vous le souhaitez, vous pouvez tout de même le jouer avec vos paramètres de production, mais cette pratique est déconseillée car elle pourrait endommager vos données réelles."
+    parser:
+      messages:
+        bad_format: 'Le *format* attendu est `%{expected_response_format}`'
+        bad_status: 'Le *code de statut HTTP* attendu est `%{expected_response_status}`'
+        comparison_operators:
+          '=': "*%{container}* : La valeur de `%{attribute}` doit être égale à `%{value}`"
+          '!=': "*%{container}* : La valeur de `%{attribute}` ne doit pas être égale à `%{value}`"
+          '>': "*%{container}* : La valeur de `%{attribute}` doit être supérieur à `%{value}`"
+          '>=': "*%{container}* : La valeur de `%{attribute}` doit être supérieur ou égale à `%{value}`"
+          '<': "*%{container}* : La valeur de `%{attribute}` doit être inférieur à `%{value}`"
+          '<=': "*%{container}* : La valeur de `%{attribute}` doit être inférieur ou égale à `%{value}`"
+          '&': "*%{container}* : La valeur de `%{attribute}` doit contenir `%{value}`"
+          'present': "*%{container}* : L'attribut `%{attribute}` doit être présent"
+          'any': "*%{container}* : L'attribut `%{attribute}` doit être absent"
+          'null': "*%{container}* : L'attribut `%{attribute}` doit être vide"
+          'typeof': "*%{container}* : L'attribut `%{attribute}` doit être de type `%{expected_type}`"
+    requests:
+      form:
+        expire_results: 'Expirer les résultats de ce test'
+        hints:
+          expire_results: 'Cochez cette case si vous souhaitez que les résultats de ce test ayant été réalisé précédemment soient invalidés. Cette opération est nécessaire si vous avez modifié le comportement du test.'
+          name: "Choisissez un nom décrivant l'objectif de la requête."
+          request_body: "Attention : Renseignez le corps de la requête au format JSON même si vous avez sélectionné un autre format d'encodage. Le corps de la requête sera automatiquement converti au format sélectionné."
+          use_authorization: "Si un mode d'authentification a été sélectionné pour l'API, choisissez si vous souhaitez activer celle-ci pour cette requête."
+          yes_if_necessary: 'Oui, si nécessaire'
+      new:
+        title: 'Créer une requête'
+    result: 'Résultat'
+    title: "Testeur d'API"
+    template: "Test d'intégration"
+    templates: "Tests d'intégration"
