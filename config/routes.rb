@@ -208,6 +208,7 @@ Rails.application.routes.draw do
         resources :identifiers
         resources :routes do
           member do
+            get :confirm_destroy
             get :audit
           end
           resources :query_parameters
@@ -219,9 +220,14 @@ Rails.application.routes.draw do
           post :toogle_activate
         end
         namespace :tester do
-          resources :requests
+          resources :requests do
+            member do
+              get :template
+            end
+          end
 
           post '/process_request/:id' => 'process_requests#process_request', as: 'process_request'
+          post '/process_template_request/:id' => 'process_requests#process_template_request', as: 'process_template_request'
         end
       end
     end
@@ -232,9 +238,14 @@ Rails.application.routes.draw do
       end
     end
 
-
     get 'back_office', to: 'back_office#index'
+
     namespace :back_office do
+      resources :request_templates do
+        member do
+          get :duplicate
+        end
+      end
       resources :error_measurements
       resources :users do
         member do

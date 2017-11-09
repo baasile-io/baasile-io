@@ -9,6 +9,7 @@ fr:
     all: 'Tous'
     all_feminized: 'Toutes'
     already_accepted: 'Déjà validées'
+    an_error_occured: 'Une erreur est survenue'
     are_you_sure: 'Veuillez confirmer cette action.'
     authentification_identifiers: 'Identifiants de connexion'
     back_office: "Administration"
@@ -27,6 +28,8 @@ fr:
     deadline: 'Échéance'
     destroyed: 'Supprimé'
     documentation: 'Documentation'
+    existing_contract: 'Un contrat existe déjà'
+    failure: 'Échec'
     'false': 'Non'
     free_count_limit_reached: 'Limite de requêtes atteinte'
     free_count_limit_reached_reset_description: "Vous avez atteint le nombre de requêtes ou paramètres maximum autorisé dans votre contrat. Du fait que vous êtes en phase de test, vous pouvez réinitialiser le compteur afin de continuer à requêter l'API."
@@ -34,6 +37,7 @@ fr:
     general_condition_validation: 'Validation des Conditions Générales'
     headers: 'Entêtes de la requête'
     history: 'Historique'
+    http_status: 'Statut HTTP'
     included: 'inclus'
     invalid_fields: 'Champs renseignés non valides'
     is_active:
@@ -98,6 +102,11 @@ fr:
     profile: 'Profil'
     query_parameters: "Paramètres d'URL"
     related_products: 'Produits connexes'
+    request: 'Requête'
+    request_state: 'Statut de la requête'
+    response: 'Réponse'
+    response_body_elements: 'Corps de la réponse'
+    response_headers: 'Entêtes de la réponse'
     role: 'Rôle'
     roles: 'Rôles'
     search: 'Recherche'
@@ -106,6 +115,7 @@ fr:
     service_not_activated: "Votre compte Entreprise n'est pas actif"
     service_not_published: "L'entreprise n'est pas publiée"
     state: 'Statut'
+    success: 'Succès'
     'true': 'Oui'
     unconfirmed: 'Inactif'
     unconfirmed_email: 'Adresse E-Mail non confirmée'
@@ -113,5 +123,6 @@ fr:
     unknown_user_create_on: "L'utilisateur demandé n'existe pas, vous pouvez le créer si nécessaire"
     user_not_disassociable_because_official: "Vous ne pouvez pas supprimer l'association car l'utilisateur est un responsable"
     waiting_for_validation: 'En attente de validation'
+    warning: 'Attention'
     without_category: 'Non classifié'
     yes: 'Oui'

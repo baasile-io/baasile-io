@@ -13,7 +13,7 @@ module ProxifyConcern
   end
 
   def proxy_request
-    proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null'
+    proxy_authenticate if @current_proxy_parameter.authorization_mode != 'null' && @use_authorization != false
     proxy_prepare_request "#{@current_route_uri}#{"/#{params[:follow_url]}" if @current_proxy_parameter.follow_url && params[:follow_url].present?}", build_get_params
     proxy_send_request
   rescue SocketError => e
@@ -29,6 +29,10 @@ module ProxifyConcern
   end
 
   def build_headers
+    @request_headers.each do |key, value|
+      @current_proxy_send_request[key] = value
+    end
+
     current_route.query_parameters.by_type(:header).each do |query_parameter|
       @current_proxy_send_request[query_parameter.name] = @request_headers[query_parameter.name.upcase.gsub(/_/, '-')]
       transform_param(query_parameter, @current_proxy_send_request, query_parameter.name)

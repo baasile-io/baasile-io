@@ -18,7 +18,7 @@ module BackOffice
       @category = Category.new(category_params)
       @category.user = current_user
       if @category.save
-        flash[:success] = I18n.t('actions.success.updated', resource: t('activerecord.models.category'))
+        flash[:success] = I18n.t('actions.success.created', resource: t('activerecord.models.category'))
         redirect_to back_office_categories_path
       else
         render :new

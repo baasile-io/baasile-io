@@ -1,14 +1,11 @@
 class RoutesController < DashboardController
-  before_action :load_route, only: [:show, :audit, :edit, :update, :destroy]
+  before_action :load_route, only: [:show, :audit, :edit, :update, :destroy, :confirm_destroy]
 
   # allow get measure info to show
   include ShowMeasurementConcern
 
   def index
-    @collection = current_proxy.routes.authorized(current_user)
-    if @collection.size == 0
-      redirect_to new_service_proxy_route_path
-    end
+    @collection = current_proxy.routes
   end
 
   def new
@@ -45,13 +42,16 @@ class RoutesController < DashboardController
   def show
   end
 
+  def confirm_destroy
+  end
+
   def destroy
     if @route.destroy
       flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.route'))
       redirect_to service_proxy_routes_path(current_service, current_proxy)
     else
       flash[:error] = @route.errors.full_messages.join(', ')
-      render :show
+      render :confirm_destroy
     end
   end
 

@@ -11,7 +11,7 @@ class CreateTesterRequest < ActiveRecord::Migration[5.0]
       t.string :uri
       t.string :format
       t.string :follow_url
-      t.text :body
+      t.text :request_body
 
       t.timestamps
     end

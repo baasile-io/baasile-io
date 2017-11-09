@@ -1,0 +1,11 @@
+en:
+  back_office:
+    request_templates:
+      form:
+        hints:
+          category_id: "Select a category to limit the scope of this test template."
+          description: "Describe the full purpose of this template."
+          expected_response_status: "Which HTTP status the response if supposed to be (Type a positive number). If you don't specify, the status will not be checked."
+          name: "Describe the purpose of this template in a few words."
+      index:
+        description: "Create templates of requests to test APIs integration"

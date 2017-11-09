@@ -1,25 +1,9 @@
 <%
   content_for(:page_title, t('.title'))
-
-  content_for(:page_controls) {
-    link_to "<i class=\"fa fa-fw fa-trash\"></i> #{t('actions.destroy')}".html_safe,
-            service_proxy_route_path(current_service, current_proxy, @route),
-            class: 'btn btn-danger',
-            data: {
-              confirm: "Are you sure?"
-            },
-            method: :delete
-  }
 %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">
-
-    <div class="pull-right">
-      <%= link_to_modal "<i class=\"fa fa-fw fa-magic\"></i> #{t('tester.title')}".html_safe,
-                        service_proxy_tester_requests_path(current_service, current_proxy, route_id: current_route.id),
-                        class: 'btn btn-lg btn-secondary' %>
-    </div>
 
     <h5><%= @route.name %></h5>
     <%= @route.description %>

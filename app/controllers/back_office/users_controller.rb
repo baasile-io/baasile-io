@@ -89,6 +89,7 @@ module BackOffice
         flash[:error] = "You can't remove association because the user is the owner"
       else
         if UserAssociation.where(user: @user, associable: service).destroy_all
+          @user.roles.where(resource: service).destroy_all
           flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.user_association'))
         end
       end
@@ -143,7 +144,7 @@ module BackOffice
     end
 
     def sign_in_as
-      sign_in(@user, event: :authentication)
+      sign_in(:user, @user, event: :authentication, bypass: true)
       redirect_to root_url
     end
 

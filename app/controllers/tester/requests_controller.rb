@@ -5,13 +5,36 @@ module Tester
     before_action :load_request, only: [:show, :edit, :update]
 
     def index
-      @collection = current_proxy.tester_requests.order(updated_at: :desc)
+      @collection = current_proxy.tester_requests.standards.order(updated_at: :desc)
+      @request_templates = Tester::Requests::Template.by_category(current_proxy.category_id)
     end
 
     def edit
     end
 
     def show
+    end
+
+    def template
+      @current_request = Tester::Requests::Template.find(params[:id])
+
+      route_id = params.fetch(:tester_request, {}).fetch(:route_id, '')
+
+      if route_id.blank?
+        load_routes
+        render 'template_select_route'
+      else
+
+        @current_route = current_proxy.routes.find(route_id)
+
+        @tester_result = Tester::Result.find_by(
+          tester_request: @current_request,
+          route: @current_route,
+          proxy: current_proxy,
+          service: current_service
+        )
+
+      end
     end
 
     def new
@@ -44,7 +67,7 @@ module Tester
         @current_request = @request
         respond_to do |format|
           format.html { redirect_to_show }
-          format.js { render :new }
+          format.js { render :show }
         end
       else
         render :new
@@ -90,10 +113,9 @@ module Tester
             :route_id,
             :name,
             :method,
-            #:follow_url,
             :format,
             :use_authorization,
-            :body,
+            :request_body,
             {tester_parameters_headers_attributes: [:id, :type, :name, :value, :_destroy]},
             {tester_parameters_queries_attributes: [:id, :type, :name, :value, :_destroy]}
           )
@@ -104,7 +126,7 @@ module Tester
       end
 
       def load_request
-        @current_request = current_proxy.tester_requests.includes(:tester_parameters_headers).find(params[:id])
+        @current_request = current_proxy.tester_requests.standards.includes(:tester_parameters_headers).find(params[:id])
       end
 
   end

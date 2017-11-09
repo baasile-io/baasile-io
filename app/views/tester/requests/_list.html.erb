@@ -1,0 +1,88 @@
+<% if collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover">
+    <thead>
+    <tr>
+      <% if !is_template %>
+        <th colspan="2"><%= t('activerecord.attributes.tester/request.name') %></th>
+        <th><%= t('activerecord.attributes.tester/request.route') %></th>
+        <th><%= t('activerecord.attributes.tester/request.method') %></th>
+        <th><%= t('activerecord.attributes.tester/request.format') %></th>
+        <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
+      <% else %>
+        <th colspan="2"><%= t('activerecord.attributes.tester/request.template_name') %></th>
+        <th><%= t('activerecord.attributes.tester/request.category') %></th>
+        <th><%= t('activerecord.attributes.tester/request.tester_results') %></th>
+      <% end %>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% collection.each do |tester_request| %>
+      <tr>
+        <td class="width-3"><i class="fa fa-2x fa-fw fa-magic"></i></td>
+        <% if !is_template %>
+          <td>
+            <%= tester_request.name %>
+          </td>
+          <td>
+            <%= tester_request.route %>
+          </td>
+          <td>
+            <%= tester_request.method %>
+          </td>
+          <td>
+            <%= tester_request.format %>
+          </td>
+          <td>
+            <%= l(tester_request.updated_at) %>
+          </td>
+        <% else %>
+          <td>
+            <%= tester_request.template_name %><br />
+            <small class="text-muted">
+              <div class="trix-content">
+                <%= tester_request.template_description.html_safe %>
+              </div>
+            </small>
+          </td>
+          <td>
+            <%= tester_request.category || t('misc.all_feminized') %>
+          </td>
+          <td>
+            <% current_service.routes.each do |route| %>
+              <% failed_tests = route.failed_or_missing_tester_results(tester_request) %>
+              <% if failed_tests.count > 0 %>
+                <span class="text-danger">
+                  <i class="fa fa-fw fa-close"></i> <%= route.name %>
+                </span>
+              <% else %>
+                <span class="text-success">
+                  <i class="fa fa-fw fa-check"></i> <%= route.name %>
+                </span>
+              <% end %><br />
+            <% end %>
+          </td>
+        <% end %>
+        <td class="text-right width-10">
+          <%= link_to (is_template ? template_service_proxy_tester_request_path(current_service, current_proxy, tester_request) : service_proxy_tester_request_path(current_service, current_proxy, tester_request)),
+                      class: 'btn btn-sm btn-secondary' do %>
+            <%= t('actions.select') %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if !is_template %>
+  <div class="text-right">
+    <%= link_to new_service_proxy_tester_request_path(current_service, current_proxy),
+                class: 'btn btn-primary',
+                remote: request.xhr? do %>
+      <%= t('actions.new_tester_request') %>
+    <% end %>
+  </div>
+<% end %>

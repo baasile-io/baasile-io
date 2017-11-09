@@ -1,13 +1,52 @@
+#TODO deactivate eager load
+#require 'api/tester/request_template_parser'
+
 module Tester
   class ProcessRequestsController < DashboardController
 
-    before_action :load_request
+    before_action :load_request, only: [:process_request]
 
     # allow proxy functionality
     include RedisStoreConcern
     include ProxifyConcern
 
+    def process_template_request
+      @current_request = Tester::Requests::Template.find(params[:id])
+      @current_route = Route.find(params[:tester_request][:route_id])
+      @current_proxy = @current_route.proxy
+
+      process_common
+
+      parser = ::Api::Tester::RequestTemplateParser.new(request_template: @current_request,
+                                                        result: @result)
+
+      status, errors = parser.call
+
+      @tester_result = Tester::Result.find_or_initialize_by(
+        tester_request: @current_request,
+        route: @current_route,
+        proxy: @current_route.proxy,
+        service: @current_route.service
+      )
+
+      @tester_result.status = status
+      @tester_result.status_will_change!
+      @tester_result.error_message = errors&.join('; ')
+
+      if @use_test_settings
+        @tester_result.save!
+      end
+
+      render 'tester/requests/template'
+    end
+
     def process_request
+      process_common
+
+      render 'tester/requests/show'
+    end
+
+    def process_common
 
       @cache_token_prefix = "#{controller_name}#{DateTime.now.to_s}"
       @use_test_settings = !(params[:use_test_settings] == 'false')
@@ -18,6 +57,8 @@ module Tester
       @request_headers = request_build_headers
       @request_body = request_build_body
       @request_get = request_build_get
+
+      @use_authorization = current_request.use_authorization
 
       proxy_initialize
       @proxy_response = proxy_request
@@ -33,11 +74,15 @@ module Tester
         response: {
           status: @proxy_response.code,
           headers: response_headers,
-          body: @proxy_response.body.to_s.force_encoding('UTF-8')
+          body: @proxy_response.body.force_encoding("utf-8")
+        },
+        request: {
+          method: @request_method,
+          original_url: @current_proxy_send_request.uri.to_s,
+          headers: @current_proxy_send_request.to_hash.transform_values {|v| v.join(', ')},
+          body: @current_proxy_send_request.body
         }
       }
-
-      render 'tester/requests/show'
 
     rescue Api::ProxyError => e
       Rails.logger.error "Tester::ProcessRequests::ProxyError: #{e.message}"
@@ -48,6 +93,7 @@ module Tester
 
         result[:status] = status
         result[:error] = true
+        result[:error_code] = e.code
         result[:error_title] = I18n.t("errors.api.#{e.code}.title", locale: :en)
         result[:error_message] = I18n.t("errors.api.#{e.code}.message", locale: :en)
 
@@ -55,7 +101,7 @@ module Tester
           result[:response] = {
             status: e.res.code,
             headers: e.res.to_hash.transform_values {|v| v.join(', ')},
-            body: e.res.body.to_s.force_encoding('UTF-8')
+            body: e.res.body.force_encoding("utf-8")
           }
         end
 
@@ -69,30 +115,24 @@ module Tester
         end
 
       end
-
-      render 'tester/requests/show'
     end
 
     def request_build_body
       case current_request.format
 
         when 'application/json'
-          current_request.body
+          current_request.request_body
 
         when 'application/x-www-form-urlencoded'
-          Rack::Utils.build_nested_query(JSON.parse(current_request.body))
+          Rack::Utils.build_nested_query(JSON.parse(current_request.request_body))
 
       end
     rescue
-      current_request.body
+      current_request.request_body
     end
 
     def request_build_headers
-      {}.tap do |parameters|
-        current_request.tester_parameters_headers.each do |header_parameter|
-          parameters[header_parameter.name.upcase.gsub(/_/, '-')] = header_parameter.value
-        end
-      end
+      ApplicationController.helpers.build_headers(current_request.tester_parameters_headers)
     end
 
     def request_build_get

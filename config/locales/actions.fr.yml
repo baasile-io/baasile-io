@@ -11,6 +11,8 @@ fr:
     add_users: "Ajouter des utilisateurs"
     add_parameter_header: "Ajouter un paramètre d'entête"
     add_parameter_query: "Ajouter un paramètre d'URL"
+    add_parameter_response_body_element: "Ajouter un élément de corps attendu"
+    add_parameter_response_header: "Ajouter un paramètre d'entête attendu"
     add_price_parameter: 'Ajouter un critère de tarification'
     add_role: 'Ajouter le rôle'
     admin_list: 'liste des administrateurs'
@@ -38,6 +40,7 @@ fr:
     destroy_user: "Supprimer définitivement le compte utilisateur"
     disassociate: "Supprimer l'association"
     disassociate_user_from_service: "Supprimer l'utilisateur de l'Entreprise"
+    duplicate: 'Dupliquer'
     edit: 'Modifier'
     edit_account: 'Modifier mon compte'
     edit_bank_details:
@@ -45,8 +48,13 @@ fr:
       startup: 'Modifier le compte bancaire du fournisseur'
     edit_contract: 'Modifier le contrat'
     edit_price: 'Éditer la tarification'
+    edit_request: 'Modifier la requête'
     edit_service: 'Modifier le compte Entreprise'
     edit_user: 'Modifier le compte utilisateur'
+    failure:
+      created: "%{resource} n'a pas pu être créé"
+      destroyed: "%{resource} n'a pas pu être supprimé"
+      updated: "%{resource} n'a pas pu être mis à jour"
     filter_by_startup: 'Filtrer par fournisseur...'
     ignore: 'Ignorer'
     infos: 'Infos'
@@ -61,12 +69,14 @@ fr:
     new_route: 'Créer une route'
     new_startup: 'Créer un Fournisseur'
     new_tester_request: 'Créer une requête'
+    new_tester_request_template: 'Créer un test'
     new_ticket: 'Créer un ticket'
     next_step: "Valider"
     open: 'Open'
     print: 'Imprimer'
     print_consumption: 'Imprimer la consommation en cours'
     reject: 'Rejeter'
+    remove: 'Supprimer'
     remove_role: 'Supprimer le rôle'
     reopen: 'Réouvrir'
     resend_confirmation_instructions: 'Renvoyer les instructions'

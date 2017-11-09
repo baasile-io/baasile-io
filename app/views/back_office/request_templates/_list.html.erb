@@ -1,0 +1,61 @@
+<% if @collection.size == 0 %>
+  <p class="text-muted"><%= t('misc.nothing_to_display') %></p>
+<% else %>
+  <table class="table table-sm table-hover">
+    <thead>
+    <tr>
+      <th colspan="2"><%= t('activerecord.attributes.tester/request.name') %></th>
+      <th><%= t('activerecord.attributes.tester/request.category') %></th>
+      <th><%= t('activerecord.attributes.tester/request.updated_at') %></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @collection.each do |tester_request| %>
+      <tr>
+        <td class="width-3"><i class="fa fa-2x fa-fw fa-magic"></i></td>
+        <td>
+          <%= tester_request.template_name %>
+          <small class="text-muted">
+            <div class="trix-content">
+              <%= tester_request.template_description.html_safe %>
+            </div>
+          </small>
+        </td>
+        <td>
+          <%= tester_request.category || t('misc.all_feminized') %>
+        </td>
+        <td>
+          <small><%= l(tester_request.updated_at, format: :short) %></small>
+        </td>
+        <td class="text-right">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+              <%= t('misc.actions') %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to edit_back_office_request_template_path(tester_request),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-pencil"></i> <%= t('actions.edit') %>
+              <% end %>
+              <%= link_to duplicate_back_office_request_template_path(tester_request),
+                          class: 'dropdown-item' do %>
+                <i class="fa fa-fw fa-clone"></i> <%= t('actions.duplicate') %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to back_office_request_template_path(tester_request),
+                          class: 'dropdown-item',
+                          method: :delete,
+                          data: {
+                            confirm: 'Are you sure?'
+                          } do %>
+                <i class="fa fa-fw fa-trash"></i> <%= t('actions.destroy') %>
+              <% end %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

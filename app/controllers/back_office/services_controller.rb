@@ -40,6 +40,8 @@ module BackOffice
       user = User.find_by_id(params[:user_id])
       if UserAssociation.where(user: user, associable: @service).destroy_all
 
+        user.roles.where(resource: @service).destroy_all
+
         # remove admin role
         @service.update(main_commercial_id: nil)  if @service.main_commercial_id == user.id
         @service.update(main_accountant_id: nil)  if @service.main_accountant_id == user.id

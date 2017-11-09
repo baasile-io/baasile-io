@@ -30,6 +30,7 @@
 
 //= require 'ace/ace.js'
 //= require 'ace/mode-json.js'
+//= require 'ace/mode-xml.js'
 
 //= require 'cocoon'
 

@@ -143,13 +143,17 @@ window.activate_ace_viewer = function() {
 
     var mode = ace.require("ace/mode/" + format).Mode;
     editor.setOption('useWorker', false);
+    editor.setOption('maxLines', Infinity);
+    editor.setOption('readOnly', true);
     editor.session.setMode(new mode());
     editor.renderer.setOption('printMarginColumn', false);
     editor.renderer.setOption('displayIndentGuides', true);
   });
 };
 
-remove_tester_parameter = function() {
+remove_tester_parameter = function(e) {
+  e.preventDefault();
+
   var button = $(this),
     form_group = button.closest('.form-group');
 
@@ -160,6 +164,30 @@ remove_tester_parameter = function() {
 
 $(document).on('click', 'fieldset.tester_parameters_fieldset .form-group .form-group-remove', remove_tester_parameter);
 
+update_tester_parameter_response_field = function() {
+  var select = $(this),
+    value = select.val(),
+    selected_option = select.find('option[value="'+value+'"]'),
+    has_value = selected_option.data('has-value'),
+    has_expected_type = selected_option.data('has-expected-type'),
+    wrapper = select.closest('.row.form-group');
+
+  if(has_value) {
+    wrapper.find('.wrapper-for-value').removeClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').addClass('hidden-xs-up');
+  } else if(has_expected_type) {
+    wrapper.find('.wrapper-for-value').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').removeClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').addClass('hidden-xs-up');
+  } else {
+    wrapper.find('.wrapper-for-value').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-expected-type').addClass('hidden-xs-up');
+    wrapper.find('.wrapper-for-nothing').removeClass('hidden-xs-up');
+  }
+};
+
+$(document).on('change', 'fieldset.tester_parameters_fieldset select.form-control-comparison-operator', update_tester_parameter_response_field);
 
 $(document).ready(function(e) {
 

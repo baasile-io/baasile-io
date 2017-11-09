@@ -1,5 +1,6 @@
 <% content_for(:page_back) { back_office_users_path } %>
 <% content_for(:page_title) { @user.full_name } %>
+<% content_for(:page_controls) { link_to "<i class=\"fa fa-fw fa-sign-in\"></i> #{t('actions.sign_in_as')}".html_safe, sign_in_as_back_office_user_path(@user), method: :put, class: 'btn btn-warning' } %>
 
 <div class="b-io-content--secondary">
   <div class="container-fluid">

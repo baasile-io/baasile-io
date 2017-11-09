@@ -1,0 +1,18 @@
+<%
+  content_for(:page_title) { t('tester.title') }
+  content_for(:page_description, t('.description'))
+
+  content_for(:page_controls) {
+    link_to "<i class=\"fa fa-fw fa-plus-circle\"></i> #{t('actions.new_tester_request_template')}".html_safe, new_back_office_request_template_path,
+            class: 'btn btn-primary'
+  }
+
+%>
+
+<div class="b-io-content--secondary">
+  <div class="container-fluid">
+
+    <%= render partial: 'list' %>
+
+  </div>
+</div>

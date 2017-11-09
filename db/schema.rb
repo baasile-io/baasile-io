@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910085910) do
+ActiveRecord::Schema.define(version: 20171102195925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -413,30 +413,50 @@ ActiveRecord::Schema.define(version: 20170910085910) do
   end
 
   create_table "tester_parameters", force: :cascade do |t|
-    t.string  "type",              null: false
+    t.string  "type",                                   null: false
     t.integer "tester_request_id"
     t.string  "name"
     t.string  "value"
+    t.string  "expected_type",       default: "string"
+    t.string  "comparison_operator", default: "="
     t.index ["tester_request_id"], name: "index_tester_parameters_on_tester_request_id", using: :btree
   end
 
   create_table "tester_requests", force: :cascade do |t|
-    t.string   "type",                             null: false
+    t.string   "type",                                    null: false
     t.string   "name"
     t.integer  "user_id"
     t.integer  "route_id"
     t.integer  "category_id"
-    t.boolean  "use_authorization", default: true
+    t.boolean  "use_authorization",        default: true
     t.string   "method"
     t.string   "uri"
     t.string   "format"
     t.string   "follow_url"
-    t.text     "body"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.text     "request_body"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "expected_response_status"
+    t.string   "expected_response_format"
+    t.datetime "expiration_date"
     t.index ["category_id"], name: "index_tester_requests_on_category_id", using: :btree
     t.index ["route_id"], name: "index_tester_requests_on_route_id", using: :btree
     t.index ["user_id"], name: "index_tester_requests_on_user_id", using: :btree
+  end
+
+  create_table "tester_results", force: :cascade do |t|
+    t.integer  "tester_request_id"
+    t.integer  "route_id"
+    t.integer  "proxy_id"
+    t.integer  "service_id"
+    t.boolean  "status"
+    t.text     "error_message"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["proxy_id"], name: "index_tester_results_on_proxy_id", using: :btree
+    t.index ["route_id"], name: "index_tester_results_on_route_id", using: :btree
+    t.index ["service_id"], name: "index_tester_results_on_service_id", using: :btree
+    t.index ["tester_request_id"], name: "index_tester_results_on_tester_request_id", using: :btree
   end
 
   create_table "tickets", force: :cascade do |t|

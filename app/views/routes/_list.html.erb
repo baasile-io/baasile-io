@@ -2,11 +2,13 @@
   <thead>
   <tr>
     <th colspan="2"><%= t('activerecord.attributes.route.name') %></th>
+    <th><%= t('activerecord.attributes.route.tester_results') %></th>
     <th></th>
   </tr>
   </thead>
   <tbody>
   <% routes.each do |route| %>
+    <% failed_tests = route.failed_or_missing_tester_results %>
     <tr data-link="<%= service_proxy_route_path(current_service, route.proxy, route) %>">
       <td class="width-3">
         <i class="fa fa-fw fa-2x fa-sitemap"></i>
@@ -16,6 +18,13 @@
           <strong><%= route.name %></strong><br />
           <%= route.local_url %>
         </p>
+      </td>
+      <td>
+        <% if failed_tests.count > 0 %>
+          <span class="text-danger"><i class="fa fa-fw fa-close"></i> <%= failed_tests.count %></span>
+        <% else %>
+          <span class="text-success"><i class="fa fa-fw fa-check"></i></span>
+        <% end %>
       </td>
       <td class="text-right">
         <%= link_to t('actions.configure'), service_proxy_route_path(current_service, route.proxy, route), class: 'btn btn-secondary' %>

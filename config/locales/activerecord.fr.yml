@@ -205,6 +205,7 @@ fr:
         proxy: 'Produit'
         proxy_id: 'Produit'
         subdomain: 'Identifiant publique'
+        tester_results: 'Résultats de tests'
         url: 'URL'
         url_test: 'URL (test)'
         user: 'Créateur'
@@ -235,22 +236,29 @@ fr:
         user_id: 'Administrateur'
         website: 'Site Internet'
       tester/parameter:
+        comparison_operator: 'Opérateur'
+        expected_type: 'Type de donnée attendu'
         name: 'Nom'
         value: 'Valeur'
-      tester/parameters/header:
-        name: 'HH'
       tester/request:
-        body: 'Corps'
-        category: 'Catégorie'
-        category_id: 'Catégorie'
+        category: 'Catégorie du test'
+        category_id: 'Catégorie du test'
+        description: 'Description'
+        expected_response_format: 'Format attendu de la réponse'
+        expected_response_status: 'Status attendu de la réponse'
         follow_url: 'Chemin supplémentaire'
         format: "Format d'encodage"
         method: 'Méthode'
-        name: 'Nom'
+        name: 'Nom de la requête'
+        request_body: 'Corps'
         route: 'Route'
         route_id: 'Route'
+        template_name: 'Nom du test'
         tester_parameters_headers: "Paramètres d'entête"
         tester_parameters_queries: "Paramètres d'URL"
+        tester_parameters_response_headers: "Paramètres d'entête attendus"
+        tester_parameters_response_body_elements: 'Paramètres du corp attendus'
+        tester_results: 'Résultats du test'
         type: 'Type'
         updated_at: 'Dernière modification'
         uri: 'Adresse'

@@ -93,6 +93,7 @@ class UsersController < ApplicationController
       flash[:error] = t('misc.user_not_disassociable_because_official')
     else
       if UserAssociation.where(user: @user, associable: current_service).destroy_all
+        @user.roles.where(resource: current_service).destroy_all
         flash[:success] = I18n.t('actions.success.destroyed', resource: t('activerecord.models.user_association'))
       end
     end
