@@ -58,27 +58,35 @@
   </div>
 </div>
 
-<hr>
+<% if tester_request.tester_parameters_headers.count > 0 %>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.tester/request.tester_parameters_headers') %></strong>
-  </div>
-  <div class="col-9">
-    <pre><code><% tester_request.tester_parameters_headers.each.with_index do |parameter, i| %><% if i > 0 %><br /><% end %><%= parameter.name.titleize.gsub(/ /, '-') %>: <%= parameter.value %><% end %></code></pre>
-  </div>
-</div>
+  <hr>
 
-<hr>
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.tester/request.tester_parameters_headers') %></strong>
+    </div>
+    <div class="col-9">
+      <pre><code><% tester_request.tester_parameters_headers.each.with_index do |parameter, i| %><% if i > 0 %><br /><% end %><%= parameter.name.titleize.gsub(/ /, '-') %>: <%= parameter.value %><% end %></code></pre>
+    </div>
+  </div>
 
-<div class="row">
-  <div class="col-3 text-right">
-    <strong><%= t('activerecord.attributes.tester/request.tester_parameters_queries') %></strong>
+<% end %>
+
+<% if tester_request.tester_parameters_queries.count > 0 %>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-3 text-right">
+      <strong><%= t('activerecord.attributes.tester/request.tester_parameters_queries') %></strong>
+    </div>
+    <div class="col-9">
+      <pre><code><% tester_request.tester_parameters_queries.each.with_index do |parameter, i| %><% if i > 0 %><br />&amp;<% end %><%= parameter.name %>=<%= parameter.value %><% end %></code></pre>
+    </div>
   </div>
-  <div class="col-9">
-    <pre><code><% tester_request.tester_parameters_queries.each.with_index do |parameter, i| %><% if i > 0 %><br />&amp;<% end %><%= parameter.name %>=<%= parameter.value %><% end %></code></pre>
-  </div>
-</div>
+
+<% end %>
 
 <% if tester_request.request_body.present? %>
 
