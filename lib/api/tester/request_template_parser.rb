@@ -139,7 +139,7 @@ module Api
                      when '<='
                        value.is_a?(Numeric) && value <= parameter.value.to_f
                      when '&'
-                       value.present? && value.is_a?(String) && value.match(/\A#{parameter.value}\z/)
+                       value.to_s.match(/\A#{parameter.value}\z/)
                      when 'typeof'
                        case parameter.expected_type
                          when 'string'
