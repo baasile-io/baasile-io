@@ -45,7 +45,7 @@ REDISCLOUD_URL=redis://redis:6379
 Add the following line into your `/etc/hosts` file, according to the environment variable `BAASILE_IO_HOSTNAME`:
 
 ```
-127.0.0.1  baasile-io-demo.dev
+127.0.0.1  baasile-io-demo.localhost
 ```
 
 #### Build images

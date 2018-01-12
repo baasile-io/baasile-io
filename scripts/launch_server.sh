@@ -21,10 +21,10 @@ docker-compose -f docker-compose.yml up --build --remove-orphans -d
 if [ "$?" == "0" ]
 then
 
-  echo "Waiting for http://baasile-io-demo.dev:3042 to respond..."
-  until curl --output /dev/null --silent --head --fail "http://baasile-io-demo.dev:3042"
+  echo "Waiting for http://baasile-io-demo.localhost:3042 to respond..."
+  until curl --output /dev/null --silent --head --fail "http://baasile-io-demo.localhost:3042"
   do
-    echo "Waiting for http://baasile-io-demo.dev:3042 to respond..."
+    echo "Waiting for http://baasile-io-demo.localhost:3042 to respond..."
     sleep 10
   done
 
