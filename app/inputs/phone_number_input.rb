@@ -3,7 +3,7 @@ class PhoneNumberInput < SimpleForm::Inputs::StringInput
     input_html_options[:data] ||= {}
     input_html_options[:type] = "hidden"
 
-    object_name = @builder.object_name.to_s.gsub(/\[(.*?)\]/, '_\\1')
+    object_name = @builder.object_name.to_s
     super + template.content_tag(:input,
                                  nil,
                                  {
