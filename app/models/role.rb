@@ -55,7 +55,6 @@ class Role < ApplicationRecord
       edit: [:admin, :developer],
       update: [:admin, :developer],
       destroy: [:admin, :developer],
-      audit: [:admin, :developer],
       confirm_destroy: [:admin, :developer]
     },
     query_parameters: {
