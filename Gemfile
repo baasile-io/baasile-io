@@ -24,6 +24,7 @@ gem 'redis-namespace',                          '~> 1.5.2'
 
 # Security
 gem 'rack-attack',                              '~> 5.0.1'
+gem 'yard',                                     '~> 0.9.11'
 gem 'easy_captcha',                             '~> 0.6.5'
 
 # CSS / JS
