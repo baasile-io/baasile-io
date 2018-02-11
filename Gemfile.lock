@@ -418,7 +418,6 @@ DEPENDENCIES
   rmagick (~> 2.16.0)
   rolify (~> 5.1.0)
   rspec-rails (~> 3.5.2)
-  rubyzip (~> 1.2.1)
   sass-rails (~> 5.0.6)
   select2-rails (~> 4.0.3)
   selenium-webdriver (~> 3.0.5)
@@ -430,7 +429,6 @@ DEPENDENCIES
   uglifier (~> 3.0.4)
   web-console (~> 3.4.0)
   webmock (~> 3.0.1)
-  yard (~> 0.9.11)
 
 RUBY VERSION
    ruby 2.3.1p112

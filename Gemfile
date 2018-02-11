@@ -3,10 +3,6 @@ ruby "2.3.1"
 
 gem 'rails',                                    '~> 5.0.0', '>= 5.0.0.1'
 
-# Misc dependencies
-gem 'yard',                                     '~> 0.9.11'
-gem 'rubyzip',                                  '~> 1.2.1'
-
 # Server
 gem 'puma',                                     '~> 3.6.2'
 
