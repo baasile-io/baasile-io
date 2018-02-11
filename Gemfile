@@ -22,9 +22,9 @@ gem 'newrelic_rpm',                             '~> 3.18.1'
 gem 'airbrake',                                 '~> 5.7.1'
 
 # Cache store
-gem 'redis-rails',                              '~> 5.0.1'
-gem 'redis',                                    '~> 3.3.2'
-gem 'redis-namespace',                          '~> 1.5.2'
+gem 'redis-rails',                              '~> 5.0.2'
+gem 'redis',                                    '~> 3.3.5'
+gem 'redis-namespace',                          '~> 1.6.0'
 
 # Security
 gem 'rack-attack',                              '~> 5.0.1'
@@ -33,7 +33,7 @@ gem 'easy_captcha',                             '~> 0.6.5'
 # CSS / JS
 gem 'sass-rails',                               '~> 5.0.6'
 gem 'font-awesome-sass',                        '~> 4.7.0'
-gem 'bootstrap',                                '~> 4.0.0.alpha6'
+gem 'bootstrap',                                '= 4.0.0.alpha6'
 gem 'bootstrap-datepicker-rails',               '~> 1.6.4'
 gem 'uglifier',                                 '~> 3.0.4'
 gem 'coffee-rails',                             '~> 4.2.1'
