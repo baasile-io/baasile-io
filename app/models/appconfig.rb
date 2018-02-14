@@ -57,6 +57,10 @@ class Appconfig < ApplicationRecord
     error_measurement_backup_duration: {
       setting_type: :integer,
       value: 90
+    },
+    send_email_notification_errors: {
+      setting_type: :boolean,
+      value: true
     }
   }.freeze
 

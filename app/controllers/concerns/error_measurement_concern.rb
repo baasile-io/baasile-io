@@ -16,13 +16,15 @@ module ErrorMeasurementConcern
       )
 
       # send email notifications
-      notified_users_ids = []
-      [authenticated_service, current_route.service].each do |service|
-        service.users.each do |user|
-          if !notified_users_ids.include?(user.id) && user.is_developer_of?(service)
-            ErrorMeasurementNotifier.send_error_measurement_notification(error_measurement, user).deliver_now
+      if Appconfig.get(:send_email_notification_errors)
+        notified_users_ids = []
+        [authenticated_service, current_route.service].each do |service|
+          service.users.each do |user|
+            if !notified_users_ids.include?(user.id) && user.is_developer_of?(service)
+              ErrorMeasurementNotifier.send_error_measurement_notification(error_measurement, user).deliver_now
+            end
+            notified_users_ids << user.id
           end
-          notified_users_ids << user.id
         end
       end
 
