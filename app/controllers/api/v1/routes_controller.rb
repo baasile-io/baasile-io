@@ -19,7 +19,7 @@ module Api
 
         @use_test_settings = use_test_settings?
 
-        blacklisted_headers = %w(HTTP_HOST)
+        blacklisted_headers = %w(HTTP_HOST HTTP_COOKIE)
         @request_headers = {}
         request.headers.env.select{|k, _| k =~ /^HTTP_/ && !k.in?(blacklisted_headers)}.each do |header|
           header_name =  header[0].sub(/^HTTP_/, '').gsub(/_/, '-')
