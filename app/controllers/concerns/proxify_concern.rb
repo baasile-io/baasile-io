@@ -149,6 +149,7 @@ module ProxifyConcern
 
         http = Net::HTTP.new uri.host, uri.port
         http.read_timeout = Appconfig.get(:api_read_timeout)
+        http.set_debug_output $stderr
         http.use_ssl = uri.scheme == 'https'
 
         Rails.logger.info "Proxy Auth Request: #{uri}"
@@ -179,6 +180,7 @@ module ProxifyConcern
 
     http = Net::HTTP.new(@current_proxy_uri_object.host, @current_proxy_uri_object.port)
     http.read_timeout = Appconfig.get(:api_read_timeout)
+    http.set_debug_output $stderr
     http.use_ssl = @current_proxy_uri_object.scheme == 'https'
 
     Rails.logger.info "Proxy Request: #{limit} #{@current_proxy_uri_object}"
