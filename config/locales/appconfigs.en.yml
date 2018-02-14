@@ -33,6 +33,9 @@ en:
     max_requests_per_hour:
       name: 'Max requests per hour'
       description: "The max number of requests per hour an IP is allowed to do"
+    send_email_notification_errors:
+      name: 'Send automatic notification on API errors'
+      description: 'Send automatic notification on API errors'
     user_expire_after:
       name: "User account expiration"
       description: "Expires a user account after x days of inactivity"
