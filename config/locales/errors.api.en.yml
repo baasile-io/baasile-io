@@ -138,6 +138,14 @@ en:
         status: 502
         message: "The platform failed to authenticate to the remote server due to a bad request"
         title: 'Authentication bad request'
+      '718':
+        status: 400
+        message: "The value of the parameter \"subdomain\" is unknown"
+        title: 'Invalid subdomain'
+      '719':
+        status: 400
+        message: "The parameter \"subdomain\" is missing"
+        title: 'Missing subdomain'
       '801':
         status: 403
         message: "No contract found with this product"

@@ -236,6 +236,18 @@ module Api
     end
   end
 
+  class AuthInvalidSubdomainError < ProxyError
+    def code
+      718
+    end
+  end
+
+  class AuthMissingSubdomainError < ProxyError
+    def code
+      719
+    end
+  end
+
   class ContractMissingContractError < ProxyError
     def code
       801
